@@ -1,0 +1,37 @@
+Package: bit64
+Type: Package
+Title: A S3 class for vectors of 64bit integers
+Version: 0.8-2
+Date: 2011-12-12
+Author: Jens Oehlschl\xE4gel <Jens.Oehlschlaegel@truecluster.com>
+Maintainer: Jens Oehlschl\xE4gel <Jens.Oehlschlaegel@truecluster.com>
+Depends: R (>= 2.14.0), bit (>= 1.1-8), methods
+Description: Package 'bit64' provides serializable S3 atomic 64bit
+        (signed) integers that can be used in vectors, matrices, arrays
+        and data.frames. Methods are available for coercion from and to
+        logicals, integers, doubles, characters as well as many
+        elementwise and summary functions.  With 'integer64' vectors
+        you can store very large integers at the expense of 64 bits,
+        which is by factor 7 better than 'int64' from package 'int64'.
+        Due to the smaller memory footprint, the atomic vector
+        architecture and using only S3 instead of S4 classes, most
+        operations are one to three orders of magnitude faster: Example
+        speedups are 4x for serialization, 250x for adding, 900x for
+        coercion and 2000x for object creation. Also 'integer64' avoids
+        an ongoing (potentially infinite) penalty for garbage
+        collection observed during existence of 'int64' objects (see
+        code in example section).  Last but not least, this package has
+        no commercial copyright attached, it is not sponsored by any
+        commercial company or otherwise influenced by commercial
+        interests. Its mix of high-level R code with low-level C-code
+        protects against misuse outside the GPLed R context.
+License: GPL-2
+LazyLoad: yes
+ByteCompile: yes
+URL: http://ff.r-forge.r-project.org/
+Encoding: latin1
+Packaged: 2012-01-26 21:52:56 UTC; rforge
+Repository: CRAN
+Repository/R-Forge/Project: ff
+Repository/R-Forge/Revision: 94
+Date/Publication: 2012-01-27 21:44:43

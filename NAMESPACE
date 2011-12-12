@@ -1,0 +1,218 @@
+# Namespace for bit64 (currently exporting (almost) everything in order to facilitate debugging)
+# S3 atomic 64 bit integers for R
+# (c) 2011 Jens Oehlschägel
+# Licence: GPL2
+# Provided 'as is', use at your own risk
+# Created: 2011-12-11
+# Last changed:  2011-12-11
+
+useDynLib(bit64)
+
+importFrom(utils, packageDescription)
+importFrom(methods, is)
+importFrom(methods, as)
+
+export(
+
+# == this is a complete list of R functions and metadata of this package sorted by filenames, non-exported functions are commented away ==
+
+# -- integer64.R - basic vector handling --
+
+ "binattr"
+,"plusclass"
+,"minusclass"
+
+ ,"integer64"
+ ,"identical.integer64"
+
+#, "is.double"
+#, "is.double.default"
+#, "is.double.integer64"
+ 
+,"is.integer64"
+,"as.integer64"
+ 
+,"as.integer64.integer64"
+,"as.integer64.NULL"
+,"as.integer64.character"
+,"as.integer64.double"
+,"as.integer64.integer"
+,"as.integer64.logical"
+#,"NA_integer64_"
+
+,"as.character.integer64"
+,"as.double.integer64"
+,"as.integer.integer64"
+,"as.logical.integer64"
+
+,"as.bitstring"
+,"as.bitstring.integer64"
+
+#inherited: ,"length.integer64"
+,"length<-.integer64"
+
+,"[.integer64"
+,"[[.integer64"
+,"[[<-.integer64"
+,"[<-.integer64"
+
+,"print.integer64"
+,"format.integer64"
+,"is.vector.integer64"
+,"as.vector.integer64"
+,"is.na.integer64"
+,"all.integer64"
+,"any.integer64"
+
+,"!.integer64"
+,"&.integer64"
+,"|.integer64"
+,"xor.integer64"
+
+,"!=.integer64"
+,"==.integer64"
+,"<.integer64"
+,"<=.integer64"
+,">.integer64"
+,">=.integer64"
+
+,"+.integer64"
+,"-.integer64"
+,"*.integer64"
+,"^.integer64"
+,"/.integer64"
+,"%/%.integer64"
+,"%%.integer64"
+
+,"sign.integer64"
+,"abs.integer64"
+,"sqrt.integer64"
+,"log.integer64"
+,"log2.integer64"
+,"log10.integer64"
+,"floor.integer64"
+,"ceiling.integer64"
+,"trunc.integer64"
+,"round.integer64"
+,"signif.integer64"
+
+,"c.integer64"
+,"rep.integer64"
+,"seq.integer64"
+#,":"
+#,":.default"
+#,":.integer64"
+,"cbind.integer64"
+,"rbind.integer64"
+,"as.data.frame.integer64"
+
+,"min.integer64"
+,"max.integer64"
+,"range.integer64"
+,"lim.integer64" # not a method
+,"sum.integer64"
+,"prod.integer64"
+
+,"diff.integer64"
+,"cummin.integer64"
+,"cummax.integer64"
+,"cumsum.integer64"
+,"cumprod.integer64"
+
+# -- zzz.R --
+
+#,.Last.lib
+)
+
+# -- integer64.R - basic vector handling --
+
+#S3method("is.double", default)
+#S3method("is.double", integer64)
+S3method("identical", integer64)
+
+S3method("is", integer64)
+S3method("as", integer64)
+
+S3method("as.integer64", integer64)
+S3method("as.integer64", NULL)
+S3method("as.integer64", character)
+S3method("as.integer64", double)
+S3method("as.integer64", integer)
+S3method("as.integer64", logical)
+
+S3method("as.character", integer64)
+S3method("as.double", integer64)
+S3method("as.integer", integer64)
+S3method("as.logical", integer64)
+
+S3method("as", bitstring)
+S3method("as.bitstring", integer64)
+
+#inherited: S3method("length", integer64)
+S3method("length<-", integer64)
+
+S3method("[", integer64)
+S3method("[[", integer64)
+S3method("[[<-", integer64)
+S3method("[<-", integer64)
+
+S3method("print", integer64)
+S3method("format", integer64)
+S3method("is.vector", integer64)
+S3method("as.vector", integer64)
+S3method("is.na", integer64)
+S3method("all", integer64)
+S3method("any", integer64)
+
+S3method("!", integer64)
+S3method("&", integer64)
+S3method("|", integer64)
+S3method("xor", integer64)
+
+S3method("!=", integer64)
+S3method("==", integer64)
+S3method("<", integer64)
+S3method("<=", integer64)
+S3method(">", integer64)
+S3method(">=", integer64)
+
+S3method("+", integer64)
+S3method("-", integer64)
+S3method("*", integer64)
+S3method("^", integer64)
+S3method("/", integer64)
+S3method("%/%", integer64)
+S3method("%%", integer64)
+
+S3method("sign", integer64)
+S3method("abs", integer64)
+S3method("sqrt", integer64)
+S3method("log", integer64)
+S3method("log2", integer64)
+S3method("log10", integer64)
+S3method("floor", integer64)
+S3method("ceiling", integer64)
+S3method("trunc", integer64)
+S3method("round", integer64)
+S3method("signif", integer64)
+
+S3method("c", integer64)
+S3method("rep", integer64)
+S3method("seq", integer64)
+#S3method(":", default)
+#S3method(":", integer64)
+S3method("cbind", integer64)
+S3method("rbind", integer64)
+S3method("as.data.frame", integer64)
+
+S3method("min", integer64)
+S3method("max", integer64)
+S3method("range", integer64)
+S3method("sum", integer64)
+S3method("prod", integer64)
+
+S3method("diff", integer64)
+S3method("cummin", integer64)
+S3method("cummax", integer64)
+S3method("cumsum", integer64)
+S3method("cumprod", integer64)
