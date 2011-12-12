@@ -1,5 +1,5 @@
-a48deaaabd54141bec35a4af6d7d24ab *ANNOUNCEMENT-0.8.txt
-f2bc0181c9e2c9aac807ed5807a2ab8d *DESCRIPTION
+8216833066520c709a2637c54be34105 *ANNOUNCEMENT-0.8.txt
+ce43f69af47e78c77a96ff6d4f1d2df3 *DESCRIPTION
 a2be0d102b0e36590c02be465002122d *NAMESPACE
 f32d85a320c5186b5763b6a012b2ccb3 *R/integer64.R
 2f4d4df727d8126370b28251d9e6dce4 *R/zzz.R
@@ -20,5 +20,5 @@ a4b3d45b1e4b07d2a9643eb430efb054 *man/seq.integer64.rd
 f7731085af08b38c58a07446afbbf779 *man/sum.integer64.rd
 9e62e104d72a1427ae5e62936bdd0fb0 *man/xor.integer64.rd
 35db0055b07bb1530068894c52cd588b *prebuild.sh
-31928328c916aaf6dcbd213ffdbc0ec0 *src/integer64.c
+352cc02329244f0751a6a6e473074c6e *src/integer64.c
 110c3866b3c8987d953b9c4d4aa7d9c5 *src/integer64.h

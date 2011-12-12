@@ -130,9 +130,9 @@ SEXP as_integer64_character(SEXP x_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long * ret = (long long *) REAL(ret_);
   const char * str;
-  const char * endpointer;
+  char * endpointer;
   for(i=0; i<n; i++){
-	endpointer = str = CHAR(STRING_ELT(x_, i));
+	str = CHAR(STRING_ELT(x_, i)); endpointer = (char *)str; // thanks to Murray Stokely 28.1.2012
 	ret[i] = strtoll(str, &endpointer, 10);
 	if (*endpointer)
 	  ret[i] = NA_INTEGER64;
