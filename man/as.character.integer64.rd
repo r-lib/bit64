@@ -5,6 +5,8 @@
 \alias{as.logical.integer64}
 \alias{as.bitstring}
 \alias{as.bitstring.integer64}
+\alias{as.factor.integer64}
+\alias{as.ordered.integer64}
 \title{
    Coerce from integer64
 }
@@ -21,6 +23,8 @@
  \method{as.double}{integer64}(x, \dots)
  \method{as.integer}{integer64}(x, \dots)
  \method{as.logical}{integer64}(x, \dots)
+ \method{as.factor}{integer64}(x)
+ \method{as.ordered}{integer64}(x)
 }
 \arguments{
   \item{x}{ an integer64 vector }

@@ -1,0 +1,38 @@
+    CHANGES IN bit64 VERSION 0.9-1
+
+	
+NEW FEATURES
+
+    o new methods for 'match', '%in%', 'duplicated', 'unique', 'table'
+	  , 'sort', 'order', 'rank', 'quantile', 'median' and 'summary'
+    o new generics and methods for data management: 
+	    'unipos' (positions of the unique values)
+	  , 'tiepos' (positions of ties)
+	  , 'keypos' (positions of values in a sorted unique table) 
+	  and derived methods 'as.factor' and 'as.ordered'
+    o new generic caching scheme, see ?cache and ?hashcache
+    o new low level functions for fast sorting, ordering and hashing,
+	see ?sortnut and ?hashmap
+
+	
+	
+USER VISIBLE CHANGES
+
+    o the package is back on CRAN. Method 'as.vector.integer64' has been removed 
+	  at request of the CRAN maintainer. The starting point for this request was: 
+	  'matrix(integer64())' does not work. The result of removing 
+	  'as.vector.integer64' is a deterioration: 'array(integer64())' does not work 
+	  anymore. You can restore 'as.vector.integer64' if you prefer.
+    o package 'bit64' now shares generics for low-level sorting with package 'ff' 
+	  and depends on package 'bit' for those generics
+	  
+
+
+	  
+    CHANGES IN bit64 VERSION 0.8-3
+
+
+FIXES
+
+    o removed chonst char warning (thanks to Murray Stokely)
+    o reduced R dependency down to version 2.12.1 (wish of Murray Stokely)

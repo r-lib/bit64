@@ -6,6 +6,7 @@
 \alias{as.integer64.double}
 \alias{as.integer64.integer}
 \alias{as.integer64.logical}
+\alias{as.integer64.factor}
 \title{
    Coerce to integer64
 }
@@ -20,6 +21,7 @@
  \method{as.integer64}{double}(x, \dots)
  \method{as.integer64}{integer}(x, \dots)
  \method{as.integer64}{logical}(x, \dots)
+ \method{as.integer64}{factor}(x, \dots)
 }
 \arguments{
   \item{x}{ an atomic vector }

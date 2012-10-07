@@ -46,7 +46,7 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ classes }
 \keyword{ manip }
-\seealso{ \code{\link{cumsum.integer64}} \code{\link{integer64}}  }
+\seealso{ \code{\link{mean.integer64}} \code{\link{cumsum.integer64}} \code{\link{integer64}}  }
 \examples{
   lim.integer64()
   range(as.integer64(1:12))

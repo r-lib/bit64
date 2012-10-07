@@ -5,7 +5,7 @@
 \alias{is.integer64}
 \alias{is.integer.integer64}
 \alias{is.vector.integer64}
-\alias{as.vector.integer64}
+%as.vector.integer64 removed as requested by the CRAN maintainer \alias{as.vector.integer64}
 \alias{length<-.integer64}
 \alias{print.integer64}
 \docType{package}
@@ -16,8 +16,9 @@
 Package 'bit64' provides fast serializable S3 atomic 64bit (signed) integers 
 that can be used in vectors, matrices, arrays and data.frames. Methods are 
 available for coercion from and to logicals, integers, doubles, characters  
-as well as many elementwise and summary functions. 
+and factors as well as many elementwise and summary functions. 
 \cr
+\bold{Version 0.8}
 With 'integer64' vectors you can store very large integers at the expense
 of 64 bits, which is by factor 7 better than 'int64' from package 'int64'.
 Due to the smaller memory footprint, the atomic vector architecture and  
@@ -27,10 +28,26 @@ adding, 900x for coercion and 2000x for object creation. Also 'integer64'
 avoids an ongoing (potentially infinite) penalty for garbage collection
 observed during existence of 'int64' objects (see code in example section). 
 \cr
-Last but not least, this package has no commercial copyright attached, 
-it is not sponsored by any commercial company or otherwise influenced 
-by commercial interests. Its mix of high-level R code with low-level 
-C-code protects against misuse outside the GPLed R context.
+\bold{Version 0.9}
+Package 'bit64' - which extends R with fast 64-bit integers - now has fast
+(single-threaded) implementations the most important univariate algorithmic 
+operations (those based on hashing and sorting). We now have methods for 
+'match', '%in%', 'duplicated', 'unique', 'table', 'sort', 'order', 'rank', 
+'quantile', 'median' and 'summary'. Regarding data management we also have 
+novel generics 'unipos' (positions of the unique values), 'tiepos' (
+positions of ties), 'keypos' (positions of foreign keys in a sorted 
+dimension table) and derived methods 'as.factor' and 'as.ordered'. This 64-
+bit functionality is implemented carefully to be not slower than the 
+respective 32-bit operations in Base R and also to avoid outlying waiting 
+times observed with 'order', 'rank' and 'table' (speedup factors 20/16/200 
+respective). This increases the dataset size with wich we can work truly 
+interactive. The speed is achieved by simple heuristic optimizers in high-
+level functions choosing the best from multiple low-level algorithms and 
+further taking advantage of a novel caching if activated. In an example R 
+session using a couple of these operations the 64-bit integers performed 22x
+ faster than base 32-bit integers, hash-caching improved this to 24x, 
+sortorder-caching was most efficient with 38x (caching hashing and sorting 
+is not worth it with 32x at duplicated RAM consumption).
 }
 \usage{
  integer64(length)
@@ -160,7 +177,7 @@ C-code protects against misuse outside the GPLed R context.
    \code{\link{as.double.integer64}} \tab \code{\link{as.double}} \tab  \cr
    \code{\link{as.integer.integer64}} \tab \code{\link{as.integer}} \tab  \cr
    \code{\link{as.logical.integer64}} \tab \code{\link{as.logical}} \tab  \cr
-   \code{\link{as.vector.integer64}} \tab \code{\link{as.vector}} \tab  \cr
+   %as.vector.integer64 removed as requested by the CRAN maintainer \code{\link{as.vector.integer64}} \tab \code{\link{as.vector}} \tab  \cr
  \cr
    \bold{data structures} \tab \bold{see also}          \tab \bold{description} \cr
    \code{\link{c.integer64}} \tab \code{\link{c}} \tab vector concatenate \cr
@@ -221,13 +238,33 @@ C-code protects against misuse outside the GPLed R context.
    \code{\link{diff.integer64}} \tab \code{\link{diff}} \tab \cr
  \cr
    \bold{summary functions} \tab \bold{see also}          \tab \bold{description} \cr
-   \code{\link{range.integer64}} \tab \code{\link{range}} \tab returns valid range without arguments \cr
+   \code{\link{range.integer64}} \tab \code{\link{range}} \tab \cr
    \code{\link{min.integer64}} \tab \code{\link{min}} \tab  \cr
    \code{\link{max.integer64}} \tab \code{\link{max}} \tab  \cr
    \code{\link{sum.integer64}} \tab \code{\link{sum}} \tab  \cr
+   \code{\link{mean.integer64}} \tab \code{\link{mean}} \tab  \cr
    \code{\link{prod.integer64}} \tab \code{\link{prod}} \tab  \cr
    \code{\link{all.integer64}} \tab \code{\link{all}} \tab  \cr
    \code{\link{any.integer64}} \tab \code{\link{any}} \tab  \cr
+ \cr
+   \bold{algorithmically complex functions} \tab \bold{see also}          \tab \bold{description (caching)}  \cr
+   \code{\link{match.integer64}} \tab \code{\link{match}} \tab position of x in table (h//o/so) \cr
+   \code{\link{\%in\%.integer64}} \tab \code{\link{\%in\%}} \tab is x in table? (h//o/so) \cr
+   \code{\link{duplicated.integer64}} \tab \code{\link{duplicated}} \tab is current element duplicate of previous one? (h//o/so) \cr
+   \code{\link{unique.integer64}} \tab \code{\link{unique}} \tab (shorter) vector of unique values only (h/s/o/so) \cr
+   \code{\link{unipos.integer64}} \tab \code{\link{unipos}} \tab positions corresponding to unique values (h/s/o/so) \cr
+   \code{\link{tiepos.integer64}} \tab \code{\link{tiepos}} \tab positions of values that are tied (//o/so) \cr
+   \code{\link{keypos.integer64}} \tab \code{\link{keypos}} \tab position of current value in sorted list of unique values (//o/so) \cr
+   \code{\link{as.factor.integer64}} \tab \code{\link{as.factor}} \tab convert to (unordered) factor with sorted levels of previous values (//o/so) \cr
+   \code{\link{as.ordered.integer64}} \tab \code{\link{as.ordered}} \tab convert to ordered factor with sorted levels of previous values (//o/so) \cr
+   \code{\link{table.integer64}} \tab \code{\link{table}} \tab unique values and their frequencies (h/s/o/so) \cr
+   \code{\link{sort.integer64}} \tab \code{\link{sort}} \tab sorted vector (/s/o/so) \cr
+   \code{\link{order.integer64}} \tab \code{\link{order}} \tab positions of elements that would create sorted vector (//o/so) \cr
+   \code{\link{rank.integer64}} \tab \code{\link{rank}} \tab (average) ranks of non-NAs, NAs kept in place (/s/o/so) \cr
+   \code{\link{quantile.integer64}} \tab \code{\link{quantile}} \tab (existing) values at specified percentiles (/s/o/so) \cr
+   \code{\link{median.integer64}} \tab \code{\link{median}} \tab (existing) value at percentile 0.5 (/s/o/so) \cr
+   \code{\link{summary.integer64}} \tab \code{\link{summary}} \tab  (/s/o/so) \cr
+ \cr
    \bold{helper functions} \tab \bold{see also}          \tab \bold{description} \cr
    \code{\link{minusclass}} \tab \code{\link{minusclass}} \tab removing class attritbute \cr
    \code{\link{plusclass}} \tab \code{\link{plusclass}} \tab inserting class attribute \cr
@@ -268,27 +305,15 @@ C-code protects against misuse outside the GPLed R context.
     For testing purposes we provide a wrapper \code{\link{identical.integer64}} that will distinguish all bit-patterns.
     It would be desireable to have a single call of \code{\link{identical}} handle both, \code{\link{double}} and \code{integer64}.
 
-    \item the \bold{colon} operator \code{\link{:}} officially does not dispatches S3 methods, therefore we have not patched it.
-   However, the following code seems to work: \preformatted{
-     ":.default" <- get(":")
-     ":" <- function(from,to)UseMethod(":")
-     ":.integer64" <- function(from, to)seq.integer64(from=from, to=to)
-   }
-   Try for example: \preformatted{
+    \item the \bold{colon} operator \code{\link{:}} officially does not dispatches S3 methods, therefore we have not patched it. However, with \code{\link{bit64S3}} you can turn \code{:} generic
+     and then try for example: \preformatted{
      from <- lim.integer64()[1]
      to <- from+99
      from:to
    }
 
-    \item \bold{\code{\link{is.double}}} does not dispatches S3 methods, therefore we have not patched it.
-   However, the following code seems to work if you want \code{is.double} to return \code{FALSE} on \code{integer64}: \preformatted{
-     if (!exists("is.double.default")){
-       is.double.default <- function(x) base::is.double(x)
-       is.double <- function(x)UseMethod("is.double")
-     }
-     is.double.integer64 <- function(x)FALSE
-
-   }
+    \item \bold{\code{\link{is.double}}} does not dispatches S3 methods, therefore we have not patched it. However, with \code{\link{bit64S3}} you can turn \code{is.double} generic 
+		and then it will return \code{FALSE} on \code{integer64}.
 
     \item \bold{\code{\link{c}}} only dispatches \code{\link{c.integer64}} if the first argument is \code{integer64}
     and it does not recursively dispatch the proper method when called with argument \code{recursive=TRUE}
@@ -323,22 +348,16 @@ C-code protects against misuse outside the GPLed R context.
 
     \item \bold{\code{\link{storage.mode<-}}} does not support external data types such as \code{as.integer64}
 
-    \item \bold{\code{\link{matrix}}}  does drop the 'integer64' class attribute, 
-         while \bold{\code{\link{array}}} works correctly with \code{integer64}
+    \item \bold{\code{\link{matrix}}} does drop the 'integer64' class attribute.
+
+    \item \bold{\code{\link{array}}}  does drop the 'integer64' class attribute. 
+           In current R versions (1.15.1) this can be circumvented by activating the function 
+						\code{as.vector.integer64} further down this file.
+						However, the CRAN maintainer has requested to remove \code{as.vector.integer64}, 
+						even at the price of breaking previously working functionality of the package. 
 
     \item \bold{\code{\link{str}}} does not print the values of \code{integer64} correctly
 
-  }
-}
-\section{Limitations planned to be removed with the next release}{
-  \itemize{
-    \item \bold{\code{\link{sort}}} is not yet implemented 
-    \item \bold{\code{\link{order}}} is not yet implemented 
-    \item \bold{\code{\link{match}}} is not yet implemented 
-    \item \bold{\code{\link{duplicated}}} is not yet implemented 
-    \item \bold{\code{\link{unique}}} is not yet implemented 
-    \item \bold{\code{\link{table}}} is not yet implemented 
-    \item \bold{\code{\link{as.factor}}} is not yet implemented 
   }
 }
 \section{further limitations}{
@@ -383,7 +402,13 @@ names(x) <- letters  # use names as usual
 x
 
 message("Using integer64 in array - note that 'matrix' currently does not work")
-y <- array(as.integer64(NA), dim=c(3,4), dimnames=list(letters[1:3], LETTERS[1:4]))
+message("as.vector.integer64 removed as requested by the CRAN maintainer")
+message("as consequence 'array' also does not work anymore")
+%y <- array(as.integer64(NA), dim=c(3,4), dimnames=list(letters[1:3], LETTERS[1:4]))
+message("we still can create a matrix or array by assigning 'dim'")
+y <- rep(as.integer64(NA), 12)
+dim(y) <- c(3,4)
+dimnames(y) <- list(letters[1:3], LETTERS[1:4])
 y["a",] <- 1:2       # assigning as usual
 y
 y[1:2,-4]            # subscripting as usual
@@ -495,8 +520,8 @@ stopifnot(identical.integer64(seq.integer64(along.with=3:5), as.integer64(seq(al
 stopifnot(identical.integer64(seq(as.integer64(1), to=-9), as.integer64(seq(1, to=-9)) ))
 
 message("Testing cbind and rbind")
-stopifnot(identical.integer64( cbind(as.integer64(1:3), 1:3), array(as.integer64(1:3), c(3,2))))
-stopifnot(identical.integer64( rbind(as.integer64(1:3), 1:3), t(array(as.integer64(1:3), c(3,2)))))
+stopifnot(identical.integer64( cbind(as.integer64(1:3), 1:3), {x <- rep(as.integer64(1:3), 2); dim(x)<-c(3,2);x}))
+stopifnot(identical.integer64( rbind(as.integer64(1:3), 1:3), t({x <- rep(as.integer64(1:3), 2); dim(x)<-c(3,2);x})))
 
 message("Testing coercion")
 stopifnot(identical( as.double(as.integer64(c(NA, seq(0, 9, 0.25)))), as.double(as.integer(c(NA, seq(0, 9, 0.25))))))
@@ -800,4 +825,5 @@ for (i in 12:21)T64[i] <- system.time(gc(), gcFirst=FALSE)[3]
 
 matplot(1:21, cbind(td32, t64, T64), pch=c("d","i","I"), log="y")
   }
+
 }
