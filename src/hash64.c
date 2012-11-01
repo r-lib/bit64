@@ -13,7 +13,7 @@
 #include <Rinternals.h>
 #include <R.h>
 
-#include "timing.h"
+//#include "timing.h"
 
 // This multiplicator was used in Simon Urbanek's package fastmatch for 32-bit integers
 //#define HASH64(X, SHIFT) (314159265358979323ULL * ((unsigned long long)(X)) >> (SHIFT))

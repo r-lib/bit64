@@ -24,7 +24,7 @@
 #include <stdlib.h> // rand
 
 #include "integer64.h"
-#include "timing.h"
+//#include "timing.h"
 
 
 /*****************************************************************************/

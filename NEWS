@@ -1,3 +1,15 @@
+    CHANGES IN bit64 VERSION 0.9-2
+
+BUG FIXES
+
+    o match.integer64 (and %in%.integer64) now call correctly with 
+	  method="hashpos" and method="hashrev"
+	o removed platform specific timing code that was not needed 
+	  and prevented compiling under MacOS
+
+
+	
+
     CHANGES IN bit64 VERSION 0.9-1
 
 	

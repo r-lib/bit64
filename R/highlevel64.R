@@ -1530,18 +1530,30 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
   }
   switch(method
   , hashpos={
-		if (is.null(c) || !exists("hashmap", envir=c, inherits=FALSE))
-			h <- hashmap(table, hashbits=btable, nunique=nunique)
-		else
-			h <- c
-		p <- hashpos(h, x, nomatch=nomatch)
+			if (is.null(c) || !exists("hashmap", envir=c, inherits=FALSE)){
+				if (exists("btable", inherits=FALSE))
+					h <- hashmap(table, hashbits=btable)
+				else{
+					if (is.null(nunique))
+						nunique <- c$nunique
+					h <- hashmap(table, nunique=nunique)
+				}
+			}else
+				h <- c
+			p <- hashpos(h, x, nomatch=nomatch)
     }
   , hashrev={
 		c <- cache(x)
-		if (is.null(c) || !exists("hashmap", envir=c, inherits=FALSE))
-			h <- hashmap(x, bits=bx)
-		else
-			h <- c
+		if (is.null(c) || !exists("hashmap", envir=c, inherits=FALSE)){
+				if (exists("bx", inherits=FALSE))
+					h <- hashmap(x, bits=bx)
+				else{
+					if (is.null(nunique))
+						nunique <- c$nunique
+					h <- hashmap(x, nunique=nunique)
+				}
+			}else
+				h <- c
 		p <- hashrev(h, table, nomatch=nomatch)
     }
   , sortorderpos={
@@ -1612,17 +1624,29 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
   }
   switch(method
   , hashfin={
-		if (is.null(c) || !exists("hashmap", envir=c, inherits=FALSE))
-			h <- hashmap(table, hashbits=btable, nunique=nunique)
-		else
+		if (is.null(c) || !exists("hashmap", envir=c, inherits=FALSE)){
+			if (exists("btable", inherits=FALSE))
+				h <- hashmap(table, hashbits=btable)
+			else{
+				if (is.null(nunique))
+					nunique <- c$nunique
+				h <- hashmap(table, nunique=nunique)
+			}
+		}else
 			h <- c
 		p <- hashfin(h, x)
     }
   , hashrin={
 		c <- cache(x)
-		if (is.null(c) || !exists("hashmap", envir=c, inherits=FALSE))
-			h <- hashmap(x, bits=bx)
-		else
+		if (is.null(c) || !exists("hashmap", envir=c, inherits=FALSE)){
+				if (exists("bx", inherits=FALSE))
+					h <- hashmap(x, bits=bx)
+				else{
+					if (is.null(nunique))
+						nunique <- c$nunique
+					h <- hashmap(x, nunique=nunique)
+				}
+		}else
 			h <- c
 		p <- hashrin(h, table)
     }
