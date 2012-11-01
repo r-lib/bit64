@@ -32,15 +32,21 @@
 \method{mergesort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, \dots)
 \method{mergeorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, \dots)
 \method{mergesortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, \dots)
-\method{quicksort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, restlevel=floor(1.5*log2(length(x))), \dots)
-\method{quicksortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, restlevel=floor(1.5*log2(length(x))), \dots)
-\method{quickorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, restlevel=floor(1.5*log2(length(x))), \dots)
+\method{quicksort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE
+, restlevel=floor(1.5*log2(length(x))), \dots)
+\method{quicksortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE
+, restlevel=floor(1.5*log2(length(x))), \dots)
+\method{quickorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE
+, restlevel=floor(1.5*log2(length(x))), \dots)
 \method{radixsort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, \dots)
 \method{radixsortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, \dots)
 \method{radixorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, \dots)
-\method{ramsort}{integer64}(x, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
-\method{ramsortorder}{integer64}(x, i, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
-\method{ramorder}{integer64}(x, i, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
+\method{ramsort}{integer64}(x, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE
+, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
+\method{ramsortorder}{integer64}(x, i, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE
+, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
+\method{ramorder}{integer64}(x, i, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE
+, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
 }
 \arguments{
   \item{x}{ a vector to be sorted by \code{\link{ramsort}} and \code{\link{ramsortorder}}, i.e. the output of  \code{\link{sort}} }

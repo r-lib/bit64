@@ -144,7 +144,8 @@
 #! stopifnot(identical(hashpos(hy, hashuni(hy, keep.order=TRUE)), hashupo(hy, keep.order=TRUE)))
 #! stopifnot(identical(hashpos(hy, hashuni(hy, keep.order=FALSE)), hashupo(hy, keep.order=FALSE)))
 #! stopifnot(identical(hashuni(hy, keep.order=FALSE), hashtab(hy)$values))
-#! stopifnot(identical(as.vector(table(as.integer(y), useNA="ifany")), hashtab(hy)$counts[order.integer64(hashtab(hy)$values)]))
+#! stopifnot(identical(as.vector(table(as.integer(y), useNA="ifany"))
+#! , hashtab(hy)$counts[order.integer64(hashtab(hy)$values)]))
 #! stopifnot(identical(hashuni(hy, keep.order=TRUE), hashmapuni(y)))
 #! stopifnot(identical(hashupo(hy, keep.order=TRUE), hashmapupo(y)))
 #! stopifnot(identical(hashtab(hy), hashmaptab(y)))
@@ -272,7 +273,7 @@ hashuni.cache_integer64 <- function(cache, keep.order=FALSE, ...){
   nunique <- get("nunique", envir=cache, inherits=FALSE)
   ret <- double(nunique)
   .Call("hashuni_integer64", hashdat, hashbits, hashmap, as.logical(keep.order), ret, PACKAGE = "bit64")
-  setattr(ret, "class", "integer64")
+  oldClass(ret) <- "integer64"
   ret
 }
 
@@ -296,7 +297,7 @@ hashtab.cache_integer64 <- function(cache, ...){
   hashdat <- get("x", envir=cache, inherits=FALSE)
   nunique <- get("nunique", envir=cache, inherits=FALSE)
   ret <- .Call("hashtab_integer64", hashdat, hashbits, hashmap, nunique, PACKAGE = "bit64")
-  setattr(ret, "names", c("values","counts"))
+  attr(ret, "names") <- c("values","counts")
   ret
 }
 
@@ -317,7 +318,7 @@ hashmaptab.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
   hashmap <- integer(nhash)
   ret <- .Call("hashmaptab_integer64", x, hashbits, hashmap, nunique, PACKAGE = "bit64")
   # theoretically we could use {hashmap, nunique} at this point the same way like after calling hashmap_integer64
-  setattr(ret, "names", c("values","counts"))
+  attr(ret, "names") <- c("values","counts")
   ret
 }
 
@@ -338,7 +339,7 @@ hashmapuni.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
   hashmap <- integer(nhash)
   ret <- .Call("hashmapuni_integer64", x, hashbits, hashmap, nunique, PACKAGE = "bit64")
   # theoretically we could use {hashmap, nunique} at this point the same way like after calling hashmap_integer64
-  setattr(ret, "class", "integer64")
+  oldClass(ret) <- "integer64"
   ret
 }
 

@@ -42,15 +42,21 @@
 #! \method{mergesort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, \dots)
 #! \method{mergeorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, \dots)
 #! \method{mergesortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, \dots)
-#! \method{quicksort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, restlevel=floor(1.5*log2(length(x))), \dots)
-#! \method{quicksortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, restlevel=floor(1.5*log2(length(x))), \dots)
-#! \method{quickorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, restlevel=floor(1.5*log2(length(x))), \dots)
+#! \method{quicksort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE
+#! , restlevel=floor(1.5*log2(length(x))), \dots)
+#! \method{quicksortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE
+#! , restlevel=floor(1.5*log2(length(x))), \dots)
+#! \method{quickorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE
+#! , restlevel=floor(1.5*log2(length(x))), \dots)
 #! \method{radixsort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, \dots)
 #! \method{radixsortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, \dots)
 #! \method{radixorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, \dots)
-#! \method{ramsort}{integer64}(x, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
-#! \method{ramsortorder}{integer64}(x, i, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
-#! \method{ramorder}{integer64}(x, i, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
+#! \method{ramsort}{integer64}(x, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE
+#! , optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
+#! \method{ramsortorder}{integer64}(x, i, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE
+#! , optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
+#! \method{ramorder}{integer64}(x, i, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE
+#! , optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
 #! }
 #! \arguments{
 #!   \item{x}{ a vector to be sorted by \code{\link{ramsort}} and \code{\link{ramsortorder}}, i.e. the output of  \code{\link{sort}} }
@@ -466,8 +472,10 @@ ramorder.integer64 <- function (x
 #!   These are wrappers to \code{\link{ramsort}} and friends and do not modify their arguments.
 #! }
 #! \usage{
-#! \method{sort}{integer64}(x, decreasing = FALSE, has.na = TRUE, na.last = TRUE, stable = TRUE, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
-#! \method{order}{integer64}(\dots, na.last = TRUE, decreasing = FALSE, has.na = TRUE, stable = TRUE, optimize = c("time", "memory"), VERBOSE = FALSE)
+#! \method{sort}{integer64}(x, decreasing = FALSE, has.na = TRUE, na.last = TRUE, stable = TRUE
+#! , optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
+#! \method{order}{integer64}(\dots, na.last = TRUE, decreasing = FALSE, has.na = TRUE, stable = TRUE
+#! , optimize = c("time", "memory"), VERBOSE = FALSE)
 #! }
 #! \arguments{
 #!   \item{x}{ a vector to be sorted by \code{\link{ramsort}} and \code{\link{ramsortorder}}, i.e. the output of  \code{\link{sort}} }
@@ -510,7 +518,8 @@ ramorder.integer64 <- function (x
 #!   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #!   x
 #!   sort(x)
-#!   message("the following has default optimize='time' which is faster but requires more RAM, this calls 'ramorder'")
+#!   message("the following has default optimize='time' which is faster but requires more RAM
+#! , this calls 'ramorder'")
 #!   order.integer64(x)
 #!   message("slower with less RAM, this calls 'ramsortorder'")
 #!   order.integer64(x, optimize="memory")
@@ -569,32 +578,32 @@ sort.integer64 <- function(x
 	}else 
 		s <- c$sort  # here we save copying at all
   }else if (!is.null(c$order)){
-	if (do.na.last || decreasing){
-		s <- double(length(x))
-		.Call("r_ram_integer64_sortsrt"
-		, x = x[c$order]
-		, na_count   = as.integer(na.count <- c$na.count)
-		, na_last    = as.logical(do.na.last)
-		, decreasing = as.logical(decreasing)
-		, s		 	 = s
-		, PACKAGE = "bit64"
-		)
-		setattr(s, "class", "integer64")
-	}else 
-		s <- x[c$order]
+		if (do.na.last || decreasing){
+			s <- double(length(x))
+			.Call("r_ram_integer64_sortsrt"
+			, x = x[c$order]
+			, na_count   = as.integer(na.count <- c$na.count)
+			, na_last    = as.logical(do.na.last)
+			, decreasing = as.logical(decreasing)
+			, s		 	 = s
+			, PACKAGE = "bit64"
+			)
+			setattr(s, "class", "integer64")
+		}else 
+			s <- x[c$order]
   }else{
     if (identical(c$na.count, 0L))
 	  has.na <- FALSE
-	s <- x[]
-	na.count <- ramsort(
-	  s
-	, has.na=has.na
-	, na.last=do.na.last
-	, decreasing=decreasing
-	, stable=stable
-	, optimize = optimize
-	, VERBOSE = FALSE
-	)
+		s <- x[]
+		na.count <- ramsort(
+			s
+		, has.na=has.na
+		, na.last=do.na.last
+		, decreasing=decreasing
+		, stable=stable
+		, optimize = optimize
+		, VERBOSE = FALSE
+		)
   }
   if (is.na(na.last) && na.count)
 	length(s) <- length(s) - na.count

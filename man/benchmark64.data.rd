@@ -2,7 +2,7 @@
 \alias{benchmark64.data}
 \docType{data}
 \title{
-	Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM under Windows 7 64bit
+ Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM under Windows 7 64bit
 }
 \description{
   These are the results of calling \code{\link{benchmark64}}
@@ -16,13 +16,24 @@
   ..$ : chr [1:6] "32-bit" "64-bit" "hashcache" "sortordercache" ...
 }
 \examples{
-	data(benchmark64.data)
-	print(benchmark64.data)
-	matplot(log2(benchmark64.data[-1,1]/benchmark64.data[-1,]), pch=c("3", "6", "h", "s", "o", "a")
-	, xlab="tasks [last=session]", ylab="log2(relative speed) [bigger is better]")
-	matplot(t(log2(benchmark64.data[-1,1]/benchmark64.data[-1,])), type="b", axes=FALSE
-	, xlab="context", ylab="log2(relative speed) [bigger is better]", lwd=c(rep(1, 14), 3))
-	axis(1, labels=c("32-bit", "64-bit", "hash", "sortorder", "order", "hash+sortorder"), at=1:6)
-	axis(2)
+data(benchmark64.data)
+print(benchmark64.data)
+matplot(log2(benchmark64.data[-1,1]/benchmark64.data[-1,])
+, pch=c("3", "6", "h", "s", "o", "a")
+, xlab="tasks [last=session]"
+, ylab="log2(relative speed) [bigger is better]"
+)
+matplot(t(log2(benchmark64.data[-1,1]/benchmark64.data[-1,]))
+, axes=FALSE
+, type="b"
+, lwd=c(rep(1, 14), 3)
+, xlab="context"
+, ylab="log2(relative speed) [bigger is better]"
+)
+axis(1
+, labels=c("32-bit", "64-bit", "hash", "sortorder", "order", "hash+sortorder")
+, at=1:6
+)
+axis(2)
 }
 \keyword{datasets}

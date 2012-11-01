@@ -1,23 +1,24 @@
 Package: bit64
 Type: Package
 Title: A S3 class for vectors of 64bit integers
-Version: 0.9-2
+Version: 0.9-3
 Date: 2012-11-01
 Author: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-Depends: R (>= 2.14.0), bit (>= 1.1-9), methods
-Description: Package 'bit64' provides serializable S3 atomic 64bit
-        (signed) integers that can be used in vectors, matrices, arrays
-        and data.frames. Methods are available for coercion from and to
-        logicals, integers, doubles, characters and factors as well as
-        many elementwise and summary functions. Many fast algorithmic
-        operations such as 'match' and 'order' support interactive data
-        exploration and manipulation and optionally leverage caching.
+Depends: R (>= 3.0.1), bit (>= 1.1-9), methods
+Description: 
+ Package 'bit64' provides serializable S3 atomic 64bit (signed) integers 
+ that can be used in vectors, matrices, arrays and data.frames. Methods are 
+ available for coercion from and to logicals, integers, doubles, characters 
+ and factors as well as many elementwise and summary functions. Many fast 
+ algorithmic operations such as 'match' and 'order' support interactive data
+ exploration and manipulation and optionally leverage caching.
 License: GPL-2
 LazyLoad: yes
 ByteCompile: yes
 URL: http://ff.r-forge.r-project.org/
 Encoding: latin1
-Packaged: 2012-11-01 18:57:41 UTC; jens
+Packaged: 2013-12-04 21:38:37 UTC; jens
+NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2012-11-01 19:29:41
+Date/Publication: 2013-12-05 08:33:06

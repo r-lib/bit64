@@ -46,7 +46,23 @@ export(
 # == this is a complete list of R functions and metadata of this package sorted by filenames, non-exported functions are commented away ==
 
 # -- patch64.R - patch generics --
- "bit64S3"
+  ":"
+, ":.default"
+, ":.integer64"
+, "is.double"
+, "is.double.default"
+, "is.double.integer64"
+, "match"
+, "match.default"
+, "%in%"
+, "%in%.default"
+, "rank"
+, "rank.default"
+#, "table"
+#, "table.default"
+, "order"
+, "order.default"
+
 
 # -- integer64.R - basic vector handling --
 
@@ -319,11 +335,20 @@ export(
 #,.Last.lib
 )
 
+
+# -- patch64.R - patch generics --
+
+S3method(":", default)
+S3method("is.double", default)
+S3method("match", default)
+S3method("%in%", default)
+S3method("rank", default)
+#S3method("table", default)
+S3method("order", default)
+
+
 # -- integer64.R - basic vector handling --
 
-
-#S3method("is.double", default)
-#S3method("is.double", integer64)
 S3method("identical", integer64)
 
 S3method("is", integer64)
@@ -501,13 +526,13 @@ S3method("is.sorted", integer64)
 # -- highlevel64.R - matching --
 
 S3method("match", integer64)
-#S3method("%in%", integer64)
+S3method("%in%", integer64)
 S3method("unique", integer64)
 S3method("unipos", integer64)
 S3method("tiepos", integer64)
 S3method("keypos", integer64)
 S3method("duplicated", integer64)
-S3method("table", integer64)
+#S3method("table", integer64)
 S3method("rank", integer64)
 S3method("prank", integer64)
 S3method("qtile", integer64)

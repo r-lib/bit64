@@ -1,46 +1,71 @@
+    CHANGES IN bit64 VERSION 0.9-3
+
+USER VISIBLE CHANGES
+
+    o The following functions are converted to S3 generics and mask package:base
+      :, is.double, match, %in%, rank, order
+    o table.integer64 now automatically converts non-integer64 arguments to integer64
+      rather than stopping on error (but gives a warning for each column) 
+    o table.integer64 called with return="table" returns empty cells now with 
+      0 rather than NA
+	o %in%.integer64 no longer has arguments 'nunique' and 'method' in order
+	  to match the generic with only two arguments 'x', 'table' and ...
+
+
+BUG FIXES
+
+    o c(x,x,x) failed with integer64 type because R no longer copies the 
+	  arguments in list(...) as from R-3.0.2 . Presumably now the ugly 
+	  workaround in table.integer64 is no longer needed but that has NOT 
+	  been fixed yet
+    o round.integer64 no longer removes the "integer64" class attribute
+	  (reported by Dan Southern)
+
+    
+
     CHANGES IN bit64 VERSION 0.9-2
 
 BUG FIXES
 
     o match.integer64 (and %in%.integer64) now call correctly with 
-	  method="hashpos" and method="hashrev"
-	o removed platform specific timing code that was not needed 
-	  and prevented compiling under MacOS
+      method="hashpos" and method="hashrev"
+    o removed platform specific timing code that was not needed 
+      and prevented compiling under MacOS
 
 
-	
+    
 
     CHANGES IN bit64 VERSION 0.9-1
 
-	
+    
 NEW FEATURES
 
     o new methods for 'match', '%in%', 'duplicated', 'unique', 'table'
-	  , 'sort', 'order', 'rank', 'quantile', 'median' and 'summary'
+      , 'sort', 'order', 'rank', 'quantile', 'median' and 'summary'
     o new generics and methods for data management: 
-	    'unipos' (positions of the unique values)
-	  , 'tiepos' (positions of ties)
-	  , 'keypos' (positions of values in a sorted unique table) 
-	  and derived methods 'as.factor' and 'as.ordered'
+        'unipos' (positions of the unique values)
+      , 'tiepos' (positions of ties)
+      , 'keypos' (positions of values in a sorted unique table) 
+      and derived methods 'as.factor' and 'as.ordered'
     o new generic caching scheme, see ?cache and ?hashcache
     o new low level functions for fast sorting, ordering and hashing,
-	see ?sortnut and ?hashmap
+    see ?sortnut and ?hashmap
 
-	
-	
+    
+    
 USER VISIBLE CHANGES
 
     o the package is back on CRAN. Method 'as.vector.integer64' has been removed 
-	  at request of the CRAN maintainer. The starting point for this request was: 
-	  'matrix(integer64())' does not work. The result of removing 
-	  'as.vector.integer64' is a deterioration: 'array(integer64())' does not work 
-	  anymore. You can restore 'as.vector.integer64' if you prefer.
+      at request of the CRAN maintainer. The starting point for this request was: 
+      'matrix(integer64())' does not work. The result of removing 
+      'as.vector.integer64' is a deterioration: 'array(integer64())' does not work 
+      anymore. You can restore 'as.vector.integer64' if you prefer.
     o package 'bit64' now shares generics for low-level sorting with package 'ff' 
-	  and depends on package 'bit' for those generics
-	  
+      and depends on package 'bit' for those generics
+      
 
 
-	  
+      
     CHANGES IN bit64 VERSION 0.8-3
 
 

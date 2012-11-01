@@ -9,8 +9,10 @@
   These are wrappers to \code{\link{ramsort}} and friends and do not modify their arguments.
 }
 \usage{
-\method{sort}{integer64}(x, decreasing = FALSE, has.na = TRUE, na.last = TRUE, stable = TRUE, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
-\method{order}{integer64}(\dots, na.last = TRUE, decreasing = FALSE, has.na = TRUE, stable = TRUE, optimize = c("time", "memory"), VERBOSE = FALSE)
+\method{sort}{integer64}(x, decreasing = FALSE, has.na = TRUE, na.last = TRUE, stable = TRUE
+, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
+\method{order}{integer64}(\dots, na.last = TRUE, decreasing = FALSE, has.na = TRUE, stable = TRUE
+, optimize = c("time", "memory"), VERBOSE = FALSE)
 }
 \arguments{
   \item{x}{ a vector to be sorted by \code{\link{ramsort}} and \code{\link{ramsortorder}}, i.e. the output of  \code{\link{sort}} }
@@ -53,7 +55,8 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   x
   sort(x)
-  message("the following has default optimize='time' which is faster but requires more RAM, this calls 'ramorder'")
+  message("the following has default optimize='time' which is faster but requires more RAM
+, this calls 'ramorder'")
   order.integer64(x)
   message("slower with less RAM, this calls 'ramsortorder'")
   order.integer64(x, optimize="memory")

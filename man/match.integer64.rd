@@ -11,8 +11,8 @@
 
 }
 \usage{
-match.integer64(x, table, nomatch = NA_integer_, nunique = NULL, method = NULL, ...)
-"\%in\%.integer64"(x, table, nunique = NULL, method = NULL, ...)
+\method{match}{integer64}(x, table, nomatch = NA_integer_, nunique = NULL, method = NULL, ...)
+\method{\%in\%}{integer64}(x, table, ...)
 }
 \arguments{
   \item{x}{
@@ -99,7 +99,8 @@ stopifnot(identical("\%in\%.integer64"(x, table), as.integer(x) \%in\% as.intege
 	message("explore best low-level method given size of x and table")
 	B1 <- 1:27
 	B2 <- 1:27
-	tim <- array(NA, dim=c(length(B1), length(B2), 5), dimnames=list(B1, B2, c("hashpos","hashrev","sortpos1","sortpos2","sortpos3")))
+	tim <- array(NA, dim=c(length(B1), length(B2), 5)
+ , dimnames=list(B1, B2, c("hashpos","hashrev","sortpos1","sortpos2","sortpos3")))
 	for (i1 in B1)
 	for (i2 in B2)
 	{

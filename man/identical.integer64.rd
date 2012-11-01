@@ -7,7 +7,8 @@
   This will discover any deviation between objects containing integer64 vectors. 
 }
 \usage{
- identical.integer64(x, y, num.eq = FALSE, single.NA = FALSE, attrib.as.set = TRUE, ignore.bytecode = TRUE)
+ identical.integer64(x, y, num.eq = FALSE, single.NA = FALSE
+, attrib.as.set = TRUE, ignore.bytecode = TRUE)
 }
 \arguments{
   \item{x}{ atomic vector of class 'integer64' }

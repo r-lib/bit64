@@ -51,7 +51,8 @@ unique(x, order="values")
 
 stopifnot(identical(unique(x),  x[!duplicated(x)]))
 stopifnot(identical(unique(x),  as.integer64(unique(as.integer(x)))))
-stopifnot(identical(unique(x, order="values"),  as.integer64(sort(unique(as.integer(x)), na.last=FALSE))))
+stopifnot(identical(unique(x, order="values")
+,  as.integer64(sort(unique(as.integer(x)), na.last=FALSE))))
 }
 \keyword{manip}
 \keyword{logic}

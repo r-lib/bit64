@@ -99,14 +99,14 @@
 #!   \code{\link{length<-}}, \code{\link{names}}, \code{\link{names<-}}, \code{\link{dim}}, \code{\link{dim<-}}, \code{\link{dimnames}}, \code{\link{dimnames}}.
 #!   \cr
 #!   Our R level functions strictly follow the functional programming paragdim: 
-#!   no modification of arguments or other sideffects. However, internally we deviate from the strict paradigm
+#!   no modification of arguments or other sideffects. Before version 0.93  we internally deviated from the strict paradigm
 #!   in order to boost performance. Our C functions do not create new return values, 
 #!   instead we pass-in the memory to be returned as an argument. This gives us the freedom to apply the C-function 
 #!   to new or old vectors, which helps to avoid unnecessary memory allocation, unnecessary copying and unnessary garbage collection.
-#!   \emph{Within} our R functions we also deviate from conventional R programming by not using \code{\link{attr<-}} and \code{\link{attributes<-}} 
-#!   because they always do new memory allocation and copying. If we want to set attributes of return values that we have freshly created,
-#!   we instead use functions \code{\link[bit]{setattr}} and \code{\link[bit]{setattributes}} from package \code{\link[bit]{bit}}. 
-#!   If you want to see both tricks at work, see method \code{integer64}. 
+#!   Prior to 0.93 \emph{within} our R functions we also deviated from conventional R programming by not using \code{\link{attr<-}} and \code{\link{attributes<-}} 
+#!   because they always did new memory allocation and copying in older R versions. If we wanted to set attributes of return values that we have freshly created,
+#!   we instead used functions \code{\link[bit]{setattr}} and \code{\link[bit]{setattributes}} from package \code{\link[bit]{bit}}. 
+#!   From version 0.93 \code{\link[bit]{setattr}} is only used for manipulating \code{\link{cache}} objects, in \code{\link{ramsort.integer64}} and \code{\link{sort.integer64}} and in \code{\link{as.data.frame.integer64}}.
 #! }
 #! \section{Arithmetic precision and coercion}{
 #!   The fact that we introduce 64 bit long long integers -- without introducing 128-bit long doubles -- creates some subtle challenges:
@@ -315,15 +315,16 @@
 #!     For testing purposes we provide a wrapper \code{\link{identical.integer64}} that will distinguish all bit-patterns.
 #!     It would be desireable to have a single call of \code{\link{identical}} handle both, \code{\link{double}} and \code{integer64}.
 #! 
-#!     \item the \bold{colon} operator \code{\link{:}} officially does not dispatches S3 methods, therefore we have not patched it. However, with \code{\link{bit64S3}} you can turn \code{:} generic
-#!      and then try for example: \preformatted{
+#!     \item the \bold{colon} operator \code{\link{:}} officially does not dispatches S3 methods, however, we have made it generic
+#!      \preformatted{
 #!      from <- lim.integer64()[1]
 #!      to <- from+99
 #!      from:to
 #!    }
+#!    As a limitation remains: it will only dispatch at its first argument \code{from} but not at its second \code{to}.
 #! 
-#!     \item \bold{\code{\link{is.double}}} does not dispatches S3 methods, therefore we have not patched it. However, with \code{\link{bit64S3}} you can turn \code{is.double} generic 
-#!		and then it will return \code{FALSE} on \code{integer64}.
+#!     \item \bold{\code{\link{is.double}}} does not dispatches S3 methods, However, we have made it generic 
+#!		and it will return \code{FALSE} on \code{integer64}.
 #!
 #!     \item \bold{\code{\link{c}}} only dispatches \code{\link{c.integer64}} if the first argument is \code{integer64}
 #!     and it does not recursively dispatch the proper method when called with argument \code{recursive=TRUE}
@@ -406,8 +407,10 @@
 #! seq(as.integer64(1), 10)     # seq.integer64 is dispatched on first given argument
 #! seq(to=as.integer64(10), 1)  # seq.integer64 is dispatched on first given argument
 #! seq.integer64(along.with=x)  # or call seq.integer64 directly
-#! x <- c(x,runif(length(x), max=100)) # c.integer64 is dispatched only if *first* argument is integer64 ...
-#! x                                   # ... and coerces everything to integer64 - including double
+#! # c.integer64 is dispatched only if *first* argument is integer64 ...
+#! x <- c(x,runif(length(x), max=100)) 
+#! # ... and coerces everything to integer64 - including double
+#! x                                   
 #! names(x) <- letters  # use names as usual
 #! x
 #! 
@@ -422,7 +425,8 @@
 #! y["a",] <- 1:2       # assigning as usual
 #! y
 #! y[1:2,-4]            # subscripting as usual
-#! cbind(E=1:3, F=runif(3, 0, 100), G=c("-1","0","1"), y)  # cbind.integer64 dispatched on any argument and coerces everything to integer64
+#! # cbind.integer64 dispatched on any argument and coerces everything to integer64
+#! cbind(E=1:3, F=runif(3, 0, 100), G=c("-1","0","1"), y)
 #! 
 #! message("Using integer64 in data.frame")
 #! str(as.data.frame(x))
@@ -667,11 +671,13 @@
 #! message("-- The following performance numbers are measured under RWin64  --")
 #! message("-- under RWin32 the advantage of integer64 over int64 is smaller --")
 #!
-#! message("-- integer64 needs 7x/5x less RAM than int64 under 64/32 bit OS (and twice the RAM of integer as it should be) --")
+#! message("-- integer64 needs 7x/5x less RAM than int64 under 64/32 bit OS 
+#! (and twice the RAM of integer as it should be) --")
 #! as.vector(object.size(int64(1e6))/object.size(integer64(1e6)))
 #! as.vector(object.size(integer64(1e6))/object.size(integer(1e6)))
 #! 
-#! message("-- integer64 creates 2000x/1300x faster than int64 under 64/32 bit OS (and 3x the time of integer) --")
+#! message("-- integer64 creates 2000x/1300x faster than int64 under 64/32 bit OS
+#! (and 3x the time of integer) --")
 #! t32 <- system.time(integer(1e8))
 #! t64 <- system.time(integer64(1e8))
 #! T64 <- system.time(int64(1e7))*10  # using 1e8 as above stalls our R on an i7 8 GB RAM Thinkpad
@@ -681,8 +687,10 @@
 #! i32 <- sample(1e6)
 #! d64 <- as.double(i32)
 #! 
-#! message("-- the following timings are rather conservative since timings of integer64 include garbage collection -- due to looped calls")
-#! message("-- integer64 coerces 900x/100x faster than int64 under 64/32 bit OS (and 2x the time of coercing to integer) --")
+#! message("-- the following timings are rather conservative since timings
+#!  of integer64 include garbage collection -- due to looped calls")
+#! message("-- integer64 coerces 900x/100x faster than int64 
+#!  under 64/32 bit OS (and 2x the time of coercing to integer) --")
 #! t32 <- system.time(for(i in 1:1000)as.integer(d64))
 #! t64 <- system.time(for(i in 1:1000)as.integer64(d64))
 #! T64 <- system.time(as.int64(d64))*1000
@@ -694,7 +702,8 @@
 #! T64/t64
 #! t64/td64
 #! 
-#! message("-- integer64 serializes 4x/0.8x faster than int64 under 64/32 bit OS (and less than 2x/6x the time of integer or double) --")
+#! message("-- integer64 serializes 4x/0.8x faster than int64 
+#!  under 64/32 bit OS (and less than 2x/6x the time of integer or double) --")
 #! t32 <- system.time(for(i in 1:10)serialize(i32, NULL))
 #! td64 <- system.time(for(i in 1:10)serialize(d64, NULL))
 #! i64 <- as.integer64(i32); 
@@ -708,7 +717,8 @@
 #! t64/td64
 #! 
 #! 
-#! message("-- integer64 adds 250x/60x faster than int64 under 64/32 bit OS (and less than 6x the time of integer or double) --")
+#! message("-- integer64 adds 250x/60x faster than int64
+#!  under 64/32 bit OS (and less than 6x the time of integer or double) --")
 #! td64 <- system.time(for(i in 1:100)d64+d64)
 #! t32 <- system.time(for(i in 1:100)i32+i32)
 #! i64 <- as.integer64(i32); 
@@ -721,7 +731,8 @@
 #! t64/t32
 #! t64/td64
 #! 
-#! message("-- integer64 sums 3x/0.2x faster than int64 (and at about 5x/60X the time of integer and double) --")
+#! message("-- integer64 sums 3x/0.2x faster than int64 
+#! (and at about 5x/60X the time of integer and double) --")
 #! td64 <- system.time(for(i in 1:100)sum(d64))
 #! t32 <- system.time(for(i in 1:100)sum(i32))
 #! i64 <- as.integer64(i32); 
@@ -734,7 +745,8 @@
 #! t64/t32
 #! t64/td64
 #! 
-#! message("-- integer64 diffs 5x/0.85x faster than integer and double (int64 version 1.0 does not support diff) --")
+#! message("-- integer64 diffs 5x/0.85x faster than integer and double
+#! (int64 version 1.0 does not support diff) --")
 #! td64 <- system.time(for(i in 1:10)diff(d64, lag=2L, differences=2L))
 #! t32 <- system.time(for(i in 1:10)diff(i32, lag=2L, differences=2L))
 #! i64 <- as.integer64(i32); 
@@ -744,7 +756,8 @@
 #! t64/td64
 #! 
 #! 
-#! message("-- integer64 subscripts 1000x/340x faster than int64 (and at the same speed / 10x slower as integer) --")
+#! message("-- integer64 subscripts 1000x/340x faster than int64
+#! (and at the same speed / 10x slower as integer) --")
 #! ts32 <- system.time(for(i in 1:1000)sample(1e6, 1e3))
 #! t32<- system.time(for(i in 1:1000)i32[sample(1e6, 1e3)])
 #! i64 <- as.integer64(i32); 
@@ -756,7 +769,8 @@
 #! (T64-ts32)/(t64-ts32)
 #! (t64-ts32)/(t32-ts32)
 #! 
-#! message("-- integer64 assigns 200x/90x faster than int64 (and 50x/160x slower than integer) --")
+#! message("-- integer64 assigns 200x/90x faster than int64
+#! (and 50x/160x slower than integer) --")
 #! ts32 <- system.time(for(i in 1:100)sample(1e6, 1e3))
 #! t32 <- system.time(for(i in 1:100)i32[sample(1e6, 1e3)] <- 1:1e3)
 #! i64 <- as.integer64(i32); 
@@ -795,16 +809,20 @@
 #! unlink(fI64)
 #! rm(I64, dfI64); gc()
 #! 
-#! message("-- integer64 coerces 40x/6x faster to data.frame than int64(and factor 1/9 slower than integer) --")
+#! message("-- integer64 coerces 40x/6x faster to data.frame than int64
+#! (and factor 1/9 slower than integer) --")
 #! tdfI64/tdfi64
 #! tdfi64/tdfi32
-#! message("-- integer64 subscripts from data.frame 20x/2.5x faster than int64 (and 3x/13x slower than integer) --")
+#! message("-- integer64 subscripts from data.frame 20x/2.5x faster than int64
+#!  (and 3x/13x slower than integer) --")
 #! tdfsI64/tdfsi64
 #! tdfsi64/tdfsi32
-#! message("-- integer64 csv writes about 2x/0.5x faster than int64 (and about 1.5x/5x slower than integer) --")
+#! message("-- integer64 csv writes about 2x/0.5x faster than int64
+#! (and about 1.5x/5x slower than integer) --")
 #! tdfwI64/tdfwi64
 #! tdfwi64/tdfwi32
-#! message("-- integer64 csv reads about 3x/1.5 faster than int64 (and about 2x slower than integer) --")
+#! message("-- integer64 csv reads about 3x/1.5 faster than int64
+#! (and about 2x slower than integer) --")
 #! tdfrI64/tdfri64
 #! tdfri64/tdfri32
 #! 
@@ -846,7 +864,8 @@
 #!   This will discover any deviation between objects containing integer64 vectors. 
 #! }
 #! \usage{
-#!  identical.integer64(x, y, num.eq = FALSE, single.NA = FALSE, attrib.as.set = TRUE, ignore.bytecode = TRUE)
+#!  identical.integer64(x, y, num.eq = FALSE, single.NA = FALSE
+#! , attrib.as.set = TRUE, ignore.bytecode = TRUE)
 #! }
 #! \arguments{
 #!   \item{x}{ atomic vector of class 'integer64' }
@@ -1526,7 +1545,7 @@ binattr <- function(e1,e2){
 
 integer64 <- function(length=0){
   ret <- double(length)
-  setattr(ret, "class", "integer64")
+  oldClass(ret) <- "integer64"
   ret
 }
 
@@ -1534,7 +1553,7 @@ is.integer64 <- function(x)inherits(x, "integer64")
 
 as.integer64.NULL <- function (x, ...){
   ret <- double()
-  setattr(ret, "class", "integer64")
+  oldClass(ret) <- "integer64"
   ret
 }
 
@@ -1543,14 +1562,14 @@ as.integer64.integer64 <- function(x, ...)x
 as.integer64.double <- function(x, ...){
   ret <- double(length(x))
   .Call("as_integer64_double", x, ret)
-  setattr(ret, "class", "integer64")
+  oldClass(ret) <- "integer64"
   ret
 }
 
 as.integer64.logical <- as.integer64.integer <- function(x, ...){
   ret <- double(length(x))
   .Call("as_integer64_integer", x, ret)
-  setattr(ret, "class", "integer64")
+  oldClass(ret) <- "integer64"
   ret
 }
 
@@ -1558,7 +1577,7 @@ as.integer64.character <- function(x, ...){
   n <- length(x)
   ret <- rep(as.double(NA), n)
   .Call("as_integer64_character", x, ret)
-  setattr(ret, "class", "integer64")
+  oldClass(ret) <- "integer64"
   ret
 }
 
@@ -1605,7 +1624,7 @@ setAs("integer64","character",function(from)as.character.integer64(from))
   cl <- oldClass(x)
   n <- length(x)
   x <- NextMethod()
-  setattr(x, "class", cl)
+  oldClass(x) <- cl
   if (value>n)
     x[(n+1):value] <- 0L
   x
@@ -1617,7 +1636,7 @@ format.integer64 <- function(x, justify="right", ...){
   x <- as.character(x)
   ret <- format(x, justify=justify, ...)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1626,7 +1645,7 @@ print.integer64 <- function(x, quote=FALSE, ...){
   a <- attributes(x)
   ret <- as.character(x)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   print(ret, quote=quote, ...)
   invisible(x)
 }
@@ -1634,7 +1653,7 @@ print.integer64 <- function(x, quote=FALSE, ...){
 "[.integer64" <- function(x,...){
   cl <- oldClass(x)
   ret <- NextMethod()
-  setattr(ret, "class", cl)
+  oldClass(ret) <- cl
   remcache(ret)
   ret
 }
@@ -1643,14 +1662,14 @@ print.integer64 <- function(x, quote=FALSE, ...){
   cl <- oldClass(x)
   value <- as.integer64(value)
   ret <- NextMethod()
-  setattr(ret, "class", cl)
+  oldClass(ret) <- cl
   ret
 }
 
 "[[.integer64" <- function(x,...){
   cl <- oldClass(x)
   ret <- NextMethod()
-  setattr(ret, "class", cl)
+  oldClass(ret) <- cl
   ret
 }
 
@@ -1658,58 +1677,75 @@ print.integer64 <- function(x, quote=FALSE, ...){
   cl <- oldClass(x)
   value <- as.integer64(value)
   ret <- NextMethod()
-  setattr(ret, "class", cl)
+  oldClass(ret) <- cl
   ret
 }
 
-c.integer64 <- function(..., recursive = FALSE){
+c.integer64 <-
+function (..., recursive = FALSE) 
+{
 	l <- list(...)
 	K <- length(l)
 	for (k in 1:K){
-	  if (recursive && is.list(l[[k]])){
-	    l[[k]] <- do.call("c.integer64", c(l[[k]], list(recursive=TRUE)))
-	  }else if (!is.integer64(l[[k]])){
-	    nam <- names(l[[k]])
-	    l[[k]] <- as.integer64(l[[k]])
-		names(l[[k]]) <- nam
-	  }
-	  setattr(l[[k]], "class", NULL)
+		if (recursive && is.list(l[[k]])){
+			l[[k]] <- do.call("c.integer64", c(l[[k]], list(recursive = TRUE)))
+		}else{
+			if (!is.integer64(l[[k]])) {
+				nam <- names(l[[k]])
+				l[[k]] <- as.integer64(l[[k]])
+				names(l[[k]]) <- nam
+			}
+			oldClass(l[[k]]) <- NULL
+		}
 	}
 	ret <- do.call("c", l)
-	setattr(ret, "class", "integer64")
+	oldClass(ret) <- "integer64"
 	ret
 }
 
+
 cbind.integer64 <- function(...){
   l <- list(...)
-  for (k in 1:length(l)){
-    if (!is.integer64(l[[k]])){
-	  nam <- names(l[[k]])
-      l[[k]] <- as.integer64(l[[k]])
-	  names(l[[k]]) <- nam
-	}
-    setattr(l[[k]], "class", NULL)
+	K <- length(l)
+  for (k in 1:K){
+		if (!is.integer64(l[[k]])){
+			nam <- names(l[[k]])
+			l[[k]] <- as.integer64(l[[k]])
+			names(l[[k]]) <- nam
+		}
+		oldClass(l[[k]]) <- NULL
   }
   ret <- do.call("cbind", l)
-  setattr(ret, "class", "integer64")
+	oldClass(ret) <- "integer64"
   ret
 }
 
 rbind.integer64 <- function(...){
   l <- list(...)
-  for (k in 1:length(l)){
-    if (!is.integer64(l[[k]])){
-	  nam <- names(l[[k]])
-      l[[k]] <- as.integer64(l[[k]])
-	  names(l[[k]]) <- nam
-	}
-    setattr(l[[k]], "class", NULL)
+	K <- length(l)
+  for (k in 1:K){
+		if (!is.integer64(l[[k]])){
+			nam <- names(l[[k]])
+			l[[k]] <- as.integer64(l[[k]])
+			names(l[[k]]) <- nam
+		}
+		oldClass(l[[k]]) <- NULL
   }
   ret <- do.call("rbind", l)
-  setattr(ret, "class", "integer64")
+	oldClass(ret) <- "integer64"
   ret
 }
 
+# tenfold runtime if using attr() here instead of setattr()
+# as.data.frame.integer64 <- function(x, ...){
+  # cl <- oldClass(x)
+  # oldClass(x) <- minusclass(cl, "integer64")
+  # ret <- as.data.frame(x, ...)
+  # k <- length(ret)
+  # for (i in 1:k)
+    # oldClass(ret[[i]]) <- cl
+  # ret
+# }
 as.data.frame.integer64 <- function(x, ...){
   cl <- oldClass(x)
   on.exit(setattr(x, "class", cl))
@@ -1717,7 +1753,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret <- as.data.frame(x, ...)
   k <- length(ret)
   for (i in 1:k)
-    setattr(ret[[i]], "class", cl) 
+   setattr(ret[[i]], "class", cl) 
   ret
 }
 
@@ -1725,7 +1761,7 @@ as.data.frame.integer64 <- function(x, ...){
 "rep.integer64" <- function(x, ...){
 	cl <- oldClass(x)
 	ret <- NextMethod()
-	setattr(ret, "class", cl)
+	oldClass(ret) <- cl
 	ret
 }
 
@@ -1735,7 +1771,7 @@ as.data.frame.integer64 <- function(x, ...){
   to <- as.integer64(to)
   ret <- double(as.integer(to-from+1L))
   .Call("seq_integer64", from, as.integer64(1L), ret)
-  setattr(ret, "class", "integer64")
+  oldClass(ret) <- "integer64"
   ret
 }
 
@@ -1782,7 +1818,7 @@ as.data.frame.integer64 <- function(x, ...){
         #return(cumsum(c(from, rep(by, length.out-1L))))
 		ret <- double(as.integer(length.out))
 		.Call("seq_integer64", from, by, ret)
-		setattr(ret, "class", "integer64")
+		oldClass(ret) <- "integer64"
 		return(ret)
 	  }
     }else
@@ -1799,7 +1835,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret <- double(max(length(e1),length(e2)))
   .Call("plus_integer64", e1, e2, ret)
   a$class <- plusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1814,7 +1850,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret <- double(max(length(e1),length(e2)))
   .Call("minus_integer64", e1, e2, ret)
   a$class <- plusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1825,7 +1861,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret <- double(max(length(e1), length(e2)))
   .Call("intdiv_integer64", e1, e2, ret)
   a$class <- plusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1836,7 +1872,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret <- double(max(length(e1), length(e2)))
   .Call("mod_integer64", e1, e2, ret)
   a$class <- plusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1849,7 +1885,7 @@ as.data.frame.integer64 <- function(x, ...){
   else
     .Call("times_integer64_integer64", as.integer64(e1), as.integer64(e2), ret)
   a$class <- plusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1861,7 +1897,7 @@ as.data.frame.integer64 <- function(x, ...){
   else
     .Call("power_integer64_integer64", as.integer64(e1), as.integer64(e2), ret)
   a$class <- plusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1873,7 +1909,7 @@ as.data.frame.integer64 <- function(x, ...){
   else
 	  .Call("divide_integer64_integer64", as.integer64(e1), as.integer64(e2), ret)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1882,7 +1918,7 @@ as.data.frame.integer64 <- function(x, ...){
   a <- attributes(x)
   ret <- double(length(x))
   .Call("sign_integer64", x,ret)
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1890,7 +1926,7 @@ as.data.frame.integer64 <- function(x, ...){
   a <- attributes(x)
   ret <- double(length(x))
   .Call("abs_integer64", x,ret)
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1899,7 +1935,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret <- double(length(x))
   .Call("sqrt_integer64", x,ret)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1914,7 +1950,7 @@ as.data.frame.integer64 <- function(x, ...){
     .Call("logvect_integer64", x, as.double(base), ret)
   }
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1923,7 +1959,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret <- double(length(x))
   .Call("log10_integer64", x,ret)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1932,7 +1968,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret <- double(length(x))
   .Call("log2_integer64", x,ret)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -1946,8 +1982,8 @@ as.data.frame.integer64 <- function(x, ...){
     a <- attributes(x)
 	base <- 10^floor(-digits)
 	ret <- (x%/%base) * base
-    a$class <- minusclass(a$class, "integer64")
-    setattributes(ret, a)
+    #a$class <- minusclass(a$class, "integer64")
+    attributes(ret) <- a
 	ret
   }else
 	x
@@ -1994,7 +2030,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret <- double(1)
   if (length(l)==1){
 		  .Call("sum_integer64", l[[1]], na.rm, ret)
-		  setattr(ret, "class", "integer64")
+		  oldClass(ret) <- "integer64"
 		  ret
   }else{
 	  ret <- sapply(l, function(e){
@@ -2005,7 +2041,7 @@ as.data.frame.integer64 <- function(x, ...){
 		  as.integer64(sum(e, na.rm = na.rm))
 		}
 	  })
-      setattr(ret, "class", "integer64")
+    oldClass(ret) <- "integer64"
 	  sum(ret, na.rm = na.rm)
   }
 }
@@ -2017,7 +2053,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret <- double(1)
   if (length(l)==1){
 		  .Call("prod_integer64", l[[1]], na.rm, ret)
-		  setattr(ret, "class", "integer64")
+		  oldClass(ret) <- "integer64"
 		  ret
   }else{
       ret <- sapply(l, function(e){
@@ -2028,7 +2064,7 @@ as.data.frame.integer64 <- function(x, ...){
 		  as.integer64(prod(e, na.rm = na.rm))
 		}
 	  })
-	  setattr(ret, "class", "integer64")
+	  oldClass(ret) <- "integer64"
 	  prod(ret, na.rm = na.rm)
   }
 }
@@ -2041,7 +2077,7 @@ as.data.frame.integer64 <- function(x, ...){
 	if (length(l[[1]]))
 	  noval <- FALSE
     .Call("min_integer64", l[[1]], na.rm, ret)
-    setattr(ret, "class", "integer64")
+    oldClass(ret) <- "integer64"
   }else{
 	  ret <- sapply(l, function(e){
 	    if (length(e))
@@ -2053,7 +2089,7 @@ as.data.frame.integer64 <- function(x, ...){
 		  as.integer64(min(e, na.rm = na.rm))
 		}
 	  })
-	  setattr(ret, "class", "integer64")
+	  oldClass(ret) <- "integer64"
 	  ret <- min(ret, na.rm = na.rm)
   }
   if (noval)
@@ -2069,7 +2105,7 @@ as.data.frame.integer64 <- function(x, ...){
 	if (length(l[[1]]))
 	  noval <- FALSE
 	.Call("max_integer64", l[[1]], na.rm, ret)
-	setattr(ret, "class", "integer64")
+	oldClass(ret) <- "integer64"
   }else{
 	ret <- sapply(l, function(e){
 	    if (length(e))
@@ -2081,7 +2117,7 @@ as.data.frame.integer64 <- function(x, ...){
 		  as.integer64(max(e, na.rm = na.rm))
 		}
 	})
-	setattr(ret, "class", "integer64")
+	oldClass(ret) <- "integer64"
 	ret <- max(ret, na.rm = na.rm)
   }
   if (noval)
@@ -2098,7 +2134,7 @@ as.data.frame.integer64 <- function(x, ...){
 	if (length(l[[1]]))
 	  noval <- FALSE
 	.Call("range_integer64", l[[1]], na.rm, ret)
-	setattr(ret, "class", "integer64")
+	oldClass(ret) <- "integer64"
   }else{
       ret <- unlist(sapply(l, function(e){
 	    if (length(e))
@@ -2110,7 +2146,7 @@ as.data.frame.integer64 <- function(x, ...){
 		  as.integer64(range(e, na.rm = na.rm))
 		}
 	  }))
-	  setattr(ret, "class", "integer64")
+	  oldClass(ret) <- "integer64"
 	  ret <- range(ret, na.rm = na.rm)
   }
   if (noval)
@@ -2121,7 +2157,7 @@ as.data.frame.integer64 <- function(x, ...){
 lim.integer64 <- function(){
     ret <- double(2)
 	.Call("lim_integer64", ret)
-	setattr(ret, "class", "integer64")
+	oldClass(ret) <- "integer64"
 	return(ret)
 }
 
@@ -2144,7 +2180,7 @@ lim.integer64 <- function(){
 	d <- d - 1L
   }
   length(ret) <- n
-  setattr(ret, "class", "integer64")
+  oldClass(ret) <- "integer64"
   ret
 }
 
@@ -2152,28 +2188,28 @@ lim.integer64 <- function(){
 "cummin.integer64" <- function(x){
   ret <- double(length(x))
   .Call("cummin_integer64", x,ret)
-  setattr(ret, "class", "integer64")
+  oldClass(ret) <- "integer64"
   ret
 }
 "cummax.integer64" <- function(x){
 
   ret <- double(length(x))
   .Call("cummax_integer64", x,ret)
-  setattr(ret, "class", "integer64")
+  oldClass(ret) <- "integer64"
   ret
 }
 
 "cumsum.integer64" <- function(x){
   ret <- double(length(x))
   .Call("cumsum_integer64", x,ret)
-  setattr(ret, "class", "integer64")
+  oldClass(ret) <- "integer64"
   ret
 }
 
 "cumprod.integer64" <- function(x){
   ret <- double(length(x))
   .Call("cumprod_integer64", x,ret)
-  setattr(ret, "class", "integer64")
+  oldClass(ret) <- "integer64"
   ret
 }
 
@@ -2184,7 +2220,7 @@ lim.integer64 <- function(){
   ret <- logical(length(x))
   .Call("isna_integer64", x, ret)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -2195,7 +2231,7 @@ lim.integer64 <- function(){
   ret <- logical(max(length(e1), length(e2)))
   .Call("EQ_integer64", e1, e2, ret)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -2206,7 +2242,7 @@ lim.integer64 <- function(){
   ret <- logical(max(length(e1), length(e2)))
   .Call("NE_integer64", e1, e2, ret)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -2217,7 +2253,7 @@ lim.integer64 <- function(){
   ret <- logical(max(length(e1), length(e2)))
   .Call("LT_integer64", e1, e2, ret)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -2228,7 +2264,7 @@ lim.integer64 <- function(){
   ret <- logical(max(length(e1), length(e2)))
   .Call("LE_integer64", e1, e2, ret)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -2239,7 +2275,7 @@ lim.integer64 <- function(){
   ret <- logical(max(length(e1), length(e2)))
   .Call("GT_integer64", e1, e2, ret)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -2250,7 +2286,7 @@ lim.integer64 <- function(){
   ret <- logical(max(length(e1), length(e2)))
   .Call("GE_integer64", e1, e2, ret)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -2258,7 +2294,7 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   ret <- as.logical(e1) & as.logical(e2)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -2266,7 +2302,7 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   ret <- as.logical(e1) | as.logical(e2)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -2274,7 +2310,7 @@ xor.integer64 <- function(x, y){
   a <- binattr(x,y)
   ret <- as.logical(x) != as.logical(y)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -2283,7 +2319,7 @@ xor.integer64 <- function(x, y){
   a <- attributes(x)
   ret <- !as.logical(x)
   a$class <- minusclass(a$class, "integer64")
-  setattributes(ret, a)
+  attributes(ret) <- a
   ret
 }
 
@@ -2291,7 +2327,7 @@ xor.integer64 <- function(x, y){
 # as.vector.integer64 <- function(x, mode="any"){
   # ret <- NextMethod()
   # if (mode=="any")
-	# setattr(ret, "class", "integer64")
+	# oldClass(ret) <- "integer64"
   # ret
 # }
 

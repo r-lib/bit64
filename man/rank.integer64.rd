@@ -6,7 +6,7 @@
   values) are averaged and missing values propagated.
 }
 \usage{
-	rank.integer64(x, method = NULL, \dots)
+	\method{rank}{integer64}(x, method = NULL, \dots)
 }
 \arguments{
   \item{x}{a integer64 vector}
@@ -33,6 +33,7 @@ and \code{\link{orderrnk}} (memory saving ordering).
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 rank.integer64(x)
 
-stopifnot(identical(rank.integer64(x),  rank(as.integer(x), na.last="keep", ties.method = "average")))
+stopifnot(identical(rank.integer64(x),  rank(as.integer(x)
+, na.last="keep", ties.method = "average")))
 }
 \keyword{univar}
