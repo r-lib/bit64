@@ -1,3 +1,14 @@
+    CHANGES IN bit64 VERSION 0.9-4
+
+BUG FIXES
+
+    o The packages now uses clone(x) instead of x[]
+    o log(x) tests no longer fail under valgrind
+      (Thanks to Heisenberg it only failed under Valgrind)
+    o UBSAN should no longer complain about left shift
+
+	
+
     CHANGES IN bit64 VERSION 0.9-3
 
 USER VISIBLE CHANGES

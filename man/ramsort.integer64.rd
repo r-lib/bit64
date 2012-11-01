@@ -96,12 +96,12 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   x
   message("ramsort example")
-  s <- x[]
+  s <- clone(x)
   ramsort(s)
   message("s has been changed in-place - whether or not ramsort uses an in-place algorithm")
   s
   message("ramorder example")
-  s <- x[]
+  s <- clone(x)
   o <- seq_along(s)
   ramorder(s, o)
   message("o has been changed in-place - s remains unchanged")

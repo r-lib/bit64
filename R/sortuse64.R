@@ -209,7 +209,7 @@ sortfin.integer64 <- function(sorted, x, method=NULL, ...)
 	  , PACKAGE = "bit64"
 	  )
   }else{
-    sx <- as.integer64(x)[]; o <- seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
+    sx <- clone(as.integer64(x)); o <- seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
 	ret[o] <- .Call("r_ram_integer64_sortfin_asc"
 	  , x = sx
 	  , sorted = as.integer64(sorted)
@@ -323,7 +323,7 @@ sortorderpos.integer64 <- function(sorted, order, x, nomatch=NA, method=NULL, ..
 	  , PACKAGE = "bit64"
 	  )
   }else{
-    sx <- as.integer64(x)[]; o <- seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
+    sx <- clone(as.integer64(x)); o <- seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
 	ret[o] <- .Call("r_ram_integer64_sortorderpos_asc"
 	  , x = sx
 	  , sorted = as.integer64(sorted)

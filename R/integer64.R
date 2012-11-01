@@ -93,7 +93,7 @@
 #!   If we introduce 64 bit integers not natively in Base R but as an external package, we should at least strive to 
 #!   make them as 'basic' as possible. Therefore the design choice of bit64 not only differs from \code{int64}, it is obvious: 
 #!   Like the other atomic types in Base R, we model data type 'integer64' as a contiguous \code{\link{atomic}} vector in memory, 
-#!   and we use the more basic \code{\link{S3}} class system, not \code{\link{S4}}. Like package \code{\link[int64]{int64}} we want our 'integer64' to be \code{\link{serialize}able}, 
+#!   and we use the more basic \code{\link{S3}} class system, not \code{\link{S4}}. Like package \code{int64} we want our 'integer64' to be \code{\link{serialize}able}, 
 #!   therefore we also use an existing data type as the basis. Again the choice is obvious: R has only one 64 bit data type: doubles.
 #!   By using \code{\link{double}s}, \code{integer64} \code{\link{inherits}} some functionality such as \code{\link{is.atomic}}, \code{\link{length}}, 
 #!   \code{\link{length<-}}, \code{\link{names}}, \code{\link{names<-}}, \code{\link{dim}}, \code{\link{dim<-}}, \code{\link{dimnames}}, \code{\link{dimnames}}.
@@ -389,7 +389,7 @@
 #! \keyword{ package }
 #! \keyword{ classes }
 #! \keyword{ manip }
-#! \seealso{ \code{\link{integer}} in base R and \code{\link[int64]{int64}} in package 'int64' }
+#! \seealso{ \code{\link{integer}} in base R }
 #! \examples{
 #! message("Using integer64 in vector")
 #! x <- integer64(8)    # create 64 bit vector
@@ -506,8 +506,8 @@
 #! stopifnot(identical.integer64( as.integer64(sqrt(i64[-1][c(FALSE, TRUE)])*sqrt(i64[-1][c(FALSE, TRUE)])), i64[-1][c(FALSE, TRUE)] ))
 #! 
 #! stopifnot(identical.integer64(as.integer64(2)^(0:62), i64))
-#! stopifnot(identical.integer64(as.integer64(0:62), as.integer64(log2(i64))))
-#! stopifnot(identical.integer64(as.integer64(log(as.integer64(2)^(0:62), 2)), as.integer64(0:62)))
+#! stopifnot(identical.integer64(as.integer64(0:62), as.integer64(round(log2(i64)))))
+#! stopifnot(identical.integer64(as.integer64(round(log(as.integer64(2)^(0:62), 2))), as.integer64(0:62)))
 #! stopifnot(identical.integer64(as.integer64(round(log(as.integer64(3)^(0:39), 3))), as.integer64(0:39)))
 #! stopifnot(identical.integer64(as.integer64(round(log(as.integer64(10)^(0:18), 10))), as.integer64(0:18)))
 #! stopifnot(identical.integer64(as.integer64(round(log10(as.integer64(10)^(0:18)))), as.integer64(0:18)))
@@ -664,24 +664,24 @@
 #! 
 #! message("-- integer64 is atomic --")
 #! is.atomic(integer64())
-#! is.atomic(int64())
+#! #is.atomic(int64())
 #! str(integer64(3))
-#! str(int64(3))
+#! #str(int64(3))
 #! 
 #! message("-- The following performance numbers are measured under RWin64  --")
 #! message("-- under RWin32 the advantage of integer64 over int64 is smaller --")
 #!
 #! message("-- integer64 needs 7x/5x less RAM than int64 under 64/32 bit OS 
 #! (and twice the RAM of integer as it should be) --")
-#! as.vector(object.size(int64(1e6))/object.size(integer64(1e6)))
+#! #as.vector(object.size(int64(1e6))/object.size(integer64(1e6)))
 #! as.vector(object.size(integer64(1e6))/object.size(integer(1e6)))
 #! 
 #! message("-- integer64 creates 2000x/1300x faster than int64 under 64/32 bit OS
 #! (and 3x the time of integer) --")
 #! t32 <- system.time(integer(1e8))
 #! t64 <- system.time(integer64(1e8))
-#! T64 <- system.time(int64(1e7))*10  # using 1e8 as above stalls our R on an i7 8 GB RAM Thinkpad
-#! T64/t64
+#! #T64 <- system.time(int64(1e7))*10  # using 1e8 as above stalls our R on an i7 8 GB RAM Thinkpad
+#! #T64/t64
 #! t64/t32
 #! 
 #! i32 <- sample(1e6)
@@ -693,13 +693,13 @@
 #!  under 64/32 bit OS (and 2x the time of coercing to integer) --")
 #! t32 <- system.time(for(i in 1:1000)as.integer(d64))
 #! t64 <- system.time(for(i in 1:1000)as.integer64(d64))
-#! T64 <- system.time(as.int64(d64))*1000
-#! T64/t64
+#! #T64 <- system.time(as.int64(d64))*1000
+#! #T64/t64
 #! t64/t32
 #! td64 <- system.time(for(i in 1:1000)as.double(i32))
 #! t64 <- system.time(for(i in 1:1000)as.integer64(i32))
-#! T64 <- system.time(for(i in 1:10)as.int64(i32))*100
-#! T64/t64
+#! #T64 <- system.time(for(i in 1:10)as.int64(i32))*100
+#! #T64/t64
 #! t64/td64
 #! 
 #! message("-- integer64 serializes 4x/0.8x faster than int64 
@@ -709,10 +709,10 @@
 #! i64 <- as.integer64(i32); 
 #! t64 <- system.time(for(i in 1:10)serialize(i64, NULL))
 #! rm(i64); gc()
-#! I64 <- as.int64(i32); 
-#! T64 <- system.time(for(i in 1:10)serialize(I64, NULL))
-#! rm(I64); gc()
-#! T64/t64
+#! #I64 <- as.int64(i32); 
+#! #T64 <- system.time(for(i in 1:10)serialize(I64, NULL))
+#! #rm(I64); gc()
+#! #T64/t64
 #! t64/t32
 #! t64/td64
 #! 
@@ -724,10 +724,10 @@
 #! i64 <- as.integer64(i32); 
 #! t64 <- system.time(for(i in 1:100)i64+i64)
 #! rm(i64); gc()
-#! I64 <- as.int64(i32); 
-#! T64 <- system.time(for(i in 1:10)I64+I64)*10
-#! rm(I64); gc()
-#! T64/t64
+#! #I64 <- as.int64(i32); 
+#! #T64 <- system.time(for(i in 1:10)I64+I64)*10
+#! #rm(I64); gc()
+#! #T64/t64
 #! t64/t32
 #! t64/td64
 #! 
@@ -738,10 +738,10 @@
 #! i64 <- as.integer64(i32); 
 #! t64 <- system.time(for(i in 1:100)sum(i64))
 #! rm(i64); gc()
-#! I64 <- as.int64(i32); 
-#! T64 <- system.time(for(i in 1:100)sum(I64))
-#! rm(I64); gc()
-#! T64/t64
+#! #I64 <- as.int64(i32); 
+#! #T64 <- system.time(for(i in 1:100)sum(I64))
+#! #rm(I64); gc()
+#! #T64/t64
 #! t64/t32
 #! t64/td64
 #! 
@@ -763,10 +763,10 @@
 #! i64 <- as.integer64(i32); 
 #! t64 <- system.time(for(i in 1:1000)i64[sample(1e6, 1e3)])
 #! rm(i64); gc()
-#! I64 <- as.int64(i32); 
-#! T64 <- system.time(for(i in 1:100)I64[sample(1e6, 1e3)])*10
-#! rm(I64); gc()
-#! (T64-ts32)/(t64-ts32)
+#! #I64 <- as.int64(i32); 
+#! #T64 <- system.time(for(i in 1:100)I64[sample(1e6, 1e3)])*10
+#! #rm(I64); gc()
+#! #(T64-ts32)/(t64-ts32)
 #! (t64-ts32)/(t32-ts32)
 #! 
 #! message("-- integer64 assigns 200x/90x faster than int64
@@ -776,10 +776,10 @@
 #! i64 <- as.integer64(i32); 
 #! i64 <- system.time(for(i in 1:100)i64[sample(1e6, 1e3)] <- 1:1e3)
 #! rm(i64); gc()
-#! I64 <- as.int64(i32); 
-#! I64 <- system.time(for(i in 1:10)I64[sample(1e6, 1e3)] <- 1:1e3)*10
-#! rm(I64); gc()
-#! (T64-ts32)/(t64-ts32)
+#! #I64 <- as.int64(i32); 
+#! #I64 <- system.time(for(i in 1:10)I64[sample(1e6, 1e3)] <- 1:1e3)*10
+#! #rm(I64); gc()
+#! #(T64-ts32)/(t64-ts32)
 #! (t64-ts32)/(t32-ts32)
 #! 
 #! 
@@ -800,30 +800,30 @@
 #! unlink(fi64)
 #! rm(i64, dfi64); gc()
 #! 
-#! I64 <- as.int64(i32); 
-#! tdfI64 <- system.time(dfI64<-data.frame(a=I64, b=I64, c=I64))
-#! tdfsI64 <- system.time(dfI64[1e6:1,])
-#! fI64 <- tempfile()
-#! tdfwI64 <- system.time(write.csv(dfI64, file=fI64, row.names=FALSE))
-#! tdfrI64 <- system.time(read.csv(fI64, colClasses=rep("int64", 3)))
-#! unlink(fI64)
-#! rm(I64, dfI64); gc()
+#! #I64 <- as.int64(i32); 
+#! #tdfI64 <- system.time(dfI64<-data.frame(a=I64, b=I64, c=I64))
+#! #tdfsI64 <- system.time(dfI64[1e6:1,])
+#! #fI64 <- tempfile()
+#! #tdfwI64 <- system.time(write.csv(dfI64, file=fI64, row.names=FALSE))
+#! #tdfrI64 <- system.time(read.csv(fI64, colClasses=rep("int64", 3)))
+#! #unlink(fI64)
+#! #rm(I64, dfI64); gc()
 #! 
 #! message("-- integer64 coerces 40x/6x faster to data.frame than int64
 #! (and factor 1/9 slower than integer) --")
-#! tdfI64/tdfi64
+#! #tdfI64/tdfi64
 #! tdfi64/tdfi32
 #! message("-- integer64 subscripts from data.frame 20x/2.5x faster than int64
 #!  (and 3x/13x slower than integer) --")
-#! tdfsI64/tdfsi64
+#! #tdfsI64/tdfsi64
 #! tdfsi64/tdfsi32
 #! message("-- integer64 csv writes about 2x/0.5x faster than int64
 #! (and about 1.5x/5x slower than integer) --")
-#! tdfwI64/tdfwi64
+#! #tdfwI64/tdfwi64
 #! tdfwi64/tdfwi32
 #! message("-- integer64 csv reads about 3x/1.5 faster than int64
 #! (and about 2x slower than integer) --")
-#! tdfrI64/tdfri64
+#! #tdfrI64/tdfri64
 #! tdfri64/tdfri32
 #! 
 #! rm(i32, d64); gc()
@@ -845,13 +845,14 @@
 #! rm(i64)
 #! for (i in 12:21)t64[i] <- system.time(gc(), gcFirst=FALSE)[3]
 #! 
-#! T64 <- double(21)
-#! T64[1] <- system.time(I64 <- int64(1e7))[3]
-#! for (i in 2:11)T64[i] <- system.time(gc(), gcFirst=FALSE)[3]
-#! rm(I64)
-#! for (i in 12:21)T64[i] <- system.time(gc(), gcFirst=FALSE)[3]
+#! #T64 <- double(21)
+#! #T64[1] <- system.time(I64 <- int64(1e7))[3]
+#! #for (i in 2:11)T64[i] <- system.time(gc(), gcFirst=FALSE)[3]
+#! #rm(I64)
+#! #for (i in 12:21)T64[i] <- system.time(gc(), gcFirst=FALSE)[3]
 #! 
-#! matplot(1:21, cbind(td32, t64, T64), pch=c("d","i","I"), log="y")
+#! #matplot(1:21, cbind(td32, t64, T64), pch=c("d","i","I"), log="y")
+#! matplot(1:21, cbind(td32, t64), pch=c("d","i"), log="y")
 #!   }
 #!
 #! }

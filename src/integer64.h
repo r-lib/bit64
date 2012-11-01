@@ -32,8 +32,8 @@
 #define MAX_INTEGER64 LLONG_MAX
 #define MIN_INTEGER32 INT_MIN+1
 #define MAX_INTEGER32 INT_MAX
-#define LEFTBIT_INTEGER64 ((long long int)0x8000000000000000)
-#define RIGHTBIT_INTEGER64 ((long long int)0x0000000000000001)
+#define LEFTBIT_INTEGER64 ((unsigned long long int)0x8000000000000000)
+#define RIGHTBIT_INTEGER64 ((unsigned long long int)0x0000000000000001)
 #define NCHARS_BITS_INTEGER64 65
 #define NCHARS_DECS_INTEGER64 22
 #define COERCE_INTEGER64 "%lli"
@@ -226,7 +226,7 @@
 	if (e1 == NA_INTEGER64) \
 		ret = NA_REAL; \
 	else { \
-		ret = (double) logl((long double)e1)/logbase; \
+		ret = (double) logl((long double)e1)/e2; \
 		if (isnan(ret)) \
 			naflag = TRUE; \
 	}

@@ -112,7 +112,7 @@ stopifnot(identical("\%in\%.integer64"(x, table), as.integer(x) \%in\% as.intege
 	  x2 <- as.integer64(c(sample(n2, n2-1, TRUE), NA))
 	  tim[i1,i2,1] <- repeat.time({h <- hashmap(x2);hashpos(h, x1);rm(h)})[3]
 	  tim[i1,i2,2] <- repeat.time({h <- hashmap(x1);hashrev(h, x2);rm(h)})[3]
-	  s <- x2[]; o <- seq_along(s); ramsortorder(s, o)
+	  s <- clone(x2); o <- seq_along(s); ramsortorder(s, o)
 	  tim[i1,i2,3] <- repeat.time(sortorderpos(s, o, x1, method=1))[3]
 	  tim[i1,i2,4] <- repeat.time(sortorderpos(s, o, x1, method=2))[3]
 	  tim[i1,i2,5] <- repeat.time(sortorderpos(s, o, x1, method=3))[3]

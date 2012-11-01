@@ -253,7 +253,7 @@ sortcache <- function(x, has.na = NULL){
 		else
 			has.na <- na.count > 0
 	}
-	s <- x[] # copy x
+	s <- clone(x)
     na.count <- ramsort(s, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
 	nut <- .Call("r_ram_integer64_sortnut", x = s, PACKAGE = "bit64")
     setcache(x, "sort", s)
@@ -279,7 +279,7 @@ sortordercache <- function(x, has.na = NULL, stable = NULL){
 		else
 		  stable <- nunique < length(x)
 	}
-	s <- x[] # copy x
+	s <- clone(x)
 	o <- seq_along(x)
     na.count <- ramsortorder(s, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = "time")
 	nut <- .Call("r_ram_integer64_sortnut", x = s, PACKAGE = "bit64")
@@ -457,7 +457,7 @@ nties.integer64 <- function(x, ...){
 			, PACKAGE = "bit64"
 			)[2]
 		}else{
-		    s <- x[] # copy x
+		    s <- clone(x)
 			na.count <- ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
 			cv <- .Call("r_ram_integer64_sortnut", x = s, PACKAGE = "bit64")[[2]]
 		}

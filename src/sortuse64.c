@@ -474,7 +474,7 @@ SEXP r_ram_integer64_sortorderuni_asc(
 	  bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
 	  for (i=0;i<nbitflags;i++)
 		bitflags[i]=0;
-	  lastval = sorted[0];
+	  lastval = sorted[0]; 
 	  bitflags[(index[0]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0]-1) % BITS_INTEGER64));
 	  for(i=1;i<n;i++)
 	    if (sorted[i]!=lastval){

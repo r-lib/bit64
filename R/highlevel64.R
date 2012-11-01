@@ -612,7 +612,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
    stopifnot(identical(p2, p))
    
    tim["sortorderpos","prep"] <- system.time({
-    s2 <- x2[]
+    s2 <- clone(x2)
     o2 <- seq_along(x2)
     ramsortorder(s2, o2, na.last=FALSE)
    })[3]
@@ -706,7 +706,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
    stopifnot(identical(p2, p))
    
    tim["sortfin","prep"] <- timefun({
-    s2 <- x2[]
+    s2 <- clone(x2)
     ramsort(s2, na.last=FALSE)
    })[3]
    tim["sortfin","use"] <- timefun({
@@ -783,7 +783,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
    stopifnot(identical(p2, p))
    
    tim["sortorderdup1","prep"] <- timefun({
-    s <- x[]
+    s <- clone(x)
     o <- seq_along(x)
     ramsortorder(s, o, na.last=FALSE)
     nunique <- sortnut(s)[1]
@@ -894,7 +894,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
     stopifnot(identical.integer64(p2, p))
 
    tim["sortuni","prep"] <- timefun({
-    s <- x[]
+    s <- clone(x)
     ramsort(s, na.last=FALSE)
     nunique <- sortnut(s)[1]
    })[3]
@@ -905,7 +905,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
     stopifnot(identical.integer64(sort(p2, na.last=FALSE), p))
    
    tim["sortunikeep","prep"] <- timefun({
-    s <- x[]
+    s <- clone(x)
     o <- seq_along(x)
     ramsortorder(s, o, na.last=FALSE)
     nunique <- sortnut(s)[1]
@@ -1037,7 +1037,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
 
    
    tim["sortorderupo","prep"] <- timefun({
-    s <- x[]
+    s <- clone(x)
     o <- seq_along(x)
     ramsortorder(s, o, na.last=FALSE)
     nunique <- sortnut(s)[1]
@@ -1049,7 +1049,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
     stopifnot(identical(p2, p))
     
    tim["sortorderupokeep","prep"] <- timefun({
-    s <- x[]
+    s <- clone(x)
     o <- seq_along(x)
     ramsortorder(s, o, na.last=FALSE)
     nunique <- sortnut(s)[1]
@@ -1183,7 +1183,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
    stopifnot(identical(p2, p))
    
    tim["sorttab","prep"] <- timefun({
-    s <- x[]
+    s <- clone(x)
     ramsort(s, na.last=FALSE)
     nunique <- sortnut(s)[1]
    })[3]
@@ -1193,7 +1193,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
    stopifnot(identical(p2, p))
     
    tim["sortordertab","prep"] <- timefun({
-    s <- x[]
+    s <- clone(x)
     o <- seq_along(x)
     ramsortorder(s, o, na.last=FALSE)
     nunique <- sortnut(s)[1]
@@ -1276,7 +1276,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
 			stopifnot(identical(p2, p))
 				
 			tim["sortorderrnk","prep"] <- timefun({
-				s <- x[]
+				s <- clone(x)
 				o <- seq_along(x)
 				na.count <- ramsortorder(s, o, na.last=FALSE)
 			})[3]
@@ -1342,7 +1342,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
 			stopifnot(identical(p2, p))
 				
 			tim["sortqtl","prep"] <- timefun({
-				s <- x[]
+				s <- clone(x)
 				na.count <- ramsort(s, na.last=FALSE)
 			})[3]
 			tim["sortqtl","use"] <- timefun({
@@ -1501,7 +1501,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
 #! 	  x2 <- as.integer64(c(sample(n2, n2-1, TRUE), NA))
 #! 	  tim[i1,i2,1] <- repeat.time({h <- hashmap(x2);hashpos(h, x1);rm(h)})[3]
 #! 	  tim[i1,i2,2] <- repeat.time({h <- hashmap(x1);hashrev(h, x2);rm(h)})[3]
-#! 	  s <- x2[]; o <- seq_along(s); ramsortorder(s, o)
+#! 	  s <- clone(x2); o <- seq_along(s); ramsortorder(s, o)
 #! 	  tim[i1,i2,3] <- repeat.time(sortorderpos(s, o, x1, method=1))[3]
 #! 	  tim[i1,i2,4] <- repeat.time(sortorderpos(s, o, x1, method=2))[3]
 #! 	  tim[i1,i2,5] <- repeat.time(sortorderpos(s, o, x1, method=3))[3]
@@ -1584,7 +1584,7 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
     }
   , sortorderpos={
 		if (is.null(c) || !exists("sort", c) || !exists("order", c)){
-			s <- table[]
+			s <- clone(table)
 			o <- seq_along(s)
 			ramsortorder(s, o, na.last=FALSE)
 		}else{
@@ -1680,7 +1680,7 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
     }
   , sortfin={
 		if (is.null(c) || !exists("sort", c)){
-			s <- table[]
+			s <- clone(table)
 			ramsort(s, na.last=FALSE)
 		}else{
 			s <- get("sort", c)
@@ -1784,7 +1784,7 @@ duplicated.integer64 <- function(x
     }
   , sortorderdup={
 		if (is.null(c) || !exists("sort", c, inherits=FALSE) || !exists("order", c, inherits=FALSE)){
-			s <- x[]
+			s <- clone(x)
 			o <- seq_along(s)
 			ramsortorder(s, o, na.last=FALSE)
 		}else{
@@ -1938,7 +1938,7 @@ unique.integer64 <- function(x
     }
   , sortuni={
 		if (is.null(c) || !exists("sort", c, inherits=FALSE)){
-			s <- x[]
+			s <- clone(x)
 			ramsort(s, na.last=FALSE)
 		}else{
 			s <- get("sort", c, inherits=FALSE)
@@ -1949,7 +1949,7 @@ unique.integer64 <- function(x
     }
   , sortorderuni={
 		if (is.null(c) || !exists("sort", c, inherits=FALSE) || !exists("order", c, inherits=FALSE)){
-			s <- x[]
+			s <- clone(x)
 			o <- seq_along(x)
 			ramsortorder(s, o, na.last=FALSE)
 		}else{
@@ -2110,7 +2110,7 @@ unipos.integer64 <- function(x
     }
   , sortorderupo={
 		if (is.null(c) || !exists("sort", c, inherits=FALSE) || !exists("order", c, inherits=FALSE)){
-			s <- x[]
+			s <- clone(x)
 			o <- seq_along(x)
 			ramsortorder(s, o, na.last=FALSE)
 		}else{
@@ -2331,7 +2331,7 @@ table.integer64 <- function(
 			}
 			c <- cache(a)
 			if (is.null(c$order)){
-				s <- a[]
+				s <- clone(a)
 				o <- seq_along(s)
 				ramsortorder(s,o)
 				nu[[i]] <- sortnut(s)[["nunique"]]
@@ -2404,7 +2404,7 @@ table.integer64 <- function(
     }
   , sorttab={
 		if (is.null(c) || !exists("sort", c, inherits=FALSE)){
-			s <- x[]
+			s <- clone(x)
 			ramsort(s, na.last=FALSE)
 		}else{
 			s <- get("sort", c, inherits=FALSE)
@@ -2486,7 +2486,7 @@ as.factor.integer64 <- function(x){
 
 	c <- cache(x)
 	if (is.null(c$order)){
-		s <- x[]
+		s <- clone(x)
 		o <- seq_along(s)
 		na.count <- ramsortorder(s,o)
 		nu <- sortnut(s)[["nunique"]]
@@ -2512,7 +2512,7 @@ as.ordered.integer64 <- function(x){
 
 	c <- cache(x)
 	if (is.null(c$order)){
-		s <- x[]
+		s <- clone(x)
 		o <- seq_along(s)
 		na.count <- ramsortorder(s,o)
 		nu <- sortnut(s)[["nunique"]]
@@ -2605,7 +2605,7 @@ keypos.integer64 <- function(x
   switch(method
   , sortorderkey={
 		if (is.null(c) || !exists("sort", c, inherits=FALSE) || !exists("order", c, inherits=FALSE)){
-			s <- x[]
+			s <- clone(x)
 			o <- seq_along(x)
 			ramsortorder(s, o, na.last=FALSE)
 		}else{
@@ -2698,7 +2698,7 @@ tiepos.integer64 <- function(x
   switch(method
   , sortordertie={
 		if (is.null(c) || !exists("sort", c, inherits=FALSE) || !exists("order", c, inherits=FALSE)){
-			s <- x[]
+			s <- clone(x)
 			o <- seq_along(x)
 			ramsortorder(s, o, na.last=FALSE)
 		}else{
@@ -2787,7 +2787,7 @@ rank.integer64 <- function(x
   switch(method
   , sortorderrnk={
 		if (is.null(c) || !exists("sort", c, inherits=FALSE) || !exists("order", c, inherits=FALSE)){
-			s <- x[]
+			s <- clone(x)
 			o <- seq_along(x)
 			na.count <- ramsortorder(s, o, na.last=FALSE)
 		}else{
@@ -2962,7 +2962,7 @@ qtile.integer64 <- function(x, probs = seq(0, 1, 0.25), names = TRUE, method = N
   switch(method
   , sortqtl={
 		if (is.null(c) || !exists("sort", c, inherits=FALSE)){
-			s <- x[]
+			s <- clone(x)
 			na.count <- ramsort(s, na.last=FALSE)
 		}else{
 			s <- get("sort", c, inherits=FALSE)

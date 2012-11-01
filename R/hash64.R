@@ -383,7 +383,7 @@ if (FALSE){
   })[3]
 
   system.time({
-	s <- x[] # copy x
+	s <- clone(x)
 	na.count <- ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
 	cv <- .Call("r_ram_integer64_sortnut", x = s, PACKAGE = "bit64")[[2]]
 	})
@@ -401,7 +401,7 @@ if (FALSE){
   t1
   count
  
-  s <- x[]; o <- seq_along(x); ramsortorder(s, o);
+  s <- clone(x); o <- seq_along(x); ramsortorder(s, o);
   t2 <- sortordertab(s,o);
   length(s)
   length(t2)

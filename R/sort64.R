@@ -106,12 +106,12 @@
 #!   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #!   x
 #!   message("ramsort example")
-#!   s <- x[]
+#!   s <- clone(x)
 #!   ramsort(s)
 #!   message("s has been changed in-place - whether or not ramsort uses an in-place algorithm")
 #!   s
 #!   message("ramorder example")
-#!   s <- x[]
+#!   s <- clone(x)
 #!   o <- seq_along(s)
 #!   ramorder(s, o)
 #!   message("o has been changed in-place - s remains unchanged")
@@ -533,13 +533,13 @@ if (FALSE){
 	system.time(sortordercache(x))[3]
 
 	# system.time(s <- sort(x, na.last=FALSE, decreasing=FALSE))[3]
-	# stopifnot(identical(s, {xs<-x[];ramsort(xs, na.last=FALSE, decreasing=FALSE);xs}))
+	# stopifnot(identical(s, {xs<-clone(x);ramsort(xs, na.last=FALSE, decreasing=FALSE);xs}))
 	# system.time(s <- sort(x, na.last=TRUE, decreasing=FALSE))[3]
-	# stopifnot(identical(s, {xs<-x[];ramsort(xs, na.last=TRUE, decreasing=FALSE);xs}))
+	# stopifnot(identical(s, {xs<-clone(x);ramsort(xs, na.last=TRUE, decreasing=FALSE);xs}))
 	# system.time(s <- sort(x, na.last=FALSE, decreasing=TRUE))[3]
-	# stopifnot(identical(s, {xs<-x[];ramsort(xs, na.last=FALSE, decreasing=TRUE);xs}))
+	# stopifnot(identical(s, {xs<-clone(x);ramsort(xs, na.last=FALSE, decreasing=TRUE);xs}))
 	# system.time(s <- sort(x, na.last=TRUE, decreasing=TRUE))[3]
-	# stopifnot(identical(s, {xs<-x[];ramsort(xs, na.last=TRUE, decreasing=TRUE);xs}))
+	# stopifnot(identical(s, {xs<-clone(x);ramsort(xs, na.last=TRUE, decreasing=TRUE);xs}))
 	
 	system.time(o <- order.integer64(x, na.last=FALSE, decreasing=FALSE))[3]
 	stopifnot(identical(o, {xo<-seq_along(x);ramorder(x, xo, na.last=FALSE, decreasing=FALSE);xo}))
@@ -564,19 +564,19 @@ sort.integer64 <- function(x
   do.na.last <- is.na(na.last) || na.last
   c <- cache(x)
   if (!is.null(c$sort)){
-	if (do.na.last || decreasing){
-		s <- double(length(x))
-		.Call("r_ram_integer64_sortsrt"
-		, x = c$sort
-		, na_count   = as.integer(na.count <- c$na.count)
-		, na_last    = as.logical(do.na.last)
-		, decreasing = as.logical(decreasing)
-		, s		 	 = s
-		, PACKAGE = "bit64"
-		)
-		setattr(s, "class", "integer64")
-	}else 
-		s <- c$sort  # here we save copying at all
+		if (do.na.last || decreasing){
+			s <- double(length(x))
+			.Call("r_ram_integer64_sortsrt"
+			, x = c$sort
+			, na_count   = as.integer(na.count <- c$na.count)
+			, na_last    = as.logical(do.na.last)
+			, decreasing = as.logical(decreasing)
+			, s		 	 = s
+			, PACKAGE = "bit64"
+			)
+			setattr(s, "class", "integer64")
+		}else 
+			s <- c$sort  # here we save copying at all
   }else if (!is.null(c$order)){
 		if (do.na.last || decreasing){
 			s <- double(length(x))
@@ -594,7 +594,7 @@ sort.integer64 <- function(x
   }else{
     if (identical(c$na.count, 0L))
 	  has.na <- FALSE
-		s <- x[]
+		s <- clone(x)
 		na.count <- ramsort(
 			s
 		, has.na=has.na
@@ -606,7 +606,7 @@ sort.integer64 <- function(x
 		)
   }
   if (is.na(na.last) && na.count)
-	length(s) <- length(s) - na.count
+		length(s) <- length(s) - na.count
   s
 }
 
@@ -664,7 +664,7 @@ order.integer64 <- function(
 	  optimize <- match.arg(optimize)
 	  o <- seq_along(x)
 	  if (optimize=="time"){
-		  s <- x[]
+		  s <- clone(x)
 		  na.count <- ramsortorder(s, o
 		  , has.na=has.na
 		  , na.last=do.na.last
