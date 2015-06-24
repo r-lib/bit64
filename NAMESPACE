@@ -8,11 +8,15 @@
 
 useDynLib(bit64)
 
-importFrom(utils, packageDescription)
 importFrom(methods, is)
 importFrom(methods, as)
-importFrom(stats, quantile)
-importFrom(stats, median)
+importFrom(utils, packageDescription)
+importFrom(stats, quantile, median,cor)
+importFrom(graphics, barplot, par, title)
+
+importFrom(bit, setattr)
+importFrom(bit, clone)
+importFrom(bit, repeat.time)
 
 importFrom(bit, xor)
 importFrom(bit, ramsort)
@@ -73,10 +77,6 @@ export(
  ,"integer64"
  ,"identical.integer64"
 
-#, "is.double"
-#, "is.double.default"
-#, "is.double.integer64"
- 
 ,"is.integer64"
 ,"as.integer64"
  
@@ -87,7 +87,7 @@ export(
 ,"as.integer64.integer"
 ,"as.integer64.logical"
 ,"as.integer64.factor"
-#,"NA_integer64_"
+,"NA_integer64_"
 
 ,"as.character.integer64"
 ,"as.double.integer64"
@@ -148,9 +148,6 @@ export(
 ,"c.integer64"
 ,"rep.integer64"
 ,"seq.integer64"
-#,":"
-#,":.default"
-#,":.integer64"
 ,"cbind.integer64"
 ,"rbind.integer64"
 ,"as.data.frame.integer64"
@@ -339,7 +336,9 @@ export(
 # -- patch64.R - patch generics --
 
 S3method(":", default)
+S3method(":", integer64)
 S3method("is.double", default)
+S3method("is.double", integer64)
 S3method("match", default)
 S3method("%in%", default)
 S3method("rank", default)

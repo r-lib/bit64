@@ -375,26 +375,24 @@ ramsort.integer64 <- function (x
 		    if (length(x)<2048){
 				if (VERBOSE) 
 					cat("ramsortorder selected mergesortorder\n")
-				mergesortorder(x, i, has.na = has.na, na.last = na.last, decreasing = decreasing)
+				ret <- mergesortorder(x, i, has.na = has.na, na.last = na.last, decreasing = decreasing)
 			}else if (length(x)<2097152){
 				if (VERBOSE) 
 					cat("ramsortorder selected radix8sortorder\n")
-				radixsortorder(x, i, radixbits=8L, has.na = has.na, na.last = na.last, decreasing = decreasing)
+				ret <- radixsortorder(x, i, radixbits=8L, has.na = has.na, na.last = na.last, decreasing = decreasing)
 			}else{
 				if (VERBOSE) 
 					cat("ramsortorder selected radix4sortorder\n")
-				radixsortorder(x, i, radixbits=4L, has.na = has.na, na.last = na.last, decreasing = decreasing)
+				ret <- radixsortorder(x, i, radixbits=4L, has.na = has.na, na.last = na.last, decreasing = decreasing)
 			}
-			setattr(x, "names", names(x)[i])
-			ret
 		}else{
 			if (VERBOSE) 
 				cat("ramsort selected quicksortorder\n")
 			i <- seq_along(x)
 			ret <- quicksortorder(x, i, has.na = has.na, na.last = na.last, decreasing = decreasing)
-			setattr(x, "names", names(x)[i])
-			ret
 		}
+    setattr(x, "names", names(x)[i])
+    ret
 	}
 }
 

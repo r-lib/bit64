@@ -937,7 +937,7 @@ ValueT *data
     ValueT t;
       IndexT m=(l+r)/2;
       m = ram_integer64_median3(data, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
-    EXCH(data[m], data[r], t)
+      EXCH(data[m], data[r], t)
       m = ram_integer64_quicksortpart_asc_no_sentinels(data, l, r);
       ram_integer64_quicksort_asc_mdr3_no_sentinels(data, l, m-1);
       ram_integer64_quicksort_asc_mdr3_no_sentinels(data, m+1, r);
@@ -1540,7 +1540,11 @@ static IndexT randIndex(
   IndexT n    // number of positions to random select from
 ){
   IndexT r;
-  while(n <= (r=(((double)rand())*n) /RAND_MAX));
+  //CRAN disallows rand: while(n <= (r=(((double)rand())*n) /RAND_MAX));
+  // this is by factor 3 slower as long as we keep GetRNGstate(); PutRNGstate(); here.
+  GetRNGstate();
+	while((r = ((IndexT)(unif_rand()*n))) >= n);
+  PutRNGstate();
   return r;
 }
 

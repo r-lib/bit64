@@ -152,6 +152,7 @@
 #! \section{Index of implemented methods}{
 #! \tabular{rrl}{
 #!    \bold{creating,testing,printing} \tab \bold{see also}          \tab \bold{description} \cr
+#!    \code{NA_integer64_} \tab \code{\link{NA_integer_}} \tab NA constant \cr
 #!    \code{integer64} \tab \code{\link{integer}} \tab create zero atomic vector \cr
 #!    \code{\link{rep.integer64}} \tab \code{\link{rep}} \tab  \cr
 #!    \code{\link{seq.integer64}} \tab \code{\link{seq}} \tab  \cr
@@ -951,6 +952,7 @@
 #! \alias{as.integer64.integer}
 #! \alias{as.integer64.logical}
 #! \alias{as.integer64.factor}
+#! \alias{NA_integer64_}
 #! \title{
 #!    Coerce to integer64
 #! }
@@ -958,6 +960,7 @@
 #!   Methods to coerce from other atomic types to integer64. 
 #! }
 #! \usage{
+#!  NA_integer64_
 #!  as.integer64(x, \dots)
 #!  \method{as.integer64}{integer64}(x, \dots)
 #!  \method{as.integer64}{NULL}(x, \dots)
@@ -1462,6 +1465,8 @@
 	# ":" <- function(from,to)UseMethod(":")
 # }
 
+setOldClass("integer64")
+
 
 identical.integer64 <- function(x, y
 , num.eq = FALSE
@@ -1620,6 +1625,17 @@ as.bitstring.integer64 <- function(x, ...){
 # read.table expects S4 as() 
 setAs("character","integer64",function(from)as.integer64.character(from))
 setAs("integer64","character",function(from)as.character.integer64(from))
+
+# this is a trick to generate NA_integer64_ for namespace export before 
+# as.integer64() is available because dll is not loaded
+NA_integer64_ <- unserialize(as.raw(c(0x58, 0x0a, 0x00, 0x00, 0x00, 0x02, 0x00, 0x03, 0x03, 
++ 0x00, 0x00, 0x02, 0x03, 0x00, 0x00, 0x00, 0x03, 0x0e, 0x00, 0x00, 
++ 0x00, 0x01, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
++ 0x00, 0x04, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x04, 0x00, 0x09, 
++ 0x00, 0x00, 0x00, 0x05, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x00, 0x00, 
++ 0x00, 0x10, 0x00, 0x00, 0x00, 0x01, 0x00, 0x04, 0x00, 0x09, 0x00, 
++ 0x00, 0x00, 0x09, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x65, 0x72, 0x36, 
++ 0x34, 0x00, 0x00, 0x00, 0xfe)))
 
 "length<-.integer64" <- function(x, value){
   cl <- oldClass(x)
@@ -2343,3 +2359,4 @@ is.vector.integer64 <- function(x, mode="any"){
   else
     TRUE
 }
+

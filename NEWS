@@ -1,3 +1,24 @@
+    CHANGES IN bit64 VERSION 0.9-5
+
+USER VISIBLE CHANGES
+
+    o The following functions are converted to S3 generics and mask package:base
+      :, is.double, match, %in%, rank, order
+    o NA_integer64_ is now available and exported
+
+	
+BUG FIXES
+
+    o ramsort.integer64 no longer complains about misssing return 
+      value when stable || optimize == "time" (reported by Dan Southern)
+    o removed a harmless warning on request of CRAN maintainers
+      gcc had complained about using %lli format which is not 
+      supported under the windows MCPP compiler, under which
+      %lli and thus as.character.integer64 will fail.
+    o now uses R's RNG instead of the system RNG
+
+    
+
     CHANGES IN bit64 VERSION 0.9-4
 
 BUG FIXES
@@ -7,7 +28,7 @@ BUG FIXES
       (Thanks to Heisenberg it only failed under Valgrind)
     o UBSAN should no longer complain about left shift
 
-	
+    
 
     CHANGES IN bit64 VERSION 0.9-3
 
@@ -19,18 +40,18 @@ USER VISIBLE CHANGES
       rather than stopping on error (but gives a warning for each column) 
     o table.integer64 called with return="table" returns empty cells now with 
       0 rather than NA
-	o %in%.integer64 no longer has arguments 'nunique' and 'method' in order
-	  to match the generic with only two arguments 'x', 'table' and ...
+    o %in%.integer64 no longer has arguments 'nunique' and 'method' in order
+      to match the generic with only two arguments 'x', 'table' and ...
 
 
 BUG FIXES
 
     o c(x,x,x) failed with integer64 type because R no longer copies the 
-	  arguments in list(...) as from R-3.0.2 . Presumably now the ugly 
-	  workaround in table.integer64 is no longer needed but that has NOT 
-	  been fixed yet
+      arguments in list(...) as from R-3.0.2 . Presumably now the ugly 
+      workaround in table.integer64 is no longer needed but that has NOT 
+      been fixed yet
     o round.integer64 no longer removes the "integer64" class attribute
-	  (reported by Dan Southern)
+      (reported by Dan Southern)
 
     
 

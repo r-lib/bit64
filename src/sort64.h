@@ -21,7 +21,7 @@
 #include <R.h>
 #include <Rdefines.h>
 //#include <Rinternals.h>
-#include <stdlib.h> // rand
+//CRAN disallows rand: #include <stdlib.h> // rand
 
 #include "integer64.h"
 //#include "timing.h"

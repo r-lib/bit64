@@ -1,8 +1,8 @@
 Package: bit64
 Type: Package
-Title: A S3 class for vectors of 64bit integers
-Version: 0.9-4
-Date: 2012-11-01
+Title: A S3 Class for Vectors of 64bit Integers
+Version: 0.9-5
+Date: 2015-06-24
 Author: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 Depends: R (>= 3.0.1), bit (>= 1.1-12), utils, methods, stats
@@ -18,7 +18,7 @@ LazyLoad: yes
 ByteCompile: yes
 URL: http://ff.r-forge.r-project.org/
 Encoding: latin1
-Packaged: 2014-04-07 20:29:46 UTC; root
+Packaged: 2015-07-04 09:58:24 UTC; jo
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2014-04-09 09:54:15
+Date/Publication: 2015-07-05 09:24:32

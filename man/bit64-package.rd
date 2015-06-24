@@ -142,6 +142,7 @@ is not worth it with 32x at duplicated RAM consumption).
 \section{Index of implemented methods}{
 \tabular{rrl}{
    \bold{creating,testing,printing} \tab \bold{see also}          \tab \bold{description} \cr
+   \code{NA_integer64_} \tab \code{\link{NA_integer_}} \tab NA constant \cr
    \code{integer64} \tab \code{\link{integer}} \tab create zero atomic vector \cr
    \code{\link{rep.integer64}} \tab \code{\link{rep}} \tab  \cr
    \code{\link{seq.integer64}} \tab \code{\link{seq}} \tab  \cr

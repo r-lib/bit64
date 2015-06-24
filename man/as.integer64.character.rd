@@ -7,6 +7,7 @@
 \alias{as.integer64.integer}
 \alias{as.integer64.logical}
 \alias{as.integer64.factor}
+\alias{NA_integer64_}
 \title{
    Coerce to integer64
 }
@@ -14,6 +15,7 @@
   Methods to coerce from other atomic types to integer64. 
 }
 \usage{
+ NA_integer64_
  as.integer64(x, \dots)
  \method{as.integer64}{integer64}(x, \dots)
  \method{as.integer64}{NULL}(x, \dots)

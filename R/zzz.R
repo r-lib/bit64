@@ -10,7 +10,6 @@
 .onLoad <- function(lib, pkg) {
   ##library.dynam("bit64", pkg, lib) use useDynLib(bit) in NAMESPACE instead
   ##packageStartupMessage("Loading package bit64 ", packageDescription("bit64", fields="Version"))
-  #NA_integer64_ <- as.integer64(NA)
 }
 
 .onAttach <- function(libname, pkgname){

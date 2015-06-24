@@ -19,8 +19,14 @@
 /**                                                                         **/
 /*****************************************************************************/
 
+// this define before stdio.h removes the warnings
+// warning: unknown conversion type character 'l' in format [-Wformat]
+// warning: too many arguments for format [-Wformat-extra-args]
+#define __USE_MINGW_ANSI_STDIO 1
+
 #include "ctype.h"
 #include "stdio.h"
+#include <stdint.h>
 
 #include <R.h>
 #include <Rdefines.h>
@@ -168,7 +174,7 @@ SEXP as_logical_integer64(SEXP x_, SEXP ret_){
   return ret_;
 }
 
-// xx TODO
+
 SEXP as_character_integer64(SEXP x_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long * x = (long long *) REAL(x_);
@@ -177,7 +183,7 @@ SEXP as_character_integer64(SEXP x_, SEXP ret_){
     if (x[i]==NA_INTEGER64){
 	  SET_STRING_ELT(ret_, i, NA_STRING);
 	}else{
-	  snprintf(buff, NCHARS_DECS_INTEGER64, COERCE_INTEGER64, x[i]);
+	  snprintf(buff, NCHARS_DECS_INTEGER64, COERCE_INTEGER64, x[i]); 
 	  SET_STRING_ELT(ret_, i, mkChar(buff)); 
 	}
   }
