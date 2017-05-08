@@ -28,7 +28,7 @@
   A vector or scalar of class 'integer64'
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ classes }
 \keyword{ manip }

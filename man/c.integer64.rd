@@ -25,7 +25,7 @@
   R currently only dispatches generic 'c' to method 'c.integer64' if the first argument is 'integer64'
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ classes }
 \keyword{ manip }

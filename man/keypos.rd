@@ -27,7 +27,7 @@ and \code{\link{orderkey}} (memory saving ordering).
   an integer vector of the same length as code{x} containing positions relativ to code{sort(unique(x), na.last=FALSE)}
 }
 \author{
-	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
   \code{\link{unique.integer64}} for the unique subset and \code{\link{match.integer64}} for finding positions in a different vector.

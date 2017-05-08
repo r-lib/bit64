@@ -20,13 +20,14 @@
  \method{as.integer64}{integer64}(x, \dots)
  \method{as.integer64}{NULL}(x, \dots)
  \method{as.integer64}{character}(x, \dots)
- \method{as.integer64}{double}(x, \dots)
+ \method{as.integer64}{double}(x, keep.names = FALSE, \dots)
  \method{as.integer64}{integer}(x, \dots)
  \method{as.integer64}{logical}(x, \dots)
  \method{as.integer64}{factor}(x, \dots)
 }
 \arguments{
   \item{x}{ an atomic vector }
+  \item{keep.names}{ FALSE, set to TRUE to keep a names vector }
   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
 }
 \details{
@@ -37,7 +38,7 @@
   The other methods return atomic vectors of the expected types
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ classes }
 \keyword{ manip }

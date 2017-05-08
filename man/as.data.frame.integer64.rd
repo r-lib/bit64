@@ -24,7 +24,7 @@
   This is currently very slow -- any ideas for improvement?
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ classes }
 \keyword{ manip }

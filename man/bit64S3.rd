@@ -67,7 +67,7 @@
 	\code{\link{invisible}}
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \note{
 	\code{\link{is.double}} returns \code{FALSE} for \code{\link{integer64}} \cr

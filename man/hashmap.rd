@@ -95,7 +95,7 @@ hashmaptab(x, \dots)
   see details
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ programming }
 \keyword{ manip }

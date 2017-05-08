@@ -29,7 +29,7 @@
     \code{duplicated()}: a logical vector of the same length as \code{x}.  
 }
 \author{
-	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{ \code{\link{duplicated}}, \code{\link{unique.integer64}}  }
 \examples{

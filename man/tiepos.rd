@@ -28,7 +28,7 @@ and \code{\link{ordertie}} (memory saving ordering).
   an integer vector of positions
 }
 \author{
-	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
   \code{\link{rank.integer64}} for possibly tied ranks and \code{\link{unipos.integer64}} for positions of unique values.

@@ -1,7 +1,7 @@
 # /*
 # R-Code for matching and other functions based on hashing
 # S3 atomic 64bit integers for R
-# (c) 2012 Jens Oehlsch‰gel
+# (c) 2012 Jens Oehlsch√§gel
 # Licence: GPL2
 # Provided 'as is', use at your own risk
 # Created: 2011-12-11
@@ -84,7 +84,7 @@
 #!  \code{optimizer64} returns a dimensioned list with one row for each high-level function timed and two columns named after the values of the \code{nsmall} and \code{nbig} sample sizes. Each list cell contains a matrix with timings, low-level-methods in rows and three measurements \code{c("prep","both","use")} in columns. If it can be measured separately, \code{prep} contains the timing of preparatory work such as sorting and hashing, and \code{use} contains the timing of using the prepared work. If the function timed does both, preparation and use, the timing is in \code{both}.  
 #! }
 #! \author{
-#!  Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#!  Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
 #!  \code{\link{integer64}}
@@ -1446,7 +1446,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
 #!   \code{FALSE} and never \code{NA}.
 #! }
 #! \author{
-#! 	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! 	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
 #! 	\code{\link{match}}
@@ -1732,7 +1732,7 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
 #!     \code{duplicated()}: a logical vector of the same length as \code{x}.  
 #! }
 #! \author{
-#! 	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! 	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{ \code{\link{duplicated}}, \code{\link{unique.integer64}}  }
 #! \examples{
@@ -1848,7 +1848,7 @@ duplicated.integer64 <- function(x
 #!   the result has no names).
 #! }
 #! \author{
-#! 	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! 	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
 #!   \code{\link{unique}} for the generic, \code{\link{unipos}} which gives the indices of the unique
@@ -2016,7 +2016,7 @@ unique.integer64 <- function(x
 #!   an integer vector of positions
 #! }
 #! \author{
-#! 	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! 	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
 #!   \code{\link{unique.integer64}} for unique values and \code{\link{match.integer64}} for general matching.
@@ -2567,7 +2567,7 @@ as.integer64.factor <- function(x, ...)as.integer64(unclass(x))
 #!   an integer vector of the same length as code{x} containing positions relativ to code{sort(unique(x), na.last=FALSE)}
 #! }
 #! \author{
-#! 	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! 	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
 #!   \code{\link{unique.integer64}} for the unique subset and \code{\link{match.integer64}} for finding positions in a different vector.
@@ -2658,7 +2658,7 @@ keypos.integer64 <- function(x
 #!   an integer vector of positions
 #! }
 #! \author{
-#! 	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! 	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
 #!   \code{\link{rank.integer64}} for possibly tied ranks and \code{\link{unipos.integer64}} for positions of unique values.
@@ -2752,7 +2752,7 @@ tiepos.integer64 <- function(x
 #!   A numeric vector of the same length as \code{x}.
 #! }
 #! \author{
-#! 	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! 	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
 #!   \code{\link{order.integer64}}, \code{\link{rank}} and \code{\link{prank}} for percent rank.
@@ -2838,7 +2838,7 @@ rank.integer64 <- function(x
 #!   \code{prank} returns a numeric vector of the same length as \code{x}.
 #! }
 #! \author{
-#! 	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! 	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
 #!   \code{\link{rank.integer64}} for simple ranks and \code{\link{qtile}} for the inverse function quantiles.
@@ -2880,9 +2880,11 @@ prank.integer64 <- function(x
 #! 	qtile(x, probs=seq(0, 1, 0.25), \dots)
 #! 	\method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, \dots)
 #! 	\method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, \dots)
-#! 	\method{median}{integer64}(x, na.rm = FALSE)
 #!  \method{mean}{integer64}(x, na.rm = FALSE, \dots)
 #! 	\method{summary}{integer64}(object, \dots)
+#!  ## mean(x, na.rm = FALSE, ...)
+#!  ## or
+#!  ## mean(x, na.rm = FALSE)
 #! }
 #! \arguments{
 #!   \item{x}{a integer64 vector}
@@ -2925,7 +2927,7 @@ prank.integer64 <- function(x
 #!   at the relative positions specified by \code{probs}.
 #! }
 #! \author{
-#! 	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! 	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
 #!   \code{\link{rank.integer64}} for simple ranks and \code{\link{quantile}} for quantiles.
@@ -3002,12 +3004,22 @@ quantile.integer64 <- function(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names 
 	qtile.integer64(x, probs = probs, na.rm = na.rm, names = names, ...)
 }
 
-median.integer64 <- function(x, na.rm=FALSE){
-	if (!na.rm && na.count(x)>0)
-		stop("missing values not allowed with 'na.rm='==FALSE")
-	qtile.integer64(x, probs = 0.5, na.rm = na.rm, names = FALSE)
-}
 
+# adding ... (wish of Kurt Hornik 23.3.2017)
+if (is.na(match("...", names(formals(median))))){
+	median.integer64 <- function(x, na.rm=FALSE){
+		if (!na.rm && na.count(x)>0)
+			stop("missing values not allowed with 'na.rm='==FALSE")
+		qtile.integer64(x, probs = 0.5, na.rm = na.rm, names = FALSE)
+	}
+}else{
+	median.integer64 <- function(x, na.rm=FALSE, ...){
+		if (!na.rm && na.count(x)>0)
+			stop("missing values not allowed with 'na.rm='==FALSE")
+		qtile.integer64(x, probs = 0.5, na.rm = na.rm, names = FALSE)
+	}
+}
+	
 # mean.integer64 <- function(x, na.rm=FALSE){
 	# s <- sum(x, na.rm=na.rm)
 	# if (!is.na(s)){
@@ -3020,7 +3032,7 @@ median.integer64 <- function(x, na.rm=FALSE){
 # }
 mean.integer64 <- function(x, na.rm=FALSE, ...){
 	ret <- double(1)
-	.Call("mean_integer64", x, as.logical(na.rm), ret)
+	.Call(C_mean_integer64, x, as.logical(na.rm), ret)
 	oldClass(ret) <- "integer64"
 	ret
 }

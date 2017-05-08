@@ -22,5 +22,5 @@ Since this package is 'at risk' to create a lot of dependencies from other packa
 
 Best regards
 
-Jens Oehlschl‰gel
+Jens Oehlschl√§gel
 Munich, 11.2.2012

@@ -46,7 +46,7 @@ set to 'memory' to minimize RAM requirements and sacrifice speed
   \code{sort} returns the sorted vector and \code{vector} returns the order positions. 
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ programming }
 \keyword{ manip }

@@ -14,7 +14,7 @@ while(<STDIN>)
     if( $line =~ /^#! ?(.*)/ )
     {
     	$line = $1;
-        if( $line =~ /\\name{(.*)}/ )
+        if( $line =~ /\\name\{(.*)\}/ )
         {
             $f = $1;
             if( $open )

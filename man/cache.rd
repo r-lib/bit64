@@ -62,7 +62,7 @@ still.identical(x, y)
 	see details
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
 	Functions that get and set small cache-content automatically when a cache is present: \code{\link{na.count}}, \code{\link{nvalid}}, \code{\link{is.sorted}}, \code{\link{nunique}} and \code{\link{nties}} \cr

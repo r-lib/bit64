@@ -37,7 +37,7 @@ The default \code{order="original"} collects unique values in the order of the f
   an integer vector of positions
 }
 \author{
-	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
   \code{\link{unique.integer64}} for unique values and \code{\link{match.integer64}} for general matching.

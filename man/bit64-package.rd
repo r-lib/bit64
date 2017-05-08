@@ -8,6 +8,7 @@
 %as.vector.integer64 removed as requested by the CRAN maintainer \alias{as.vector.integer64}
 \alias{length<-.integer64}
 \alias{print.integer64}
+\alias{str.integer64}
 \docType{package}
 \title{
    A S3 class for vectors of 64bit integers
@@ -54,12 +55,17 @@ is not worth it with 32x at duplicated RAM consumption).
  \method{is}{integer64}(x)
  \method{length}{integer64}(x) <- value
  \method{print}{integer64}(x, quote=FALSE, \dots)
+ \method{str}{integer64}(object, vec.len  = strO$vec.len, give.head = TRUE, give.length = give.head, \dots)
 }
 \arguments{
   \item{length}{ length of vector using \code{\link{integer}} }
   \item{x}{ an integer64 vector }
+  \item{object}{ an integer64 vector }
   \item{value}{ an integer64 vector of values to be assigned }
   \item{quote}{ logical, indicating whether or not strings should be printed with surrounding quotes. }
+  \item{vec.len}{ see \code{\link[utils]{str}} }
+  \item{give.head}{ see \code{\link[utils]{str}} }
+  \item{give.length}{ see \code{\link[utils]{str}} }
   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
 }
 \details{
@@ -103,8 +109,8 @@ is not worth it with 32x at duplicated RAM consumption).
   Unlike 32 bit \code{\link{integer}s}, the \code{integer64} are no longer a proper subset of \code{\link{double}}. 
   If a binary arithmetic operation does involve a \code{double} and a \code{integer}, it is a no-brainer to return \code{double} 
   without loss of information. If an \code{integer64} meets a \code{double}, it is not trivial what type to return. 
-  Switching to \code{integer64} limits our ability to represent very large numbers, switching to \code{integer64} limits our ability 
-  to distinguish \code{x} from \code{x+1}. Since the latter is purpose of introducing 64 bit integers, we usually return \code{integer64} 
+  Switching to \code{integer64} limits our ability to represent very large numbers, switching to \code{double} limits our ability 
+  to distinguish \code{x} from \code{x+1}. Since the latter is the purpose of introducing 64 bit integers, we usually return \code{integer64} 
   from functions involving \code{integer64}, for example in \code{\link[=c.integer64]{c}}, \code{\link[=cbind.integer64]{cbind}} 
   and \code{\link[=rbind.integer64]{rbind}}. 
   \cr
@@ -119,6 +125,24 @@ is not worth it with 32x at duplicated RAM consumption).
   The division \code{\link[=/.integer64]{/}} and power \code{\link[=^.integer64]{^}} operators also coerce their first argument to \code{integer64} 
   and coerce internally their second argument to 'long double', they return as \code{double}, like \code{\link[=sqrt.integer64]{sqrt}}, 
   \code{\link[=log.integer64]{log}}, \code{\link[=log2.integer64]{log2}} and \code{\link[=log10.integer64]{log10}} do. 
+
+ \tabular{ccccccccc}{
+  \bold{argument1} \tab \bold{op} \tab \bold{argument2} \tab \bold{->} \tab \bold{coerced1} \tab \bold{op} \tab \bold{coerced2} \tab \bold{->} \tab \bold{result} \cr
+  integer64 \tab + \tab double \tab -> \tab integer64 \tab + \tab integer64 \tab -> \tab integer64 \cr
+  double \tab + \tab integer64 \tab -> \tab integer64 \tab + \tab integer64 \tab -> \tab integer64 \cr
+  integer64 \tab - \tab double \tab -> \tab integer64 \tab - \tab integer64 \tab -> \tab integer64 \cr
+  double \tab - \tab integer64 \tab -> \tab integer64 \tab - \tab integer64 \tab -> \tab integer64 \cr
+  integer64 \tab \%/\% \tab double \tab -> \tab integer64 \tab \%/\% \tab integer64 \tab -> \tab integer64 \cr
+  double \tab \%/\% \tab integer64 \tab -> \tab integer64 \tab \%/\% \tab integer64 \tab -> \tab integer64 \cr
+  integer64 \tab \%\% \tab double \tab -> \tab integer64 \tab \%\% \tab integer64 \tab -> \tab integer64 \cr
+  double \tab \%\% \tab integer64 \tab -> \tab integer64 \tab \%\% \tab integer64 \tab -> \tab integer64 \cr
+  integer64 \tab * \tab double \tab -> \tab integer64 \tab * \tab long double \tab -> \tab integer64 \cr
+  double \tab * \tab integer64 \tab -> \tab integer64 \tab * \tab integer64 \tab -> \tab integer64 \cr
+  integer64 \tab / \tab double \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
+  double \tab / \tab integer64 \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
+  integer64 \tab ^ \tab double \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
+  double \tab ^ \tab integer64 \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
+ }
 }
 \section{Creating and testing S3 class 'integer64'}{
   Our creator function \code{integer64} takes an argument \code{length}, creates an atomic double vector of this length,
@@ -161,6 +185,7 @@ is not worth it with 32x at duplicated RAM consumption).
                                      \tab \code{\link{dimnames}} \tab inherited from Base R \cr
                                     \tab \code{\link{str}} \tab inherited from Base R, does not print values correctly \cr
    \code{\link{print.integer64}} \tab \code{\link{print}} \tab  \cr
+   \code{\link{str.integer64}} \tab \code{\link{str}} \tab  \cr
  \cr
    \bold{coercing to integer64} \tab \bold{see also}          \tab \bold{description} \cr
    \code{\link{as.integer64}} \tab   \tab generic \cr
@@ -369,13 +394,31 @@ is not worth it with 32x at duplicated RAM consumption).
     Following the full R behaviour here would either destroy performance or require extensive C-coding. 
   }
 }
+\note{
+   \code{integer64} are useful for handling database keys and exact counting in +-2^63.
+   Do not use them as replacement for 32bit integers, integer64 are not
+   supported for subscripting by R-core and they have different semantics 
+   when combined with double. Do understand that \code{integer64} can only be
+   useful over \code{double} if we do not coerce it to \code{double}. \cr
+  \cr
+  While \cr
+  integer + double -> double + double -> double \cr
+  or \cr
+  1L + 0.5 -> 1.5 \cr 
+  for additive operations we coerce to \code{integer64} \cr
+  integer64 + double ->  integer64 + integer64 -> integer64 \cr
+  hence \cr
+  as.integer64(1) + 0.5 -> 1LL + 0LL -> 1LL \cr
+  \cr
+  see section "Arithmetic precision and coercion" above
+}
 \value{
   \code{integer64} returns a vector of 'integer64', 
    i.e. a vector of \code{\link{double}} decorated with class 'integer64'.
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
-Maintainer: Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
+Maintainer: Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ package }
 \keyword{ classes }

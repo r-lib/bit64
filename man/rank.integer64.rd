@@ -24,7 +24,7 @@ and \code{\link{orderrnk}} (memory saving ordering).
   A numeric vector of the same length as \code{x}.
 }
 \author{
-	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
   \code{\link{order.integer64}}, \code{\link{rank}} and \code{\link{prank}} for percent rank.

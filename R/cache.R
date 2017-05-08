@@ -1,7 +1,7 @@
 # /*
 # R-Code for caching
 # S3 atomic 64bit integers for R
-# (c) 2011 Jens Oehlsch‰gel
+# (c) 2011 Jens Oehlsch√§gel
 # Licence: GPL2
 # Provided 'as is', use at your own risk
 # Created: 2011-12-11
@@ -72,7 +72,7 @@
 #! 	see details
 #! }
 #! \author{
-#! Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
 #! 	Functions that get and set small cache-content automatically when a cache is present: \code{\link{na.count}}, \code{\link{nvalid}}, \code{\link{is.sorted}}, \code{\link{nunique}} and \code{\link{nties}} \cr
@@ -102,7 +102,7 @@
 #! \keyword{ environment }
 
 still.identical <- function(x, y){
-  .Call("r_ram_truly_identical", x = x, y = y, PACKAGE = "bit64")
+  .Call(C_r_ram_truly_identical, x = x, y = y, PACKAGE = "bit64")
 }
 
 newcache <- function(x){
@@ -222,7 +222,7 @@ print.cache<- function(x, all.names=FALSE, pattern, ...){
 #! 	\code{x} with a \code{\link{cache}} that contains the result of the expensive operations, possible together with small derived information (such as \code{\link{nunique.integer64}}) and previously cached results.
 #! }
 #! \author{
-#! Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
 #! 	\code{\link{cache}} for caching functions and \code{\link{nunique}} for methods bennefitting from small caches
@@ -255,7 +255,7 @@ sortcache <- function(x, has.na = NULL){
 	}
 	s <- clone(x)
     na.count <- ramsort(s, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
-	nut <- .Call("r_ram_integer64_sortnut", x = s, PACKAGE = "bit64")
+	nut <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")
     setcache(x, "sort", s)
     setcache(x, "na.count", na.count)
     setcache(x, "nunique", nut[[1]])
@@ -282,7 +282,7 @@ sortordercache <- function(x, has.na = NULL, stable = NULL){
 	s <- clone(x)
 	o <- seq_along(x)
     na.count <- ramsortorder(s, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = "time")
-	nut <- .Call("r_ram_integer64_sortnut", x = s, PACKAGE = "bit64")
+	nut <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")
     setcache(x, "sort", s)
     setcache(x, "order", o)
     setcache(x, "na.count", na.count)
@@ -309,7 +309,7 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
 	}
 	o <- seq_along(x)
     na.count <- ramorder(x, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = optimize)
-	nut <- .Call("r_ram_integer64_ordernut", table = x, order = o, PACKAGE = "bit64")
+	nut <- .Call(C_r_ram_integer64_ordernut, table = x, order = o, PACKAGE = "bit64")
     setcache(x, "order", o)
     setcache(x, "na.count", na.count)
     setcache(x, "nunique", nut[[1]])
@@ -366,7 +366,7 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
 #! 	\code{is.sorted} returns a logical scalar, the other methods return an integer scalar.
 #! }
 #! \author{
-#! Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
 #! 	\code{\link{cache}} for caching functions and \code{\link{sortordercache}} for functions creating big caches
@@ -388,12 +388,12 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
 na.count.integer64 <- function(x, ...){
   env <- cache(x)
   if (is.null(env)){
-	.Call("r_ram_integer64_nacount", x = x, PACKAGE = "bit64")
+	.Call(C_r_ram_integer64_nacount, x = x, PACKAGE = "bit64")
   }else{
     if (exists("na.count", envir=env, inherits=FALSE))
 		get("na.count", envir=env, inherits=FALSE)
 	else{
-		ret <- .Call("r_ram_integer64_nacount", x = x, PACKAGE = "bit64")
+		ret <- .Call(C_r_ram_integer64_nacount, x = x, PACKAGE = "bit64")
 		assign("na.count", ret, envir=env)
 		ret
 	}
@@ -407,12 +407,12 @@ nvalid.integer64 <- function(x, ...){
 is.sorted.integer64 <- function(x, ...){
   env <- cache(x)
   if (is.null(env)){
-	.Call("r_ram_integer64_issorted_asc", x = x, PACKAGE = "bit64")
+	.Call(C_r_ram_integer64_issorted_asc, x = x, PACKAGE = "bit64")
   }else{
     if (exists("is.sorted", envir=env, inherits=FALSE))
 		get("is.sorted", envir=env, inherits=FALSE)
 	else{
-		ret <- .Call("r_ram_integer64_issorted_asc", x = x, PACKAGE = "bit64")
+		ret <- .Call(C_r_ram_integer64_issorted_asc, x = x, PACKAGE = "bit64")
 		assign("is.sorted", ret, envir=env)
 		ret
 	}
@@ -431,7 +431,7 @@ nunique.integer64 <- function(x, ...){
 			has.cache <- TRUE
 	}
 	if (is.sorted(x)){
-		ret <- .Call("r_ram_integer64_sortnut"
+		ret <- .Call(C_r_ram_integer64_sortnut
 		, x = x
 		, PACKAGE = "bit64"
 		)
@@ -452,14 +452,14 @@ nties.integer64 <- function(x, ...){
 	cv <- getcache(x, "nties")
 	if (is.null(cv)){
 		if (is.sorted(x)){
-			cv <- .Call("r_ram_integer64_sortnut"
+			cv <- .Call(C_r_ram_integer64_sortnut
 			, x = x
 			, PACKAGE = "bit64"
 			)[2]
 		}else{
 		    s <- clone(x)
 			na.count <- ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
-			cv <- .Call("r_ram_integer64_sortnut", x = s, PACKAGE = "bit64")[[2]]
+			cv <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")[[2]]
 		}
 	}
 	cv

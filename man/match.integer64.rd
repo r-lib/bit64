@@ -57,7 +57,7 @@ ignored
   \code{FALSE} and never \code{NA}.
 }
 \author{
-	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
 	\code{\link{match}}

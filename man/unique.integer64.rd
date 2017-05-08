@@ -38,7 +38,7 @@ The default \code{order="original"} returns unique values in the order of the fi
   the result has no names).
 }
 \author{
-	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
   \code{\link{unique}} for the generic, \code{\link{unipos}} which gives the indices of the unique

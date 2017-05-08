@@ -25,7 +25,7 @@
   A single logical value, \code{TRUE} or \code{FALSE}, never \code{NA} and never anything other than a single value. 
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ classes }
 \keyword{ manip }

@@ -29,7 +29,7 @@
   \code{\link{diff}} returns a integer64 vector shorter by \code{lag*differences} elements \cr
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ classes }
 \keyword{ manip }

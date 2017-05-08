@@ -1,7 +1,7 @@
 # /*
 # R-Code for sorting and ordering
 # S3 atomic 64bit integers for R
-# (c) 2011 Jens Oehlsch‰gel
+# (c) 2011 Jens Oehlsch√§gel
 # Licence: GPL2
 # Provided 'as is', use at your own risk
 # Created: 2011-12-11
@@ -97,7 +97,7 @@
 #!   These functions return the number of \code{NAs} found or assumed during sorting
 #! }
 #! \author{
-#! Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \keyword{ programming }
 #! \keyword{ manip }
@@ -129,7 +129,7 @@
 shellsort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
 {
   force(x)
-  .Call("r_ram_integer64_shellsort"
+  .Call(C_r_ram_integer64_shellsort
   , x = x
   , has_na     = as.logical(has.na)
   , na_last    = as.logical(na.last)
@@ -145,7 +145,7 @@ shellsortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasin
     stop("i must be integer")
   if (length(i) != length(x)) 
     stop("lengths of x and i don't match")  
-  .Call("r_ram_integer64_shellsortorder"
+  .Call(C_r_ram_integer64_shellsortorder
   , x = x
   , i = i
   , has_na     = as.logical(has.na)
@@ -162,7 +162,7 @@ shellorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FA
     stop("i must be integer")
   if (length(i) != length(x)) 
     stop("lengths of x and i don't match")  
-  .Call("r_ram_integer64_shellorder"
+  .Call(C_r_ram_integer64_shellorder
   , x = x
   , i = i
   , has_na     = as.logical(has.na)
@@ -174,7 +174,7 @@ shellorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FA
 
 mergesort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...){
   force(x)
-  .Call("r_ram_integer64_mergesort"
+  .Call(C_r_ram_integer64_mergesort
   , x = x
   , has_na     = as.logical(has.na)
   , na_last    = as.logical(na.last)
@@ -190,7 +190,7 @@ mergeorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FA
     stop("i must be integer")
   if (length(i) != length(x)) 
     stop("lengths of x and i don't match")  
-  .Call("r_ram_integer64_mergeorder"
+  .Call(C_r_ram_integer64_mergeorder
   , x = x
   , i = i
   , has_na     = as.logical(has.na)
@@ -207,7 +207,7 @@ mergesortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasin
     stop("i must be integer")
   if (length(i) != length(x)) 
     stop("lengths of x and i don't match")  
-  .Call("r_ram_integer64_mergesortorder"
+  .Call(C_r_ram_integer64_mergesortorder
   , x = x
   , i = i
   , has_na     = as.logical(has.na)
@@ -224,7 +224,7 @@ quicksort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE
   force(x)
   if (restlevel<0)
     restlevel = 0L
-  .Call("r_ram_integer64_quicksort"
+  .Call(C_r_ram_integer64_quicksort
   , x = x
   , has_na     = as.logical(has.na)
   , na_last    = as.logical(na.last)
@@ -245,7 +245,7 @@ quicksortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasin
     stop("lengths of x and i don't match")  
   if (restlevel<0)
     restlevel = 0L
-  .Call("r_ram_integer64_quicksortorder"
+  .Call(C_r_ram_integer64_quicksortorder
   , x = x
   , i = i
   , has_na     = as.logical(has.na)
@@ -267,7 +267,7 @@ quickorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FA
     stop("lengths of x and i don't match")  
   if (restlevel<0)
     restlevel = 0L
-  .Call("r_ram_integer64_quickorder"
+  .Call(C_r_ram_integer64_quickorder
   , x = x
   , i = i
   , has_na     = as.logical(has.na)
@@ -284,7 +284,7 @@ radixsort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE
 {
   stopifnot(radixbits %in% c(1L, 2L, 4L, 8L, 16L))
   force(x)
-  .Call("r_ram_integer64_radixsort"
+  .Call(C_r_ram_integer64_radixsort
   , x = x
   , has_na     = as.logical(has.na)
   , na_last    = as.logical(na.last)
@@ -305,7 +305,7 @@ radixsortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasin
     stop("i must be integer")
   if (length(i) != length(x)) 
     stop("lengths of x and i don't match")  
-  .Call("r_ram_integer64_radixsortorder"
+  .Call(C_r_ram_integer64_radixsortorder
   , x = x
   , i = i
   , has_na     = as.logical(has.na)
@@ -327,7 +327,7 @@ radixorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FA
     stop("i must be integer")
   if (length(i) != length(x)) 
     stop("lengths of x and i don't match")  
-  .Call("r_ram_integer64_radixorder"
+  .Call(C_r_ram_integer64_radixorder
   , x = x
   , i = i
   , has_na     = as.logical(has.na)
@@ -507,7 +507,7 @@ ramorder.integer64 <- function (x
 #!   \code{sort} returns the sorted vector and \code{vector} returns the order positions. 
 #! }
 #! \author{
-#! Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \keyword{ programming }
 #! \keyword{ manip }
@@ -564,7 +564,7 @@ sort.integer64 <- function(x
   if (!is.null(c$sort)){
 		if (do.na.last || decreasing){
 			s <- double(length(x))
-			.Call("r_ram_integer64_sortsrt"
+			.Call(C_r_ram_integer64_sortsrt
 			, x = c$sort
 			, na_count   = as.integer(na.count <- c$na.count)
 			, na_last    = as.logical(do.na.last)
@@ -578,7 +578,7 @@ sort.integer64 <- function(x
   }else if (!is.null(c$order)){
 		if (do.na.last || decreasing){
 			s <- double(length(x))
-			.Call("r_ram_integer64_sortsrt"
+			.Call(C_r_ram_integer64_sortsrt
 			, x = x[c$order]
 			, na_count   = as.integer(na.count <- c$na.count)
 			, na_last    = as.logical(do.na.last)
@@ -634,7 +634,7 @@ order.integer64 <- function(
 		if (do.na.last || decreasing){
 			o <- integer(length(x))
 			if (is.null(c$sort)){
-				.Call("r_ram_integer64_orderord"
+				.Call(C_r_ram_integer64_orderord
 				, x = x
 				, i = c$order
 				, na_count   = as.integer(na.count <- c$na.count)
@@ -644,7 +644,7 @@ order.integer64 <- function(
 				, PACKAGE = "bit64"
 				)
 			}else{
-				.Call("r_ram_integer64_sortorderord"
+				.Call(C_r_ram_integer64_sortorderord
 				, x = c$sort
 				, i = c$order
 				, na_count   = as.integer(na.count <- c$na.count)

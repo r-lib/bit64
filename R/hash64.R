@@ -1,7 +1,7 @@
 # /*
 # R-Code for hashing
 # S3 atomic 64bit integers for R
-# (c) 2011 Jens Oehlsch‰gel
+# (c) 2011 Jens Oehlsch√§gel
 # Licence: GPL2
 # Provided 'as is', use at your own risk
 # Created: 2011-12-11
@@ -106,7 +106,7 @@
 #!   see details
 #! }
 #! \author{
-#! Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \keyword{ programming }
 #! \keyword{ manip }
@@ -179,7 +179,7 @@ hashfun.integer64 <- function(x, minfac=1.41, hashbits=NULL, ...){
   }else 
     hashbits <- as.integer(hashbits)
   ret <- integer(n)
-  .Call("hashfun_integer64", x, hashbits, ret, PACKAGE = "bit64")
+  .Call(C_hashfun_integer64, x, hashbits, ret, PACKAGE = "bit64")
   ret
 }
 
@@ -198,7 +198,7 @@ hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache
     hashbits <- as.integer(hashbits)
   nhash <- as.integer(2^hashbits)
   hashmap <- integer(nhash)
-  .Call("hashmap_integer64", x, hashbits, hashmap, nunique, PACKAGE = "bit64")
+  .Call(C_hashmap_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
   
   if (is.null(cache))
 	cache <- newcache(x)
@@ -218,7 +218,7 @@ hashpos.cache_integer64 <- function(cache, x, nomatch = NA_integer_, ...){
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)
   hashdat <- get("x", envir=cache, inherits=FALSE)
   ret <- integer(length(x))
-  .Call("hashpos_integer64", as.integer64(x), hashdat, hashbits, hashmap, as.integer(nomatch), ret, PACKAGE = "bit64")
+  .Call(C_hashpos_integer64, as.integer64(x), hashdat, hashbits, hashmap, as.integer(nomatch), ret, PACKAGE = "bit64")
   ret
 }
 
@@ -229,7 +229,7 @@ hashrev.cache_integer64	 <- function(cache, x, nomatch = NA_integer_, ...){
   hashdat <- get("x", envir=cache, inherits=FALSE)
   nunique <- get("nunique", envir=cache, inherits=FALSE)
   ret <- integer(length(hashdat))
-  .Call("hashrev_integer64", as.integer64(x), hashdat, hashbits, hashmap, nunique, as.integer(nomatch), ret, PACKAGE = "bit64")
+  .Call(C_hashrev_integer64, as.integer64(x), hashdat, hashbits, hashmap, nunique, as.integer(nomatch), ret, PACKAGE = "bit64")
   ret
 }
 
@@ -239,7 +239,7 @@ hashfin.cache_integer64 <- function(cache, x, ...){
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)
   hashdat <- get("x", envir=cache, inherits=FALSE)
   ret <- logical(length(x))
-  .Call("hashfin_integer64", as.integer64(x), hashdat, hashbits, hashmap, ret, PACKAGE = "bit64")
+  .Call(C_hashfin_integer64, as.integer64(x), hashdat, hashbits, hashmap, ret, PACKAGE = "bit64")
   ret
 }
 
@@ -249,7 +249,7 @@ hashrin.cache_integer64 <- function(cache, x, ...){
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)
   hashdat <- get("x", envir=cache, inherits=FALSE)
   ret <- logical(length(hashdat))
-  .Call("hashrin_integer64", as.integer64(x), hashdat, hashbits, hashmap, nunique, ret, PACKAGE = "bit64")
+  .Call(C_hashrin_integer64, as.integer64(x), hashdat, hashbits, hashmap, nunique, ret, PACKAGE = "bit64")
   ret
 }
 
@@ -261,7 +261,7 @@ hashdup.cache_integer64 <- function(cache, ...){
   hashdat <- get("x", envir=cache, inherits=FALSE)
   nunique <- get("nunique", envir=cache, inherits=FALSE)
   ret <- logical(length(hashdat))
-  .Call("hashdup_integer64", hashdat, hashbits, hashmap, nunique, ret, PACKAGE = "bit64")
+  .Call(C_hashdup_integer64, hashdat, hashbits, hashmap, nunique, ret, PACKAGE = "bit64")
   ret
 }
 
@@ -272,7 +272,7 @@ hashuni.cache_integer64 <- function(cache, keep.order=FALSE, ...){
   hashdat <- get("x", envir=cache, inherits=FALSE)
   nunique <- get("nunique", envir=cache, inherits=FALSE)
   ret <- double(nunique)
-  .Call("hashuni_integer64", hashdat, hashbits, hashmap, as.logical(keep.order), ret, PACKAGE = "bit64")
+  .Call(C_hashuni_integer64, hashdat, hashbits, hashmap, as.logical(keep.order), ret, PACKAGE = "bit64")
   oldClass(ret) <- "integer64"
   ret
 }
@@ -284,7 +284,7 @@ hashupo.cache_integer64 <- function(cache, keep.order=FALSE, ...){
   hashdat <- get("x", envir=cache, inherits=FALSE)
   nunique <- get("nunique", envir=cache, inherits=FALSE)
   ret <- integer(nunique)
-  .Call("hashupo_integer64", hashdat, hashbits, hashmap, as.logical(keep.order), ret, PACKAGE = "bit64")
+  .Call(C_hashupo_integer64, hashdat, hashbits, hashmap, as.logical(keep.order), ret, PACKAGE = "bit64")
   ret
 }
 
@@ -296,7 +296,7 @@ hashtab.cache_integer64 <- function(cache, ...){
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)
   hashdat <- get("x", envir=cache, inherits=FALSE)
   nunique <- get("nunique", envir=cache, inherits=FALSE)
-  ret <- .Call("hashtab_integer64", hashdat, hashbits, hashmap, nunique, PACKAGE = "bit64")
+  ret <- .Call(C_hashtab_integer64, hashdat, hashbits, hashmap, nunique, PACKAGE = "bit64")
   attr(ret, "names") <- c("values","counts")
   ret
 }
@@ -316,7 +316,7 @@ hashmaptab.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
     hashbits <- as.integer(hashbits)
   nhash <- as.integer(2^hashbits)
   hashmap <- integer(nhash)
-  ret <- .Call("hashmaptab_integer64", x, hashbits, hashmap, nunique, PACKAGE = "bit64")
+  ret <- .Call(C_hashmaptab_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
   # theoretically we could use {hashmap, nunique} at this point the same way like after calling hashmap_integer64
   attr(ret, "names") <- c("values","counts")
   ret
@@ -337,7 +337,7 @@ hashmapuni.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
     hashbits <- as.integer(hashbits)
   nhash <- as.integer(2^hashbits)
   hashmap <- integer(nhash)
-  ret <- .Call("hashmapuni_integer64", x, hashbits, hashmap, nunique, PACKAGE = "bit64")
+  ret <- .Call(C_hashmapuni_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
   # theoretically we could use {hashmap, nunique} at this point the same way like after calling hashmap_integer64
   oldClass(ret) <- "integer64"
   ret
@@ -359,7 +359,7 @@ hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
   nhash <- as.integer(2^hashbits)
   hashmap <- integer(nhash)
   # theoretically we could use {hashmap, nunique} at this point the same way like after calling hashmap_integer64
-  .Call("hashmapupo_integer64", x, hashbits, hashmap, nunique, PACKAGE = "bit64")
+  .Call(C_hashmapupo_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
 }
 
 if (FALSE){
@@ -385,7 +385,7 @@ if (FALSE){
   system.time({
 	s <- clone(x)
 	na.count <- ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
-	cv <- .Call("r_ram_integer64_sortnut", x = s, PACKAGE = "bit64")[[2]]
+	cv <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")[[2]]
 	})
 
   cv

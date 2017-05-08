@@ -24,7 +24,7 @@
   \code{prank} returns a numeric vector of the same length as \code{x}.
 }
 \author{
-	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
   \code{\link{rank.integer64}} for simple ranks and \code{\link{qtile}} for the inverse function quantiles.

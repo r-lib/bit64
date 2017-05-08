@@ -1,7 +1,7 @@
 # /*
 # R-Code for patching S3 generics
 # S3 atomic 64bit integers for R
-# (c) 2011 Jens Oehlsch‰gel
+# (c) 2011 Jens Oehlsch√§gel
 # Licence: GPL2
 # Provided 'as is', use at your own risk
 # Created: 2011-12-11
@@ -77,7 +77,7 @@
 #! 	\code{\link{invisible}}
 #! }
 #! \author{
-#! Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+#! Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \note{
 #! 	\code{\link{is.double}} returns \code{FALSE} for \code{\link{integer64}} \cr

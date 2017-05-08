@@ -55,7 +55,7 @@ binattr(e1,e2) # for internal use only
    return a vector of class 'integer64'
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ classes }
 \keyword{ manip }

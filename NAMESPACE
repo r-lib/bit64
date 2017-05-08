@@ -1,16 +1,17 @@
 # Namespace for bit64 (currently exporting (almost) everything in order to facilitate debugging)
 # S3 atomic 64 bit integers for R
-# (c) 2011 Jens Oehlsch‰gel
+# (c) 2011 Jens Oehlsch√§gel
 # Licence: GPL2
 # Provided 'as is', use at your own risk
 # Created: 2011-12-11
 # Last changed:  2012-10-07
 
-useDynLib(bit64)
+useDynLib(bit64, .registration = TRUE, .fixes = "C_")
 
 importFrom(methods, is)
 importFrom(methods, as)
 importFrom(utils, packageDescription)
+importFrom(utils, strOptions)
 importFrom(stats, quantile, median,cor)
 importFrom(graphics, barplot, par, title)
 
@@ -43,7 +44,6 @@ importFrom(bit, na.count)
 importFrom(bit, nvalid)
 importFrom(bit, nunique)
 importFrom(bit, nties)
-
 
 export(
 
@@ -105,11 +105,15 @@ export(
 ,"[[<-.integer64"
 ,"[<-.integer64"
 
+,"str.integer64"
 ,"print.integer64"
 ,"format.integer64"
 ,"is.vector.integer64"
 # as.vector.integer64 removed as requested by the CRAN maintainer ,"as.vector.integer64"
 ,"is.na.integer64"
+,"is.nan.integer64"
+,"is.finite.integer64"
+,"is.infinite.integer64"
 ,"all.integer64"
 ,"any.integer64"
 
@@ -144,6 +148,7 @@ export(
 ,"trunc.integer64"
 ,"round.integer64"
 ,"signif.integer64"
+,"scale.integer64"
 
 ,"c.integer64"
 ,"rep.integer64"
@@ -377,11 +382,15 @@ S3method("[[", integer64)
 S3method("[[<-", integer64)
 S3method("[<-", integer64)
 
+S3method("str", integer64)
 S3method("print", integer64)
 S3method("format", integer64)
 S3method("is.vector", integer64)
 # as.vector.integer64 removed as requested by the CRAN maintainer S3method("as.vector", integer64)
 S3method("is.na", integer64)
+S3method("is.nan", integer64)
+S3method("is.finite", integer64)
+S3method("is.infinite", integer64)
 S3method("all", integer64)
 S3method("any", integer64)
 
@@ -416,6 +425,7 @@ S3method("ceiling", integer64)
 S3method("trunc", integer64)
 S3method("round", integer64)
 S3method("signif", integer64)
+S3method("scale", integer64)
 
 S3method("c", integer64)
 S3method("rep", integer64)

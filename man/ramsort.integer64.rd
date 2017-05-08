@@ -87,7 +87,7 @@ number of remaining recursionlevels before \code{quicksort} switches from recurs
   These functions return the number of \code{NAs} found or assumed during sorting
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ programming }
 \keyword{ manip }

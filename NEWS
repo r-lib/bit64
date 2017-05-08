@@ -1,3 +1,39 @@
+    CHANGES IN bit64 VERSION 0.9-7
+
+BUG FIXES
+
+    o All .Call routines are now registered
+
+
+
+    CHANGES IN bit64 VERSION 0.9-6
+
+NEW FEATURES
+
+    o New method str.integer64 shows the integer64 
+      and no longer the underlying double
+      (wish of Matt Dowle)
+    o New integer64 methods is.nan, is.finite, is.infinite
+      (wish of Florent Angly
+
+
+USER VISIBLE CHANGES
+
+    o as.integer64.double and as.double.integer64
+      now have an argument keep.names=FALSE
+      (wish of Dirk Edelbüttel and Leonardo Silvestri)
+
+	
+BUG FIXES
+
+    o We now protect our SEXP return-vector before calling R_Busy
+      (reported by Thjomas Kalibera)
+    o median.integer64 now gets a ... argument if the generic has it
+      (wish of Kurt Hornik)
+    o we migrated all files to UTF-8
+
+    
+
     CHANGES IN bit64 VERSION 0.9-5
 
 USER VISIBLE CHANGES

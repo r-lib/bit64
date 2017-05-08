@@ -74,7 +74,7 @@ optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
  \code{optimizer64} returns a dimensioned list with one row for each high-level function timed and two columns named after the values of the \code{nsmall} and \code{nbig} sample sizes. Each list cell contains a matrix with timings, low-level-methods in rows and three measurements \code{c("prep","both","use")} in columns. If it can be measured separately, \code{prep} contains the timing of preparatory work such as sorting and hashing, and \code{use} contains the timing of using the prepared work. If the function timed does both, preparation and use, the timing is in \code{both}.  
 }
 \author{
- Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+ Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
  \code{\link{integer64}}

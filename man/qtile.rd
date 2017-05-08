@@ -14,9 +14,11 @@
 	qtile(x, probs=seq(0, 1, 0.25), \dots)
 	\method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, \dots)
 	\method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, \dots)
-	\method{median}{integer64}(x, na.rm = FALSE)
  \method{mean}{integer64}(x, na.rm = FALSE, \dots)
 	\method{summary}{integer64}(object, \dots)
+ ## mean(x, na.rm = FALSE, ...)
+ ## or
+ ## mean(x, na.rm = FALSE)
 }
 \arguments{
   \item{x}{a integer64 vector}
@@ -59,7 +61,7 @@ and \code{\link{orderqtl}} (memory saving ordering).
   at the relative positions specified by \code{probs}.
 }
 \author{
-	Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+	Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
   \code{\link{rank.integer64}} for simple ranks and \code{\link{quantile}} for quantiles.

@@ -45,7 +45,7 @@
 	\code{is.sorted} returns a logical scalar, the other methods return an integer scalar.
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
 	\code{\link{cache}} for caching functions and \code{\link{sortordercache}} for functions creating big caches

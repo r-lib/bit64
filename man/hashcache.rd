@@ -46,7 +46,7 @@ and therefore storing them in the cache should require a conscious decision of t
 	\code{x} with a \code{\link{cache}} that contains the result of the expensive operations, possible together with small derived information (such as \code{\link{nunique.integer64}}) and previously cached results.
 }
 \author{
-Jens Oehlschl‰gel <Jens.Oehlschlaegel@truecluster.com>
+Jens Oehlschl√§gel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
 	\code{\link{cache}} for caching functions and \code{\link{nunique}} for methods bennefitting from small caches
