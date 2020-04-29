@@ -2138,10 +2138,10 @@ SEXP r_ram_integer64_radixorder(
   IndexT **pstats;
   pstats = (IndexT **) R_alloc(nradixes, sizeof(IndexT*));
     
-  for (i=0;i<n;i++)
+  for (i=0;i<n;i++){
     index[i]--;
-
-    ram_integer64_radixorder(
+  }
+  ram_integer64_radixorder(
     (UValueT *) data          
   , index
   , auxindex

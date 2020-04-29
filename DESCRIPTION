@@ -2,7 +2,7 @@ Package: bit64
 Type: Package
 Title: A S3 Class for Vectors of 64bit Integers
 Version: 4.0.0
-Date: 2020-04-12
+Date: 2020-04-29
 Author: Jens Oehlschlägel and Leonardo Silvestri
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 Depends: R (>= 3.0.1), bit (>= 4.0.0), utils, methods, stats
