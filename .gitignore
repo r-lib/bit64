@@ -41,3 +41,6 @@ vignettes/*.pdf
 # Object-files
 src/*.o
 src/*.dll
+doc
+Meta
+
