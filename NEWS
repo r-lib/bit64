@@ -15,6 +15,8 @@ USER VISIBLE CHANGES
 
 BUG FIXES
 
+    o removed unused SEXP ret_ from r_ram_integer64_sortnut and 
+      r_ram_integer64_ordernut (LTO problems reported by Brian Ripley)
     o min, max and range now give correct results for multiple arguments
       (reported by Colin Umanski)
     o r_ram_integer64_ordertab_asc and r_ram_integer64_sortordertab_asc 

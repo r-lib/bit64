@@ -65,9 +65,9 @@ wrapup:
 
 SEXP r_ram_integer64_sortnut(
   SEXP sorted_            /* somehow sorted table vector */
-, SEXP ret_
 )
 {
+  SEXP ret_;
   int i,lasti,ities,nties=0,nunique=0,n = LENGTH(sorted_);
   ValueT *sorted = (ValueT *) REAL(sorted_);
   PROTECT( ret_ = allocVector(INTSXP, 2) );
@@ -97,9 +97,9 @@ SEXP r_ram_integer64_sortnut(
 SEXP r_ram_integer64_ordernut(
   SEXP table_
 , SEXP order_
-, SEXP ret_
 )
 {
+  SEXP ret_;
   int i,lasti,ities,nties=0,nunique=0,n = LENGTH(table_);
   ValueT *table;
   table = (ValueT *) REAL(table_);
