@@ -1,3 +1,12 @@
+    CHANGES IN bit64 VERSION 4.0.1
+
+BUG FIXES
+
+    o removed pragma because no longer neede with recent compilers
+    o removed a clang warning
+
+
+
     CHANGES IN bit64 VERSION 4.0.0
 
 
@@ -29,6 +38,7 @@ BUG FIXES
       instead of throwing an error (reported by Xianying Tan)
     o zero-length integer64() no longer prints as `character(0)` 
       (reported by Xianying Tan)
+
 
       
     CHANGES IN bit64 VERSION 0.9-8

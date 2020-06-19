@@ -1,11 +1,11 @@
 Package: bit64
 Type: Package
 Title: A S3 Class for Vectors of 64bit Integers
-Version: 4.0.0
-Date: 2020-06-06
+Version: 4.0.1
+Date: 2020-06-19
 Author: Jens Oehlschlägel [aut, cre], Leonardo Silvestri [ctb]
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-Depends: R (>= 3.0.1), bit (>= 4.0.0), utils, methods, stats
+Depends: R (>= 3.0.1), bit (>= 4.0.1), utils, methods, stats
 Description: 
  Package 'bit64' provides serializable S3 atomic 64bit (signed) integers. 
  These are useful for handling database keys and exact counting in +-2^63.
