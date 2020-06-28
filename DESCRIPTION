@@ -1,7 +1,7 @@
 Package: bit64
 Type: Package
 Title: A S3 Class for Vectors of 64bit Integers
-Version: 4.0.1
+Version: 4.0.2
 Date: 2020-06-19
 Author: Jens Oehlschlägel [aut, cre], Leonardo Silvestri [ctb]
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
@@ -20,7 +20,7 @@ Description:
 License: GPL-2 | GPL-3
 LazyLoad: yes
 ByteCompile: yes
-URL: http://ff.r-forge.r-project.org/
+URL: http://github/truecluster/bit64
 Encoding: UTF-8
 Repository: R-Forge
 Repository/R-Forge/Project: ff
