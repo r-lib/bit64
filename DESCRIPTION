@@ -20,7 +20,7 @@ Description:
 License: GPL-2 | GPL-3
 LazyLoad: yes
 ByteCompile: yes
-URL: http://github/truecluster/bit64
+URL: https://github.com/truecluster/bit64
 Encoding: UTF-8
 Repository: R-Forge
 Repository/R-Forge/Project: ff
