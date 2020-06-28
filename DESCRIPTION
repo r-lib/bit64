@@ -5,7 +5,7 @@ Version: 4.0.2
 Date: 2020-06-28
 Author: Jens Oehlschlägel [aut, cre], Leonardo Silvestri [ctb]
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-Depends: R (>= 3.0.1), bit (>= 4.0.1), utils, methods, stats
+Depends: R (>= 3.0.1), bit (>= 4.0.0), utils, methods, stats
 Description: 
  Package 'bit64' provides serializable S3 atomic 64bit (signed) integers. 
  These are useful for handling database keys and exact counting in +-2^63.
