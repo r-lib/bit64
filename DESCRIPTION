@@ -2,7 +2,7 @@ Package: bit64
 Type: Package
 Title: A S3 Class for Vectors of 64bit Integers
 Version: 4.0.2
-Date: 2020-06-19
+Date: 2020-06-28
 Author: Jens Oehlschlägel [aut, cre], Leonardo Silvestri [ctb]
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 Depends: R (>= 3.0.1), bit (>= 4.0.1), utils, methods, stats
@@ -28,4 +28,3 @@ Repository/R-Forge/Revision: 177
 Repository/R-Forge/DateTimeStamp: 2018-08-17 17:45:18
 Date/Publication: 2018-08-17 17:45:18
 NeedsCompilation: yes
-Packaged: 2018-08-17 18:10:12 UTC; rforge
