@@ -1,4 +1,4 @@
-73acb68c2bc5834db092ce54dece63e2 *DESCRIPTION
+5e52b4d34a7c0c6a0c464244e45d7a21 *DESCRIPTION
 622cf5defd3be87dd47ae8c89b4a1245 *NAMESPACE
 8076b58a4b8357cfc81280f3b95dd554 *NEWS
 0164771b7a15581e427accde14e3cd6e *R/cache.R
@@ -61,6 +61,6 @@ ab3637aa195f4f25ac50467ac24de897 *src/bsearch.h
 d493e44121d13e4ff061d4b392d1470e *src/init.c
 8a0414a7e6691d82652b7c4fd3bde6cd *src/integer64.c
 df550357a5463f72df7cffff0c1adbed *src/integer64.h
-13888fcd2a9ebc1b43d9e90644ce084b *src/sort64.c
+1c911c8b2b18b07b0bfcdf20981720c3 *src/sort64.c
 1fa35d7223e92dec41817543c8110fc5 *src/sort64.h
-6d527b9a1ff89ea4eafdf105645301d7 *src/sortuse64.c
+7f8ac246081ec82487de594b1ea7d88c *src/sortuse64.c

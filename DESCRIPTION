@@ -1,7 +1,7 @@
 Package: bit64
 Type: Package
 Title: A S3 Class for Vectors of 64bit Integers
-Version: 0.9-7
+Version: 0.9-7.1
 Date: 2017-05-07
 Author: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
@@ -23,6 +23,6 @@ ByteCompile: yes
 URL: http://ff.r-forge.r-project.org/
 Encoding: UTF-8
 NeedsCompilation: yes
-Packaged: 2017-05-07 19:07:42 UTC; jo
+Packaged: 2020-07-14 17:48:42 UTC; ripley
 Repository: CRAN
-Date/Publication: 2017-05-08 13:21:40 UTC
+Date/Publication: 2020-07-15 04:56:13 UTC

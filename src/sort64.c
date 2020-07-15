@@ -2141,7 +2141,7 @@ SEXP r_ram_integer64_radixorder(
   for (i=0;i<n;i++)
     index[i]--;
 
-    ram_integer64_radixorder(
+  ram_integer64_radixorder(
     (UValueT *) data          
   , index
   , auxindex
