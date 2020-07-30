@@ -1,11 +1,11 @@
 Package: bit64
 Type: Package
 Title: A S3 Class for Vectors of 64bit Integers
-Version: 0.9-7.1
-Date: 2017-05-07
-Author: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+Version: 4.0.2
+Date: 2020-06-28
+Author: Jens Oehlschlägel [aut, cre], Leonardo Silvestri [ctb]
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-Depends: R (>= 3.0.1), bit (>= 1.1-12), utils, methods, stats
+Depends: R (>= 3.0.1), bit (>= 4.0.0), utils, methods, stats
 Description: 
  Package 'bit64' provides serializable S3 atomic 64bit (signed) integers. 
  These are useful for handling database keys and exact counting in +-2^63.
@@ -17,12 +17,15 @@ Description:
  characters and factors as well as many elementwise and summary functions. 
  Many fast algorithmic operations such as 'match' and 'order' support inter-
  active data exploration and manipulation and optionally leverage caching.
-License: GPL-2
+License: GPL-2 | GPL-3
 LazyLoad: yes
 ByteCompile: yes
-URL: http://ff.r-forge.r-project.org/
+URL: https://github.com/truecluster/bit64
 Encoding: UTF-8
-NeedsCompilation: yes
-Packaged: 2020-07-14 17:48:42 UTC; ripley
 Repository: CRAN
-Date/Publication: 2020-07-15 04:56:13 UTC
+Repository/R-Forge/Project: ff
+Repository/R-Forge/Revision: 177
+Repository/R-Forge/DateTimeStamp: 2018-08-17 17:45:18
+Date/Publication: 2020-07-30 11:31:01 UTC
+NeedsCompilation: yes
+Packaged: 2020-06-28 13:45:36 UTC; jo

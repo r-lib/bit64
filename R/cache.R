@@ -16,7 +16,6 @@
 #! \alias{getcache}
 #! \alias{remcache}
 #! \alias{print.cache}
-#! \alias{still.identical}
 #! \title{
 #! 	Atomic Caching
 #! }
@@ -31,14 +30,10 @@
 #! getcache(x, which)
 #! remcache(x)
 #! \method{print}{cache}(x, all.names = FALSE, pattern, \dots)
-#! still.identical(x, y)
 #! }
 #! \arguments{
 #!   \item{x}{
 #!   an integer64 vector (or a cache object in case of \code{print.cache})
-#! }
-#!   \item{y}{
-#!   an integer64 vector
 #! }
 #!   \item{which}{
 #!   A character naming the object to be retrieved from the cache or to be stored in the cache
@@ -60,7 +55,6 @@
 #! 	A \code{cache} is an \code{link{environment}} attached to an atomic object with the \code{link{attrib}} name 'cache'. 
 #! 	It contains at least a reference to the atomic object that carries the cache. 
 #! 	This is used when accessing the cache to detect whether the object carrying the cache has been modified meanwhile.
-#! 	Function \code{still.identical(x,y)} checks whether the objects \code{x} and \code{y} \cr
 #! 	Function \code{newcache(x)} creates a new cache referencing  \code{x} \cr
 #! 	Function \code{jamcache(x)} forces \code{x} to have a cache \cr
 #! 	Function \code{cache(x)} returns the cache attached to \code{x} if it is not found to be outdated \cr
@@ -75,6 +69,7 @@
 #! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
+#!  \code{\link{still.identical}} for testing whether to symbols point to the same RAM. \cr
 #! 	Functions that get and set small cache-content automatically when a cache is present: \code{\link{na.count}}, \code{\link{nvalid}}, \code{\link{is.sorted}}, \code{\link{nunique}} and \code{\link{nties}} \cr
 #! 	Setting big caches with a relevant memory footprint requires a conscious decision of the user: \code{\link{hashcache}}, \code{\link{sortcache}}, \code{\link{ordercache}} and \code{\link{sortordercache}} \cr
 #! 	Functions that use big caches: \code{\link{match.integer64}}, \code{\link{\%in\%.integer64}}, \code{\link{duplicated.integer64}}, \code{\link{unique.integer64}}, \code{\link{unipos}}, \code{\link{table.integer64}}, \code{\link{as.factor.integer64}}, \code{\link{as.ordered.integer64}}, \code{\link{keypos}}, \code{\link{tiepos}}, \code{\link{rank.integer64}}, \code{\link{prank}}, \code{\link{qtile}}, \code{\link{quantile.integer64}}, \code{\link{median.integer64}} and \code{\link{summary.integer64}} \cr
@@ -101,9 +96,9 @@
 #! }
 #! \keyword{ environment }
 
-still.identical <- function(x, y){
-  .Call(C_r_ram_truly_identical, x = x, y = y, PACKAGE = "bit64")
-}
+#still.identical <- function(x, y){
+#  .Call(C_r_ram_truly_identical, x = x, y = y, PACKAGE = "bit64")
+#}
 
 newcache <- function(x){
 	env <- new.env()
@@ -121,7 +116,7 @@ jamcache <- function(x){
 		cache <- newcache(x)
 		setattr(x, "cache", cache)
 	}else
-		if (!still.identical(x, get("x", envir=cache, inherits=FALSE))){
+		if (!bit::still.identical(x, get("x", envir=cache, inherits=FALSE))){
 			cache <- newcache(x)
 			setattr(x, "cache", cache)
 			warning("replaced outdated cache with empty cache")
@@ -131,7 +126,7 @@ jamcache <- function(x){
 
 cache <- function(x){
 	cache <- attr(x, "cache")
-	if (is.null(cache) || still.identical(x, get("x", envir=cache, inherits=FALSE)))
+	if (is.null(cache) || bit::still.identical(x, get("x", envir=cache, inherits=FALSE)))
 		cache
 	else{ 
 		remcache(x)
@@ -150,7 +145,7 @@ getcache <- function(x, which){
 	cache <- attr(x, "cache")
 	if (is.null(cache))
 	  return(NULL)
-	if (still.identical(x, get("x", envir=cache, inherits=FALSE))){
+	if (bit::still.identical(x, get("x", envir=cache, inherits=FALSE))){
 		if (exists(which, envir=cache, inherits=FALSE))
 			get(which, envir=cache, inherits=FALSE)
 		else

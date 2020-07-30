@@ -111,8 +111,8 @@
 #!   to new or old vectors, which helps to avoid unnecessary memory allocation, unnecessary copying and unnessary garbage collection.
 #!   Prior to 0.93 \emph{within} our R functions we also deviated from conventional R programming by not using \code{\link{attr<-}} and \code{\link{attributes<-}} 
 #!   because they always did new memory allocation and copying in older R versions. If we wanted to set attributes of return values that we have freshly created,
-#!   we instead used functions \code{\link[bit]{setattr}} and \code{\link[bit]{setattributes}} from package \code{\link[bit]{bit}}. 
-#!   From version 0.93 \code{\link[bit]{setattr}} is only used for manipulating \code{\link{cache}} objects, in \code{\link{ramsort.integer64}} and \code{\link{sort.integer64}} and in \code{\link{as.data.frame.integer64}}.
+#!   we instead used functions \code{\link[bit:getsetattr]{setattr}} and \code{\link[bit:getsetattr]{setattributes}} from package \code{\link[bit]{bit}}. 
+#!   From version 0.93 \code{\link[bit:getsetattr]{setattr}} is only used for manipulating \code{\link{cache}} objects, in \code{\link{ramsort.integer64}} and \code{\link{sort.integer64}} and in \code{\link{as.data.frame.integer64}}.
 #! }
 #! \section{Arithmetic precision and coercion}{
 #!   The fact that we introduce 64 bit long long integers -- without introducing 128-bit long doubles -- creates some subtle challenges:
@@ -178,6 +178,7 @@
 #!    \bold{creating,testing,printing} \tab \bold{see also}          \tab \bold{description} \cr
 #!    \code{NA_integer64_} \tab \code{\link{NA_integer_}} \tab NA constant \cr
 #!    \code{integer64} \tab \code{\link{integer}} \tab create zero atomic vector \cr
+#!    \code{\link{runif64}} \tab \code{\link{runif}} \tab create random vector \cr
 #!    \code{\link{rep.integer64}} \tab \code{\link{rep}} \tab  \cr
 #!    \code{\link{seq.integer64}} \tab \code{\link{seq}} \tab  \cr
 #!    \code{\link{is.integer64}} \tab \code{\link{is}} \tab  \cr
@@ -199,6 +200,7 @@
 #!  \cr
 #!    \bold{coercing to integer64} \tab \bold{see also}          \tab \bold{description} \cr
 #!    \code{\link{as.integer64}} \tab   \tab generic \cr
+#!    \code{\link{as.integer64.bitstring}} \tab \code{\link{as.bitstring}} \tab  \cr
 #!    \code{\link{as.integer64.character}} \tab \code{\link{character}} \tab  \cr
 #!    \code{\link{as.integer64.double}} \tab \code{\link{double}} \tab  \cr
 #!    \code{\link{as.integer64.integer}} \tab \code{\link{integer}} \tab  \cr
@@ -300,6 +302,7 @@
 #!    \code{\link{quantile.integer64}} \tab \code{\link{quantile}} \tab (existing) values at specified percentiles (/s/o/so) \cr
 #!    \code{\link{median.integer64}} \tab \code{\link{median}} \tab (existing) value at percentile 0.5 (/s/o/so) \cr
 #!    \code{\link{summary.integer64}} \tab \code{\link{summary}} \tab  (/s/o/so) \cr
+#!    \code{\link{all.equal.integer64}} \tab \code{\link{all.equal}} \tab test if two objects are (nearly) equal (/s/o/so) \cr
 #!  \cr
 #!    \bold{helper functions} \tab \bold{see also}          \tab \bold{description} \cr
 #!    \code{\link{minusclass}} \tab \code{\link{minusclass}} \tab removing class attritbute \cr
@@ -945,6 +948,7 @@
 #! \alias{as.integer.integer64}
 #! \alias{as.logical.integer64}
 #! \alias{as.bitstring}
+#! \alias{print.bitstring}
 #! \alias{as.bitstring.integer64}
 #! \alias{as.factor.integer64}
 #! \alias{as.ordered.integer64}
@@ -960,6 +964,7 @@
 #! \usage{
 #!  as.bitstring(x, \dots)
 #!  \method{as.bitstring}{integer64}(x, \dots)
+#!  \method{print}{bitstring}(x, \dots)
 #!  \method{as.character}{integer64}(x, \dots)
 #!  \method{as.double}{integer64}(x, keep.names = FALSE, \dots)
 #!  \method{as.integer}{integer64}(x, \dots)
@@ -973,7 +978,7 @@
 #!   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
 #! }
 #! \value{
-#!   \code{as.bitstring} returns a string of . \cr
+#!   \code{as.bitstring} returns a string of class 'bitstring'. \cr
 #!   The other methods return atomic vectors of the expected types
 #! }
 #! \author{
@@ -985,12 +990,16 @@
 #! \examples{
 #!   as.character(lim.integer64())
 #!   as.bitstring(lim.integer64())
+#!   as.bitstring(as.integer64(c(
+#!    -2,-1,NA,0:2
+#!   )))
 #! }
 
 #! \name{as.integer64.character}
 #! \alias{as.integer64}
 #! \alias{as.integer64.integer64}
 #! \alias{as.integer64.NULL}
+#! \alias{as.integer64.bitstring}
 #! \alias{as.integer64.character}
 #! \alias{as.integer64.double}
 #! \alias{as.integer64.integer}
@@ -1009,6 +1018,7 @@
 #!  \method{as.integer64}{integer64}(x, \dots)
 #!  \method{as.integer64}{NULL}(x, \dots)
 #!  \method{as.integer64}{character}(x, \dots)
+#!  \method{as.integer64}{bitstring}(x, \dots)
 #!  \method{as.integer64}{double}(x, keep.names = FALSE, \dots)
 #!  \method{as.integer64}{integer}(x, \dots)
 #!  \method{as.integer64}{logical}(x, \dots)
@@ -1021,7 +1031,12 @@
 #! }
 #! \details{
 #!   \code{as.integer64.character} is realized using C function \code{strtoll} which does not support scientific notation. 
-#!   Instead of '1e6' use '1000000'.
+#!   Instead of '1e6' use '1000000'. 
+#!   \code{as.integer64.bitstring} evaluates characters '0' anbd ' ' as zero-bit,
+#!   all other one byte characters as one-bit,
+#!   multi-byte characters are not allowed,
+#!   strings shorter than 64 characters are treated as if they were left-padded with '0',
+#!   strings longer than 64 bytes are mapped to \code{NA_INTEGER64} and a warning is emitted.
 #! }
 #! \value{
 #!   The other methods return atomic vectors of the expected types
@@ -1033,7 +1048,25 @@
 #! \keyword{ manip }
 #! \seealso{ \code{\link{as.character.integer64}} \code{\link{integer64}}  }
 #! \examples{
-#!   as.integer64(as.character(lim.integer64()))
+#! as.integer64(as.character(lim.integer64()))
+#! as.integer64(
+#!   structure(c("1111111111111111111111111111111111111111111111111111111111111110", 
+#!               "1111111111111111111111111111111111111111111111111111111111111111", 
+#!               "1000000000000000000000000000000000000000000000000000000000000000",
+#!               "0000000000000000000000000000000000000000000000000000000000000000", 
+#!               "0000000000000000000000000000000000000000000000000000000000000001", 
+#!               "0000000000000000000000000000000000000000000000000000000000000010" 
+#!   ), class = "bitstring")
+#! )
+#! as.integer64(
+#!  structure(c("............................................................... ", 
+#!              "................................................................", 
+#!              ".                                                               ",
+#!              "", 
+#!              ".", 
+#!              "10"
+#!   ), class = "bitstring")
+#! )
 #! }
 
 
@@ -1049,13 +1082,14 @@
 #!   Methods to extract and replace parts of an integer64 vector.
 #! }
 #! \usage{
-#!  \method{[}{integer64}(x, \dots)
+#!  \method{[}{integer64}(x, i, \dots)
 #!  \method{[}{integer64}(x, \dots) <- value 
 #!  \method{[[}{integer64}(x, \dots)
 #!  \method{[[}{integer64}(x, \dots) <- value
 #! }
 #! \arguments{
 #!   \item{x}{ an atomic vector }
+#!   \item{i}{ indices specifying elements to extract }
 #!   \item{value}{ an atomic vector with values to be assigned }
 #!   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
 #! }
@@ -1079,6 +1113,10 @@
 #!   x
 #!   x[]
 #!   x[,2:3]
+#!   \dontshow{
+#!     r <- c(runif64(1e3, lim.integer64()[1], lim.integer64()[2]), NA, -2:2)
+#!     stopifnot(identical(r, as.integer64(as.bitstring(r))))
+#!   }
 #! }
 
 #! \name{format.integer64}
@@ -1152,8 +1190,15 @@
 #! \seealso{ \code{\link{xor.integer64}} \code{\link{integer64}}  }
 #! \examples{
 #!   sqrt(as.integer64(1:12))
+#! \dontshow{
+#! i <- -999:999
+#! for (s in -3:3){
+#! r <- as.integer64(round(as.integer(i), s))
+#!   r64 <- round(as.integer64(i), s)
+#!   stopifnot(identical(r,r64))
 #! }
-
+#! }
+#! }
 
 #! \name{xor.integer64}
 #! \alias{&.integer64}
@@ -1243,7 +1288,7 @@
 #! \method{any}{integer64}(\dots, na.rm = FALSE)
 #! \method{min}{integer64}(\dots, na.rm = FALSE)
 #! \method{max}{integer64}(\dots, na.rm = FALSE)
-#! \method{range}{integer64}(\dots, na.rm = FALSE)
+#! \method{range}{integer64}(\dots, na.rm = FALSE, finite = FALSE)
 #! lim.integer64()
 #! \method{sum}{integer64}(\dots, na.rm = FALSE)
 #! \method{prod}{integer64}(\dots, na.rm = FALSE)
@@ -1251,6 +1296,7 @@
 #! \arguments{
 #!   \item{\dots}{ atomic vectors of class 'integer64'}
 #!   \item{na.rm}{ logical scalar indicating whether to ignore NAs }
+#!   \item{finite}{ logical scalar indicating whether to ignore NAs (just for compatibility with \code{\link{range.default}}) }
 #! }
 #! \details{
 #!   The numerical summary methods always return \code{integer64}. 
@@ -1515,12 +1561,228 @@
 #! }
 
 
+#! \name{all.equal.integer64}
+#! \alias{all.equal.integer64}
+#! \title{
+#!    Test if two integer64 vectors are all.equal
+#! }
+#! \description{
+#!    A utility to compare integer64 objects 'x' and 'y' testing for ‘near equality’, see \code{\link{all.equal}}.
+#! }
+#! \usage{
+#!   \method{all.equal}{integer64}(
+#!   target
+#! , current
+#! , tolerance = sqrt(.Machine$double.eps)
+#! , scale = NULL
+#! , countEQ = FALSE
+#! , formatFUN = function(err, what) format(err)
+#! , ...
+#! , check.attributes = TRUE
+#! )
+#! }
+#! \arguments{
+#!   \item{target}{ a vector of 'integer64' or an object that can be coerced with \code{\link{as.integer64}} }
+#!   \item{current}{ a vector of 'integer64' or an object that can be coerced with \code{\link{as.integer64}} }
+#!   \item{tolerance}{numeric \eqn{\ge} 0.  Differences smaller than
+#!     \code{tolerance} are not reported.  The default value is close to
+#!     \code{1.5e-8}.}
+#!   \item{scale}{\code{NULL} or numeric > 0, typically of length 1 or
+#!     \code{length(target)}.  See \sQuote{Details}.}
+#!   \item{countEQ}{logical indicating if the \code{target == current}
+#!     cases should be counted when computing the mean (absolute or
+#!     relative) differences.  The default, \code{FALSE} may seem
+#!     misleading in cases where \code{target} and \code{current} only
+#!     differ in a few places; see the extensive example.}
+#!   \item{formatFUN}{a \code{\link{function}} of two arguments,
+#!     \code{err}, the relative, absolute or scaled error, and
+#!     \code{what}, a character string indicating the \emph{kind} of error;
+#!     maybe used, e.g., to format relative and absolute errors differently.}
+#!   \item{\dots}{further arguments are ignored}
+#!   \item{check.attributes}{logical indicating if the
+#!     \code{\link{attributes}} of \code{target} and \code{current}
+#!     (other than the names) should be compared.}
+#! }
+#! \value{
+#!   Either ‘TRUE’ (‘NULL’ for ‘attr.all.equal’) or a vector of ‘mode’
+#!   ‘"character"’ describing the differences between ‘target’ and
+#!   ‘current’.
+#! }
+#! \details{
+#!    In \code{\link{all.equal.numeric}} the type \code{integer} is treated as a proper subset of \code{double} 
+#!    i.e. does not complain about comparing \code{integer} with \code{double}. 
+#!    Following this logic \code{all.equal.integer64} treats \code{integer} as a proper subset of \code{integer64} 
+#!    and does not complain about comparing \code{integer} with \code{integer64}. \code{double} also compares without warning 
+#!    as long as the values are within \code{\link{lim.integer64}}, if \code{double} are bigger \code{all.equal.integer64}
+#!    complains about the \code{all.equal.integer64 overflow warning}. For further details see \code{\link{all.equal}}.
+#! }
+#! \note{
+#!    \code{\link{all.equal}} only dispatches to this method if the first argument is \code{integer64}, 
+#!    calling \code{\link{all.equal}} with a \code{non-integer64} first and a \code{integer64} second argument 
+#!    gives undefined behavior!
+#! }
+#! \author{
+#!   Leonardo Silvestri (for package nanotime)
+#! }
+#! \seealso{
+#!   \code{\link{all.equal}}
+#! }
+#! \examples{
+#!   all.equal(as.integer64(1:10), as.integer64(0:9))
+#!   all.equal(as.integer64(1:10), as.integer(1:10))
+#!   all.equal(as.integer64(1:10), as.double(1:10))
+#!   all.equal(as.integer64(1), as.double(1e300))
+#! }
+
 # if (!exists(":.default")){
 	# ":.default" <- get(":")
 	# ":" <- function(from,to)UseMethod(":")
 # }
 
 setOldClass("integer64")
+
+
+# contributed by Leonardo Silvestri with modifications of JO
+all.equal.integer64  <- function (
+  target
+, current
+, tolerance = sqrt(.Machine$double.eps)
+, scale = NULL
+, countEQ = FALSE
+, formatFUN = function(err, what) format(err)
+, ...
+, check.attributes = TRUE
+) 
+{
+  if (!is.numeric(tolerance)) 
+    stop("'tolerance' should be numeric")
+  if (!is.numeric(scale) && !is.null(scale)) 
+    stop("'scale' should be numeric or NULL")
+  if (!is.logical(check.attributes)) 
+    stop(gettextf("'%s' must be logical", "check.attributes"), 
+         domain = NA)
+  # JO: BEGIN respect that integer is a proper subset of integer64 like integer is a proper subset of double
+  oldwarn <- getOption("warn")
+  on.exit(options(warn=oldwarn))
+  options(warn=2L)
+  if (!is.integer64(target)){
+    cl <- oldClass(target)
+    oldClass(target) <- NULL
+    target <- try(as.integer64(target))
+    if (inherits(target, 'try-error'))
+      return(paste("while coercing 'target' to 'integer64':",  attr(target, "condition")$message))
+    oldClass(target) <- c(cl, "integer64")
+  }
+  if (!is.integer64(current)){
+    cl <- oldClass(current)
+    oldClass(current) <- NULL
+    current <- try(as.integer64(current))
+    if (inherits(current, 'try-error'))
+      return(paste("while coercing 'current' to 'integer64':",  attr(current, "condition")$message))
+    oldClass(current) <- c(cl, "integer64")
+  }
+  # JO: END respect that integer is a proper subset of integer64 like integer is a proper subset of double
+  msg <- NULL
+  msg <- if (check.attributes)
+           attr.all.equal(target, current, tolerance = tolerance, 
+                          scale = scale, ...)
+  if (data.class(target) != data.class(current)) {
+    msg <- c(msg, paste0("target is ", data.class(target), 
+                         ", current is ", data.class(current)))
+    return(msg)
+  }
+  lt <- length(target)
+  lc <- length(current)
+  if (lt != lc) {
+    if (!is.null(msg)) 
+      msg <- msg[-grep("\\bLengths\\b", msg)]
+    msg <- c(msg, paste0("integer64: lengths (", lt, ", ", lc, ") differ"))
+    return(msg)
+  }
+  out <- is.na(target)
+  if (any(out != is.na(current))) {
+    msg <- c(msg, paste("'is.NA' value mismatch:", sum(is.na(current)), 
+                        "in current", sum(out), "in target"))
+    return(msg)
+  }
+  out <- out | target == current
+  if (all(out)) 
+    return(if (is.null(msg)) TRUE else msg)
+  if (countEQ) {
+    N <- length(out)
+    sabst0 <- sum(abs(target[out]))
+  } else {
+    sabst0 <- 0
+  }
+  target <- target[!out]
+  current <- current[!out]
+  if (!countEQ) 
+    N <- length(target)
+  xy <- sum(abs(target - current))/N
+  what <- if (is.null(scale)) {
+            xn <- (sabst0 + sum(abs(target)))/N
+            if (is.finite(xn) && xn > tolerance) {
+              xy <- xy/xn
+              "relative"
+            } else {
+              "absolute"
+            }
+          } else {
+            stopifnot(all(scale > 0))
+            xy <- xy/scale
+            if (all(abs(scale - 1) < 1e-07)) 
+              "absolute"
+            else "scaled"
+          }
+  if (is.na(xy) || xy > tolerance) 
+    msg <- c(msg, paste("Mean", what, "difference:", formatFUN(xy, what)))
+  if (is.null(msg)) {
+    TRUE
+  } else msg
+}
+
+if (FALSE){
+  require(bit64)
+  a <- as.integer64(1)
+  b <- as.integer(10)
+  oldClass(a) <- c("j", oldClass(a))
+  oldClass(b) <- c("j", oldClass(b))
+  all.equal(a,b)
+  
+  a <- as.double(1)
+  b <- as.integer(10)
+  oldClass(a) <- c("j", oldClass(a))
+  oldClass(b) <- c("j", oldClass(b))
+  all.equal(a,b)
+  
+  a <- as.integer64(9e17)
+  b <- 9e18
+  oldClass(a) <- c("j", oldClass(a))
+  oldClass(b) <- c("j", oldClass(b))
+  all.equal(a,b)
+  
+  a <- as.integer64(9e18)
+  b <- 9e19
+  oldClass(a) <- c("j", oldClass(a))
+  oldClass(b) <- c("j", oldClass(b))
+  all.equal(a,b)
+  
+  a <- as.integer64(c(1,NA))
+  b <- as.integer(c(1,NA))
+  all.equal(a,b)
+  
+  a <- as.integer64(c(1,NA))
+  b <- as.double(c(1,NA))
+  all.equal(a,b)
+  
+  a <- as.integer64(c(1,Inf))
+  b <- as.integer(c(1,Inf))
+  all.equal(a,b)
+  
+  a <- as.integer64(c(1,Inf))
+  b <- as.double(c(1,Inf))
+  all.equal(a,b)
+}
 
 
 identical.integer64 <- function(x, y
@@ -1567,42 +1829,137 @@ plusclass <- function(class, whichclass){
     whichclass
 }
 
-binattr <- function(e1,e2){
+if (FALSE){
+  # version until 0.9-7
+	binattr <- function(e1,e2){
+		d1 <- dim(e1)
+		d2 <- dim(e2)
+		n1 <- length(e1)
+		n2 <- length(e2)
+		if (length(d1)){
+		  if (length(d2)){
+			if (!identical(dim(e1),dim(e2)))
+			stop("non-conformable arrays")
+		}else{
+			if (n2>n1)
+			  stop("length(e2) does not match dim(e1)")
+			if (n1%%n2)
+			warning("length(e1) not a multiple length(e2)")
+		}
+		attributes(e1)
+		}else{
+		  if (length(d2)){
+			if (n1>n2)
+			  stop("length(e1) does not match dim(n2)")
+			if (n2%%n1)
+			warning("length(e2) not a multiple length(e1)")
+			attributes(e2)
+		}else{
+			if (n1<n2){
+			if (n2%%n1)
+				warning("length(e2) not a multiple length(e1)")
+			}else{
+			if (n1%%n2)
+				warning("length(e1) not a multiple length(e2)")
+			}
+			attributes(e1)
+		}
+		}
+	}
+}
+
+# Version of Leonardo Silvestri
+binattr <- function(e1, e2) {
   d1 <- dim(e1)
   d2 <- dim(e2)
   n1 <- length(e1)
   n2 <- length(e2)
-  if (length(d1)){
-    if (length(d2)){
-	  if (!identical(dim(e1),dim(e2)))
-		stop("non-conformable arrays")
-	}else{
-	  if (n2>n1)
-	    stop("length(e2) does not match dim(e1)")
-	  if (n1%%n2)
-		warning("length(e1) not a multiple length(e2)")
-	}
-	attributes(e1)
-  }else{
-    if (length(d2)){
-	  if (n1>n2)
-	    stop("length(e1) does not match dim(n2)")
-	  if (n2%%n1)
-		warning("length(e2) not a multiple length(e1)")
-	  attributes(e2)
-	}else{
-	  if (n1<n2){
-		if (n2%%n1)
-			warning("length(e2) not a multiple length(e1)")
-	  }else{
-		if (n1%%n2)
-			warning("length(e1) not a multiple length(e2)")
-	  }
-	  attributes(e1)
-	}
+  
+  ## this first part takes care of erroring out when the dimensions
+  ## are not compatible or warning if needed:
+  if (length(d1)) {
+    if (length(d2)) {
+      if (!identical(dim(e1), dim(e2)))
+        stop("non-conformable arrays")
+    } else{
+      if (n2 > n1 && n1)
+        stop("length(e2) does not match dim(e1)")
+      if (n2 && n1 %% n2)
+        warning("length(e1) not a multiple length(e2)")
+    }
+  } else{
+    if (length(d2)) {
+      if (n1 > n2 && n2)
+        stop("length(e1) does not match dim(n2)")
+      if (n1 && n2 %% n1)
+        warning("length(e2) not a multiple length(e1)")
+    } else{
+      if (n1 < n2 && n1) {
+        if (n1 && n2 %% n1)
+          warning("length(e2) not a multiple length(e1)")
+      } else{
+        if (n2 && n1 %% n2)
+          warning("length(e1) not a multiple length(e2)")
+      }
+    }
+  }
+  
+  ## in this part we mimic R's algo for selecting attributes:
+  if (n1 == n2){
+    ## if same size take attribute from e1 if it exists, else from e2
+    if (n1==0){
+      ae1 <- attributes(e1)[c("class","dim","dimnames")]
+      ae2 <- attributes(e2)[c("class","dim","dimnames")]
+    }
+    ae1 <- attributes(e1)
+    ae2 <- attributes(e2)
+    nae1 <- names(attributes(e1))
+    nae2 <- names(attributes(e2))
+    if (n1==0){
+      ae1 <- ae1[nae1 %in% c("class","dim","dimnames")]
+      ae2 <- ae1[nae1 %in% c("class","dim","dimnames")]
+    }
+    allattr <- list()
+    for (a in union(nae1, nae2))
+      if (a %in% nae1)
+        allattr[[a]] <- ae1[[a]]
+    else
+      allattr[[a]] <- ae2[[a]]
+    allattr
+  }else if (n1 == 0 || n1 > n2) {
+    attributes(e1)
+  } else {
+    attributes(e2)
   }
 }
 
+
+if (FALSE){
+  x <- integer64(0)
+  y <- integer64(0)
+  #dim(x) <- c(2L,2L)
+  dim(y) <- c(0L,0L)
+  dimnames(y) <- list(character(0),character(0))
+  #dim(x) <- c(1L,4L)
+  #dim(y) <- c(4L,1L)
+  
+  attr(x,"x") <- "x"
+  attr(y,"y") <- "y"
+  
+  z <- x - y
+  z
+  dim(z)
+  dimnames(z)
+  
+  z <- y - x
+  z
+  dim(z)
+  dimnames(z)
+  
+  ret <- "integer64(0)"
+  attributes(ret) <- list(dim = c(0L, 0L), class = character(0), dimnames = list(NULL,NULL))
+  
+}
 
 integer64 <- function(length=0){
   ret <- double(length)
@@ -1621,8 +1978,7 @@ as.integer64.NULL <- function (x, ...){
 as.integer64.integer64 <- function(x, ...)x
 
 as.integer64.double <- function(x, keep.names=FALSE, ...){
-  ret <- double(length(x))
-  .Call(C_as_integer64_double, x, ret)
+  ret <- .Call(C_as_integer64_double, x, double(length(x)))
   if (keep.names)
     names(ret) <- names(x)
   oldClass(ret) <- "integer64"
@@ -1630,16 +1986,14 @@ as.integer64.double <- function(x, keep.names=FALSE, ...){
 }
 
 as.integer64.logical <- as.integer64.integer <- function(x, ...){
-  ret <- double(length(x))
-  .Call(C_as_integer64_integer, x, ret)
+  ret <- .Call(C_as_integer64_integer, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
 
 as.integer64.character <- function(x, ...){
   n <- length(x)
-  ret <- rep(as.double(NA), n)
-  .Call(C_as_integer64_character, x, ret)
+  ret <- .Call(C_as_integer64_character, x, rep(as.double(NA), n))
   oldClass(ret) <- "integer64"
   ret
 }
@@ -1648,38 +2002,44 @@ as.integer64.factor <- function(x, ...)
 as.integer64(unclass(x), ...)
 
 as.double.integer64 <- function(x, keep.names=FALSE, ...){
-  ret <- double(length(x))
-  .Call(C_as_double_integer64, x, ret)
+  ret <- .Call(C_as_double_integer64, x, double(length(x)))
   if (keep.names)
     names(ret) <- names(x)
   ret
 }
 
 as.integer.integer64 <- function(x, ...){
-  ret <- integer(length(x))
-  .Call(C_as_integer_integer64, x, ret)
-  ret
+  .Call(C_as_integer_integer64, x, integer(length(x)))
 }
 
 as.logical.integer64 <- function(x, ...){
-  ret <- logical(length(x))
-  .Call(C_as_logical_integer64, x, ret)
-  ret
+  .Call(C_as_logical_integer64, x, logical(length(x)))
 }
 
 as.character.integer64 <- function(x, ...){
   n <- length(x)
-  ret <- rep(as.character(NA), n)
-  .Call(C_as_character_integer64, x, ret)
-  ret
+  .Call(C_as_character_integer64, x, rep(as.character(NA), n))
 }
 
 as.bitstring.integer64 <- function(x, ...){
   n <- length(x)
-  ret <- rep(as.character(NA), n)
-  .Call(C_as_bitstring_integer64, x, ret)
+  ret <- .Call(C_as_bitstring_integer64, x, rep(as.character(NA), n))
+  oldClass(ret) <- 'bitstring'
   ret
 }
+
+print.bitstring <- function(x, ...){
+  oldClass(x) <- minusclass(class(x), 'bitstring')
+  NextMethod(x)
+}
+
+as.integer64.bitstring <- function(x, ...){
+  n <- length(x)
+  ret <- .Call(C_as_integer64_bitstring, x, double(length(x)))
+  oldClass(ret) <- "integer64"
+  ret
+}
+
 
 # read.table expects S4 as() 
 setAs("character","integer64",function(from)as.integer64.character(from))
@@ -1717,12 +2077,16 @@ format.integer64 <- function(x, justify="right", ...){
 }
 
 print.integer64 <- function(x, quote=FALSE, ...){
-  cat("integer64\n")
   a <- attributes(x)
-  ret <- as.character(x)
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
-  print(ret, quote=quote, ...)
+  if (length(x)){
+    cat("integer64\n")
+    ret <- as.character(x)
+    a$class <- minusclass(a$class, "integer64")
+    attributes(ret) <- a
+    print(ret, quote=quote, ...)
+  }else{
+    cat("integer64(0)\n")
+  }
   invisible(x)
 }
 
@@ -1741,13 +2105,52 @@ str.integer64 <- function(object
   invisible()
 }
 
-"[.integer64" <- function(x,...){
-  cl <- oldClass(x)
-  ret <- NextMethod()
-  oldClass(ret) <- cl
-  remcache(ret)
-  ret
+if (FALSE){
+	require(microbenchmark)
+	require(bit64)
+	x <- runif64(1e7)
+	microbenchmark(x[TRUE], times=10)
+	microbenchmark(x[NA], times=10)
+  i <- seq_along(x)
+	i[1] <- NA
+	microbenchmark(x[i], times=10)
+	i <- rep(TRUE, length(x))
+	i[1] <- NA
+	microbenchmark(x[i], times=10)
+  i <- seq_along(x)
+	microbenchmark(x[i], times=10)
+	i <- rep(TRUE, length(x))
+	microbenchmark(x[i], times=10)
+
 }
+
+
+"[.integer64" <- function(x, i, ...){
+	cl <- oldClass(x)
+	ret <- NextMethod()
+	# Begin NA-handling from Leonardo Silvestri
+	if (!missing(i)){
+		if (class(i) == "character") {
+		  na_idx <- union(which(!(i %in% names(x))), which(is.na(i)))
+		  if (length(na_idx))
+				ret[na_idx] <- NA_integer64_
+		}else{ 
+			if (class(i) == "logical"){
+		    i <- i[is.na(i) | i]
+		    na_idx <- rep(is.na(i), length.out=length(ret))
+		  }else{
+		    na_idx <- is.na(i)
+		  }
+		  if (any(na_idx))
+				ret[na_idx] <- NA_integer64_
+		}
+	}
+	# End NA-handling from Leonardo Silvestri
+	oldClass(ret) <- cl
+	remcache(ret)
+	ret
+}
+
 
 "[<-.integer64" <- function(x,...,value){
   cl <- oldClass(x)
@@ -1860,8 +2263,7 @@ as.data.frame.integer64 <- function(x, ...){
 ":.integer64" <- function(from, to){
   from <- as.integer64(from)
   to <- as.integer64(to)
-  ret <- double(as.integer(to-from+1L))
-  .Call(C_seq_integer64, from, as.integer64(1L), ret)
+  ret <- .Call(C_seq_integer64, from, as.integer64(1L), double(as.integer(to-from+1L)))
   oldClass(ret) <- "integer64"
   ret
 }
@@ -1907,8 +2309,7 @@ as.data.frame.integer64 <- function(x, ...){
         return(from)
       else{
         #return(cumsum(c(from, rep(by, length.out-1L))))
-		ret <- double(as.integer(length.out))
-		.Call(C_seq_integer64, from, by, ret)
+		ret <- .Call(C_seq_integer64, from, by, double(as.integer(length.out)))
 		oldClass(ret) <- "integer64"
 		return(ret)
 	  }
@@ -1923,8 +2324,7 @@ as.data.frame.integer64 <- function(x, ...){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- double(max(length(e1),length(e2)))
-  .Call(C_plus_integer64, e1, e2, ret)
+  ret <- .Call(C_plus_integer64, e1, e2, double(max(length(e1),length(e2))))
   a$class <- plusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -1938,8 +2338,7 @@ as.data.frame.integer64 <- function(x, ...){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- double(max(length(e1),length(e2)))
-  .Call(C_minus_integer64, e1, e2, ret)
+  ret <- .Call(C_minus_integer64, e1, e2, double(max(length(e1),length(e2))))
   a$class <- plusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -1949,8 +2348,7 @@ as.data.frame.integer64 <- function(x, ...){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- double(max(length(e1), length(e2)))
-  .Call(C_intdiv_integer64, e1, e2, ret)
+  ret <- .Call(C_intdiv_integer64, e1, e2, double(max(length(e1), length(e2))))
   a$class <- plusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -1960,8 +2358,7 @@ as.data.frame.integer64 <- function(x, ...){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- double(max(length(e1), length(e2)))
-  .Call(C_mod_integer64, e1, e2, ret)
+  ret <- .Call(C_mod_integer64, e1, e2, double(max(length(e1), length(e2))))
   a$class <- plusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -1970,11 +2367,10 @@ as.data.frame.integer64 <- function(x, ...){
 
 "*.integer64" <- function(e1, e2){
   a <- binattr(e1,e2)
-  ret <- double(max(length(e1),length(e2)))
   if (is.double(e2))  # implies !is.integer64(e2)
-    .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
+    ret <- .Call(C_times_integer64_double, as.integer64(e1), e2, double(max(length(e1),length(e2))))
   else
-    .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
+    ret <- .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), double(max(length(e1),length(e2))))
   a$class <- plusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -1982,11 +2378,10 @@ as.data.frame.integer64 <- function(x, ...){
 
 "^.integer64" <- function(e1, e2){
   a <- binattr(e1,e2)
-  ret <- double(max(length(e1),length(e2)))
   if (is.double(e2))  # implies !is.integer64(e2)
-    .Call(C_power_integer64_double, as.integer64(e1), e2, ret)
+    ret <- .Call(C_power_integer64_double, as.integer64(e1), e2, double(max(length(e1),length(e2))))
   else
-    .Call(C_power_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
+    ret <- .Call(C_power_integer64_integer64, as.integer64(e1), as.integer64(e2), double(max(length(e1),length(e2))))
   a$class <- plusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -1994,11 +2389,10 @@ as.data.frame.integer64 <- function(x, ...){
 
 "/.integer64" <- function(e1, e2){
   a <- binattr(e1,e2)
-  ret <- double(max(length(e1),length(e2)))
   if (is.double(e2))  # implies !is.integer64(e2)
-    .Call(C_divide_integer64_double, as.integer64(e1), e2, ret)
+    ret <- .Call(C_divide_integer64_double, as.integer64(e1), e2, double(max(length(e1),length(e2))))
   else
-	  .Call(C_divide_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
+    ret <- .Call(C_divide_integer64_integer64, as.integer64(e1), as.integer64(e2), double(max(length(e1),length(e2))))
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2007,24 +2401,21 @@ as.data.frame.integer64 <- function(x, ...){
 
 "sign.integer64" <- function(x){
   a <- attributes(x)
-  ret <- double(length(x))
-  .Call(C_sign_integer64, x,ret)
+  ret <- .Call(C_sign_integer64, x, double(length(x)))
   attributes(ret) <- a
   ret
 }
 
 "abs.integer64" <- function(x){
   a <- attributes(x)
-  ret <- double(length(x))
-  .Call(C_abs_integer64, x,ret)
+  ret <- .Call(C_abs_integer64, x, double(length(x)))
   attributes(ret) <- a
   ret
 }
 
 "sqrt.integer64" <- function(x){
   a <- attributes(x)
-  ret <- double(length(x))
-  .Call(C_sqrt_integer64, x,ret)
+  ret <- .Call(C_sqrt_integer64, x, double(length(x)))
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2032,13 +2423,12 @@ as.data.frame.integer64 <- function(x, ...){
 
 "log.integer64" <- function(x, base=NULL){
   a <- attributes(x)
-  ret <- double(max(length(x),length(base)))
-  if (is.null(base))
-	.Call(C_log_integer64, x, ret)
-  else if(length(base)==1){
-    .Call(C_logbase_integer64, x, as.double(base), ret)
+  ret <- if (is.null(base)){
+	  .Call(C_log_integer64, x, double(max(length(x),length(base))))
+  }else if(length(base)==1){
+    .Call(C_logbase_integer64, x, as.double(base), double(max(length(x),length(base))))
   }else{
-    .Call(C_logvect_integer64, x, as.double(base), ret)
+    .Call(C_logvect_integer64, x, as.double(base), double(max(length(x),length(base))))
   }
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
@@ -2047,8 +2437,7 @@ as.data.frame.integer64 <- function(x, ...){
 
 "log10.integer64" <- function(x){
   a <- attributes(x)
-  ret <- double(length(x))
-  .Call(C_log10_integer64, x,ret)
+  ret <- .Call(C_log10_integer64, x, double(length(x)))
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2056,8 +2445,7 @@ as.data.frame.integer64 <- function(x, ...){
 
 "log2.integer64" <- function(x){
   a <- attributes(x)
-  ret <- double(length(x))
-  .Call(C_log2_integer64, x,ret)
+  ret <- .Call(C_log2_integer64, x, double(length(x)))
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2073,63 +2461,62 @@ as.data.frame.integer64 <- function(x, ...){
 "round.integer64" <- function(x, digits=0){
   if (digits<0){
     a <- attributes(x)
-	base <- 10^floor(-digits)
-	ret <- (x%/%base) * base
+    b <- 10^round(-digits)
+    b2 <- b %/% 2
+    d <- (x %/% b)
+    db <- d * b
+    r <- abs(x-db)
+    ret <- ifelse((r < b2) | (r == b2 & ((d %% 2L) == 0L)), db, db + sign(x)*b)
     #a$class <- minusclass(a$class, "integer64")
     attributes(ret) <- a
-	ret
+    ret
   }else
-	x
+    x
 }
+
+
+
 
 "any.integer64" <- function(..., na.rm = FALSE){
   l <- list(...)
-  ret <- logical(1)
   if (length(l)==1){
-		  .Call(C_any_integer64, l[[1]], na.rm, ret)
-		  ret
+		  .Call(C_any_integer64, l[[1]], na.rm, logical(1))
   }else{
 	  any(sapply(l, function(e){
-		if (is.integer64(e)){
-		  .Call(C_any_integer64, e, na.rm, ret)
-		  ret
-		}else{
-		  any(e, na.rm = na.rm)
-		}
+  		if (is.integer64(e)){
+  		  .Call(C_any_integer64, e, na.rm, logical(1))
+  		}else{
+  		  any(e, na.rm = na.rm)
+  		}
 	  }), na.rm = na.rm)
   }
 }
 
 "all.integer64" <- function(..., na.rm = FALSE){
   l <- list(...)
-  ret <- logical(1)
   if (length(l)==1){
-		  .Call(C_all_integer64, l[[1]], na.rm, ret)
-		  ret
+		  .Call(C_all_integer64, l[[1]], na.rm, logical(1))
   }else{
 	  all(sapply(l, function(e){
-		if (is.integer64(e)){
-		  .Call(C_all_integer64, e, na.rm, ret)
-		  ret
-		}else{
-		  all(e, na.rm = na.rm)
-		}
+  		if (is.integer64(e)){
+  		  .Call(C_all_integer64, e, na.rm, logical(1))
+  		}else{
+  		  all(e, na.rm = na.rm)
+  		}
 	  }), na.rm = na.rm)
   }
 }
 
 "sum.integer64" <- function(..., na.rm = FALSE){
   l <- list(...)
-  ret <- double(1)
   if (length(l)==1){
-		  .Call(C_sum_integer64, l[[1]], na.rm, ret)
+		  ret <- .Call(C_sum_integer64, l[[1]], na.rm, double(1))
 		  oldClass(ret) <- "integer64"
 		  ret
   }else{
 	  ret <- sapply(l, function(e){
 		if (is.integer64(e)){
-		  .Call(C_sum_integer64, e, na.rm, ret)
-		  ret
+		  .Call(C_sum_integer64, e, na.rm, double(1))
 		}else{
 		  as.integer64(sum(e, na.rm = na.rm))
 		}
@@ -2143,16 +2530,14 @@ as.data.frame.integer64 <- function(x, ...){
 
 "prod.integer64" <- function(..., na.rm = FALSE){
   l <- list(...)
-  ret <- double(1)
   if (length(l)==1){
-		  .Call(C_prod_integer64, l[[1]], na.rm, ret)
-		  oldClass(ret) <- "integer64"
-		  ret
+    ret <- .Call(C_prod_integer64, l[[1]], na.rm, double(1))
+		oldClass(ret) <- "integer64"
+		ret
   }else{
       ret <- sapply(l, function(e){
 		if (is.integer64(e)){
-		  .Call(C_prod_integer64, e, na.rm, ret)
-		  ret
+		  .Call(C_prod_integer64, e, na.rm, double(1))
 		}else{
 		  as.integer64(prod(e, na.rm = na.rm))
 		}
@@ -2162,50 +2547,48 @@ as.data.frame.integer64 <- function(x, ...){
   }
 }
 
+
 "min.integer64" <- function(..., na.rm = FALSE){
   l <- list(...)
-  ret <- double(1)
   noval <- TRUE
   if (length(l)==1){
-	if (length(l[[1]]))
-	  noval <- FALSE
-    .Call(C_min_integer64, l[[1]], na.rm, ret)
+    if (length(l[[1]]))
+      noval <- FALSE
+    ret <- .Call(C_min_integer64, l[[1]], na.rm, double(1))
     oldClass(ret) <- "integer64"
   }else{
-	  ret <- sapply(l, function(e){
-	    if (length(e))
-	      noval <<- FALSE
-		if (is.integer64(e)){
-		  .Call(C_min_integer64, e, na.rm, ret)
-		  ret
-		}else{
-		  as.integer64(min(e, na.rm = na.rm))
-		}
-	  })
-	  oldClass(ret) <- "integer64"
-	  ret <- min(ret, na.rm = na.rm)
+    ret <- sapply(l, function(e){
+      if (length(e))
+        noval <<- FALSE
+      if (is.integer64(e)){
+        .Call(C_min_integer64, e, na.rm, double(1))
+      }else{
+        as.integer64(min(e, na.rm = na.rm))
+      }
+    })
+    oldClass(ret) <- "integer64"
+    ret <- min(ret, na.rm = na.rm)
   }
   if (noval)
-	warning("no non-NA value, returning +9223372036854775807")
+    warning("no non-NA value, returning +9223372036854775807")
   ret
 }
 
+
 "max.integer64" <- function(..., na.rm = FALSE){
   l <- list(...)
-  ret <- double(1)
   noval <- TRUE
   if (length(l)==1){
 	if (length(l[[1]]))
 	  noval <- FALSE
-	.Call(C_max_integer64, l[[1]], na.rm, ret)
+	  ret <- .Call(C_max_integer64, l[[1]], na.rm, double(1))
 	oldClass(ret) <- "integer64"
   }else{
 	ret <- sapply(l, function(e){
 	    if (length(e))
 	      noval <<- FALSE
 		if (is.integer64(e)){
-		  .Call(C_max_integer64, e, na.rm, ret)
-		  ret
+		  .Call(C_max_integer64, e, na.rm, double(1))
 		}else{
 		  as.integer64(max(e, na.rm = na.rm))
 		}
@@ -2219,22 +2602,22 @@ as.data.frame.integer64 <- function(x, ...){
 }
 
 
-"range.integer64" <- function(..., na.rm = FALSE){
-  ret <- double(2)
+"range.integer64" <- function(..., na.rm = FALSE, finite = FALSE){
+  if (finite)
+    na.rm = TRUE
   l <- list(...)
   noval <- TRUE
   if (length(l)==1){
 	if (length(l[[1]]))
 	  noval <- FALSE
-	.Call(C_range_integer64, l[[1]], na.rm, ret)
+	  ret <- .Call(C_range_integer64, l[[1]], na.rm, double(2))
 	oldClass(ret) <- "integer64"
   }else{
       ret <- unlist(sapply(l, function(e){
 	    if (length(e))
 	      noval <<- FALSE
 		if (is.integer64(e)){
-		  .Call(C_range_integer64, e, na.rm, ret)
-		  ret
+		  .Call(C_range_integer64, e, na.rm, double(2))
 		}else{
 		  as.integer64(range(e, na.rm = na.rm))
 		}
@@ -2247,9 +2630,9 @@ as.data.frame.integer64 <- function(x, ...){
   ret
 }
 
+
 lim.integer64 <- function(){
-    ret <- double(2)
-	.Call(C_lim_integer64, ret)
+  ret <- .Call(C_lim_integer64, double(2))
 	oldClass(ret) <- "integer64"
 	return(ret)
 }
@@ -2259,19 +2642,21 @@ lim.integer64 <- function(){
   n <- length(x)
   d <- differences <- as.integer(differences)
   while(d>0L){
-	n <- n - lag
+    n <- n - lag
     if (n<=0L){
-	  ret <- double()
-	  break
-	}
-	if (d==differences){
-	  ret <- double(n)
+      ret <- double()
+      break
+    }
+    # not assigning ret<-.Call in the following is intended because faster
+    if (d==differences){
+      ret <- double(n)
       .Call(C_diff_integer64, x, as.integer64(lag), as.integer64(n), ret)
-	}else{
-	  .Call(C_diff_integer64, ret, as.integer64(lag), as.integer64(n), ret)
-	}
-	d <- d - 1L
+    }else{
+      .Call(C_diff_integer64, ret, as.integer64(lag), as.integer64(n), ret)
+    }
+    d <- d - 1L
   }
+  # length of ret is only change once here
   length(ret) <- n
   oldClass(ret) <- "integer64"
   ret
@@ -2279,29 +2664,24 @@ lim.integer64 <- function(){
 
 
 "cummin.integer64" <- function(x){
-  ret <- double(length(x))
-  .Call(C_cummin_integer64, x,ret)
+  ret <- .Call(C_cummin_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
 "cummax.integer64" <- function(x){
-
-  ret <- double(length(x))
-  .Call(C_cummax_integer64, x,ret)
+  ret <- .Call(C_cummax_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
 
 "cumsum.integer64" <- function(x){
-  ret <- double(length(x))
-  .Call(C_cumsum_integer64, x,ret)
+  ret <- .Call(C_cumsum_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
 
 "cumprod.integer64" <- function(x){
-  ret <- double(length(x))
-  .Call(C_cumprod_integer64, x,ret)
+  ret <- .Call(C_cumprod_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
@@ -2310,8 +2690,7 @@ lim.integer64 <- function(){
 
 "is.na.integer64" <- function(x){
   a <- attributes(x)
-  ret <- logical(length(x))
-  .Call(C_isna_integer64, x, ret)
+  ret <- .Call(C_isna_integer64, x, logical(length(x)))
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2326,8 +2705,7 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- logical(max(length(e1), length(e2)))
-  .Call(C_EQ_integer64, e1, e2, ret)
+  ret <- .Call(C_EQ_integer64, e1, e2, logical(max(length(e1), length(e2))))
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2337,8 +2715,7 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- logical(max(length(e1), length(e2)))
-  .Call(C_NE_integer64, e1, e2, ret)
+  ret <- .Call(C_NE_integer64, e1, e2, logical(max(length(e1), length(e2))))
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2348,8 +2725,7 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- logical(max(length(e1), length(e2)))
-  .Call(C_LT_integer64, e1, e2, ret)
+  ret <- .Call(C_LT_integer64, e1, e2, logical(max(length(e1), length(e2))))
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2359,8 +2735,7 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- logical(max(length(e1), length(e2)))
-  .Call(C_LE_integer64, e1, e2, ret)
+  ret <- .Call(C_LE_integer64, e1, e2, logical(max(length(e1), length(e2))))
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2370,8 +2745,7 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- logical(max(length(e1), length(e2)))
-  .Call(C_GT_integer64, e1, e2, ret)
+  ret <- .Call(C_GT_integer64, e1, e2, logical(max(length(e1), length(e2))))
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2381,8 +2755,7 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- logical(max(length(e1), length(e2)))
-  .Call(C_GE_integer64, e1, e2, ret)
+  ret <- .Call(C_GE_integer64, e1, e2, logical(max(length(e1), length(e2))))
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2440,4 +2813,5 @@ is.vector.integer64 <- function(x, mode="any"){
   else
     TRUE
 }
+
 

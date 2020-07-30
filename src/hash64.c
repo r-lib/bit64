@@ -55,7 +55,7 @@ SEXP hashmap_integer64(SEXP x_, SEXP bits_, SEXP hashpos_, SEXP nunique_){
 	  }
   }
   INTEGER(nunique_)[0] = nunique;
-  return R_NilValue;
+  return hashpos_;
 }
 
 SEXP hashpos_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP nomatch_, SEXP ret_){
@@ -87,7 +87,7 @@ SEXP hashpos_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP n
 	  }
 	}
   }
-  return R_NilValue;
+  return ret_;
 }
 
 SEXP hashrev_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP nunique_, SEXP nomatch_, SEXP ret_){
@@ -149,7 +149,7 @@ SEXP hashrev_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP n
 		  ret[i] = nomatch;
 	}
   }
-  return R_NilValue;
+  return ret_;
 }
 
 SEXP hashrin_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP nunique_, SEXP ret_){
@@ -202,7 +202,7 @@ SEXP hashrin_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP n
 		}
 	  }
 	}
-  return R_NilValue;
+  return ret_;
 }
 
 SEXP hashfin_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP ret_){
@@ -233,7 +233,7 @@ SEXP hashfin_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP r
 	  }
 	}
   }
-  return R_NilValue;
+  return ret_;
 }
 
 SEXP hashdup_integer64(SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP nunique_, SEXP ret_){
@@ -252,7 +252,7 @@ SEXP hashdup_integer64(SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP nunique_, 
 	  if (nunique<1)
 	    break;
 	}
-  return R_NilValue;
+  return ret_;
 }
 
 SEXP hashuni_integer64(SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP keep_order_, SEXP ret_){
@@ -285,7 +285,7 @@ SEXP hashuni_integer64(SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP keep_order
 		  ret[u++] = hashdat[hashpos[h]-1];
 		}
   }
-  return R_NilValue;
+  return ret_;
 }
 
 SEXP hashmapuni_integer64(SEXP x_, SEXP bits_, SEXP hashpos_, SEXP nunique_){
@@ -351,7 +351,7 @@ SEXP hashupo_integer64(SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP keep_order
 		  ret[u++] = hashpos[h];
 		}
   }
-  return R_NilValue;
+  return ret_;
 }
 
 SEXP hashmapupo_integer64(SEXP x_, SEXP bits_, SEXP hashpos_, SEXP nunique_){

@@ -50,6 +50,11 @@
 /**                                                                         **/
 /*****************************************************************************/
 
+typedef struct Unsigned32x2TStruct {
+  unsigned int low;
+  unsigned int high;
+} Unsigned32x2T;
+
 /*****************************************************************************/
 /**                                                                         **/
 /**                   PROTOTYPYPES OF LOCAL FUNCTIONS                       **/
@@ -205,7 +210,7 @@ SEXP as_integer64_character(SEXP x_, SEXP ret_){
 }
 
 SEXP as_bitstring_integer64(SEXP x_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
+  int i, n = LENGTH(ret_);
   long long * x = (long long *) REAL(x_);
   unsigned long long mask;
   long long v;
@@ -225,9 +230,42 @@ SEXP as_bitstring_integer64(SEXP x_, SEXP ret_){
     }
     *str = 0;
     SET_STRING_ELT(ret_, i, mkChar(buff)); 
+    R_CheckUserInterrupt();
   }
   return ret_;
 }
+
+SEXP as_integer64_bitstring(SEXP x_, SEXP ret_){
+  Rboolean naflag = FALSE;
+  int i, k, l, n = LENGTH(x_);
+  long long * ret = (long long *) REAL(ret_);
+  unsigned long long mask;
+  long long v;
+  const char * str;
+  for(i=0; i<n; i++){
+    str = CHAR(STRING_ELT(x_, i));
+    l = strlen(str);
+    if (l>BITS_INTEGER64){
+      ret[i] = NA_INTEGER64;
+      naflag = TRUE;
+      break;
+    }
+    mask = 1;
+    v = 0;
+    for (k=l-1; k>=0; k--){
+      if (str[k] != '0' &&  str[k] != ' '){
+        v |= mask;
+      }
+      mask <<= 1;
+    }
+    ret[i] = v;
+    R_CheckUserInterrupt();
+  }
+  if (naflag)warning(BITSTRING_OVERFLOW_WARNING);
+  return ret_;
+}
+
+
 
 SEXP plus_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i, n = LENGTH(ret_);
@@ -935,6 +973,50 @@ SEXP GE_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
 	}
   return ret_;
 }
+
+SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
+  int i, n=asInteger(n_);
+  long long min = *((long long * ) REAL(min_));
+  long long max = *((long long * ) REAL(max_));
+  unsigned long long d = (max - min) + 1;
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(REALSXP, n));
+  long long * ret = (long long *) REAL(ret_);
+  Unsigned32x2T ii;
+  GetRNGstate();
+  for (i=0; i<n; i++){
+    ii.low = (unsigned int) floor(unif_rand()*4294967296);
+    ii.high = (unsigned int) floor(unif_rand()*4294967296);
+//#pragma GCC diagnostic push
+//#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+    while( (*((long long *) &ii)) == NA_INTEGER64){
+//#pragma GCC diagnostic pop
+      // xx optimisation opportunity: if we know endianess, we only need to replace one of the two
+      ii.low = (unsigned int) floor(unif_rand()*4294967296);
+      ii.high = (unsigned int) floor(unif_rand()*4294967296);
+    }
+//#pragma GCC diagnostic push
+//#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+    ret[i] = min + ( (long long)(*((unsigned long long *)(&ii))) % d);
+//#pragma GCC diagnostic pop
+  }
+  PutRNGstate();  
+  UNPROTECT(1);
+  return ret_;
+}
+
+/*
+require(bit64)
+require(microbenchmark)
+microbenchmark(runif64(1e6))
+
+sort(runif64(1e2))
+
+
+Unit: milliseconds
+           expr      min       lq     mean   median       uq      max neval
+ runif64(1e+06) 24.62306 25.60286 25.61903 25.61369 25.62032 26.40202   100
+*/
 
 
 /*****************************************************************************/

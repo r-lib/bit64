@@ -69,4 +69,12 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 \seealso{ \code{\link{xor.integer64}} \code{\link{integer64}}  }
 \examples{
   sqrt(as.integer64(1:12))
+\dontshow{
+i <- -999:999
+for (s in -3:3){
+r <- as.integer64(round(as.integer(i), s))
+  r64 <- round(as.integer64(i), s)
+  stopifnot(identical(r,r64))
+}
+}
 }

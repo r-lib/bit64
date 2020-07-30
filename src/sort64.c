@@ -1543,7 +1543,8 @@ static IndexT randIndex(
   //CRAN disallows rand: while(n <= (r=(((double)rand())*n) /RAND_MAX));
   // this is by factor 3 slower as long as we keep GetRNGstate(); PutRNGstate(); here.
   GetRNGstate();
-	while((r = ((IndexT)(unif_rand()*n))) >= n);
+	while((r = ((IndexT)(unif_rand()*n))) >= n){}
+	;
   PutRNGstate();
   return r;
 }
@@ -2138,9 +2139,9 @@ SEXP r_ram_integer64_radixorder(
   IndexT **pstats;
   pstats = (IndexT **) R_alloc(nradixes, sizeof(IndexT*));
     
-  for (i=0;i<n;i++)
+  for (i=0;i<n;i++){
     index[i]--;
-
+  }
   ram_integer64_radixorder(
     (UValueT *) data          
   , index

@@ -10,13 +10,14 @@
   Methods to extract and replace parts of an integer64 vector.
 }
 \usage{
- \method{[}{integer64}(x, \dots)
+ \method{[}{integer64}(x, i, \dots)
  \method{[}{integer64}(x, \dots) <- value 
  \method{[[}{integer64}(x, \dots)
  \method{[[}{integer64}(x, \dots) <- value
 }
 \arguments{
   \item{x}{ an atomic vector }
+  \item{i}{ indices specifying elements to extract }
   \item{value}{ an atomic vector with values to be assigned }
   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
 }
@@ -40,4 +41,8 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   x
   x[]
   x[,2:3]
+  \dontshow{
+    r <- c(runif64(1e3, lim.integer64()[1], lim.integer64()[2]), NA, -2:2)
+    stopifnot(identical(r, as.integer64(as.bitstring(r))))
+  }
 }

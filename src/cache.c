@@ -1,6 +1,7 @@
 #include <R.h>
 #include <Rdefines.h>
 
+/* 
 SEXP r_ram_truly_identical(
   SEXP x_
 , SEXP y_
@@ -52,4 +53,4 @@ SEXP r_ram_truly_identical(
 	UNPROTECT(1);
 	return ret_;
 }
-
+*/

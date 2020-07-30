@@ -17,7 +17,7 @@
 \alias{order}
 \alias{order.default}
 \title{
-  Tunrning base R functions into S3 generics for bit64 
+  Turning base R functions into S3 generics for bit64 
 }
 \description{
 	Turn those base functions S3 generic which are used in bit64

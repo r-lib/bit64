@@ -81,7 +81,7 @@ number of remaining recursionlevels before \code{quicksort} switches from recurs
   \item{\dots}{ further arguments, passed from generics, ignored in methods }
 }
 \details{
- see \code{\link[bit]{ramsort}}
+ see \code{\link{ramsort}}
 }
 \value{
   These functions return the number of \code{NAs} found or assumed during sorting

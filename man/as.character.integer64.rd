@@ -4,6 +4,7 @@
 \alias{as.integer.integer64}
 \alias{as.logical.integer64}
 \alias{as.bitstring}
+\alias{print.bitstring}
 \alias{as.bitstring.integer64}
 \alias{as.factor.integer64}
 \alias{as.ordered.integer64}
@@ -19,6 +20,7 @@
 \usage{
  as.bitstring(x, \dots)
  \method{as.bitstring}{integer64}(x, \dots)
+ \method{print}{bitstring}(x, \dots)
  \method{as.character}{integer64}(x, \dots)
  \method{as.double}{integer64}(x, keep.names = FALSE, \dots)
  \method{as.integer}{integer64}(x, \dots)
@@ -32,7 +34,7 @@
   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
 }
 \value{
-  \code{as.bitstring} returns a string of . \cr
+  \code{as.bitstring} returns a string of class 'bitstring'. \cr
   The other methods return atomic vectors of the expected types
 }
 \author{
@@ -44,4 +46,7 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 \examples{
   as.character(lim.integer64())
   as.bitstring(lim.integer64())
+  as.bitstring(as.integer64(c(
+   -2,-1,NA,0:2
+  )))
 }

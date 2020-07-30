@@ -110,7 +110,7 @@
 #! }
 #! \keyword{ programming }
 #! \keyword{ manip }
-#! \seealso{ \code{\link[=match.integer64]{match}} }
+#! \seealso{ \code{\link[=match.integer64]{match}}, \code{\link{runif64}} }
 #! \examples{
 #! x <- as.integer64(sample(c(NA, 0:9)))
 #! y <- as.integer64(sample(c(NA, 1:9), 10, TRUE))
@@ -175,13 +175,15 @@ hashfun.integer64 <- function(x, minfac=1.41, hashbits=NULL, ...){
   n <- length(x)
   if (is.null(hashbits)){
     minlen <- ceiling(n*minfac)
-    hashbits <- as.integer(ceiling(log2(minlen)))
+    if (minlen > 0L)
+      hashbits <- as.integer(ceiling(log2(minlen)))
+    else
+      hashbits <- 0L
   }else 
     hashbits <- as.integer(hashbits)
-  ret <- integer(n)
-  .Call(C_hashfun_integer64, x, hashbits, ret, PACKAGE = "bit64")
-  ret
+  .Call(C_hashfun_integer64, x, hashbits, integer(n), PACKAGE = "bit64")
 }
+
 
 hashmap <- function(x, ...)UseMethod("hashmap")
 hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache=NULL, ...){
@@ -192,18 +194,22 @@ hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache
     nunique <- as.integer(nunique)
     n <- nunique
   }
-  if (is.null(hashbits))
-    hashbits <- as.integer(ceiling(log2(n*minfac)))
-  else 
+  if (is.null(hashbits)){
+    minlen <- ceiling(n*minfac)
+    if (minlen > 0L)
+      hashbits <- as.integer(ceiling(log2(minlen)))
+    else
+      hashbits <- 0L
+  }else 
     hashbits <- as.integer(hashbits)
   nhash <- as.integer(2^hashbits)
   hashmap <- integer(nhash)
   .Call(C_hashmap_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
   
   if (is.null(cache))
-	cache <- newcache(x)
+	  cache <- newcache(x)
   else
-    if (!still.identical(x, get("x", envir=cache, inherits=FALSE)))
+    if (!bit::still.identical(x, get("x", envir=cache, inherits=FALSE)))
 		  stop("vector 'x' dissociated from cache")
   assign("hashmap", hashmap, envir=cache)
   assign("hashbits", hashbits, envir=cache)
@@ -212,14 +218,14 @@ hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache
   cache
 }
 
+
+
 hashpos <- function(cache, ...)UseMethod("hashpos")
 hashpos.cache_integer64 <- function(cache, x, nomatch = NA_integer_, ...){
   hashbits <- get("hashbits", envir=cache, inherits=FALSE)
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)
   hashdat <- get("x", envir=cache, inherits=FALSE)
-  ret <- integer(length(x))
-  .Call(C_hashpos_integer64, as.integer64(x), hashdat, hashbits, hashmap, as.integer(nomatch), ret, PACKAGE = "bit64")
-  ret
+  .Call(C_hashpos_integer64, as.integer64(x), hashdat, hashbits, hashmap, as.integer(nomatch), integer(length(x)), PACKAGE = "bit64")
 }
 
 hashrev <- function(cache, ...)UseMethod("hashrev")
@@ -228,9 +234,7 @@ hashrev.cache_integer64	 <- function(cache, x, nomatch = NA_integer_, ...){
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)
   hashdat <- get("x", envir=cache, inherits=FALSE)
   nunique <- get("nunique", envir=cache, inherits=FALSE)
-  ret <- integer(length(hashdat))
-  .Call(C_hashrev_integer64, as.integer64(x), hashdat, hashbits, hashmap, nunique, as.integer(nomatch), ret, PACKAGE = "bit64")
-  ret
+  .Call(C_hashrev_integer64, as.integer64(x), hashdat, hashbits, hashmap, nunique, as.integer(nomatch), integer(length(hashdat)), PACKAGE = "bit64")
 }
 
 hashfin <- function(cache, ...)UseMethod("hashfin")
@@ -238,9 +242,7 @@ hashfin.cache_integer64 <- function(cache, x, ...){
   hashbits <- get("hashbits", envir=cache, inherits=FALSE)
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)
   hashdat <- get("x", envir=cache, inherits=FALSE)
-  ret <- logical(length(x))
-  .Call(C_hashfin_integer64, as.integer64(x), hashdat, hashbits, hashmap, ret, PACKAGE = "bit64")
-  ret
+  .Call(C_hashfin_integer64, as.integer64(x), hashdat, hashbits, hashmap, logical(length(x)), PACKAGE = "bit64")
 }
 
 hashrin <- function(cache, ...)UseMethod("hashrin")
@@ -248,9 +250,7 @@ hashrin.cache_integer64 <- function(cache, x, ...){
   hashbits <- get("hashbits", envir=cache, inherits=FALSE)
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)
   hashdat <- get("x", envir=cache, inherits=FALSE)
-  ret <- logical(length(hashdat))
-  .Call(C_hashrin_integer64, as.integer64(x), hashdat, hashbits, hashmap, nunique, ret, PACKAGE = "bit64")
-  ret
+  .Call(C_hashrin_integer64, as.integer64(x), hashdat, hashbits, hashmap, nunique, logical(length(hashdat)), PACKAGE = "bit64")
 }
 
 
@@ -260,9 +260,7 @@ hashdup.cache_integer64 <- function(cache, ...){
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)
   hashdat <- get("x", envir=cache, inherits=FALSE)
   nunique <- get("nunique", envir=cache, inherits=FALSE)
-  ret <- logical(length(hashdat))
-  .Call(C_hashdup_integer64, hashdat, hashbits, hashmap, nunique, ret, PACKAGE = "bit64")
-  ret
+  .Call(C_hashdup_integer64, hashdat, hashbits, hashmap, nunique, logical(length(hashdat)), PACKAGE = "bit64")
 }
 
 hashuni <- function(cache, ...)UseMethod("hashuni")
@@ -271,8 +269,7 @@ hashuni.cache_integer64 <- function(cache, keep.order=FALSE, ...){
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)
   hashdat <- get("x", envir=cache, inherits=FALSE)
   nunique <- get("nunique", envir=cache, inherits=FALSE)
-  ret <- double(nunique)
-  .Call(C_hashuni_integer64, hashdat, hashbits, hashmap, as.logical(keep.order), ret, PACKAGE = "bit64")
+  ret <- .Call(C_hashuni_integer64, hashdat, hashbits, hashmap, as.logical(keep.order), double(nunique), PACKAGE = "bit64")
   oldClass(ret) <- "integer64"
   ret
 }
@@ -283,9 +280,7 @@ hashupo.cache_integer64 <- function(cache, keep.order=FALSE, ...){
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)
   hashdat <- get("x", envir=cache, inherits=FALSE)
   nunique <- get("nunique", envir=cache, inherits=FALSE)
-  ret <- integer(nunique)
-  .Call(C_hashupo_integer64, hashdat, hashbits, hashmap, as.logical(keep.order), ret, PACKAGE = "bit64")
-  ret
+  .Call(C_hashupo_integer64, hashdat, hashbits, hashmap, as.logical(keep.order), integer(nunique), PACKAGE = "bit64")
 }
 
 # just returns a vector of length nunique of counts of the values 
@@ -331,9 +326,13 @@ hashmapuni.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
     nunique <- as.integer(nunique)
     n <- nunique
   }
-  if (is.null(hashbits))
-    hashbits <- as.integer(ceiling(log2(n*minfac)))
-  else 
+  if (is.null(hashbits)){
+    minlen <- ceiling(n*minfac)
+    if (minlen > 0L)
+      hashbits <- as.integer(ceiling(log2(minlen)))
+    else
+      hashbits <- 0L
+  }else 
     hashbits <- as.integer(hashbits)
   nhash <- as.integer(2^hashbits)
   hashmap <- integer(nhash)
@@ -352,9 +351,13 @@ hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
     nunique <- as.integer(nunique)
     n <- nunique
   }
-  if (is.null(hashbits))
-    hashbits <- as.integer(ceiling(log2(n*minfac)))
-  else 
+  if (is.null(hashbits)){
+    minlen <- ceiling(n*minfac)
+    if (minlen > 0L)
+      hashbits <- as.integer(ceiling(log2(minlen)))
+    else
+      hashbits <- 0L
+  }else 
     hashbits <- as.integer(hashbits)
   nhash <- as.integer(2^hashbits)
   hashmap <- integer(nhash)
@@ -362,7 +365,101 @@ hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
   .Call(C_hashmapupo_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
 }
 
+
+#! \name{runif64}
+#! \alias{runif64}
+#! \title{
+#!    integer64: random numbers
+#! }
+#! \description{
+#!   Create uniform random 64-bit integers within defined range
+#! }
+#! \usage{
+#!   runif64(n, min = lim.integer64()[1], max = lim.integer64()[2], replace=TRUE)
+#! }
+#! \arguments{
+#!   \item{n}{ length of return vector }
+#!   \item{min}{ lower inclusive bound for random numbers }
+#!   \item{max}{ upper inclusive bound for random numbers }
+#!   \item{replace}{ set to FALSE for sampleing from a finite pool, see \code{\link{sample}} }
+#! }
+#! \value{
+#!   a integer64 vector
+#! }
+#! \details{
+#!   For each random integer we call R's internal C interface \code{unif_rand()} twice.
+#!   Each call is mapped to 2^32 unsigned integers. The two 32-bit patterns are concatenated
+#!   to form the new integer64. This process is repeated until the result is not a \code{NA_INTEGER64}. 
+#! }
+#! \author{
+#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+#! }
+#! \keyword{ classes }
+#! \keyword{distribution}
+#! \keyword{sysdata}
+#! \seealso{ 
+#!   \code{\link{runif}}, \code{\link{hashfun}}
+#! }
+#! \examples{
+#!   runif64(12)
+#!   runif64(12, -16, 16)
+#!   runif64(12, 0, as.integer64(2^60)-1)  # not 2^60-1 !
+#!   var(runif(1e4))
+#!   var(as.double(runif64(1e4, 0, 2^40))/2^40)  # ~ = 1/12 = .08333
+#!
+#!   table(sample(16, replace=FALSE))
+#!   table(runif64(16, 1, 16, replace=FALSE))
+#!   table(sample(16, replace=TRUE))
+#!   table(runif64(16, 1, 16, replace=TRUE))
+#! }
+
+runif64 <- function(n, min=lim.integer64()[1], max=lim.integer64()[2], replace = TRUE){
+  n <- as.integer(n)
+  min <- as.integer64(min)
+  max <- as.integer64(max)
+  if (replace){
+    ret <- .Call(C_runif_integer64, n, min, max)
+    oldClass(ret) <- "integer64"
+  }else{
+    N <- n
+    d <- max - min + 1L
+    if (N > d)
+      stop("cannot take a sample larger than the population when 'replace = FALSE'")
+    if (n > d  / (2*log(n,64))){
+      ret <- .Call(C_runif_integer64, as.integer(d), as.integer64(min), as.integer64(max))
+      oldClass(ret) <- "integer64"
+      ret <- sample(ret, n, FALSE)
+    }else{
+      ret <- integer64()
+      while (N > 0){
+        ret <- unique(c(ret, Recall(
+          if (N*1.05 < .Machine$integer.max) N*1.05 else N
+        , min
+        , max
+        , replace=TRUE
+        )))
+        N <- n - length(ret)
+      }
+      if (N != 0L)
+        ret <- ret[1:n]
+    }
+  }
+  ret
+}
+
 if (FALSE){
+  
+    require(bit64)
+    require(microbenchmark)
+    n <- 1e6
+    print(microbenchmark(runif64(n, 1, n), times=20))
+    for (m in c(1,2,4,8,16)){
+      print(microbenchmark(runif64(n, 1, n*m, replace=FALSE), times=20))
+      print(microbenchmark(sample(n*m, n, replace=FALSE), times=20))
+    }
+    print(microbenchmark(runif64(n, 1, replace=FALSE), times=20))
+
+    
   library(bit64)
   n <- 1e7
   x <- as.integer64(sample(n, n, TRUE))
@@ -407,4 +504,28 @@ if (FALSE){
   length(t2)
   
  
+
+  
+  library(bit64)
+  n <- 1e6
+  r <- runif64(n, lim.integer64()[1], lim.integer64()[2])
+  identical(r, as.integer64(as.bitstring(r)))
+  cbind(r,as.integer64(as.bitstring(r)))
+  cbind(as.bitstring(r),as.bitstring(as.integer64(as.bitstring(r))))
+  
+  #sum(duplicated(r))
+  #table.integer64(r)
+  #range(r)
+  log2(abs(range(r)))
+  
+  x <- seq(0,1,0.1)
+  y <- quantile.integer64(r, x)
+  z <- diff(y)
+  plot(log2(z), type="b",ylim=c(0, max(log2(z))))
+  
+  
+  n <- 1e7
+  system.time(runif(n))
+  system.time(runif64(n))
+  
 }

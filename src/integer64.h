@@ -54,6 +54,7 @@
 #define INTEGER64_DIVISION_BY_ZERO_WARNING "NAs produced due to division by zero"
 #define INTEGER64_NAN_CREATED_WARNING "NaNs produced"
 #define INTEGER64_TODOUBLE_WARNING "integer precision lost while converting to double"
+#define BITSTRING_OVERFLOW_WARNING "bitstrings longer than 64 bytes converted to NA, multibyte-characters not allowed"
 
 #define PLUS64(e1,e2,ret,naflag) \
 	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \

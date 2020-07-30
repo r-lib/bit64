@@ -91,7 +91,7 @@
 #!   \item{\dots}{ further arguments, passed from generics, ignored in methods }
 #! }
 #! \details{
-#!  see \code{\link[bit]{ramsort}}
+#!  see \code{\link{ramsort}}
 #! }
 #! \value{
 #!   These functions return the number of \code{NAs} found or assumed during sorting
@@ -686,5 +686,4 @@ order.integer64 <- function(
 	  length(o) <- length(o) - na.count
 	o
 }
-
 

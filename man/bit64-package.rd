@@ -101,8 +101,8 @@ is not worth it with 32x at duplicated RAM consumption).
   to new or old vectors, which helps to avoid unnecessary memory allocation, unnecessary copying and unnessary garbage collection.
   Prior to 0.93 \emph{within} our R functions we also deviated from conventional R programming by not using \code{\link{attr<-}} and \code{\link{attributes<-}} 
   because they always did new memory allocation and copying in older R versions. If we wanted to set attributes of return values that we have freshly created,
-  we instead used functions \code{\link[bit]{setattr}} and \code{\link[bit]{setattributes}} from package \code{\link[bit]{bit}}. 
-  From version 0.93 \code{\link[bit]{setattr}} is only used for manipulating \code{\link{cache}} objects, in \code{\link{ramsort.integer64}} and \code{\link{sort.integer64}} and in \code{\link{as.data.frame.integer64}}.
+  we instead used functions \code{\link[bit:getsetattr]{setattr}} and \code{\link[bit:getsetattr]{setattributes}} from package \code{\link[bit]{bit}}. 
+  From version 0.93 \code{\link[bit:getsetattr]{setattr}} is only used for manipulating \code{\link{cache}} objects, in \code{\link{ramsort.integer64}} and \code{\link{sort.integer64}} and in \code{\link{as.data.frame.integer64}}.
 }
 \section{Arithmetic precision and coercion}{
   The fact that we introduce 64 bit long long integers -- without introducing 128-bit long doubles -- creates some subtle challenges:
@@ -168,6 +168,7 @@ is not worth it with 32x at duplicated RAM consumption).
    \bold{creating,testing,printing} \tab \bold{see also}          \tab \bold{description} \cr
    \code{NA_integer64_} \tab \code{\link{NA_integer_}} \tab NA constant \cr
    \code{integer64} \tab \code{\link{integer}} \tab create zero atomic vector \cr
+   \code{\link{runif64}} \tab \code{\link{runif}} \tab create random vector \cr
    \code{\link{rep.integer64}} \tab \code{\link{rep}} \tab  \cr
    \code{\link{seq.integer64}} \tab \code{\link{seq}} \tab  \cr
    \code{\link{is.integer64}} \tab \code{\link{is}} \tab  \cr
@@ -189,6 +190,7 @@ is not worth it with 32x at duplicated RAM consumption).
  \cr
    \bold{coercing to integer64} \tab \bold{see also}          \tab \bold{description} \cr
    \code{\link{as.integer64}} \tab   \tab generic \cr
+   \code{\link{as.integer64.bitstring}} \tab \code{\link{as.bitstring}} \tab  \cr
    \code{\link{as.integer64.character}} \tab \code{\link{character}} \tab  \cr
    \code{\link{as.integer64.double}} \tab \code{\link{double}} \tab  \cr
    \code{\link{as.integer64.integer}} \tab \code{\link{integer}} \tab  \cr
@@ -290,6 +292,7 @@ is not worth it with 32x at duplicated RAM consumption).
    \code{\link{quantile.integer64}} \tab \code{\link{quantile}} \tab (existing) values at specified percentiles (/s/o/so) \cr
    \code{\link{median.integer64}} \tab \code{\link{median}} \tab (existing) value at percentile 0.5 (/s/o/so) \cr
    \code{\link{summary.integer64}} \tab \code{\link{summary}} \tab  (/s/o/so) \cr
+   \code{\link{all.equal.integer64}} \tab \code{\link{all.equal}} \tab test if two objects are (nearly) equal (/s/o/so) \cr
  \cr
    \bold{helper functions} \tab \bold{see also}          \tab \bold{description} \cr
    \code{\link{minusclass}} \tab \code{\link{minusclass}} \tab removing class attritbute \cr

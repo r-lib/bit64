@@ -65,7 +65,6 @@ wrapup:
 
 SEXP r_ram_integer64_sortnut(
   SEXP sorted_            /* somehow sorted table vector */
-//, SEXP ret_
 )
 {
   SEXP ret_;
@@ -98,7 +97,6 @@ SEXP r_ram_integer64_sortnut(
 SEXP r_ram_integer64_ordernut(
   SEXP table_
 , SEXP order_
-//, SEXP ret_
 )
 {
   SEXP ret_;
@@ -679,7 +677,6 @@ SEXP r_ram_integer64_ordertab_asc(
   IndexT * ret = INTEGER(ret_);
   int cnt;
   if (n){
-	  PROTECT(ret_); /* because of R_Busy wee need PROTECT, according to Thomas Kalibera */  
 	  R_Busy(1);
 	  if (asLogical(denormalize_)){
 	      j = 0;
@@ -715,7 +712,7 @@ SEXP r_ram_integer64_ordertab_asc(
 		  for(i=0;i<n;i++)
 		    if (ret[i])
 			  ret[pos++] = ret[i];
-		  SET_LENGTH(ret_, pos);
+		  SET_LENGTH(ret_, pos); /* re-allocates ret_ */
 	  }else{
 		  j = 0;
 		  ret[j] = 1;
@@ -729,8 +726,9 @@ SEXP r_ram_integer64_ordertab_asc(
 			}
 		  }
 	  }
+	  PROTECT(ret_); /* Thanks to Tomas Kalibera */
 	  R_Busy(0);
-	  UNPROTECT(1);
+	  UNPROTECT(1);  /* Thanks to Tomas Kalibera */
   }
   return ret_;
 }
@@ -749,7 +747,6 @@ SEXP r_ram_integer64_sortordertab_asc(
   IndexT * ret = INTEGER(ret_);
   int cnt;
   if (n){
-          PROTECT(ret_); /* because of R_Busy wee need PROTECT, according to Thomas Kalibera */
 	  R_Busy(1);
 	  if (asLogical(denormalize_)){
 			  pos = 0;
@@ -782,10 +779,11 @@ SEXP r_ram_integer64_sortordertab_asc(
 			  for(i=0;i<n;i++)
 				if (ret[i])
 				  ret[pos++] = ret[i];
-			  SET_LENGTH(ret_, pos);
+			  SET_LENGTH(ret_, pos); /* re-allocates ret_ */
 	  }
+    PROTECT(ret_);  /* Thanks to Tomas Kalibera */
 	  R_Busy(0);
-          UNPROTECT(1);
+    UNPROTECT(1);   /* Thanks to Tomas Kalibera */
   }
   return ret_;
 }

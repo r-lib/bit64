@@ -14,6 +14,7 @@
 	qtile(x, probs=seq(0, 1, 0.25), \dots)
 	\method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, \dots)
 	\method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, \dots)
+	\method{median}{integer64}(x, na.rm = FALSE, \dots)
  \method{mean}{integer64}(x, na.rm = FALSE, \dots)
 	\method{summary}{integer64}(object, \dots)
  ## mean(x, na.rm = FALSE, ...)

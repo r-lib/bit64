@@ -1,3 +1,87 @@
+    CHANGES IN bit64 VERSION 4.0.2
+
+BUG FIXES
+
+    o now DESCRIPTION URL points to github
+
+
+
+    CHANGES IN bit64 VERSION 4.0.1
+
+BUG FIXES
+
+    o removed pragma because no longer neede with recent compilers
+    o removed a clang warning
+
+
+
+    CHANGES IN bit64 VERSION 4.0.0
+
+
+NEW FEATURES
+
+    o new method all.equal.integer64
+      (contributed by Leonardo Silvestri)
+
+
+USER VISIBLE CHANGES
+
+    o license has been extendend from GPL-2 to GPL-2 | GPL-3
+    o still.identical is now exported from package bit
+
+
+BUG FIXES
+
+    o removed unused SEXP ret_ from r_ram_integer64_sortnut and 
+      r_ram_integer64_ordernut (LTO problems reported by Brian Ripley)
+    o min, max and range now give correct results for multiple arguments
+      (reported by Colin Umanski)
+    o r_ram_integer64_ordertab_asc and r_ram_integer64_sortordertab_asc 
+      now properly PROTECT their shortened return vector before R_Busy(0)
+      (Thanks to Tomas Kalibera)
+    o operations on zero length integer64 now return 
+      zero length integer64 instead of throwing an error 
+      (reported by Xianying Tan)
+    o match.integer64 (and %in%) now coerce the second argument to integer64
+      instead of throwing an error (reported by Xianying Tan)
+    o zero-length integer64() no longer prints as `character(0)` 
+      (reported by Xianying Tan)
+
+
+      
+    CHANGES IN bit64 VERSION 0.9-8
+
+
+NEW FEATURES
+
+    o New function runif64 which can sample from finite 
+      and infinite populations (wish of Dan Reznik)
+
+    o New methods as.integer64.bitstring
+      and print.bitstring (wish of Dan Reznik)
+
+
+USER VISIBLE CHANGES
+
+    o [.integer64 now returns NA where the subscripts require this
+      (contributed by Leonardo Silvestri)
+    o binary operators now handle attributes more like R 
+      (new binattr() code contributed by Leonardo Silvestri)
+    o as.bitstring.integer64 now returns its string vector
+      with class 'bitstring'
+    o round.integer64 with a negative digits argument now rounds 
+      like round(integer) would do (wish of Ian Lyttle)
+    o range.integer64 now has an argument finite=FALSE for compatibility 
+      with range.default (wish of Sergio Oller)
+      
+
+BUG FIXES
+
+    o calculating hashbits in hashfun, hashmap, hashmaptab and hashmapuni 
+      now gives 0 instead of stopping (bug reported by Jakob Schelbert) 
+
+
+
     CHANGES IN bit64 VERSION 0.9-7
 
 BUG FIXES
@@ -14,7 +98,7 @@ NEW FEATURES
       and no longer the underlying double
       (wish of Matt Dowle)
     o New integer64 methods is.nan, is.finite, is.infinite
-      (wish of Florent Angly
+      (wish of Florent Angly)
 
 
 USER VISIBLE CHANGES

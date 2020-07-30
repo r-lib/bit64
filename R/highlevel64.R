@@ -1515,7 +1515,8 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
 
 
 match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, method=NULL, ...){
-  stopifnot(is.integer64(x) &&  is.integer64(table))  # xx TODO
+  stopifnot(is.integer64(x))
+  table <- as.integer64(table)
   c <- cache(table)
   if (is.null(method)){
     if (is.null(c)){
@@ -1609,7 +1610,8 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
 
 
 "%in%.integer64" <- function(x, table, ...){
-  stopifnot(is.integer64(x) &&  is.integer64(table))  # xx TODO
+  stopifnot(is.integer64(x))
+  table <- as.integer64(table)
 	nunique <- NULL
 	method <- NULL
   c <- cache(table)
@@ -2880,6 +2882,7 @@ prank.integer64 <- function(x
 #! 	qtile(x, probs=seq(0, 1, 0.25), \dots)
 #! 	\method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, \dots)
 #! 	\method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, \dots)
+#! 	\method{median}{integer64}(x, na.rm = FALSE, \dots)
 #!  \method{mean}{integer64}(x, na.rm = FALSE, \dots)
 #! 	\method{summary}{integer64}(object, \dots)
 #!  ## mean(x, na.rm = FALSE, ...)
@@ -3031,8 +3034,7 @@ if (is.na(match("...", names(formals(median))))){
 	# s
 # }
 mean.integer64 <- function(x, na.rm=FALSE, ...){
-	ret <- double(1)
-	.Call(C_mean_integer64, x, as.logical(na.rm), ret)
+	ret <- .Call(C_mean_integer64, x, as.logical(na.rm), double(1))
 	oldClass(ret) <- "integer64"
 	ret
 }

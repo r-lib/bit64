@@ -75,6 +75,7 @@ export(
 ,"minusclass"
 
  ,"integer64"
+ ,"all.equal.integer64"
  ,"identical.integer64"
 
 ,"is.integer64"
@@ -96,6 +97,8 @@ export(
 
 ,"as.bitstring"
 ,"as.bitstring.integer64"
+,"as.integer64.bitstring"
+,"print.bitstring"
 
 #inherited: ,"length.integer64"
 ,"length<-.integer64"
@@ -206,6 +209,12 @@ export(
 #, radixorder
 , radixorder.integer64
 
+#, radisort
+#, radisort.integer64
+#, onionsort
+#, onionsort.integer64
+
+
 # -- sortmerge64.R - searching & merging --
 
 , sortnut
@@ -286,9 +295,11 @@ export(
 , hashtab
 , hashtab.cache_integer64
 
+, runif64
+
 # -- cache.R - matching --
 
-, still.identical
+#, still.identical
 , newcache
 , jamcache
 , cache
@@ -353,6 +364,7 @@ S3method("order", default)
 
 # -- integer64.R - basic vector handling --
 
+S3method("all.equal", integer64)
 S3method("identical", integer64)
 
 S3method("is", integer64)
@@ -361,6 +373,7 @@ S3method("as", integer64)
 S3method("as.integer64", integer64)
 S3method("as.integer64", NULL)
 S3method("as.integer64", character)
+S3method("as.integer64", bitstring)
 S3method("as.integer64", double)
 S3method("as.integer64", integer)
 S3method("as.integer64", logical)
@@ -373,6 +386,7 @@ S3method("as.logical", integer64)
 
 S3method("as", bitstring)
 S3method("as.bitstring", integer64)
+S3method("print", bitstring)
 
 #inherited: S3method("length", integer64)
 S3method("length<-", integer64)
@@ -468,6 +482,9 @@ S3method("quicksortorder", integer64)
 S3method("radixsort", integer64)
 S3method("radixsortorder", integer64)
 S3method("radixorder", integer64)
+
+#S3method("radisort", integer64)
+#S3method("onionsort", integer64)
 
 
 # -- sortmerge64.R - searching & merging --
