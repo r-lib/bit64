@@ -1,3 +1,12 @@
+    CHANGES IN bit64 VERSION 4.0.3
+
+BUG FIXES
+
+    o added Makefile -flto and removed LTO error 
+      regarding runif_integer64
+
+
+
     CHANGES IN bit64 VERSION 4.0.2
 
 BUG FIXES
