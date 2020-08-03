@@ -91,7 +91,7 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ programming }
 \keyword{ manip }
-\seealso{ \code{\link{ramsort}} for the generic, \code{\link[ff]{ramsort.default}} for the methods provided by package \code{\link[ff]{ff}}, \code{\link{sort.integer64}} for the sort interface and \code{\link{sortcache}} for caching the work of sorting}
+\seealso{ \code{\link{ramsort}} for the generic, \code{ramsort.default} for the methods provided by package \code{ff}, \code{\link{sort.integer64}} for the sort interface and \code{\link{sortcache}} for caching the work of sorting}
 \examples{
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   x

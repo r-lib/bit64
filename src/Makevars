@@ -1,2 +1,1 @@
-PKG_CFLAGS=-flto
-
+#PKG_CFLAGS=-flto

@@ -87,7 +87,7 @@
 #! \details{
 #! \tabular{rrl}{
 #!    \bold{function} \tab \bold{see also}          \tab \bold{description} \cr
-#!    \code{hashfun} \tab \code{\link[digest]{digest}} \tab export of the hash function used in \code{hashmap} \cr
+#!    \code{hashfun} \tab \code{digest} \tab export of the hash function used in \code{hashmap} \cr
 #!    \code{hashmap} \tab \code{\link[=match.integer64]{match}} \tab return hashmap \cr
 #!    \code{hashpos} \tab \code{\link[=match.integer64]{match}} \tab return positions of \code{x} in \code{hashmap} \cr
 #!    \code{hashrev} \tab \code{\link[=match.integer64]{match}} \tab return positions of \code{hashmap} in \code{x} \cr
