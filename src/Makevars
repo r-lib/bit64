@@ -1,1 +1,3 @@
-#PKG_CFLAGS=-flto
+# just for R CMD check
+#PKG_CFLAGS=-flto -fsanitize=undefined 
+#PKG_LIBS=-lubsan

@@ -521,7 +521,7 @@
 #! stopifnot(identical.integer64(i64-1+1,i64))
 #! stopifnot(identical.integer64(i64+1-1,i64))
 #! 
-#! message("Testing minus and plus edge cases and 'rev'\n")
+#! message("Testing minus and plus edge cases and 'rev'\nUBSAN signed integer overflow expected for type 'long long int'\nThis is a false UBSAN alarm because overflow is detected and NA returned")
 #! stopifnot(identical.integer64(lim.integer64()+1-1, c(lim.integer64()[1], NA)))
 #! stopifnot(identical.integer64(rev(lim.integer64())-1+1, c(lim.integer64()[2], NA)))
 #! 
@@ -2641,9 +2641,9 @@ lim.integer64 <- function(){
   lag <- as.integer(lag)
   n <- length(x)
   d <- differences <- as.integer(differences)
-  while(d>0L){
+  while(d > 0L){
     n <- n - lag
-    if (n<=0L){
+    if (n <= 0L){
       ret <- double()
       break
     }
