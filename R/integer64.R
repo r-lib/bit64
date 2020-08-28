@@ -166,7 +166,7 @@
 #!   The methods \code{\link{is.integer64}} and \code{\link{is.vector}} both return \code{TRUE} for \code{integer64}. 
 #!  Note that we did not patch \code{\link{storage.mode}} and \code{\link{typeof}}, which both continue returning 'double' 
 #!  Like for 32 bit \code{\link{integer}}, \code{\link{mode}} returns 'numeric' and \code{\link{as.double}}) tries coercing to \code{\link{double}}).
-#!  It is likely that 'integer64' becomes a \code{\link[ff]{vmode}} in package \code{\link[ff]{ff}}. 
+#!  It is possible that 'integer64' becomes a \code{vmode} in package \code{ff}. 
 #!  \cr
 #!  Further methods for creating \code{integer64} are \code{\link[=range.integer64]{range}} which returns the range of the data type if calles without arguments,
 #!  \code{\link[=rep.integer64]{rep}}, \code{\link[=seq.integer64]{seq}}. 
@@ -323,7 +323,7 @@
 #! \section{Limitations inherited from implementing 64 bit integers via an external package}{
 #!   \itemize{
 #!     \item \bold{vector size} of atomic vectors is still limited to \code{\link{.Machine}$integer.max}. 
-#!     However, external memory extending packages such as \code{\link[ff]{ff}} or \code{bigmemory} 
+#!     However, external memory extending packages such as \code{ff} or \code{bigmemory} 
 #!     can extend their address space now with \code{integer64}. Having 64 bit integers also help 
 #!     with those not so obvious address issues that arise once we exchange data with SQL databases 
 #!     and datawarehouses, which use big integers as surrogate keys, e.g. on indexed primary key columns.
@@ -521,7 +521,7 @@
 #! stopifnot(identical.integer64(i64-1+1,i64))
 #! stopifnot(identical.integer64(i64+1-1,i64))
 #! 
-#! message("Testing minus and plus edge cases and 'rev'\n")
+#! message("Testing minus and plus edge cases and 'rev'\nUBSAN signed integer overflow expected for type 'long long int'\nThis is a false UBSAN alarm because overflow is detected and NA returned")
 #! stopifnot(identical.integer64(lim.integer64()+1-1, c(lim.integer64()[1], NA)))
 #! stopifnot(identical.integer64(rev(lim.integer64())-1+1, c(lim.integer64()[2], NA)))
 #! 
@@ -2641,9 +2641,9 @@ lim.integer64 <- function(){
   lag <- as.integer(lag)
   n <- length(x)
   d <- differences <- as.integer(differences)
-  while(d>0L){
+  while(d > 0L){
     n <- n - lag
-    if (n<=0L){
+    if (n <= 0L){
       ret <- double()
       break
     }

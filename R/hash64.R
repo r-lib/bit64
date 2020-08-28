@@ -87,7 +87,7 @@
 #! \details{
 #! \tabular{rrl}{
 #!    \bold{function} \tab \bold{see also}          \tab \bold{description} \cr
-#!    \code{hashfun} \tab \code{\link[digest]{digest}} \tab export of the hash function used in \code{hashmap} \cr
+#!    \code{hashfun} \tab \code{digest} \tab export of the hash function used in \code{hashmap} \cr
 #!    \code{hashmap} \tab \code{\link[=match.integer64]{match}} \tab return hashmap \cr
 #!    \code{hashpos} \tab \code{\link[=match.integer64]{match}} \tab return positions of \code{x} in \code{hashmap} \cr
 #!    \code{hashrev} \tab \code{\link[=match.integer64]{match}} \tab return positions of \code{hashmap} in \code{x} \cr
@@ -423,9 +423,9 @@ runif64 <- function(n, min=lim.integer64()[1], max=lim.integer64()[2], replace =
   }else{
     N <- n
     d <- max - min + 1L
-    if (N > d)
+    if (!is.na(d) && N > d)
       stop("cannot take a sample larger than the population when 'replace = FALSE'")
-    if (n > d  / (2*log(n,64))){
+    if (!is.na(d) && n > d  / (2*log(n,64))){
       ret <- .Call(C_runif_integer64, as.integer(d), as.integer64(min), as.integer64(max))
       oldClass(ret) <- "integer64"
       ret <- sample(ret, n, FALSE)

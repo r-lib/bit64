@@ -267,7 +267,7 @@ SEXP as_integer64_bitstring(SEXP x_, SEXP ret_){
 
 
 
-SEXP plus_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+__attribute__((no_sanitize("signed-integer-overflow"))) SEXP plus_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -282,7 +282,7 @@ SEXP plus_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   return ret_;
 }
 
-SEXP minus_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+__attribute__((no_sanitize("signed-integer-overflow"))) SEXP minus_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -297,7 +297,7 @@ SEXP minus_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   return ret_;
 }
 
-SEXP diff_integer64(SEXP x_, SEXP lag_, SEXP n_, SEXP ret_){
+__attribute__((no_sanitize("signed-integer-overflow"))) SEXP diff_integer64(SEXP x_, SEXP lag_, SEXP n_, SEXP ret_){
   long long i, n = *((long long *) REAL(n_));
   long long * x = (long long *) REAL(x_);
   long long * lag = (long long *) REAL(lag_);
@@ -344,7 +344,7 @@ SEXP mod_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
 }
 
 
-SEXP times_integer64_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+__attribute__((no_sanitize("signed-integer-overflow"))) SEXP times_integer64_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -978,7 +978,13 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
   int i, n=asInteger(n_);
   long long min = *((long long * ) REAL(min_));
   long long max = *((long long * ) REAL(max_));
-  unsigned long long d = (max - min) + 1;
+  unsigned long long d;
+  // max - min can overflow 
+  if (min < 0 && max > 0){
+     d = ((unsigned long long)(-min)) + ((unsigned long long)max) + 1;
+  }else{
+    d = (max - min) + 1;
+  }
   SEXP ret_;
   PROTECT(ret_ = allocVector(REALSXP, n));
   long long * ret = (long long *) REAL(ret_);

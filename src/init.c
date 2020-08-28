@@ -60,7 +60,7 @@ extern SEXP power_integer64_double(SEXP, SEXP, SEXP);
 extern SEXP power_integer64_integer64(SEXP, SEXP, SEXP);
 extern SEXP prod_integer64(SEXP, SEXP, SEXP);
 extern SEXP range_integer64(SEXP, SEXP, SEXP);
-extern SEXP runif_integer64(SEXP, SEXP, SEXP, SEXP);
+extern SEXP runif_integer64(SEXP, SEXP, SEXP);
 extern SEXP r_ram_integer64_issorted_asc(SEXP);
 extern SEXP r_ram_integer64_mergeorder(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP r_ram_integer64_mergesort(SEXP, SEXP, SEXP, SEXP);

@@ -1,3 +1,25 @@
+    CHANGES IN bit64 VERSION 4.0.4
+
+BUG FIXES
+
+    o runif64() no longer long long overflows
+      for the maximum integer64 range
+    o UBSAN false alarms removed with 
+      __attribute__((no_sanitize("signed-integer-overflow")))
+    o added temporary flags to Makefile 
+      for UBSAN checks
+
+
+
+    CHANGES IN bit64 VERSION 4.0.3
+
+BUG FIXES
+
+    o added Makefile with temporary -flto 
+      and removed LTO error regarding runif_integer64
+
+
+
     CHANGES IN bit64 VERSION 4.0.2
 
 BUG FIXES
@@ -10,7 +32,7 @@ BUG FIXES
 
 BUG FIXES
 
-    o removed pragma because no longer neede with recent compilers
+    o removed pragma because no longer needed with recent compilers
     o removed a clang warning
 
 
