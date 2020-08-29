@@ -1,3 +1,13 @@
+    CHANGES IN bit64 VERSION 4.0.5
+
+BUG FIXES
+
+    o PKG_LIBS=-lm added to Makevars
+      (fixes https://bugzilla.redhat.com/show_bug.cgi?id=1763127
+      thanks to Elliott Sales de Andrade)
+
+
+
     CHANGES IN bit64 VERSION 4.0.4
 
 BUG FIXES
