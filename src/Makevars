@@ -1,3 +1,9 @@
+UNAME := $(shell uname)
+
 # just for R CMD check
 #PKG_CFLAGS=-flto -fsanitize=undefined 
 #PKG_LIBS=-lubsan
+
+ifeq ($(UNAME), Linux)
+PKG_LIBS += -lm
+endif
