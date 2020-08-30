@@ -1,6 +1,6 @@
-dd2233de662d55038110020f2d075fa3 *DESCRIPTION
+50e3629875cd183df6dd4b81488a2a38 *DESCRIPTION
 ae8b7af6542978091f0acfbf00cc6238 *NAMESPACE
-ded1d0e0a41c4b5f34c518611e57920d *NEWS
+7a19f6569ad1182e1bd200b189526cb9 *NEWS
 86c07ab4e0171baa138615b6ab3cc3bc *R/cache.R
 4065f4925f6bab602a67e14ba096794f *R/hash64.R
 ae3466ef9d228dd556cc9d31f330f1c6 *R/highlevel64.R
@@ -8,7 +8,7 @@ fd0cab92b00736ed7d2579021d4a17bd *R/integer64.R
 0dee96469df2cf052fa934cbff210c2c *R/patch64.R
 dad55b86796df208ba66a848c3798414 *R/sort64.R
 17f2813188528e52d838f8a7fc8b6362 *R/sortuse64.R
-bbbd2408f5e180b1acafcf3b5c850ee6 *R/zzz.R
+bed99cb7dc63d16ba23586474bf79689 *R/zzz.R
 2787a2901d07a3f824612ff7b82903e8 *data/benchmark64.data.rda
 340bec5a67dd525a3ef1c0615800cb63 *data/optimizer64.data.rda
 f4a44e82447e3ecac68ac6d49cb18d34 *exec/make_rd.pl
@@ -54,7 +54,7 @@ b7c48e95a6b6ec7d56ef5cf604710e8c *man/tiepos.rd
 c0beaf4d0283dda9359d26e387d518e7 *man/unipos.rd
 109afee392e0ceeb76d80515a045b4d9 *man/unique.integer64.rd
 0407a0fa39328691137f73aa75143255 *man/xor.integer64.rd
-5ac1191da83d3d310e76d7d04e141b2b *src/Makevars
+5aaac424b0fed1659c279661fa7889d0 *src/Makevars
 440049706594c42d0d6bc9ce42b1a71f *src/bsearch.c
 ab3637aa195f4f25ac50467ac24de897 *src/bsearch.h
 87bab576b8227c38f61b4aff33824732 *src/cache.c

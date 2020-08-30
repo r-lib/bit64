@@ -7,6 +7,17 @@
 # Last changed:  2011-12-11
 # */
 
+
+# require(rhub)
+# rhub_bit64_4.0.5 <- check_for_cran(
+#   path = "../bit64_4.0.5.tar.gz"
+# , email = "Jens.Oehlschlaegel@truecluster.com"
+# , check_args = "--as-cran"
+# , env_vars = c('_R_CHECK_FORCE_SUGGESTS_'= "false",'_R_CHECK_CRAN_INCOMING_USE_ASPELL_'= "true", '_R_CHECK_XREFS_MIND_SUSPECT_ANCHORS_'="true")
+# , platforms = NULL
+# , show_status = FALSE
+# )
+
 .onLoad <- function(lib, pkg) {
   ##library.dynam("bit64", pkg, lib) use useDynLib(bit) in NAMESPACE instead
   ##packageStartupMessage("Loading package bit64 ", packageDescription("bit64", fields="Version"))
