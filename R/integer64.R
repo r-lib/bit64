@@ -2450,15 +2450,17 @@ as.data.frame.integer64 <- function(x, ...){
 }
 
 "log.integer64" <- function(x, base=NULL){
-  if(length(x)==0)
-    return(x)
   a <- attributes(x)
-  ret <- if (is.null(base)){
-	  .Call(C_log_integer64, x, double(max(length(x),length(base))))
+  l.x <- length(x)
+  l.base <- length(base)
+  l <- if (l.x==0 || (!is.null(base) && l.base==0)) 0 else max(l.base,l.x)
+  ret <- double(l)
+  if (is.null(base)){
+	  .Call(C_log_integer64, x, ret)
   }else if(length(base)==1){
-    .Call(C_logbase_integer64, x, as.double(base), double(max(length(x),length(base))))
+    .Call(C_logbase_integer64, x, as.double(base), ret)
   }else{
-    .Call(C_logvect_integer64, x, as.double(base), double(max(length(x),length(base))))
+    .Call(C_logvect_integer64, x, as.double(base), ret)
   }
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
