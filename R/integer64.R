@@ -2324,7 +2324,11 @@ as.data.frame.integer64 <- function(x, ...){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- .Call(C_plus_integer64, e1, e2, double(max(length(e1),length(e2))))
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- double(l)
+  ret <- .Call(C_plus_integer64, e1, e2, ret)
   a$class <- plusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2338,7 +2342,11 @@ as.data.frame.integer64 <- function(x, ...){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- .Call(C_minus_integer64, e1, e2, double(max(length(e1),length(e2))))
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- double(l)
+  .Call(C_minus_integer64, e1, e2, ret)
   a$class <- plusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2348,7 +2356,11 @@ as.data.frame.integer64 <- function(x, ...){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- .Call(C_intdiv_integer64, e1, e2, double(max(length(e1), length(e2))))
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- double(l)
+  .Call(C_intdiv_integer64, e1, e2, ret)
   a$class <- plusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2358,7 +2370,11 @@ as.data.frame.integer64 <- function(x, ...){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- .Call(C_mod_integer64, e1, e2, double(max(length(e1), length(e2))))
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- double(l)
+  .Call(C_mod_integer64, e1, e2, ret)
   a$class <- plusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2367,10 +2383,14 @@ as.data.frame.integer64 <- function(x, ...){
 
 "*.integer64" <- function(e1, e2){
   a <- binattr(e1,e2)
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- double(l)
   if (is.double(e2))  # implies !is.integer64(e2)
-    ret <- .Call(C_times_integer64_double, as.integer64(e1), e2, double(max(length(e1),length(e2))))
+    .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
   else
-    ret <- .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), double(max(length(e1),length(e2))))
+    .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   a$class <- plusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2378,10 +2398,14 @@ as.data.frame.integer64 <- function(x, ...){
 
 "^.integer64" <- function(e1, e2){
   a <- binattr(e1,e2)
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- double(l)
   if (is.double(e2))  # implies !is.integer64(e2)
-    ret <- .Call(C_power_integer64_double, as.integer64(e1), e2, double(max(length(e1),length(e2))))
+    .Call(C_power_integer64_double, as.integer64(e1), e2, ret)
   else
-    ret <- .Call(C_power_integer64_integer64, as.integer64(e1), as.integer64(e2), double(max(length(e1),length(e2))))
+    .Call(C_power_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   a$class <- plusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2389,10 +2413,14 @@ as.data.frame.integer64 <- function(x, ...){
 
 "/.integer64" <- function(e1, e2){
   a <- binattr(e1,e2)
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- double(l)
   if (is.double(e2))  # implies !is.integer64(e2)
-    ret <- .Call(C_divide_integer64_double, as.integer64(e1), e2, double(max(length(e1),length(e2))))
+    .Call(C_divide_integer64_double, as.integer64(e1), e2, ret)
   else
-    ret <- .Call(C_divide_integer64_integer64, as.integer64(e1), as.integer64(e2), double(max(length(e1),length(e2))))
+    .Call(C_divide_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2422,6 +2450,8 @@ as.data.frame.integer64 <- function(x, ...){
 }
 
 "log.integer64" <- function(x, base=NULL){
+  if(length(x)==0)
+    return(x)
   a <- attributes(x)
   ret <- if (is.null(base)){
 	  .Call(C_log_integer64, x, double(max(length(x),length(base))))
@@ -2705,7 +2735,11 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- .Call(C_EQ_integer64, e1, e2, logical(max(length(e1), length(e2))))
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- logical(l)
+  .Call(C_EQ_integer64, e1, e2, ret)
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2715,7 +2749,11 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- .Call(C_NE_integer64, e1, e2, logical(max(length(e1), length(e2))))
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- logical(l)
+  .Call(C_NE_integer64, e1, e2, ret)
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2725,7 +2763,11 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- .Call(C_LT_integer64, e1, e2, logical(max(length(e1), length(e2))))
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- logical(l)
+  .Call(C_LT_integer64, e1, e2, ret)
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2735,7 +2777,11 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- .Call(C_LE_integer64, e1, e2, logical(max(length(e1), length(e2))))
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- logical(l)
+  .Call(C_LE_integer64, e1, e2, ret)
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2745,7 +2791,11 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- .Call(C_GT_integer64, e1, e2, logical(max(length(e1), length(e2))))
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- logical(l)
+  .Call(C_GT_integer64, e1, e2, ret)
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
@@ -2755,7 +2805,11 @@ lim.integer64 <- function(){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
-  ret <- .Call(C_GE_integer64, e1, e2, logical(max(length(e1), length(e2))))
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- logical(l)
+  .Call(C_GE_integer64, e1, e2, ret)
   a$class <- minusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
