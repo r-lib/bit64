@@ -2367,10 +2367,16 @@ as.data.frame.integer64 <- function(x, ...){
 
 "*.integer64" <- function(e1, e2){
   a <- binattr(e1,e2)
+  l1 <- length(e1)
+  l2 <- length(e2)
+  l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
+  ret <- double(l)
   if (is.double(e2))  # implies !is.integer64(e2)
-    ret <- .Call(C_times_integer64_double, as.integer64(e1), e2, double(max(length(e1),length(e2))))
+    .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
+  else if (is.double(e1))
+    .Call(C_times_integer64_double, as.integer64(e2), e1, ret)
   else
-    ret <- .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), double(max(length(e1),length(e2))))
+    .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   a$class <- plusclass(a$class, "integer64")
   attributes(ret) <- a
   ret
