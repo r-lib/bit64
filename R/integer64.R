@@ -2389,6 +2389,8 @@ as.data.frame.integer64 <- function(x, ...){
   ret <- double(l)
   if (is.double(e2))  # implies !is.integer64(e2)
     .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
+  else if (is.double(e1))
+    .Call(C_times_integer64_double, as.integer64(e2), e1, ret)
   else
     .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   a$class <- plusclass(a$class, "integer64")
