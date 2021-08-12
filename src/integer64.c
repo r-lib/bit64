@@ -100,7 +100,7 @@ SEXP as_integer64_double(SEXP x_, SEXP ret_){
     if (ISNAN(x[i])) 
 	  ret[i] = NA_INTEGER64;
 	else{
-	  if (x[i]<imin || x[i]>imax){
+	  if (x[i]<imin || x[i]>=imax){
 	    ret[i] = NA_INTEGER64;
 		naflag = TRUE;
 	  }else
