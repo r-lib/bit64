@@ -1718,22 +1718,21 @@ all.equal.integer64  <- function (
   current <- current[!out]
   if (!countEQ) 
     N <- length(target)
-  xy <- sum(abs(target - current))/N
   what <- if (is.null(scale)) {
-            xn <- (sabst0 + sum(abs(target)))/N
-            if (is.finite(xn) && xn > tolerance) {
-              xy <- xy/xn
+            scale <- (sabst0 + sum(abs(target)))/N
+            if (is.finite(scale) && scale > tolerance) {
               "relative"
             } else {
+	      scale <- 1
               "absolute"
             }
           } else {
             stopifnot(all(scale > 0))
-            xy <- xy/scale
             if (all(abs(scale - 1) < 1e-07)) 
               "absolute"
             else "scaled"
           }
+  xy <- sum(abs(target - current)/(N*scale))
   if (is.na(xy) || xy > tolerance) 
     msg <- c(msg, paste("Mean", what, "difference:", formatFUN(xy, what)))
   if (is.null(msg)) {
