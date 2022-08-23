@@ -2301,7 +2301,11 @@ as.data.frame.integer64 <- function(x, ...){
 	}
 	
     if (!length.out){
-	  length.out <- (to-from) %/% by + 1L
+      if (to == from) {
+        length.out <- 1L
+      } else {
+        length.out <- (to-from) %/% by + 1L
+      }
     }
 
     if (length.out){
