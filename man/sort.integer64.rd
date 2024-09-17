@@ -6,7 +6,7 @@
 }
 \description{
   Fast high-level methods for sorting and ordering. 
-  These are wrappers to \code{\link{ramsort}} and friends and do not modify their arguments.
+  These are wrappers to \code{\link{ramsort.integer64}} and friends and do not modify their arguments.
 }
 \usage{
 \method{sort}{integer64}(x, decreasing = FALSE, has.na = TRUE, na.last = TRUE, stable = TRUE
@@ -15,7 +15,7 @@
 , optimize = c("time", "memory"), VERBOSE = FALSE)
 }
 \arguments{
-  \item{x}{ a vector to be sorted by \code{\link{ramsort}} and \code{\link{ramsortorder}}, i.e. the output of  \code{\link{sort}} }
+  \item{x}{ a vector to be sorted by \code{\link{ramsort.integer64}} and \code{\link{ramsortorder.integer64}}, i.e. the output of  \code{\link{sort.integer64}} }
   \item{has.na}{
 boolean scalar defining whether the input vector might contain \code{NA}s. If we know we don't have NAs, this may speed-up.
 \emph{Note} that you risk a crash if there are unexpected \code{NA}s with \code{has.na=FALSE}

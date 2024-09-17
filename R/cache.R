@@ -69,8 +69,8 @@
 #! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
-#!  \code{\link{still.identical}} for testing whether to symbols point to the same RAM. \cr
-#! 	Functions that get and set small cache-content automatically when a cache is present: \code{\link{na.count}}, \code{\link{nvalid}}, \code{\link{is.sorted}}, \code{\link{nunique}} and \code{\link{nties}} \cr
+#!  \code{\link[bit]{still.identical}} for testing whether to symbols point to the same RAM. \cr
+#! 	Functions that get and set small cache-content automatically when a cache is present: \code{\link[bit:Metadata]{na.count}}, \code{\link[bit:Metadata]{nvalid}}, \code{\link[bit:Metadata]{is.sorted}}, \code{\link[bit:Metadata]{nunique}} and \code{\link[bit:Metadata]{nties}} \cr
 #! 	Setting big caches with a relevant memory footprint requires a conscious decision of the user: \code{\link{hashcache}}, \code{\link{sortcache}}, \code{\link{ordercache}} and \code{\link{sortordercache}} \cr
 #! 	Functions that use big caches: \code{\link{match.integer64}}, \code{\link{\%in\%.integer64}}, \code{\link{duplicated.integer64}}, \code{\link{unique.integer64}}, \code{\link{unipos}}, \code{\link{table.integer64}}, \code{\link{as.factor.integer64}}, \code{\link{as.ordered.integer64}}, \code{\link{keypos}}, \code{\link{tiepos}}, \code{\link{rank.integer64}}, \code{\link{prank}}, \code{\link{qtile}}, \code{\link{quantile.integer64}}, \code{\link{median.integer64}} and \code{\link{summary.integer64}} \cr
 #! }
@@ -207,7 +207,7 @@ print.cache<- function(x, all.names=FALSE, pattern, ...){
 #! }
 #! }
 #! \details{
-#! 	The result of relative expensive operations \code{\link{hashmap}}, \code{\link{ramsort}}, \code{\link{ramsortorder}} and \code{\link{ramorder}} can be stored in a cache in order to avoid multiple excutions. Unless in very specific situations, the recommended method is \code{hashsortorder} only.
+#! 	The result of relative expensive operations \code{\link{hashmap}}, \code{\link[=ramsort.integer64]{ramsort}}, \code{\link[=ramsort.integer64]{ramsortorder}} and \code{\link[=ramsort.integer64]{ramorder}} can be stored in a cache in order to avoid multiple excutions. Unless in very specific situations, the recommended method is \code{hashsortorder} only.
 #! }
 #! \note{
 #!   Note that we consider storing the big results from sorting and/or ordering as a relevant side-effect, 
@@ -220,7 +220,7 @@ print.cache<- function(x, all.names=FALSE, pattern, ...){
 #! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 #! }
 #! \seealso{
-#! 	\code{\link{cache}} for caching functions and \code{\link{nunique}} for methods bennefitting from small caches
+#! 	\code{\link{cache}} for caching functions and \code{\link{nunique.integer64}} for methods benefiting from small caches
 #! }
 #! \examples{
 #! 	x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))

@@ -89,6 +89,23 @@ typedef struct Unsigned32x2TStruct {
 
 // no extern
 
+
+SEXP integer64_semantics(){
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(STRSXP, 1));
+  if (SEMANTICS == SEMANTICS_OLD) {
+    SET_STRING_ELT(ret_, 0, mkChar("old"));
+  } else if (SEMANTICS == SEMANTICS_NEW) {
+    SET_STRING_ELT(ret_, 0, mkChar("new"));
+  } else {
+    error("package bit64 misconfigured");
+  }
+  UNPROTECT(1);
+  return ret_;
+}
+
+
+
 SEXP as_integer64_double(SEXP x_, SEXP ret_){
   long long i, n = LENGTH(x_);
   long long * ret = (long long *) REAL(ret_);
@@ -435,6 +452,23 @@ SEXP divide_integer64_double(SEXP e1_, SEXP e2_, SEXP ret_){
 	 if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
    return ret_;
 }
+
+#if SEMANTICS == SEMANTICS_NEW
+SEXP divide_double_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+  long long i, n = LENGTH(ret_);
+  long long i1, n1 = LENGTH(e1_);
+  long long i2, n2 = LENGTH(e2_);
+  long long * e2 = (long long *) REAL(e2_);
+  double * e1 = REAL(e1_);
+  double * ret = REAL(ret_);
+  Rboolean naflag = FALSE;
+  mod_iterate(n1, n2, i1, i2) {
+    DIVIDEREAL64(e1[i1],e2[i2],ret[i],naflag)
+  }
+  if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+  return ret_;
+}
+#endif
 
 SEXP sign_integer64(SEXP e1_, SEXP ret_){
   long long i, n = LENGTH(ret_);
@@ -1010,6 +1044,28 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
   UNPROTECT(1);
   return ret_;
 }
+
+
+SEXP as_list_integer64(SEXP x_){
+  long long i, n = LENGTH(x_);
+  if (n){
+    SEXP class;
+    for (i=0; i<n; i++){
+      PROTECT(class = allocVector(STRSXP, 1));
+      SET_STRING_ELT(class, 0, mkChar("integer64"));
+      classgets(VECTOR_ELT(x_, i), class);
+    }
+    UNPROTECT(n);
+  }
+  return x_;
+}
+
+
+
+
+
+
+
 
 /*
 require(bit64)

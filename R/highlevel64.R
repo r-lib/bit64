@@ -2566,7 +2566,7 @@ as.integer64.factor <- function(x, ...)as.integer64(unclass(x))
 #! and \code{\link{orderkey}} (memory saving ordering).
 #! }
 #! \value{
-#!   an integer vector of the same length as code{x} containing positions relativ to code{sort(unique(x), na.last=FALSE)}
+#!   an integer vector of the same length as \code{x} containing positions relativ to \code{sort(unique(x), na.last=FALSE)}
 #! }
 #! \author{
 #! 	Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

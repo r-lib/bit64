@@ -5,6 +5,7 @@
 \alias{is.integer64}
 \alias{is.integer.integer64}
 \alias{is.vector.integer64}
+\alias{as.list.integer64}
 %as.vector.integer64 removed as requested by the CRAN maintainer \alias{as.vector.integer64}
 \alias{length<-.integer64}
 \alias{print.integer64}
@@ -95,10 +96,10 @@ is not worth it with 32x at duplicated RAM consumption).
   \code{\link{length<-}}, \code{\link{names}}, \code{\link{names<-}}, \code{\link{dim}}, \code{\link{dim<-}}, \code{\link{dimnames}}, \code{\link{dimnames}}.
   \cr
   Our R level functions strictly follow the functional programming paragdim: 
-  no modification of arguments or other sideffects. Before version 0.93  we internally deviated from the strict paradigm
+  no modification of arguments or other side-effects. Before version 0.93  we internally deviated from the strict paradigm
   in order to boost performance. Our C functions do not create new return values, 
   instead we pass-in the memory to be returned as an argument. This gives us the freedom to apply the C-function 
-  to new or old vectors, which helps to avoid unnecessary memory allocation, unnecessary copying and unnessary garbage collection.
+  to new or old vectors, which helps to avoid unnecessary memory allocation, unnecessary copying and unnecessary garbage collection.
   Prior to 0.93 \emph{within} our R functions we also deviated from conventional R programming by not using \code{\link{attr<-}} and \code{\link{attributes<-}} 
   because they always did new memory allocation and copying in older R versions. If we wanted to set attributes of return values that we have freshly created,
   we instead used functions \code{\link[bit:getsetattr]{setattr}} and \code{\link[bit:getsetattr]{setattributes}} from package \code{\link[bit]{bit}}. 
@@ -150,7 +151,7 @@ is not worth it with 32x at duplicated RAM consumption).
   64bit elements as 'long long int'. 
   \cr
  \code{\link{is.double}} currently returns TRUE for \code{integer64} and might return FALSE in a later release.
- Consider \code{is.double} to have undefined behaviour and do query \code{is.integer64} \emph{before} querying \code{is.double}.
+ Consider \code{is.double} to have undefined behavior and do query \code{is.integer64} \emph{before} querying \code{is.double}.
 %As a second line of defense against misinterpretation we make \code{\link{is.double}}
 %return \code{FALSE} by making it S3 generic and adding a method \code{\link{as.double.integer64}}. 
   The methods \code{\link{is.integer64}} and \code{\link{is.vector}} both return \code{TRUE} for \code{integer64}. 
@@ -199,6 +200,7 @@ is not worth it with 32x at duplicated RAM consumption).
    \code{\link{as.integer64.NULL}} \tab \code{\link{NULL}} \tab  \cr
  \cr
    \bold{coercing from integer64} \tab \bold{see also}          \tab \bold{description} \cr
+   \code{\link{as.list.integer64}} \tab \code{\link{as.list}} \tab generic \cr
    \code{\link{as.bitstring}} \tab \code{\link{as.bitstring}} \tab generic \cr
    \code{\link{as.bitstring.integer64}} \tab  \tab  \cr
    \code{\link{as.character.integer64}} \tab \code{\link{as.character}} \tab  \cr
@@ -356,11 +358,11 @@ is not worth it with 32x at duplicated RAM consumption).
 
     \item \bold{generic binary operators} fail to dispatch *any* user-defined S3 method 
     if the two arguments have two different S3 classes. For example we have two classes 
-    \code{\link{bit}} and \code{\link{bitwhich}} sparsely representing boolean vectors 
-    and we have methods \code{\link{&.bit}} and \code{\link{&.bitwhich}}. For an expression
+    \code{\link[bit]{bit}} and \code{\link[bit]{bitwhich}} sparsely representing boolean vectors 
+    and we have methods \code{\link[bit:xor.default]{&.bit}} and \code{\link[bit:xor.default]{&.bitwhich}}. For an expression
     involving both as in \code{ bit & bitwhich}, none of the two methods is dispatched. 
-    Instead a standard method is dispatched, which neither handles \code{\link{bit}} 
-    nor \code{\link{bitwhich}}. Although it lacks symmetry, the better choice would be to 
+    Instead a standard method is dispatched, which neither handles \code{\link[bit]{bit}} 
+    nor \code{\link[bit]{bitwhich}}. Although it lacks symmetry, the better choice would be to 
     dispatch simply the method of the class of the first argument in case of class conflict. 
     This choice would allow authors of extension packages providing coherent behaviour 
     at least within their contributed classes. But as long as none of the package authors 
@@ -511,7 +513,7 @@ i64 <- as.integer64(d64)
 stopifnot(identical.integer64(i64-1+1,i64))
 stopifnot(identical.integer64(i64+1-1,i64))
 
-message("Testing minus and plus edge cases and 'rev'\n")
+message("Testing minus and plus edge cases and 'rev'\nUBSAN signed integer overflow expected for type 'long long int'\nThis is a false UBSAN alarm because overflow is detected and NA returned")
 stopifnot(identical.integer64(lim.integer64()+1-1, c(lim.integer64()[1], NA)))
 stopifnot(identical.integer64(rev(lim.integer64())-1+1, c(lim.integer64()[2], NA)))
 

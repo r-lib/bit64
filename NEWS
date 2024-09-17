@@ -1,3 +1,29 @@
+    CHANGES IN bit64 VERSION 4.5.0
+
+NEW FEATURES
+
+    o new method as.list.integer64
+    o C configuration SEMANTICS with default SEMANTICS_OLD
+      and SEMANTICS_NEW. Compiling with SEMANTICS_NEW gives the better
+      semantics suggested by Ofek Shilon. See the examples of the new
+      function integer64_semantics().
+      Downstream package authors: please test and adjust to SEMANTICS_NEW,
+      we plan to make that the default and deprecate SEMANTICS_OLD.
+
+
+USER VISIBLE CHANGES
+
+    o min.integer64 and max.integer64 emit better warnings 
+      when extreme values are returned (suggested by Pepijn de Vries)
+
+
+BUG FIXES
+
+    o seq.integer64 now properly handles sequences of length 1
+      (found by Christopher Swingley)
+
+
+
     CHANGES IN bit64 VERSION 4.0.5
 
 BUG FIXES

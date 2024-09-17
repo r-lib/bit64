@@ -36,7 +36,7 @@ set to 'memory' to minimize RAM requirements and sacrifice speed
 }
 }
 \details{
-	The result of relative expensive operations \code{\link{hashmap}}, \code{\link{ramsort}}, \code{\link{ramsortorder}} and \code{\link{ramorder}} can be stored in a cache in order to avoid multiple excutions. Unless in very specific situations, the recommended method is \code{hashsortorder} only.
+	The result of relative expensive operations \code{\link{hashmap}}, \code{\link[=ramsort.integer64]{ramsort}}, \code{\link[=ramsort.integer64]{ramsortorder}} and \code{\link[=ramsort.integer64]{ramorder}} can be stored in a cache in order to avoid multiple excutions. Unless in very specific situations, the recommended method is \code{hashsortorder} only.
 }
 \note{
   Note that we consider storing the big results from sorting and/or ordering as a relevant side-effect, 
@@ -49,7 +49,7 @@ and therefore storing them in the cache should require a conscious decision of t
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
-	\code{\link{cache}} for caching functions and \code{\link{nunique}} for methods bennefitting from small caches
+	\code{\link{cache}} for caching functions and \code{\link{nunique.integer64}} for methods benefiting from small caches
 }
 \examples{
 	x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))

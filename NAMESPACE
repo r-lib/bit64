@@ -70,6 +70,8 @@ export(
 
 # -- integer64.R - basic vector handling --
 
+,"integer64_semantics"
+
 ,"binattr"
 ,"plusclass"
 ,"minusclass"
@@ -94,6 +96,8 @@ export(
 ,"as.double.integer64"
 ,"as.integer.integer64"
 ,"as.logical.integer64"
+
+,"as.list.integer64"
 
 ,"as.bitstring"
 ,"as.bitstring.integer64"
@@ -383,6 +387,8 @@ S3method("as.character", integer64)
 S3method("as.double", integer64)
 S3method("as.integer", integer64)
 S3method("as.logical", integer64)
+
+S3method("as.list", integer64)
 
 S3method("as", bitstring)
 S3method("as.bitstring", integer64)
