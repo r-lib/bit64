@@ -15,7 +15,6 @@
 #! \alias{is.integer64}
 #! \alias{is.integer.integer64}
 #! \alias{is.vector.integer64}
-#! \alias{as.list.integer64}
 #! %as.vector.integer64 removed as requested by the CRAN maintainer \alias{as.vector.integer64}
 #! \alias{length<-.integer64}
 #! \alias{print.integer64}
@@ -924,6 +923,9 @@
 #!   \item{single.NA}{ see \code{\link{identical}} }
 #!   \item{attrib.as.set}{ see \code{\link{identical}} }
 #!   \item{ignore.bytecode}{ see \code{\link{identical}} }
+#!   \item{ignore.environment}{ see \code{\link{identical}} }
+#!   \item{ignore.srcref}{ see \code{\link{identical}} }
+#!   \item{extptr.as.ref}{ see \code{\link{identical}} }
 #! }
 #! \details{
 #!   This is simply a wrapper to \code{\link{identical}} with default arguments \code{num.eq = FALSE, single.NA = FALSE}.
@@ -1268,6 +1270,16 @@
 #! \seealso{ \code{\link{format.integer64}} \code{\link{integer64}}  }
 #! \examples{
 #!   as.integer64(1:12) - 1
+#!   options(integer64_semantics="new")
+#!   d <- 2.5
+#!   i <- as.integer64(5)
+#!   d/i  # new 0.5
+#!   d*i  # new 13
+#!   i*d  # new 13
+#!   options(integer64_semantics="old")
+#!   d/i  # old: 0.4
+#!   d*i  # old: 10
+#!   i*d  # old: 13
 #! }
 
 
@@ -1646,40 +1658,6 @@
 setOldClass("integer64")
 
 
-#! \name{integer64_semantics}
-#! \alias{integer64_semantics}
-#! \title{
-#!    Query integer64 semantics
-#! }
-#! \description{
-#!   Query integer64 semantics regarding multiplication and division
-#! }
-#! \usage{
-#!   integer64_semantics()
-#! }
-#! \value{
-#!   \code{'old'} for the old asymmetric semantic or \code{'new'} for the new symmetric semantic suggested by Ofek Shilon.
-#! }
-#! \author{
-#!   Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ programming }
-#! \keyword{ manip }
-#! \seealso{ \code{\link{bit64-package}} }
-#! \examples{
-#!   integer64_semantics()
-#!   d <- 2.5
-#!   i <- as.integer64(5)
-#!   d/i  # old: 0.4, new 0.5 
-#!   d*i  # old: 10, new 13
-#!   i*d  # old: 13, new 13
-#! }
-
-integer64_semantics <- function(){
-  .Call(C_integer64_semantics)
-}
-
-
 # contributed by Leonardo Silvestri with modifications of JO
 all.equal.integer64  <- function (
   target
@@ -1828,12 +1806,18 @@ identical.integer64 <- function(x, y
 , single.NA = FALSE
 , attrib.as.set = TRUE
 , ignore.bytecode = TRUE
+, ignore.environment = FALSE
+, ignore.srcref = TRUE
+, extptr.as.ref = FALSE
 )
 identical(x=x, y=y
 , num.eq = num.eq
 , single.NA = single.NA
 , attrib.as.set = attrib.as.set
 , ignore.bytecode = ignore.bytecode
+, ignore.environment = ignore.environment
+, ignore.srcref = ignore.srcref
+, extptr.as.ref = extptr.as.ref
 )
 
 
@@ -2447,7 +2431,7 @@ as.data.frame.integer64 <- function(x, ...){
   l2 <- length(e2)
   l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
   ret <- double(l)
-  if (integer64_semantics() == "old"){
+  if (getOption("integer64_semantics", "old") == "old"){
     if (is.double(e2))  # implies !is.integer64(e2)
       ret <- .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
     else
@@ -2486,7 +2470,7 @@ as.data.frame.integer64 <- function(x, ...){
   l2 <- length(e2)
   l <- if (l1 == 0 || l2 == 0) 0 else max(l1,l2)
   ret <- double(l)
-  if (integer64_semantics() == "old"){
+  if (getOption("integer64_semantics", "old") == "old"){
     if (is.double(e2))  # implies !is.integer64(e2)
       ret <- .Call(C_divide_integer64_double, as.integer64(e1), e2, ret)
     else

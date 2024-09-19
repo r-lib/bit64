@@ -3,12 +3,10 @@
 NEW FEATURES
 
     o new method as.list.integer64
-    o C configuration SEMANTICS with default SEMANTICS_OLD
-      and SEMANTICS_NEW. Compiling with SEMANTICS_NEW gives the better
-      semantics suggested by Ofek Shilon. See the examples of the new
-      function integer64_semantics().
-      Downstream package authors: please test and adjust to SEMANTICS_NEW,
-      we plan to make that the default and deprecate SEMANTICS_OLD.
+    o setting options(integer64_semantics="new")
+      gives the better semantics suggested by Ofek Shilon.
+      Downstream package authors: please test and adjust to the new semantics,
+      we plan to make that the default and deprecate integer64_semantics="new".
 
 
 USER VISIBLE CHANGES

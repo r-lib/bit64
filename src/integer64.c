@@ -89,23 +89,6 @@ typedef struct Unsigned32x2TStruct {
 
 // no extern
 
-
-SEXP integer64_semantics(){
-  SEXP ret_;
-  PROTECT(ret_ = allocVector(STRSXP, 1));
-  if (SEMANTICS == SEMANTICS_OLD) {
-    SET_STRING_ELT(ret_, 0, mkChar("old"));
-  } else if (SEMANTICS == SEMANTICS_NEW) {
-    SET_STRING_ELT(ret_, 0, mkChar("new"));
-  } else {
-    error("package bit64 misconfigured");
-  }
-  UNPROTECT(1);
-  return ret_;
-}
-
-
-
 SEXP as_integer64_double(SEXP x_, SEXP ret_){
   long long i, n = LENGTH(x_);
   long long * ret = (long long *) REAL(ret_);
@@ -114,7 +97,7 @@ SEXP as_integer64_double(SEXP x_, SEXP ret_){
   double imax = (double) MAX_INTEGER64;
   Rboolean naflag = FALSE;
   for (i=0; i<n; i++){
-    if (ISNAN(x[i])) 
+    if (ISNAN(x[i]))
 	  ret[i] = NA_INTEGER64;
 	else{
 	  if (x[i]<imin || x[i]>imax){
@@ -131,9 +114,9 @@ SEXP as_integer64_double(SEXP x_, SEXP ret_){
 SEXP as_integer64_integer(SEXP x_, SEXP ret_){
   long long i, n = LENGTH(x_);
   long long * ret = (long long *) REAL(ret_);
-  int * x = INTEGER(x_); 
+  int * x = INTEGER(x_);
   for (i=0; i<n; i++){
-    if (x[i]==NA_INTEGER) 
+    if (x[i]==NA_INTEGER)
 	  ret[i] = NA_INTEGER64;
 	else
       ret[i] = (long long) x[i];
@@ -144,7 +127,7 @@ SEXP as_integer64_integer(SEXP x_, SEXP ret_){
 
 SEXP as_double_integer64(SEXP x_, SEXP ret_){
   long long i, n = LENGTH(x_);
-  long long * x = (long long *) REAL(x_); 
+  long long * x = (long long *) REAL(x_);
   double * ret = REAL(ret_);
   double rmax = pow(FLT_RADIX, DBL_MANT_DIG) - 1;
   double rmin = -rmax;
@@ -164,7 +147,7 @@ SEXP as_double_integer64(SEXP x_, SEXP ret_){
 
 SEXP as_integer_integer64(SEXP x_, SEXP ret_){
   long long i, n = LENGTH(x_);
-  long long * x = (long long *) REAL(x_); 
+  long long * x = (long long *) REAL(x_);
   int * ret = INTEGER(ret_);
   Rboolean naflag = FALSE;
   for (i=0; i<n; i++){
@@ -184,7 +167,7 @@ SEXP as_integer_integer64(SEXP x_, SEXP ret_){
 
 SEXP as_logical_integer64(SEXP x_, SEXP ret_){
   long long i, n = LENGTH(x_);
-  long long * x = (long long *) REAL(x_); 
+  long long * x = (long long *) REAL(x_);
   int * ret = INTEGER(ret_);
   for (i=0; i<n; i++){
     if (x[i]==NA_INTEGER64)
@@ -205,8 +188,8 @@ SEXP as_character_integer64(SEXP x_, SEXP ret_){
     if (x[i]==NA_INTEGER64){
 	  SET_STRING_ELT(ret_, i, NA_STRING);
 	}else{
-	  snprintf(buff, NCHARS_DECS_INTEGER64, COERCE_INTEGER64, x[i]); 
-	  SET_STRING_ELT(ret_, i, mkChar(buff)); 
+	  snprintf(buff, NCHARS_DECS_INTEGER64, COERCE_INTEGER64, x[i]);
+	  SET_STRING_ELT(ret_, i, mkChar(buff));
 	}
   }
   return ret_;
@@ -240,13 +223,13 @@ SEXP as_bitstring_integer64(SEXP x_, SEXP ret_){
     while (mask){
         if (v & mask)
               *str = '1';
-          else 
+          else
               *str = '0';
         str++;
         mask >>= 1;
     }
     *str = 0;
-    SET_STRING_ELT(ret_, i, mkChar(buff)); 
+    SET_STRING_ELT(ret_, i, mkChar(buff));
     R_CheckUserInterrupt();
   }
   return ret_;
@@ -453,7 +436,8 @@ SEXP divide_integer64_double(SEXP e1_, SEXP e2_, SEXP ret_){
    return ret_;
 }
 
-#if SEMANTICS == SEMANTICS_NEW
+
+/* Ofek Shilon */
 SEXP divide_double_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
@@ -468,7 +452,6 @@ SEXP divide_double_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
-#endif
 
 SEXP sign_integer64(SEXP e1_, SEXP ret_){
   long long i, n = LENGTH(ret_);
@@ -556,7 +539,7 @@ SEXP log10_integer64(SEXP e1_, SEXP ret_){
   for(i=0; i<n; i++) {
 	LOGBASE64(e1[i],logbase,ret[i],naflag)
   }
-#endif	
+#endif
   if (naflag)warning(INTEGER64_NAN_CREATED_WARNING);
   return ret_;
 }
@@ -575,7 +558,7 @@ SEXP log2_integer64(SEXP e1_, SEXP ret_){
   for(i=0; i<n; i++) {
 	LOGBASE64(e1[i],logbase,ret[i],naflag)
   }
-#endif	
+#endif
   if (naflag)warning(INTEGER64_NAN_CREATED_WARNING);
   return ret_;
 }
@@ -693,7 +676,7 @@ SEXP mean_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
 				ret[0] = NA_INTEGER64;
 				return ret_;
 			}else{
-				longret += e1[i];			
+				longret += e1[i];
 			}
 		}
 		ret[0] = longret / n;
@@ -842,7 +825,7 @@ SEXP cummin_integer64(SEXP e1_, SEXP ret_){
 			ret[i] = e1[i];
 			break;
 		}else{
-			ret[i] = e1[i]<ret[i-1] ? e1[i] : ret[i-1];		
+			ret[i] = e1[i]<ret[i-1] ? e1[i] : ret[i-1];
 		}
 	}
 	for(i++; i<n; i++){
@@ -865,7 +848,7 @@ SEXP cummax_integer64(SEXP e1_, SEXP ret_){
 			ret[i] = e1[i];
 			break;
 		}else{
-			ret[i] = e1[i]>ret[i-1] ? e1[i] : ret[i-1];		
+			ret[i] = e1[i]>ret[i-1] ? e1[i] : ret[i-1];
 		}
 	}
 	for(i++; i<n; i++){
@@ -1013,7 +996,7 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
   long long min = *((long long * ) REAL(min_));
   long long max = *((long long * ) REAL(max_));
   unsigned long long d;
-  // max - min can overflow 
+  // max - min can overflow
   if (min < 0 && max > 0){
      d = ((unsigned long long)(-min)) + ((unsigned long long)max) + 1;
   }else{
@@ -1040,7 +1023,7 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
     ret[i] = min + ( (long long)(*((unsigned long long *)(&ii))) % d);
 //#pragma GCC diagnostic pop
   }
-  PutRNGstate();  
+  PutRNGstate();
   UNPROTECT(1);
   return ret_;
 }
@@ -1098,5 +1081,5 @@ Unit: milliseconds
 
 
 
-	
+
 

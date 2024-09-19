@@ -70,8 +70,6 @@ export(
 
 # -- integer64.R - basic vector handling --
 
-,"integer64_semantics"
-
 ,"binattr"
 ,"plusclass"
 ,"minusclass"
@@ -82,7 +80,7 @@ export(
 
 ,"is.integer64"
 ,"as.integer64"
- 
+
 ,"as.integer64.integer64"
 ,"as.integer64.NULL"
 ,"as.integer64.character"
