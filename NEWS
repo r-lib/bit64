@@ -1,3 +1,12 @@
+    CHANGES IN bit64 VERSION 4.5.1
+
+USER VISIBLE CHANGES
+
+    o generics 'is.integer64', 'as.integer64', 'as.bitstring'
+      are no longer registered as S4 methods of 'is' and 'as' 
+
+
+
     CHANGES IN bit64 VERSION 4.5.0
 
 NEW FEATURES
@@ -167,7 +176,7 @@ USER VISIBLE CHANGES
 BUG FIXES
 
     o We now protect our SEXP return-vector before calling R_Busy
-      (reported by Thjomas Kalibera)
+      (reported by Thomas Kalibera)
     o median.integer64 now gets a ... argument if the generic has it
       (wish of Kurt Hornik)
     o we migrated all files to UTF-8
