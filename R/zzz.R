@@ -9,14 +9,25 @@
 
 
 # require(rhub)
-# rhub_bit64_4.0.5 <- check_for_cran(
-#   path = "../bit64_4.0.5.tar.gz"
+# rhub_bit64_4.5.0 <- check_for_cran(
+#   path = "../bit64_4.5.0.tar.gz"
 # , email = "Jens.Oehlschlaegel@truecluster.com"
 # , check_args = "--as-cran"
 # , env_vars = c('_R_CHECK_FORCE_SUGGESTS_'= "false",'_R_CHECK_CRAN_INCOMING_USE_ASPELL_'= "true", '_R_CHECK_XREFS_MIND_SUSPECT_ANCHORS_'="true")
 # , platforms = NULL
 # , show_status = FALSE
 # )
+
+# > require(rhub)
+# > rhub_setup()
+# > rhub_doctor()
+# > rhub_check(platforms = c("linux", "macos", "windows", "ubuntu-clang", "ubuntu-gcc12"))
+# ✔ Found git repository at /home/jo/SIK/truecluster/bit64.
+# ✔ Found GitHub PAT.                                 
+# ✔ Check started: linux, macos, windows, ubuntu-clang, ubuntu-gcc12 (aspherical-sphinx).
+# See <https://github.com/truecluster/bit64/actions> for live output!
+
+
 
 .onLoad <- function(lib, pkg) {
   ##library.dynam("bit64", pkg, lib) use useDynLib(bit) in NAMESPACE instead

@@ -14,40 +14,40 @@
    A S3 class for vectors of 64bit integers
 }
 \description{
-Package 'bit64' provides fast serializable S3 atomic 64bit (signed) integers 
-that can be used in vectors, matrices, arrays and data.frames. Methods are 
-available for coercion from and to logicals, integers, doubles, characters  
-and factors as well as many elementwise and summary functions. 
+Package 'bit64' provides fast serializable S3 atomic 64bit (signed) integers
+that can be used in vectors, matrices, arrays and data.frames. Methods are
+available for coercion from and to logicals, integers, doubles, characters
+and factors as well as many elementwise and summary functions.
 \cr
 \bold{Version 0.8}
 With 'integer64' vectors you can store very large integers at the expense
 of 64 bits, which is by factor 7 better than 'int64' from package 'int64'.
-Due to the smaller memory footprint, the atomic vector architecture and  
-using only S3 instead of S4 classes, most operations are one to three orders 
-of magnitude faster: Example speedups are 4x for serialization, 250x for 
-adding, 900x for coercion and 2000x for object creation. Also 'integer64' 
+Due to the smaller memory footprint, the atomic vector architecture and
+using only S3 instead of S4 classes, most operations are one to three orders
+of magnitude faster: Example speedups are 4x for serialization, 250x for
+adding, 900x for coercion and 2000x for object creation. Also 'integer64'
 avoids an ongoing (potentially infinite) penalty for garbage collection
-observed during existence of 'int64' objects (see code in example section). 
+observed during existence of 'int64' objects (see code in example section).
 \cr
 \bold{Version 0.9}
 Package 'bit64' - which extends R with fast 64-bit integers - now has fast
-(single-threaded) implementations the most important univariate algorithmic 
-operations (those based on hashing and sorting). We now have methods for 
-'match', '%in%', 'duplicated', 'unique', 'table', 'sort', 'order', 'rank', 
-'quantile', 'median' and 'summary'. Regarding data management we also have 
+(single-threaded) implementations the most important univariate algorithmic
+operations (those based on hashing and sorting). We now have methods for
+'match', '%in%', 'duplicated', 'unique', 'table', 'sort', 'order', 'rank',
+'quantile', 'median' and 'summary'. Regarding data management we also have
 novel generics 'unipos' (positions of the unique values), 'tiepos' (
-positions of ties), 'keypos' (positions of foreign keys in a sorted 
+positions of ties), 'keypos' (positions of foreign keys in a sorted
 dimension table) and derived methods 'as.factor' and 'as.ordered'. This 64-
-bit functionality is implemented carefully to be not slower than the 
-respective 32-bit operations in Base R and also to avoid outlying waiting 
-times observed with 'order', 'rank' and 'table' (speedup factors 20/16/200 
-respective). This increases the dataset size with wich we can work truly 
+bit functionality is implemented carefully to be not slower than the
+respective 32-bit operations in Base R and also to avoid outlying waiting
+times observed with 'order', 'rank' and 'table' (speedup factors 20/16/200
+respective). This increases the dataset size with wich we can work truly
 interactive. The speed is achieved by simple heuristic optimizers in high-
-level functions choosing the best from multiple low-level algorithms and 
-further taking advantage of a novel caching if activated. In an example R 
+level functions choosing the best from multiple low-level algorithms and
+further taking advantage of a novel caching if activated. In an example R
 session using a couple of these operations the 64-bit integers performed 22x
- faster than base 32-bit integers, hash-caching improved this to 24x, 
-sortorder-caching was most efficient with 38x (caching hashing and sorting 
+ faster than base 32-bit integers, hash-caching improved this to 24x,
+sortorder-caching was most efficient with 38x (caching hashing and sorting
 is not worth it with 32x at duplicated RAM consumption).
 }
 \usage{
@@ -80,51 +80,51 @@ is not worth it with 32x at duplicated RAM consumption).
 }
 }
 \section{Design considerations}{
-  64 bit integers are related to big data: we need them to overcome address space limitations. 
-  Therefore performance of the 64 bit integer type is critical. 
+  64 bit integers are related to big data: we need them to overcome address space limitations.
+  Therefore performance of the 64 bit integer type is critical.
   In the S language -- designed in 1975 -- atomic objects were defined to be vectors for a couple of good reasons:
-  simplicity, option for implicit parallelization, good cache locality. 
+  simplicity, option for implicit parallelization, good cache locality.
   In recent years many analytical databases have learnt that lesson: column based data bases provide superior performance
   for many applications, the result are products such as MonetDB, Sybase IQ, Vertica, Exasol, Ingres Vectorwise.
-  If we introduce 64 bit integers not natively in Base R but as an external package, we should at least strive to 
-  make them as 'basic' as possible. Therefore the design choice of bit64 not only differs from \code{int64}, it is obvious: 
-  Like the other atomic types in Base R, we model data type 'integer64' as a contiguous \code{\link{atomic}} vector in memory, 
-  and we use the more basic \code{\link{S3}} class system, not \code{\link{S4}}. Like package \code{int64} we want our 'integer64' to be \code{\link{serialize}able}, 
+  If we introduce 64 bit integers not natively in Base R but as an external package, we should at least strive to
+  make them as 'basic' as possible. Therefore the design choice of bit64 not only differs from \code{int64}, it is obvious:
+  Like the other atomic types in Base R, we model data type 'integer64' as a contiguous \code{\link{atomic}} vector in memory,
+  and we use the more basic \code{\link{S3}} class system, not \code{\link{S4}}. Like package \code{int64} we want our 'integer64' to be \code{\link{serialize}able},
   therefore we also use an existing data type as the basis. Again the choice is obvious: R has only one 64 bit data type: doubles.
-  By using \code{\link{double}s}, \code{integer64} \code{\link{inherits}} some functionality such as \code{\link{is.atomic}}, \code{\link{length}}, 
+  By using \code{\link{double}s}, \code{integer64} \code{\link{inherits}} some functionality such as \code{\link{is.atomic}}, \code{\link{length}},
   \code{\link{length<-}}, \code{\link{names}}, \code{\link{names<-}}, \code{\link{dim}}, \code{\link{dim<-}}, \code{\link{dimnames}}, \code{\link{dimnames}}.
   \cr
-  Our R level functions strictly follow the functional programming paragdim: 
-  no modification of arguments or other sideffects. Before version 0.93  we internally deviated from the strict paradigm
-  in order to boost performance. Our C functions do not create new return values, 
-  instead we pass-in the memory to be returned as an argument. This gives us the freedom to apply the C-function 
-  to new or old vectors, which helps to avoid unnecessary memory allocation, unnecessary copying and unnessary garbage collection.
-  Prior to 0.93 \emph{within} our R functions we also deviated from conventional R programming by not using \code{\link{attr<-}} and \code{\link{attributes<-}} 
+  Our R level functions strictly follow the functional programming paragdim:
+  no modification of arguments or other side-effects. Before version 0.93  we internally deviated from the strict paradigm
+  in order to boost performance. Our C functions do not create new return values,
+  instead we pass-in the memory to be returned as an argument. This gives us the freedom to apply the C-function
+  to new or old vectors, which helps to avoid unnecessary memory allocation, unnecessary copying and unnecessary garbage collection.
+  Prior to 0.93 \emph{within} our R functions we also deviated from conventional R programming by not using \code{\link{attr<-}} and \code{\link{attributes<-}}
   because they always did new memory allocation and copying in older R versions. If we wanted to set attributes of return values that we have freshly created,
-  we instead used functions \code{\link[bit:getsetattr]{setattr}} and \code{\link[bit:getsetattr]{setattributes}} from package \code{\link[bit]{bit}}. 
+  we instead used functions \code{\link[bit:getsetattr]{setattr}} and \code{\link[bit:getsetattr]{setattributes}} from package \code{\link[bit]{bit}}.
   From version 0.93 \code{\link[bit:getsetattr]{setattr}} is only used for manipulating \code{\link{cache}} objects, in \code{\link{ramsort.integer64}} and \code{\link{sort.integer64}} and in \code{\link{as.data.frame.integer64}}.
 }
 \section{Arithmetic precision and coercion}{
   The fact that we introduce 64 bit long long integers -- without introducing 128-bit long doubles -- creates some subtle challenges:
-  Unlike 32 bit \code{\link{integer}s}, the \code{integer64} are no longer a proper subset of \code{\link{double}}. 
-  If a binary arithmetic operation does involve a \code{double} and a \code{integer}, it is a no-brainer to return \code{double} 
-  without loss of information. If an \code{integer64} meets a \code{double}, it is not trivial what type to return. 
-  Switching to \code{integer64} limits our ability to represent very large numbers, switching to \code{double} limits our ability 
-  to distinguish \code{x} from \code{x+1}. Since the latter is the purpose of introducing 64 bit integers, we usually return \code{integer64} 
-  from functions involving \code{integer64}, for example in \code{\link[=c.integer64]{c}}, \code{\link[=cbind.integer64]{cbind}} 
-  and \code{\link[=rbind.integer64]{rbind}}. 
+  Unlike 32 bit \code{\link{integer}s}, the \code{integer64} are no longer a proper subset of \code{\link{double}}.
+  If a binary arithmetic operation does involve a \code{double} and a \code{integer}, it is a no-brainer to return \code{double}
+  without loss of information. If an \code{integer64} meets a \code{double}, it is not trivial what type to return.
+  Switching to \code{integer64} limits our ability to represent very large numbers, switching to \code{double} limits our ability
+  to distinguish \code{x} from \code{x+1}. Since the latter is the purpose of introducing 64 bit integers, we usually return \code{integer64}
+  from functions involving \code{integer64}, for example in \code{\link[=c.integer64]{c}}, \code{\link[=cbind.integer64]{cbind}}
+  and \code{\link[=rbind.integer64]{rbind}}.
   \cr
-  Different from Base R, our operators \code{\link[=+.integer64]{+}}, 
-  \code{\link[=-.integer64]{-}}, \code{\link[=\%/\%.integer64]{\%/\%}} and \code{\link[=\%\%.integer64]{\%\%}} coerce their arguments to 
-  \code{integer64} and always return \code{integer64}. 
+  Different from Base R, our operators \code{\link[=+.integer64]{+}},
+  \code{\link[=-.integer64]{-}}, \code{\link[=\%/\%.integer64]{\%/\%}} and \code{\link[=\%\%.integer64]{\%\%}} coerce their arguments to
+  \code{integer64} and always return \code{integer64}.
   \cr
-  The multiplication operator \code{\link[=*.integer64]{*}} coerces its first argument to \code{integer64} 
-  but allows its second argument to be also \code{double}: the second argument is internaly coerced to 'long double' 
-  and the result of the multiplication is returned as \code{integer64}. 
+  The multiplication operator \code{\link[=*.integer64]{*}} coerces its first argument to \code{integer64}
+  but allows its second argument to be also \code{double}: the second argument is internaly coerced to 'long double'
+  and the result of the multiplication is returned as \code{integer64}.
   \cr
-  The division \code{\link[=/.integer64]{/}} and power \code{\link[=^.integer64]{^}} operators also coerce their first argument to \code{integer64} 
-  and coerce internally their second argument to 'long double', they return as \code{double}, like \code{\link[=sqrt.integer64]{sqrt}}, 
-  \code{\link[=log.integer64]{log}}, \code{\link[=log2.integer64]{log2}} and \code{\link[=log10.integer64]{log10}} do. 
+  The division \code{\link[=/.integer64]{/}} and power \code{\link[=^.integer64]{^}} operators also coerce their first argument to \code{integer64}
+  and coerce internally their second argument to 'long double', they return as \code{double}, like \code{\link[=sqrt.integer64]{sqrt}},
+  \code{\link[=log.integer64]{log}}, \code{\link[=log2.integer64]{log2}} and \code{\link[=log10.integer64]{log10}} do.
 
  \tabular{ccccccccc}{
   \bold{argument1} \tab \bold{op} \tab \bold{argument2} \tab \bold{->} \tab \bold{coerced1} \tab \bold{op} \tab \bold{coerced2} \tab \bold{->} \tab \bold{result} \cr
@@ -146,20 +146,20 @@ is not worth it with 32x at duplicated RAM consumption).
 }
 \section{Creating and testing S3 class 'integer64'}{
   Our creator function \code{integer64} takes an argument \code{length}, creates an atomic double vector of this length,
-  attaches an S3 class attribute 'integer64' to it, and that's it. We simply rely on S3 method dispatch and interpret those 
-  64bit elements as 'long long int'. 
+  attaches an S3 class attribute 'integer64' to it, and that's it. We simply rely on S3 method dispatch and interpret those
+  64bit elements as 'long long int'.
   \cr
  \code{\link{is.double}} currently returns TRUE for \code{integer64} and might return FALSE in a later release.
- Consider \code{is.double} to have undefined behaviour and do query \code{is.integer64} \emph{before} querying \code{is.double}.
+ Consider \code{is.double} to have undefined behavior and do query \code{is.integer64} \emph{before} querying \code{is.double}.
 %As a second line of defense against misinterpretation we make \code{\link{is.double}}
-%return \code{FALSE} by making it S3 generic and adding a method \code{\link{as.double.integer64}}. 
-  The methods \code{\link{is.integer64}} and \code{\link{is.vector}} both return \code{TRUE} for \code{integer64}. 
- Note that we did not patch \code{\link{storage.mode}} and \code{\link{typeof}}, which both continue returning 'double' 
+%return \code{FALSE} by making it S3 generic and adding a method \code{\link{as.double.integer64}}.
+  The methods \code{\link{is.integer64}} and \code{\link{is.vector}} both return \code{TRUE} for \code{integer64}.
+ Note that we did not patch \code{\link{storage.mode}} and \code{\link{typeof}}, which both continue returning 'double'
  Like for 32 bit \code{\link{integer}}, \code{\link{mode}} returns 'numeric' and \code{\link{as.double}}) tries coercing to \code{\link{double}}).
- It is possible that 'integer64' becomes a \code{vmode} in package \code{ff}. 
+ It is possible that 'integer64' becomes a \code{vmode} in package \code{ff}.
  \cr
  Further methods for creating \code{integer64} are \code{\link[=range.integer64]{range}} which returns the range of the data type if calles without arguments,
- \code{\link[=rep.integer64]{rep}}, \code{\link[=seq.integer64]{seq}}. 
+ \code{\link[=rep.integer64]{rep}}, \code{\link[=seq.integer64]{seq}}.
  \cr
  For all available methods on \code{integer64} vectors see the index below and the examples.
 }
@@ -199,6 +199,7 @@ is not worth it with 32x at duplicated RAM consumption).
    \code{\link{as.integer64.NULL}} \tab \code{\link{NULL}} \tab  \cr
  \cr
    \bold{coercing from integer64} \tab \bold{see also}          \tab \bold{description} \cr
+   \code{\link{as.list.integer64}} \tab \code{\link{as.list}} \tab generic \cr
    \code{\link{as.bitstring}} \tab \code{\link{as.bitstring}} \tab generic \cr
    \code{\link{as.bitstring.integer64}} \tab  \tab  \cr
    \code{\link{as.character.integer64}} \tab \code{\link{as.character}} \tab  \cr
@@ -312,17 +313,17 @@ is not worth it with 32x at duplicated RAM consumption).
 }
 \section{Limitations inherited from implementing 64 bit integers via an external package}{
   \itemize{
-    \item \bold{vector size} of atomic vectors is still limited to \code{\link{.Machine}$integer.max}. 
-    However, external memory extending packages such as \code{ff} or \code{bigmemory} 
-    can extend their address space now with \code{integer64}. Having 64 bit integers also help 
-    with those not so obvious address issues that arise once we exchange data with SQL databases 
+    \item \bold{vector size} of atomic vectors is still limited to \code{\link{.Machine}$integer.max}.
+    However, external memory extending packages such as \code{ff} or \code{bigmemory}
+    can extend their address space now with \code{integer64}. Having 64 bit integers also help
+    with those not so obvious address issues that arise once we exchange data with SQL databases
     and datawarehouses, which use big integers as surrogate keys, e.g. on indexed primary key columns.
-    This puts R into a relatively strong position compared to certain commercial statistical 
-    softwares, which sell database connectivity but neither have the range of 64 bit integers, 
+    This puts R into a relatively strong position compared to certain commercial statistical
+    softwares, which sell database connectivity but neither have the range of 64 bit integers,
     nor have integers at all, nor have a single numeric data type in their macro-glue-language.
 
-    \item \bold{literals} such as \code{123LL} would require changes to Base R, up to then we need to write (and call) 
-    \code{as.integer64(123L)} or \code{as.integer64(123)} or \code{as.integer64('123')}. 
+    \item \bold{literals} such as \code{123LL} would require changes to Base R, up to then we need to write (and call)
+    \code{as.integer64(123L)} or \code{as.integer64(123)} or \code{as.integer64('123')}.
     Only the latter allows to specify numbers beyond Base R's numeric data types and therefore is the recommended
     way to use -- using only one way may facilitate migrating code to literals at a later stage.
 
@@ -330,7 +331,7 @@ is not worth it with 32x at duplicated RAM consumption).
 }
 \section{Limitations inherited from Base R, Core team, can you change this?}{
   \itemize{
-    \item \bold{\code{\link{identical}}} with default parameters does not distinguish all bit-patterns of doubles. 
+    \item \bold{\code{\link{identical}}} with default parameters does not distinguish all bit-patterns of doubles.
     For testing purposes we provide a wrapper \code{\link{identical.integer64}} that will distinguish all bit-patterns.
     It would be desireable to have a single call of \code{\link{identical}} handle both, \code{\link{double}} and \code{integer64}.
 
@@ -342,7 +343,7 @@ is not worth it with 32x at duplicated RAM consumption).
    }
    As a limitation remains: it will only dispatch at its first argument \code{from} but not at its second \code{to}.
 
-    \item \bold{\code{\link{is.double}}} does not dispatches S3 methods, However, we have made it generic 
+    \item \bold{\code{\link{is.double}}} does not dispatches S3 methods, However, we have made it generic
 		and it will return \code{FALSE} on \code{integer64}.
 
     \item \bold{\code{\link{c}}} only dispatches \code{\link{c.integer64}} if the first argument is \code{integer64}
@@ -354,16 +355,16 @@ is not worth it with 32x at duplicated RAM consumption).
        c.integer64(list(x,x))
      }
 
-    \item \bold{generic binary operators} fail to dispatch *any* user-defined S3 method 
-    if the two arguments have two different S3 classes. For example we have two classes 
-    \code{\link{bit}} and \code{\link{bitwhich}} sparsely representing boolean vectors 
-    and we have methods \code{\link{&.bit}} and \code{\link{&.bitwhich}}. For an expression
-    involving both as in \code{ bit & bitwhich}, none of the two methods is dispatched. 
-    Instead a standard method is dispatched, which neither handles \code{\link{bit}} 
-    nor \code{\link{bitwhich}}. Although it lacks symmetry, the better choice would be to 
-    dispatch simply the method of the class of the first argument in case of class conflict. 
-    This choice would allow authors of extension packages providing coherent behaviour 
-    at least within their contributed classes. But as long as none of the package authors 
+    \item \bold{generic binary operators} fail to dispatch *any* user-defined S3 method
+    if the two arguments have two different S3 classes. For example we have two classes
+    \code{\link[bit]{bit}} and \code{\link[bit]{bitwhich}} sparsely representing boolean vectors
+    and we have methods \code{\link[bit:xor.default]{&.bit}} and \code{\link[bit:xor.default]{&.bitwhich}}. For an expression
+    involving both as in \code{ bit & bitwhich}, none of the two methods is dispatched.
+    Instead a standard method is dispatched, which neither handles \code{\link[bit]{bit}}
+    nor \code{\link[bit]{bitwhich}}. Although it lacks symmetry, the better choice would be to
+    dispatch simply the method of the class of the first argument in case of class conflict.
+    This choice would allow authors of extension packages providing coherent behaviour
+    at least within their contributed classes. But as long as none of the package authors
     methods is dispatched, he cannot handle the conflicting classes at all.
 
     \item \bold{\code{\link{unlist}}} is not generic and if it were, we would face similar problems as with \code{c()}
@@ -374,17 +375,17 @@ is not worth it with 32x at duplicated RAM consumption).
     \item \bold{\code{\link{is.vector}}} does not dispatch its method \code{\link{is.vector.integer64}}
 
     \item \bold{\code{\link{mode<-}}} drops the class 'integer64' which is returned from \code{as.integer64}.
-       Also it does not remove an existing class 'integer64' when assigning mode 'integer'. 
+       Also it does not remove an existing class 'integer64' when assigning mode 'integer'.
 
     \item \bold{\code{\link{storage.mode<-}}} does not support external data types such as \code{as.integer64}
 
     \item \bold{\code{\link{matrix}}} does drop the 'integer64' class attribute.
 
-    \item \bold{\code{\link{array}}}  does drop the 'integer64' class attribute. 
-           In current R versions (1.15.1) this can be circumvented by activating the function 
+    \item \bold{\code{\link{array}}}  does drop the 'integer64' class attribute.
+           In current R versions (1.15.1) this can be circumvented by activating the function
 						\code{as.vector.integer64} further down this file.
-						However, the CRAN maintainer has requested to remove \code{as.vector.integer64}, 
-						even at the price of breaking previously working functionality of the package. 
+						However, the CRAN maintainer has requested to remove \code{as.vector.integer64},
+						even at the price of breaking previously working functionality of the package.
 
     \item \bold{\code{\link{str}}} does not print the values of \code{integer64} correctly
 
@@ -392,22 +393,22 @@ is not worth it with 32x at duplicated RAM consumption).
 }
 \section{further limitations}{
   \itemize{
-    \item \bold{subscripting} non-existing elements and subscripting with \code{NA}s is currently not supported. 
+    \item \bold{subscripting} non-existing elements and subscripting with \code{NA}s is currently not supported.
     Such subscripting currently returns \code{9218868437227407266} instead of \code{NA} (the \code{NA} value of the underlying double code).
-    Following the full R behaviour here would either destroy performance or require extensive C-coding. 
+    Following the full R behaviour here would either destroy performance or require extensive C-coding.
   }
 }
 \note{
    \code{integer64} are useful for handling database keys and exact counting in +-2^63.
    Do not use them as replacement for 32bit integers, integer64 are not
-   supported for subscripting by R-core and they have different semantics 
+   supported for subscripting by R-core and they have different semantics
    when combined with double. Do understand that \code{integer64} can only be
    useful over \code{double} if we do not coerce it to \code{double}. \cr
   \cr
   While \cr
   integer + double -> double + double -> double \cr
   or \cr
-  1L + 0.5 -> 1.5 \cr 
+  1L + 0.5 -> 1.5 \cr
   for additive operations we coerce to \code{integer64} \cr
   integer64 + double ->  integer64 + integer64 -> integer64 \cr
   hence \cr
@@ -416,7 +417,7 @@ is not worth it with 32x at duplicated RAM consumption).
   see section "Arithmetic precision and coercion" above
 }
 \value{
-  \code{integer64} returns a vector of 'integer64', 
+  \code{integer64} returns a vector of 'integer64',
    i.e. a vector of \code{\link{double}} decorated with class 'integer64'.
 }
 \author{
@@ -445,9 +446,9 @@ seq(as.integer64(1), 10)     # seq.integer64 is dispatched on first given argume
 seq(to=as.integer64(10), 1)  # seq.integer64 is dispatched on first given argument
 seq.integer64(along.with=x)  # or call seq.integer64 directly
 # c.integer64 is dispatched only if *first* argument is integer64 ...
-x <- c(x,runif(length(x), max=100)) 
+x <- c(x,runif(length(x), max=100))
 # ... and coerces everything to integer64 - including double
-x                                   
+x
 names(x) <- letters  # use names as usual
 x
 
@@ -511,7 +512,7 @@ i64 <- as.integer64(d64)
 stopifnot(identical.integer64(i64-1+1,i64))
 stopifnot(identical.integer64(i64+1-1,i64))
 
-message("Testing minus and plus edge cases and 'rev'\n")
+message("Testing minus and plus edge cases and 'rev'\nUBSAN signed integer overflow expected for type 'long long int'\nThis is a false UBSAN alarm because overflow is detected and NA returned")
 stopifnot(identical.integer64(lim.integer64()+1-1, c(lim.integer64()[1], NA)))
 stopifnot(identical.integer64(rev(lim.integer64())-1+1, c(lim.integer64()[2], NA)))
 
@@ -556,7 +557,7 @@ stopifnot(identical.integer64((as.integer64(10)^(1:18))^(1/1:18), as.integer64(r
 message("Testing c and rep")
 stopifnot(identical.integer64( as.integer64(rep(1:3, 1:3)), rep(as.integer64(1:3), 1:3)))
 stopifnot(identical.integer64( as.integer64(rep(1:3, 3)), rep(as.integer64(1:3), 3)))
- 
+
 x <- as.double(c(NA,NA,NA))
 class(x) <- "integer64"
 x <- x + -1:1
@@ -708,7 +709,7 @@ str(integer64(3))
 message("-- The following performance numbers are measured under RWin64  --")
 message("-- under RWin32 the advantage of integer64 over int64 is smaller --")
 
-message("-- integer64 needs 7x/5x less RAM than int64 under 64/32 bit OS 
+message("-- integer64 needs 7x/5x less RAM than int64 under 64/32 bit OS
 (and twice the RAM of integer as it should be) --")
 #as.vector(object.size(int64(1e6))/object.size(integer64(1e6)))
 as.vector(object.size(integer64(1e6))/object.size(integer(1e6)))
@@ -726,7 +727,7 @@ d64 <- as.double(i32)
 
 message("-- the following timings are rather conservative since timings
  of integer64 include garbage collection -- due to looped calls")
-message("-- integer64 coerces 900x/100x faster than int64 
+message("-- integer64 coerces 900x/100x faster than int64
  under 64/32 bit OS (and 2x the time of coercing to integer) --")
 t32 <- system.time(for(i in 1:1000)as.integer(d64))
 t64 <- system.time(for(i in 1:1000)as.integer64(d64))
@@ -739,14 +740,14 @@ t64 <- system.time(for(i in 1:1000)as.integer64(i32))
 #T64/t64
 t64/td64
 
-message("-- integer64 serializes 4x/0.8x faster than int64 
+message("-- integer64 serializes 4x/0.8x faster than int64
  under 64/32 bit OS (and less than 2x/6x the time of integer or double) --")
 t32 <- system.time(for(i in 1:10)serialize(i32, NULL))
 td64 <- system.time(for(i in 1:10)serialize(d64, NULL))
-i64 <- as.integer64(i32); 
+i64 <- as.integer64(i32);
 t64 <- system.time(for(i in 1:10)serialize(i64, NULL))
 rm(i64); gc()
-#I64 <- as.int64(i32); 
+#I64 <- as.int64(i32);
 #T64 <- system.time(for(i in 1:10)serialize(I64, NULL))
 #rm(I64); gc()
 #T64/t64
@@ -758,24 +759,24 @@ message("-- integer64 adds 250x/60x faster than int64
  under 64/32 bit OS (and less than 6x the time of integer or double) --")
 td64 <- system.time(for(i in 1:100)d64+d64)
 t32 <- system.time(for(i in 1:100)i32+i32)
-i64 <- as.integer64(i32); 
+i64 <- as.integer64(i32);
 t64 <- system.time(for(i in 1:100)i64+i64)
 rm(i64); gc()
-#I64 <- as.int64(i32); 
+#I64 <- as.int64(i32);
 #T64 <- system.time(for(i in 1:10)I64+I64)*10
 #rm(I64); gc()
 #T64/t64
 t64/t32
 t64/td64
 
-message("-- integer64 sums 3x/0.2x faster than int64 
+message("-- integer64 sums 3x/0.2x faster than int64
 (and at about 5x/60X the time of integer and double) --")
 td64 <- system.time(for(i in 1:100)sum(d64))
 t32 <- system.time(for(i in 1:100)sum(i32))
-i64 <- as.integer64(i32); 
+i64 <- as.integer64(i32);
 t64 <- system.time(for(i in 1:100)sum(i64))
 rm(i64); gc()
-#I64 <- as.int64(i32); 
+#I64 <- as.int64(i32);
 #T64 <- system.time(for(i in 1:100)sum(I64))
 #rm(I64); gc()
 #T64/t64
@@ -786,7 +787,7 @@ message("-- integer64 diffs 5x/0.85x faster than integer and double
 (int64 version 1.0 does not support diff) --")
 td64 <- system.time(for(i in 1:10)diff(d64, lag=2L, differences=2L))
 t32 <- system.time(for(i in 1:10)diff(i32, lag=2L, differences=2L))
-i64 <- as.integer64(i32); 
+i64 <- as.integer64(i32);
 t64 <- system.time(for(i in 1:10)diff(i64, lag=2L, differences=2L))
 rm(i64); gc()
 t64/t32
@@ -797,10 +798,10 @@ message("-- integer64 subscripts 1000x/340x faster than int64
 (and at the same speed / 10x slower as integer) --")
 ts32 <- system.time(for(i in 1:1000)sample(1e6, 1e3))
 t32<- system.time(for(i in 1:1000)i32[sample(1e6, 1e3)])
-i64 <- as.integer64(i32); 
+i64 <- as.integer64(i32);
 t64 <- system.time(for(i in 1:1000)i64[sample(1e6, 1e3)])
 rm(i64); gc()
-#I64 <- as.int64(i32); 
+#I64 <- as.int64(i32);
 #T64 <- system.time(for(i in 1:100)I64[sample(1e6, 1e3)])*10
 #rm(I64); gc()
 #(T64-ts32)/(t64-ts32)
@@ -810,10 +811,10 @@ message("-- integer64 assigns 200x/90x faster than int64
 (and 50x/160x slower than integer) --")
 ts32 <- system.time(for(i in 1:100)sample(1e6, 1e3))
 t32 <- system.time(for(i in 1:100)i32[sample(1e6, 1e3)] <- 1:1e3)
-i64 <- as.integer64(i32); 
+i64 <- as.integer64(i32);
 i64 <- system.time(for(i in 1:100)i64[sample(1e6, 1e3)] <- 1:1e3)
 rm(i64); gc()
-#I64 <- as.int64(i32); 
+#I64 <- as.int64(i32);
 #I64 <- system.time(for(i in 1:10)I64[sample(1e6, 1e3)] <- 1:1e3)*10
 #rm(I64); gc()
 #(T64-ts32)/(t64-ts32)
@@ -828,7 +829,7 @@ tdfri32 <- system.time(read.csv(fi32, colClasses=rep("integer", 3)))
 unlink(fi32)
 rm(dfi32); gc()
 
-i64 <- as.integer64(i32); 
+i64 <- as.integer64(i32);
 tdfi64 <- system.time(dfi64 <- data.frame(a=i64, b=i64, c=i64))
 tdfsi64 <- system.time(dfi64[1e6:1,])
 fi64 <- tempfile()
@@ -837,7 +838,7 @@ tdfri64 <- system.time(read.csv(fi64, colClasses=rep("integer64", 3)))
 unlink(fi64)
 rm(i64, dfi64); gc()
 
-#I64 <- as.int64(i32); 
+#I64 <- as.int64(i32);
 #tdfI64 <- system.time(dfI64<-data.frame(a=I64, b=I64, c=I64))
 #tdfsI64 <- system.time(dfI64[1e6:1,])
 #fI64 <- tempfile()

@@ -8,7 +8,7 @@
 # Last changed:  2011-12-11
 #*/
 
-	
+
 #ifndef _INTEGER64_INLCUDED
 #define _INTEGER64_INLCUDED
 
@@ -66,7 +66,7 @@
 		if (ret == NA_INTEGER64) \
 			naflag = TRUE; \
 	}
-	
+
 #define MINUS64(e1,e2,ret,naflag) \
 	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
 		ret = NA_INTEGER64; \
@@ -137,6 +137,21 @@
 			naflag = TRUE; \
 	}
 
+
+/* Ofek Shilon */
+#define DIVIDEREAL64(e1,e2,ret,naflag)                   \
+if (e2 == NA_INTEGER64 || ISNAN(e1))                     \
+  ret = NA_REAL;                                         \
+else {                                                   \
+  if (e2==0)                                             \
+    ret = NA_REAL;                                       \
+  else                                                   \
+    ret = (double)((long double) e1 / (long double) e2); \
+  if (ISNAN(ret))                                        \
+    naflag = TRUE;                                       \
+}                                                              \
+
+
 #define DIVIDE64(e1,e2,ret,naflag) \
 	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
 		ret = NA_REAL; \
@@ -188,7 +203,7 @@
 	else { \
 		ret = (e1 < e2) ? e2 : e1; \
 	}
-	
+
 #define ABS64(e1,ret) \
 	if (e1 == NA_INTEGER64) \
 		ret = NA_INTEGER64; \

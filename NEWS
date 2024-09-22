@@ -1,3 +1,44 @@
+    CHANGES IN bit64 VERSION 4.5.2
+
+BUG FIXES
+
+    o "[.integer64"(x,i) can now cope with i longer than x
+
+
+
+    CHANGES IN bit64 VERSION 4.5.1
+
+USER VISIBLE CHANGES
+
+    o generics 'is.integer64', 'as.integer64', 'as.bitstring'
+      are no longer registered as S4 methods of 'is' and 'as' 
+
+
+
+    CHANGES IN bit64 VERSION 4.5.0
+
+NEW FEATURES
+
+    o new method as.list.integer64
+    o setting options(integer64_semantics="new")
+      gives the better semantics suggested by Ofek Shilon.
+      Downstream package authors: please test and adjust to the new semantics,
+      we plan to make that the default and deprecate integer64_semantics="new".
+
+
+USER VISIBLE CHANGES
+
+    o min.integer64 and max.integer64 emit better warnings 
+      when extreme values are returned (suggested by Pepijn de Vries)
+
+
+BUG FIXES
+
+    o seq.integer64 now properly handles sequences of length 1
+      (found by Christopher Swingley)
+
+
+
     CHANGES IN bit64 VERSION 4.0.5
 
 BUG FIXES
@@ -143,7 +184,7 @@ USER VISIBLE CHANGES
 BUG FIXES
 
     o We now protect our SEXP return-vector before calling R_Busy
-      (reported by Thjomas Kalibera)
+      (reported by Thomas Kalibera)
     o median.integer64 now gets a ... argument if the generic has it
       (wish of Kurt Hornik)
     o we migrated all files to UTF-8
