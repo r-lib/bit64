@@ -1,12 +1,15 @@
 Package: bit64
 Type: Package
 Title: A S3 Class for Vectors of 64bit Integers
-Version: 4.5.2
+Version: 4.5.99
 Date: 2024-09-22
-Authors@R: c(person(given = "Jens",
+Authors@R: c(person(given = "Michael",
+                    family = "Chirico",
+                    email = "michaelchirico4@gmail.com",
+                    role = c("aut", "cre")),
+             person(given = "Jens",
                       family = "Oehlschlägel",
-                      role = c("aut", "cre"),
-                      email = "Jens.Oehlschlaegel@truecluster.com"),
+                      role = "aut"),
                person(given = "Leonardo",
                       family = "Silvestri",
                       role = "ctb"),
@@ -14,10 +17,6 @@ Authors@R: c(person(given = "Jens",
                       family = "Shilon",
                       role = "ctb")
                       )
-Author: Jens Oehlschlägel [aut, cre],
-  Leonardo Silvestri [ctb],
-  Ofek Shilon [ctb]
-Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 Depends: R (>= 3.0.1), bit (>= 4.0.0), utils, methods, stats
 Description: 
  Package 'bit64' provides serializable S3 atomic 64bit (signed) integers. 
