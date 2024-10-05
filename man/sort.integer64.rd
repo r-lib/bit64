@@ -5,7 +5,7 @@
    High-level intger64 methods for sorting and ordering
 }
 \description{
-  Fast high-level methods for sorting and ordering. 
+  Fast high-level methods for sorting and ordering.
   These are wrappers to \code{\link{ramsort.integer64}} and friends and do not modify their arguments.
 }
 \usage{
@@ -43,7 +43,7 @@ set to 'memory' to minimize RAM requirements and sacrifice speed
  see \code{\link{sort}} and \code{\link{order}}
 }
 \value{
-  \code{sort} returns the sorted vector and \code{vector} returns the order positions. 
+  \code{sort} returns the sorted vector and \code{vector} returns the order positions.
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

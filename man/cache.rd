@@ -29,7 +29,7 @@ remcache(x)
   A character naming the object to be retrieved from the cache or to be stored in the cache
 }
   \item{value}{
-  An object to be stored in the cache 
+  An object to be stored in the cache
 }
   \item{all.names}{
   passed to \code{\link{ls}} when listing the cache content
@@ -42,8 +42,8 @@ remcache(x)
 }
 }
 \details{
-    A \code{cache} is an \code{link{environment}} attached to an atomic object with the \code{link{attrib}} name 'cache'. 
-    It contains at least a reference to the atomic object that carries the cache. 
+    A \code{cache} is an \code{link{environment}} attached to an atomic object with the \code{link{attrib}} name 'cache'.
+    It contains at least a reference to the atomic object that carries the cache.
     This is used when accessing the cache to detect whether the object carrying the cache has been modified meanwhile.
     Function \code{newcache(x)} creates a new cache referencing  \code{x} \cr
     Function \code{jamcache(x)} forces \code{x} to have a cache \cr

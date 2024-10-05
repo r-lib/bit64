@@ -41,7 +41,7 @@
 // #define DEBUG_RETURN move_counter;
 #define DEBUG_DONE Rprintf("compare_counter=%d  move_counter=%d\n", compare_counter, move_counter); R_FlushConsole(); //doneTicks();
 
-#if defined(WIN32) || defined(WIN64) || defined(_WIN32_) || defined(_WIN64_) || defined(__WIN32__) || defined(__WIN64__) 
+#if defined(WIN32) || defined(WIN64) || defined(_WIN32_) || defined(_WIN64_) || defined(__WIN32__) || defined(__WIN64__)
   #define MULTI_THREADING 0
 #else
   #define MULTI_THREADING 1
@@ -52,13 +52,13 @@
 #endif
 
 // dummy for counting comp ops
-#define COUNTLESS 
+#define COUNTLESS
 
 #define LESS(A,B) ((A)<(B))
 #define GREATER(A, B) LESS((B), (A))
 
 //#define MOVE(TO,FROM){move_counter++; TO=FROM;}
-#define MOVE(TO,FROM) TO=FROM; 
+#define MOVE(TO,FROM) TO=FROM;
 #define EXCH(A,B,t) {MOVE(t,A) MOVE(A,B) MOVE(B,t)}
 #define COMPEXCH(A,B,t) if (LESS(B,A)) EXCH(A,B,t)
 
@@ -105,7 +105,7 @@ extern IndexT move_counter;
 
 void R_Busy (int which);
 
-// post sorting NA handling 
+// post sorting NA handling
 int ram_integer64_fixsortNA(
   ValueT *data     // RETURNED: pointer to data vector
 , IndexT n         // length of data vector
@@ -114,7 +114,7 @@ int ram_integer64_fixsortNA(
 , int decreasing   // 0 for ascending, 1 for descending (must match the same parameter in sorting)
 );
 
-// post sortordering NA handling 
+// post sortordering NA handling
 int ram_integer64_fixsortorderNA(
   ValueT *data       // RETURNED: pointer to data vector
 , IndexT *index      // RETURNED: pointer to index vector
@@ -125,7 +125,7 @@ int ram_integer64_fixsortorderNA(
 , IndexT *auxindex   // MODIFIED: pointer to auxilliary index vector
 );
 
-// post ordering NA handling 
+// post ordering NA handling
 int ram_integer64_fixorderNA(
   ValueT *data          // UNCHANGED: pointer to data vector
 , IndexT *index         // RETURNED: pointer to index vector
@@ -296,8 +296,8 @@ void ram_integer64_sortordermerge_desc(
 
 // merge sorts b ascending and leaves result in a (following Sedgewick 8.4 Mergesort with no copying)
 void ram_integer64_mergesort_asc_rec(
-  ValueT *a   // RETURNED: pointer to target data vector 
-, ValueT *b   // MODIFIED: pointer to source data vector 
+  ValueT *a   // RETURNED: pointer to target data vector
+, ValueT *b   // MODIFIED: pointer to source data vector
 , IndexT l    // leftmost position to be sorted
 , IndexT r    // rightmost position to be sorted
 );
@@ -305,8 +305,8 @@ void ram_integer64_mergesort_asc_rec(
 // merge sorting b ascending leaving result in a (following Sedgewick 8.4 Mergesort with no copying)
 void ram_integer64_mergeorder_asc_rec(
 ValueT *data  // UNCHANGED: pointer to data vector
-, IndexT *a   // RETURNED: pointer to target index vector 
-, IndexT *b   // MODIFIED: pointer to source index vector 
+, IndexT *a   // RETURNED: pointer to target index vector
+, IndexT *b   // MODIFIED: pointer to source index vector
 , IndexT l    // leftmost position to be sorted
 , IndexT r    // rightmost position to be sorted
 );
@@ -315,8 +315,8 @@ ValueT *data  // UNCHANGED: pointer to data vector
 void ram_integer64_mergesortorder_asc_rec(
   ValueT *a   // RETURNED: pointer to target data vector
 , ValueT *b   // MODIFIED: pointer to source data vector
-, IndexT *ai  // RETURNED: pointer to target index vector 
-, IndexT *bi  // MODIFIED: pointer to source index vector 
+, IndexT *ai  // RETURNED: pointer to target index vector
+, IndexT *bi  // MODIFIED: pointer to source index vector
 , IndexT l    // leftmost position to be sorted
 , IndexT r    // rightmost position to be sorted
 );
@@ -324,8 +324,8 @@ void ram_integer64_mergesortorder_asc_rec(
 
 // merge sorts b descending and leaves result in a (following Sedgewick 8.4 Mergesort with no copying)
 void ram_integer64_mergesort_desc_rec(
-  ValueT *a   // RETURNED: pointer to target data vector 
-, ValueT *b   // MODIFIED: pointer to source data vector 
+  ValueT *a   // RETURNED: pointer to target data vector
+, ValueT *b   // MODIFIED: pointer to source data vector
 , IndexT l    // leftmost position to be sorted
 , IndexT r    // rightmost position to be sorted
 );
@@ -333,8 +333,8 @@ void ram_integer64_mergesort_desc_rec(
 // merge sorting b descending leaving result in a (following Sedgewick 8.4 Mergesort with no copying)
 void ram_integer64_mergeorder_desc_rec(
   ValueT *data  // UNCHANGED: pointer to data vector
-, IndexT *a       // RETURNED: pointer to target index vector 
-, IndexT *b       // MODIFIED: pointer to source index vector 
+, IndexT *a       // RETURNED: pointer to target index vector
+, IndexT *b       // MODIFIED: pointer to source index vector
 , IndexT l        // leftmost position to be sorted
 , IndexT r        // rightmost position to be sorted
 );
@@ -343,8 +343,8 @@ void ram_integer64_mergeorder_desc_rec(
 void ram_integer64_mergesortorder_desc_rec(
   ValueT *a   // RETURNED: pointer to target data vector
 , ValueT *b   // MODIFIED: pointer to source data vector
-, IndexT *ai  // RETURNED: pointer to target index vector 
-, IndexT *bi  // MODIFIED: pointer to source index vector 
+, IndexT *ai  // RETURNED: pointer to target index vector
+, IndexT *bi  // MODIFIED: pointer to source index vector
 , IndexT l    // leftmost position to be sorted
 , IndexT r    // rightmost position to be sorted
 );

@@ -39,7 +39,7 @@
 #!   A character naming the object to be retrieved from the cache or to be stored in the cache
 #! }
 #!   \item{value}{
-#!   An object to be stored in the cache 
+#!   An object to be stored in the cache
 #! }
 #!   \item{all.names}{
 #!   passed to \code{\link{ls}} when listing the cache content
@@ -52,8 +52,8 @@
 #! }
 #! }
 #! \details{
-#!     A \code{cache} is an \code{link{environment}} attached to an atomic object with the \code{link{attrib}} name 'cache'. 
-#!     It contains at least a reference to the atomic object that carries the cache. 
+#!     A \code{cache} is an \code{link{environment}} attached to an atomic object with the \code{link{attrib}} name 'cache'.
+#!     It contains at least a reference to the atomic object that carries the cache.
 #!     This is used when accessing the cache to detect whether the object carrying the cache has been modified meanwhile.
 #!     Function \code{newcache(x)} creates a new cache referencing  \code{x} \cr
 #!     Function \code{jamcache(x)} forces \code{x} to have a cache \cr
@@ -128,7 +128,7 @@ cache <- function(x){
     cache <- attr(x, "cache")
     if (is.null(cache) || bit::still.identical(x, get("x", envir=cache, inherits=FALSE)))
         cache
-    else{ 
+    else{
         remcache(x)
         warning("removed outdated cache")
         NULL
@@ -150,7 +150,7 @@ getcache <- function(x, which){
             get(which, envir=cache, inherits=FALSE)
         else
             NULL
-    }else{ 
+    }else{
         remcache(x)
         warning("removed outdated cache")
         NULL
@@ -210,7 +210,7 @@ print.cache<- function(x, all.names=FALSE, pattern, ...){
 #!     The result of relative expensive operations \code{\link{hashmap}}, \code{\link[=ramsort.integer64]{ramsort}}, \code{\link[=ramsort.integer64]{ramsortorder}} and \code{\link[=ramsort.integer64]{ramorder}} can be stored in a cache in order to avoid multiple excutions. Unless in very specific situations, the recommended method is \code{hashsortorder} only.
 #! }
 #! \note{
-#!   Note that we consider storing the big results from sorting and/or ordering as a relevant side-effect, 
+#!   Note that we consider storing the big results from sorting and/or ordering as a relevant side-effect,
 #! and therefore storing them in the cache should require a conscious decision of the user.
 #! }
 #! \value{
@@ -342,19 +342,19 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
 #!     }
 #! }
 #! \details{
-#!   All these functions benefit from a \code{\link{sortcache}}, \code{\link{ordercache}} or \code{\link{sortordercache}}.  
+#!   All these functions benefit from a \code{\link{sortcache}}, \code{\link{ordercache}} or \code{\link{sortordercache}}.
 #!   \code{na.count}, \code{nvalid} and \code{nunique} also benefit from a \code{\link{hashcache}}.
 #!    \cr
 #!     \code{is.sorted} checks for sortedness of \code{x} (NAs sorted first) \cr
-#!  \code{na.count} returns the number of \code{NA}s \cr 
+#!  \code{na.count} returns the number of \code{NA}s \cr
 #!  \code{nvalid} returns the number of valid data points, usually \code{\link{length}} minus \code{na.count}. \cr
 #!  \code{nunique} returns the number of unique values \cr
-#!  \code{nties} returns the number of tied values. 
+#!  \code{nties} returns the number of tied values.
 #! }
 #! \note{
-#!     If a \code{\link{cache}} exists but the desired value is not cached, 
-#!  then these functions will store their result in the cache. 
-#!  We do not consider this a relevant side-effect, 
+#!     If a \code{\link{cache}} exists but the desired value is not cached,
+#!  then these functions will store their result in the cache.
+#!  We do not consider this a relevant side-effect,
 #!  since these small cache results do not have a relevant memory footprint.
 #! }
 #! \value{

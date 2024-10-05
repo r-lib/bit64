@@ -39,7 +39,7 @@ set to 'memory' to minimize RAM requirements and sacrifice speed
     The result of relative expensive operations \code{\link{hashmap}}, \code{\link[=ramsort.integer64]{ramsort}}, \code{\link[=ramsort.integer64]{ramsortorder}} and \code{\link[=ramsort.integer64]{ramorder}} can be stored in a cache in order to avoid multiple excutions. Unless in very specific situations, the recommended method is \code{hashsortorder} only.
 }
 \note{
-  Note that we consider storing the big results from sorting and/or ordering as a relevant side-effect, 
+  Note that we consider storing the big results from sorting and/or ordering as a relevant side-effect,
 and therefore storing them in the cache should require a conscious decision of the user.
 }
 \value{

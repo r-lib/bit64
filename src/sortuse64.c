@@ -31,7 +31,7 @@ SEXP r_ram_integer64_nacount(
     for(i=0;i<n;i++)
         if (x[i]==NA_INTEGER64)
             ret++;
-  }  
+  }
   INTEGER(ret_)[0]=ret;
   R_Busy(0);
   UNPROTECT(1);
@@ -55,8 +55,8 @@ SEXP r_ram_integer64_issorted_asc(
             ret = FALSE;
             goto wrapup;
         }
-  }  
-wrapup:  
+  }
+wrapup:
   INTEGER(ret_)[0]=ret;
   R_Busy(0);
   UNPROTECT(1);
@@ -87,7 +87,7 @@ SEXP r_ram_integer64_sortnut(
     if (lasti<(n-1))
         nties += n - lasti;
     R_Busy(0);
-  }  
+  }
   INTEGER(ret_)[0]=nunique;
   INTEGER(ret_)[1]=nties;
   UNPROTECT(1);
@@ -121,7 +121,7 @@ SEXP r_ram_integer64_ordernut(
     if (lasti<(n-1))
         nties += n - lasti;
     R_Busy(0);
-  }  
+  }
   INTEGER(ret_)[0]=nunique;
   INTEGER(ret_)[1]=nties;
   UNPROTECT(1);
@@ -151,7 +151,7 @@ SEXP r_ram_integer64_sortfin_asc(
 
   R_Busy(1);
   DEBUG_INIT
-  
+
   switch (method){
     case 1:{
         for(i=0;i<n;i++)
@@ -188,9 +188,9 @@ SEXP r_ram_integer64_sortfin_asc(
     }
     default:
       method=0;
-  }    
+  }
 
-wrapup:  
+wrapup:
       R_Busy(0);
   if (method==0)
     error("unimplemented method");
@@ -223,7 +223,7 @@ SEXP r_ram_integer64_orderfin_asc(
 
   for(i=0;i<nt;i++)
     index[i]--;
-  
+
   switch (method){
     case 1:{
         for(i=0;i<n;i++){
@@ -261,12 +261,12 @@ SEXP r_ram_integer64_orderfin_asc(
     }
     default:
       method=0;
-  }    
+  }
 
-wrapup:  
+wrapup:
   for(i=0;i<nt;i++)
     index[i]++;
-  
+
       R_Busy(0);
   if (method==0)
     error("unimplemented method");
@@ -303,7 +303,7 @@ SEXP r_ram_integer64_orderpos_asc(
 
   for(i=0;i<nt;i++)
     index[i]--;
-  
+
   switch (method){
     case 1:{
         for(i=0;i<n;i++){
@@ -342,12 +342,12 @@ SEXP r_ram_integer64_orderpos_asc(
     }
     default:
       method=0;
-  }    
+  }
 
-wrapup:  
+wrapup:
   for(i=0;i<nt;i++)
     index[i]++;
-  
+
       R_Busy(0);
   if (method==0)
     error("unimplemented method");
@@ -355,15 +355,15 @@ wrapup:
 }
 
 /* 1= simple binary search of unsorted in sorted
-   2= double exponential search of sorted in sorted 
+   2= double exponential search of sorted in sorted
    3= merge-search of sorted in sorted
-*/ 
+*/
 SEXP r_ram_integer64_sortorderpos_asc(
   SEXP x_            /* data vector */
 , SEXP sorted_            /* sorted table vector */
 , SEXP order_            /* order vector that makes table_ sorted */
 , SEXP nomatch_
-, SEXP method_  
+, SEXP method_
 , SEXP ret_
 )
 {
@@ -422,9 +422,9 @@ SEXP r_ram_integer64_sortorderpos_asc(
     }
     default:
       method=0;
-  }    
+  }
 
-wrapup:  
+wrapup:
       R_Busy(0);
   if (method==0)
     error("unimplemented method");
@@ -474,7 +474,7 @@ SEXP r_ram_integer64_sortorderuni_asc(
       bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
       for (i=0;i<nbitflags;i++)
         bitflags[i]=0;
-      lastval = sorted[0]; 
+      lastval = sorted[0];
       bitflags[(index[0]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0]-1) % BITS_INTEGER64));
       for(i=1;i<n;i++)
         if (sorted[i]!=lastval){
@@ -554,7 +554,7 @@ SEXP r_ram_integer64_sortorderupo_asc(
   IndexT *index = INTEGER(order_);
   IndexT *ret = INTEGER(ret_);
   ValueT lastval;
-  
+
   if (n){
     R_Busy(1);
     if (asLogical(keep_order_)){
@@ -667,7 +667,7 @@ SEXP r_ram_integer64_ordertab_asc(
   SEXP table_            /* sorted table vector */
 , SEXP order_            /* sorted table vector */
 , SEXP denormalize_            /* sorted table vector */
-, SEXP keep_order_            
+, SEXP keep_order_
 , SEXP ret_
 )
 {
@@ -737,7 +737,7 @@ SEXP r_ram_integer64_ordertab_asc(
 SEXP r_ram_integer64_sortordertab_asc(
   SEXP sorted_            /* somehow sorted table vector */
 , SEXP order_            /* sorted table vector */
-, SEXP denormalize_            
+, SEXP denormalize_
 , SEXP ret_
 )
 {
@@ -789,9 +789,9 @@ SEXP r_ram_integer64_sortordertab_asc(
 }
 
 
-// with na_skip_num==0 this is the proper version doing proper star schema modelling: 
+// with na_skip_num==0 this is the proper version doing proper star schema modelling:
 // NAs receive a key value like all other values, such that they can be joined with the dimension table
-// with na_skip_num==na_count this is the sick version needed for as.factor/as.ordered: 
+// with na_skip_num==na_count this is the sick version needed for as.factor/as.ordered:
 // NAs are propagated and can not be joined with the dimension table / NAs are not in levels
 // this breaks all previous consistent modelling
 SEXP r_ram_integer64_orderkey_asc(
@@ -819,7 +819,7 @@ SEXP r_ram_integer64_orderkey_asc(
                 j = index[i]-1;
                 if (table[pos]!=table[j]){
                     pos = j;
-                    key++;    
+                    key++;
                 }
                 ret[j] = key;
               }
@@ -852,7 +852,7 @@ SEXP r_ram_integer64_sortorderkey_asc(
       ret[index[na_skip_num]-1]= key;
       for(i=na_skip_num+1;i<n;i++){
         if (sorted[i]!=sorted[i-1]){
-            key++;    
+            key++;
         }
         ret[index[i]-1] = key;
       }
@@ -889,16 +889,16 @@ SEXP r_ram_integer64_orderrnk_asc(
             j = index[i]-1;
             if (table[pos]!=table[j]){
                 pos = j;
-                avgrank = (lasti + 1 + i)/2.0;    
+                avgrank = (lasti + 1 + i)/2.0;
                 for (j=i-1;j>=lasti;j--)
                   ret[index[j]-1] = avgrank;
                 lasti = i;
             }
           }
-          avgrank = (lasti + 1 + i)/2.0;    
+          avgrank = (lasti + 1 + i)/2.0;
           for (j=i-1;j>=lasti;j--)
             ret[index[j]-1] = avgrank;
-          
+
       R_Busy(0);
   }
   return ret_;
@@ -929,13 +929,13 @@ SEXP r_ram_integer64_sortorderrnk_asc(
           lasti = 0;
           for(i=1;i<n;i++){
             if (sorted[i]!=sorted[i-1]){
-                avgrank = (lasti + 1 + i)/2.0;    
+                avgrank = (lasti + 1 + i)/2.0;
                 for (j=i-1;j>=lasti;j--)
                   ret[index[j]-1] = avgrank;
                 lasti = i;
             }
           }
-          avgrank = (lasti + 1 + i)/2.0;    
+          avgrank = (lasti + 1 + i)/2.0;
           for (j=i-1;j>=lasti;j--)
             ret[index[j]-1] = avgrank;
       R_Busy(0);
@@ -997,7 +997,7 @@ SEXP r_ram_integer64_orderdup_asc(
         }
         default:
           method=0;
-      }    
+      }
       R_Busy(0);
   }
   if (method==0)
@@ -1050,7 +1050,7 @@ SEXP r_ram_integer64_sortorderdup_asc(
         }
         default:
           method=0;
-      }    
+      }
       R_Busy(0);
   }
   if (method==0)
@@ -1070,7 +1070,7 @@ SEXP r_ram_integer64_sortordertie_asc(
   ValueT *sorted = (ValueT *) REAL(sorted_);
   IndexT *index = INTEGER(order_);
   IndexT * ret = INTEGER(ret_);
-  
+
   if (n){
       R_Busy(1);
       IndexT nbitflags = n/BITS_INTEGER64+(n%BITS_INTEGER64 ? 1 : 0);
@@ -1155,17 +1155,17 @@ SEXP r_ram_integer64_sortsrt(
 {
   R_Busy(1);
   DEBUG_INIT
-  
+
   int i,j,l,r,n = LENGTH(x_);
   Rboolean na_count   = asInteger(na_count_);
   Rboolean na_last    = asLogical(na_last_);
   Rboolean decreasing = asLogical(decreasing_);
-  
+
   ValueT *sorted;
   sorted = (ValueT *) REAL(x_);
   ValueT *ret;
   ret = (ValueT *) REAL(ret_);
-  
+
   if (na_last){
     for (i=0,j=n-na_count;i<na_count;i++,j++)
         ret[j] = sorted[i];
@@ -1190,7 +1190,7 @@ SEXP r_ram_integer64_sortsrt(
     for (i=0,j=0;i<n;i++,j++)
         ret[j] = sorted[i];
   }
-  
+
   R_Busy(0);
   return ret_;
 }
@@ -1206,17 +1206,17 @@ SEXP r_ram_integer64_sortorderord(
 {
   R_Busy(1);
   DEBUG_INIT
-  
+
   int i,j,l,r,n = LENGTH(x_);
   Rboolean na_count   = asInteger(na_count_);
   Rboolean na_last    = asLogical(na_last_);
   Rboolean decreasing = asLogical(decreasing_);
-  
+
   ValueT *sorted;
   sorted = (ValueT *) REAL(x_);
   IndexT *index = INTEGER(index_);
   IndexT *ret = INTEGER(ret_);
-  
+
   if (na_last){
     for (i=0,j=n-na_count;i<na_count;i++,j++)
         ret[j] = index[i];
@@ -1242,7 +1242,7 @@ SEXP r_ram_integer64_sortorderord(
     for (i=0,j=0;i<n;i++,j++)
         ret[j] = index[i];
   }
-  
+
   R_Busy(0);
   return ret_;
 }
@@ -1258,17 +1258,17 @@ SEXP r_ram_integer64_orderord(
 {
   R_Busy(1);
   DEBUG_INIT
-  
+
   int i,j,l,r,n = LENGTH(x_);
   Rboolean na_count   = asInteger(na_count_);
   Rboolean na_last    = asLogical(na_last_);
   Rboolean decreasing = asLogical(decreasing_);
-  
+
   ValueT *data;
   data = (ValueT *) REAL(x_);
   IndexT *index = INTEGER(index_);
   IndexT *ret = INTEGER(ret_);
-  
+
   if (na_last){
     for (i=0,j=n-na_count;i<na_count;i++,j++)
         ret[j] = index[i];
@@ -1294,7 +1294,7 @@ SEXP r_ram_integer64_orderord(
     for (i=0,j=0;i<n;i++,j++)
         ret[j] = index[i];
   }
-  
+
   R_Busy(0);
   return ret_;
 }

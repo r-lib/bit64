@@ -26,19 +26,19 @@
     }
 }
 \details{
-  All these functions benefit from a \code{\link{sortcache}}, \code{\link{ordercache}} or \code{\link{sortordercache}}.  
+  All these functions benefit from a \code{\link{sortcache}}, \code{\link{ordercache}} or \code{\link{sortordercache}}.
   \code{na.count}, \code{nvalid} and \code{nunique} also benefit from a \code{\link{hashcache}}.
     \cr
     \code{is.sorted} checks for sortedness of \code{x} (NAs sorted first) \cr
- \code{na.count} returns the number of \code{NA}s \cr 
+ \code{na.count} returns the number of \code{NA}s \cr
  \code{nvalid} returns the number of valid data points, usually \code{\link{length}} minus \code{na.count}. \cr
  \code{nunique} returns the number of unique values \cr
- \code{nties} returns the number of tied values. 
+ \code{nties} returns the number of tied values.
 }
 \note{
-    If a \code{\link{cache}} exists but the desired value is not cached, 
- then these functions will store their result in the cache. 
- We do not consider this a relevant side-effect, 
+    If a \code{\link{cache}} exists but the desired value is not cached,
+ then these functions will store their result in the cache.
+ We do not consider this a relevant side-effect,
  since these small cache results do not have a relevant memory footprint.
 }
 \value{

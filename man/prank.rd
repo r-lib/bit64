@@ -3,7 +3,7 @@
 \alias{prank.integer64}
 \title{(P)ercent (Rank)s}
 \description{
-    Function \code{prank.integer64}  projects the values [min..max] via ranks [1..n] to [0..1]. 
+    Function \code{prank.integer64}  projects the values [min..max] via ranks [1..n] to [0..1].
     \code{\link{qtile.integer64}} is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
 }
 \usage{

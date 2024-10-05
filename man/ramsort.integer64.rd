@@ -18,7 +18,7 @@
    Low-level intger64 methods for in-RAM sorting and ordering
 }
 \description{
-  Fast low-level methods for sorting and ordering. 
+  Fast low-level methods for sorting and ordering.
   The \code{..sortorder} methods do sorting and ordering at once, which requires more RAM than ordering but is (almost) as fast as as sorting.
 }
 \note{

@@ -46,7 +46,7 @@
 \arguments{
   \item{x}{ an atomic vector of class 'integer64'}
   \item{base}{ an atomic scalar (we save 50\% log-calls by not allowing a vector base) }
-  \item{digits}{ integer indicating the number of decimal places (round) or significant digits (signif) to be used. 
+  \item{digits}{ integer indicating the number of decimal places (round) or significant digits (signif) to be used.
                  Negative values are allowed (see \code{\link{round}}) }
   \item{justify}{ should it be right-justified (the default), left-justified, centred or left alone. }
   \item{center}{ see \code{\link{scale}} }
@@ -57,9 +57,9 @@
   \code{\link{format}} returns a character vector \cr
   \code{\link{is.na}} and \code{\link{!}} return a logical vector \cr
   \code{\link{sqrt}}, \code{\link{log}}, \code{\link{log2}} and \code{\link{log10}} return a double vector \cr
-  \code{\link{sign}}, \code{\link{abs}}, \code{\link{floor}}, \code{\link{ceiling}}, \code{\link{trunc}} and 
+  \code{\link{sign}}, \code{\link{abs}}, \code{\link{floor}}, \code{\link{ceiling}}, \code{\link{trunc}} and
   \code{\link{round}} return a vector of class 'integer64' \cr
-  \code{\link{signif}} is not implemented 
+  \code{\link{signif}} is not implemented
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

@@ -23,14 +23,14 @@ unipos(x, incomparables = FALSE, order = c("original","values","any"), \dots)
   \item{\dots}{ignored}
 }
 \details{
-  This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache. 
+  This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
   Suitable methods are \code{\link{hashmapupo}} (simultaneously creating and using a hashmap)
 , \code{\link{hashupo}} (first creating a hashmap then using it)
-, \code{\link{sortorderupo}} (fast ordering) 
+, \code{\link{sortorderupo}} (fast ordering)
 and \code{\link{orderupo}} (memory saving ordering).
 \cr
-The default \code{order="original"} collects unique values in the order of the first appearance in \code{x} like in \code{\link{unique}}, this costs extra processing. 
-\code{order="values"} collects unique values in sorted order like in \code{\link{table}}, this costs extra processing with the hash methods but comes for free. 
+The default \code{order="original"} collects unique values in the order of the first appearance in \code{x} like in \code{\link{unique}}, this costs extra processing.
+\code{order="values"} collects unique values in sorted order like in \code{\link{table}}, this costs extra processing with the hash methods but comes for free.
 \code{order="any"} collects unique values in undefined order, possibly faster. For hash methods this will be a quasi random order, for sort methods this will be sorted order.
 }
 \value{

@@ -21,12 +21,12 @@
   \item{\dots}{ignored}
 }
 \details{
-  This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache. 
+  This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
 
   Suitable methods are \code{\link{hashdup}} (hashing), \code{\link{sortorderdup}} (fast ordering) and \code{\link{orderdup}} (memory saving ordering).
 }
 \value{
-    \code{duplicated()}: a logical vector of the same length as \code{x}.  
+    \code{duplicated()}: a logical vector of the same length as \code{x}.
 }
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

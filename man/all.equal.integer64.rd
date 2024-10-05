@@ -46,16 +46,16 @@
   ‘current’.
 }
 \details{
-   In \code{\link{all.equal.numeric}} the type \code{integer} is treated as a proper subset of \code{double} 
-   i.e. does not complain about comparing \code{integer} with \code{double}. 
-   Following this logic \code{all.equal.integer64} treats \code{integer} as a proper subset of \code{integer64} 
-   and does not complain about comparing \code{integer} with \code{integer64}. \code{double} also compares without warning 
+   In \code{\link{all.equal.numeric}} the type \code{integer} is treated as a proper subset of \code{double}
+   i.e. does not complain about comparing \code{integer} with \code{double}.
+   Following this logic \code{all.equal.integer64} treats \code{integer} as a proper subset of \code{integer64}
+   and does not complain about comparing \code{integer} with \code{integer64}. \code{double} also compares without warning
    as long as the values are within \code{\link{lim.integer64}}, if \code{double} are bigger \code{all.equal.integer64}
    complains about the \code{all.equal.integer64 overflow warning}. For further details see \code{\link{all.equal}}.
 }
 \note{
-   \code{\link{all.equal}} only dispatches to this method if the first argument is \code{integer64}, 
-   calling \code{\link{all.equal}} with a \code{non-integer64} first and a \code{integer64} second argument 
+   \code{\link{all.equal}} only dispatches to this method if the first argument is \code{integer64},
+   calling \code{\link{all.equal}} with a \code{non-integer64} first and a \code{integer64} second argument
    gives undefined behavior!
 }
 \author{

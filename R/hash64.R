@@ -40,8 +40,8 @@
 #!    Hashing for 64bit integers
 #! }
 #! \description{
-#! This is an explicit implementation of hash functionality that underlies 
-#! matching and other functions in R. Explicit means that you can create, 
+#! This is an explicit implementation of hash functionality that underlies
+#! matching and other functions in R. Explicit means that you can create,
 #! store and use hash functionality directly. One advantage is that you can
 #! re-use hashmaps, which avoid re-building hashmaps again and again.
 #! }
@@ -81,7 +81,7 @@
 #!   \item{cache}{ an optional \code{\link{cache}} object into which to put the hashmap (by default a new cache is created)}
 #!   \item{nunique}{ giving \emph{correct} number of unique elements can help reducing the size of the hashmap }
 #!   \item{nomatch}{ the value to be returned if an element is not found in the hashmap }
-#!   \item{keep.order}{ determines order of results and speed: \code{FALSE} (the default) is faster and returns in the (pseudo)random order of the hash function, \code{TRUE} returns in the order of first appearance in the original data, but this requires extra work } 
+#!   \item{keep.order}{ determines order of results and speed: \code{FALSE} (the default) is faster and returns in the (pseudo)random order of the hash function, \code{TRUE} returns in the order of first appearance in the original data, but this requires extra work }
 #!   \item{\dots}{ further arguments, passed from generics, ignored in methods }
 #! }
 #! \details{
@@ -131,7 +131,7 @@
 #! hashmapupo(y)
 #! hashtab(hy)
 #! hashmaptab(y)
-#! 
+#!
 #! stopifnot(identical(match(as.integer(x),as.integer(y)),hashpos(hy, x)))
 #! stopifnot(identical(match(as.integer(x),as.integer(y)),hashrev(hx, y)))
 #! stopifnot(identical(as.integer(x) \%in\% as.integer(y), hashfin(hy, x)))
@@ -179,7 +179,7 @@ hashfun.integer64 <- function(x, minfac=1.41, hashbits=NULL, ...){
       hashbits <- as.integer(ceiling(log2(minlen)))
     else
       hashbits <- 0L
-  }else 
+  }else
     hashbits <- as.integer(hashbits)
   .Call(C_hashfun_integer64, x, hashbits, integer(n), PACKAGE = "bit64")
 }
@@ -200,12 +200,12 @@ hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache
       hashbits <- as.integer(ceiling(log2(minlen)))
     else
       hashbits <- 0L
-  }else 
+  }else
     hashbits <- as.integer(hashbits)
   nhash <- as.integer(2^hashbits)
   hashmap <- integer(nhash)
   .Call(C_hashmap_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
-  
+
   if (is.null(cache))
       cache <- newcache(x)
   else
@@ -283,7 +283,7 @@ hashupo.cache_integer64 <- function(cache, keep.order=FALSE, ...){
   .Call(C_hashupo_integer64, hashdat, hashbits, hashmap, as.logical(keep.order), integer(nunique), PACKAGE = "bit64")
 }
 
-# just returns a vector of length nunique of counts of the values 
+# just returns a vector of length nunique of counts of the values
 # at positions hashupo(, keep.order=FALSE) which are those of hashuni(, keep.order=FALSE)
 hashtab <- function(cache, ...)UseMethod("hashtab")
 hashtab.cache_integer64 <- function(cache, ...){
@@ -307,7 +307,7 @@ hashmaptab.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
   }
   if (is.null(hashbits))
     hashbits <- as.integer(ceiling(log2(n*minfac)))
-  else 
+  else
     hashbits <- as.integer(hashbits)
   nhash <- as.integer(2^hashbits)
   hashmap <- integer(nhash)
@@ -332,7 +332,7 @@ hashmapuni.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
       hashbits <- as.integer(ceiling(log2(minlen)))
     else
       hashbits <- 0L
-  }else 
+  }else
     hashbits <- as.integer(hashbits)
   nhash <- as.integer(2^hashbits)
   hashmap <- integer(nhash)
@@ -357,7 +357,7 @@ hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
       hashbits <- as.integer(ceiling(log2(minlen)))
     else
       hashbits <- 0L
-  }else 
+  }else
     hashbits <- as.integer(hashbits)
   nhash <- as.integer(2^hashbits)
   hashmap <- integer(nhash)
@@ -389,7 +389,7 @@ hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
 #! \details{
 #!   For each random integer we call R's internal C interface \code{unif_rand()} twice.
 #!   Each call is mapped to 2^32 unsigned integers. The two 32-bit patterns are concatenated
-#!   to form the new integer64. This process is repeated until the result is not a \code{NA_INTEGER64}. 
+#!   to form the new integer64. This process is repeated until the result is not a \code{NA_INTEGER64}.
 #! }
 #! \author{
 #! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
@@ -397,7 +397,7 @@ hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
 #! \keyword{ classes }
 #! \keyword{distribution}
 #! \keyword{sysdata}
-#! \seealso{ 
+#! \seealso{
 #!   \code{\link{runif}}, \code{\link{hashfun}}
 #! }
 #! \examples{
@@ -448,7 +448,7 @@ runif64 <- function(n, min=lim.integer64()[1], max=lim.integer64()[2], replace =
 }
 
 if (FALSE){
-  
+
     require(bit64)
     require(microbenchmark)
     n <- 1e6
@@ -459,7 +459,7 @@ if (FALSE){
     }
     print(microbenchmark(runif64(n, 1, replace=FALSE), times=20))
 
-    
+
   library(bit64)
   n <- 1e7
   x <- as.integer64(sample(n, n, TRUE))
@@ -473,7 +473,7 @@ if (FALSE){
 
 
   x <- as.integer64(sample(n, n, TRUE))
-  
+
   system.time({
     ret2 <- hashmaptab(x)
     cv2 <- sum(ret2$counts[ret2$counts>1])
@@ -488,7 +488,7 @@ if (FALSE){
   cv
   cv2
 
-    
+
   nunique(x)
   length(value)
   length(count)
@@ -497,35 +497,35 @@ if (FALSE){
   value
   t1
   count
- 
+
   s <- clone(x); o <- seq_along(x); ramsortorder(s, o);
   t2 <- sortordertab(s,o);
   length(s)
   length(t2)
-  
- 
 
-  
+
+
+
   library(bit64)
   n <- 1e6
   r <- runif64(n, lim.integer64()[1], lim.integer64()[2])
   identical(r, as.integer64(as.bitstring(r)))
   cbind(r,as.integer64(as.bitstring(r)))
   cbind(as.bitstring(r),as.bitstring(as.integer64(as.bitstring(r))))
-  
+
   #sum(duplicated(r))
   #table.integer64(r)
   #range(r)
   log2(abs(range(r)))
-  
+
   x <- seq(0,1,0.1)
   y <- quantile.integer64(r, x)
   z <- diff(y)
   plot(log2(z), type="b",ylim=c(0, max(log2(z))))
-  
-  
+
+
   n <- 1e7
   system.time(runif(n))
   system.time(runif64(n))
-  
+
 }

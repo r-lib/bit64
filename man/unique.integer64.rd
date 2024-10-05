@@ -21,15 +21,15 @@
   \item{\dots}{ignored}
 }
 \details{
-  This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache. 
+  This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
   Suitable methods are \code{\link{hashmapuni}} (simultaneously creating and using a hashmap)
 , \code{\link{hashuni}} (first creating a hashmap then using it)
 , \code{\link{sortuni}} (fast sorting for sorted order only)
-, \code{\link{sortorderuni}} (fast ordering for original order only) 
+, \code{\link{sortorderuni}} (fast ordering for original order only)
 and \code{\link{orderuni}} (memory saving ordering).
 \cr
-The default \code{order="original"} returns unique values in the order of the first appearance in \code{x} like in \code{\link{unique}}, this costs extra processing. 
-\code{order="values"} returns unique values in sorted order like in \code{\link{table}}, this costs extra processing with the hash methods but comes for free. 
+The default \code{order="original"} returns unique values in the order of the first appearance in \code{x} like in \code{\link{unique}}, this costs extra processing.
+\code{order="values"} returns unique values in sorted order like in \code{\link{table}}, this costs extra processing with the hash methods but comes for free.
 \code{order="any"} returns unique values in undefined order, possibly faster. For hash methods this will be a quasi random order, for sort methods this will be sorted order.
 }
 \value{

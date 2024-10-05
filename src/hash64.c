@@ -46,7 +46,7 @@ SEXP hashmap_integer64(SEXP x_, SEXP bits_, SEXP hashpos_, SEXP nunique_){
     h = HASH64(v, shift);
     while (hashpos[h] && x[hashpos[h] - 1] != v){
         h++;
-        if (h == nh) 
+        if (h == nh)
             h = 0;
       }
       if (!hashpos[h]){
@@ -79,7 +79,7 @@ SEXP hashpos_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP n
             break;
           }
           h++;
-          if (h == nh) 
+          if (h == nh)
             h = 0;
       }else{
         ret[i] = nomatch;
@@ -118,7 +118,7 @@ SEXP hashrev_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP n
         break;
       }
       h++;
-      if (h == nh) 
+      if (h == nh)
         h = 0;
     }
   }
@@ -138,7 +138,7 @@ SEXP hashrev_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP n
                 break;
               }
               h++;
-              if (h == nh) 
+              if (h == nh)
                 h = 0;
             }
         }
@@ -179,7 +179,7 @@ SEXP hashrin_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP n
         break;
       }
       h++;
-      if (h == nh) 
+      if (h == nh)
         h = 0;
     }
   }
@@ -196,7 +196,7 @@ SEXP hashrin_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP n
                 break;
               }
               h++;
-              if (h == nh) 
+              if (h == nh)
                 h = 0;
             }
         }
@@ -225,7 +225,7 @@ SEXP hashfin_integer64(SEXP x_, SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP r
             break;
           }
           h++;
-          if (h == nh) 
+          if (h == nh)
             h = 0;
       }else{
         ret[i] = FALSE;
@@ -272,7 +272,7 @@ SEXP hashuni_integer64(SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP keep_order
         h = HASH64(v, shift);
         while(hashpos[h] && hashdat[hashpos[h] - 1] != v){  // this is mostly while(hashpos[h]) but we want to catch failure for the nomatch assignment
           h++;
-          if (h == nh) 
+          if (h == nh)
             h = 0;
         }
         if (i == (hashpos[h] - 1)){
@@ -306,7 +306,7 @@ SEXP hashmapuni_integer64(SEXP x_, SEXP bits_, SEXP hashpos_, SEXP nunique_){
     h = HASH64(v, shift);
     while(hashpos[h] && x[hashpos[h] - 1] != v){
         h++;
-        if (h == nh) 
+        if (h == nh)
             h = 0;
     }
     if (!hashpos[h]){
@@ -338,7 +338,7 @@ SEXP hashupo_integer64(SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP keep_order
         h = HASH64(v, shift);
         while(hashpos[h] && hashdat[hashpos[h] - 1] != v){  // this is mostly while(hashpos[h]) but we want to catch failure for the nomatch assignment
           h++;
-          if (h == nh) 
+          if (h == nh)
             h = 0;
         }
         if (i == (hashpos[h] - 1)){
@@ -372,7 +372,7 @@ SEXP hashmapupo_integer64(SEXP x_, SEXP bits_, SEXP hashpos_, SEXP nunique_){
     h = HASH64(v, shift);
     while(hashpos[h] && x[hashpos[h] - 1] != v){
         h++;
-        if (h == nh) 
+        if (h == nh)
             h = 0;
     }
     if (!hashpos[h]){
@@ -413,7 +413,7 @@ SEXP hashtab_integer641(SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP nunique_)
         break;
       }
       h++;
-      if (h == nh) 
+      if (h == nh)
         h = 0;
     }
   }
@@ -451,7 +451,7 @@ SEXP hashtab_integer64(SEXP x_, SEXP bits_, SEXP hashpos_, SEXP nunique_){
     h = HASH64(v, shift);
     while (hashpos[h] && x[hashpos[h] - 1] != v){
         h++;
-        if (h == nh) 
+        if (h == nh)
             h = 0;
     }
     hashtab[h]++;
@@ -467,17 +467,17 @@ SEXP hashtab_integer64(SEXP x_, SEXP bits_, SEXP hashpos_, SEXP nunique_){
     }
   }
   REPROTECT(hashtab_ = lengthgets(hashtab_, nu), idx);
-  
+
   SEXP class;
   PROTECT(class = allocVector(STRSXP, 1));
   SET_STRING_ELT(class, 0, mkChar("integer64"));
   classgets(tabval_, class);
-  
+
   SEXP ret_;
   PROTECT(ret_ = allocVector(VECSXP, 2));
   SET_VECTOR_ELT(ret_, 0, tabval_);
   SET_VECTOR_ELT(ret_, 1, hashtab_);
-  
+
   UNPROTECT(4);
   return ret_;
 }
@@ -504,7 +504,7 @@ SEXP hashmaptab_integer64(SEXP x_, SEXP bits_, SEXP hashpos_, SEXP nunique_){
     h = HASH64(v, shift);
     while (hashpos[h] && x[hashpos[h] - 1] != v){
         h++;
-        if (h == nh) 
+        if (h == nh)
             h = 0;
     }
     if (!hashpos[h]){
@@ -525,17 +525,17 @@ SEXP hashmaptab_integer64(SEXP x_, SEXP bits_, SEXP hashpos_, SEXP nunique_){
   }
   INTEGER(nunique_)[0] = nu;
   REPROTECT(hashtab_ = lengthgets(hashtab_, nu), idx);
-  
+
   SEXP class;
   PROTECT(class = allocVector(STRSXP, 1));
   SET_STRING_ELT(class, 0, mkChar("integer64"));
   classgets(tabval_, class);
-  
+
   SEXP ret_;
   PROTECT(ret_ = allocVector(VECSXP, 2));
   SET_VECTOR_ELT(ret_, 0, tabval_);
   SET_VECTOR_ELT(ret_, 1, hashtab_);
-  
+
   UNPROTECT(4);
   return ret_;
 }

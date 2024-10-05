@@ -19,8 +19,8 @@ keypos(x, \dots)
 \details{
   NAs are sorted first in the dimension table, see \code{\link{ramorder.integer64}}.
   \cr
-  This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache. 
-  Suitable methods are \code{\link{sortorderkey}} (fast ordering) 
+  This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
+  Suitable methods are \code{\link{sortorderkey}} (fast ordering)
 and \code{\link{orderkey}} (memory saving ordering).
 }
 \value{

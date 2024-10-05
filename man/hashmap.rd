@@ -29,8 +29,8 @@
    Hashing for 64bit integers
 }
 \description{
-This is an explicit implementation of hash functionality that underlies 
-matching and other functions in R. Explicit means that you can create, 
+This is an explicit implementation of hash functionality that underlies
+matching and other functions in R. Explicit means that you can create,
 store and use hash functionality directly. One advantage is that you can
 re-use hashmaps, which avoid re-building hashmaps again and again.
 }
@@ -70,7 +70,7 @@ hashmaptab(x, \dots)
   \item{cache}{ an optional \code{\link{cache}} object into which to put the hashmap (by default a new cache is created)}
   \item{nunique}{ giving \emph{correct} number of unique elements can help reducing the size of the hashmap }
   \item{nomatch}{ the value to be returned if an element is not found in the hashmap }
-  \item{keep.order}{ determines order of results and speed: \code{FALSE} (the default) is faster and returns in the (pseudo)random order of the hash function, \code{TRUE} returns in the order of first appearance in the original data, but this requires extra work } 
+  \item{keep.order}{ determines order of results and speed: \code{FALSE} (the default) is faster and returns in the (pseudo)random order of the hash function, \code{TRUE} returns in the order of first appearance in the original data, but this requires extra work }
   \item{\dots}{ further arguments, passed from generics, ignored in methods }
 }
 \details{

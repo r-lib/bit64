@@ -7,7 +7,7 @@
 # type, because otherwise the script would not know where to write
 # the output to.
 
-my $open = 0; 
+my $open = 0;
 while(<STDIN>)
 {
     $line = $_;

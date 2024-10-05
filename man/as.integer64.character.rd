@@ -13,7 +13,7 @@
    Coerce to integer64
 }
 \description{
-  Methods to coerce from other atomic types to integer64. 
+  Methods to coerce from other atomic types to integer64.
 }
 \usage{
  NA_integer64_
@@ -33,8 +33,8 @@
   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
 }
 \details{
-  \code{as.integer64.character} is realized using C function \code{strtoll} which does not support scientific notation. 
-  Instead of '1e6' use '1000000'. 
+  \code{as.integer64.character} is realized using C function \code{strtoll} which does not support scientific notation.
+  Instead of '1e6' use '1000000'.
   \code{as.integer64.bitstring} evaluates characters '0' anbd ' ' as zero-bit,
   all other one byte characters as one-bit,
   multi-byte characters are not allowed,
@@ -53,20 +53,20 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 \examples{
 as.integer64(as.character(lim.integer64()))
 as.integer64(
-  structure(c("1111111111111111111111111111111111111111111111111111111111111110", 
-              "1111111111111111111111111111111111111111111111111111111111111111", 
+  structure(c("1111111111111111111111111111111111111111111111111111111111111110",
+              "1111111111111111111111111111111111111111111111111111111111111111",
               "1000000000000000000000000000000000000000000000000000000000000000",
-              "0000000000000000000000000000000000000000000000000000000000000000", 
-              "0000000000000000000000000000000000000000000000000000000000000001", 
-              "0000000000000000000000000000000000000000000000000000000000000010" 
+              "0000000000000000000000000000000000000000000000000000000000000000",
+              "0000000000000000000000000000000000000000000000000000000000000001",
+              "0000000000000000000000000000000000000000000000000000000000000010"
   ), class = "bitstring")
 )
 as.integer64(
- structure(c("............................................................... ", 
-             "................................................................", 
+ structure(c("............................................................... ",
+             "................................................................",
              ".                                                               ",
-             "", 
-             ".", 
+             "",
+             ".",
              "10"
   ), class = "bitstring")
 )

@@ -16,8 +16,8 @@
   \item{\dots}{ignored}
 }
 \details{
-  This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache. 
-  Suitable methods are \code{\link{sortorderrnk}} (fast ordering) 
+  This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
+  Suitable methods are \code{\link{sortorderrnk}} (fast ordering)
 and \code{\link{orderrnk}} (memory saving ordering).
 }
 \value{

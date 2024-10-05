@@ -24,7 +24,7 @@
   \item{\dots}{ ignored }
 }
 \value{
-  \code{\link{cummin}}, \code{\link{cummax}} , \code{\link{cumsum}} and \code{\link{cumprod}} 
+  \code{\link{cummin}}, \code{\link{cummax}} , \code{\link{cumsum}} and \code{\link{cumprod}}
      return a integer64 vector of the same length as their input\cr
   \code{\link{diff}} returns a integer64 vector shorter by \code{lag*differences} elements \cr
 }

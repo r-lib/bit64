@@ -1,7 +1,7 @@
 #include <R.h>
 #include <Rdefines.h>
 
-/* 
+/*
 SEXP r_ram_truly_identical(
   SEXP x_
 , SEXP y_
