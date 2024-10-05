@@ -2088,7 +2088,7 @@ NA_integer64_ <- unserialize(as.raw(c(0x58, 0x0a, 0x00, 0x00, 0x00, 0x02, 0x00, 
 + 0x00, 0x00, 0x09, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x65, 0x72, 0x36,
 + 0x34, 0x00, 0x00, 0x00, 0xfe)))
 
-"length<-.integer64" <- function(x, value){
+`length<-.integer64` <- function(x, value){
   cl <- oldClass(x)
   n <- length(x)
   x <- NextMethod()
@@ -2157,7 +2157,7 @@ if (FALSE){
 }
 
 
-"[.integer64" <- function(x, i, ...){
+`[.integer64` <- function(x, i, ...){
     cl <- oldClass(x)
     ret <- NextMethod()
     # Begin NA-handling from Leonardo Silvestri
@@ -2196,7 +2196,7 @@ if (FALSE){
 }
 
 
-"[.integer64" <- function(x, i, ...){
+`[.integer64` <- function(x, i, ...){
   cl <- oldClass(x)
   ret <- NextMethod()
   # Begin NA-handling from Leonardo Silvestri
@@ -2219,7 +2219,7 @@ if (FALSE){
 
 
 
-"[<-.integer64" <- function(x,...,value){
+`[<-.integer64` <- function(x,...,value){
   cl <- oldClass(x)
   value <- as.integer64(value)
   ret <- NextMethod()
@@ -2227,14 +2227,14 @@ if (FALSE){
   ret
 }
 
-"[[.integer64" <- function(x,...){
+`[[.integer64` <- function(x,...){
   cl <- oldClass(x)
   ret <- NextMethod()
   oldClass(ret) <- cl
   ret
 }
 
-"[[<-.integer64" <- function(x,...,value){
+`[[<-.integer64` <- function(x,...,value){
   cl <- oldClass(x)
   value <- as.integer64(value)
   ret <- NextMethod()
@@ -2319,7 +2319,7 @@ as.data.frame.integer64 <- function(x, ...){
 }
 
 
-"rep.integer64" <- function(x, ...){
+rep.integer64 <- function(x, ...){
     cl <- oldClass(x)
     ret <- NextMethod()
     oldClass(ret) <- cl
@@ -2327,7 +2327,7 @@ as.data.frame.integer64 <- function(x, ...){
 }
 
 # FIXME no method dispatch for :
-":.integer64" <- function(from, to){
+`:.integer64` <- function(from, to){
   from <- as.integer64(from)
   to <- as.integer64(to)
   ret <- .Call(C_seq_integer64, from, as.integer64(1L), double(as.integer(to-from+1L)))
@@ -2335,7 +2335,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret
 }
 
-"seq.integer64" <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...){
+seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...){
     if (is.null(length.out))
       length.out <- length(along.with)
     else
@@ -2385,7 +2385,7 @@ as.data.frame.integer64 <- function(x, ...){
 }
 
 
-"+.integer64" <- function(e1, e2){
+`+.integer64` <- function(e1, e2){
   if (missing(e2))
     return(e1)
   a <- binattr(e1,e2)
@@ -2401,7 +2401,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret
 }
 
-"-.integer64" <- function(e1, e2){
+`-.integer64` <- function(e1, e2){
   if (missing(e2)){
     e2 <- e1
     e1 <- 0L
@@ -2419,7 +2419,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret
 }
 
-"%/%.integer64" <- function(e1, e2){
+`%/%.integer64` <- function(e1, e2){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -2433,7 +2433,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret
 }
 
-"%%.integer64" <- function(e1, e2){
+`%%.integer64` <- function(e1, e2){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -2447,7 +2447,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret
 }
 
-"*.integer64" <- function(e1, e2){
+`*.integer64` <- function(e1, e2){
   a <- binattr(e1,e2)
   l1 <- length(e1)
   l2 <- length(e2)
@@ -2471,7 +2471,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret
 }
 
-"^.integer64" <- function(e1, e2){
+`^.integer64` <- function(e1, e2){
   a <- binattr(e1,e2)
   l1 <- length(e1)
   l2 <- length(e2)
@@ -2486,7 +2486,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret
 }
 
-"/.integer64" <- function(e1, e2){
+`/.integer64` <- function(e1, e2){
   a <- binattr(e1,e2)
   l1 <- length(e1)
   l2 <- length(e2)
@@ -2511,21 +2511,21 @@ as.data.frame.integer64 <- function(x, ...){
 }
 
 
-"sign.integer64" <- function(x){
+sign.integer64 <- function(x){
   a <- attributes(x)
   ret <- .Call(C_sign_integer64, x, double(length(x)))
   attributes(ret) <- a
   ret
 }
 
-"abs.integer64" <- function(x){
+abs.integer64 <- function(x){
   a <- attributes(x)
   ret <- .Call(C_abs_integer64, x, double(length(x)))
   attributes(ret) <- a
   ret
 }
 
-"sqrt.integer64" <- function(x){
+sqrt.integer64 <- function(x){
   a <- attributes(x)
   ret <- .Call(C_sqrt_integer64, x, double(length(x)))
   a$class <- minusclass(a$class, "integer64")
@@ -2533,7 +2533,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret
 }
 
-"log.integer64" <- function(x, base=NULL){
+log.integer64 <- function(x, base=NULL){
   a <- attributes(x)
   l.x <- length(x)
   l.base <- length(base)
@@ -2551,7 +2551,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret
 }
 
-"log10.integer64" <- function(x){
+log10.integer64 <- function(x){
   a <- attributes(x)
   ret <- .Call(C_log10_integer64, x, double(length(x)))
   a$class <- minusclass(a$class, "integer64")
@@ -2559,7 +2559,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret
 }
 
-"log2.integer64" <- function(x){
+log2.integer64 <- function(x){
   a <- attributes(x)
   ret <- .Call(C_log2_integer64, x, double(length(x)))
   a$class <- minusclass(a$class, "integer64")
@@ -2567,14 +2567,14 @@ as.data.frame.integer64 <- function(x, ...){
   ret
 }
 
-"trunc.integer64" <- function(x, ...)x
-"floor.integer64" <- "ceiling.integer64" <- function(x)x
+trunc.integer64 <- function(x, ...)x
+floor.integer64 <- ceiling.integer64 <- function(x)x
 
-"signif.integer64" <- function(x, digits=6)x
+signif.integer64 <- function(x, digits=6)x
 
-"scale.integer64" <- function(x, center = TRUE, scale = TRUE)scale(as.double(x, keep.names=TRUE), center=center, scale=scale)
+scale.integer64 <- function(x, center = TRUE, scale = TRUE)scale(as.double(x, keep.names=TRUE), center=center, scale=scale)
 
-"round.integer64" <- function(x, digits=0){
+round.integer64 <- function(x, digits=0){
   if (digits<0){
     a <- attributes(x)
     b <- 10^round(-digits)
@@ -2593,7 +2593,7 @@ as.data.frame.integer64 <- function(x, ...){
 
 
 
-"any.integer64" <- function(..., na.rm = FALSE){
+any.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   if (length(l)==1){
           .Call(C_any_integer64, l[[1]], na.rm, logical(1))
@@ -2608,7 +2608,7 @@ as.data.frame.integer64 <- function(x, ...){
   }
 }
 
-"all.integer64" <- function(..., na.rm = FALSE){
+all.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   if (length(l)==1){
           .Call(C_all_integer64, l[[1]], na.rm, logical(1))
@@ -2623,7 +2623,7 @@ as.data.frame.integer64 <- function(x, ...){
   }
 }
 
-"sum.integer64" <- function(..., na.rm = FALSE){
+sum.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   if (length(l)==1){
           ret <- .Call(C_sum_integer64, l[[1]], na.rm, double(1))
@@ -2644,7 +2644,7 @@ as.data.frame.integer64 <- function(x, ...){
 
 
 
-"prod.integer64" <- function(..., na.rm = FALSE){
+prod.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   if (length(l)==1){
     ret <- .Call(C_prod_integer64, l[[1]], na.rm, double(1))
@@ -2664,7 +2664,7 @@ as.data.frame.integer64 <- function(x, ...){
 }
 
 
-"min.integer64" <- function(..., na.rm = FALSE){
+min.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   noval <- TRUE
   if (length(l)==1){
@@ -2691,7 +2691,7 @@ as.data.frame.integer64 <- function(x, ...){
 }
 
 
-"max.integer64" <- function(..., na.rm = FALSE){
+max.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   noval <- TRUE
   if (length(l)==1){
@@ -2718,7 +2718,7 @@ as.data.frame.integer64 <- function(x, ...){
 }
 
 
-"range.integer64" <- function(..., na.rm = FALSE, finite = FALSE){
+range.integer64 <- function(..., na.rm = FALSE, finite = FALSE){
   if (finite)
     na.rm = TRUE
   l <- list(...)
@@ -2753,7 +2753,7 @@ lim.integer64 <- function(){
     ret
 }
 
-"diff.integer64" <- function(x, lag=1L, differences=1L, ...){
+diff.integer64 <- function(x, lag=1L, differences=1L, ...){
   lag <- as.integer(lag)
   n <- length(x)
   d <- differences <- as.integer(differences)
@@ -2779,24 +2779,24 @@ lim.integer64 <- function(){
 }
 
 
-"cummin.integer64" <- function(x){
+cummin.integer64 <- function(x){
   ret <- .Call(C_cummin_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
-"cummax.integer64" <- function(x){
+cummax.integer64 <- function(x){
   ret <- .Call(C_cummax_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
 
-"cumsum.integer64" <- function(x){
+cumsum.integer64 <- function(x){
   ret <- .Call(C_cumsum_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
 
-"cumprod.integer64" <- function(x){
+cumprod.integer64 <- function(x){
   ret <- .Call(C_cumprod_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
@@ -2804,7 +2804,7 @@ lim.integer64 <- function(){
 
 
 
-"is.na.integer64" <- function(x){
+is.na.integer64 <- function(x){
   a <- attributes(x)
   ret <- .Call(C_isna_integer64, x, logical(length(x)))
   a$class <- minusclass(a$class, "integer64")
@@ -2812,12 +2812,12 @@ lim.integer64 <- function(){
   ret
 }
 
-"is.finite.integer64" <- function(x)!is.na(x)
-"is.infinite.integer64" <- function(x)rep(FALSE, length(x))
-"is.nan.integer64" <- function(x)rep(FALSE, length(x))
+is.finite.integer64 <- function(x)!is.na(x)
+is.infinite.integer64 <- function(x)rep(FALSE, length(x))
+is.nan.integer64 <- function(x)rep(FALSE, length(x))
 
 
-"==.integer64" <- function(e1, e2){
+`==.integer64` <- function(e1, e2){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -2831,7 +2831,7 @@ lim.integer64 <- function(){
   ret
 }
 
-"!=.integer64" <- function(e1, e2){
+`!=.integer64` <- function(e1, e2){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -2845,7 +2845,7 @@ lim.integer64 <- function(){
   ret
 }
 
-"<.integer64" <- function(e1, e2){
+`<.integer64` <- function(e1, e2){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -2859,7 +2859,7 @@ lim.integer64 <- function(){
   ret
 }
 
-"<=.integer64" <- function(e1, e2){
+`<=.integer64` <- function(e1, e2){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -2873,7 +2873,7 @@ lim.integer64 <- function(){
   ret
 }
 
-">.integer64" <- function(e1, e2){
+`>.integer64` <- function(e1, e2){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -2887,7 +2887,7 @@ lim.integer64 <- function(){
   ret
 }
 
-">=.integer64" <- function(e1, e2){
+`>=.integer64` <- function(e1, e2){
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -2901,7 +2901,7 @@ lim.integer64 <- function(){
   ret
 }
 
-"&.integer64" <- function(e1, e2){
+`&.integer64` <- function(e1, e2){
   a <- binattr(e1,e2)
   ret <- as.logical(e1) & as.logical(e2)
   a$class <- minusclass(a$class, "integer64")
@@ -2909,7 +2909,7 @@ lim.integer64 <- function(){
   ret
 }
 
-"|.integer64" <- function(e1, e2){
+`|.integer64` <- function(e1, e2){
   a <- binattr(e1,e2)
   ret <- as.logical(e1) | as.logical(e2)
   a$class <- minusclass(a$class, "integer64")
@@ -2926,7 +2926,7 @@ xor.integer64 <- function(x, y){
 }
 
 
-"!.integer64" <- function(x){
+`!.integer64` <- function(x){
   a <- attributes(x)
   ret <- !as.logical(x)
   a$class <- minusclass(a$class, "integer64")

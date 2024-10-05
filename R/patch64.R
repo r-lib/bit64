@@ -127,30 +127,30 @@
 # in order to avoid assigning to globalenv
 
 if (!exists(":.default")){
-    ":" <- function(from,to) UseMethod(":")
-    ":.default" <- function(from,to) base::":"(from,to)
+    `:` <- function(from,to) UseMethod(":")
+    `:.default` <- function(from,to) base::`:`(from,to)
 }
-":.integer64" <- function(from, to)seq.integer64(from=from, to=to)
+`:.integer64` <- function(from, to)seq.integer64(from=from, to=to)
 
 if (!exists("is.double.default")){
-    "is.double" <- function(x) UseMethod("is.double")
-    "is.double.default" <- function(x) base::"is.double"(x)
+    is.double <- function(x) UseMethod("is.double")
+    is.double.default <- function(x) base::is.double(x)
 }
-"is.double.integer64" <- function(x)FALSE
+is.double.integer64 <- function(x)FALSE
 
 if (!exists("match.default")){
-    "match" <- function(x, table, ...) UseMethod("match")
-    "match.default" <- function(x, table, ...) base::"match"(x, table, ...)
+    match <- function(x, table, ...) UseMethod("match")
+    match.default <- function(x, table, ...) base::match(x, table, ...)
 }
 
 if (!exists("%in%.default")){
-    "%in%" <- function(x, table) UseMethod("%in%")
-    "%in%.default" <- function(x, table) base::"%in%"(x, table)
+    `%in%` <- function(x, table) UseMethod("%in%")
+    `%in%.default` <- function(x, table) base::`%in%`(x, table)
 }
 
 if (!exists("rank.default")){
-    "rank" <- function(x, ...) UseMethod("rank")
-    "rank.default" <- function(x, ...) base::"rank"(x, ...)
+    rank <- function(x, ...) UseMethod("rank")
+    rank.default <- function(x, ...) base::rank(x, ...)
 }
 
 # not yet able to combinewith other column types - better leave table() as is and hope for as.factor.integer64
@@ -160,6 +160,6 @@ if (!exists("rank.default")){
 #}
 
 if (!exists("order.default")){
-    "order" <- function(...) UseMethod("order")
-    "order.default" <- function(...) base::"order"(...)
+    order <- function(...) UseMethod("order")
+    order.default <- function(...) base::order(...)
 }

@@ -1609,7 +1609,7 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
 }
 
 
-"%in%.integer64" <- function(x, table, ...){
+`%in%.integer64` <- function(x, table, ...){
   stopifnot(is.integer64(x))
   table <- as.integer64(table)
     nunique <- NULL
@@ -1891,7 +1891,7 @@ unique.integer64 <- function(x
             method <- "hashmapuni"
     }else{
         switch(order
-        , "original" = {
+        , original = {
             if (exists("hashmap", envir=c, inherits=FALSE))
                 method <- "hashuni"
             else if (exists("order", envir=c, inherits=FALSE)){
@@ -1902,7 +1902,7 @@ unique.integer64 <- function(x
             }else
                 method <- "hashmapuni"
         }
-        , "values" = {
+        , values = {
             if (exists("sort", envir=c, inherits=FALSE))
                 method <- "sortuni"
             else if (exists("order", envir=c, inherits=FALSE))
@@ -1912,7 +1912,7 @@ unique.integer64 <- function(x
             else
                 method <- "sortuni"
         }
-        , "any" = {
+        , any = {
             if (exists("sort", envir=c, inherits=FALSE))
                 method <- "sortuni"
             else if (exists("hashmap", envir=c, inherits=FALSE))
@@ -2060,7 +2060,7 @@ unipos.integer64 <- function(x
             method <- "hashmapupo"
     }else{
         switch(order
-        , "original" = {
+        , original = {
             if (exists("hashmap", envir=c, inherits=FALSE))
                 method <- "hashupo"
             else if (exists("order", envir=c, inherits=FALSE)){
@@ -2071,7 +2071,7 @@ unipos.integer64 <- function(x
             }else
                 method <- "hashmapupo"
         }
-        , "values" = {
+        , values = {
             if (exists("order", envir=c, inherits=FALSE)){
                 if (exists("sort", envir=c, inherits=FALSE))
                     method <- "sortorderupo"
@@ -2082,7 +2082,7 @@ unipos.integer64 <- function(x
             else
                 method <- "sortorderupo"
         }
-        , "any" = {
+        , any = {
             if (exists("sort", envir=c, inherits=FALSE) && exists("order", envir=c, inherits=FALSE))
                 method <- "sortorderupo"
             else if (exists("hashmap", envir=c, inherits=FALSE))
@@ -2447,7 +2447,7 @@ table.integer64 <- function(
     }
   ## attaching names is extremely expensive with many unique values, doing this only for compatibility with 'table' here
   switch(return
-  ,  "table" = {
+  ,  table = {
           if (N==1){
             attr(cnt, "dim") <-length(cnt)
             dn <- list(as.character(val))
@@ -2460,7 +2460,7 @@ table.integer64 <- function(
         }
         oldClass(cnt) <- "table"
     }
-  ,  "data.frame" = {
+  ,  data.frame = {
         if (N==1){
             cnt <- data.frame(values=val, Freq=cnt)
             names(cnt)[[1]] <- dnn[1]
@@ -2473,7 +2473,7 @@ table.integer64 <- function(
             cnt <- data.frame(dims, Freq=cnt)
         }
     }
-  , "list" = {
+  , list = {
         if (N==1)
             cnt <- list(values=val, counts=cnt)
         else
