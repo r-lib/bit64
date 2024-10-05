@@ -2750,7 +2750,7 @@ as.data.frame.integer64 <- function(x, ...){
 lim.integer64 <- function(){
   ret <- .Call(C_lim_integer64, double(2))
     oldClass(ret) <- "integer64"
-    return(ret)
+    ret
 }
 
 "diff.integer64" <- function(x, lag=1L, differences=1L, ...){
