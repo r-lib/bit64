@@ -1744,7 +1744,7 @@ all.equal.integer64  <- function (
               "absolute"
             }
           } else {
-            stopifnot(all(scale > 0))
+            stopifnot(scale > 0)
             xy <- xy/scale
             if (all(abs(scale - 1) < 1e-07))
               "absolute"
