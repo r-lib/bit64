@@ -2175,7 +2175,7 @@ if (FALSE){
               na_idx <- na_idx[is.na(i) | i]
             }else{
           i <- i[is.na(i) | i]
-          na_idx <- rep(is.na(i), length.out=length(ret))
+          na_idx <- rep_len(is.na(i), length(ret))
             }
           }else{
             if (ni && (min(i, na.rm=TRUE) >= 0)){
