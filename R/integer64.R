@@ -2133,7 +2133,7 @@ str.integer64 <- function(object
   n <- length(object)
   if (n>vec.len)
     object <- object[seq_len(vec.len)]
-  cat(if (give.head)paste("integer64 ", if (give.length && n>1) paste("[1:",n,"] ",sep=""), sep=""), paste(as.character(object), collapse=" "),if(n>vec.len)" ...", " \n", sep="")
+  cat(if (give.head)paste0("integer64 ", if (give.length && n>1) paste0("[1:",n,"] ")), paste(as.character(object), collapse=" "),if(n>vec.len)" ...", " \n", sep="")
   invisible()
 }
 

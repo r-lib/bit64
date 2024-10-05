@@ -838,7 +838,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
 
    if (plot){
     barplot(t(tim), cex.names=0.7)
-    title(paste("duplicated(",n,")", sep=""))
+    title(paste0("duplicated(",n,")"))
    }
 
    ret[["duplicated",as.character(n)]] <- tim
@@ -984,7 +984,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
 
    if (plot){
     barplot(t(tim), cex.names=0.7)
-    title(paste("unique(",n,", order=",uniorder,")", sep=""))
+    title(paste0("unique(",n,", order=",uniorder,")"))
    }
 
    ret[["unique",as.character(n)]] <- tim
@@ -1119,7 +1119,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
 
    if (plot){
     barplot(t(tim), cex.names=0.7)
-    title(paste("unipos(",n,", order=",uniorder,")", sep=""))
+    title(paste0("unipos(",n,", order=",uniorder,")"))
    }
 
    ret[["unipos",as.character(n)]] <- tim
@@ -1243,7 +1243,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
 
             if (plot){
                 barplot(t(tim), cex.names=0.7)
-                title(paste("table.integer64(",n,", order=",taborder,")", sep=""))
+                title(paste0("table.integer64(",n,", order=",taborder,")"))
             }
 
             ret[["table",as.character(n)]] <- tim
@@ -1310,7 +1310,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
 
             if (plot){
                 barplot(t(tim), cex.names=0.7)
-                title(paste("rank.integer64(",n,")", sep=""))
+                title(paste0("rank.integer64(",n,")"))
             }
 
             ret[["rank",as.character(n)]] <- tim
@@ -1375,7 +1375,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
 
             if (plot){
                 barplot(t(tim), cex.names=0.7)
-                title(paste("quantile(",n,")", sep=""))
+                title(paste0("quantile(",n,")"))
             }
 
             ret[["quantile",as.character(n)]] <- tim
@@ -2990,10 +2990,10 @@ qtile.integer64 <- function(x, probs = seq(0, 1, 0.25), names = TRUE, method = N
   if (names){
     np <- length(probs)
     dig <- max(2L, getOption("digits"))
-    names(qs) <- paste(if (np < 100)
+    names(qs) <- paste0(if (np < 100)
         formatC(100 * probs, format = "fg", width = 1, digits = dig)
     else format(100 * probs, trim = TRUE, digits = dig),
-        "%", sep = "")
+        "%")
   }
   qs
 }
