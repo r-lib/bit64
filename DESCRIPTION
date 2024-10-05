@@ -1,8 +1,8 @@
 Package: bit64
 Type: Package
 Title: A S3 Class for Vectors of 64bit Integers
-Version: 4.5.1
-Date: 2024-09-20
+Version: 4.5.2
+Date: 2024-09-22
 Authors@R: c(person(given = "Jens",
                       family = "Oehlschlägel",
                       role = c("aut", "cre"),
@@ -14,7 +14,9 @@ Authors@R: c(person(given = "Jens",
                       family = "Shilon",
                       role = "ctb")
                       )
-Author: Jens Oehlschlägel [aut, cre], Leonardo Silvestri [ctb], Ofek Shilon [ctb]
+Author: Jens Oehlschlägel [aut, cre],
+  Leonardo Silvestri [ctb],
+  Ofek Shilon [ctb]
 Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 Depends: R (>= 3.0.1), bit (>= 4.0.0), utils, methods, stats
 Description: 

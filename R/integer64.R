@@ -2167,19 +2167,18 @@ if (FALSE){
 		  if (length(na_idx))
 				ret[na_idx] <- NA_integer64_
 		}else{ 
-			if (inherits(i, "logical")){
-		    ni <- length(i)
-		    nx <- length(x)
+      ni <- length(i)
+      nx <- length(x)
+      if (inherits(i, "logical")){
 		    if (ni>nx){
 		      na_idx <- is.na(i) | (i & seq_along(i)>nx)
 		      na_idx <- na_idx[is.na(i) | i]
 		    }else{
-		    i <- i[is.na(i) | i]
-		    na_idx <- rep(is.na(i), length.out=length(ret))
+          i <- i[is.na(i) | i]
+          na_idx <- rep(is.na(i), length.out=length(ret))
 		    }
 		  }else{
-		    m <- min(i, na.rm=TRUE)
-		    if (m>=0){
+		    if (ni && (min(i, na.rm=TRUE) >= 0)){
 		      i <- i[is.na(i) | i>0]
 		      na_idx <- is.na(i) | i>length(x)
 		    }else{
@@ -2195,6 +2194,29 @@ if (FALSE){
 	remcache(ret)
 	ret
 }
+
+
+"[.integer64" <- function(x, i, ...){
+  cl <- oldClass(x)
+  ret <- NextMethod()
+  # Begin NA-handling from Leonardo Silvestri
+  if (!missing(i)){
+    if (inherits(i, "character")) {
+      na_idx <- union(which(!(i %in% names(x))), which(is.na(i)))
+      if (length(na_idx))
+        ret[na_idx] <- NA_integer64_
+    }else{ 
+      na_idx <- is.na(rep(TRUE, length(x))[i])
+      if (any(na_idx))
+        ret[na_idx] <- NA_integer64_
+    }
+  }
+  # End NA-handling from Leonardo Silvestri
+  oldClass(ret) <- cl
+  remcache(ret)
+  ret
+}
+
 
 
 "[<-.integer64" <- function(x,...,value){

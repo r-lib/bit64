@@ -1,4 +1,13 @@
-    CHANGES IN bit64 VERSION 4.5.1
+    CHANGES IN bit64 VERSION 4.5.2
+
+BUG FIXES
+
+    o "[.integer64"(x,i) can now cope with i longer than x
+
+
+
+     CHANGES IN bit64 VERSION 4.5.1
+
 
 USER VISIBLE CHANGES
 
