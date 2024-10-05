@@ -15,10 +15,10 @@ unipos(x, incomparables = FALSE, order = c("original","values","any"), \dots)
   \item{incomparables}{ignored}
   \item{order}{The order in which positions of unique values will be returned, see details}
   \item{nunique}{
-	NULL or the number of unique values (including NA). Providing \code{nunique} can speed-up when \code{x} has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
+    NULL or the number of unique values (including NA). Providing \code{nunique} can speed-up when \code{x} has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
 }
   \item{method}{
-	NULL for automatic method selection or a suitable low-level method, see details
+    NULL for automatic method selection or a suitable low-level method, see details
 }
   \item{\dots}{ignored}
 }
@@ -37,7 +37,7 @@ The default \code{order="original"} collects unique values in the order of the f
   an integer vector of positions
 }
 \author{
-	Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+    Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
   \code{\link{unique.integer64}} for unique values and \code{\link{match.integer64}} for general matching.

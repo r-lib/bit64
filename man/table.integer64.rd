@@ -26,13 +26,13 @@ table.integer64(\dots
     components can be so interpreted.  (For \code{as.table} and
     \code{as.data.frame}, arguments passed to specific methods.)}
   \item{nunique}{
-	NULL or the number of unique values of table (including NA). Providing \code{nunique} can speed-up matching when \code{table} has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
+    NULL or the number of unique values of table (including NA). Providing \code{nunique} can speed-up matching when \code{table} has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
 }
   \item{order}{
-	By default results are created sorted by "values", or by "counts"
+    By default results are created sorted by "values", or by "counts"
 }
   \item{method}{
-	NULL for automatic method selection or a suitable low-level method, see details
+    NULL for automatic method selection or a suitable low-level method, see details
 }
   \item{return}{
      choose the return format, see details

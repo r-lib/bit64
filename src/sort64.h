@@ -333,10 +333,10 @@ void ram_integer64_mergesort_desc_rec(
 // merge sorting b descending leaving result in a (following Sedgewick 8.4 Mergesort with no copying)
 void ram_integer64_mergeorder_desc_rec(
   ValueT *data  // UNCHANGED: pointer to data vector
-, IndexT *a   	// RETURNED: pointer to target index vector 
-, IndexT *b   	// MODIFIED: pointer to source index vector 
-, IndexT l    	// leftmost position to be sorted
-, IndexT r    	// rightmost position to be sorted
+, IndexT *a       // RETURNED: pointer to target index vector 
+, IndexT *b       // MODIFIED: pointer to source index vector 
+, IndexT l        // leftmost position to be sorted
+, IndexT r        // rightmost position to be sorted
 );
 
 // merge sortordering b descending leaving result in a (following Sedgewick 8.4 Mergesort with no copying)
@@ -360,7 +360,7 @@ IndexT ram_integer64_quicksortpart_asc_no_sentinels(
 // ascending partitioning of data between l and r around pivot in r for quick ordering
 IndexT ram_integer64_quickorderpart_asc_no_sentinels(
   ValueT *data  // UNCHANGED: pointer to data
-, IndexT *index	// RETURNED: pointer to index
+, IndexT *index    // RETURNED: pointer to index
 , IndexT l      // leftmost position to be sorted
 , IndexT r      // rightmost position to be sorted
 );
@@ -368,7 +368,7 @@ IndexT ram_integer64_quickorderpart_asc_no_sentinels(
 // ascending partitioning of data between l and r around pivot in r for quick sortordering
 IndexT ram_integer64_quicksortorderpart_asc_no_sentinels(
   ValueT *data  // RETURNED: pointer to data
-, IndexT *index	// RETURNED: pointer to index
+, IndexT *index    // RETURNED: pointer to index
 , IndexT l      // leftmost position to be sorted
 , IndexT r      // rightmost position to be sorted
 );
@@ -383,7 +383,7 @@ IndexT ram_integer64_quicksortpart_desc_no_sentinels(
 // descending partitioning of data between l and r around pivot in r for quick ordering
 IndexT ram_integer64_quickorderpart_desc_no_sentinels(
   ValueT *data  // UNCHANGED: pointer to data
-, IndexT *index	// RETURNED: pointer to index
+, IndexT *index    // RETURNED: pointer to index
 , IndexT l      // leftmost position to be sorted
 , IndexT r      // rightmost position to be sorted
 );
@@ -391,7 +391,7 @@ IndexT ram_integer64_quickorderpart_desc_no_sentinels(
 // descending partitioning of data between l and r around pivot in r for quick sortordering
 IndexT ram_integer64_quicksortorderpart_desc_no_sentinels(
   ValueT *data  // RETURNED: pointer to data
-, IndexT *index	// RETURNED: pointer to index
+, IndexT *index    // RETURNED: pointer to index
 , IndexT l      // leftmost position to be sorted
 , IndexT r      // rightmost position to be sorted
 );
@@ -449,7 +449,7 @@ void ram_integer64_quicksort_asc_intro(
   ValueT *data    // RETURNED: pointer to data vector
 , IndexT l        // leftmost position to be sorted
 , IndexT r        // rightmost position to be sorted
-, int restlevel	  // number of remaining levels for quicksort recursion before switching to shellsort
+, int restlevel      // number of remaining levels for quicksort recursion before switching to shellsort
 );
 
 // ascending intro sortordering (switches to shellsort when no restlevels left)
@@ -458,7 +458,7 @@ void ram_integer64_quicksortorder_asc_intro(
 , IndexT *index   // RETURNED: pointer to index vector
 , IndexT l        // leftmost position to be sorted
 , IndexT r        // rightmost position to be sorted
-, int restlevel	  // number of remaining levels for quicksort recursion before switching to shellsort
+, int restlevel      // number of remaining levels for quicksort recursion before switching to shellsort
 );
 
 // ascending intro sortordering (switches to shellsort when no restlevels left)
@@ -467,7 +467,7 @@ void ram_integer64_quickorder_asc_intro(
 , IndexT *index   // RETURNED: pointer to index vector
 , IndexT l        // leftmost position to be sorted
 , IndexT r        // rightmost position to be sorted
-, int restlevel	  // number of remaining levels for quicksort recursion before switching to shellsort
+, int restlevel      // number of remaining levels for quicksort recursion before switching to shellsort
 );
 
 // descending intro sorting (switches to shellsort when no restlevels left)
@@ -475,7 +475,7 @@ void ram_integer64_quicksort_desc_intro(
   ValueT *data    // RETURNED: pointer to data vector
 , IndexT l        // leftmost position to be sorted
 , IndexT r        // rightmost position to be sorted
-, int restlevel	  // number of remaining levels for quicksort recursion before switching to shellsort
+, int restlevel      // number of remaining levels for quicksort recursion before switching to shellsort
 );
 
 // descending intro sortordering (switches to shellsort when no restlevels left)
@@ -484,7 +484,7 @@ void ram_integer64_quicksortorder_desc_intro(
 , IndexT *index   // RETURNED: pointer to index vector
 , IndexT l        // leftmost position to be sorted
 , IndexT r        // rightmost position to be sorted
-, int restlevel	  // number of remaining levels for quicksort recursion before switching to shellsort
+, int restlevel      // number of remaining levels for quicksort recursion before switching to shellsort
 );
 
 // descending intro sortordering (switches to shellsort when no restlevels left)
@@ -493,7 +493,7 @@ void ram_integer64_quickorder_desc_intro(
 , IndexT *index   // RETURNED: pointer to index vector
 , IndexT l        // leftmost position to be sorted
 , IndexT r        // rightmost position to be sorted
-, int restlevel	  // number of remaining levels for quicksort recursion before switching to shellsort
+, int restlevel      // number of remaining levels for quicksort recursion before switching to shellsort
 );
 
 

@@ -12,7 +12,7 @@ keypos(x, \dots)
 \arguments{
   \item{x}{a vector or a data frame or an array or \code{NULL}.}
   \item{method}{
-	NULL for automatic method selection or a suitable low-level method, see details
+    NULL for automatic method selection or a suitable low-level method, see details
 }
   \item{\dots}{ignored}
 }
@@ -27,7 +27,7 @@ and \code{\link{orderkey}} (memory saving ordering).
   an integer vector of the same length as \code{x} containing positions relativ to \code{sort(unique(x), na.last=FALSE)}
 }
 \author{
-	Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+    Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
   \code{\link{unique.integer64}} for the unique subset and \code{\link{match.integer64}} for finding positions in a different vector.

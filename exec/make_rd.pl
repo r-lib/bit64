@@ -13,7 +13,7 @@ while(<STDIN>)
     $line = $_;
     if( $line =~ /^#! ?(.*)/ )
     {
-    	$line = $1;
+        $line = $1;
         if( $line =~ /\\name\{(.*)\}/ )
         {
             $f = $1;
@@ -26,7 +26,7 @@ while(<STDIN>)
         }
         if( $open )
         {
-        	print OUT $line . "\n";
+            print OUT $line . "\n";
         }
     }
 }

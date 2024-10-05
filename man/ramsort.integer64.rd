@@ -73,7 +73,7 @@ set to 'memory' to minimize RAM requirements and sacrifice speed
 number of remaining recursionlevels before \code{quicksort} switches from recursing to \code{shellsort}
 }
   \item{radixbits}{
-	size of radix in bits
+    size of radix in bits
 }
   \item{VERBOSE}{
   cat some info about chosen method

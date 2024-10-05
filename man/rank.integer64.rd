@@ -6,12 +6,12 @@
   values) are averaged and missing values propagated.
 }
 \usage{
-	\method{rank}{integer64}(x, method = NULL, \dots)
+    \method{rank}{integer64}(x, method = NULL, \dots)
 }
 \arguments{
   \item{x}{a integer64 vector}
   \item{method}{
-	NULL for automatic method selection or a suitable low-level method, see details
+    NULL for automatic method selection or a suitable low-level method, see details
 }
   \item{\dots}{ignored}
 }
@@ -24,7 +24,7 @@ and \code{\link{orderrnk}} (memory saving ordering).
   A numeric vector of the same length as \code{x}.
 }
 \author{
-	Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+    Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
   \code{\link{order.integer64}}, \code{\link{rank}} and \code{\link{prank}} for percent rank.

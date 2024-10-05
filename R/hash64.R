@@ -150,23 +150,23 @@
 #! stopifnot(identical(hashupo(hy, keep.order=TRUE), hashmapupo(y)))
 #! stopifnot(identical(hashtab(hy), hashmaptab(y)))
 #!
-#! 	\dontrun{
-#! 	message("explore speed given size of the hasmap in 2^hashbits and size of the data")
-#! 	message("more hashbits means more random access and less collisions")
-#! 	message("i.e. more data means less random access and more collisions")
-#! 	bits <- 24
-#! 	b <- seq(-1, 0, 0.1)
-#! 	tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits","bits+1")))
+#!     \dontrun{
+#!     message("explore speed given size of the hasmap in 2^hashbits and size of the data")
+#!     message("more hashbits means more random access and less collisions")
+#!     message("i.e. more data means less random access and more collisions")
+#!     bits <- 24
+#!     b <- seq(-1, 0, 0.1)
+#!     tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits","bits+1")))
 #!     for (i in 1:length(b)){
-#! 	  n <- as.integer(2^(bits+b[i]))
-#! 	  x <- as.integer64(sample(n))
-#! 	  tim[i,1] <- repeat.time(hashmap(x, hashbits=bits))[3]
-#! 	  tim[i,2] <- repeat.time(hashmap(x, hashbits=bits+1))[3]
-#! 	  print(tim)
+#!       n <- as.integer(2^(bits+b[i]))
+#!       x <- as.integer64(sample(n))
+#!       tim[i,1] <- repeat.time(hashmap(x, hashbits=bits))[3]
+#!       tim[i,2] <- repeat.time(hashmap(x, hashbits=bits+1))[3]
+#!       print(tim)
 #!       matplot(b, tim)
-#! 	}
-#! 	message("we conclude that n*sqrt(2) is enough to avoid collisions")
-#! 	}
+#!     }
+#!     message("we conclude that n*sqrt(2) is enough to avoid collisions")
+#!     }
 #! }
 
 
@@ -189,7 +189,7 @@ hashmap <- function(x, ...)UseMethod("hashmap")
 hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache=NULL, ...){
   if (is.null(nunique)){
     nunique <- integer(1)
-	n <- length(x)
+    n <- length(x)
   }else{
     nunique <- as.integer(nunique)
     n <- nunique
@@ -207,10 +207,10 @@ hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache
   .Call(C_hashmap_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
   
   if (is.null(cache))
-	  cache <- newcache(x)
+      cache <- newcache(x)
   else
     if (!bit::still.identical(x, get("x", envir=cache, inherits=FALSE)))
-		  stop("vector 'x' dissociated from cache")
+          stop("vector 'x' dissociated from cache")
   assign("hashmap", hashmap, envir=cache)
   assign("hashbits", hashbits, envir=cache)
   assign("nhash", nhash, envir=cache)
@@ -229,7 +229,7 @@ hashpos.cache_integer64 <- function(cache, x, nomatch = NA_integer_, ...){
 }
 
 hashrev <- function(cache, ...)UseMethod("hashrev")
-hashrev.cache_integer64	 <- function(cache, x, nomatch = NA_integer_, ...){
+hashrev.cache_integer64     <- function(cache, x, nomatch = NA_integer_, ...){
   hashbits <- get("hashbits", envir=cache, inherits=FALSE)
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)
   hashdat <- get("x", envir=cache, inherits=FALSE)
@@ -300,7 +300,7 @@ hashmaptab <- function(x, ...)UseMethod("hashmaptab")
 hashmaptab.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...){
   if (is.null(nunique)){
     nunique <- integer(1)
-	n <- length(x)
+    n <- length(x)
   }else{
     nunique <- as.integer(nunique)
     n <- nunique
@@ -321,7 +321,7 @@ hashmapuni <- function(x, ...)UseMethod("hashmapuni")
 hashmapuni.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...){
   if (is.null(nunique)){
     nunique <- integer(1)
-	n <- length(x)
+    n <- length(x)
   }else{
     nunique <- as.integer(nunique)
     n <- nunique
@@ -346,7 +346,7 @@ hashmapupo <- function(x, ...)UseMethod("hashmapupo")
 hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...){
   if (is.null(nunique)){
     nunique <- integer(1)
-	n <- length(x)
+    n <- length(x)
   }else{
     nunique <- as.integer(nunique)
     n <- nunique
@@ -475,20 +475,20 @@ if (FALSE){
   x <- as.integer64(sample(n, n, TRUE))
   
   system.time({
-	ret2 <- hashmaptab(x)
-	cv2 <- sum(ret2$counts[ret2$counts>1])
+    ret2 <- hashmaptab(x)
+    cv2 <- sum(ret2$counts[ret2$counts>1])
   })[3]
 
   system.time({
-	s <- clone(x)
-	na.count <- ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
-	cv <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")[[2]]
-	})
+    s <- clone(x)
+    na.count <- ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
+    cv <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")[[2]]
+    })
 
   cv
   cv2
 
-	
+    
   nunique(x)
   length(value)
   length(count)

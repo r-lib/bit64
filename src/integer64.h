@@ -57,85 +57,85 @@
 #define BITSTRING_OVERFLOW_WARNING "bitstrings longer than 64 bytes converted to NA, multibyte-characters not allowed"
 
 #define PLUS64(e1,e2,ret,naflag) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_INTEGER64; \
-	else { \
-		ret = e1 + e2; \
-		if (!GOODISUM64(e1, e2, ret)) \
-		  ret = NA_INTEGER64; \
-		if (ret == NA_INTEGER64) \
-			naflag = TRUE; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_INTEGER64; \
+    else { \
+        ret = e1 + e2; \
+        if (!GOODISUM64(e1, e2, ret)) \
+          ret = NA_INTEGER64; \
+        if (ret == NA_INTEGER64) \
+            naflag = TRUE; \
+    }
 
 #define MINUS64(e1,e2,ret,naflag) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_INTEGER64; \
-	else { \
-		ret = e1 - e2; \
-		if (!GOODIDIFF64(e1, e2, ret)) \
-		  ret = NA_INTEGER64; \
-		if (ret == NA_INTEGER64) \
-			naflag = TRUE; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_INTEGER64; \
+    else { \
+        ret = e1 - e2; \
+        if (!GOODIDIFF64(e1, e2, ret)) \
+          ret = NA_INTEGER64; \
+        if (ret == NA_INTEGER64) \
+            naflag = TRUE; \
+    }
 
 #define PROD64(e1,e2,ret,naflag) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_INTEGER64; \
-	else { \
-		ret = e1 * e2; \
-		if (!GOODIPROD64(e1, e2, ret)) \
-		  ret = NA_INTEGER64; \
-		if (ret == NA_INTEGER64) \
-			naflag = TRUE; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_INTEGER64; \
+    else { \
+        ret = e1 * e2; \
+        if (!GOODIPROD64(e1, e2, ret)) \
+          ret = NA_INTEGER64; \
+        if (ret == NA_INTEGER64) \
+            naflag = TRUE; \
+    }
 
 #define PROD64REAL(e1,e2,ret,naflag,longret) \
-	if (e1 == NA_INTEGER64 || ISNAN(e2)) \
-		ret = NA_INTEGER64; \
-	else { \
-		longret = e1 * (long double) e2; \
-		if (isnan(longret) || longret>MAX_INTEGER64){ \
-		  naflag = TRUE; \
-		  ret = NA_INTEGER64; \
-		}else \
-		  ret = llroundl(longret); \
-	}
+    if (e1 == NA_INTEGER64 || ISNAN(e2)) \
+        ret = NA_INTEGER64; \
+    else { \
+        longret = e1 * (long double) e2; \
+        if (isnan(longret) || longret>MAX_INTEGER64){ \
+          naflag = TRUE; \
+          ret = NA_INTEGER64; \
+        }else \
+          ret = llroundl(longret); \
+    }
 
 #define POW64(e1,e2,ret,naflag, longret) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_INTEGER64; \
-	else { \
-		longret = pow(e1, (long double) e2); \
-		if (isnan(longret)){ \
-		  naflag = TRUE; \
-		  ret = NA_INTEGER64; \
-		}else \
-		  ret = llroundl(longret); \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_INTEGER64; \
+    else { \
+        longret = pow(e1, (long double) e2); \
+        if (isnan(longret)){ \
+          naflag = TRUE; \
+          ret = NA_INTEGER64; \
+        }else \
+          ret = llroundl(longret); \
+    }
 
 #define POW64REAL(e1,e2,ret,naflag,longret) \
-	if (e1 == NA_INTEGER64 || ISNAN(e2)) \
-		ret = NA_INTEGER64; \
-	else { \
-		longret = pow(e1, (long double) e2); \
-		if (isnan(longret)){ \
-		  naflag = TRUE; \
-		  ret = NA_INTEGER64; \
-		}else \
-		  ret = llroundl(longret); \
-	}
+    if (e1 == NA_INTEGER64 || ISNAN(e2)) \
+        ret = NA_INTEGER64; \
+    else { \
+        longret = pow(e1, (long double) e2); \
+        if (isnan(longret)){ \
+          naflag = TRUE; \
+          ret = NA_INTEGER64; \
+        }else \
+          ret = llroundl(longret); \
+    }
 
 #define DIVIDE64REAL(e1,e2,ret,naflag) \
-	if (e1 == NA_INTEGER64 || ISNAN(e2)) \
-		ret = NA_REAL; \
-	else { \
-	    if (e2==0) \
-			ret = NA_REAL; \
-		else \
-			ret = (double)((long double) e1 / (long double) e2); \
-		if (ISNAN(ret)) \
-			naflag = TRUE; \
-	}
+    if (e1 == NA_INTEGER64 || ISNAN(e2)) \
+        ret = NA_REAL; \
+    else { \
+        if (e2==0) \
+            ret = NA_REAL; \
+        else \
+            ret = (double)((long double) e1 / (long double) e2); \
+        if (ISNAN(ret)) \
+            naflag = TRUE; \
+    }
 
 
 /* Ofek Shilon */
@@ -153,167 +153,167 @@ else {                                                   \
 
 
 #define DIVIDE64(e1,e2,ret,naflag) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_REAL; \
-	else { \
-	    if (e2==0) \
-			ret = NA_REAL; \
-		else \
-			ret = (double)((long double) e1 / (long double) e2); \
-		if (ISNAN(ret)) \
-			naflag = TRUE; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_REAL; \
+    else { \
+        if (e2==0) \
+            ret = NA_REAL; \
+        else \
+            ret = (double)((long double) e1 / (long double) e2); \
+        if (ISNAN(ret)) \
+            naflag = TRUE; \
+    }
 
 #define INTDIV64(e1,e2,ret,naflag) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_INTEGER64; \
-	else { \
-	    if (e2==0) \
-			ret = NA_INTEGER64; \
-		else \
-			ret = e1 / e2; \
-		if (ret == NA_INTEGER64) \
-			naflag = TRUE; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_INTEGER64; \
+    else { \
+        if (e2==0) \
+            ret = NA_INTEGER64; \
+        else \
+            ret = e1 / e2; \
+        if (ret == NA_INTEGER64) \
+            naflag = TRUE; \
+    }
 
 #define MOD64(e1,e2,ret,naflag) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_INTEGER64; \
-	else { \
-	    if (e2==0) \
-			ret = NA_INTEGER64; \
-		else \
-			ret = e1 / e2; \
-		if (ret == NA_INTEGER64) \
-			naflag = TRUE; \
-		else \
-			ret = e1 - e2 * ret; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_INTEGER64; \
+    else { \
+        if (e2==0) \
+            ret = NA_INTEGER64; \
+        else \
+            ret = e1 / e2; \
+        if (ret == NA_INTEGER64) \
+            naflag = TRUE; \
+        else \
+            ret = e1 - e2 * ret; \
+    }
 
 #define MIN64(e1,e2,ret) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_INTEGER64; \
-	else { \
-		ret = (e1 < e2) ? e1 : e2; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_INTEGER64; \
+    else { \
+        ret = (e1 < e2) ? e1 : e2; \
+    }
 
 #define MAX64(e1,e2,ret) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_INTEGER64; \
-	else { \
-		ret = (e1 < e2) ? e2 : e1; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_INTEGER64; \
+    else { \
+        ret = (e1 < e2) ? e2 : e1; \
+    }
 
 #define ABS64(e1,ret) \
-	if (e1 == NA_INTEGER64) \
-		ret = NA_INTEGER64; \
-	else { \
-		ret = (e1 < 0) ? -e1 : e1; \
-	}
+    if (e1 == NA_INTEGER64) \
+        ret = NA_INTEGER64; \
+    else { \
+        ret = (e1 < 0) ? -e1 : e1; \
+    }
 
 #define SQRT64(e1, ret, naflag) \
-	if (e1 == NA_INTEGER64) \
-		ret = NA_REAL; \
-	else { \
-		if (e1 < 0) \
-			naflag = TRUE; \
-		ret = (double) sqrt((long double)e1); \
-	}
+    if (e1 == NA_INTEGER64) \
+        ret = NA_REAL; \
+    else { \
+        if (e1 < 0) \
+            naflag = TRUE; \
+        ret = (double) sqrt((long double)e1); \
+    }
 
 #define LOG64(e1, ret, naflag) \
-	if (e1 == NA_INTEGER64) \
-		ret = NA_REAL; \
-	else { \
-		ret = (double) logl((long double)e1); \
-		if (isnan(ret)) \
-			naflag = TRUE; \
-	}
+    if (e1 == NA_INTEGER64) \
+        ret = NA_REAL; \
+    else { \
+        ret = (double) logl((long double)e1); \
+        if (isnan(ret)) \
+            naflag = TRUE; \
+    }
 
 #define LOGVECT64(e1, e2, ret, naflag) \
-	if (e1 == NA_INTEGER64) \
-		ret = NA_REAL; \
-	else { \
-		ret = (double) logl((long double)e1)/log(e2); \
-		if (isnan(ret)) \
-			naflag = TRUE; \
-	}
+    if (e1 == NA_INTEGER64) \
+        ret = NA_REAL; \
+    else { \
+        ret = (double) logl((long double)e1)/log(e2); \
+        if (isnan(ret)) \
+            naflag = TRUE; \
+    }
 
 #define LOGBASE64(e1, e2, ret, naflag) \
-	if (e1 == NA_INTEGER64) \
-		ret = NA_REAL; \
-	else { \
-		ret = (double) logl((long double)e1)/e2; \
-		if (isnan(ret)) \
-			naflag = TRUE; \
-	}
+    if (e1 == NA_INTEGER64) \
+        ret = NA_REAL; \
+    else { \
+        ret = (double) logl((long double)e1)/e2; \
+        if (isnan(ret)) \
+            naflag = TRUE; \
+    }
 
 #define LOG1064(e1, ret, naflag) \
-	if (e1 == NA_INTEGER64) \
-		ret = NA_REAL; \
-	else { \
-		ret =(double)  log10l((long double)e1); \
-		if (isnan(ret)) \
-			naflag = TRUE; \
-	}
+    if (e1 == NA_INTEGER64) \
+        ret = NA_REAL; \
+    else { \
+        ret =(double)  log10l((long double)e1); \
+        if (isnan(ret)) \
+            naflag = TRUE; \
+    }
 
 #define LOG264(e1, ret, naflag) \
 if (e1 == NA_INTEGER64) \
-	ret = NA_REAL; \
+    ret = NA_REAL; \
 else { \
-	ret = (double) log2l((long double)e1); \
-		if (isnan(ret)) \
-			naflag = TRUE; \
+    ret = (double) log2l((long double)e1); \
+        if (isnan(ret)) \
+            naflag = TRUE; \
 }
 
 
 #define SIGN64(e1,ret) \
-	if (e1 == NA_INTEGER64) \
-		ret = NA_INTEGER64; \
-	else { \
-		ret = (e1 < 0) ? -1 : ((e1 > 0) ? 1 : 0); \
-	}
+    if (e1 == NA_INTEGER64) \
+        ret = NA_INTEGER64; \
+    else { \
+        ret = (e1 < 0) ? -1 : ((e1 > 0) ? 1 : 0); \
+    }
 
 #define EQ64(e1,e2,ret) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_LOGICAL; \
-	else { \
-		ret = (e1 == e2) ? TRUE : FALSE; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_LOGICAL; \
+    else { \
+        ret = (e1 == e2) ? TRUE : FALSE; \
+    }
 
 #define NE64(e1,e2,ret) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_LOGICAL; \
-	else { \
-		ret = (e1 != e2) ? TRUE : FALSE; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_LOGICAL; \
+    else { \
+        ret = (e1 != e2) ? TRUE : FALSE; \
+    }
 
 #define LT64(e1,e2,ret) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_LOGICAL; \
-	else { \
-		ret = (e1 < e2) ? TRUE : FALSE; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_LOGICAL; \
+    else { \
+        ret = (e1 < e2) ? TRUE : FALSE; \
+    }
 
 #define LE64(e1,e2,ret) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_LOGICAL; \
-	else { \
-		ret = (e1 <= e2) ? TRUE : FALSE; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_LOGICAL; \
+    else { \
+        ret = (e1 <= e2) ? TRUE : FALSE; \
+    }
 
 #define GT64(e1,e2,ret) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_LOGICAL; \
-	else { \
-		ret = (e1 > e2) ? TRUE : FALSE; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_LOGICAL; \
+    else { \
+        ret = (e1 > e2) ? TRUE : FALSE; \
+    }
 
 #define GE64(e1,e2,ret) \
-	if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-		ret = NA_LOGICAL; \
-	else { \
-		ret = (e1 >= e2) ? TRUE : FALSE; \
-	}
+    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
+        ret = NA_LOGICAL; \
+    else { \
+        ret = (e1 >= e2) ? TRUE : FALSE; \
+    }
 
 
 /*****************************************************************************/

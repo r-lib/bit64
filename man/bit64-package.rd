@@ -344,7 +344,7 @@ is not worth it with 32x at duplicated RAM consumption).
    As a limitation remains: it will only dispatch at its first argument \code{from} but not at its second \code{to}.
 
     \item \bold{\code{\link{is.double}}} does not dispatches S3 methods, However, we have made it generic
-		and it will return \code{FALSE} on \code{integer64}.
+        and it will return \code{FALSE} on \code{integer64}.
 
     \item \bold{\code{\link{c}}} only dispatches \code{\link{c.integer64}} if the first argument is \code{integer64}
     and it does not recursively dispatch the proper method when called with argument \code{recursive=TRUE}
@@ -383,9 +383,9 @@ is not worth it with 32x at duplicated RAM consumption).
 
     \item \bold{\code{\link{array}}}  does drop the 'integer64' class attribute.
            In current R versions (1.15.1) this can be circumvented by activating the function
-						\code{as.vector.integer64} further down this file.
-						However, the CRAN maintainer has requested to remove \code{as.vector.integer64},
-						even at the price of breaking previously working functionality of the package.
+                        \code{as.vector.integer64} further down this file.
+                        However, the CRAN maintainer has requested to remove \code{as.vector.integer64},
+                        even at the price of breaking previously working functionality of the package.
 
     \item \bold{\code{\link{str}}} does not print the values of \code{integer64} correctly
 
@@ -520,13 +520,13 @@ message("Testing 'range.integer64', multiplication and integer division")
 i64 <- integer64(63)
 i64[1] <- 1
 for (i in 2:63)
-	i64[i] <- 2*i64[i-1]
+    i64[i] <- 2*i64[i-1]
 stopifnot(identical.integer64(i64 * rev(i64), rep(i64[63], 63)))
 for (i in 63:2)
-	i64[i-1] <- i64[i]\%/\%2
+    i64[i-1] <- i64[i]\%/\%2
 stopifnot(identical.integer64(i64 * rev(i64), rep(i64[63], 63)))
 for (i in 63:2)
-	i64[i-1] <- i64[i]/2
+    i64[i-1] <- i64[i]/2
 stopifnot(identical.integer64(i64 * rev(i64), rep(i64[63], 63)))
 stopifnot(identical.integer64(c( -i64[63] - (i64[63]-1), i64[63]+(i64[63]-1) ), lim.integer64()))
 

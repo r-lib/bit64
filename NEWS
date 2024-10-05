@@ -181,7 +181,7 @@ USER VISIBLE CHANGES
       now have an argument keep.names=FALSE
       (wish of Dirk Edelbüttel and Leonardo Silvestri)
 
-	
+    
 BUG FIXES
 
     o We now protect our SEXP return-vector before calling R_Busy
@@ -200,7 +200,7 @@ USER VISIBLE CHANGES
       :, is.double, match, %in%, rank, order
     o NA_integer64_ is now available and exported
 
-	
+    
 BUG FIXES
 
     o ramsort.integer64 no longer complains about misssing return 

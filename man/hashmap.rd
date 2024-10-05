@@ -139,21 +139,21 @@ stopifnot(identical(hashuni(hy, keep.order=TRUE), hashmapuni(y)))
 stopifnot(identical(hashupo(hy, keep.order=TRUE), hashmapupo(y)))
 stopifnot(identical(hashtab(hy), hashmaptab(y)))
 
-	\dontrun{
-	message("explore speed given size of the hasmap in 2^hashbits and size of the data")
-	message("more hashbits means more random access and less collisions")
-	message("i.e. more data means less random access and more collisions")
-	bits <- 24
-	b <- seq(-1, 0, 0.1)
-	tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits","bits+1")))
+    \dontrun{
+    message("explore speed given size of the hasmap in 2^hashbits and size of the data")
+    message("more hashbits means more random access and less collisions")
+    message("i.e. more data means less random access and more collisions")
+    bits <- 24
+    b <- seq(-1, 0, 0.1)
+    tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits","bits+1")))
     for (i in 1:length(b)){
-	  n <- as.integer(2^(bits+b[i]))
-	  x <- as.integer64(sample(n))
-	  tim[i,1] <- repeat.time(hashmap(x, hashbits=bits))[3]
-	  tim[i,2] <- repeat.time(hashmap(x, hashbits=bits+1))[3]
-	  print(tim)
+      n <- as.integer(2^(bits+b[i]))
+      x <- as.integer64(sample(n))
+      tim[i,1] <- repeat.time(hashmap(x, hashbits=bits))[3]
+      tim[i,2] <- repeat.time(hashmap(x, hashbits=bits+1))[3]
+      print(tim)
       matplot(b, tim)
-	}
-	message("we conclude that n*sqrt(2) is enough to avoid collisions")
-	}
+    }
+    message("we conclude that n*sqrt(2) is enough to avoid collisions")
+    }
 }
