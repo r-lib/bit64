@@ -498,8 +498,8 @@ if (FALSE){
   t1
   count
 
-  s <- clone(x); o <- seq_along(x); ramsortorder(s, o);
-  t2 <- sortordertab(s,o);
+  s <- clone(x); o <- seq_along(x); ramsortorder(s, o)
+  t2 <- sortordertab(s,o)
   length(s)
   length(t2)
 
