@@ -686,4 +686,3 @@ order.integer64 <- function(
       length(o) <- length(o) - na.count
     o
 }
-
