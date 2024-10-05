@@ -1130,7 +1130,7 @@ optimizer64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time
   N <- c(nsmall, nbig)
   for (i in seq_along(N)){
    n <- N[i]
-   x <- c(sample(1024, n-1, TRUE), NA)
+   x <- c(sample.int(1024, n-1, replace=TRUE), NA)
    tim <- matrix(0, 13, 3)
    dimnames(tim) <- list(c("tabulate","table","table.64","hashmaptab","hashtab","hashtab2","sorttab","sortordertab","ordertab","ordertabkeep"
     ,"hash.cache","sort.cache","order.cache")

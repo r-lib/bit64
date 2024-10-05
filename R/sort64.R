@@ -525,7 +525,7 @@ ramorder.integer64 <- function (x
 
 if (FALSE){
     library(bit64)
-    x <- as.integer64(c(sample(1e7),NA))
+    x <- as.integer64(c(sample.int(1e7),NA))
     #system.time(sortcache(x))[3]
     # system.time(ordercache(x))[3]
     system.time(sortordercache(x))[3]

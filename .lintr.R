@@ -22,7 +22,6 @@ linters = all_linters(
   object_usage_linter = NULL,
   paren_body_linter = NULL,
   quotes_linter = NULL,
-  sample_int_linter = NULL,
   spaces_inside_linter = NULL,
   spaces_left_parentheses_linter = NULL,
   todo_comment_linter = NULL,
