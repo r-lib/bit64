@@ -408,7 +408,7 @@ ramsortorder.integer64 <- function (x
 )
 {
     optimize <- match.arg(optimize)
-    if (is.null(names(x)) & is.null(names(i))){
+    if (is.null(names(x)) && is.null(names(i))){
         if (stable || optimize == "time") {
             if (length(x)<2048){
                 if (VERBOSE)
@@ -444,7 +444,7 @@ ramorder.integer64 <- function (x
 )
 {
     optimize <- match.arg(optimize)
-    if (is.null(names(x)) & is.null(names(i))){
+    if (is.null(names(x)) && is.null(names(i))){
         if (stable) {
             if (VERBOSE)
                 cat("ramorder selected mergeorder\n")
