@@ -343,7 +343,7 @@ benchmark64 <- function(nsmall=2^16, nbig=2^25, timefun=repeat.time)
   })[3]
   message('check if any values are duplicated')
   tim1[i] <- tim1[i] + timefun({
-   any(duplicated(b))
+   anyDuplicated(b)
   })[3]
   message('since not unique, then check distribution of frequencies')
   tim1[i] <- tim1[i] + timefun({
