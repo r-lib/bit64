@@ -2432,7 +2432,7 @@ table.integer64 <- function(
   , stop("unknown method", method)
   )
     if (order=="values"){
-        if (substr(method, 1, 4)=="hash"){
+        if (startsWith(method, "hash")){
             o <- seq_along(val)
             ramsortorder(val, o, na.last=FALSE)
             cnt <- cnt[o]
