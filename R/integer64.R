@@ -1759,14 +1759,14 @@ all.equal.integer64  <- function (
 
 if (FALSE){
   require(bit64)
-  a <- as.integer64(1)
-  b <- as.integer(10)
+  a <- as.integer64(1L)
+  b <- 10L
   oldClass(a) <- c("j", oldClass(a))
   oldClass(b) <- c("j", oldClass(b))
   all.equal(a,b)
 
-  a <- as.double(1)
-  b <- as.integer(10)
+  a <- 1.0
+  b <- 10L
   oldClass(a) <- c("j", oldClass(a))
   oldClass(b) <- c("j", oldClass(b))
   all.equal(a,b)
@@ -2025,7 +2025,7 @@ as.integer64.logical <- as.integer64.integer <- function(x, ...){
 
 as.integer64.character <- function(x, ...){
   n <- length(x)
-  ret <- .Call(C_as_integer64_character, x, rep(as.double(NA), n))
+  ret <- .Call(C_as_integer64_character, x, rep(NA_real_, n))
   oldClass(ret) <- "integer64"
   ret
 }
@@ -2050,12 +2050,12 @@ as.logical.integer64 <- function(x, ...){
 
 as.character.integer64 <- function(x, ...){
   n <- length(x)
-  .Call(C_as_character_integer64, x, rep(as.character(NA), n))
+  .Call(C_as_character_integer64, x, rep(NA_character_, n))
 }
 
 as.bitstring.integer64 <- function(x, ...){
   n <- length(x)
-  ret <- .Call(C_as_bitstring_integer64, x, rep(as.character(NA), n))
+  ret <- .Call(C_as_bitstring_integer64, x, rep(NA_character_, n))
   oldClass(ret) <- 'bitstring'
   ret
 }
