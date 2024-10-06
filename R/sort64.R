@@ -560,13 +560,13 @@ sort.integer64 <- function(x
 , ...
 ){
   do.na.last <- is.na(na.last) || na.last
-  c <- cache(x)
-  if (!is.null(c$sort)){
+  cache_env <- cache(x)
+  if (!is.null(cache_env$sort)){
         if (do.na.last || decreasing){
             s <- double(length(x))
             .Call(C_r_ram_integer64_sortsrt
-            , x = c$sort
-            , na_count   = as.integer(na.count <- c$na.count)
+            , x = cache_env$sort
+            , na_count   = as.integer(na.count <- cache_env$na.count)
             , na_last    = as.logical(do.na.last)
             , decreasing = as.logical(decreasing)
             , s              = s
@@ -574,13 +574,13 @@ sort.integer64 <- function(x
             )
             setattr(s, "class", "integer64")
         }else
-            s <- c$sort  # here we save copying at all
-  }else if (!is.null(c$order)){
+            s <- cache_env$sort  # here we save copying at all
+  }else if (!is.null(cache_env$order)){
         if (do.na.last || decreasing){
             s <- double(length(x))
             .Call(C_r_ram_integer64_sortsrt
-            , x = x[c$order]
-            , na_count   = as.integer(na.count <- c$na.count)
+            , x = x[cache_env$order]
+            , na_count   = as.integer(na.count <- cache_env$na.count)
             , na_last    = as.logical(do.na.last)
             , decreasing = as.logical(decreasing)
             , s              = s
@@ -588,9 +588,9 @@ sort.integer64 <- function(x
             )
             setattr(s, "class", "integer64")
         }else
-            s <- x[c$order]
+            s <- x[cache_env$order]
   }else{
-    if (identical(c$na.count, 0L))
+    if (identical(cache_env$na.count, 0L))
       has.na <- FALSE
         s <- clone(x)
         na.count <- ramsort(
@@ -629,15 +629,15 @@ order.integer64 <- function(
   if (N!=1L)
     stop("can only order one vector at the moment")
   x <- A(1L)
-  c <- cache(x)
-  if (!is.null(c$order)){
+  cache_env <- cache(x)
+  if (!is.null(cache_env$order)){
         if (do.na.last || decreasing){
             o <- integer(length(x))
-            if (is.null(c$sort)){
+            if (is.null(cache_env$sort)){
                 .Call(C_r_ram_integer64_orderord
                 , x = x
-                , i = c$order
-                , na_count   = as.integer(na.count <- c$na.count)
+                , i = cache_env$order
+                , na_count   = as.integer(na.count <- cache_env$na.count)
                 , na_last    = as.logical(do.na.last)
                 , decreasing = as.logical(decreasing)
                 , o              = o
@@ -645,9 +645,9 @@ order.integer64 <- function(
                 )
             }else{
                 .Call(C_r_ram_integer64_sortorderord
-                , x = c$sort
-                , i = c$order
-                , na_count   = as.integer(na.count <- c$na.count)
+                , x = cache_env$sort
+                , i = cache_env$order
+                , na_count   = as.integer(na.count <- cache_env$na.count)
                 , na_last    = as.logical(do.na.last)
                 , decreasing = as.logical(decreasing)
                 , o              = o
@@ -655,9 +655,9 @@ order.integer64 <- function(
                 )
             }
           }else
-            o <- c$order  # here we save copying at all
+            o <- cache_env$order  # here we save copying at all
   }else{
-      if (identical(c$na.count, 0L))
+      if (identical(cache_env$na.count, 0L))
         has.na <- FALSE
       optimize <- match.arg(optimize)
       o <- seq_along(x)
