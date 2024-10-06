@@ -188,7 +188,7 @@ hashfun.integer64 <- function(x, minfac=1.41, hashbits=NULL, ...){
 hashmap <- function(x, ...)UseMethod("hashmap")
 hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache=NULL, ...){
   if (is.null(nunique)){
-    nunique <- integer(1)
+    nunique <- integer(1L)
     n <- length(x)
   }else{
     nunique <- as.integer(nunique)
@@ -202,7 +202,7 @@ hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache
       hashbits <- 0L
   }else
     hashbits <- as.integer(hashbits)
-  nhash <- as.integer(2^hashbits)
+  nhash <- as.integer(2L^hashbits)
   hashmap <- integer(nhash)
   .Call(C_hashmap_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
 
@@ -299,7 +299,7 @@ hashtab.cache_integer64 <- function(cache, ...){
 hashmaptab <- function(x, ...)UseMethod("hashmaptab")
 hashmaptab.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...){
   if (is.null(nunique)){
-    nunique <- integer(1)
+    nunique <- integer(1L)
     n <- length(x)
   }else{
     nunique <- as.integer(nunique)
@@ -309,7 +309,7 @@ hashmaptab.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
     hashbits <- as.integer(ceiling(log2(n*minfac)))
   else
     hashbits <- as.integer(hashbits)
-  nhash <- as.integer(2^hashbits)
+  nhash <- as.integer(2L^hashbits)
   hashmap <- integer(nhash)
   ret <- .Call(C_hashmaptab_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
   # theoretically we could use {hashmap, nunique} at this point the same way like after calling hashmap_integer64
@@ -320,7 +320,7 @@ hashmaptab.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
 hashmapuni <- function(x, ...)UseMethod("hashmapuni")
 hashmapuni.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...){
   if (is.null(nunique)){
-    nunique <- integer(1)
+    nunique <- integer(1L)
     n <- length(x)
   }else{
     nunique <- as.integer(nunique)
@@ -334,7 +334,7 @@ hashmapuni.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
       hashbits <- 0L
   }else
     hashbits <- as.integer(hashbits)
-  nhash <- as.integer(2^hashbits)
+  nhash <- as.integer(2L^hashbits)
   hashmap <- integer(nhash)
   ret <- .Call(C_hashmapuni_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
   # theoretically we could use {hashmap, nunique} at this point the same way like after calling hashmap_integer64
@@ -345,7 +345,7 @@ hashmapuni.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
 hashmapupo <- function(x, ...)UseMethod("hashmapupo")
 hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...){
   if (is.null(nunique)){
-    nunique <- integer(1)
+    nunique <- integer(1L)
     n <- length(x)
   }else{
     nunique <- as.integer(nunique)
@@ -359,7 +359,7 @@ hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
       hashbits <- 0L
   }else
     hashbits <- as.integer(hashbits)
-  nhash <- as.integer(2^hashbits)
+  nhash <- as.integer(2L^hashbits)
   hashmap <- integer(nhash)
   # theoretically we could use {hashmap, nunique} at this point the same way like after calling hashmap_integer64
   .Call(C_hashmapupo_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
@@ -413,7 +413,7 @@ hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
 #!   table(runif64(16, 1, 16, replace=TRUE))
 #! }
 
-runif64 <- function(n, min=lim.integer64()[1], max=lim.integer64()[2], replace = TRUE){
+runif64 <- function(n, min=lim.integer64()[1L], max=lim.integer64()[2L], replace = TRUE){
   n <- as.integer(n)
   min <- as.integer64(min)
   max <- as.integer64(max)
@@ -425,13 +425,13 @@ runif64 <- function(n, min=lim.integer64()[1], max=lim.integer64()[2], replace =
     d <- max - min + 1L
     if (!is.na(d) && N > d)
       stop("cannot take a sample larger than the population when 'replace = FALSE'")
-    if (!is.na(d) && n > d  / (2*log(n,64))){
+    if (!is.na(d) && n > d  / (2.0*log(n, 64.0))){
       ret <- .Call(C_runif_integer64, as.integer(d), as.integer64(min), as.integer64(max))
       oldClass(ret) <- "integer64"
       ret <- sample(ret, n, FALSE)
     }else{
       ret <- integer64()
-      while (N > 0){
+      while (N > 0L){
         ret <- unique(c(ret, Recall(
           if (N*1.05 < .Machine$integer.max) N*1.05 else N
         , min
@@ -451,24 +451,24 @@ if (FALSE){
 
     require(bit64)
     require(microbenchmark)
-    n <- 1e6
-    print(microbenchmark(runif64(n, 1, n), times=20))
-    for (m in c(1,2,4,8,16)){
-      print(microbenchmark(runif64(n, 1, n*m, replace=FALSE), times=20))
-      print(microbenchmark(sample(n*m, n, replace=FALSE), times=20))
+    n <- 1000000L
+    print(microbenchmark(runif64(n, 1.0, n), times=20L))
+    for (m in c(1.0, 2.0, 4.0, 8.0, 16.0)){
+      print(microbenchmark(runif64(n, 1.0, n*m, replace=FALSE), times=20L))
+      print(microbenchmark(sample(n*m, n, replace=FALSE), times=20L))
     }
-    print(microbenchmark(runif64(n, 1, replace=FALSE), times=20))
+    print(microbenchmark(runif64(n, 1.0, replace=FALSE), times=20L))
 
 
   library(bit64)
-  n <- 1e7
+  n <- 10000000L
   x <- as.integer64(sample(n, n, TRUE))
-  t1 <- system.time({h <- hashmap(x)})[3]
-  t2 <- system.time({value <- hashuni(h)})[3]
-  t3 <- system.time({count <- hashtab(h)})[3]
-  t4 <- system.time({ret1 <- list(values=value, counts=count)})[3]
+  t1 <- system.time({h <- hashmap(x)})[3L]
+  t2 <- system.time({value <- hashuni(h)})[3L]
+  t3 <- system.time({count <- hashtab(h)})[3L]
+  t4 <- system.time({ret1 <- list(values=value, counts=count)})[3L]
   t1+t2+t3+t4
-  system.time({ret2 <- hashmaptab(x)})[3]
+  system.time({ret2 <- hashmaptab(x)})[3L]
   identical(ret1,ret2)
 
 
@@ -476,13 +476,13 @@ if (FALSE){
 
   system.time({
     ret2 <- hashmaptab(x)
-    cv2 <- sum(ret2$counts[ret2$counts>1])
-  })[3]
+    cv2 <- sum(ret2$counts[ret2$counts > 1.0])
+  })[3L]
 
   system.time({
     s <- clone(x)
     na.count <- ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
-    cv <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")[[2]]
+    cv <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")[[2L]]
     })
 
   cv
@@ -507,8 +507,8 @@ if (FALSE){
 
 
   library(bit64)
-  n <- 1e6
-  r <- runif64(n, lim.integer64()[1], lim.integer64()[2])
+  n <- 1000000L
+  r <- runif64(n, lim.integer64()[1L], lim.integer64()[2L])
   identical(r, as.integer64(as.bitstring(r)))
   cbind(r,as.integer64(as.bitstring(r)))
   cbind(as.bitstring(r),as.bitstring(as.integer64(as.bitstring(r))))
@@ -518,13 +518,13 @@ if (FALSE){
   #range(r)
   log2(abs(range(r)))
 
-  x <- seq(0,1,0.1)
+  x <- seq(0.0, 1.0, 0.1)
   y <- quantile.integer64(r, x)
   z <- diff(y)
-  plot(log2(z), type="b",ylim=c(0, max(log2(z))))
+  plot(log2(z), type="b",ylim=c(0.0, max(log2(z))))
 
 
-  n <- 1e7
+  n <- 10000000L
   system.time(runif(n))
   system.time(runif64(n))
 

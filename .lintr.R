@@ -1,5 +1,6 @@
 linters = all_linters(
   packages = "lintr",
+  implicit_integer_linter(allow_colon=TRUE),
   semicolon_linter(allow_compound = TRUE),
   assignment_linter = NULL,
   brace_linter = NULL,
@@ -10,7 +11,6 @@ linters = all_linters(
   function_argument_linter = NULL,
   function_left_parentheses_linter = NULL,
   implicit_assignment_linter = NULL,
-  implicit_integer_linter = NULL,
   indentation_linter = NULL,
   infix_spaces_linter = NULL,
   library_call_linter = NULL,

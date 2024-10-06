@@ -164,7 +164,7 @@ remcache <- function(x){
 
 print.cache<- function(x, all.names=FALSE, pattern, ...){
   l <- ls(x, all.names, pattern=pattern)
-  cat(class(x)[1], ": ", paste(l, collapse=" - "), "\n", sep="")
+  cat(class(x)[1L], ": ", paste(l, collapse=" - "), "\n", sep="")
   invisible(l)
 }
 
@@ -246,15 +246,15 @@ sortcache <- function(x, has.na = NULL){
         if (is.null(na.count))
             has.na <- TRUE
         else
-            has.na <- na.count > 0
+            has.na <- na.count > 0L
     }
     s <- clone(x)
     na.count <- ramsort(s, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
     nut <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")
     setcache(x, "sort", s)
     setcache(x, "na.count", na.count)
-    setcache(x, "nunique", nut[[1]])
-    setcache(x, "nties", nut[[2]])
+    setcache(x, "nunique", nut[[1L]])
+    setcache(x, "nties", nut[[2L]])
     invisible(x)
 }
 
@@ -265,7 +265,7 @@ sortordercache <- function(x, has.na = NULL, stable = NULL){
         if (is.null(na.count))
             has.na <- TRUE
         else
-            has.na <- na.count > 0
+            has.na <- na.count > 0L
     }
     if (is.null(stable)){
         nunique <- getcache(x, "nunique")
@@ -281,8 +281,8 @@ sortordercache <- function(x, has.na = NULL, stable = NULL){
     setcache(x, "sort", s)
     setcache(x, "order", o)
     setcache(x, "na.count", na.count)
-    setcache(x, "nunique", nut[[1]])
-    setcache(x, "nties", nut[[2]])
+    setcache(x, "nunique", nut[[1L]])
+    setcache(x, "nties", nut[[2L]])
     invisible(x)
 }
 
@@ -293,7 +293,7 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
         if (is.null(na.count))
             has.na <- TRUE
         else
-            has.na <- na.count > 0
+            has.na <- na.count > 0L
     }
     if (is.null(stable)){
         nunique <- getcache(x, "nunique")
@@ -307,8 +307,8 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
     nut <- .Call(C_r_ram_integer64_ordernut, table = x, order = o, PACKAGE = "bit64")
     setcache(x, "order", o)
     setcache(x, "na.count", na.count)
-    setcache(x, "nunique", nut[[1]])
-    setcache(x, "nties", nut[[2]])
+    setcache(x, "nunique", nut[[1L]])
+    setcache(x, "nties", nut[[2L]])
     invisible(x)
 }
 
@@ -421,10 +421,10 @@ nunique.integer64 <- function(x, ...){
         , PACKAGE = "bit64"
         )
         if (has.cache){
-            assign("nunique", ret[1], envir=env)
-            assign("nties", ret[2], envir=env)
+            assign("nunique", ret[1L], envir=env)
+            assign("nties", ret[2L], envir=env)
         }
-        ret[1]
+        ret[1L]
     }else{
         h <- hashmap(x)
         if (has.cache)
@@ -440,11 +440,11 @@ nties.integer64 <- function(x, ...){
             cv <- .Call(C_r_ram_integer64_sortnut
             , x = x
             , PACKAGE = "bit64"
-            )[2]
+            )[2L]
         }else{
             s <- clone(x)
             na.count <- ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
-            cv <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")[[2]]
+            cv <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")[[2L]]
         }
     }
     cv

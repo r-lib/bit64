@@ -191,9 +191,9 @@ sortfin.integer64 <- function(sorted, x, method=NULL, ...)
 {
   n <- length(x)
   if (is.null(method)){
-    if (n<2048){
+    if (n<2048L){
       method <- 1L
-    }else if (n<length(sorted)/128){
+    }else if (n<length(sorted)/128L){
       method <- 2L
     }else{
       method <- 3L
@@ -226,9 +226,9 @@ orderfin.integer64 <- function(table, order, x, method=NULL, ...)
 {
   n <- length(x)
   if (is.null(method)){
-    if (n<4096){
+    if (n<4096L){
       method <- 1L
-    }else if (n<length(table)/8){
+    }else if (n<length(table)/8L){
       method <- 2L
     }else{
       method <- 3L
@@ -264,9 +264,9 @@ orderpos.integer64 <- function(table, order, x, nomatch=NA, method=NULL, ...)
 {
   n <- length(x)
   if (is.null(method)){
-    if (n<4096){
+    if (n<4096L){
       method <- 1L
-    }else if (n<length(table)/8){
+    }else if (n<length(table)/8L){
       method <- 2L
     }else{
       method <- 3L
@@ -303,9 +303,9 @@ sortorderpos.integer64 <- function(sorted, order, x, nomatch=NA, method=NULL, ..
 {
   n <- length(x)
   if (is.null(method)){
-    if (n<2048){
+    if (n<2048L){
       method <- 1L
-    }else if (n<length(sorted)/128){
+    }else if (n<length(sorted)/128L){
       method <- 2L
     }else{
       method <- 3L
@@ -343,7 +343,7 @@ orderdup <- function(table, order, ...)UseMethod("orderdup")
 orderdup.integer64 <- function(table, order, method=NULL, ...)
 {
   if (is.null(method)){
-    if (length(table)<4194304)
+    if (length(table)<4194304L)
         method <- 1L
       else
         method <- 2L
@@ -362,7 +362,7 @@ sortorderdup <- function(sorted, order, ...)UseMethod("sortorderdup")
 sortorderdup.integer64 <- function(sorted, order, method=NULL, ...)
 {
   if (is.null(method)){
-    if (length(sorted)<4194304)
+    if (length(sorted)<4194304L)
         method <- 1L
       else
         method <- 2L
