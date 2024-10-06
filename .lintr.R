@@ -26,6 +26,5 @@ linters = all_linters(
   todo_comment_linter = NULL,
   undesirable_function_linter = NULL,
   undesirable_operator_linter = NULL,
-  unnecessary_nesting_linter = NULL,
   unreachable_code_linter = NULL
 )

@@ -1530,28 +1530,26 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
             }else{
                 method <- "hashpos"
             }
-    }else{
-        if (exists("hashmap", envir=c, inherits=FALSE)){
-            method <- "hashpos"
-        }else if (exists("sort", envir=c, inherits=FALSE) && exists("order", envir=c, inherits=FALSE) && (length(table)>length(x) || length(x)<4096)){
-            method <- "sortorderpos"
-        }else if (exists("order", envir=c, inherits=FALSE) && (length(table)>length(x) || length(x)<4096)){
-            method <- "orderpos"
-        }else{
-            nx <- length(x)
-            if (is.null(nunique)){
-              if (exists("nunique", envir=c, inherits=FALSE))
+    } else if (exists("hashmap", envir=c, inherits=FALSE)) {
+        method <- "hashpos"
+    } else if (exists("sort", envir=c, inherits=FALSE) && exists("order", envir=c, inherits=FALSE) && (length(table)>length(x) || length(x)<4096)) {
+        method <- "sortorderpos"
+    } else if (exists("order", envir=c, inherits=FALSE) && (length(table)>length(x) || length(x)<4096)) {
+        method <- "orderpos"
+    } else {
+        nx <- length(x)
+        if (is.null(nunique)){
+            if (exists("nunique", envir=c, inherits=FALSE))
                 nunique <- c$nunique
-              else
+            else
                 nunique <- length(table)
-            }
-            btable <- as.integer(ceiling(log2(nunique*1.5)))
-            bx <- as.integer(ceiling(log2(nx*1.5)))
-            if (bx<=17 && btable>=16){
-                method <- "hashrev"
-            }else{
-                method <- "hashpos"
-            }
+        }
+        btable <- as.integer(ceiling(log2(nunique*1.5)))
+        bx <- as.integer(ceiling(log2(nx*1.5)))
+        if (bx<=17 && btable>=16){
+            method <- "hashrev"
+        } else {
+            method <- "hashpos"
         }
     }
   }
@@ -1627,28 +1625,26 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
             }else{
                 method <- "hashfin"
             }
-    }else{
-        if (exists("hashmap", envir=c, inherits=FALSE)){
-            method <- "hashfin"
-        }else if (exists("sort", envir=c, inherits=FALSE) && (length(table)>length(x) || length(x)<4096)){
-            method <- "sortfin"
-        }else if (exists("order", envir=c, inherits=FALSE) && (length(table)>length(x) || length(x)<4096)){
-            method <- "orderfin"
-        }else{
-            nx <- length(x)
-            if (is.null(nunique)){
-              if (exists("nunique", envir=c, inherits=FALSE))
+    } else if (exists("hashmap", envir=c, inherits=FALSE)) {
+        method <- "hashfin"
+    } else if (exists("sort", envir=c, inherits=FALSE) && (length(table)>length(x) || length(x)<4096L)) {
+        method <- "sortfin"
+    } else if (exists("order", envir=c, inherits=FALSE) && (length(table)>length(x) || length(x)<4096L)) {
+        method <- "orderfin"
+    } else {
+        nx <- length(x)
+        if (is.null(nunique)){
+            if (exists("nunique", envir=c, inherits=FALSE))
                 nunique <- c$nunique
-              else
+            else
                 nunique <- length(table)
-            }
-            btable <- as.integer(ceiling(log2(nunique*1.5)))
-            bx <- as.integer(ceiling(log2(nx*1.5)))
-            if (bx<=17 && btable>=16){
-                method <- "hashrin"
-            }else{
-                method <- "hashfin"
-            }
+        }
+        btable <- as.integer(ceiling(log2(nunique*1.5)))
+        bx <- as.integer(ceiling(log2(nx*1.5)))
+        if (bx<=17 && btable>=16) {
+            method <- "hashrin"
+        } else {
+            method <- "hashfin"
         }
     }
   }
@@ -1763,18 +1759,16 @@ duplicated.integer64 <- function(x
             method <- "sortorderdup"
         else
             method <- "hashdup"
-    }else{
-        if (exists("sort", envir=c, inherits=FALSE) && exists("order", envir=c, inherits=FALSE))
-            method <- "sortorderdup"
-        else if (exists("hashmap", envir=c, inherits=FALSE))
-            method <- "hashdup"
-        else if (exists("order", envir=c, inherits=FALSE))
-            method <- "orderdup"
-        else if (length(x)>5e7)
-            method <- "sortorderdup"
-        else
-            method <- "hashdup"
-    }
+    } else if (exists("sort", envir=c, inherits=FALSE) && exists("order", envir=c, inherits=FALSE))
+        method <- "sortorderdup"
+    else if (exists("hashmap", envir=c, inherits=FALSE))
+        method <- "hashdup"
+    else if (exists("order", envir=c, inherits=FALSE))
+        method <- "orderdup"
+    else if (length(x) > 5e7)
+        method <- "sortorderdup"
+    else
+        method <- "hashdup"
   }
   switch(method
   , hashdup={
@@ -2366,6 +2360,7 @@ table.integer64 <- function(
         else
             method <- "hashmaptab"
     }else{
+        # nolint next: unnecessary_nesting_linter. Good parallelism.
         if (order=="values"){
             if (exists("sort", envir=c, inherits=FALSE))
                 method <- "sorttab"
@@ -2376,6 +2371,7 @@ table.integer64 <- function(
             else
                 method <- "sorttab"
         }else{ # order = "counts"
+            # nolint next: unnecessary_nesting_linter. Good parallelism.
             if (exists("hashmap", envir=c, inherits=FALSE))
                 method <- "hashtab"
             else if (exists("sort", envir=c, inherits=FALSE))
@@ -2594,15 +2590,13 @@ keypos.integer64 <- function(x
   if (is.null(method)){
     if (is.null(c)){
         method <- "sortorderkey"
-    }else{
-        if (exists("order", envir=c, inherits=FALSE)){
-            if (exists("sort", envir=c, inherits=FALSE))
-                method <- "sortorderkey"
-            else
-                method <- "orderkey"
-        }else
+    } else if (exists("order", envir=c, inherits=FALSE)) {
+        if (exists("sort", envir=c, inherits=FALSE))
             method <- "sortorderkey"
-    }
+        else
+            method <- "orderkey"
+    } else
+        method <- "sortorderkey"
   }
   switch(method
   , sortorderkey={
@@ -2687,15 +2681,13 @@ tiepos.integer64 <- function(x
   if (is.null(method)){
     if (is.null(c)){
         method <- "sortordertie"
-    }else{
-        if (exists("order", envir=c, inherits=FALSE)){
-            if (exists("sort", envir=c, inherits=FALSE))
-                method <- "sortordertie"
-            else
-                method <- "ordertie"
-        }else
+    } else if (exists("order", envir=c, inherits=FALSE)) {
+        if (exists("sort", envir=c, inherits=FALSE))
             method <- "sortordertie"
-    }
+        else
+            method <- "ordertie"
+    } else
+        method <- "sortordertie"
   }
   switch(method
   , sortordertie={
@@ -2776,15 +2768,13 @@ rank.integer64 <- function(x
   if (is.null(method)){
     if (is.null(c)){
         method <- "sortorderrnk"
-    }else{
-        if (exists("order", envir=c, inherits=FALSE)){
-            if (exists("sort", envir=c, inherits=FALSE))
-                method <- "sortorderrnk"
-            else
-                method <- "orderrnk"
-        }else
+    } else if (exists("order", envir=c, inherits=FALSE)) {
+        if (exists("sort", envir=c, inherits=FALSE))
             method <- "sortorderrnk"
-    }
+        else
+            method <- "orderrnk"
+    } else
+        method <- "sortorderrnk"
   }
   switch(method
   , sortorderrnk={
@@ -2953,16 +2943,14 @@ qtile.integer64 <- function(x, probs = seq(0, 1, 0.25), names = TRUE, method = N
         stop("p outside [0,1]")
   c <- cache(x)
   if (is.null(method)){
-    if (is.null(c)){
+    if (is.null(c))
         method <- "sortqtl"
-    }else{
-        if (exists("sort", envir=c, inherits=FALSE))
-            method <- "sortqtl"
-        else if (exists("order", envir=c, inherits=FALSE))
-            method <- "orderqtl"
-        else
-            method <- "sortqtl"
-    }
+    else if (exists("sort", envir=c, inherits=FALSE))
+        method <- "sortqtl"
+    else if (exists("order", envir=c, inherits=FALSE))
+        method <- "orderqtl"
+    else
+        method <- "sortqtl"
   }
   switch(method
   , sortqtl={

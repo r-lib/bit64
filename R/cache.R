@@ -382,17 +382,13 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
 
 na.count.integer64 <- function(x, ...){
   env <- cache(x)
-  if (is.null(env)){
-    .Call(C_r_ram_integer64_nacount, x = x, PACKAGE = "bit64")
-  }else{
-    if (exists("na.count", envir=env, inherits=FALSE))
-        get("na.count", envir=env, inherits=FALSE)
-    else{
-        ret <- .Call(C_r_ram_integer64_nacount, x = x, PACKAGE = "bit64")
-        assign("na.count", ret, envir=env)
-        ret
-    }
-  }
+  if (is.null(env))
+    return(.Call(C_r_ram_integer64_nacount, x = x, PACKAGE = "bit64"))
+  if (exists("na.count", envir=env, inherits=FALSE))
+    return(get("na.count", envir=env, inherits=FALSE))
+  ret <- .Call(C_r_ram_integer64_nacount, x = x, PACKAGE = "bit64")
+  assign("na.count", ret, envir=env)
+  ret
 }
 
 nvalid.integer64 <- function(x, ...){
@@ -401,17 +397,13 @@ nvalid.integer64 <- function(x, ...){
 
 is.sorted.integer64 <- function(x, ...){
   env <- cache(x)
-  if (is.null(env)){
-    .Call(C_r_ram_integer64_issorted_asc, x = x, PACKAGE = "bit64")
-  }else{
-    if (exists("is.sorted", envir=env, inherits=FALSE))
-        get("is.sorted", envir=env, inherits=FALSE)
-    else{
-        ret <- .Call(C_r_ram_integer64_issorted_asc, x = x, PACKAGE = "bit64")
-        assign("is.sorted", ret, envir=env)
-        ret
-    }
-  }
+  if (is.null(env))
+    return(.Call(C_r_ram_integer64_issorted_asc, x = x, PACKAGE = "bit64"))
+  if (exists("is.sorted", envir=env, inherits=FALSE))
+    return(get("is.sorted", envir=env, inherits=FALSE))
+  ret <- .Call(C_r_ram_integer64_issorted_asc, x = x, PACKAGE = "bit64")
+  assign("is.sorted", ret, envir=env)
+  ret
 }
 
 
@@ -419,12 +411,10 @@ nunique.integer64 <- function(x, ...){
     env <- cache(x)
     if(is.null(env))
         has.cache <- FALSE
-    else{
-        if (exists("nunique", envir=env, inherits=FALSE))
-            return(get("nunique", envir=env, inherits=FALSE))
-        else
-            has.cache <- TRUE
-    }
+    else if (exists("nunique", envir=env, inherits=FALSE))
+        return(get("nunique", envir=env, inherits=FALSE))
+    else
+        has.cache <- TRUE
     if (is.sorted(x)){
         ret <- .Call(C_r_ram_integer64_sortnut
         , x = x

@@ -1853,41 +1853,40 @@ plusclass <- function(class, whichclass){
 
 if (FALSE){
   # version until 0.9-7
-    binattr <- function(e1,e2){
-        d1 <- dim(e1)
-        d2 <- dim(e2)
-        n1 <- length(e1)
-        n2 <- length(e2)
-        if (length(d1)){
-          if (length(d2)){
-            if (!identical(dim(e1),dim(e2)))
-            stop("non-conformable arrays")
-        }else{
-            if (n2>n1)
-              stop("length(e2) does not match dim(e1)")
-            if (n1%%n2)
-            warning("length(e1) not a multiple length(e2)")
-        }
-        attributes(e1)
-        }else{
-          if (length(d2)){
-            if (n1>n2)
-              stop("length(e1) does not match dim(n2)")
-            if (n2%%n1)
-            warning("length(e2) not a multiple length(e1)")
-            attributes(e2)
-        }else{
-            if (n1<n2){
-            if (n2%%n1)
-                warning("length(e2) not a multiple length(e1)")
-            }else{
-            if (n1%%n2)
-                warning("length(e1) not a multiple length(e2)")
-            }
-            attributes(e1)
-        }
-        }
+  binattr <- function(e1, e2) {
+    d1 <- dim(e1)
+    d2 <- dim(e2)
+    n1 <- length(e1)
+    n2 <- length(e2)
+    if (length(d1)) {
+      if (length(d2)) {
+        if (!identical(dim(e1),dim(e2)))
+          stop("non-conformable arrays")
+      } else {
+        if (n2>n1)
+          stop("length(e2) does not match dim(e1)")
+        if (n1%%n2)
+          warning("length(e1) not a multiple length(e2)")
+      }
+      attributes(e1)
+    } else if (length(d2)) {
+      if (n1>n2)
+        stop("length(e1) does not match dim(n2)")
+      if (n2%%n1)
+      warning("length(e2) not a multiple length(e1)")
+      attributes(e2)
+    } else {
+      if (n1<n2) {
+        if (n2%%n1)
+          warning("length(e2) not a multiple length(e1)")
+      } else {
+        # nolint next: unnecessary_nesting_linter. Good parallelism.
+        if (n1%%n2)
+          warning("length(e1) not a multiple length(e2)")
+      }
+      attributes(e1)
     }
+  }
 }
 
 # Version of Leonardo Silvestri
@@ -1909,20 +1908,20 @@ binattr <- function(e1, e2) {
       if (n2 && n1 %% n2)
         warning("length(e1) not a multiple length(e2)")
     }
-  } else{
-    if (length(d2)) {
-      if (n1 > n2 && n2)
-        stop("length(e1) does not match dim(n2)")
+  } else if (length(d2)) {
+    if (n1 > n2 && n2)
+      stop("length(e1) does not match dim(n2)")
+    if (n1 && n2 %% n1)
+      warning("length(e2) not a multiple length(e1)")
+  } else {
+    # nolint next: unnecessary_nesting_linter. Good parallelism.
+    if (n1 < n2 && n1) {
       if (n1 && n2 %% n1)
         warning("length(e2) not a multiple length(e1)")
-    } else{
-      if (n1 < n2 && n1) {
-        if (n1 && n2 %% n1)
-          warning("length(e2) not a multiple length(e1)")
-      } else{
-        if (n2 && n1 %% n2)
-          warning("length(e1) not a multiple length(e2)")
-      }
+    } else {
+      # nolint next: unnecessary_nesting_linter. Good parallelism.
+      if (n2 && n1 %% n2)
+        warning("length(e1) not a multiple length(e2)")
     }
   }
 
@@ -2177,13 +2176,11 @@ if (FALSE){
           i <- i[is.na(i) | i]
           na_idx <- rep_len(is.na(i), length(ret))
             }
-          }else{
-            if (ni && (min(i, na.rm=TRUE) >= 0)){
-              i <- i[is.na(i) | i>0]
-              na_idx <- is.na(i) | i>length(x)
-            }else{
-              na_idx <- FALSE
-            }
+          } else if (ni && min(i, na.rm=TRUE)>=0) {
+            i <- i[is.na(i) | i>0]
+            na_idx <- is.na(i) | i>length(x)
+          } else {
+            na_idx <- FALSE
           }
           if (any(na_idx))
                 ret[na_idx] <- NA_integer64_
@@ -2459,6 +2456,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
     else
       ret <- .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   }else{
+    # nolint next: unnecessary_nesting_linter. Good parallelism, and on a to-be-deprecated code path.
     if (is.double(e2))  # implies !is.integer64(e2)
       ret <- .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
     else if (is.double(e1))
@@ -2498,6 +2496,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
     else
       ret <- .Call(C_divide_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   }else{
+    # nolint next: unnecessary_nesting_linter. Good parallelism, and on a to-be-deprecated code path.
     if (is.double(e2))  # implies !is.integer64(e2)
       ret <- .Call(C_divide_integer64_double, as.integer64(e1), e2, ret)
     else if (is.double(e1))
