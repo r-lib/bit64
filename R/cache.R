@@ -443,7 +443,9 @@ nties.integer64 <- function(x, ...){
             )[2L]
         }else{
             s <- clone(x)
-            na.count <- ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
+            # nolint next: object_usage_linter. Keep the output of in-place ramsort for debugging.
+            na.count <-
+              ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
             cv <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")[[2L]]
         }
     }

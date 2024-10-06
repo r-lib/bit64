@@ -608,7 +608,7 @@ optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
    tim["hashrev","use"] <- timefun({
     p1 <- hashrev(h1, x2)
    })[3L]
-   stopifnot(identical(p2, p))
+   stopifnot(identical(p1, p))
 
    tim["sortorderpos","prep"] <- system.time({
     s2 <- clone(x2)

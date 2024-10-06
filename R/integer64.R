@@ -2065,7 +2065,6 @@ print.bitstring <- function(x, ...){
 }
 
 as.integer64.bitstring <- function(x, ...){
-  n <- length(x)
   ret <- .Call(C_as_integer64_bitstring, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret

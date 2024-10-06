@@ -17,7 +17,6 @@ linters = all_linters(
   line_length_linter = NULL,
   nonportable_path_linter = NULL,
   object_name_linter = NULL,
-  object_usage_linter = NULL,
   paren_body_linter = NULL,
   quotes_linter = NULL,
   spaces_inside_linter = NULL,
