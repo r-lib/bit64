@@ -1,5 +1,6 @@
-^.github
-^.gitignore
-^.*\.Rproj$
+^\.github
+^\.gitignore
+^\.lintr
+^\.*\.Rproj$
 ^\.Rproj\.user$
 README.md
