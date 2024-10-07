@@ -1757,6 +1757,7 @@ all.equal.integer64  <- function (
   } else msg
 }
 
+# nocov start
 if (FALSE){
   require(bit64)
   a <- as.integer64(1L)
@@ -1799,7 +1800,7 @@ if (FALSE){
   b <- as.double(c(1.0,Inf))
   all.equal(a,b)
 }
-
+# nocov end
 
 identical.integer64 <- function(x, y
 , num.eq = FALSE
@@ -1851,6 +1852,7 @@ plusclass <- function(class, whichclass){
     whichclass
 }
 
+# nocov start
 if (FALSE){
   # version until 0.9-7
   binattr <- function(e1, e2) {
@@ -1888,6 +1890,7 @@ if (FALSE){
     }
   }
 }
+# nocov end
 
 # Version of Leonardo Silvestri
 binattr <- function(e1, e2) {
@@ -1965,6 +1968,7 @@ binattr <- function(e1, e2) {
 
 
 
+# nocov start
 if (FALSE){
   x <- integer64(0L)
   y <- integer64(0L)
@@ -1991,6 +1995,7 @@ if (FALSE){
   attributes(ret) <- list(dim = c(0L, 0L), class = character(0L), dimnames = list(NULL,NULL))
 
 }
+# nocov end
 
 integer64 <- function(length=0L){
   ret <- double(length)
@@ -2134,6 +2139,7 @@ str.integer64 <- function(object
   invisible()
 }
 
+# nocov start
 if (FALSE){
     require(microbenchmark)
     require(bit64)
@@ -2152,6 +2158,7 @@ if (FALSE){
     microbenchmark(x[i], times=10L)
 
 }
+# nocov end
 
 
 `[.integer64` <- function(x, i, ...){

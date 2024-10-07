@@ -523,6 +523,7 @@ ramorder.integer64 <- function (x
 #!   order.integer64(x, optimize="memory")
 #! }
 
+# nocov start
 if (FALSE){
     library(bit64)
     x <- as.integer64(c(sample.int(10000000L),NA))
@@ -549,6 +550,7 @@ if (FALSE){
     stopifnot(identical(o, {xo<-seq_along(x);ramorder(x, xo, na.last=TRUE, decreasing=TRUE);xo}))
 
 }
+# nocov end
 
 sort.integer64 <- function(x
 , decreasing = FALSE

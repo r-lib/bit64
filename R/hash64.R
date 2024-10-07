@@ -447,6 +447,7 @@ runif64 <- function(n, min=lim.integer64()[1L], max=lim.integer64()[2L], replace
   ret
 }
 
+# nocov start
 if (FALSE){
 
     require(bit64)
@@ -529,3 +530,4 @@ if (FALSE){
   system.time(runif64(n))
 
 }
+# nocov end
