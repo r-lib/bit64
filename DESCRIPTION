@@ -24,3 +24,6 @@ LazyLoad: yes
 ByteCompile: yes
 URL: https://github.com/truecluster/bit64
 Encoding: UTF-8
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
