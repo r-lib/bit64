@@ -2997,6 +2997,7 @@ quantile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), na.rm = FALSE, na
 }
 
 
+# TODO(R>=3.4.0): Drop this branch when median always gets '...'
 # adding ... (wish of Kurt Hornik 23.3.2017)
 if (is.na(match("...", names(formals(median))))){
     median.integer64 <- function(x, na.rm=FALSE){
