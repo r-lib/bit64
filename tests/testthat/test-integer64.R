@@ -34,6 +34,10 @@ test_that("S3 class basics work", {
   x = as.integer64(1:10)
   expect_s3_class(x, "integer64")
   expect_true(is.integer64(x))
+
+  length(x) = 11L
+  expect_length(x, 11L)
+  expect_identical(x[11L], as.integer64(0L))
 })
 
 test_that("indexing works", {
@@ -60,5 +64,27 @@ test_that("arithmetic works", {
   expect_identical(x * y, as.integer64(c(10L, 18L, 24L, 28L, 30L, 30L, 28L, 24L, 18L, 10L)))
   # output is double even though it fits in integer [and integer64]
   expect_identical(x[seq(2L, 10L, by=2L)] / 2L, as.double(1:5))
-  expect_identical(x ^ 2, as.integer64((1:10)^2))
+  expect_identical(x ^ 2L, as.integer64((1:10)^2L))
+})
+
+test_that("display methods work", {
+  x = as.integer64(1:3)
+  expect_identical(format(x), as.character(1:3))
+  expect_output(print(x), "integer64.*\\s*1\\s*2\\s*3")
+  expect_output(str(x), "integer64 [1:3] 1 2 3", fixed=TRUE)
+})
+
+test_that("combining inputs works", {
+  x = as.integer64(1:3)
+  expect_identical(c(x, FALSE), as.integer64(c(1:3, 0L)))
+  expect_identical(c(x, 4L, 5L, 6L), as.integer64(1:6))
+  expect_identical(c(x, 4.0, 5.0, 6.0), as.integer64(1:6))
+  expect_identical(c(x, as.integer64(4:6)), as.integer64(1:6))
+
+  # TODO(#45): use matrix() directly
+  matrix64 <- function(x, nrow=1L, ncol=1L) {
+    dim(x) <- c(nrow, ncol)
+    x
+  }
+  expect_identical(cbind(x, FALSE), matrix64(as.integer64(c(1:3, 0L, 0L, 0L)), nrow=3L, ncol=2L))
 })
