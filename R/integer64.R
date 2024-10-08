@@ -2571,31 +2571,27 @@ log2.integer64 <- function(x){
   ret
 }
 
-trunc.integer64 <- function(x, ...)x
-floor.integer64 <- ceiling.integer64 <- function(x)x
+trunc.integer64 <- function(x, ...) x
+floor.integer64 <- ceiling.integer64 <- function(x) x
 
-signif.integer64 <- function(x, digits=6L)x
+signif.integer64 <- function(x, digits=6L) x
 
-scale.integer64 <- function(x, center = TRUE, scale = TRUE)scale(as.double(x, keep.names=TRUE), center=center, scale=scale)
+scale.integer64 <- function(x, center = TRUE, scale = TRUE)
+  scale(as.double(x, keep.names=TRUE), center=center, scale=scale)
 
 round.integer64 <- function(x, digits=0L){
-  if (digits<0L){
-    a <- attributes(x)
-    b <- 10L^round(-digits)
-    b2 <- b %/% 2L
-    d <- (x %/% b)
-    db <- d * b
-    r <- abs(x-db)
-    ret <- ifelse((r < b2) | (r == b2 & ((d %% 2L) == 0L)), db, db + sign(x)*b)
-    #a$class <- minusclass(a$class, "integer64")
-    attributes(ret) <- a
-    ret
-  }else
-    x
+  if (digits >= 0L) return(x)
+  a <- attributes(x)
+  b <- 10L^round(-digits)
+  b2 <- b %/% 2L
+  d <- (x %/% b)
+  db <- d * b
+  r <- abs(x-db)
+  ret <- ifelse((r < b2) | (r == b2 & ((d %% 2L) == 0L)), db, db + sign(x)*b)
+  #a$class <- minusclass(a$class, "integer64")
+  attributes(ret) <- a
+  ret
 }
-
-
-
 
 any.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
@@ -2646,8 +2642,6 @@ sum.integer64 <- function(..., na.rm = FALSE){
   }
 }
 
-
-
 prod.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   if (length(l)==1L){
@@ -2666,7 +2660,6 @@ prod.integer64 <- function(..., na.rm = FALSE){
       prod(ret, na.rm = na.rm)
   }
 }
-
 
 min.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
@@ -2694,7 +2687,6 @@ min.integer64 <- function(..., na.rm = FALSE){
   ret
 }
 
-
 max.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   noval <- TRUE
@@ -2720,7 +2712,6 @@ max.integer64 <- function(..., na.rm = FALSE){
       warning("no non-NA value, returning the lowest possible integer64 value -9223372036854775807")
   ret
 }
-
 
 range.integer64 <- function(..., na.rm = FALSE, finite = FALSE){
   if (finite)
@@ -2749,7 +2740,6 @@ range.integer64 <- function(..., na.rm = FALSE, finite = FALSE){
     warning("no non-NA value, returning c(+9223372036854775807, -9223372036854775807)")
   ret
 }
-
 
 lim.integer64 <- function(){
   ret <- .Call(C_lim_integer64, double(2L))
@@ -2781,7 +2771,6 @@ diff.integer64 <- function(x, lag=1L, differences=1L, ...){
   oldClass(ret) <- "integer64"
   ret
 }
-
 
 cummin.integer64 <- function(x){
   ret <- .Call(C_cummin_integer64, x, double(length(x)))

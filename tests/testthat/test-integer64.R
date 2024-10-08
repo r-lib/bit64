@@ -43,11 +43,11 @@ test_that("S3 class basics work", {
 test_that("indexing works", {
   x = as.integer64(1:10)
 
-  x[1] = 2
+  x[1.0] = 2.0
   x[2L] = 3L
   expect_identical(x, as.integer64(c(2:3, 3:10)))
 
-  x[[1]] = 3
+  x[[1.0]] = 3.0
   x[[2L]] = 4L
   expect_identical(x, as.integer64(c(3:4, 3:10)))
 
@@ -55,7 +55,7 @@ test_that("indexing works", {
   expect_identical(x[[4L]], as.integer64(4L))
 })
 
-test_that("arithmetic works", {
+test_that("arithmetic & basic math works", {
   x = as.integer64(1:10)
   y = as.integer64(10:1)
 
@@ -75,6 +75,23 @@ test_that("arithmetic works", {
   expect_identical(sqrt(as.integer64(c(0L, 1L, 4L, 9L))), as.numeric(0:3))
   expect_identical(log(x), log(as.numeric(x)))
   expect_identical(log(as.integer64(c(1L, 2L, 4L, 8L)), base=2L), as.numeric(0:3))
+  expect_identical(log2(as.integer64(c(1L, 2L, 4L, 8L))), as.numeric(0:3))
+  # TODO(#48): Improve the numerical precision here.
+  expect_identical(log10(as.integer64(c(1L, 10L, 100L, 1000L))), as.numeric(0:3), tolerance=1e-7)
+
+  expect_identical(trunc(x), x)
+  expect_identical(floor(x), x)
+  expect_identical(ceiling(x), x)
+  expect_identical(signif(x), x)
+  expect_identical(round(x), x)
+
+  expect_identical(round(x, -1L), as.integer64(rep(c(0L, 10L), each=5L)))
+
+  expect_identical(sum(x), as.integer64(55L))
+  expect_identical(prod(x), as.integer64(factorial(10L)))
+  expect_identical(min(x), x[1L])
+  expect_identical(max(x), x[10L])
+  expect_identical(diff(x), as.integer64(rep(1L, 9L)))
 })
 
 test_that("display methods work", {
