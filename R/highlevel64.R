@@ -287,7 +287,7 @@
 #! }
 #! \keyword{datasets}
 
-
+# nocov start
 benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
 {
 
@@ -550,7 +550,6 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
 
   tim3
 }
-
 
 optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
 , what=c("match","%in%","duplicated","unique","unipos","table","rank","quantile")
@@ -1384,7 +1383,7 @@ optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
     ret
 
 }
-
+# nocov end
 
 #! \name{match.integer64}
 #! \alias{match.integer64}
