@@ -21,7 +21,7 @@
 \details{
   For each random integer we call R's internal C interface \code{unif_rand()} twice.
   Each call is mapped to 2^32 unsigned integers. The two 32-bit patterns are concatenated
-  to form the new integer64. This process is repeated until the result is not a \code{NA_INTEGER64}. 
+  to form the new integer64. This process is repeated until the result is not a \code{NA_INTEGER64}.
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
@@ -29,7 +29,7 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 \keyword{ classes }
 \keyword{distribution}
 \keyword{sysdata}
-\seealso{ 
+\seealso{
   \code{\link{runif}}, \code{\link{hashfun}}
 }
 \examples{

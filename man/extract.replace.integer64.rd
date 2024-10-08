@@ -11,7 +11,7 @@
 }
 \usage{
  \method{[}{integer64}(x, i, \dots)
- \method{[}{integer64}(x, \dots) <- value 
+ \method{[}{integer64}(x, \dots) <- value
  \method{[[}{integer64}(x, \dots)
  \method{[[}{integer64}(x, \dots) <- value
 }

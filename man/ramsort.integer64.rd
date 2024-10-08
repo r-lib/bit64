@@ -18,7 +18,7 @@
    Low-level intger64 methods for in-RAM sorting and ordering
 }
 \description{
-  Fast low-level methods for sorting and ordering. 
+  Fast low-level methods for sorting and ordering.
   The \code{..sortorder} methods do sorting and ordering at once, which requires more RAM than ordering but is (almost) as fast as as sorting.
 }
 \note{
@@ -49,8 +49,8 @@
 , optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
 }
 \arguments{
-  \item{x}{ a vector to be sorted by \code{\link{ramsort}} and \code{\link{ramsortorder}}, i.e. the output of  \code{\link{sort}} }
-  \item{i}{ integer positions to be modified by \code{\link{ramorder}} and \code{\link{ramsortorder}}, default is 1:n, in this case the output is similar to \code{\link{order}} }
+  \item{x}{ a vector to be sorted by \code{\link{ramsort.integer64}} and \code{\link{ramsortorder.integer64}}, i.e. the output of  \code{\link{sort.integer64}} }
+  \item{i}{ integer positions to be modified by \code{\link{ramorder.integer64}} and \code{\link{ramsortorder.integer64}}, default is 1:n, in this case the output is similar to \code{\link{order.integer64}} }
   \item{has.na}{
 boolean scalar defining whether the input vector might contain \code{NA}s. If we know we don't have NAs, this may speed-up.
 \emph{Note} that you risk a crash if there are unexpected \code{NA}s with \code{has.na=FALSE}
@@ -73,7 +73,7 @@ set to 'memory' to minimize RAM requirements and sacrifice speed
 number of remaining recursionlevels before \code{quicksort} switches from recursing to \code{shellsort}
 }
   \item{radixbits}{
-	size of radix in bits
+    size of radix in bits
 }
   \item{VERBOSE}{
   cat some info about chosen method
@@ -81,7 +81,7 @@ number of remaining recursionlevels before \code{quicksort} switches from recurs
   \item{\dots}{ further arguments, passed from generics, ignored in methods }
 }
 \details{
- see \code{\link{ramsort}}
+ see \code{\link[bit:Sorting]{ramsort}}
 }
 \value{
   These functions return the number of \code{NAs} found or assumed during sorting
@@ -91,7 +91,7 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ programming }
 \keyword{ manip }
-\seealso{ \code{\link{ramsort}} for the generic, \code{ramsort.default} for the methods provided by package \code{ff}, \code{\link{sort.integer64}} for the sort interface and \code{\link{sortcache}} for caching the work of sorting}
+\seealso{ \code{\link[bit:Sorting]{ramsort}} for the generic, \code{ramsort.default} for the methods provided by package \code{ff}, \code{\link{sort.integer64}} for the sort interface and \code{\link{sortcache}} for caching the work of sorting}
 \examples{
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   x

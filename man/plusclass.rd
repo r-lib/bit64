@@ -24,8 +24,8 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 \keyword{ classes }
 \keyword{ manip }
 \keyword{ internal }
-\seealso{ 
-  \code{\link{oldClass}} \code{\link{integer64}}  
+\seealso{
+  \code{\link{oldClass}} \code{\link{integer64}}
 }
 \examples{
   plusclass("inheritingclass","integer64")

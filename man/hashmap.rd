@@ -29,8 +29,8 @@
    Hashing for 64bit integers
 }
 \description{
-This is an explicit implementation of hash functionality that underlies 
-matching and other functions in R. Explicit means that you can create, 
+This is an explicit implementation of hash functionality that underlies
+matching and other functions in R. Explicit means that you can create,
 store and use hash functionality directly. One advantage is that you can
 re-use hashmaps, which avoid re-building hashmaps again and again.
 }
@@ -70,7 +70,7 @@ hashmaptab(x, \dots)
   \item{cache}{ an optional \code{\link{cache}} object into which to put the hashmap (by default a new cache is created)}
   \item{nunique}{ giving \emph{correct} number of unique elements can help reducing the size of the hashmap }
   \item{nomatch}{ the value to be returned if an element is not found in the hashmap }
-  \item{keep.order}{ determines order of results and speed: \code{FALSE} (the default) is faster and returns in the (pseudo)random order of the hash function, \code{TRUE} returns in the order of first appearance in the original data, but this requires extra work } 
+  \item{keep.order}{ determines order of results and speed: \code{FALSE} (the default) is faster and returns in the (pseudo)random order of the hash function, \code{TRUE} returns in the order of first appearance in the original data, but this requires extra work }
   \item{\dots}{ further arguments, passed from generics, ignored in methods }
 }
 \details{
@@ -139,21 +139,21 @@ stopifnot(identical(hashuni(hy, keep.order=TRUE), hashmapuni(y)))
 stopifnot(identical(hashupo(hy, keep.order=TRUE), hashmapupo(y)))
 stopifnot(identical(hashtab(hy), hashmaptab(y)))
 
-	\dontrun{
-	message("explore speed given size of the hasmap in 2^hashbits and size of the data")
-	message("more hashbits means more random access and less collisions")
-	message("i.e. more data means less random access and more collisions")
-	bits <- 24
-	b <- seq(-1, 0, 0.1)
-	tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits","bits+1")))
+    \dontrun{
+    message("explore speed given size of the hasmap in 2^hashbits and size of the data")
+    message("more hashbits means more random access and less collisions")
+    message("i.e. more data means less random access and more collisions")
+    bits <- 24
+    b <- seq(-1, 0, 0.1)
+    tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits","bits+1")))
     for (i in 1:length(b)){
-	  n <- as.integer(2^(bits+b[i]))
-	  x <- as.integer64(sample(n))
-	  tim[i,1] <- repeat.time(hashmap(x, hashbits=bits))[3]
-	  tim[i,2] <- repeat.time(hashmap(x, hashbits=bits+1))[3]
-	  print(tim)
+      n <- as.integer(2^(bits+b[i]))
+      x <- as.integer64(sample(n))
+      tim[i,1] <- repeat.time(hashmap(x, hashbits=bits))[3]
+      tim[i,2] <- repeat.time(hashmap(x, hashbits=bits+1))[3]
+      print(tim)
       matplot(b, tim)
-	}
-	message("we conclude that n*sqrt(2) is enough to avoid collisions")
-	}
+    }
+    message("we conclude that n*sqrt(2) is enough to avoid collisions")
+    }
 }

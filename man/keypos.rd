@@ -12,22 +12,22 @@ keypos(x, \dots)
 \arguments{
   \item{x}{a vector or a data frame or an array or \code{NULL}.}
   \item{method}{
-	NULL for automatic method selection or a suitable low-level method, see details
+    NULL for automatic method selection or a suitable low-level method, see details
 }
   \item{\dots}{ignored}
 }
 \details{
   NAs are sorted first in the dimension table, see \code{\link{ramorder.integer64}}.
   \cr
-  This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache. 
-  Suitable methods are \code{\link{sortorderkey}} (fast ordering) 
+  This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
+  Suitable methods are \code{\link{sortorderkey}} (fast ordering)
 and \code{\link{orderkey}} (memory saving ordering).
 }
 \value{
-  an integer vector of the same length as code{x} containing positions relativ to code{sort(unique(x), na.last=FALSE)}
+  an integer vector of the same length as \code{x} containing positions relativ to \code{sort(unique(x), na.last=FALSE)}
 }
 \author{
-	Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+    Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
 \seealso{
   \code{\link{unique.integer64}} for the unique subset and \code{\link{match.integer64}} for finding positions in a different vector.

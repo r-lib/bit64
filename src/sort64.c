@@ -98,8 +98,8 @@ static const ValueT shellincs[SHELLARRAYSIZE] = {1073790977, 268460033, 67121153
 
 
 /* { === NA handling for integer64 ================================================ */
-       
-// post sorting NA handling 
+
+// post sorting NA handling
 int ram_integer64_fixsortNA(
   ValueT *data       // RETURNED: pointer to data vector
 , IndexT n           // length of data vector
@@ -143,7 +143,7 @@ int ram_integer64_fixsortNA(
   }
 }
 
-// post sortordering NA handling 
+// post sortordering NA handling
 int ram_integer64_fixsortorderNA(
   ValueT *data      // RETURNED: pointer to data vector
 , IndexT *index      // RETURNED: pointer to index vector
@@ -207,7 +207,7 @@ int ram_integer64_fixsortorderNA(
   }
 }
 
-// post ordering NA handling 
+// post ordering NA handling
 int ram_integer64_fixorderNA(
   ValueT *data          // UNCHANGED: pointer to data vector
 , IndexT *index         // RETURNED: pointer to index vector
@@ -268,8 +268,8 @@ int ram_integer64_fixorderNA(
 
 
 /* } === NA handling for integer64 ================================================ */
-       
-       
+
+
 /* { === pure C stable insertion sort for integer64 ================================================ */
 
 // ascending insertion sorting
@@ -289,7 +289,7 @@ void ram_integer64_insertionsort_asc(
     ValueT v;
     MOVE(v, data[i])
     while (LESS(v,data[j-1])){
-      MOVE(data[j], data[j-1]) 
+      MOVE(data[j], data[j-1])
     j--;
     }
     MOVE(data[j], v)
@@ -316,7 +316,7 @@ void ram_integer64_insertionsortorder_asc(
     MOVE(v, data[i])
     while (LESS(v,data[j-1])){
       MOVE(index[j], index[j-1])
-      MOVE(data[j], data[j-1]) 
+      MOVE(data[j], data[j-1])
     j--;
     }
     MOVE(index[j], vi)
@@ -393,8 +393,8 @@ void ram_integer64_insertionsortorder_desc(
     MOVE(vi, index[i])
     MOVE(v, data[i])
     while (LESS(v,data[j+1])){
-      MOVE(index[j], index[j+1]) 
-      MOVE(data[j], data[j+1]) 
+      MOVE(index[j], index[j+1])
+      MOVE(data[j], data[j+1])
     j++;
     }
     MOVE(index[j], vi)
@@ -420,7 +420,7 @@ void ram_integer64_insertionorder_desc(
     MOVE(vi, index[i])
     MOVE(v, data[vi])
     while (LESS(v,data[index[j+1]])){
-      MOVE(index[j], index[j+1]) 
+      MOVE(index[j], index[j+1])
     j++;
     }
     MOVE(index[j], vi)
@@ -734,8 +734,8 @@ void ram_integer64_sortordermerge_desc(ValueT *c, ValueT *a, ValueT *b, IndexT *
 
 // merge sorting b ascending leaving result in a (following Sedgewick 8.4 Mergesort with no copying)
 void ram_integer64_mergesort_asc_rec(
-  ValueT *a   // pointer to target data vector 
-, ValueT *b   // pointer to source data vector 
+  ValueT *a   // pointer to target data vector
+, ValueT *b   // pointer to source data vector
 , IndexT l    // leftmost position to be sorted
 , IndexT r    // rightmost position to be sorted
 )
@@ -753,8 +753,8 @@ void ram_integer64_mergesort_asc_rec(
 // merge ordering b ascending leaving result in a (following Sedgewick 8.4 Mergesort with no copying)
 void ram_integer64_mergeorder_asc_rec(
 ValueT *data  // pointer to data vector
-, IndexT *a   // pointer to target index vector 
-, IndexT *b   // pointer to source index vector 
+, IndexT *a   // pointer to target index vector
+, IndexT *b   // pointer to source index vector
 , IndexT l    // leftmost position to be sorted
 , IndexT r    // rightmost position to be sorted
 )
@@ -773,8 +773,8 @@ ValueT *data  // pointer to data vector
 void ram_integer64_mergesortorder_asc_rec(
   ValueT *a   // pointer to target data vector
 , ValueT *b   // pointer to source data vector
-, IndexT *ai  // pointer to target index vector 
-, IndexT *bi  // pointer to source index vector 
+, IndexT *ai  // pointer to target index vector
+, IndexT *bi  // pointer to source index vector
 , IndexT l    // leftmost position to be sorted
 , IndexT r    // rightmost position to be sorted
 )
@@ -942,7 +942,7 @@ ValueT *data
       ram_integer64_quicksort_asc_mdr3_no_sentinels(data, l, m-1);
       ram_integer64_quicksort_asc_mdr3_no_sentinels(data, m+1, r);
   }
-  else  ram_integer64_insertionsort_asc(data, l, r); 
+  else  ram_integer64_insertionsort_asc(data, l, r);
 }
 void ram_integer64_quicksortorder_asc_mdr3_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r){
   if (INSERTIONSORT_LIMIT_QUICK < r-l){
@@ -955,7 +955,7 @@ void ram_integer64_quicksortorder_asc_mdr3_no_sentinels(ValueT *data, IndexT *in
       ram_integer64_quicksortorder_asc_mdr3_no_sentinels(data, index, l, m-1);
       ram_integer64_quicksortorder_asc_mdr3_no_sentinels(data, index, m+1, r);
   }
-  else  ram_integer64_insertionsortorder_asc(data, index, l, r); 
+  else  ram_integer64_insertionsortorder_asc(data, index, l, r);
 }
 void ram_integer64_quickorder_asc_mdr3_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r){
   if (INSERTIONSORT_LIMIT_QUICK < r-l){
@@ -968,7 +968,7 @@ void ram_integer64_quickorder_asc_mdr3_no_sentinels(ValueT *data, IndexT *index,
       ram_integer64_quickorder_asc_mdr3_no_sentinels(data, index, l, m-1);
       ram_integer64_quickorder_asc_mdr3_no_sentinels(data, index, m+1, r);
   }
-  else  ram_integer64_insertionorder_asc(data, index, l, r); 
+  else  ram_integer64_insertionorder_asc(data, index, l, r);
 }
 
 void ram_integer64_quicksort_desc_mdr3_no_sentinels(ValueT *data, IndexT l, IndexT r){
@@ -981,7 +981,7 @@ void ram_integer64_quicksort_desc_mdr3_no_sentinels(ValueT *data, IndexT l, Inde
       ram_integer64_quicksort_desc_mdr3_no_sentinels(data, l, m-1);
       ram_integer64_quicksort_desc_mdr3_no_sentinels(data, m+1, r);
   }
-  else  ram_integer64_insertionsort_desc(data, l, r); 
+  else  ram_integer64_insertionsort_desc(data, l, r);
 }
 void ram_integer64_quicksortorder_desc_mdr3_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r){
   if (INSERTIONSORT_LIMIT_QUICK < r-l){
@@ -994,7 +994,7 @@ void ram_integer64_quicksortorder_desc_mdr3_no_sentinels(ValueT *data, IndexT *i
       ram_integer64_quicksortorder_desc_mdr3_no_sentinels(data, index, l, m-1);
       ram_integer64_quicksortorder_desc_mdr3_no_sentinels(data, index, m+1, r);
   }
-  else  ram_integer64_insertionsortorder_desc(data, index, l, r); 
+  else  ram_integer64_insertionsortorder_desc(data, index, l, r);
 }
 void ram_integer64_quickorder_desc_mdr3_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r){
   if (INSERTIONSORT_LIMIT_QUICK < r-l){
@@ -1007,7 +1007,7 @@ void ram_integer64_quickorder_desc_mdr3_no_sentinels(ValueT *data, IndexT *index
       ram_integer64_quickorder_desc_mdr3_no_sentinels(data, index, l, m-1);
       ram_integer64_quickorder_desc_mdr3_no_sentinels(data, index, m+1, r);
   }
-  else  ram_integer64_insertionorder_desc(data, index, l, r); 
+  else  ram_integer64_insertionorder_desc(data, index, l, r);
 }
 
 
@@ -1025,7 +1025,7 @@ void ram_integer64_quicksort_asc_intro(ValueT *data, IndexT l, IndexT r, int res
     ram_integer64_quicksort_asc_intro(data, l, m-1, restlevel);
     ram_integer64_quicksort_asc_intro(data, m+1, r, restlevel);
     }
-    else  ram_integer64_insertionsort_asc(data, l, r); 
+    else  ram_integer64_insertionsort_asc(data, l, r);
   }else{
   ram_integer64_shellsort_asc(data, l, r);
   }
@@ -1046,7 +1046,7 @@ void ram_integer64_quicksortorder_asc_intro(ValueT *data, IndexT *index, IndexT 
     ram_integer64_quicksortorder_asc_intro(data, index, l, m-1, restlevel);
     ram_integer64_quicksortorder_asc_intro(data, index, m+1, r, restlevel);
     }
-    else  ram_integer64_insertionsortorder_asc(data, index, l, r); 
+    else  ram_integer64_insertionsortorder_asc(data, index, l, r);
   }else{
   ram_integer64_shellsortorder_asc(data, index, l, r);
   }
@@ -1065,7 +1065,7 @@ void ram_integer64_quickorder_asc_intro(ValueT *data, IndexT *index, IndexT l, I
     ram_integer64_quickorder_asc_intro(data, index, l, m-1, restlevel);
     ram_integer64_quickorder_asc_intro(data, index, m+1, r, restlevel);
     }
-    else  ram_integer64_insertionorder_asc(data, index, l, r); 
+    else  ram_integer64_insertionorder_asc(data, index, l, r);
   }else{
   ram_integer64_shellorder_asc(data, index, l, r);
   }
@@ -1085,7 +1085,7 @@ void ram_integer64_quicksort_desc_intro(ValueT *data, IndexT l, IndexT r, int re
     ram_integer64_quicksort_desc_intro(data, l, m-1, restlevel);
     ram_integer64_quicksort_desc_intro(data, m+1, r, restlevel);
     }
-    else  ram_integer64_insertionsort_desc(data, l, r); 
+    else  ram_integer64_insertionsort_desc(data, l, r);
   }else{
   ram_integer64_shellsort_desc(data, l, r);
   }
@@ -1106,7 +1106,7 @@ void ram_integer64_quicksortorder_desc_intro(ValueT *data, IndexT *index, IndexT
     ram_integer64_quicksortorder_desc_intro(data, index, l, m-1, restlevel);
     ram_integer64_quicksortorder_desc_intro(data, index, m+1, r, restlevel);
     }
-    else  ram_integer64_insertionsortorder_desc(data, index, l, r); 
+    else  ram_integer64_insertionsortorder_desc(data, index, l, r);
   }else{
   ram_integer64_shellsortorder_desc(data, index, l, r);
   }
@@ -1125,7 +1125,7 @@ void ram_integer64_quickorder_desc_intro(ValueT *data, IndexT *index, IndexT l, 
     ram_integer64_quickorder_desc_intro(data, index, l, m-1, restlevel);
     ram_integer64_quickorder_desc_intro(data, index, m+1, r, restlevel);
     }
-    else  ram_integer64_insertionorder_desc(data, index, l, r); 
+    else  ram_integer64_insertionorder_desc(data, index, l, r);
   }else{
   ram_integer64_shellorder_desc(data, index, l, r);
   }
@@ -1151,13 +1151,13 @@ void ram_integer64_radixsort(
   int nradixes1 = nradixes-1;
   int wradixbits;
   // Rprintf("nradixes=%d radixbits=%d nbuckets=%d\n", nradixes, radixbits, nbuckets); R_FlushConsole();
-  
+
   // initialize bitmasks
   bitmask = 1;
   for (b=1;b<radixbits;b++)
     bitmask = bitmask<<1 | 1;
   signmask = bitmask ^ (bitmask >> 1);
-  
+
   // initialize pstats pointer
   for (w=0;w<nradixes;w++)
     pstats[w] = stats + w * (nbuckets+1);
@@ -1250,7 +1250,7 @@ void ram_integer64_radixsort(
     if (b%2){
     for (i=0; i<n; i++)
     MOVE(data[i], auxdata[i])
-    b++;  
+    b++;
   }
   return;
 }
@@ -1276,14 +1276,14 @@ void ram_integer64_radixsortorder(
   int nradixes1 = nradixes-1;
   int wradixbits;
   //Rprintf("nradixes=%d radixbits=%d nbuckets=%d\n", nradixes, radixbits, nbuckets); R_FlushConsole();
-  
-  
+
+
   // initialize bitmasks
   bitmask = 1;
   for (b=1;b<radixbits;b++)
     bitmask = bitmask<<1 | 1;
   signmask = bitmask ^ (bitmask >> 1);
-  
+
   // initialize pstats pointer
   for (w=0;w<nradixes;w++)
     pstats[w] = stats + w * (nbuckets+1);
@@ -1389,7 +1389,7 @@ void ram_integer64_radixsortorder(
     MOVE(index[i], auxindex[i])
     MOVE(data[i], auxdata[i])
     }
-    b++;  
+    b++;
   }
   return;
 }
@@ -1414,14 +1414,14 @@ void ram_integer64_radixorder(
   int nradixes1 = nradixes-1;
   int wradixbits;
   //Rprintf("nradixes=%d radixbits=%d nbuckets=%d\n", nradixes, radixbits, nbuckets); R_FlushConsole();
-  
-  
+
+
   // initialize bitmasks
   bitmask = 1;
   for (b=1;b<radixbits;b++)
     bitmask = bitmask<<1 | 1;
   signmask = bitmask ^ (bitmask >> 1);
-  
+
   // initialize pstats pointer
   for (w=0;w<nradixes;w++)
     pstats[w] = stats + w * (nbuckets+1);
@@ -1520,7 +1520,7 @@ void ram_integer64_radixorder(
     for (i=0; i<n; i++){
     MOVE(index[i], auxindex[i])
     }
-    b++;  
+    b++;
   }
   return;
 }
@@ -1543,8 +1543,8 @@ static IndexT randIndex(
   //CRAN disallows rand: while(n <= (r=(((double)rand())*n) /RAND_MAX));
   // this is by factor 3 slower as long as we keep GetRNGstate(); PutRNGstate(); here.
   GetRNGstate();
-	while((r = ((IndexT)(unif_rand()*n))) >= n){}
-	;
+    while((r = ((IndexT)(unif_rand()*n))) >= n){}
+    ;
   PutRNGstate();
   return r;
 }
@@ -1602,13 +1602,13 @@ SEXP r_ram_integer64_shellsort(
   DEBUG_INIT
     ValueT *data;
     data = (ValueT *) REAL(x_);
-    
+
   if (decreasing)
       ram_integer64_shellsort_desc(data, 0, n-1);
   else
       ram_integer64_shellsort_asc(data, 0, n-1);
-    
-  ret = ram_integer64_fixsortNA(data, n       
+
+  ret = ram_integer64_fixsortNA(data, n
   , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
   , na_last    // 0 for NA NaN left, 1 for NA NaN right
   , decreasing // 0 for ascending, 1 for descending
@@ -1631,7 +1631,7 @@ SEXP r_ram_integer64_shellsortorder(
   SEXP ret_;
   PROTECT( ret_ = allocVector(INTSXP, 1) );
   int ret;
-  
+
   int n = LENGTH(x_);
   Rboolean has_na     = asLogical(has_na_);
   Rboolean na_last    = asLogical(na_last_);
@@ -1647,8 +1647,8 @@ SEXP r_ram_integer64_shellsortorder(
         ram_integer64_shellsortorder_desc(data, index, 0, n-1);
     else
         ram_integer64_shellsortorder_asc(data, index, 0, n-1);
-    
-    ret = ram_integer64_fixsortorderNA(data, index, n       
+
+    ret = ram_integer64_fixsortorderNA(data, index, n
     , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
     , na_last    // 0 for NA NaN left, 1 for NA NaN right
     , decreasing // 0 for ascending, 1 for descending
@@ -1673,7 +1673,7 @@ SEXP r_ram_integer64_shellorder(
   SEXP ret_;
   PROTECT( ret_ = allocVector(INTSXP, 1) );
   int ret;
-  
+
   int i,n = LENGTH(x_);
   Rboolean has_na     = asLogical(has_na_);
   Rboolean na_last    = asLogical(na_last_);
@@ -1693,7 +1693,7 @@ SEXP r_ram_integer64_shellorder(
     else
         ram_integer64_shellorder_asc(data, index, 0, n-1);
 
-    ret = ram_integer64_fixorderNA(data, index, n       
+    ret = ram_integer64_fixorderNA(data, index, n
     , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
     , na_last    // 0 for NA NaN left, 1 for NA NaN right
     , decreasing // 0 for ascending, 1 for descending
@@ -1702,7 +1702,7 @@ SEXP r_ram_integer64_shellorder(
 
     for (i=0;i<n;i++)
     index[i]++;
-    
+
     INTEGER(ret_)[0] = DEBUG_RETURN;
     R_Busy(0);
 
@@ -1734,21 +1734,21 @@ SEXP r_ram_integer64_mergesort(
       data = (ValueT *) REAL(x_);
       ValueT *auxdata;
       auxdata = (ValueT *) R_alloc(n, sizeof(ValueT));
-    
+
     for(i=0;i<n;i++){
       MOVE(auxdata[i], data[i])
     }
-    
+
     if (decreasing)
         ram_integer64_mergesort_desc_rec(data, auxdata, 0, n-1);
     else
         ram_integer64_mergesort_asc_rec(data, auxdata, 0, n-1);
-    ret = ram_integer64_fixsortNA(data, n       
+    ret = ram_integer64_fixsortNA(data, n
     , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
     , na_last    // 0 for NA NaN left, 1 for NA NaN right
     , decreasing // 0 for ascending, 1 for descending
     );
-    
+
   INTEGER(ret_)[0] = DEBUG_RETURN;
   R_Busy(0);
   UNPROTECT(1);
@@ -1774,7 +1774,7 @@ SEXP r_ram_integer64_mergesortorder(
 
   R_Busy(1);
   DEBUG_INIT
-  
+
   IndexT *index = INTEGER(index_);
   IndexT *auxindex;
   auxindex = (IndexT *) R_alloc(n, sizeof(IndexT));
@@ -1788,12 +1788,12 @@ SEXP r_ram_integer64_mergesortorder(
       MOVE(auxindex[i], index[i])
       MOVE(auxdata[i] ,data[i])
     }
-    
+
     if (decreasing)
         ram_integer64_mergesortorder_desc_rec(data, auxdata, index, auxindex, 0, n-1);
     else
         ram_integer64_mergesortorder_asc_rec(data, auxdata, index, auxindex, 0, n-1);
-    ret = ram_integer64_fixsortorderNA(data, index, n       
+    ret = ram_integer64_fixsortorderNA(data, index, n
     , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
     , na_last    // 0 for NA NaN left, 1 for NA NaN right
     , decreasing // 0 for ascending, 1 for descending
@@ -1825,7 +1825,7 @@ SEXP r_ram_integer64_mergeorder(
 
   R_Busy(1);
   DEBUG_INIT
-  
+
   ValueT *data;
   data = (ValueT *) REAL(x_);
   IndexT *index = INTEGER(index_);
@@ -1838,13 +1838,13 @@ SEXP r_ram_integer64_mergeorder(
   for(i=0;i<n;i++){
     MOVE(auxindex[i], index[i]);
   }
-  
+
   if (decreasing)
       ram_integer64_mergeorder_desc_rec(data, index, auxindex, 0, n-1);
   else
       ram_integer64_mergeorder_asc_rec(data, index, auxindex, 0, n-1);
-    
-  ret = ram_integer64_fixorderNA(data, index, n       
+
+  ret = ram_integer64_fixorderNA(data, index, n
   , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
   , na_last    // 0 for NA NaN left, 1 for NA NaN right
   , decreasing // 0 for ascending, 1 for descending
@@ -1882,18 +1882,18 @@ SEXP r_ram_integer64_quicksort(
   DEBUG_INIT
   ValueT *data;
   data = (ValueT *) REAL(x_);
-    
+
   if (decreasing)
       ram_integer64_quicksort_desc_intro(data, 0, n-1, restlevel);
   else
       ram_integer64_quicksort_asc_intro(data, 0, n-1, restlevel);
-    
-  ret = ram_integer64_fixsortNA(data, n       
+
+  ret = ram_integer64_fixsortNA(data, n
   , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
   , na_last    // 0 for NA NaN left, 1 for NA NaN right
   , decreasing // 0 for ascending, 1 for descending
   );
-    
+
   INTEGER(ret_)[0] = DEBUG_RETURN;
   R_Busy(0);
   UNPROTECT(1);
@@ -1912,7 +1912,7 @@ SEXP r_ram_integer64_quicksortorder(
   SEXP ret_;
   PROTECT( ret_ = allocVector(INTSXP, 1) );
   int ret;
-  
+
   int n = LENGTH(x_);
   Rboolean has_na     = asLogical(has_na_);
   Rboolean na_last    = asLogical(na_last_);
@@ -1924,19 +1924,19 @@ SEXP r_ram_integer64_quicksortorder(
       ValueT *data;
       data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
-    
+
     if (decreasing)
       ram_integer64_quicksortorder_desc_intro(data, index, 0, n-1, restlevel);
     else
       ram_integer64_quicksortorder_asc_intro(data, index, 0, n-1, restlevel);
-    
-    ret = ram_integer64_fixsortorderNA(data, index, n       
+
+    ret = ram_integer64_fixsortorderNA(data, index, n
     , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
     , na_last    // 0 for NA NaN left, 1 for NA NaN right
     , decreasing // 0 for ascending, 1 for descending
     , 0  // no auxindex
     );
-    
+
     INTEGER(ret_)[0] = DEBUG_RETURN;
     R_Busy(0);
 
@@ -1956,7 +1956,7 @@ SEXP r_ram_integer64_quickorder(
   SEXP ret_;
   PROTECT( ret_ = allocVector(INTSXP, 1) );
   int ret;
-  
+
   int i,n = LENGTH(x_);
   Rboolean has_na     = asLogical(has_na_);
   Rboolean na_last    = asLogical(na_last_);
@@ -1968,7 +1968,7 @@ SEXP r_ram_integer64_quickorder(
       ValueT *data;
       data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
-    
+
     for (i=0;i<n;i++)
       index[i]--;
 
@@ -1977,7 +1977,7 @@ SEXP r_ram_integer64_quickorder(
     else
       ram_integer64_quickorder_asc_intro(data, index, 0, n-1, restlevel);
 
-    ret = ram_integer64_fixorderNA(data, index, n       
+    ret = ram_integer64_fixorderNA(data, index, n
     , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
     , na_last    // 0 for NA NaN left, 1 for NA NaN right
     , decreasing // 0 for ascending, 1 for descending
@@ -1986,7 +1986,7 @@ SEXP r_ram_integer64_quickorder(
 
     for (i=0;i<n;i++)
       index[i]++;
-    
+
     INTEGER(ret_)[0] = DEBUG_RETURN;
     R_Busy(0);
 
@@ -2005,18 +2005,18 @@ SEXP r_ram_integer64_radixsort(
   SEXP ret_;
   PROTECT( ret_ = allocVector(INTSXP, 1) );
   int ret;
-  
+
   R_Busy(1);
   DEBUG_INIT
-  
+
   IndexT n = LENGTH(x_);
   Rboolean has_na     = asLogical(has_na_);
   Rboolean na_last    = asLogical(na_last_);
   Rboolean decreasing = asLogical(decreasing_);
   int radixbits = asInteger(radixbits_);
   int nradixes = 64 / radixbits;
-  
-  
+
+
   ValueT *data;
   data = (ValueT *) REAL(x_);
   ValueT *auxdata;
@@ -2026,9 +2026,9 @@ SEXP r_ram_integer64_radixsort(
   stats = (IndexT *) R_alloc(nradixes*(pow(2, radixbits)+1), sizeof(IndexT));
   IndexT **pstats;
   pstats = (IndexT **) R_alloc(nradixes, sizeof(IndexT*));
-    
+
   ram_integer64_radixsort(
-    (UValueT *) data          
+    (UValueT *) data
   , (UValueT *) auxdata
   , stats
   , pstats
@@ -2037,13 +2037,13 @@ SEXP r_ram_integer64_radixsort(
   , radixbits
   , decreasing
   );
-  ret = ram_integer64_fixsortNA(data, n       
+  ret = ram_integer64_fixsortNA(data, n
   , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
   , na_last    // 0 for NA NaN left, 1 for NA NaN right
   , decreasing // 0 for ascending, 1 for descending
   );
-  
-  INTEGER(ret_)[0] = DEBUG_RETURN;  
+
+  INTEGER(ret_)[0] = DEBUG_RETURN;
   R_Busy(0);
   UNPROTECT(1);
   return ret_;
@@ -2068,7 +2068,7 @@ SEXP r_ram_integer64_radixsortorder(
   Rboolean decreasing = asLogical(decreasing_);
   int radixbits = asInteger(radixbits_);
   int nradixes = 64 / radixbits;
-  
+
   IndexT *index = INTEGER(index_);
   IndexT *auxindex;
   auxindex = (IndexT *) R_alloc(n, sizeof(IndexT));
@@ -2081,9 +2081,9 @@ SEXP r_ram_integer64_radixsortorder(
   stats = (IndexT *) R_alloc(nradixes*(pow(2, radixbits)+1), sizeof(IndexT));
   IndexT **pstats;
   pstats = (IndexT **) R_alloc(nradixes, sizeof(IndexT*));
-    
+
     ram_integer64_radixsortorder(
-    (UValueT *) data          
+    (UValueT *) data
   , (UValueT *) auxdata
   , index
   , auxindex
@@ -2092,16 +2092,16 @@ SEXP r_ram_integer64_radixsortorder(
   , n
   , nradixes
   , radixbits
-  , decreasing   
+  , decreasing
   );
-  ret = ram_integer64_fixsortorderNA(data, index, n       
+  ret = ram_integer64_fixsortorderNA(data, index, n
   , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
   , na_last    // 0 for NA NaN left, 1 for NA NaN right
   , decreasing // 0 for ascending, 1 for descending
   , auxindex
   );
-  
-  INTEGER(ret_)[0] = DEBUG_RETURN;  
+
+  INTEGER(ret_)[0] = DEBUG_RETURN;
   R_Busy(0);
   UNPROTECT(1);
   return ret_;
@@ -2127,7 +2127,7 @@ SEXP r_ram_integer64_radixorder(
   Rboolean decreasing = asLogical(decreasing_);
   int radixbits = asInteger(radixbits_);
   int nradixes = 64 / radixbits;
-  
+
   IndexT *index = INTEGER(index_);
   IndexT *auxindex;
   auxindex = (IndexT *) R_alloc(n, sizeof(IndexT));
@@ -2138,12 +2138,12 @@ SEXP r_ram_integer64_radixorder(
   stats = (IndexT *) R_alloc(nradixes*(pow(2, radixbits)+1), sizeof(IndexT));
   IndexT **pstats;
   pstats = (IndexT **) R_alloc(nradixes, sizeof(IndexT*));
-    
+
   for (i=0;i<n;i++){
     index[i]--;
   }
   ram_integer64_radixorder(
-    (UValueT *) data          
+    (UValueT *) data
   , index
   , auxindex
   , stats
@@ -2151,9 +2151,9 @@ SEXP r_ram_integer64_radixorder(
   , n
   , nradixes
   , radixbits
-  , decreasing   
+  , decreasing
   );
-  ret = ram_integer64_fixorderNA(data, index, n       
+  ret = ram_integer64_fixorderNA(data, index, n
   , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
   , na_last    // 0 for NA NaN left, 1 for NA NaN right
   , decreasing // 0 for ascending, 1 for descending
@@ -2162,8 +2162,8 @@ SEXP r_ram_integer64_radixorder(
 
   for (i=0;i<n;i++)
     index[i]++;
-  
-  INTEGER(ret_)[0] = DEBUG_RETURN;  
+
+  INTEGER(ret_)[0] = DEBUG_RETURN;
   R_Busy(0);
   UNPROTECT(1);
   return ret_;

@@ -2,7 +2,7 @@
 \alias{benchmark64}
 \alias{optimizer64}
 \title{
- Function for measuring algorithmic performance \cr 
+ Function for measuring algorithmic performance \cr
  of high-level and low-level integer64 functions
 }
 \description{
@@ -30,14 +30,14 @@ optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
  one of the order parameters that are allowed in \code{\link{unique.integer64}} and \code{\link{unipos.integer64}}
 }
   \item{taborder}{
- one of the order parameters that are allowed in \code{\link{table.integer64}} 
+ one of the order parameters that are allowed in \code{\link{table.integer64}}
 }
   \item{plot}{
- set to FALSE to suppress plotting 
+ set to FALSE to suppress plotting
 }
 }
 \details{
- \code{benchmark64} compares the following scenarios for the following use cases: 
+ \code{benchmark64} compares the following scenarios for the following use cases:
  \tabular{rl}{
   \bold{scenario name} \tab \bold{explanation} \cr
   32-bit  \tab applying Base R function to 32-bit integer data \cr
@@ -66,12 +66,12 @@ optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
   summary(b)    \tab summary of of big vector \cr
   SESSION       \tab exemplary session involving multiple calls (including cache filling costs) \cr
  }
- Note that the timings for the cached variants do \emph{not} contain the time costs of building the cache, except for the timing of the exemplary user session, where the cache costs are included in order to evaluate amortization. 
+ Note that the timings for the cached variants do \emph{not} contain the time costs of building the cache, except for the timing of the exemplary user session, where the cache costs are included in order to evaluate amortization.
 }
 \value{
  \code{benchmark64} returns a matrix with elapsed seconds, different high-level tasks in rows and different scenarios to solve the task in columns. The last row named 'SESSION' contains the elapsed seconds of the exemplary sesssion.
  \cr
- \code{optimizer64} returns a dimensioned list with one row for each high-level function timed and two columns named after the values of the \code{nsmall} and \code{nbig} sample sizes. Each list cell contains a matrix with timings, low-level-methods in rows and three measurements \code{c("prep","both","use")} in columns. If it can be measured separately, \code{prep} contains the timing of preparatory work such as sorting and hashing, and \code{use} contains the timing of using the prepared work. If the function timed does both, preparation and use, the timing is in \code{both}.  
+ \code{optimizer64} returns a dimensioned list with one row for each high-level function timed and two columns named after the values of the \code{nsmall} and \code{nbig} sample sizes. Each list cell contains a matrix with timings, low-level-methods in rows and three measurements \code{c("prep","both","use")} in columns. If it can be measured separately, \code{prep} contains the timing of preparatory work such as sorting and hashing, and \code{use} contains the timing of using the prepared work. If the function timed does both, preparation and use, the timing is in \code{both}.
 }
 \author{
  Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
@@ -96,12 +96,12 @@ data(benchmark64.data)
 print(benchmark64.data)
 
 matplot(log2(benchmark64.data[-1,1]/benchmark64.data[-1,])
-, pch=c("3", "6", "h", "s", "o", "a") 
+, pch=c("3", "6", "h", "s", "o", "a")
 , xlab="tasks [last=session]"
 , ylab="log2(relative speed) [bigger is better]"
 )
 matplot(t(log2(benchmark64.data[-1,1]/benchmark64.data[-1,]))
-, type="b", axes=FALSE 
+, type="b", axes=FALSE
 , lwd=c(rep(1, 14), 3)
 , xlab="context"
 , ylab="log2(relative speed) [bigger is better]"

@@ -4,6 +4,7 @@
 #include <R_ext/Rdynload.h>
 
 /* .Call calls */
+extern SEXP as_list_integer64(SEXP);
 extern SEXP abs_integer64(SEXP, SEXP);
 extern SEXP all_integer64(SEXP, SEXP, SEXP);
 extern SEXP any_integer64(SEXP, SEXP, SEXP);
@@ -22,6 +23,7 @@ extern SEXP cumprod_integer64(SEXP, SEXP);
 extern SEXP cumsum_integer64(SEXP, SEXP);
 extern SEXP diff_integer64(SEXP, SEXP, SEXP, SEXP);
 extern SEXP divide_integer64_double(SEXP, SEXP, SEXP);
+extern SEXP divide_double_integer64(SEXP, SEXP, SEXP);     /* Ofek Shilon */
 extern SEXP divide_integer64_integer64(SEXP, SEXP, SEXP);
 extern SEXP EQ_integer64(SEXP, SEXP, SEXP);
 extern SEXP GE_integer64(SEXP, SEXP, SEXP);
@@ -115,6 +117,7 @@ extern SEXP r_ram_integer64_onionorder(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP,
 */
 
 static const R_CallMethodDef CallEntries[] = {
+    {"as_list_integer64",                (DL_FUNC) &as_list_integer64,                1},
     {"abs_integer64",                    (DL_FUNC) &abs_integer64,                    2},
     {"all_integer64",                    (DL_FUNC) &all_integer64,                    3},
     {"any_integer64",                    (DL_FUNC) &any_integer64,                    3},
@@ -133,6 +136,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"cumsum_integer64",                 (DL_FUNC) &cumsum_integer64,                 2},
     {"diff_integer64",                   (DL_FUNC) &diff_integer64,                   4},
     {"divide_integer64_double",          (DL_FUNC) &divide_integer64_double,          3},
+    {"divide_double_integer64",          (DL_FUNC) &divide_double_integer64,          3}, /* Ofek Shilon */
     {"divide_integer64_integer64",       (DL_FUNC) &divide_integer64_integer64,       3},
     {"EQ_integer64",                     (DL_FUNC) &EQ_integer64,                     3},
     {"GE_integer64",                     (DL_FUNC) &GE_integer64,                     3},

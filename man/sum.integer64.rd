@@ -11,7 +11,7 @@
    Summary functions for integer64 vectors
 }
 \description{
-  Summary functions for integer64 vectors. 
+  Summary functions for integer64 vectors.
   Function 'range' without arguments returns the smallest and largest value of the 'integer64' class.
 }
 \usage{
@@ -30,10 +30,10 @@ lim.integer64()
   \item{finite}{ logical scalar indicating whether to ignore NAs (just for compatibility with \code{\link{range.default}}) }
 }
 \details{
-  The numerical summary methods always return \code{integer64}. 
+  The numerical summary methods always return \code{integer64}.
   Therefor the methods for \code{min},\code{max} and \code{range} do not return \code{+Inf,-Inf}
   on empty arguments, but \code{+9223372036854775807, -9223372036854775807} (in this sequence).
-  The same is true if only  \code{NA}s are submitted with argument \code{na.rm=TRUE}. 
+  The same is true if only  \code{NA}s are submitted with argument \code{na.rm=TRUE}.
  \cr
   \code{lim.integer64} returns these limits in proper order \code{-9223372036854775807, +9223372036854775807} and without a \code{\link{warning}}.
 }

@@ -4,11 +4,13 @@
    Identity function for class 'integer64'
 }
 \description{
-  This will discover any deviation between objects containing integer64 vectors. 
+  This will discover any deviation between objects containing integer64 vectors.
 }
 \usage{
- identical.integer64(x, y, num.eq = FALSE, single.NA = FALSE
-, attrib.as.set = TRUE, ignore.bytecode = TRUE)
+ identical.integer64(x, y
+ , num.eq = FALSE, single.NA = FALSE, attrib.as.set = TRUE, ignore.bytecode = TRUE
+ , ignore.environment = FALSE, ignore.srcref = TRUE, extptr.as.ref = FALSE
+ )
 }
 \arguments{
   \item{x}{ atomic vector of class 'integer64' }
@@ -17,12 +19,15 @@
   \item{single.NA}{ see \code{\link{identical}} }
   \item{attrib.as.set}{ see \code{\link{identical}} }
   \item{ignore.bytecode}{ see \code{\link{identical}} }
+  \item{ignore.environment}{ see \code{\link{identical}} }
+  \item{ignore.srcref}{ see \code{\link{identical}} }
+  \item{extptr.as.ref}{ see \code{\link{identical}} }
 }
 \details{
   This is simply a wrapper to \code{\link{identical}} with default arguments \code{num.eq = FALSE, single.NA = FALSE}.
 }
 \value{
-  A single logical value, \code{TRUE} or \code{FALSE}, never \code{NA} and never anything other than a single value. 
+  A single logical value, \code{TRUE} or \code{FALSE}, never \code{NA} and never anything other than a single value.
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
