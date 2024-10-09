@@ -2251,7 +2251,7 @@ function (..., recursive = FALSE)
     K <- length(l)
     for (k in 1:K){
         if (recursive && is.list(l[[k]])){
-            l[[k]] <- do.call("c.integer64", c(l[[k]], list(recursive = TRUE)))
+            l[[k]] <- do.call(c.integer64, c(l[[k]], list(recursive = TRUE)))
         }else{
             if (!is.integer64(l[[k]])) {
                 nam <- names(l[[k]])
@@ -2261,7 +2261,7 @@ function (..., recursive = FALSE)
             oldClass(l[[k]]) <- NULL
         }
     }
-    ret <- do.call("c", l)
+    ret <- do.call(c, l)
     oldClass(ret) <- "integer64"
     ret
 }
@@ -2278,7 +2278,7 @@ cbind.integer64 <- function(...){
         }
         oldClass(l[[k]]) <- NULL
   }
-  ret <- do.call("cbind", l)
+  ret <- do.call(cbind, l)
     oldClass(ret) <- "integer64"
   ret
 }
@@ -2294,7 +2294,7 @@ rbind.integer64 <- function(...){
         }
         oldClass(l[[k]]) <- NULL
   }
-  ret <- do.call("rbind", l)
+  ret <- do.call(rbind, l)
     oldClass(ret) <- "integer64"
   ret
 }
