@@ -54,5 +54,5 @@ test_that("sorting methods work", {
   expect_identical(median(x), q[3L])
   names(q) = c('0%', '25%', '50%', '75%', '100%')
   expect_identical(quantile(x), q)
-  expect_identical(quantile(x, 0.2), as.integer64(21L))
+  expect_identical(quantile(x, 0.2, names=FALSE), as.integer64(21L))
 })
