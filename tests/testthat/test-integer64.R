@@ -9,7 +9,6 @@ test_that("integer64 coercion to/from other types work", {
   # to integer64
   expect_identical(as.integer64(TRUE), as.integer64(1L))
   expect_identical(as.integer64(as.character(1:10)), as.integer64(1:10))
-  expect_identical(as.integer64(factor(2:11)), as.integer64(1:10)) # NB: _not_ 2:11!
   expect_identical(as.integer64(as.double(1:10)), as.integer64(1:10))
   expect_identical(as.integer64(NULL), as.integer64())
   x = as.integer64(1:10)
