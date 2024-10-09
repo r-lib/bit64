@@ -53,7 +53,10 @@
   packageStartupMessage("WARNING semantics differ from integer")
   packageStartupMessage("for more help type ?bit64")
 }
+
+# nocov start
 .onUnload <- function(libpath){
    packageStartupMessage("Unloading package bit64")
    library.dynam.unload("bit64", libpath)
 }
+# nocov end

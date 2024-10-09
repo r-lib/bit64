@@ -52,6 +52,10 @@ test_that("indexing works", {
 
   expect_identical(x[3L], as.integer64(3L))
   expect_identical(x[[4L]], as.integer64(4L))
+
+  names(x) = letters[1:10]
+  expect_identical(x[c("b", "c")], x[2:3])
+  expect_identical(x[["d"]], x[[4L]])
 })
 
 test_that("arithmetic & basic math works", {
@@ -64,6 +68,7 @@ test_that("arithmetic & basic math works", {
   # output is double even though it fits in integer [and integer64]
   expect_identical(x[seq(2L, 10L, by=2L)] / 2L, as.double(1:5))
   expect_identical(x ^ 2L, as.integer64((1:10)^2L))
+  expect_identical(-x, as.integer64(-(1:10)))
 
   expect_identical(x %/% 2L, as.integer64(c(0L, 1L, 1L, 2L, 2L, 3L, 3L, 4L, 4L, 5L)))
   expect_identical(x %% 2L, as.integer64(rep_len(c(1L, 0L), 10L)))
@@ -85,18 +90,35 @@ test_that("arithmetic & basic math works", {
   expect_identical(round(x), x)
 
   expect_identical(round(x, -1L), as.integer64(rep(c(0L, 10L), each=5L)))
+})
+
+test_that("basic statistics work", {
+  x = as.integer64(1:10)
 
   expect_identical(sum(x), as.integer64(55L))
+  expect_identical(sum(x, x), as.integer64(110L))
   expect_identical(prod(x), as.integer64(factorial(10L)))
+  expect_identical(prod(x[1:5], x[6:10]), as.integer64(factorial(10L)))
   expect_identical(min(x), x[1L])
+  expect_identical(min(x, as.integer64(0L)), as.integer64(0L))
   expect_identical(max(x), x[10L])
+  expect_identical(max(x, as.integer64(11L)), as.integer64(11L))
+  expect_identical(range(x), x[c(1L, 10L)])
+  expect_identical(range(x, x+1L), c(x[1L], x[10L]+1L))
+
   expect_identical(diff(x), as.integer64(rep(1L, 9L)))
+
+  expect_identical(cummin(x), as.integer64(rep(1L, 10L)))
+  expect_identical(cummax(x), x)
+  expect_identical(cumsum(x), as.integer64(choose(2:11, 2L)))
+  expect_identical(cumprod(x), as.integer64(factorial(1:10)))
 })
 
 test_that("display methods work", {
   x = as.integer64(1:3)
   expect_identical(format(x), as.character(1:3))
   expect_output(print(x), "integer64.*\\s*1\\s*2\\s*3")
+  expect_output(print(x[0L]), "integer64(0)", fixed=TRUE)
   expect_output(str(x), "integer64 [1:3] 1 2 3", fixed=TRUE)
 })
 
