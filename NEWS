@@ -8,4 +8,8 @@
 
 1. The R version dependency has increased from 3.0.1 (May 2013) to 3.3.0 (April 2017). We plan to keep roughly the same R dependency as {data.table}, i.e., as old as possibly for as long as possible, with some bias towards gradually bringing in new R features to reduce the maintenance overhead of a growing nest of workarounds to keep the package "fresh" for users of the latest R versions.
 
+1. Default packages {methods}, {stats}, and {utils} are now `Imports:`, not `Depends:`, dependencies. `Depends:` is an out-dated mode of dependency in R. This will only affect the small audience of users that run R with `R_DEFAULT_PACKAGES=NULL` (or some other subset excluding some of these three), _and_ who are relying (perhaps implicitly) on {bit64} being responsible for attaching those packages.
+
+  It is my intention to move {bit} from `Depends:` to `Imports:` as well, but this migration will be done more gingerly -- it is more conceivable that this will constitute a breaking change for some use cases, therefore it will be done in phases. Nothing is done in this release, but here is your earliest warning that from the next release, it will be a warning to rely on {bit64} to attach {bit} functions for you.
+
 # bit64 NEWS for versions 0.8-3 through 4.5.2 are now in [NEWS.0](https://github.com/r-lib/bit64/blob/master/NEWS.0)
