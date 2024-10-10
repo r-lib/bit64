@@ -1,7 +1,8 @@
-^\.github
+^\.github$
 ^\.gitignore
 ^\.lintr
 ^\.*\.Rproj$
 ^\.Rproj\.user$
+^\.devcontainer$
 README.md
 ^codecov\.yml$

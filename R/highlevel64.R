@@ -287,7 +287,7 @@
 #! }
 #! \keyword{datasets}
 
-
+# nocov start
 benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
 {
 
@@ -550,7 +550,6 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
 
   tim3
 }
-
 
 optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
 , what=c("match","%in%","duplicated","unique","unipos","table","rank","quantile")
@@ -1384,7 +1383,7 @@ optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
     ret
 
 }
-
+# nocov end
 
 #! \name{match.integer64}
 #! \alias{match.integer64}
@@ -2997,13 +2996,16 @@ quantile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), na.rm = FALSE, na
 }
 
 
+# TODO(R>=3.4.0): Drop this branch when median always gets '...'
 # adding ... (wish of Kurt Hornik 23.3.2017)
 if (is.na(match("...", names(formals(median))))){
+    # nocov start. Only run on old R.
     median.integer64 <- function(x, na.rm=FALSE){
         if (!na.rm && na.count(x)>0L)
             stop("missing values not allowed with 'na.rm='==FALSE")
         qtile.integer64(x, probs = 0.5, na.rm = na.rm, names = FALSE)
     }
+    # nocov end.
 }else{
     median.integer64 <- function(x, na.rm=FALSE, ...){
         if (!na.rm && na.count(x)>0L)
