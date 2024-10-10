@@ -3,5 +3,6 @@
 ^\.lintr
 ^\.*\.Rproj$
 ^\.Rproj\.user$
+^\.devcontainer$
 README.md
 ^codecov\.yml$

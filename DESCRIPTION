@@ -7,7 +7,7 @@ Authors@R: c(
     person("Leonardo", "Silvestri", role = "ctb"),
     person("Ofek", "Shilon", role = "ctb")
   )
-Depends: R (>= 3.3.0), bit (>= 4.0.0), utils, methods, stats
+Depends: R (>= 3.3.0), bit (>= 4.0.0)
 Description:
   Package 'bit64' provides serializable S3 atomic 64bit (signed) integers.
   These are useful for handling database keys and exact counting in +-2^63.
@@ -24,6 +24,7 @@ LazyLoad: yes
 ByteCompile: yes
 URL: https://github.com/r-lib/bit64
 Encoding: UTF-8
+Imports: graphics, methods, stats, utils
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
