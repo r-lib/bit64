@@ -1,12 +1,12 @@
 #' A S3 class for vectors of 64bit integers
-#' @aliases bit64 is.integer.integer64 is.vector.integer64
-#' \description{
+#'
+#' @description
 #' Package 'bit64' provides fast serializable S3 atomic 64bit (signed) integers
 #' that can be used in vectors, matrices, arrays and data.frames. Methods are
 #' available for coercion from and to logicals, integers, doubles, characters
 #' and factors as well as many elementwise and summary functions.
-#' \cr
-#' \bold{Version 0.8}
+#'
+#' ### Version 0.8
 #' With 'integer64' vectors you can store very large integers at the expense
 #' of 64 bits, which is by factor 7 better than 'int64' from package 'int64'.
 #' Due to the smaller memory footprint, the atomic vector architecture and
@@ -15,8 +15,8 @@
 #' adding, 900x for coercion and 2000x for object creation. Also 'integer64'
 #' avoids an ongoing (potentially infinite) penalty for garbage collection
 #' observed during existence of 'int64' objects (see code in example section).
-#' \cr
-#' \bold{Version 0.9}
+#'
+#' ### Version 0.9
 #' Package 'bit64' - which extends R with fast 64-bit integers - now has fast
 #' (single-threaded) implementations the most important univariate algorithmic
 #' operations (those based on hashing and sorting). We now have methods for
@@ -36,53 +36,55 @@
 #'  faster than base 32-bit integers, hash-caching improved this to 24x,
 #' sortorder-caching was most efficient with 38x (caching hashing and sorting
 #' is not worth it with 32x at duplicated RAM consumption).
-#' }
-#' \details{
-#' \tabular{ll}{
-#'    Package: \tab bit64\cr
-#'    Type: \tab Package\cr
-#'    Version: \tab 0.5.0\cr
-#'    Date: \tab 2011-12-12\cr
-#'    License: \tab GPL-2\cr
-#'    LazyLoad: \tab yes\cr
-#'    Encoding: \tab latin1\cr
-#' }
-#' }
-#' \section{Design considerations}{
-#'   64 bit integers are related to big data: we need them to overcome address space limitations.
-#'   Therefore performance of the 64 bit integer type is critical.
-#'   In the S language -- designed in 1975 -- atomic objects were defined to be vectors for a couple of good reasons:
-#'   simplicity, option for implicit parallelization, good cache locality.
-#'   In recent years many analytical databases have learnt that lesson: column based data bases provide superior performance
-#'   for many applications, the result are products such as MonetDB, Sybase IQ, Vertica, Exasol, Ingres Vectorwise.
-#'   If we introduce 64 bit integers not natively in Base R but as an external package, we should at least strive to
-#'   make them as 'basic' as possible. Therefore the design choice of bit64 not only differs from \code{int64}, it is obvious:
-#'   Like the other atomic types in Base R, we model data type 'integer64' as a contiguous \code{\link{atomic}} vector in memory,
-#'   and we use the more basic \code{\link{S3}} class system, not \code{\link{S4}}. Like package \code{int64} we want our 'integer64' to be \code{\link{serialize}able},
-#'   therefore we also use an existing data type as the basis. Again the choice is obvious: R has only one 64 bit data type: doubles.
-#'   By using \code{\link{double}s}, \code{integer64} \code{\link{inherits}} some functionality such as \code{\link{is.atomic}}, \code{\link{length}},
-#'   \code{\link{length<-}}, \code{\link{names}}, \code{\link{names<-}}, \code{\link{dim}}, \code{\link{dim<-}}, \code{\link{dimnames}}, \code{\link{dimnames}}.
-#'   \cr
-#'   Our R level functions strictly follow the functional programming paragdim:
-#'   no modification of arguments or other side-effects. Before version 0.93  we internally deviated from the strict paradigm
-#'   in order to boost performance. Our C functions do not create new return values,
-#'   instead we pass-in the memory to be returned as an argument. This gives us the freedom to apply the C-function
-#'   to new or old vectors, which helps to avoid unnecessary memory allocation, unnecessary copying and unnecessary garbage collection.
-#'   Prior to 0.93 \emph{within} our R functions we also deviated from conventional R programming by not using \code{\link{attr<-}} and \code{\link{attributes<-}}
-#'   because they always did new memory allocation and copying in older R versions. If we wanted to set attributes of return values that we have freshly created,
-#'   we instead used functions \code{\link[bit:getsetattr]{setattr}} and \code{\link[bit:getsetattr]{setattributes}} from package \code{\link[bit]{bit}}.
-#'   From version 0.93 \code{\link[bit:getsetattr]{setattr}} is only used for manipulating \code{\link{cache}} objects, in \code{\link{ramsort.integer64}} and \code{\link{sort.integer64}} and in \code{\link{as.data.frame.integer64}}.
-#' }
-#' \section{Arithmetic precision and coercion}{
-#'   The fact that we introduce 64 bit long long integers -- without introducing 128-bit long doubles -- creates some subtle challenges:
-#'   Unlike 32 bit \code{\link{integer}s}, the \code{integer64} are no longer a proper subset of \code{\link{double}}.
-#'   If a binary arithmetic operation does involve a \code{double} and a \code{integer}, it is a no-brainer to return \code{double}
-#'   without loss of information. If an \code{integer64} meets a \code{double}, it is not trivial what type to return.
-#'   Switching to \code{integer64} limits our ability to represent very large numbers, switching to \code{double} limits our ability
-#'   to distinguish \code{x} from \code{x+1}. Since the latter is the purpose of introducing 64 bit integers, we usually return \code{integer64}
-#'   from functions involving \code{integer64}, for example in \code{\link[=c.integer64]{c}}, \code{\link[=cbind.integer64]{cbind}}
-#'   and \code{\link[=rbind.integer64]{rbind}}.
-#'   \cr
+#'
+#' ## Design considerations
+#'
+#' 64 bit integers are related to big data: we need them to overcome address space
+#' limitations. Therefore performance of the 64 bit integer type is critical. In the
+#' S language -- designed in 1975 -- atomic objects were defined to be vectors for a
+#' couple of good reasons: simplicity, option for implicit parallelization, good
+#' cache locality. In recent years many analytical databases have learnt that lesson:
+#' column based data bases provide superior performance for many applications, the
+#' result are products such as MonetDB, Sybase IQ, Vertica, Exasol, Ingres Vectorwise.
+#' If we introduce 64 bit integers not natively in Base R but as an external package,
+#' we should at least strive to make them as 'basic' as possible. Therefore the design
+#' choice of bit64 not only differs from {int64}, it is obvious: Like the other atomic
+#' types in Base R, we model data type 'integer64' as a contiguous [atomic] vector in
+#' memory, and we use the more basic [S3] class system, not [S4]. Like package {int64}
+#' we want our 'integer64' to be [serialize]able, therefore we also use an existing
+#' data type as the basis. Again the choice is obvious: R has only one 64 bit data
+#' type: doubles. By using [double]s, `integer64` [inherits] some functionality such
+#' as [is.atomic()], [length()], [length<-], [names()], [names<-], [dim()], [dim<-],
+#' [dimnames()], [dimnames<-].
+#'
+#' Our R level functions strictly follow the functional programming paradigm:
+#' no modification of arguments or other side-effects. Before version 0.93  we
+#' internally deviated from the strict paradigm in order to boost performance. Our C
+#' functions do not create new return values, instead we pass-in the memory to be
+#' returned as an argument. This gives us the freedom to apply the C-function to new
+#' or old vectors, which helps to avoid unnecessary memory allocation, unnecessary
+#' copying and unnecessary garbage collection. Prior to 0.93 _within_ our R functions
+#' we also deviated from conventional R programming by not using [attr<-] and
+#' [attributes<-] because they always did new memory allocation and copying in older
+#' R versions. If we wanted to set attributes of return values that we have freshly
+#' created, we instead used functions [bit::setattr()] and [bit::setattributes()].
+#' From version 0.93 `bit::setattr()` is only used for manipulating [cache] objects,
+#' in [ramsort.integer64()], [sort.integer64()], and [as.data.frame.integer64()].
+#'
+#' ## Arithmetic precision and coercion
+#'
+#' The fact that we introduce 64 bit long long integers -- without introducing 128-bit
+#' long doubles -- creates some subtle challenges: Unlike 32 bit [integer]s, the
+#' `integer64` are no longer a proper subset of [double]. If a binary arithmetic
+#' operation does involve a `double` and a `integer`, it is a no-brainer to return
+#' `double` without loss of information. If an `integer64` meets a `double`, it is not
+#' trivial what type to return. Switching to `integer64` limits our ability to
+#' represent very large numbers, switching to `double` limits our ability to
+#' distinguish `x` from `x+1`. Since the latter is the purpose of introducing 64 bit
+#' integers, we usually return `integer64` from functions involving `integer64`, for
+#' example in <[`c()`][c.integer64]>, <[`cbind()`][cbind.integer64]>, and
+#' <[`rbind()`][rbind.integer64]>
+#'
 #'   Different from Base R, our operators \code{\link[=+.integer64]{+}},
 #'   \code{\link[=-.integer64]{-}}, \code{\link[=\%/\%.integer64]{\%/\%}} and \code{\link[=\%\%.integer64]{\%\%}} coerce their arguments to
 #'   \code{integer64} and always return \code{integer64}.
@@ -112,7 +114,7 @@
 #'   integer64 \tab ^ \tab double \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
 #'   double \tab ^ \tab integer64 \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
 #'  }
-#' }
+#'
 #' \section{Creating and testing S3 class 'integer64'}{
 #'   Our creator function \code{integer64} takes an argument \code{length}, creates an atomic double vector of this length,
 #'   attaches an S3 class attribute 'integer64' to it, and that's it. We simply rely on S3 method dispatch and interpret those
@@ -856,6 +858,7 @@
 #'   }
 #'
 #' }
+#' @aliases bit64 is.integer.integer64 is.vector.integer64
 #' @keywords internal package classes manip
 "_PACKAGE"
 
