@@ -1101,13 +1101,21 @@ if (FALSE){
 }
 # nocov end
 
+#' @rdname bit64-package
+#' @param length length of vector using [integer()]
+#' @value `integer64` returns a vector of 'integer64', i.e.,
+#'   a vector of [double()] decorated with class 'integer64'.
+#' @export
 integer64 <- function(length=0L){
   ret <- double(length)
   oldClass(ret) <- "integer64"
   ret
 }
 
-is.integer64 <- function(x)inherits(x, "integer64")
+#' @rdname bit64-package
+#' @param x an integer64 vector
+#' @export
+is.integer64 <- function(x) inherits(x, "integer64")
 
 as.integer64.NULL <- function (x, ...){
   ret <- double()
@@ -1194,6 +1202,9 @@ NA_integer64_ <- unserialize(as.raw(c(
   0x00, 0x00, 0x09, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x65, 0x72, 0x36, 0x34, 0x00, 0x00, 0x00, 0xfe
 )))
 
+#' @rdname bit64-package
+#' @param value an integer64 vector of values to be assigned
+#' @export
 `length<-.integer64` <- function(x, value){
   cl <- oldClass(x)
   n <- length(x)
@@ -1214,7 +1225,11 @@ format.integer64 <- function(x, justify="right", ...){
   ret
 }
 
-print.integer64 <- function(x, quote=FALSE, ...){
+#' @rdname bit64-package
+#' @param quote logical, indicating whether or not strings should be printed with surrounding quotes.
+#' @param ... further arguments to the [NextMethod()]
+#' @export
+print.integer64 <- function(x, quote=FALSE, ...) {
   a <- attributes(x)
   if (length(x)){
     cat("integer64\n")
@@ -1228,6 +1243,10 @@ print.integer64 <- function(x, quote=FALSE, ...){
   invisible(x)
 }
 
+#' @rdname bit64-package
+#' @param object an integer64 vector
+#' @param vec.len,give.head,give.length see [utils::str()]
+#' @export
 str.integer64 <- function(object
 , vec.len  = strO$vec.len
 , give.head = TRUE

@@ -1,12 +1,5 @@
 #' A S3 class for vectors of 64bit integers
-#' \alias{bit64}
-#' \alias{integer64}
-#' \alias{is.integer64}
-#' \alias{is.integer.integer64}
-#' \alias{is.vector.integer64}
-#' \alias{length<-.integer64}
-#' \alias{print.integer64}
-#' \alias{str.integer64}
+#' @aliases bit64 is.integer.integer64 is.vector.integer64
 #' \description{
 #' Package 'bit64' provides fast serializable S3 atomic 64bit (signed) integers
 #' that can be used in vectors, matrices, arrays and data.frames. Methods are
@@ -43,24 +36,6 @@
 #'  faster than base 32-bit integers, hash-caching improved this to 24x,
 #' sortorder-caching was most efficient with 38x (caching hashing and sorting
 #' is not worth it with 32x at duplicated RAM consumption).
-#' }
-#' \usage{
-#'  integer64(length)
-#'  \method{is}{integer64}(x)
-#'  \method{length}{integer64}(x) <- value
-#'  \method{print}{integer64}(x, quote=FALSE, \dots)
-#'  \method{str}{integer64}(object, vec.len  = strO$vec.len, give.head = TRUE, give.length = give.head, \dots)
-#' }
-#' \arguments{
-#'   \item{length}{ length of vector using \code{\link{integer}} }
-#'   \item{x}{ an integer64 vector }
-#'   \item{object}{ an integer64 vector }
-#'   \item{value}{ an integer64 vector of values to be assigned }
-#'   \item{quote}{ logical, indicating whether or not strings should be printed with surrounding quotes. }
-#'   \item{vec.len}{ see \code{\link[utils]{str}} }
-#'   \item{give.head}{ see \code{\link[utils]{str}} }
-#'   \item{give.length}{ see \code{\link[utils]{str}} }
-#'   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
 #' }
 #' \details{
 #' \tabular{ll}{
@@ -410,19 +385,12 @@
 #'   \cr
 #'   see section "Arithmetic precision and coercion" above
 #' }
-#' \value{
-#'   \code{integer64} returns a vector of 'integer64',
-#'    i.e. a vector of \code{\link{double}} decorated with class 'integer64'.
-#' }
 #' \author{
 #' Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 #' Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 #' }
-#' \keyword{ package }
-#' \keyword{ classes }
-#' \keyword{ manip }
-#' \seealso{ \code{\link{integer}} in base R }
-#' \examples{
+#' @seealso  [integer()] in base R
+#' @examples
 #' message("Using integer64 in vector")
 #' x <- integer64(8)    # create 64 bit vector
 #' x
@@ -888,7 +856,7 @@
 #'   }
 #'
 #' }
-#' @keywords internal
+#' @keywords internal package classes manip
 "_PACKAGE"
 
 ## usethis namespace: start
