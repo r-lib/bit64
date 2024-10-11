@@ -283,60 +283,32 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
     invisible(x)
 }
 
-#' \name{is.sorted.integer64}
-#' \alias{is.sorted.integer64}
-#' \alias{na.count.integer64}
-#' \alias{nvalid.integer64}
-#' \alias{nunique.integer64}
-#' \alias{nties.integer64}
-#' \title{
-#'     Small cache access methods
-#' }
-#' \description{
-#'     These methods are packaged here for methods in packages `bit64` and `ff`.
-#' }
-#' \usage{
-#'     \method{is.sorted}{integer64}(x, \dots)
-#'     \method{na.count}{integer64}(x, \dots)
-#'     \method{nvalid}{integer64}(x, \dots)
-#'     \method{nunique}{integer64}(x, \dots)
-#'     \method{nties}{integer64}(x, \dots)
-#' }
-#' \arguments{
-#'   \item{x}{
-#'     some object
-#'     }
-#'   \item{\dots}{
-#'     ignored
-#'     }
-#' }
-#' \details{
-#'   All these functions benefit from a [sortcache()], [ordercache()] or [sortordercache()].
-#'   `na.count`, `nvalid` and `nunique` also benefit from a [hashcache()].
-#'    \cr
-#'     `is.sorted` checks for sortedness of `x` (NAs sorted first) \cr
-#'  `na.count` returns the number of `NA`s \cr
-#'  `nvalid` returns the number of valid data points, usually [length()] minus `na.count`. \cr
-#'  `nunique` returns the number of unique values \cr
-#'  `nties` returns the number of tied values.
-#' }
-#' \note{
-#'     If a [cache()] exists but the desired value is not cached,
-#'  then these functions will store their result in the cache.
-#'  We do not consider this a relevant side-effect,
-#'  since these small cache results do not have a relevant memory footprint.
-#' }
-#' \value{
-#'     `is.sorted` returns a logical scalar, the other methods return an integer scalar.
-#' }
-#' \author{
-#' Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#' }
-#' \seealso{
-#'     [cache()] for caching functions and [sortordercache()] for functions creating big caches
-#' }
-#' \examples{
-#'     x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#' Small cache access methods
+#'
+#' These methods are packaged here for methods in packages `bit64` and `ff`.
+#'
+#' @param x some object
+#' @param ... ignored
+#'
+#' @details
+#' All these functions benefit from a [sortcache()], [ordercache()] or
+#'   [sortordercache()]. `na.count()`, `nvalid()` and `nunique()` also
+#'   benefit from a [hashcache()].
+#'
+#' @note
+#' If a [cache()] exists but the desired value is not cached, then these
+#'   functions will store their result in the cache. We do not consider this
+#'   a relevant side-effect, since these small cache results do not have a
+#'   relevant memory footprint.
+#'
+#' @return
+#' `is.sorted` returns a logical scalar, the other methods return an integer scalar.
+#'
+#' @seealso
+#' [cache()] for caching functions and [sortordercache()] for functions creating big caches
+#'
+#' @examples
+#'  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #'  length(x)
 #'  na.count(x)
 #'  nvalid(x)
@@ -344,11 +316,13 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
 #'  nties(x)
 #'  table.integer64(x)
 #'  x
-#' }
-#' \keyword{ environment }
-#' \keyword{ methods }
+#'
+#' @keywords environment methods
+#' @name is.sorted.integer64
+NULL
 
-
+#' @describeIn is.sorted.integer64 returns the number of `NA`s
+#' @export
 na.count.integer64 <- function(x, ...){
   env <- cache(x)
   if (is.null(env))
@@ -360,10 +334,15 @@ na.count.integer64 <- function(x, ...){
   ret
 }
 
+#' @describeIn is.sorted.integer64 returns the number of valid data points,
+#'   usually [length()] minus `na.count`.
+#' @export
 nvalid.integer64 <- function(x, ...){
     length(x) - na.count(x)
 }
 
+#' @describeIn is.sorted.integer64 checks for sortedness of `x` (NAs sorted first)
+#' @export
 is.sorted.integer64 <- function(x, ...){
   env <- cache(x)
   if (is.null(env))
@@ -375,7 +354,8 @@ is.sorted.integer64 <- function(x, ...){
   ret
 }
 
-
+#' @describeIn is.sorted.integer64 returns the number of unique values
+#' @export
 nunique.integer64 <- function(x, ...){
     env <- cache(x)
     if(is.null(env))
@@ -402,6 +382,8 @@ nunique.integer64 <- function(x, ...){
     }
 }
 
+#' @describeIn is.sorted.integer64 returns the number of tied values.
+#' @export
 nties.integer64 <- function(x, ...){
     cv <- getcache(x, "nties")
     if (is.null(cv)){
