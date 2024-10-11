@@ -180,118 +180,130 @@
 #' |   [as.integer64.logical()] |      [logical()] |                 |
 #' |      [as.integer64.NULL()] |         [NULL()] |                 |
 #'
-#'    **coercing from integer64** | **see also**          | **description** |
-#'    [as.list.integer64()] | [as.list()] | generic |
-#'    [as.bitstring()] | [as.bitstring()] | generic |
-#'    [as.bitstring.integer64()] |  |  |
-#'    [as.character.integer64()] | [as.character()] |  |
-#'    [as.double.integer64()] | [as.double()] |  |
-#'    [as.integer.integer64()] | [as.integer()] |  |
-#'    [as.logical.integer64()] | [as.logical()] |  |
-#'    %as.vector.integer64 removed as requested by the CRAN maintainer [as.vector.integer64()] | [as.vector()] |  |
-#'  \cr
-#'    **data structures** | **see also**          | **description** |
-#'    [c.integer64()] | [c()] | vector concatenate |
-#'    [cbind.integer64()] | [cbind()] | column bind |
-#'    [rbind.integer64()] | [rbind()] | row bind |
-#'    [as.data.frame.integer64()] | [as.data.frame()] | coerce atomic object to data.frame |
-#'                                          | [data.frame()] | inherited from Base R since we have coercion |
-#'  \cr
-#'    **subscripting** | **see also**          | **description** |
-#'    [[.integer64()] | [[()] | vector and array extract |
-#'    [[<-.integer64()] | [[<-()] | vector and array assign |
-#'    [[[.integer64()] | [[[()] | scalar extract |
-#'    [[[<-.integer64()] | [[[<-()] | scalar assign |
-#'  \cr
-#'    **binary operators** | **see also**          | **description** |
-#'    [+.integer64()] | [+()] | returns integer64 |
-#'    [-.integer64()] | [-()] | returns integer64 |
-#'    [*.integer64()] | [*()] | returns integer64 |
-#'    [^.integer64()] | [^()] | returns double |
-#'    [/.integer64()] | [/()] | returns double |
-#'    [\%/\%.integer64()] | [\%/\%()] | returns integer64 |
-#'    [\%\%.integer64()] | [\%\%()] | returns integer64 |
-#'  \cr
-#'    **comparison operators** | **see also**          | **description** |
-#'    [==.integer64()] | [==()] |  |
-#'    [!=.integer64()] | [!=()] |  |
-#'    [<.integer64()] | [<()] |  |
-#'    [<=.integer64()] | [<=()] |  |
-#'    [>.integer64()] | [>()] |  |
-#'    [>=.integer64()] | [>=()] |  |
-#'  \cr
-#'    **logical operators** | **see also**          | **description** |
-#'    [!.integer64()] | [!()] |  |
-#'    [&.integer64()] | [&()] |  |
-#'    [|.integer64()] | [|()] |  |
-#'    [xor.integer64()] | [xor()] |  |
-#'  \cr
-#'    **math functions** | **see also**          | **description** |
-#'    [is.na.integer64()] | [is.na()] | returns logical |
-#'    [format.integer64()] | [format()] | returns character |
-#'    [abs.integer64()] | [abs()] | returns integer64 |
-#'    [sign.integer64()] | [sign()] | returns integer64 |
-#'    [log.integer64()] | [log()] | returns double |
-#'    [log10.integer64()] | [log10()] |  returns double |
-#'    [log2.integer64()] | [log2()] |  returns double |
-#'    [sqrt.integer64()] | [sqrt()] |  returns double |
-#'    [ceiling.integer64()] | [ceiling()] | dummy returning its argument |
-#'    [floor.integer64()] | [floor()] | dummy returning its argument |
-#'    [trunc.integer64()] | [trunc()] | dummy returning its argument |
-#'    [round.integer64()] | [round()] | dummy returning its argument |
-#'    [signif.integer64()] | [signif()] | dummy returning its argument |
-#'  \cr
-#'    **cumulative functions** | **see also**          | **description** |
-#'    [cummin.integer64()] | [cummin()] | |
-#'    [cummax.integer64()] | [cummax()] | |
-#'    [cumsum.integer64()] | [cumsum()] | |
-#'    [cumprod.integer64()] | [cumprod()] | |
-#'    [diff.integer64()] | [diff()] | |
-#'  \cr
-#'    **summary functions** | **see also**          | **description** |
-#'    [range.integer64()] | [range()] | |
-#'    [min.integer64()] | [min()] |  |
-#'    [max.integer64()] | [max()] |  |
-#'    [sum.integer64()] | [sum()] |  |
-#'    [mean.integer64()] | [mean()] |  |
-#'    [prod.integer64()] | [prod()] |  |
-#'    [all.integer64()] | [all()] |  |
-#'    [any.integer64()] | [any()] |  |
-#'  \cr
-#'    **algorithmically complex functions** | **see also**          | **description (caching)**  |
-#'    [match.integer64()] | [match()] | position of x in table (h//o/so) |
-#'    [\%in\%.integer64()] | [\%in\%()] | is x in table? (h//o/so) |
-#'    [duplicated.integer64()] | [duplicated()] | is current element duplicate of previous one? (h//o/so) |
-#'    [unique.integer64()] | [unique()] | (shorter) vector of unique values only (h/s/o/so) |
-#'    [unipos.integer64()] | [unipos()] | positions corresponding to unique values (h/s/o/so) |
-#'    [tiepos.integer64()] | [tiepos()] | positions of values that are tied (//o/so) |
-#'    [keypos.integer64()] | [keypos()] | position of current value in sorted list of unique values (//o/so) |
-#'    [as.factor.integer64()] | [as.factor()] | convert to (unordered) factor with sorted levels of previous values (//o/so) |
-#'    [as.ordered.integer64()] | [as.ordered()] | convert to ordered factor with sorted levels of previous values (//o/so) |
-#'    [table.integer64()] | [table()] | unique values and their frequencies (h/s/o/so) |
-#'    [sort.integer64()] | [sort()] | sorted vector (/s/o/so) |
-#'    [order.integer64()] | [order()] | positions of elements that would create sorted vector (//o/so) |
-#'    [rank.integer64()] | [rank()] | (average) ranks of non-NAs, NAs kept in place (/s/o/so) |
-#'    [quantile.integer64()] | [quantile()] | (existing) values at specified percentiles (/s/o/so) |
-#'    [median.integer64()] | [median()] | (existing) value at percentile 0.5 (/s/o/so) |
-#'    [summary.integer64()] | [summary()] |  (/s/o/so) |
-#'    [all.equal.integer64()] | [all.equal()] | test if two objects are (nearly) equal (/s/o/so) |
-#'  \cr
-#'    **helper functions** | **see also**          | **description** |
-#'    [minusclass()] | [minusclass()] | removing class attritbute |
-#'    [plusclass()] | [plusclass()] | inserting class attribute |
-#'    [binattr()] | [binattr()] | define binary op behaviour |
-#'  |
-#'    **tested I/O functions** | **see also**          | **description** |
-#'                                | [read.table()] | inherited from Base R |
-#'                                | [write.table()] | inherited from Base R |
-#'                                | [serialize()] | inherited from Base R |
-#'                                | [unserialize()] | inherited from Base R |
-#'                                | [save()] | inherited from Base R |
-#'                                | [load()] | inherited from Base R |
-#'                                | [dput()] | inherited from Base R |
-#'                                | [dget()] | inherited from Base R |
-#' }
+#' | **coercing from integer64** | **see also**     | **description** |
+#' |----------------------------:|-----------------:|:----------------|
+#' |       [as.list.integer64()] |      [as.list()] | generic         |
+#' |            [as.bitstring()] | [as.bitstring()] | generic         |
+#' |  [as.bitstring.integer64()] |                  |                 |
+#' |  [as.character.integer64()] | [as.character()] |                 |
+#' |     [as.double.integer64()] |    [as.double()] |                 |
+#' |    [as.integer.integer64()] |   [as.integer()] |                 |
+#' |    [as.logical.integer64()] |   [as.logical()] |                 |
+# removed as requested by the CRAN maintainer
+#  |     [as.vector.integer64()] |    [as.vector()] |                 |
+#'
+#' | **data structures**         | **see also**      | **description**                    |
+#' |----------------------------:|------------------:|:-----------------------------------|
+#' |             [c.integer64()] |             [c()] | vector concatenate                 |
+#' |         [cbind.integer64()] |         [cbind()] | column bind                        |
+#' |         [rbind.integer64()] |         [rbind()] | row bind                           |
+#' | [as.data.frame.integer64()] | [as.data.frame()] | coerce atomic object to data.frame |
+#'                               |    [data.frame()] | inherited from Base R since we have coercion |
+#'
+#' | **subscripting**   | **see also**   | **description**          |
+#' |-------------------:|---------------:|:-------------------------|
+#' |    [`[.integer64`] |          [`[`] | vector and array extract |
+#' |  [`[<-.integer64`] |        [`[<-`] | vector and array assign  |
+#' |   [`[[.integer64`] |         [`[[`] | scalar extract           |
+#' | [`[[<-.integer64`] |       [`[[<-`] | scalar assign            |
+#'
+#' | **binary operators** | **see also** | **description**   |
+#' |---------------------:|-------------:|:------------------|
+#' |      [+.integer64()] |        [`+`] | returns integer64 |
+#' |      [-.integer64()] |        [`-`] | returns integer64 |
+#' |      [*.integer64()] |        [`*`] | returns integer64 |
+#' |      [^.integer64()] |        [`^`] | returns double    |
+#' |      [/.integer64()] |        [`/`] | returns double    |
+#' |    [%/%.integer64()] |        [%/%] | returns integer64 |
+#' |     [%%.integer64()] |         [%%] | returns integer64 |
+#'
+#' | **comparison operators** | **see also** | **description** |
+#' |-------------------------:|-------------:|:----------------|
+#' |           [==.integer64] |         [==] | |
+#' |           [!=.integer64] |         [!=] | |
+#' |            [<.integer64] |          [<] | |
+#' |           [<=.integer64] |         [<=] | |
+#' |            [>.integer64] |          [>] | |
+#' |           [>=.integer64] |         [>=] | |
+#'
+#' | **logical operators** | **see also** | **description** |
+#' |----------------------:|-------------:|:----------------|
+#' |         [!.integer64] |          [!] | |
+#' |         [&.integer64] |          [&] | |
+#' |         [|.integer64] |          [|] | |
+#' |       [xor.integer64] |      [xor()] | |
+#'
+#' | **math functions**    | **see also** | **description**              |
+#' |----------------------:|-------------:|:-----------------------------|
+#' |   [is.na.integer64()] |    [is.na()] | returns logical              |
+#' |  [format.integer64()] |   [format()] | returns character            |
+#' |     [abs.integer64()] |      [abs()] | returns integer64            |
+#' |    [sign.integer64()] |     [sign()] | returns integer64            |
+#' |     [log.integer64()] |      [log()] | returns double               |
+#' |   [log10.integer64()] |    [log10()] | returns double               |
+#' |    [log2.integer64()] |     [log2()] | returns double               |
+#' |    [sqrt.integer64()] |     [sqrt()] | returns double               |
+#' | [ceiling.integer64()] |  [ceiling()] | dummy returning its argument |
+#' |   [floor.integer64()] |    [floor()] | dummy returning its argument |
+#' |   [trunc.integer64()] |    [trunc()] | dummy returning its argument |
+#' |   [round.integer64()] |    [round()] | dummy returning its argument |
+#' |  [signif.integer64()] |   [signif()] | dummy returning its argument |
+#'
+#' | **cumulative functions** | **see also** | **description** |
+#' |-------------------------:|-------------:|:----------------|
+#' |     [cummin.integer64()] |   [cummin()] | |
+#' |     [cummax.integer64()] |   [cummax()] | |
+#' |     [cumsum.integer64()] |   [cumsum()] | |
+#' |    [cumprod.integer64()] |  [cumprod()] | |
+#' |       [diff.integer64()] |     [diff()] | |
+#'
+#' | **summary functions** | **see also** | **description** |
+#' |----------------------:|-------------:|:----------------|
+#' |   [range.integer64()] |    [range()] | |
+#' |     [min.integer64()] |      [min()] | |
+#' |     [max.integer64()] |      [max()] | |
+#' |     [sum.integer64()] |      [sum()] | |
+#' |    [mean.integer64()] |     [mean()] | |
+#' |    [prod.integer64()] |     [prod()] | |
+#' |     [all.integer64()] |      [all()] | |
+#' |     [any.integer64()] |      [any()] | |
+#'
+#' | **algorithmically complex functions** | **see also** | **description (caching)**  |
+#' |--------------------------------------:|-------------:|:---------------------------|
+#' |      [match.integer64()] |      [match()] | position of x in table (h//o/so) |
+#' |         [%in%.integer64] |         [%in%] | is x in table? (h//o/so) |
+#' | [duplicated.integer64()] | [duplicated()] | is current element duplicate of previous one? (h//o/so) |
+#' |     [unique.integer64()] |     [unique()] | (shorter) vector of unique values only (h/s/o/so) |
+#' |     [unipos.integer64()] |     [unipos()] | positions corresponding to unique values (h/s/o/so) |
+#' |     [tiepos.integer64()] |     [tiepos()] | positions of values that are tied (//o/so) |
+#' |     [keypos.integer64()] |     [keypos()] | position of current value in sorted list of unique values (//o/so) |
+#' |  [as.factor.integer64()] |  [as.factor()] | convert to (unordered) factor with sorted levels of previous values (//o/so) |
+#' | [as.ordered.integer64()] | [as.ordered()] | convert to ordered factor with sorted levels of previous values (//o/so) |
+#' |      [table.integer64()] |      [table()] | unique values and their frequencies (h/s/o/so) |
+#' |       [sort.integer64()] |       [sort()] | sorted vector (/s/o/so) |
+#' |      [order.integer64()] |      [order()] | positions of elements that would create sorted vector (//o/so) |
+#' |       [rank.integer64()] |       [rank()] | (average) ranks of non-NAs, NAs kept in place (/s/o/so) |
+#' |   [quantile.integer64()] |   [quantile()] | (existing) values at specified percentiles (/s/o/so) |
+#' |     [median.integer64()] |     [median()] | (existing) value at percentile 0.5 (/s/o/so) |
+#' |    [summary.integer64()] |    [summary()] | (/s/o/so) |
+#' |  [all.equal.integer64()] |  [all.equal()] | test if two objects are (nearly) equal (/s/o/so) |
+#'
+#' | **helper functions** | **see also**   | **description**            |
+#' |-----------------:|---------------:|:---------------------------|
+#' |   [minusclass()] | [minusclass()] |  removing class attritbute |
+#' |    [plusclass()] |  [plusclass()] |  inserting class attribute |
+#' |      [binattr()] |    [binattr()] | define binary op behaviour |
+#'
+#' | **tested I/O functions** | **see also**    | **description**       |
+#' |-------------------------:|----------------:|:----------------------|
+#' |                          |  [read.table()] | inherited from Base R |
+#' |                          | [write.table()] | inherited from Base R |
+#' |                          |   [serialize()] | inherited from Base R |
+#' |                          | [unserialize()] | inherited from Base R |
+#' |                          |        [save()] | inherited from Base R |
+#' |                          |        [load()] | inherited from Base R |
+#' |                          |        [dput()] | inherited from Base R |
+#' |                          |        [dget()] | inherited from Base R |
 #'
 #' ## Limitations inherited from implementing 64 bit integers via an external package
 #'
