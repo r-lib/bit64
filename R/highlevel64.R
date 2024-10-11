@@ -8,285 +8,288 @@
 # Last changed:  2011-12-11
 # */
 
-#! \name{benchmark64}
-#! \alias{benchmark64}
-#! \alias{optimizer64}
-#! \title{
-#!  Function for measuring algorithmic performance \cr
-#!  of high-level and low-level integer64 functions
-#! }
-#! \description{
-#!  \code{benchmark64} compares high-level integer64 functions against the integer functions from Base R \cr
-#!  \code{optimizer64} compares for each high-level integer64 function the Base R integer function with several low-level integer64 functions with and without caching \cr
-#! }
-#! \usage{
-#! benchmark64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
-#! )
-#! optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
-#! , what = c("match", "\%in\%", "duplicated", "unique", "unipos", "table", "rank", "quantile")
-#! , uniorder = c("original", "values", "any")
-#! , taborder = c("values", "counts")
-#! , plot = TRUE
-#! )
-#! }
-#! \arguments{
-#!   \item{nsmall}{ size of smaller vector }
-#!   \item{nbig}{ size of larger bigger vector }
-#!   \item{timefun}{ a function for timing such as \code{\link[bit]{repeat.time}} or \code{\link{system.time}} }
-#!   \item{what}{
-#!  a vector of names of high-level functions
-#! }
-#!   \item{uniorder}{
-#!  one of the order parameters that are allowed in \code{\link{unique.integer64}} and \code{\link{unipos.integer64}}
-#! }
-#!   \item{taborder}{
-#!  one of the order parameters that are allowed in \code{\link{table.integer64}}
-#! }
-#!   \item{plot}{
-#!  set to FALSE to suppress plotting
-#! }
-#! }
-#! \details{
-#!  \code{benchmark64} compares the following scenarios for the following use cases:
-#!  \tabular{rl}{
-#!   \bold{scenario name} \tab \bold{explanation} \cr
-#!   32-bit  \tab applying Base R function to 32-bit integer data \cr
-#!   64-bit \tab applying bit64 function to 64-bit integer data (with no cache) \cr
-#!   hashcache \tab dito when cache contains \code{\link{hashmap}}, see \code{\link{hashcache}} \cr
-#!   sortordercache \tab dito when cache contains sorting and ordering, see \code{\link{sortordercache}} \cr
-#!   ordercache \tab dito when cache contains ordering only, see \code{\link{ordercache}} \cr
-#!   allcache \tab dito when cache contains sorting, ordering and hashing \cr
-#!  }
-#!  \tabular{rl}{
-#!   \bold{use case name} \tab \bold{explanation} \cr
-#!   cache         \tab filling the cache according to scenario \cr
-#!   match(s,b)    \tab match small in big vector \cr
-#!   s \%in\% b      \tab small \%in\% big vector \cr
-#!   match(b,s)    \tab match big in small vector \cr
-#!   b \%in\% s      \tab big \%in\% small vector \cr
-#!   match(b,b)    \tab match big in (different) big vector \cr
-#!   b \%in\% b      \tab big \%in\% (different) big vector \cr
-#!   duplicated(b) \tab duplicated of big vector \cr
-#!   unique(b)     \tab unique of big vector \cr
-#!   table(b)      \tab table of big vector \cr
-#!   sort(b)       \tab sorting of big vector \cr
-#!   order(b)      \tab ordering of big vector \cr
-#!   rank(b)       \tab ranking of big vector \cr
-#!   quantile(b)   \tab quantiles of big vector \cr
-#!   summary(b)    \tab summary of of big vector \cr
-#!   SESSION       \tab exemplary session involving multiple calls (including cache filling costs) \cr
-#!  }
-#!  Note that the timings for the cached variants do \emph{not} contain the time costs of building the cache, except for the timing of the exemplary user session, where the cache costs are included in order to evaluate amortization.
-#! }
-#! \value{
-#!  \code{benchmark64} returns a matrix with elapsed seconds, different high-level tasks in rows and different scenarios to solve the task in columns. The last row named 'SESSION' contains the elapsed seconds of the exemplary sesssion.
-#!  \cr
-#!  \code{optimizer64} returns a dimensioned list with one row for each high-level function timed and two columns named after the values of the \code{nsmall} and \code{nbig} sample sizes. Each list cell contains a matrix with timings, low-level-methods in rows and three measurements \code{c("prep","both","use")} in columns. If it can be measured separately, \code{prep} contains the timing of preparatory work such as sorting and hashing, and \code{use} contains the timing of using the prepared work. If the function timed does both, preparation and use, the timing is in \code{both}.
-#! }
-#! \author{
-#!  Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \seealso{
-#!  \code{\link{integer64}}
-#! }
-#! \examples{
-#! message("this small example using system.time does not give serious timings\n
-#! this we do this only to run regression tests")
-#! benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFirst=FALSE))
-#! optimizer64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFirst=FALSE)
-#! , plot=FALSE
-#! )
-#!\dontrun{
-#! message("for real measurement of sufficiently large datasets run this on your machine")
-#! benchmark64()
-#! optimizer64()
-#!}
-#! message("let's look at the performance results on Core i7 Lenovo T410 with 8 GB RAM")
-#! data(benchmark64.data)
-#! print(benchmark64.data)
-#!
-#! matplot(log2(benchmark64.data[-1,1]/benchmark64.data[-1,])
-#! , pch=c("3", "6", "h", "s", "o", "a")
-#! , xlab="tasks [last=session]"
-#! , ylab="log2(relative speed) [bigger is better]"
-#! )
-#! matplot(t(log2(benchmark64.data[-1,1]/benchmark64.data[-1,]))
-#! , type="b", axes=FALSE
-#! , lwd=c(rep(1, 14), 3)
-#! , xlab="context"
-#! , ylab="log2(relative speed) [bigger is better]"
-#! )
-#! axis(1
-#! , labels=c("32-bit", "64-bit", "hash", "sortorder", "order", "hash+sortorder")
-#! , at=1:6
-#! )
-#! axis(2)
-#! data(optimizer64.data)
-#! print(optimizer64.data)
-#! oldpar <- par(no.readonly = TRUE)
-#! par(mfrow=c(2,1))
-#! par(cex=0.7)
-#! for (i in 1:nrow(optimizer64.data)){
-#!  for (j in 1:2){
-#!    tim <- optimizer64.data[[i,j]]
-#!   barplot(t(tim))
-#!   if (rownames(optimizer64.data)[i]=="match")
-#!    title(paste("match", colnames(optimizer64.data)[j], "in", colnames(optimizer64.data)[3-j]))
-#!   else if (rownames(optimizer64.data)[i]=="\%in\%")
-#!    title(paste(colnames(optimizer64.data)[j], "\%in\%", colnames(optimizer64.data)[3-j]))
-#!   else
-#!    title(paste(rownames(optimizer64.data)[i], colnames(optimizer64.data)[j]))
-#!  }
-#! }
-#! par(mfrow=c(1,1))
-#!}
-#! \keyword{ misc }
+#' \name{benchmark64}
+#' \alias{benchmark64}
+#' \alias{optimizer64}
+#' \title{
+#'  Function for measuring algorithmic performance \cr
+#'  of high-level and low-level integer64 functions
+#' }
+#' \description{
+#'  `benchmark64` compares high-level integer64 functions against the integer functions from Base R \cr
+#'  `optimizer64` compares for each high-level integer64 function the Base R integer function with several low-level integer64 functions with and without caching \cr
+#' }
+#' \usage{
+#' benchmark64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
+#' )
+#' optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
+#' , what = c("match", "\%in\%", "duplicated", "unique", "unipos", "table", "rank", "quantile")
+#' , uniorder = c("original", "values", "any")
+#' , taborder = c("values", "counts")
+#' , plot = TRUE
+#' )
+#' }
+#' \arguments{
+#'   \item{nsmall}{ size of smaller vector }
+#'   \item{nbig}{ size of larger bigger vector }
+#'   \item{timefun}{ a function for timing such as \code{\link[bit]{repeat.time}} or [system.time()] }
+#'   \item{what}{
+#'  a vector of names of high-level functions
+#' }
+#'   \item{uniorder}{
+#'  one of the order parameters that are allowed in [unique.integer64()] and [unipos.integer64()]
+#' }
+#'   \item{taborder}{
+#'  one of the order parameters that are allowed in [table.integer64()]
+#' }
+#'   \item{plot}{
+#'  set to FALSE to suppress plotting
+#' }
+#' }
+#' \details{
+#'  `benchmark64` compares the following scenarios for the following use cases:
+#'  \tabular{rl}{
+#'   \bold{scenario name} \tab \bold{explanation} \cr
+#'   32-bit  \tab applying Base R function to 32-bit integer data \cr
+#'   64-bit \tab applying bit64 function to 64-bit integer data (with no cache) \cr
+#'   hashcache \tab dito when cache contains [hashmap()], see [hashcache()] \cr
+#'   sortordercache \tab dito when cache contains sorting and ordering, see [sortordercache()] \cr
+#'   ordercache \tab dito when cache contains ordering only, see [ordercache()] \cr
+#'   allcache \tab dito when cache contains sorting, ordering and hashing \cr
+#'  }
+#'  \tabular{rl}{
+#'   \bold{use case name} \tab \bold{explanation} \cr
+#'   cache         \tab filling the cache according to scenario \cr
+#'   match(s,b)    \tab match small in big vector \cr
+#'   s \%in\% b      \tab small \%in\% big vector \cr
+#'   match(b,s)    \tab match big in small vector \cr
+#'   b \%in\% s      \tab big \%in\% small vector \cr
+#'   match(b,b)    \tab match big in (different) big vector \cr
+#'   b \%in\% b      \tab big \%in\% (different) big vector \cr
+#'   duplicated(b) \tab duplicated of big vector \cr
+#'   unique(b)     \tab unique of big vector \cr
+#'   table(b)      \tab table of big vector \cr
+#'   sort(b)       \tab sorting of big vector \cr
+#'   order(b)      \tab ordering of big vector \cr
+#'   rank(b)       \tab ranking of big vector \cr
+#'   quantile(b)   \tab quantiles of big vector \cr
+#'   summary(b)    \tab summary of of big vector \cr
+#'   SESSION       \tab exemplary session involving multiple calls (including cache filling costs) \cr
+#'  }
+#'  Note that the timings for the cached variants do \emph{not} contain the time costs of building the cache, except for the timing of the exemplary user session, where the cache costs are included in order to evaluate amortization.
+#' }
+#' \value{
+#'  `benchmark64` returns a matrix with elapsed seconds, different high-level tasks in rows and different scenarios to solve the task in columns. The last row named 'SESSION' contains the elapsed seconds of the exemplary sesssion.
+#'  \cr
+#'  `optimizer64` returns a dimensioned list with one row for each high-level function timed and two columns named after the values of the `nsmall` and `nbig` sample sizes. Each list cell contains a matrix with timings, low-level-methods in rows and three measurements `c("prep","both","use")` in columns. If it can be measured separately, `prep` contains the timing of preparatory work such as sorting and hashing, and `use` contains the timing of using the prepared work. If the function timed does both, preparation and use, the timing is in `both`.
+#' }
+#' \author{
+#'  Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+#' }
+#' \seealso{
+#'  [integer64()]
+#' }
+#' \examples{
+#' message("this small example using system.time does not give serious timings\n
+#' this we do this only to run regression tests")
+#' benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFirst=FALSE))
+#' optimizer64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFirst=FALSE)
+#' , plot=FALSE
+#' )
+#'\dontrun{
+#' message("for real measurement of sufficiently large datasets run this on your machine")
+#' benchmark64()
+#' optimizer64()
+#'}
+#' message("let's look at the performance results on Core i7 Lenovo T410 with 8 GB RAM")
+#' data(benchmark64.data)
+#' print(benchmark64.data)
+#'
+#' matplot(log2(benchmark64.data[-1,1]/benchmark64.data[-1,])
+#' , pch=c("3", "6", "h", "s", "o", "a")
+#' , xlab="tasks [last=session]"
+#' , ylab="log2(relative speed) [bigger is better]"
+#' )
+#' matplot(t(log2(benchmark64.data[-1,1]/benchmark64.data[-1,]))
+#' , type="b", axes=FALSE
+#' , lwd=c(rep(1, 14), 3)
+#' , xlab="context"
+#' , ylab="log2(relative speed) [bigger is better]"
+#' )
+#' axis(1
+#' , labels=c("32-bit", "64-bit", "hash", "sortorder", "order", "hash+sortorder")
+#' , at=1:6
+#' )
+#' axis(2)
+#' data(optimizer64.data)
+#' print(optimizer64.data)
+#' oldpar <- par(no.readonly = TRUE)
+#' par(mfrow=c(2,1))
+#' par(cex=0.7)
+#' for (i in 1:nrow(optimizer64.data)){
+#'  for (j in 1:2){
+#'    tim <- optimizer64.data[[i,j]]
+#'   barplot(t(tim))
+#'   if (rownames(optimizer64.data)[i]=="match")
+#'    title(paste("match", colnames(optimizer64.data)[j], "in", colnames(optimizer64.data)[3-j]))
+#'   else if (rownames(optimizer64.data)[i]=="\%in\%")
+#'    title(paste(colnames(optimizer64.data)[j], "\%in\%", colnames(optimizer64.data)[3-j]))
+#'   else
+#'    title(paste(rownames(optimizer64.data)[i], colnames(optimizer64.data)[j]))
+#'  }
+#' }
+#' par(mfrow=c(1,1))
+#'}
+#' \keyword{ misc }
+NULL
 
-#! \name{benchmark64.data}
-#! \alias{benchmark64.data}
-#! \docType{data}
-#! \title{
-#!  Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM under Windows 7 64bit
-#! }
-#! \description{
-#!   These are the results of calling \code{\link{benchmark64}}
-#! }
-#! \usage{data(benchmark64.data)}
-#! \format{
-#!   The format is:
-#!  num [1:16, 1:6] 2.55e-05 2.37 2.39 1.28 1.39 ...
-#!  - attr(*, "dimnames")=List of 2
-#!   ..$ : chr [1:16] "cache" "match(s,b)" "s \%in\% b" "match(b,s)" ...
-#!   ..$ : chr [1:6] "32-bit" "64-bit" "hashcache" "sortordercache" ...
-#! }
-#! \examples{
-#! data(benchmark64.data)
-#! print(benchmark64.data)
-#! matplot(log2(benchmark64.data[-1,1]/benchmark64.data[-1,])
-#! , pch=c("3", "6", "h", "s", "o", "a")
-#! , xlab="tasks [last=session]"
-#! , ylab="log2(relative speed) [bigger is better]"
-#! )
-#! matplot(t(log2(benchmark64.data[-1,1]/benchmark64.data[-1,]))
-#! , axes=FALSE
-#! , type="b"
-#! , lwd=c(rep(1, 14), 3)
-#! , xlab="context"
-#! , ylab="log2(relative speed) [bigger is better]"
-#! )
-#! axis(1
-#! , labels=c("32-bit", "64-bit", "hash", "sortorder", "order", "hash+sortorder")
-#! , at=1:6
-#! )
-#! axis(2)
-#! }
-#! \keyword{datasets}
+#' \name{benchmark64.data}
+#' \alias{benchmark64.data}
+#' \docType{data}
+#' \title{
+#'  Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM under Windows 7 64bit
+#' }
+#' \description{
+#'   These are the results of calling [benchmark64()]
+#' }
+#' \usage{data(benchmark64.data)}
+#' \format{
+#'   The format is:
+#'  num [1:16, 1:6] 2.55e-05 2.37 2.39 1.28 1.39 ...
+#'  - attr(*, "dimnames")=List of 2
+#'   ..$ : chr [1:16] "cache" "match(s,b)" "s \%in\% b" "match(b,s)" ...
+#'   ..$ : chr [1:6] "32-bit" "64-bit" "hashcache" "sortordercache" ...
+#' }
+#' \examples{
+#' data(benchmark64.data)
+#' print(benchmark64.data)
+#' matplot(log2(benchmark64.data[-1,1]/benchmark64.data[-1,])
+#' , pch=c("3", "6", "h", "s", "o", "a")
+#' , xlab="tasks [last=session]"
+#' , ylab="log2(relative speed) [bigger is better]"
+#' )
+#' matplot(t(log2(benchmark64.data[-1,1]/benchmark64.data[-1,]))
+#' , axes=FALSE
+#' , type="b"
+#' , lwd=c(rep(1, 14), 3)
+#' , xlab="context"
+#' , ylab="log2(relative speed) [bigger is better]"
+#' )
+#' axis(1
+#' , labels=c("32-bit", "64-bit", "hash", "sortorder", "order", "hash+sortorder")
+#' , at=1:6
+#' )
+#' axis(2)
+#' }
+#' \keyword{datasets}
+NULL
 
+#' \name{optimizer64.data}
+#' \alias{optimizer64.data}
+#' \docType{data}
+#' \title{
+#'  Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM under Windows 7 64bit
+#' }
+#' \description{
+#'   These are the results of calling [optimizer64()]
+#' }
+#' \usage{data(optimizer64.data)}
+#' \format{
+#'   The format is:
+#' List of 16
+#'  $ : num [1:9, 1:3] 0 0 1.63 0.00114 2.44 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:9] "match" "match.64" "hashpos" "hashrev" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:10, 1:3] 0 0 0 1.62 0.00114 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:10] "\%in\%" "match.64" "\%in\%.64" "hashfin" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:10, 1:3] 0 0 0.00105 0.00313 0.00313 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:10] "duplicated" "duplicated.64" "hashdup" "sortorderdup1" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:15, 1:3] 0 0 0 0.00104 0.00104 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:15] "unique" "unique.64" "hashmapuni" "hashuni" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:14, 1:3] 0 0 0 0.000992 0.000992 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:14] "unique" "unipos.64" "hashmapupo" "hashupo" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:13, 1:3] 0 0 0 0 0.000419 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:13] "tabulate" "table" "table.64" "hashmaptab" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:7, 1:3] 0 0 0 0.00236 0.00714 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:7] "rank" "rank.keep" "rank.64" "sortorderrnk" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:6, 1:3] 0 0 0.00189 0.00714 0 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:6] "quantile" "quantile.64" "sortqtl" "orderqtl" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:9, 1:3] 0 0 0.00105 1.17 0 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:9] "match" "match.64" "hashpos" "hashrev" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:10, 1:3] 0 0 0 0.00104 1.18 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:10] "\%in\%" "match.64" "\%in\%.64" "hashfin" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:10, 1:3] 0 0 1.64 2.48 2.48 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:10] "duplicated" "duplicated.64" "hashdup" "sortorderdup1" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:15, 1:3] 0 0 0 1.64 1.64 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:15] "unique" "unique.64" "hashmapuni" "hashuni" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:14, 1:3] 0 0 0 1.62 1.62 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:14] "unique" "unipos.64" "hashmapupo" "hashupo" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:13, 1:3] 0 0 0 0 0.32 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:13] "tabulate" "table" "table.64" "hashmaptab" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:7, 1:3] 0 0 0 2.96 10.69 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:7] "rank" "rank.keep" "rank.64" "sortorderrnk" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  $ : num [1:6, 1:3] 0 0 1.62 10.61 0 ...
+#'   ..- attr(*, "dimnames")=List of 2
+#'   .. ..$ : chr [1:6] "quantile" "quantile.64" "sortqtl" "orderqtl" ...
+#'   .. ..$ : chr [1:3] "prep" "both" "use"
+#'  - attr(*, "dim")= int [1:2] 8 2
+#'  - attr(*, "dimnames")=List of 2
+#'   ..$ : chr [1:8] "match" "\%in\%" "duplicated" "unique" ...
+#'   ..$ : chr [1:2] "65536" "33554432"
+#' }
+#' \examples{
+#' data(optimizer64.data)
+#' print(optimizer64.data)
+#' oldpar <- par(no.readonly = TRUE)
+#' par(mfrow=c(2,1))
+#' par(cex=0.7)
+#' for (i in 1:nrow(optimizer64.data)){
+#'  for (j in 1:2){
+#'    tim <- optimizer64.data[[i,j]]
+#'   barplot(t(tim))
+#'   if (rownames(optimizer64.data)[i]=="match")
+#'    title(paste("match", colnames(optimizer64.data)[j], "in", colnames(optimizer64.data)[3-j]))
+#'   else if (rownames(optimizer64.data)[i]=="\%in\%")
+#'    title(paste(colnames(optimizer64.data)[j], "\%in\%", colnames(optimizer64.data)[3-j]))
+#'   else
+#'    title(paste(rownames(optimizer64.data)[i], colnames(optimizer64.data)[j]))
+#'  }
+#' }
+#' par(mfrow=c(1,1))
+#' }
+#' \keyword{datasets}
+NULL
 
-#! \name{optimizer64.data}
-#! \alias{optimizer64.data}
-#! \docType{data}
-#! \title{
-#!  Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM under Windows 7 64bit
-#! }
-#! \description{
-#!   These are the results of calling \code{\link{optimizer64}}
-#! }
-#! \usage{data(optimizer64.data)}
-#! \format{
-#!   The format is:
-#! List of 16
-#!  $ : num [1:9, 1:3] 0 0 1.63 0.00114 2.44 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:9] "match" "match.64" "hashpos" "hashrev" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:10, 1:3] 0 0 0 1.62 0.00114 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:10] "\%in\%" "match.64" "\%in\%.64" "hashfin" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:10, 1:3] 0 0 0.00105 0.00313 0.00313 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:10] "duplicated" "duplicated.64" "hashdup" "sortorderdup1" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:15, 1:3] 0 0 0 0.00104 0.00104 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:15] "unique" "unique.64" "hashmapuni" "hashuni" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:14, 1:3] 0 0 0 0.000992 0.000992 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:14] "unique" "unipos.64" "hashmapupo" "hashupo" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:13, 1:3] 0 0 0 0 0.000419 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:13] "tabulate" "table" "table.64" "hashmaptab" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:7, 1:3] 0 0 0 0.00236 0.00714 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:7] "rank" "rank.keep" "rank.64" "sortorderrnk" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:6, 1:3] 0 0 0.00189 0.00714 0 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:6] "quantile" "quantile.64" "sortqtl" "orderqtl" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:9, 1:3] 0 0 0.00105 1.17 0 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:9] "match" "match.64" "hashpos" "hashrev" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:10, 1:3] 0 0 0 0.00104 1.18 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:10] "\%in\%" "match.64" "\%in\%.64" "hashfin" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:10, 1:3] 0 0 1.64 2.48 2.48 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:10] "duplicated" "duplicated.64" "hashdup" "sortorderdup1" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:15, 1:3] 0 0 0 1.64 1.64 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:15] "unique" "unique.64" "hashmapuni" "hashuni" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:14, 1:3] 0 0 0 1.62 1.62 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:14] "unique" "unipos.64" "hashmapupo" "hashupo" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:13, 1:3] 0 0 0 0 0.32 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:13] "tabulate" "table" "table.64" "hashmaptab" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:7, 1:3] 0 0 0 2.96 10.69 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:7] "rank" "rank.keep" "rank.64" "sortorderrnk" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  $ : num [1:6, 1:3] 0 0 1.62 10.61 0 ...
-#!   ..- attr(*, "dimnames")=List of 2
-#!   .. ..$ : chr [1:6] "quantile" "quantile.64" "sortqtl" "orderqtl" ...
-#!   .. ..$ : chr [1:3] "prep" "both" "use"
-#!  - attr(*, "dim")= int [1:2] 8 2
-#!  - attr(*, "dimnames")=List of 2
-#!   ..$ : chr [1:8] "match" "\%in\%" "duplicated" "unique" ...
-#!   ..$ : chr [1:2] "65536" "33554432"
-#! }
-#! \examples{
-#! data(optimizer64.data)
-#! print(optimizer64.data)
-#! oldpar <- par(no.readonly = TRUE)
-#! par(mfrow=c(2,1))
-#! par(cex=0.7)
-#! for (i in 1:nrow(optimizer64.data)){
-#!  for (j in 1:2){
-#!    tim <- optimizer64.data[[i,j]]
-#!   barplot(t(tim))
-#!   if (rownames(optimizer64.data)[i]=="match")
-#!    title(paste("match", colnames(optimizer64.data)[j], "in", colnames(optimizer64.data)[3-j]))
-#!   else if (rownames(optimizer64.data)[i]=="\%in\%")
-#!    title(paste(colnames(optimizer64.data)[j], "\%in\%", colnames(optimizer64.data)[3-j]))
-#!   else
-#!    title(paste(rownames(optimizer64.data)[i], colnames(optimizer64.data)[j]))
-#!  }
-#! }
-#! par(mfrow=c(1,1))
-#! }
-#! \keyword{datasets}
-
+#' @export
 # nocov start
 benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
 {
@@ -551,6 +554,7 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
   tim3
 }
 
+#' @export
 optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
 , what=c("match","%in%","duplicated","unique","unipos","table","rank","quantile")
 , uniorder = c("original", "values", "any")
@@ -1385,132 +1389,132 @@ optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
 }
 # nocov end
 
-#! \name{match.integer64}
-#! \alias{match.integer64}
-#! \alias{\%in\%.integer64}
-#! \title{
-#! 64-bit integer matching
-#! }
-#! \description{
-#! \code{match} returns a vector of the positions of (first) matches of its first argument in its second.
-#!
-#! \code{\%in\%} is a more intuitive interface as a binary operator, which returns a logical vector indicating if there is a match or not for its left operand.
-#!
-#! }
-#! \usage{
-#! \method{match}{integer64}(x, table, nomatch = NA_integer_, nunique = NULL, method = NULL, ...)
-#! \method{\%in\%}{integer64}(x, table, ...)
-#! }
-#! \arguments{
-#!   \item{x}{
-#!     integer64 vector: the values to be matched, optionally carrying a cache created with \code{\link{hashcache}}
-#! }
-#!   \item{table}{
-#!     integer64 vector: the values to be matched against, optionally carrying a cache created with \code{\link{hashcache}} or \code{\link{sortordercache}}
-#! }
-#!   \item{nomatch}{
-#!   the value to be returned in the case when no match is found. Note that it is coerced to integer.
-#! }
-#!   \item{nunique}{
-#!     NULL or the number of unique values of table (including NA). Providing \code{nunique} can speed-up matching when \code{table} has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
-#! }
-#!   \item{method}{
-#!     NULL for automatic method selection or a suitable low-level method, see details
-#! }
-#!   \item{\dots}{
-#! ignored
-#! }
-#! }
-#! \details{
-#!   These functions automatically choose from several low-level functions considering the size of \code{x} and \code{table} and the availability of caches.
-#!
-#!
-#!   Suitable methods for \code{\%in\%.integer64} are \code{\link{hashpos}} (hash table lookup), \code{\link{hashrev}} (reverse lookup), \code{\link{sortorderpos}} (fast ordering) and \code{\link{orderpos}} (memory saving ordering).
-#!   Suitable methods for \code{match.integer64} are \code{\link{hashfin}} (hash table lookup), \code{\link{hashrin}} (reverse lookup), \code{\link{sortfin}} (fast sorting) and \code{\link{orderfin}} (memory saving ordering).
-#! }
-#! \value{
-#!   A vector of the same length as \code{x}.
-#!
-#!   \code{match}: An integer vector giving the position in \code{table} of
-#!   the first match if there is a match, otherwise \code{nomatch}.
-#!
-#!   If \code{x[i]} is found to equal \code{table[j]} then the value
-#!   returned in the \code{i}-th position of the return value is \code{j},
-#!   for the smallest possible \code{j}.  If no match is found, the value
-#!   is \code{nomatch}.
-#!
-#!   \code{\%in\%}: A logical vector, indicating if a match was located for
-#!   each element of \code{x}: thus the values are \code{TRUE} or
-#!   \code{FALSE} and never \code{NA}.
-#! }
-#! \author{
-#!     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \seealso{
-#!     \code{\link{match}}
-#! }
-#! \examples{
-#! x <- as.integer64(c(NA, 0:9), 32)
-#! table <- as.integer64(c(1:9, NA))
-#! match.integer64(x, table)
-#! "\%in\%.integer64"(x, table)
-#!
-#! x <- as.integer64(sample(c(rep(NA, 9), 0:9), 32, TRUE))
-#! table <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#! stopifnot(identical(match.integer64(x, table), match(as.integer(x), as.integer(table))))
-#! stopifnot(identical("\%in\%.integer64"(x, table), as.integer(x) \%in\% as.integer(table)))
-#!
-#! \dontrun{
-#!     message("check when reverse hash-lookup beats standard hash-lookup")
-#!     e <- 4:24
-#!     timx <- timy <- matrix(NA, length(e), length(e), dimnames=list(e,e))
-#!     for (iy in seq_along(e))
-#!     for (ix in 1:iy){
-#!         nx <- 2^e[ix]
-#!         ny <- 2^e[iy]
-#!         x <- as.integer64(sample(ny, nx, FALSE))
-#!         y <- as.integer64(sample(ny, ny, FALSE))
-#!         #hashfun(x, bits=as.integer(5))
-#!         timx[ix,iy] <- repeat.time({
-#!         hx <- hashmap(x)
-#!         py <- hashrev(hx, y)
-#!         })[3]
-#!         timy[ix,iy] <- repeat.time({
-#!         hy <- hashmap(y)
-#!         px <- hashpos(hy, x)
-#!         })[3]
-#!         #identical(px, py)
-#!         print(round(timx[1:iy,1:iy]/timy[1:iy,1:iy], 2), na.print="")
-#!     }
-#!
-#!     message("explore best low-level method given size of x and table")
-#!     B1 <- 1:27
-#!     B2 <- 1:27
-#!     tim <- array(NA, dim=c(length(B1), length(B2), 5)
-#!  , dimnames=list(B1, B2, c("hashpos","hashrev","sortpos1","sortpos2","sortpos3")))
-#!     for (i1 in B1)
-#!     for (i2 in B2)
-#!     {
-#!       b1 <- B1[i1]
-#!       b2 <- B1[i2]
-#!       n1 <- 2^b1
-#!       n2 <- 2^b2
-#!       x1 <- as.integer64(c(sample(n2, n1-1, TRUE), NA))
-#!       x2 <- as.integer64(c(sample(n2, n2-1, TRUE), NA))
-#!       tim[i1,i2,1] <- repeat.time({h <- hashmap(x2);hashpos(h, x1);rm(h)})[3]
-#!       tim[i1,i2,2] <- repeat.time({h <- hashmap(x1);hashrev(h, x2);rm(h)})[3]
-#!       s <- clone(x2); o <- seq_along(s); ramsortorder(s, o)
-#!       tim[i1,i2,3] <- repeat.time(sortorderpos(s, o, x1, method=1))[3]
-#!       tim[i1,i2,4] <- repeat.time(sortorderpos(s, o, x1, method=2))[3]
-#!       tim[i1,i2,5] <- repeat.time(sortorderpos(s, o, x1, method=3))[3]
-#!       rm(s,o)
-#!       print(apply(tim, 1:2, function(ti)if(any(is.na(ti)))NA else which.min(ti)))
-#!     }
-#! }
-#! }
-#! \keyword{manip}
-#! \keyword{logic}
-
+#' \name{match.integer64}
+#' \alias{match.integer64}
+#' \alias{\%in\%.integer64}
+#' \title{
+#' 64-bit integer matching
+#' }
+#' \description{
+#' `match` returns a vector of the positions of (first) matches of its first argument in its second.
+#'
+#' `\%in\%` is a more intuitive interface as a binary operator, which returns a logical vector indicating if there is a match or not for its left operand.
+#'
+#' }
+#' \usage{
+#' \method{match}{integer64}(x, table, nomatch = NA_integer_, nunique = NULL, method = NULL, ...)
+#' \method{\%in\%}{integer64}(x, table, ...)
+#' }
+#' \arguments{
+#'   \item{x}{
+#'     integer64 vector: the values to be matched, optionally carrying a cache created with [hashcache()]
+#' }
+#'   \item{table}{
+#'     integer64 vector: the values to be matched against, optionally carrying a cache created with [hashcache()] or [sortordercache()]
+#' }
+#'   \item{nomatch}{
+#'   the value to be returned in the case when no match is found. Note that it is coerced to integer.
+#' }
+#'   \item{nunique}{
+#'     NULL or the number of unique values of table (including NA). Providing `nunique` can speed-up matching when `table` has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
+#' }
+#'   \item{method}{
+#'     NULL for automatic method selection or a suitable low-level method, see details
+#' }
+#'   \item{\dots}{
+#' ignored
+#' }
+#' }
+#' \details{
+#'   These functions automatically choose from several low-level functions considering the size of `x` and `table` and the availability of caches.
+#'
+#'
+#'   Suitable methods for `\%in\%.integer64` are [hashpos()] (hash table lookup), [hashrev()] (reverse lookup), [sortorderpos()] (fast ordering) and [orderpos()] (memory saving ordering).
+#'   Suitable methods for `match.integer64` are [hashfin()] (hash table lookup), [hashrin()] (reverse lookup), [sortfin()] (fast sorting) and [orderfin()] (memory saving ordering).
+#' }
+#' \value{
+#'   A vector of the same length as `x`.
+#'
+#'   `match`: An integer vector giving the position in `table` of
+#'   the first match if there is a match, otherwise `nomatch`.
+#'
+#'   If `x[i]` is found to equal `table[j]` then the value
+#'   returned in the `i`-th position of the return value is `j`,
+#'   for the smallest possible `j`.  If no match is found, the value
+#'   is `nomatch`.
+#'
+#'   `\%in\%`: A logical vector, indicating if a match was located for
+#'   each element of `x`: thus the values are `TRUE` or
+#'   `FALSE` and never `NA`.
+#' }
+#' \author{
+#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+#' }
+#' \seealso{
+#'     [match()]
+#' }
+#' \examples{
+#' x <- as.integer64(c(NA, 0:9), 32)
+#' table <- as.integer64(c(1:9, NA))
+#' match.integer64(x, table)
+#' "\%in\%.integer64"(x, table)
+#'
+#' x <- as.integer64(sample(c(rep(NA, 9), 0:9), 32, TRUE))
+#' table <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#' stopifnot(identical(match.integer64(x, table), match(as.integer(x), as.integer(table))))
+#' stopifnot(identical("\%in\%.integer64"(x, table), as.integer(x) \%in\% as.integer(table)))
+#'
+#' \dontrun{
+#'     message("check when reverse hash-lookup beats standard hash-lookup")
+#'     e <- 4:24
+#'     timx <- timy <- matrix(NA, length(e), length(e), dimnames=list(e,e))
+#'     for (iy in seq_along(e))
+#'     for (ix in 1:iy){
+#'         nx <- 2^e[ix]
+#'         ny <- 2^e[iy]
+#'         x <- as.integer64(sample(ny, nx, FALSE))
+#'         y <- as.integer64(sample(ny, ny, FALSE))
+#'         #hashfun(x, bits=as.integer(5))
+#'         timx[ix,iy] <- repeat.time({
+#'         hx <- hashmap(x)
+#'         py <- hashrev(hx, y)
+#'         })[3]
+#'         timy[ix,iy] <- repeat.time({
+#'         hy <- hashmap(y)
+#'         px <- hashpos(hy, x)
+#'         })[3]
+#'         #identical(px, py)
+#'         print(round(timx[1:iy,1:iy]/timy[1:iy,1:iy], 2), na.print="")
+#'     }
+#'
+#'     message("explore best low-level method given size of x and table")
+#'     B1 <- 1:27
+#'     B2 <- 1:27
+#'     tim <- array(NA, dim=c(length(B1), length(B2), 5)
+#'  , dimnames=list(B1, B2, c("hashpos","hashrev","sortpos1","sortpos2","sortpos3")))
+#'     for (i1 in B1)
+#'     for (i2 in B2)
+#'     {
+#'       b1 <- B1[i1]
+#'       b2 <- B1[i2]
+#'       n1 <- 2^b1
+#'       n2 <- 2^b2
+#'       x1 <- as.integer64(c(sample(n2, n1-1, TRUE), NA))
+#'       x2 <- as.integer64(c(sample(n2, n2-1, TRUE), NA))
+#'       tim[i1,i2,1] <- repeat.time({h <- hashmap(x2);hashpos(h, x1);rm(h)})[3]
+#'       tim[i1,i2,2] <- repeat.time({h <- hashmap(x1);hashrev(h, x2);rm(h)})[3]
+#'       s <- clone(x2); o <- seq_along(s); ramsortorder(s, o)
+#'       tim[i1,i2,3] <- repeat.time(sortorderpos(s, o, x1, method=1))[3]
+#'       tim[i1,i2,4] <- repeat.time(sortorderpos(s, o, x1, method=2))[3]
+#'       tim[i1,i2,5] <- repeat.time(sortorderpos(s, o, x1, method=3))[3]
+#'       rm(s,o)
+#'       print(apply(tim, 1:2, function(ti)if(any(is.na(ti)))NA else which.min(ti)))
+#'     }
+#' }
+#' }
+#' \keyword{manip}
+#' \keyword{logic}
+NULL
 
 match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, method=NULL, ...){
   stopifnot(is.integer64(x))
@@ -1697,50 +1701,44 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
   p
 }
 
-#! \name{duplicated.integer64}
-#! \alias{duplicated.integer64}
-#! \title{Determine Duplicate Elements of integer64}
-#! \description{
-#!   \code{duplicated()} determines which elements of a vector or data frame are duplicates
-#!   of elements with smaller subscripts, and returns a logical vector
-#!   indicating which elements (rows) are duplicates.
-#! }
-#! \usage{
-#! \method{duplicated}{integer64}(x, incomparables = FALSE, nunique = NULL, method = NULL, \dots)
-#! }
-#! \arguments{
-#!   \item{x}{a vector or a data frame or an array or \code{NULL}.}
-#!   \item{incomparables}{ignored}
-#!   \item{nunique}{
-#!     NULL or the number of unique values (including NA). Providing \code{nunique} can speed-up matching when \code{x} has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
-#! }
-#!   \item{method}{
-#!     NULL for automatic method selection or a suitable low-level method, see details
-#! }
-#!   \item{\dots}{ignored}
-#! }
-#! \details{
-#!   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
-#!
-#!   Suitable methods are \code{\link{hashdup}} (hashing), \code{\link{sortorderdup}} (fast ordering) and \code{\link{orderdup}} (memory saving ordering).
-#! }
-#! \value{
-#!     \code{duplicated()}: a logical vector of the same length as \code{x}.
-#! }
-#! \author{
-#!     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \seealso{ \code{\link{duplicated}}, \code{\link{unique.integer64}}  }
-#! \examples{
-#! x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#! duplicated(x)
-#!
-#! stopifnot(identical(duplicated(x),  duplicated(as.integer(x))))
-#! }
-#! \keyword{logic}
-#! \keyword{manip}
-#!
-
+#' \name{duplicated.integer64}
+#' \alias{duplicated.integer64}
+#' \title{Determine Duplicate Elements of integer64}
+#' \description{
+#'   `duplicated()` determines which elements of a vector or data frame are duplicates
+#'   of elements with smaller subscripts, and returns a logical vector
+#'   indicating which elements (rows) are duplicates.
+#' }
+#' \usage{
+#' \method{duplicated}{integer64}(x, incomparables = FALSE, nunique = NULL, method = NULL, \dots)
+#' }
+#' \arguments{
+#'   \item{x}{a vector or a data frame or an array or `NULL`.}
+#'   \item{incomparables}{ignored}
+#'   \item{nunique}{
+#'     NULL or the number of unique values (including NA). Providing `nunique` can speed-up matching when `x` has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
+#' }
+#'   \item{method}{
+#'     NULL for automatic method selection or a suitable low-level method, see details
+#' }
+#'   \item{\dots}{ignored}
+#' }
+#' \details{
+#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
+#'
+#'   Suitable methods are [hashdup()] (hashing), [sortorderdup()] (fast ordering) and [orderdup()] (memory saving ordering).
+#' }
+#' \value{
+#'     `duplicated()`: a logical vector of the same length as `x`.
+#' }
+#' @seealso [duplicated()], [unique.integer64()]
+#' @examples
+#' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#' duplicated(x)
+#'
+#' stopifnot(identical(duplicated(x),  duplicated(as.integer(x))))
+#' @keywords logic manip
+#' @export
 duplicated.integer64 <- function(x
 , incomparables = FALSE  # dummy parameter
 , nunique = NULL
@@ -1802,66 +1800,65 @@ duplicated.integer64 <- function(x
 }
 
 
-#! \name{unique.integer64}
-#! \alias{unique.integer64}
-#! \title{Extract Unique Elements from integer64}
-#! \description{
-#!   \code{unique} returns a vector like \code{x} but with duplicate elements/rows removed.
-#! }
-#! \usage{
-#! \method{unique}{integer64}(x, incomparables = FALSE, order = c("original","values","any")
-#! , nunique = NULL, method = NULL, \dots)
-#! }
-#! \arguments{
-#!   \item{x}{a vector or a data frame or an array or \code{NULL}.}
-#!   \item{incomparables}{ignored}
-#!   \item{order}{The order in which unique values will be returned, see details}
-#!   \item{nunique}{
-#!     NULL or the number of unique values (including NA). Providing \code{nunique} can speed-up matching when \code{x} has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
-#! }
-#!   \item{method}{
-#!     NULL for automatic method selection or a suitable low-level method, see details
-#! }
-#!   \item{\dots}{ignored}
-#! }
-#! \details{
-#!   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
-#!   Suitable methods are \code{\link{hashmapuni}} (simultaneously creating and using a hashmap)
-#! , \code{\link{hashuni}} (first creating a hashmap then using it)
-#! , \code{\link{sortuni}} (fast sorting for sorted order only)
-#! , \code{\link{sortorderuni}} (fast ordering for original order only)
-#! and \code{\link{orderuni}} (memory saving ordering).
-#! \cr
-#! The default \code{order="original"} returns unique values in the order of the first appearance in \code{x} like in \code{\link{unique}}, this costs extra processing.
-#! \code{order="values"} returns unique values in sorted order like in \code{\link{table}}, this costs extra processing with the hash methods but comes for free.
-#! \code{order="any"} returns unique values in undefined order, possibly faster. For hash methods this will be a quasi random order, for sort methods this will be sorted order.
-#! }
-#! \value{
-#!   For a vector, an object of the same type of \code{x}, but with only
-#!   one copy of each duplicated element.  No attributes are copied (so
-#!   the result has no names).
-#! }
-#! \author{
-#!     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \seealso{
-#!   \code{\link{unique}} for the generic, \code{\link{unipos}} which gives the indices of the unique
-#!   elements and \code{\link{table.integer64}} which gives frequencies of the unique elements.
-#! }
-#! \examples{
-#! x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#! unique(x)
-#! unique(x, order="values")
-#!
-#! stopifnot(identical(unique(x),  x[!duplicated(x)]))
-#! stopifnot(identical(unique(x),  as.integer64(unique(as.integer(x)))))
-#! stopifnot(identical(unique(x, order="values")
-#! ,  as.integer64(sort(unique(as.integer(x)), na.last=FALSE))))
-#! }
-#! \keyword{manip}
-#! \keyword{logic}
-
-
+#' \name{unique.integer64}
+#' \alias{unique.integer64}
+#' \title{Extract Unique Elements from integer64}
+#' \description{
+#'   `unique` returns a vector like `x` but with duplicate elements/rows removed.
+#' }
+#' \usage{
+#' \method{unique}{integer64}(x, incomparables = FALSE, order = c("original","values","any")
+#' , nunique = NULL, method = NULL, \dots)
+#' }
+#' \arguments{
+#'   \item{x}{a vector or a data frame or an array or `NULL`.}
+#'   \item{incomparables}{ignored}
+#'   \item{order}{The order in which unique values will be returned, see details}
+#'   \item{nunique}{
+#'     NULL or the number of unique values (including NA). Providing `nunique` can speed-up matching when `x` has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
+#' }
+#'   \item{method}{
+#'     NULL for automatic method selection or a suitable low-level method, see details
+#' }
+#'   \item{\dots}{ignored}
+#' }
+#' \details{
+#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
+#'   Suitable methods are [hashmapuni()] (simultaneously creating and using a hashmap)
+#' , [hashuni()] (first creating a hashmap then using it)
+#' , [sortuni()] (fast sorting for sorted order only)
+#' , [sortorderuni()] (fast ordering for original order only)
+#' and [orderuni()] (memory saving ordering).
+#' \cr
+#' The default `order="original"` returns unique values in the order of the first appearance in `x` like in [unique()], this costs extra processing.
+#' `order="values"` returns unique values in sorted order like in [table()], this costs extra processing with the hash methods but comes for free.
+#' `order="any"` returns unique values in undefined order, possibly faster. For hash methods this will be a quasi random order, for sort methods this will be sorted order.
+#' }
+#' \value{
+#'   For a vector, an object of the same type of `x`, but with only
+#'   one copy of each duplicated element.  No attributes are copied (so
+#'   the result has no names).
+#' }
+#' \author{
+#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+#' }
+#' \seealso{
+#'   [unique()] for the generic, [unipos()] which gives the indices of the unique
+#'   elements and [table.integer64()] which gives frequencies of the unique elements.
+#' }
+#' \examples{
+#' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#' unique(x)
+#' unique(x, order="values")
+#'
+#' stopifnot(identical(unique(x),  x[!duplicated(x)]))
+#' stopifnot(identical(unique(x),  as.integer64(unique(as.integer(x)))))
+#' stopifnot(identical(unique(x, order="values")
+#' ,  as.integer64(sort(unique(as.integer(x)), na.last=FALSE))))
+#' }
+#' \keyword{manip}
+#' \keyword{logic}
+#' @export
 unique.integer64 <- function(x
 , incomparables = FALSE  # dummy parameter
 , order = c("original","values","any")
@@ -1971,63 +1968,63 @@ unique.integer64 <- function(x
 }
 
 
-#! \name{unipos}
-#! \alias{unipos}
-#! \alias{unipos.integer64}
-#! \title{Extract Positions of Unique Elements}
-#! \description{
-#!   \code{unipos} returns the positions of those elements returned by \code{\link{unique}}.
-#! }
-#! \usage{
-#! unipos(x, incomparables = FALSE, order = c("original","values","any"), \dots)
-#! \method{unipos}{integer64}(x, incomparables = FALSE, order = c("original","values","any")
-#! , nunique = NULL, method = NULL, \dots)
-#! }
-#! \arguments{
-#!   \item{x}{a vector or a data frame or an array or \code{NULL}.}
-#!   \item{incomparables}{ignored}
-#!   \item{order}{The order in which positions of unique values will be returned, see details}
-#!   \item{nunique}{
-#!     NULL or the number of unique values (including NA). Providing \code{nunique} can speed-up when \code{x} has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
-#! }
-#!   \item{method}{
-#!     NULL for automatic method selection or a suitable low-level method, see details
-#! }
-#!   \item{\dots}{ignored}
-#! }
-#! \details{
-#!   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
-#!   Suitable methods are \code{\link{hashmapupo}} (simultaneously creating and using a hashmap)
-#! , \code{\link{hashupo}} (first creating a hashmap then using it)
-#! , \code{\link{sortorderupo}} (fast ordering)
-#! and \code{\link{orderupo}} (memory saving ordering).
-#! \cr
-#! The default \code{order="original"} collects unique values in the order of the first appearance in \code{x} like in \code{\link{unique}}, this costs extra processing.
-#! \code{order="values"} collects unique values in sorted order like in \code{\link{table}}, this costs extra processing with the hash methods but comes for free.
-#! \code{order="any"} collects unique values in undefined order, possibly faster. For hash methods this will be a quasi random order, for sort methods this will be sorted order.
-#! }
-#! \value{
-#!   an integer vector of positions
-#! }
-#! \author{
-#!     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \seealso{
-#!   \code{\link{unique.integer64}} for unique values and \code{\link{match.integer64}} for general matching.
-#! }
-#! \examples{
-#! x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#! unipos(x)
-#! unipos(x, order="values")
-#!
-#! stopifnot(identical(unipos(x),  (1:length(x))[!duplicated(x)]))
-#! stopifnot(identical(unipos(x),  match.integer64(unique(x), x)))
-#! stopifnot(identical(unipos(x, order="values"),  match.integer64(unique(x, order="values"), x)))
-#! stopifnot(identical(unique(x),  x[unipos(x)]))
-#! stopifnot(identical(unique(x, order="values"),  x[unipos(x, order="values")]))
-#! }
-#! \keyword{manip}
-#! \keyword{logic}
+#' \name{unipos}
+#' \alias{unipos}
+#' \alias{unipos.integer64}
+#' \title{Extract Positions of Unique Elements}
+#' \description{
+#'   `unipos` returns the positions of those elements returned by [unique()].
+#' }
+#' \usage{
+#' unipos(x, incomparables = FALSE, order = c("original","values","any"), \dots)
+#' \method{unipos}{integer64}(x, incomparables = FALSE, order = c("original","values","any")
+#' , nunique = NULL, method = NULL, \dots)
+#' }
+#' \arguments{
+#'   \item{x}{a vector or a data frame or an array or `NULL`.}
+#'   \item{incomparables}{ignored}
+#'   \item{order}{The order in which positions of unique values will be returned, see details}
+#'   \item{nunique}{
+#'     NULL or the number of unique values (including NA). Providing `nunique` can speed-up when `x` has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
+#' }
+#'   \item{method}{
+#'     NULL for automatic method selection or a suitable low-level method, see details
+#' }
+#'   \item{\dots}{ignored}
+#' }
+#' \details{
+#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
+#'   Suitable methods are [hashmapupo()] (simultaneously creating and using a hashmap)
+#' , [hashupo()] (first creating a hashmap then using it)
+#' , [sortorderupo()] (fast ordering)
+#' and [orderupo()] (memory saving ordering).
+#' \cr
+#' The default `order="original"` collects unique values in the order of the first appearance in `x` like in [unique()], this costs extra processing.
+#' `order="values"` collects unique values in sorted order like in [table()], this costs extra processing with the hash methods but comes for free.
+#' `order="any"` collects unique values in undefined order, possibly faster. For hash methods this will be a quasi random order, for sort methods this will be sorted order.
+#' }
+#' \value{
+#'   an integer vector of positions
+#' }
+#' \author{
+#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+#' }
+#' \seealso{
+#'   [unique.integer64()] for unique values and [match.integer64()] for general matching.
+#' }
+#' \examples{
+#' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#' unipos(x)
+#' unipos(x, order="values")
+#'
+#' stopifnot(identical(unipos(x),  (1:length(x))[!duplicated(x)]))
+#' stopifnot(identical(unipos(x),  match.integer64(unique(x), x)))
+#' stopifnot(identical(unipos(x, order="values"),  match.integer64(unique(x, order="values"), x)))
+#' stopifnot(identical(unique(x),  x[unipos(x)]))
+#' stopifnot(identical(unique(x, order="values"),  x[unipos(x, order="values")]))
+#' }
+#' \keyword{manip}
+#' \keyword{logic}
 
 
 unipos <- function(x, incomparables = FALSE, order = c("original","values","any"), ...)UseMethod("unipos")
@@ -2133,128 +2130,127 @@ unipos.integer64 <- function(x
 
 
 
-#! \name{table.integer64}
-#! \title{Cross Tabulation and Table Creation for integer64}
-#! \alias{table.integer64}
-#!
-#! \concept{counts}
-#! \concept{frequencies}
-#! \concept{occurrences}
-#! \concept{contingency table}
-#!
-#! \description{
-#!   \code{table.integer64} uses the cross-classifying integer64 vectors to build a contingency
-#!   table of the counts at each combination of vector values.
-#! }
-#! \usage{
-#! table.integer64(\dots
-#! , return = c("table","data.frame","list")
-#! , order = c("values","counts")
-#! , nunique = NULL
-#! , method = NULL
-#! , dnn = list.names(...), deparse.level = 1
-#! )
-#! }
-#! \arguments{
-#!   \item{\dots}{one or more objects which can be interpreted as factors
-#!     (including character strings), or a list (or data frame) whose
-#!     components can be so interpreted.  (For \code{as.table} and
-#!     \code{as.data.frame}, arguments passed to specific methods.)}
-#!   \item{nunique}{
-#!     NULL or the number of unique values of table (including NA). Providing \code{nunique} can speed-up matching when \code{table} has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
-#! }
-#!   \item{order}{
-#!     By default results are created sorted by "values", or by "counts"
-#! }
-#!   \item{method}{
-#!     NULL for automatic method selection or a suitable low-level method, see details
-#! }
-#!   \item{return}{
-#!      choose the return format, see details
-#! }
-#!   \item{dnn}{the names to be given to the dimensions in the result (the
-#!     \emph{dimnames names}).}
-#!   \item{deparse.level}{controls how the default \code{dnn} is
-#!     constructed.  See \sQuote{Details}.}
-#! }
-#! \details{
-#!   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
-#!   Suitable methods are \code{\link{hashmaptab}} (simultaneously creating and using a hashmap)
-#! , \code{\link{hashtab}} (first creating a hashmap then using it)
-#! , \code{\link{sortordertab}} (fast ordering)
-#! and \code{\link{ordertab}} (memory saving ordering).
-#! \cr
-#!   If the argument \code{dnn} is not supplied, the internal function
-#!   \code{list.names} is called to compute the \sQuote{dimname names}.  If the
-#!   arguments in \code{\dots} are named, those names are used.  For the
-#!   remaining arguments, \code{deparse.level = 0} gives an empty name,
-#!   \code{deparse.level = 1} uses the supplied argument if it is a symbol,
-#!   and \code{deparse.level = 2} will deparse the argument.
-#!
-#!   Arguments \code{exclude}, \code{useNA}, are not supported, i.e. \code{NA}s are always tabulated, and, different from \code{\link{table}} they are sorted first if \code{order="values"}.
-#! }
-#! \value{
-#!   By default (with \code{return="table"}) \code{\link{table}} returns a \emph{contingency table}, an object of
-#!   class \code{"table"}, an array of integer values. Note that unlike S the result is always an array, a 1D array if one factor is given. Note also that for multidimensional arrays this is a \emph{dense} return structure which can dramatically increase RAM requirements (for large arrays with high mutual information, i.e. many possible input combinations of which only few occur) and that \code{\link{table}} is limited to \code{2^31} possible combinations (e.g. two input vectors with 46340 unique values only). Finally note that the tabulated values or value-combinations are represented as \code{dimnames} and that the implied conversion of values to strings can cause \emph{severe} performance problems since each string needs to be integrated into R's global string cache.
-#!   \cr
-#!   You can use the other \code{return=} options to cope with these problems, the potential combination limit is increased from \code{2^31} to \code{2^63} with these options, RAM is only rewquired for observed combinations and string conversion is avoided.
-#!   \cr
-#!   With \code{return="data.frame"} you get a \emph{dense} representation as a \code{\link{data.frame}} (like that resulting from \code{as.data.frame(table(...))}) where only observed combinations are listed (each as a data.frame row) with the corresponding frequency counts (the latter as component
-#!   named by \code{responseName}).  This is the inverse of \code{\link{xtabs}}..
-#!   \cr
-#!   With \code{return="list"} you also get a \emph{dense} representation as a simple \code{\link{list}} with components
-#!   \item{values }{a integer64 vector of the technically tabulated values, for 1D this is the tabulated values themselves, for kD these are the values representing the potential combinations of input values}
-#!   \item{counts}{the frequency counts}
-#!   \item{dims}{only for kD: a list with the vectors of the unique values of the input dimensions}
-#! }
-#! \note{
-#!   Note that by using \code{\link{as.integer64.factor}} we can also input
-#!   factors into \code{table.integer64} -- only the \code{\link{levels}} get lost.
-#!  \cr
-#!   Note that because of the existence of \code{\link{as.factor.integer64}}
-#! the standard \code{\link{table}} function -- within its limits -- can also be used
-#! for \code{\link{integer64}}, and especially for combining \code{\link{integer64}} input
-#! with other data types.
-#! }
-#! \seealso{
-#!   \code{\link{table}} for more info on the standard version coping with Base R's data types, \code{\link{tabulate}} which can faster tabulate \code{\link{integer}s} with a limited range \code{[1L .. nL not too big]}, \code{\link{unique.integer64}} for the unique values without counting them and \code{\link{unipos.integer64}} for the positions of the unique values.
-#! }
-#! \examples{
-#! message("pure integer64 examples")
-#! x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#! y <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#! z <- sample(c(rep(NA, 9), letters), 32, TRUE)
-#! table.integer64(x)
-#! table.integer64(x, order="counts")
-#! table.integer64(x, y)
-#! table.integer64(x, y, return="data.frame")
-#!
-#! message("via as.integer64.factor we can use 'table.integer64' also for factors")
-#! table.integer64(x, as.integer64(as.factor(z)))
-#!
-#! message("via as.factor.integer64 we can also use 'table' for integer64")
-#! table(x)
-#! table(x, exclude=NULL)
-#! table(x, z, exclude=NULL)
-#!
-#! \dontshow{
-#!  stopifnot(identical(table.integer64(as.integer64(c(1,1,2))), table(c(1,1,2))))
-#!  stopifnot(identical(table.integer64(as.integer64(c(1,1,2)),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
-#!  message("the following works with three warnings due to coercion")
-#!  stopifnot(identical(table.integer64(c(1,1,2)), table(c(1,1,2))))
-#!  stopifnot(identical(table.integer64(as.integer64(c(1,1,2)),c(3,4,4)), table(c(1,1,2),c(3,4,4))))
-#!  stopifnot(identical(table.integer64(c(1,1,2),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
-#!  message("the following works because of as.factor.integer64")
-#!  stopifnot(identical(table(as.integer64(c(1,1,2))), table(c(1,1,2))))
-#!  stopifnot(identical(table(as.integer64(c(1,1,2)),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
-#!  stopifnot(identical(table(as.integer64(c(1,1,2)),c(3,4,4)), table(c(1,1,2),c(3,4,4))))
-#!  stopifnot(identical(table(c(1,1,2),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
-#! }
-#!
-#! }
-#! \keyword{category}
-
-
+#' \name{table.integer64}
+#' \title{Cross Tabulation and Table Creation for integer64}
+#' \alias{table.integer64}
+#'
+#' \concept{counts}
+#' \concept{frequencies}
+#' \concept{occurrences}
+#' \concept{contingency table}
+#'
+#' \description{
+#'   `table.integer64` uses the cross-classifying integer64 vectors to build a contingency
+#'   table of the counts at each combination of vector values.
+#' }
+#' \usage{
+#' table.integer64(\dots
+#' , return = c("table","data.frame","list")
+#' , order = c("values","counts")
+#' , nunique = NULL
+#' , method = NULL
+#' , dnn = list.names(...), deparse.level = 1
+#' )
+#' }
+#' \arguments{
+#'   \item{\dots}{one or more objects which can be interpreted as factors
+#'     (including character strings), or a list (or data frame) whose
+#'     components can be so interpreted.  (For `as.table` and
+#'     `as.data.frame`, arguments passed to specific methods.)}
+#'   \item{nunique}{
+#'     NULL or the number of unique values of table (including NA). Providing `nunique` can speed-up matching when `table` has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
+#' }
+#'   \item{order}{
+#'     By default results are created sorted by "values", or by "counts"
+#' }
+#'   \item{method}{
+#'     NULL for automatic method selection or a suitable low-level method, see details
+#' }
+#'   \item{return}{
+#'      choose the return format, see details
+#' }
+#'   \item{dnn}{the names to be given to the dimensions in the result (the
+#'     \emph{dimnames names}).}
+#'   \item{deparse.level}{controls how the default `dnn` is
+#'     constructed.  See \sQuote{Details}.}
+#' }
+#' \details{
+#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
+#'   Suitable methods are [hashmaptab()] (simultaneously creating and using a hashmap)
+#' , [hashtab()] (first creating a hashmap then using it)
+#' , [sortordertab()] (fast ordering)
+#' and [ordertab()] (memory saving ordering).
+#' \cr
+#'   If the argument `dnn` is not supplied, the internal function
+#'   `list.names` is called to compute the \sQuote{dimname names}.  If the
+#'   arguments in `\dots` are named, those names are used.  For the
+#'   remaining arguments, `deparse.level = 0` gives an empty name,
+#'   `deparse.level = 1` uses the supplied argument if it is a symbol,
+#'   and `deparse.level = 2` will deparse the argument.
+#'
+#'   Arguments `exclude`, `useNA`, are not supported, i.e. `NA`s are always tabulated, and, different from [table()] they are sorted first if `order="values"`.
+#' }
+#' \value{
+#'   By default (with `return="table"`) [table()] returns a \emph{contingency table}, an object of
+#'   class `"table"`, an array of integer values. Note that unlike S the result is always an array, a 1D array if one factor is given. Note also that for multidimensional arrays this is a \emph{dense} return structure which can dramatically increase RAM requirements (for large arrays with high mutual information, i.e. many possible input combinations of which only few occur) and that [table()] is limited to `2^31` possible combinations (e.g. two input vectors with 46340 unique values only). Finally note that the tabulated values or value-combinations are represented as `dimnames` and that the implied conversion of values to strings can cause \emph{severe} performance problems since each string needs to be integrated into R's global string cache.
+#'   \cr
+#'   You can use the other `return=` options to cope with these problems, the potential combination limit is increased from `2^31` to `2^63` with these options, RAM is only rewquired for observed combinations and string conversion is avoided.
+#'   \cr
+#'   With `return="data.frame"` you get a \emph{dense} representation as a [data.frame()] (like that resulting from `as.data.frame(table(...))`) where only observed combinations are listed (each as a data.frame row) with the corresponding frequency counts (the latter as component
+#'   named by `responseName`).  This is the inverse of [xtabs()]..
+#'   \cr
+#'   With `return="list"` you also get a \emph{dense} representation as a simple [list()] with components
+#'   \item{values }{a integer64 vector of the technically tabulated values, for 1D this is the tabulated values themselves, for kD these are the values representing the potential combinations of input values}
+#'   \item{counts}{the frequency counts}
+#'   \item{dims}{only for kD: a list with the vectors of the unique values of the input dimensions}
+#' }
+#' \note{
+#'   Note that by using [as.integer64.factor()] we can also input
+#'   factors into `table.integer64` -- only the [levels()] get lost.
+#'  \cr
+#'   Note that because of the existence of [as.factor.integer64()]
+#' the standard [table()] function -- within its limits -- can also be used
+#' for [integer64()], and especially for combining [integer64()] input
+#' with other data types.
+#' }
+#' \seealso{
+#'   [table()] for more info on the standard version coping with Base R's data types, [tabulate()] which can faster tabulate \code{\link{integer}s} with a limited range `[1L .. nL not too big]`, [unique.integer64()] for the unique values without counting them and [unipos.integer64()] for the positions of the unique values.
+#' }
+#' \examples{
+#' message("pure integer64 examples")
+#' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#' y <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#' z <- sample(c(rep(NA, 9), letters), 32, TRUE)
+#' table.integer64(x)
+#' table.integer64(x, order="counts")
+#' table.integer64(x, y)
+#' table.integer64(x, y, return="data.frame")
+#'
+#' message("via as.integer64.factor we can use 'table.integer64' also for factors")
+#' table.integer64(x, as.integer64(as.factor(z)))
+#'
+#' message("via as.factor.integer64 we can also use 'table' for integer64")
+#' table(x)
+#' table(x, exclude=NULL)
+#' table(x, z, exclude=NULL)
+#'
+#' \dontshow{
+#'  stopifnot(identical(table.integer64(as.integer64(c(1,1,2))), table(c(1,1,2))))
+#'  stopifnot(identical(table.integer64(as.integer64(c(1,1,2)),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
+#'  message("the following works with three warnings due to coercion")
+#'  stopifnot(identical(table.integer64(c(1,1,2)), table(c(1,1,2))))
+#'  stopifnot(identical(table.integer64(as.integer64(c(1,1,2)),c(3,4,4)), table(c(1,1,2),c(3,4,4))))
+#'  stopifnot(identical(table.integer64(c(1,1,2),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
+#'  message("the following works because of as.factor.integer64")
+#'  stopifnot(identical(table(as.integer64(c(1,1,2))), table(c(1,1,2))))
+#'  stopifnot(identical(table(as.integer64(c(1,1,2)),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
+#'  stopifnot(identical(table(as.integer64(c(1,1,2)),c(3,4,4)), table(c(1,1,2),c(3,4,4))))
+#'  stopifnot(identical(table(c(1,1,2),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
+#' }
+#'
+#' }
+#' \keyword{category}
+#' @export
 table.integer64 <- function(
   ...
 , return = c("table","data.frame","list")
@@ -2536,48 +2532,48 @@ as.integer64.factor <- function(x, ...)as.integer64(unclass(x))
 
 
 
-#! \name{keypos}
-#! \alias{keypos}
-#! \alias{keypos.integer64}
-#! \title{Extract Positions in redundant dimension table}
-#! \description{
-#!   \code{keypos} returns the positions of the (fact table) elements that participate in their sorted unique subset (dimension table)
-#! }
-#! \usage{
-#! keypos(x, \dots)
-#! \method{keypos}{integer64}(x, method = NULL, \dots)
-#! }
-#! \arguments{
-#!   \item{x}{a vector or a data frame or an array or \code{NULL}.}
-#!   \item{method}{
-#!     NULL for automatic method selection or a suitable low-level method, see details
-#! }
-#!   \item{\dots}{ignored}
-#! }
-#! \details{
-#!   NAs are sorted first in the dimension table, see \code{\link{ramorder.integer64}}.
-#!   \cr
-#!   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
-#!   Suitable methods are \code{\link{sortorderkey}} (fast ordering)
-#! and \code{\link{orderkey}} (memory saving ordering).
-#! }
-#! \value{
-#!   an integer vector of the same length as \code{x} containing positions relativ to \code{sort(unique(x), na.last=FALSE)}
-#! }
-#! \author{
-#!     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \seealso{
-#!   \code{\link{unique.integer64}} for the unique subset and \code{\link{match.integer64}} for finding positions in a different vector.
-#! }
-#! \examples{
-#! x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#! keypos(x)
-#!
-#! stopifnot(identical(keypos(x),  match.integer64(x, sort(unique(x), na.last=FALSE))))
-#! }
-#! \keyword{manip}
-#! \keyword{univar}
+#' \name{keypos}
+#' \alias{keypos}
+#' \alias{keypos.integer64}
+#' \title{Extract Positions in redundant dimension table}
+#' \description{
+#'   `keypos` returns the positions of the (fact table) elements that participate in their sorted unique subset (dimension table)
+#' }
+#' \usage{
+#' keypos(x, \dots)
+#' \method{keypos}{integer64}(x, method = NULL, \dots)
+#' }
+#' \arguments{
+#'   \item{x}{a vector or a data frame or an array or `NULL`.}
+#'   \item{method}{
+#'     NULL for automatic method selection or a suitable low-level method, see details
+#' }
+#'   \item{\dots}{ignored}
+#' }
+#' \details{
+#'   NAs are sorted first in the dimension table, see [ramorder.integer64()].
+#'   \cr
+#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
+#'   Suitable methods are [sortorderkey()] (fast ordering)
+#' and [orderkey()] (memory saving ordering).
+#' }
+#' \value{
+#'   an integer vector of the same length as `x` containing positions relativ to `sort(unique(x), na.last=FALSE)`
+#' }
+#' \author{
+#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+#' }
+#' \seealso{
+#'   [unique.integer64()] for the unique subset and [match.integer64()] for finding positions in a different vector.
+#' }
+#' \examples{
+#' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#' keypos(x)
+#'
+#' stopifnot(identical(keypos(x),  match.integer64(x, sort(unique(x), na.last=FALSE))))
+#' }
+#' \keyword{manip}
+#' \keyword{univar}
 
 
 
@@ -2624,49 +2620,49 @@ keypos.integer64 <- function(x
   p
 }
 
-#! \name{tiepos}
-#! \alias{tiepos}
-#! \alias{tiepos.integer64}
-#! \title{Extract Positions of Tied Elements}
-#! \description{
-#!   \code{tiepos} returns the positions of those elements that participate in ties.
-#! }
-#! \usage{
-#! tiepos(x, \dots)
-#! \method{tiepos}{integer64}(x, nties = NULL, method = NULL, \dots)
-#! }
-#! \arguments{
-#!   \item{x}{a vector or a data frame or an array or \code{NULL}.}
-#!   \item{nties}{
-#!     NULL or the number of tied values (including NA). Providing \code{nties} can speed-up when \code{x} has no cache. Note that a wrong nties can cause undefined behaviour up to a crash.
-#! }
-#!   \item{method}{
-#!     NULL for automatic method selection or a suitable low-level method, see details
-#! }
-#!   \item{\dots}{ignored}
-#! }
-#! \details{
-#!   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
-#!   Suitable methods are \code{\link{sortordertie}} (fast ordering)
-#! and \code{\link{ordertie}} (memory saving ordering).
-#! }
-#! \value{
-#!   an integer vector of positions
-#! }
-#! \author{
-#!     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \seealso{
-#!   \code{\link{rank.integer64}} for possibly tied ranks and \code{\link{unipos.integer64}} for positions of unique values.
-#! }
-#! \examples{
-#! x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#! tiepos(x)
-#!
-#! stopifnot(identical(tiepos(x),  (1:length(x))[duplicated(x) | rev(duplicated(rev(x)))]))
-#! }
-#! \keyword{manip}
-#! \keyword{univar}
+#' \name{tiepos}
+#' \alias{tiepos}
+#' \alias{tiepos.integer64}
+#' \title{Extract Positions of Tied Elements}
+#' \description{
+#'   `tiepos` returns the positions of those elements that participate in ties.
+#' }
+#' \usage{
+#' tiepos(x, \dots)
+#' \method{tiepos}{integer64}(x, nties = NULL, method = NULL, \dots)
+#' }
+#' \arguments{
+#'   \item{x}{a vector or a data frame or an array or `NULL`.}
+#'   \item{nties}{
+#'     NULL or the number of tied values (including NA). Providing `nties` can speed-up when `x` has no cache. Note that a wrong nties can cause undefined behaviour up to a crash.
+#' }
+#'   \item{method}{
+#'     NULL for automatic method selection or a suitable low-level method, see details
+#' }
+#'   \item{\dots}{ignored}
+#' }
+#' \details{
+#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
+#'   Suitable methods are [sortordertie()] (fast ordering)
+#' and [ordertie()] (memory saving ordering).
+#' }
+#' \value{
+#'   an integer vector of positions
+#' }
+#' \author{
+#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+#' }
+#' \seealso{
+#'   [rank.integer64()] for possibly tied ranks and [unipos.integer64()] for positions of unique values.
+#' }
+#' \examples{
+#' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#' tiepos(x)
+#'
+#' stopifnot(identical(tiepos(x),  (1:length(x))[duplicated(x) | rev(duplicated(rev(x)))]))
+#' }
+#' \keyword{manip}
+#' \keyword{univar}
 
 
 tiepos <- function(x, ...)UseMethod("tiepos")
@@ -2720,46 +2716,46 @@ tiepos.integer64 <- function(x
 }
 
 
-#! \name{rank.integer64}
-#! \alias{rank.integer64}
-#! \title{Sample Ranks from integer64}
-#! \description{
-#!   Returns the sample ranks of the values in a vector.  Ties (i.e., equal
-#!   values) are averaged and missing values propagated.
-#! }
-#! \usage{
-#!     \method{rank}{integer64}(x, method = NULL, \dots)
-#! }
-#! \arguments{
-#!   \item{x}{a integer64 vector}
-#!   \item{method}{
-#!     NULL for automatic method selection or a suitable low-level method, see details
-#! }
-#!   \item{\dots}{ignored}
-#! }
-#! \details{
-#!   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
-#!   Suitable methods are \code{\link{sortorderrnk}} (fast ordering)
-#! and \code{\link{orderrnk}} (memory saving ordering).
-#! }
-#! \value{
-#!   A numeric vector of the same length as \code{x}.
-#! }
-#! \author{
-#!     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \seealso{
-#!   \code{\link{order.integer64}}, \code{\link{rank}} and \code{\link{prank}} for percent rank.
-#! }
-#! \examples{
-#! x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#! rank.integer64(x)
-#!
-#! stopifnot(identical(rank.integer64(x),  rank(as.integer(x)
-#! , na.last="keep", ties.method = "average")))
-#! }
-#! \keyword{univar}
-
+#' \name{rank.integer64}
+#' \alias{rank.integer64}
+#' \title{Sample Ranks from integer64}
+#' \description{
+#'   Returns the sample ranks of the values in a vector.  Ties (i.e., equal
+#'   values) are averaged and missing values propagated.
+#' }
+#' \usage{
+#'     \method{rank}{integer64}(x, method = NULL, \dots)
+#' }
+#' \arguments{
+#'   \item{x}{a integer64 vector}
+#'   \item{method}{
+#'     NULL for automatic method selection or a suitable low-level method, see details
+#' }
+#'   \item{\dots}{ignored}
+#' }
+#' \details{
+#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
+#'   Suitable methods are [sortorderrnk()] (fast ordering)
+#' and [orderrnk()] (memory saving ordering).
+#' }
+#' \value{
+#'   A numeric vector of the same length as `x`.
+#' }
+#' \author{
+#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+#' }
+#' \seealso{
+#'   [order.integer64()], [rank()] and [prank()] for percent rank.
+#' }
+#' @examples
+#' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#' rank.integer64(x)
+#'
+#' stopifnot(identical(rank.integer64(x),  rank(as.integer(x)
+#' , na.last="keep", ties.method = "average")))
+#'
+#' @keywords univar
+#' @export
 rank.integer64 <- function(x
 , method = NULL
 , ...
@@ -2804,45 +2800,45 @@ rank.integer64 <- function(x
   p
 }
 
-#! \name{prank}
-#! \alias{prank}
-#! \alias{prank.integer64}
-#! \title{(P)ercent (Rank)s}
-#! \description{
-#!     Function \code{prank.integer64}  projects the values [min..max] via ranks [1..n] to [0..1].
-#!     \code{\link{qtile.integer64}} is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
-#! }
-#! \usage{
-#!     prank(x, \dots)
-#!     \method{prank}{integer64}(x, method = NULL, \dots)
-#! }
-#! \arguments{
-#!   \item{x}{a integer64 vector}
-#!   \item{method}{
-#!     NULL for automatic method selection or a suitable low-level method, see details
-#! }
-#!   \item{\dots}{ignored}
-#! }
-#! \details{
-#!     Function \code{prank.integer64} is based on \code{\link{rank.integer64}}.
-#! }
-#! \value{
-#!   \code{prank} returns a numeric vector of the same length as \code{x}.
-#! }
-#! \author{
-#!     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \seealso{
-#!   \code{\link{rank.integer64}} for simple ranks and \code{\link{qtile}} for the inverse function quantiles.
-#! }
-#! \examples{
-#! x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#! prank(x)
-#!
-#! x <- x[!is.na(x)]
-#! stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))
-#! }
-#! \keyword{univar}
+#' \name{prank}
+#' \alias{prank}
+#' \alias{prank.integer64}
+#' \title{(P)ercent (Rank)s}
+#' \description{
+#'     Function `prank.integer64`  projects the values [min..max] via ranks [1..n] to [0..1].
+#'     [qtile.integer64()] is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
+#' }
+#' \usage{
+#'     prank(x, \dots)
+#'     \method{prank}{integer64}(x, method = NULL, \dots)
+#' }
+#' \arguments{
+#'   \item{x}{a integer64 vector}
+#'   \item{method}{
+#'     NULL for automatic method selection or a suitable low-level method, see details
+#' }
+#'   \item{\dots}{ignored}
+#' }
+#' \details{
+#'     Function `prank.integer64` is based on [rank.integer64()].
+#' }
+#' \value{
+#'   `prank` returns a numeric vector of the same length as `x`.
+#' }
+#' \author{
+#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+#' }
+#' \seealso{
+#'   [rank.integer64()] for simple ranks and [qtile()] for the inverse function quantiles.
+#' }
+#' \examples{
+#' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#' prank(x)
+#'
+#' x <- x[!is.na(x)]
+#' stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))
+#' }
+#' \keyword{univar}
 
 prank <- function(x, ...)UseMethod("prank")
 prank.integer64 <- function(x
@@ -2856,86 +2852,86 @@ prank.integer64 <- function(x
     (rank.integer64(x, method=method, ...)-1L)/(n-1L)
 }
 
-#! \name{qtile}
-#! \alias{qtile}
-#! \alias{qtile.integer64}
-#! \alias{quantile.integer64}
-#! \alias{median.integer64}
-#! \alias{mean.integer64}
-#! \alias{summary.integer64}
-#! \title{(Q)uan(Tile)s }
-#! \description{
-#!     Function \code{\link{prank.integer64}}  projects the values [min..max] via ranks [1..n] to [0..1].
-#!     \code{qtile.ineger64} is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
-#! }
-#! \usage{
-#!     qtile(x, probs=seq(0, 1, 0.25), \dots)
-#!     \method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, \dots)
-#!     \method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, \dots)
-#!     \method{median}{integer64}(x, na.rm = FALSE, \dots)
-#!  \method{mean}{integer64}(x, na.rm = FALSE, \dots)
-#!     \method{summary}{integer64}(object, \dots)
-#!  ## mean(x, na.rm = FALSE, ...)
-#!  ## or
-#!  ## mean(x, na.rm = FALSE)
-#! }
-#! \arguments{
-#!   \item{x}{a integer64 vector}
-#!   \item{object}{a integer64 vector}
-#!   \item{probs}{
-#!         numeric vector of probabilities with values in [0,1] - possibly containing \code{NA}s
-#! }
-#!   \item{names}{
-#!     logical; if \code{TRUE}, the result has a \code{names} attribute. Set to \code{FALSE} for speedup with many probs.
-#! }
-#!   \item{type}{
-#!     an integer selecting the quantile algorithm, currently only 0 is supported, see details
-#! }
-#!   \item{method}{
-#!     NULL for automatic method selection or a suitable low-level method, see details
-#! }
-#!   \item{na.rm}{
-#!     logical; if \code{TRUE}, any \code{NA} and \code{NaN}'s are removed from \code{x} before the quantiles are computed.
-#! }
-#!   \item{\dots}{ignored}
-#! }
-#! \details{
-#!  Functions \code{quantile.integer64} with \code{type=0} and \code{median.integer64} are convenience wrappers to \code{qtile}.
-#!  \cr
-#!    Function \code{qtile} behaves very similar to \code{quantile.default} with \code{type=1}
-#!  in that it only returns existing values, it is mostly symetric
-#!  but it is using 'round' rather than 'floor'.
-#!  \cr
-#!  Note that this implies that \code{median.integer64} does not interpolate for even number of values
-#! (interpolation would create values that could not be represented as 64-bit integers).
-#!  \cr
-#!   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
-#!   Suitable methods are \code{\link{sortqtl}} (fast sorting)
-#! and \code{\link{orderqtl}} (memory saving ordering).
-#! }
-#! \value{
-#!   \code{prank} returns a numeric vector of the same length as \code{x}.
-#!   \cr
-#!   \code{qtile} returns a vector with elements from \code{x}
-#!   at the relative positions specified by \code{probs}.
-#! }
-#! \author{
-#!     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \seealso{
-#!   \code{\link{rank.integer64}} for simple ranks and \code{\link{quantile}} for quantiles.
-#! }
-#! \examples{
-#! x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#! qtile(x, probs=seq(0, 1, 0.25))
-#! quantile(x, probs=seq(0, 1, 0.25), na.rm=TRUE)
-#! median(x, na.rm=TRUE)
-#! summary(x)
-#!
-#! x <- x[!is.na(x)]
-#! stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))
-#! }
-#! \keyword{univar}
+#' \name{qtile}
+#' \alias{qtile}
+#' \alias{qtile.integer64}
+#' \alias{quantile.integer64}
+#' \alias{median.integer64}
+#' \alias{mean.integer64}
+#' \alias{summary.integer64}
+#' \title{(Q)uan(Tile)s }
+#' \description{
+#'     Function [prank.integer64()]  projects the values [min..max] via ranks [1..n] to [0..1].
+#'     `qtile.ineger64` is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
+#' }
+#' \usage{
+#'     qtile(x, probs=seq(0, 1, 0.25), \dots)
+#'     \method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, \dots)
+#'     \method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, \dots)
+#'     \method{median}{integer64}(x, na.rm = FALSE, \dots)
+#'  \method{mean}{integer64}(x, na.rm = FALSE, \dots)
+#'     \method{summary}{integer64}(object, \dots)
+#'  ## mean(x, na.rm = FALSE, ...)
+#'  ## or
+#'  ## mean(x, na.rm = FALSE)
+#' }
+#' \arguments{
+#'   \item{x}{a integer64 vector}
+#'   \item{object}{a integer64 vector}
+#'   \item{probs}{
+#'         numeric vector of probabilities with values in [0,1] - possibly containing `NA`s
+#' }
+#'   \item{names}{
+#'     logical; if `TRUE`, the result has a `names` attribute. Set to `FALSE` for speedup with many probs.
+#' }
+#'   \item{type}{
+#'     an integer selecting the quantile algorithm, currently only 0 is supported, see details
+#' }
+#'   \item{method}{
+#'     NULL for automatic method selection or a suitable low-level method, see details
+#' }
+#'   \item{na.rm}{
+#'     logical; if `TRUE`, any `NA` and `NaN`'s are removed from `x` before the quantiles are computed.
+#' }
+#'   \item{\dots}{ignored}
+#' }
+#' \details{
+#'  Functions `quantile.integer64` with `type=0` and `median.integer64` are convenience wrappers to `qtile`.
+#'  \cr
+#'    Function `qtile` behaves very similar to `quantile.default` with `type=1`
+#'  in that it only returns existing values, it is mostly symetric
+#'  but it is using 'round' rather than 'floor'.
+#'  \cr
+#'  Note that this implies that `median.integer64` does not interpolate for even number of values
+#' (interpolation would create values that could not be represented as 64-bit integers).
+#'  \cr
+#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
+#'   Suitable methods are [sortqtl()] (fast sorting)
+#' and [orderqtl()] (memory saving ordering).
+#' }
+#' \value{
+#'   `prank` returns a numeric vector of the same length as `x`.
+#'   \cr
+#'   `qtile` returns a vector with elements from `x`
+#'   at the relative positions specified by `probs`.
+#' }
+#' \author{
+#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+#' }
+#' \seealso{
+#'   [rank.integer64()] for simple ranks and [quantile()] for quantiles.
+#' }
+#' \examples{
+#' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#' qtile(x, probs=seq(0, 1, 0.25))
+#' quantile(x, probs=seq(0, 1, 0.25), na.rm=TRUE)
+#' median(x, na.rm=TRUE)
+#' summary(x)
+#'
+#' x <- x[!is.na(x)]
+#' stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))
+#' }
+#' \keyword{univar}
 
 qtile <- function(x, probs = seq(0.0, 1.0, 0.25), ...)UseMethod("qtile")
 qtile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), names = TRUE, method = NULL, ...){
