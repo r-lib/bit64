@@ -169,127 +169,128 @@
 #' |             [print.integer64()] |      [print()] |                           |
 #' |               [str.integer64()] |        [str()] |                           |
 #'
-#'    \bold{coercing to integer64} \tab \bold{see also}          \tab \bold{description} \cr
-#'    \code{\link{as.integer64}} \tab   \tab generic \cr
-#'    \code{\link{as.integer64.bitstring}} \tab \code{\link{as.bitstring}} \tab  \cr
-#'    \code{\link{as.integer64.character}} \tab \code{\link{character}} \tab  \cr
-#'    \code{\link{as.integer64.double}} \tab \code{\link{double}} \tab  \cr
-#'    \code{\link{as.integer64.integer}} \tab \code{\link{integer}} \tab  \cr
-#'    \code{\link{as.integer64.integer64}} \tab `integer64` \tab  \cr
-#'    \code{\link{as.integer64.logical}} \tab \code{\link{logical}} \tab  \cr
-#'    \code{\link{as.integer64.NULL}} \tab \code{\link{NULL}} \tab  \cr
+#' | **coercing to integer64**  | **see also**     | **description** |
+#' |---------------------------:|-----------------:|:----------------|
+#' |           [as.integer64()] |                  | generic         |
+#' | [as.integer64.bitstring()] | [as.bitstring()] |                 |
+#' | [as.integer64.character()] |    [character()] |                 |
+#' |    [as.integer64.double()] |       [double()] |                 |
+#' |   [as.integer64.integer()] |      [integer()] |                 |
+#' | [as.integer64.integer64()] |      `integer64` |                 |
+#' |   [as.integer64.logical()] |      [logical()] |                 |
+#' |      [as.integer64.NULL()] |         [NULL()] |                 |
+#'
+#'    **coercing from integer64** | **see also**          | **description** |
+#'    [as.list.integer64()] | [as.list()] | generic |
+#'    [as.bitstring()] | [as.bitstring()] | generic |
+#'    [as.bitstring.integer64()] |  |  |
+#'    [as.character.integer64()] | [as.character()] |  |
+#'    [as.double.integer64()] | [as.double()] |  |
+#'    [as.integer.integer64()] | [as.integer()] |  |
+#'    [as.logical.integer64()] | [as.logical()] |  |
+#'    %as.vector.integer64 removed as requested by the CRAN maintainer [as.vector.integer64()] | [as.vector()] |  |
 #'  \cr
-#'    \bold{coercing from integer64} \tab \bold{see also}          \tab \bold{description} \cr
-#'    \code{\link{as.list.integer64}} \tab \code{\link{as.list}} \tab generic \cr
-#'    \code{\link{as.bitstring}} \tab \code{\link{as.bitstring}} \tab generic \cr
-#'    \code{\link{as.bitstring.integer64}} \tab  \tab  \cr
-#'    \code{\link{as.character.integer64}} \tab \code{\link{as.character}} \tab  \cr
-#'    \code{\link{as.double.integer64}} \tab \code{\link{as.double}} \tab  \cr
-#'    \code{\link{as.integer.integer64}} \tab \code{\link{as.integer}} \tab  \cr
-#'    \code{\link{as.logical.integer64}} \tab \code{\link{as.logical}} \tab  \cr
-#'    %as.vector.integer64 removed as requested by the CRAN maintainer \code{\link{as.vector.integer64}} \tab \code{\link{as.vector}} \tab  \cr
+#'    **data structures** | **see also**          | **description** |
+#'    [c.integer64()] | [c()] | vector concatenate |
+#'    [cbind.integer64()] | [cbind()] | column bind |
+#'    [rbind.integer64()] | [rbind()] | row bind |
+#'    [as.data.frame.integer64()] | [as.data.frame()] | coerce atomic object to data.frame |
+#'                                          | [data.frame()] | inherited from Base R since we have coercion |
 #'  \cr
-#'    \bold{data structures} \tab \bold{see also}          \tab \bold{description} \cr
-#'    \code{\link{c.integer64}} \tab \code{\link{c}} \tab vector concatenate \cr
-#'    \code{\link{cbind.integer64}} \tab \code{\link{cbind}} \tab column bind \cr
-#'    \code{\link{rbind.integer64}} \tab \code{\link{rbind}} \tab row bind \cr
-#'    \code{\link{as.data.frame.integer64}} \tab \code{\link{as.data.frame}} \tab coerce atomic object to data.frame \cr
-#'                                          \tab \code{\link{data.frame}} \tab inherited from Base R since we have coercion \cr
+#'    **subscripting** | **see also**          | **description** |
+#'    [[.integer64()] | [[()] | vector and array extract |
+#'    [[<-.integer64()] | [[<-()] | vector and array assign |
+#'    [[[.integer64()] | [[[()] | scalar extract |
+#'    [[[<-.integer64()] | [[[<-()] | scalar assign |
 #'  \cr
-#'    \bold{subscripting} \tab \bold{see also}          \tab \bold{description} \cr
-#'    \code{\link{[.integer64}} \tab \code{\link{[}} \tab vector and array extract \cr
-#'    \code{\link{[<-.integer64}} \tab \code{\link{[<-}} \tab vector and array assign \cr
-#'    \code{\link{[[.integer64}} \tab \code{\link{[[}} \tab scalar extract \cr
-#'    \code{\link{[[<-.integer64}} \tab \code{\link{[[<-}} \tab scalar assign \cr
+#'    **binary operators** | **see also**          | **description** |
+#'    [+.integer64()] | [+()] | returns integer64 |
+#'    [-.integer64()] | [-()] | returns integer64 |
+#'    [*.integer64()] | [*()] | returns integer64 |
+#'    [^.integer64()] | [^()] | returns double |
+#'    [/.integer64()] | [/()] | returns double |
+#'    [\%/\%.integer64()] | [\%/\%()] | returns integer64 |
+#'    [\%\%.integer64()] | [\%\%()] | returns integer64 |
 #'  \cr
-#'    \bold{binary operators} \tab \bold{see also}          \tab \bold{description} \cr
-#'    \code{\link{+.integer64}} \tab \code{\link{+}} \tab returns integer64 \cr
-#'    \code{\link{-.integer64}} \tab \code{\link{-}} \tab returns integer64 \cr
-#'    \code{\link{*.integer64}} \tab \code{\link{*}} \tab returns integer64 \cr
-#'    \code{\link{^.integer64}} \tab \code{\link{^}} \tab returns double \cr
-#'    \code{\link{/.integer64}} \tab \code{\link{/}} \tab returns double \cr
-#'    \code{\link{\%/\%.integer64}} \tab \code{\link{\%/\%}} \tab returns integer64 \cr
-#'    \code{\link{\%\%.integer64}} \tab \code{\link{\%\%}} \tab returns integer64 \cr
+#'    **comparison operators** | **see also**          | **description** |
+#'    [==.integer64()] | [==()] |  |
+#'    [!=.integer64()] | [!=()] |  |
+#'    [<.integer64()] | [<()] |  |
+#'    [<=.integer64()] | [<=()] |  |
+#'    [>.integer64()] | [>()] |  |
+#'    [>=.integer64()] | [>=()] |  |
 #'  \cr
-#'    \bold{comparison operators} \tab \bold{see also}          \tab \bold{description} \cr
-#'    \code{\link{==.integer64}} \tab \code{\link{==}} \tab  \cr
-#'    \code{\link{!=.integer64}} \tab \code{\link{!=}} \tab  \cr
-#'    \code{\link{<.integer64}} \tab \code{\link{<}} \tab  \cr
-#'    \code{\link{<=.integer64}} \tab \code{\link{<=}} \tab  \cr
-#'    \code{\link{>.integer64}} \tab \code{\link{>}} \tab  \cr
-#'    \code{\link{>=.integer64}} \tab \code{\link{>=}} \tab  \cr
+#'    **logical operators** | **see also**          | **description** |
+#'    [!.integer64()] | [!()] |  |
+#'    [&.integer64()] | [&()] |  |
+#'    [|.integer64()] | [|()] |  |
+#'    [xor.integer64()] | [xor()] |  |
 #'  \cr
-#'    \bold{logical operators} \tab \bold{see also}          \tab \bold{description} \cr
-#'    \code{\link{!.integer64}} \tab \code{\link{!}} \tab  \cr
-#'    \code{\link{&.integer64}} \tab \code{\link{&}} \tab  \cr
-#'    \code{\link{|.integer64}} \tab \code{\link{|}} \tab  \cr
-#'    \code{\link{xor.integer64}} \tab \code{\link{xor}} \tab  \cr
+#'    **math functions** | **see also**          | **description** |
+#'    [is.na.integer64()] | [is.na()] | returns logical |
+#'    [format.integer64()] | [format()] | returns character |
+#'    [abs.integer64()] | [abs()] | returns integer64 |
+#'    [sign.integer64()] | [sign()] | returns integer64 |
+#'    [log.integer64()] | [log()] | returns double |
+#'    [log10.integer64()] | [log10()] |  returns double |
+#'    [log2.integer64()] | [log2()] |  returns double |
+#'    [sqrt.integer64()] | [sqrt()] |  returns double |
+#'    [ceiling.integer64()] | [ceiling()] | dummy returning its argument |
+#'    [floor.integer64()] | [floor()] | dummy returning its argument |
+#'    [trunc.integer64()] | [trunc()] | dummy returning its argument |
+#'    [round.integer64()] | [round()] | dummy returning its argument |
+#'    [signif.integer64()] | [signif()] | dummy returning its argument |
 #'  \cr
-#'    \bold{math functions} \tab \bold{see also}          \tab \bold{description} \cr
-#'    \code{\link{is.na.integer64}} \tab \code{\link{is.na}} \tab returns logical \cr
-#'    \code{\link{format.integer64}} \tab \code{\link{format}} \tab returns character \cr
-#'    \code{\link{abs.integer64}} \tab \code{\link{abs}} \tab returns integer64 \cr
-#'    \code{\link{sign.integer64}} \tab \code{\link{sign}} \tab returns integer64 \cr
-#'    \code{\link{log.integer64}} \tab \code{\link{log}} \tab returns double \cr
-#'    \code{\link{log10.integer64}} \tab \code{\link{log10}} \tab  returns double \cr
-#'    \code{\link{log2.integer64}} \tab \code{\link{log2}} \tab  returns double \cr
-#'    \code{\link{sqrt.integer64}} \tab \code{\link{sqrt}} \tab  returns double \cr
-#'    \code{\link{ceiling.integer64}} \tab \code{\link{ceiling}} \tab dummy returning its argument \cr
-#'    \code{\link{floor.integer64}} \tab \code{\link{floor}} \tab dummy returning its argument \cr
-#'    \code{\link{trunc.integer64}} \tab \code{\link{trunc}} \tab dummy returning its argument \cr
-#'    \code{\link{round.integer64}} \tab \code{\link{round}} \tab dummy returning its argument \cr
-#'    \code{\link{signif.integer64}} \tab \code{\link{signif}} \tab dummy returning its argument \cr
+#'    **cumulative functions** | **see also**          | **description** |
+#'    [cummin.integer64()] | [cummin()] | |
+#'    [cummax.integer64()] | [cummax()] | |
+#'    [cumsum.integer64()] | [cumsum()] | |
+#'    [cumprod.integer64()] | [cumprod()] | |
+#'    [diff.integer64()] | [diff()] | |
 #'  \cr
-#'    \bold{cumulative functions} \tab \bold{see also}          \tab \bold{description} \cr
-#'    \code{\link{cummin.integer64}} \tab \code{\link{cummin}} \tab \cr
-#'    \code{\link{cummax.integer64}} \tab \code{\link{cummax}} \tab \cr
-#'    \code{\link{cumsum.integer64}} \tab \code{\link{cumsum}} \tab \cr
-#'    \code{\link{cumprod.integer64}} \tab \code{\link{cumprod}} \tab \cr
-#'    \code{\link{diff.integer64}} \tab \code{\link{diff}} \tab \cr
+#'    **summary functions** | **see also**          | **description** |
+#'    [range.integer64()] | [range()] | |
+#'    [min.integer64()] | [min()] |  |
+#'    [max.integer64()] | [max()] |  |
+#'    [sum.integer64()] | [sum()] |  |
+#'    [mean.integer64()] | [mean()] |  |
+#'    [prod.integer64()] | [prod()] |  |
+#'    [all.integer64()] | [all()] |  |
+#'    [any.integer64()] | [any()] |  |
 #'  \cr
-#'    \bold{summary functions} \tab \bold{see also}          \tab \bold{description} \cr
-#'    \code{\link{range.integer64}} \tab \code{\link{range}} \tab \cr
-#'    \code{\link{min.integer64}} \tab \code{\link{min}} \tab  \cr
-#'    \code{\link{max.integer64}} \tab \code{\link{max}} \tab  \cr
-#'    \code{\link{sum.integer64}} \tab \code{\link{sum}} \tab  \cr
-#'    \code{\link{mean.integer64}} \tab \code{\link{mean}} \tab  \cr
-#'    \code{\link{prod.integer64}} \tab \code{\link{prod}} \tab  \cr
-#'    \code{\link{all.integer64}} \tab \code{\link{all}} \tab  \cr
-#'    \code{\link{any.integer64}} \tab \code{\link{any}} \tab  \cr
+#'    **algorithmically complex functions** | **see also**          | **description (caching)**  |
+#'    [match.integer64()] | [match()] | position of x in table (h//o/so) |
+#'    [\%in\%.integer64()] | [\%in\%()] | is x in table? (h//o/so) |
+#'    [duplicated.integer64()] | [duplicated()] | is current element duplicate of previous one? (h//o/so) |
+#'    [unique.integer64()] | [unique()] | (shorter) vector of unique values only (h/s/o/so) |
+#'    [unipos.integer64()] | [unipos()] | positions corresponding to unique values (h/s/o/so) |
+#'    [tiepos.integer64()] | [tiepos()] | positions of values that are tied (//o/so) |
+#'    [keypos.integer64()] | [keypos()] | position of current value in sorted list of unique values (//o/so) |
+#'    [as.factor.integer64()] | [as.factor()] | convert to (unordered) factor with sorted levels of previous values (//o/so) |
+#'    [as.ordered.integer64()] | [as.ordered()] | convert to ordered factor with sorted levels of previous values (//o/so) |
+#'    [table.integer64()] | [table()] | unique values and their frequencies (h/s/o/so) |
+#'    [sort.integer64()] | [sort()] | sorted vector (/s/o/so) |
+#'    [order.integer64()] | [order()] | positions of elements that would create sorted vector (//o/so) |
+#'    [rank.integer64()] | [rank()] | (average) ranks of non-NAs, NAs kept in place (/s/o/so) |
+#'    [quantile.integer64()] | [quantile()] | (existing) values at specified percentiles (/s/o/so) |
+#'    [median.integer64()] | [median()] | (existing) value at percentile 0.5 (/s/o/so) |
+#'    [summary.integer64()] | [summary()] |  (/s/o/so) |
+#'    [all.equal.integer64()] | [all.equal()] | test if two objects are (nearly) equal (/s/o/so) |
 #'  \cr
-#'    \bold{algorithmically complex functions} \tab \bold{see also}          \tab \bold{description (caching)}  \cr
-#'    \code{\link{match.integer64}} \tab \code{\link{match}} \tab position of x in table (h//o/so) \cr
-#'    \code{\link{\%in\%.integer64}} \tab \code{\link{\%in\%}} \tab is x in table? (h//o/so) \cr
-#'    \code{\link{duplicated.integer64}} \tab \code{\link{duplicated}} \tab is current element duplicate of previous one? (h//o/so) \cr
-#'    \code{\link{unique.integer64}} \tab \code{\link{unique}} \tab (shorter) vector of unique values only (h/s/o/so) \cr
-#'    \code{\link{unipos.integer64}} \tab \code{\link{unipos}} \tab positions corresponding to unique values (h/s/o/so) \cr
-#'    \code{\link{tiepos.integer64}} \tab \code{\link{tiepos}} \tab positions of values that are tied (//o/so) \cr
-#'    \code{\link{keypos.integer64}} \tab \code{\link{keypos}} \tab position of current value in sorted list of unique values (//o/so) \cr
-#'    \code{\link{as.factor.integer64}} \tab \code{\link{as.factor}} \tab convert to (unordered) factor with sorted levels of previous values (//o/so) \cr
-#'    \code{\link{as.ordered.integer64}} \tab \code{\link{as.ordered}} \tab convert to ordered factor with sorted levels of previous values (//o/so) \cr
-#'    \code{\link{table.integer64}} \tab \code{\link{table}} \tab unique values and their frequencies (h/s/o/so) \cr
-#'    \code{\link{sort.integer64}} \tab \code{\link{sort}} \tab sorted vector (/s/o/so) \cr
-#'    \code{\link{order.integer64}} \tab \code{\link{order}} \tab positions of elements that would create sorted vector (//o/so) \cr
-#'    \code{\link{rank.integer64}} \tab \code{\link{rank}} \tab (average) ranks of non-NAs, NAs kept in place (/s/o/so) \cr
-#'    \code{\link{quantile.integer64}} \tab \code{\link{quantile}} \tab (existing) values at specified percentiles (/s/o/so) \cr
-#'    \code{\link{median.integer64}} \tab \code{\link{median}} \tab (existing) value at percentile 0.5 (/s/o/so) \cr
-#'    \code{\link{summary.integer64}} \tab \code{\link{summary}} \tab  (/s/o/so) \cr
-#'    \code{\link{all.equal.integer64}} \tab \code{\link{all.equal}} \tab test if two objects are (nearly) equal (/s/o/so) \cr
-#'  \cr
-#'    \bold{helper functions} \tab \bold{see also}          \tab \bold{description} \cr
-#'    \code{\link{minusclass}} \tab \code{\link{minusclass}} \tab removing class attritbute \cr
-#'    \code{\link{plusclass}} \tab \code{\link{plusclass}} \tab inserting class attribute \cr
-#'    \code{\link{binattr}} \tab \code{\link{binattr}} \tab define binary op behaviour \cr
-#'  \cr
-#'    \bold{tested I/O functions} \tab \bold{see also}          \tab \bold{description} \cr
-#'                                \tab \code{\link{read.table}} \tab inherited from Base R \cr
-#'                                \tab \code{\link{write.table}} \tab inherited from Base R \cr
-#'                                \tab \code{\link{serialize}} \tab inherited from Base R \cr
-#'                                \tab \code{\link{unserialize}} \tab inherited from Base R \cr
-#'                                \tab \code{\link{save}} \tab inherited from Base R \cr
-#'                                \tab \code{\link{load}} \tab inherited from Base R \cr
-#'                                \tab \code{\link{dput}} \tab inherited from Base R \cr
-#'                                \tab \code{\link{dget}} \tab inherited from Base R \cr
+#'    **helper functions** | **see also**          | **description** |
+#'    [minusclass()] | [minusclass()] | removing class attritbute |
+#'    [plusclass()] | [plusclass()] | inserting class attribute |
+#'    [binattr()] | [binattr()] | define binary op behaviour |
+#'  |
+#'    **tested I/O functions** | **see also**          | **description** |
+#'                                | [read.table()] | inherited from Base R |
+#'                                | [write.table()] | inherited from Base R |
+#'                                | [serialize()] | inherited from Base R |
+#'                                | [unserialize()] | inherited from Base R |
+#'                                | [save()] | inherited from Base R |
+#'                                | [load()] | inherited from Base R |
+#'                                | [dput()] | inherited from Base R |
+#'                                | [dget()] | inherited from Base R |
 #' }
 #'
 #' ## Limitations inherited from implementing 64 bit integers via an external package
@@ -370,35 +371,37 @@
 #'
 #'  - **[str()]** does not print the values of `integer64` correctly
 #'
-#' \section{further limitations}{
-#'   \itemize{
-#'     \item \bold{subscripting} non-existing elements and subscripting with `NA`s is currently not supported.
-#'     Such subscripting currently returns `9218868437227407266` instead of `NA` (the `NA` value of the underlying double code).
-#'     Following the full R behaviour here would either destroy performance or require extensive C-coding.
-#'   }
-#' }
-#' \note{
-#'    `integer64` are useful for handling database keys and exact counting in +-2^63.
-#'    Do not use them as replacement for 32bit integers, integer64 are not
-#'    supported for subscripting by R-core and they have different semantics
-#'    when combined with double. Do understand that `integer64` can only be
-#'    useful over `double` if we do not coerce it to `double`. \cr
-#'   \cr
-#'   While \cr
-#'   integer + double -> double + double -> double \cr
-#'   or \cr
-#'   1L + 0.5 -> 1.5 \cr
-#'   for additive operations we coerce to `integer64` \cr
-#'   integer64 + double ->  integer64 + integer64 -> integer64 \cr
-#'   hence \cr
-#'   as.integer64(1) + 0.5 -> 1LL + 0LL -> 1LL \cr
-#'   \cr
+#' ## Further limitations
+#'
+#'  - **subscripting** non-existing elements and subscripting with `NA`s is currently
+#'    not supported. Such subscripting currently returns `9218868437227407266` instead
+#'    of `NA` (the `NA` value of the underlying double code). Following the full R
+#'    behaviour here would either destroy performance or require extensive C-coding.
+#'
+#' @note `integer64` are useful for handling database keys and exact counting in +-2^63.
+#'   Do not use them as replacement for 32bit integers, integer64 are not supported for
+#'   subscripting by R-core and they have different semantics when combined with double.
+#'   Do understand that `integer64` can only be useful over `double` if we do not coerce
+#'   it to `double`.
+#'
+#'   While
+#'
+#'   integer + double -> double + double -> double
+#'
+#'   or
+#'
+#'   1L + 0.5 -> 1.5
+#'
+#'   for additive operations we coerce to `integer64`
+#'
+#'   integer64 + double ->  integer64 + integer64 -> integer64
+#'
+#'   hence
+#'
+#'   as.integer64(1) + 0.5 -> 1LL + 0LL -> 1LL
+#'
 #'   see section "Arithmetic precision and coercion" above
-#' }
-#' \author{
-#' Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#' Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#' }
+#'
 #' @seealso  [integer()] in base R
 #' @examples
 #' message("Using integer64 in vector")
