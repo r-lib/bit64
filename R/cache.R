@@ -12,21 +12,7 @@
 #'
 #' Functions for caching results attached to atomic objects
 #'
-#' \usage{
-#' newcache(x)
-#' jamcache(x)
-#' cache(x)
-#' setcache(x, which, value)
-#' getcache(x, which)
-#' remcache(x)
-#' \method{print}{cache}(x, all.names = FALSE, pattern, \dots)
-#' }
 #' @param x an integer64 vector (or a cache object in case of `print.cache`)
-#' @param which A character naming the object to be retrieved from the cache or to be stored in the cache
-#' @param value An object to be stored in the cache
-#' @param all.names passed to [ls()] when listing the cache content
-#' @param pattern passed to [ls()] when listing the cache content
-#' @param .. ignored
 #'
 #' @details
 #' A `cache` is an [environment] attached to an atomic object with the
@@ -72,7 +58,6 @@
 #'   remcache(x)
 #'   cache(x)
 #' @keyword environment
-#' @aliases getcache remcache print.cache
 #' @rdname cache
 NULL
 
@@ -123,6 +108,8 @@ cache <- function(x) {
 }
 
 #' @describeIn cacheassigns a value into the cache of `x`
+#' @param which A character naming the object to be retrieved from the cache or to be stored in the cache
+#' @param value An object to be stored in the cache
 #' @export
 setcache <- function(x, which, value) {
       env <- jamcache(x)
@@ -155,72 +142,52 @@ remcache <- function(x) {
     invisible()
 }
 
+#' @rdname cache
+#' @param all.names,pattern passed to [ls()] when listing the cache content
+#' @param ... ignored
+#' @export
 print.cache<- function(x, all.names=FALSE, pattern, ...){
   l <- ls(x, all.names, pattern=pattern)
   cat(class(x)[1L], ": ", paste(l, collapse=" - "), "\n", sep="")
   invisible(l)
 }
 
+#' Big caching of hashing, sorting, ordering
+#'
+#' Functions to create cache that accelerates many operations
+#'
+#' @param x an atomic vector (note that currently only integer64 is supported)
+#'
+#' @details
+#' The result of relative expensive operations [hashmap()], [ramsort()],
+#'   [ramsortorder()], and [ramorder()] can be stored in a cache in order to
+#'   avoid multiple excutions. Unless in very specific situations, the
+#'   recommended method is `hashsortorder` only.
+#'
+#' @note
+#'   Note that we consider storing the big results from sorting and/or ordering
+#'   as a relevant side-effect, and therefore storing them in the cache should
+#'   require a conscious decision of the user.
+#'
+#' @return `x` with a [cache()] that contains the result of the expensive operations,
+#'   possible together with small derived information (such as [nunique.integer64()])
+#'   and previously cached results.
+#'
+#' @seealso
+#'   [cache()] for caching functions and [nunique.integer64()] for methods benefiting
+#'   from small caches
+#'
+#' @examples
+#'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#'   sortordercache(x)
+#'
+#' @keyword environment
+NULL
 
-#' \name{hashcache}
-#' \alias{hashcache}
-#' \alias{sortcache}
-#' \alias{sortordercache}
-#' \alias{ordercache}
-#' \title{
-#'         Big caching of hashing, sorting, ordering
-#' }
-#' \description{
-#'     Functions to create cache that accelerates many operations
-#' }
-#' \usage{
-#' hashcache(x, nunique=NULL, \dots)
-#' sortcache(x, has.na = NULL)
-#' sortordercache(x, has.na = NULL, stable = NULL)
-#' ordercache(x, has.na = NULL, stable = NULL, optimize = "time")
-#' }
-#' \arguments{
-#'   \item{x}{
-#'         an atomic vector (note that currently only integer64 is supported)
-#' }
-#'   \item{nunique}{ giving \emph{correct} number of unique elements can help reducing the size of the hashmap }
-#'   \item{has.na}{
-#' boolean scalar defining whether the input vector might contain `NA`s. If we know we don't have NAs, this may speed-up.
-#' \emph{Note} that you risk a crash if there are unexpected `NA`s with `has.na=FALSE`
-#' }
-#'   \item{stable}{
-#' boolean scalar defining whether stable sorting is needed. Allowing non-stable may speed-up.
-#' }
-#'   \item{optimize}{
-#' by default ramsort optimizes for 'time' which requires more RAM,
-#' set to 'memory' to minimize RAM requirements and sacrifice speed
-#' }
-#'   \item{\dots}{
-#'         passed to [hashmap()]
-#' }
-#' }
-#' \details{
-#'     The result of relative expensive operations [hashmap()], \code{\link[=ramsort.integer64]{ramsort}}, \code{\link[=ramsort.integer64]{ramsortorder}} and \code{\link[=ramsort.integer64]{ramorder}} can be stored in a cache in order to avoid multiple excutions. Unless in very specific situations, the recommended method is `hashsortorder` only.
-#' }
-#' \note{
-#'   Note that we consider storing the big results from sorting and/or ordering as a relevant side-effect,
-#' and therefore storing them in the cache should require a conscious decision of the user.
-#' }
-#' \value{
-#'     `x` with a [cache()] that contains the result of the expensive operations, possible together with small derived information (such as [nunique.integer64()]) and previously cached results.
-#' }
-#' \author{
-#' Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#' }
-#' \seealso{
-#'     [cache()] for caching functions and [nunique.integer64()] for methods benefiting from small caches
-#' }
-#' \examples{
-#'     x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#'  sortordercache(x)
-#' }
-#' \keyword{ environment }
-
+#' @rdname hashcache
+#' @param nunique giving _correct_ number of unique elements can help reducing the size of the hashmap
+#' @param ... passed to [hashmap()]
+#' @export
 hashcache <-function(x, nunique=NULL, ...){
     env <- jamcache(x)
     if (is.null(nunique))
@@ -233,6 +200,11 @@ hashcache <-function(x, nunique=NULL, ...){
     invisible(env)
 }
 
+#' @rdname hashcache
+#' @param has.na boolean scalar defining whether the input vector might contain
+#'    `NA`s. If we know we don't have `NA`s, this may speed-up. _Note_ that you
+#'    risk a crash if there are unexpected `NA`s with `has.na=FALSE`.
+#' @export
 sortcache <- function(x, has.na = NULL){
     if (is.null(has.na)){
         na.count <- getcache(x, "na.count")
@@ -251,7 +223,10 @@ sortcache <- function(x, has.na = NULL){
     invisible(x)
 }
 
-
+#' @rdname hashcache
+#' @param stable boolean scalar defining whether stable sorting is needed. Allowing
+#'   non-stable may speed-up.
+#' @export
 sortordercache <- function(x, has.na = NULL, stable = NULL){
     if (is.null(has.na)){
         na.count <- getcache(x, "na.count")
@@ -279,7 +254,10 @@ sortordercache <- function(x, has.na = NULL, stable = NULL){
     invisible(x)
 }
 
-
+#' @rdname hashcache
+#' @param optimize by default ramsort optimizes for 'time' which requires more RAM,
+#'   set to 'memory' to minimize RAM requirements and sacrifice speed.
+#' @export
 ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
     if (is.null(has.na)){
         na.count <- getcache(x, "na.count")
@@ -304,8 +282,6 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
     setcache(x, "nties", nut[[2L]])
     invisible(x)
 }
-
-
 
 #' \name{is.sorted.integer64}
 #' \alias{is.sorted.integer64}
