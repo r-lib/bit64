@@ -85,80 +85,90 @@
 #' example in <[`c()`][c.integer64]>, <[`cbind()`][cbind.integer64]>, and
 #' <[`rbind()`][rbind.integer64]>
 #'
-#'   Different from Base R, our operators \code{\link[=+.integer64]{+}},
-#'   \code{\link[=-.integer64]{-}}, \code{\link[=\%/\%.integer64]{\%/\%}} and \code{\link[=\%\%.integer64]{\%\%}} coerce their arguments to
-#'   \code{integer64} and always return \code{integer64}.
-#'   \cr
-#'   The multiplication operator \code{\link[=*.integer64]{*}} coerces its first argument to \code{integer64}
-#'   but allows its second argument to be also \code{double}: the second argument is internaly coerced to 'long double'
-#'   and the result of the multiplication is returned as \code{integer64}.
-#'   \cr
-#'   The division \code{\link[=/.integer64]{/}} and power \code{\link[=^.integer64]{^}} operators also coerce their first argument to \code{integer64}
-#'   and coerce internally their second argument to 'long double', they return as \code{double}, like \code{\link[=sqrt.integer64]{sqrt}},
-#'   \code{\link[=log.integer64]{log}}, \code{\link[=log2.integer64]{log2}} and \code{\link[=log10.integer64]{log10}} do.
+#' Different from Base R, our operators <[`+`][+.integer64]>, <[`-`][-.integer64]>,
+#' <[`%/%`][%/%.integer64]>, and <[`%%`][%%.integer64]> coerce their arguments to
+#' `integer64` and always return `integer64`.
 #'
-#'  \tabular{ccccccccc}{
-#'   \bold{argument1} \tab \bold{op} \tab \bold{argument2} \tab \bold{->} \tab \bold{coerced1} \tab \bold{op} \tab \bold{coerced2} \tab \bold{->} \tab \bold{result} \cr
-#'   integer64 \tab + \tab double \tab -> \tab integer64 \tab + \tab integer64 \tab -> \tab integer64 \cr
-#'   double \tab + \tab integer64 \tab -> \tab integer64 \tab + \tab integer64 \tab -> \tab integer64 \cr
-#'   integer64 \tab - \tab double \tab -> \tab integer64 \tab - \tab integer64 \tab -> \tab integer64 \cr
-#'   double \tab - \tab integer64 \tab -> \tab integer64 \tab - \tab integer64 \tab -> \tab integer64 \cr
-#'   integer64 \tab \%/\% \tab double \tab -> \tab integer64 \tab \%/\% \tab integer64 \tab -> \tab integer64 \cr
-#'   double \tab \%/\% \tab integer64 \tab -> \tab integer64 \tab \%/\% \tab integer64 \tab -> \tab integer64 \cr
-#'   integer64 \tab \%\% \tab double \tab -> \tab integer64 \tab \%\% \tab integer64 \tab -> \tab integer64 \cr
-#'   double \tab \%\% \tab integer64 \tab -> \tab integer64 \tab \%\% \tab integer64 \tab -> \tab integer64 \cr
-#'   integer64 \tab * \tab double \tab -> \tab integer64 \tab * \tab long double \tab -> \tab integer64 \cr
-#'   double \tab * \tab integer64 \tab -> \tab integer64 \tab * \tab integer64 \tab -> \tab integer64 \cr
-#'   integer64 \tab / \tab double \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
-#'   double \tab / \tab integer64 \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
-#'   integer64 \tab ^ \tab double \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
-#'   double \tab ^ \tab integer64 \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
-#'  }
+#' The multiplication operator <[`*`][*.integer64]> coerces its first argument to
+#' `integer64` but allows its second argument to be also `double`: the second
+#' argument is internaly coerced to 'long double' and the result of the
+#' multiplication is returned as `integer64`.
 #'
-#' \section{Creating and testing S3 class 'integer64'}{
-#'   Our creator function \code{integer64} takes an argument \code{length}, creates an atomic double vector of this length,
-#'   attaches an S3 class attribute 'integer64' to it, and that's it. We simply rely on S3 method dispatch and interpret those
-#'   64bit elements as 'long long int'.
-#'   \cr
-#'  \code{\link{is.double}} currently returns TRUE for \code{integer64} and might return FALSE in a later release.
-#'  Consider \code{is.double} to have undefined behavior and do query \code{is.integer64} \emph{before} querying \code{is.double}.
-#' %As a second line of defense against misinterpretation we make \code{\link{is.double}}
-#' %return \code{FALSE} by making it S3 generic and adding a method \code{\link{as.double.integer64}}.
-#'   The methods \code{\link{is.integer64}} and \code{\link{is.vector}} both return \code{TRUE} for \code{integer64}.
-#'  Note that we did not patch \code{\link{storage.mode}} and \code{\link{typeof}}, which both continue returning 'double'
-#'  Like for 32 bit \code{\link{integer}}, \code{\link{mode}} returns 'numeric' and \code{\link{as.double}}) tries coercing to \code{\link{double}}).
-#'  It is possible that 'integer64' becomes a \code{vmode} in package \code{ff}.
-#'  \cr
-#'  Further methods for creating \code{integer64} are \code{\link[=range.integer64]{range}} which returns the range of the data type if calles without arguments,
-#'  \code{\link[=rep.integer64]{rep}}, \code{\link[=seq.integer64]{seq}}.
-#'  \cr
-#'  For all available methods on \code{integer64} vectors see the index below and the examples.
-#' }
-#' \section{Index of implemented methods}{
-#' \tabular{rrl}{
-#'    \bold{creating,testing,printing} \tab \bold{see also}          \tab \bold{description} \cr
-#'    \code{NA_integer64_} \tab \code{\link{NA_integer_}} \tab NA constant \cr
-#'    \code{integer64} \tab \code{\link{integer}} \tab create zero atomic vector \cr
-#'    \code{\link{runif64}} \tab \code{\link{runif}} \tab create random vector \cr
-#'    \code{\link{rep.integer64}} \tab \code{\link{rep}} \tab  \cr
-#'    \code{\link{seq.integer64}} \tab \code{\link{seq}} \tab  \cr
-#'    \code{\link{is.integer64}} \tab \code{\link{is}} \tab  \cr
-#'                                      \tab \code{\link{is.integer}} \tab inherited from Base R \cr
-#'    %\code{\link{is.double.integer64}} \tab \code{\link{is.double}} \tab  \cr
-#'    \code{\link{is.vector.integer64}} \tab \code{\link{is.vector}} \tab  \cr
-#'    \code{\link{identical.integer64}} \tab \code{\link{identical}} \tab  \cr
-#'    \code{\link{length<-.integer64}} \tab \code{\link{length<-}} \tab  \cr
-#'                                      \tab \code{\link{length}} \tab inherited from Base R \cr
-#'                                      \tab \code{\link{names<-}} \tab inherited from Base R \cr
-#'                                      \tab \code{\link{names}} \tab inherited from Base R \cr
-#'                                      \tab \code{\link{dim<-}} \tab inherited from Base R \cr
-#'                                      \tab \code{\link{dim}} \tab inherited from Base R \cr
-#'                                      \tab \code{\link{dimnames<-}} \tab inherited from Base R \cr
-#'                                      \tab \code{\link{dimnames}} \tab inherited from Base R \cr
-#'                                     \tab \code{\link{str}} \tab inherited from Base R, does not print values correctly \cr
-#'    \code{\link{print.integer64}} \tab \code{\link{print}} \tab  \cr
-#'    \code{\link{str.integer64}} \tab \code{\link{str}} \tab  \cr
-#'  \cr
+#' The division <[`/`][/.integer64]> and power <[`^`][^.integer64]> operators also
+#' coerce their first argument to `integer64` and coerce internally their second
+#' argument to 'long double', they return as `double`, like
+#' <[`sqrt()`][sqrt.integer64]>, <[`log()`][log.integer64]>,
+#' <[`log2()`][log2.integer64]>, and <[`log10()`][log10.integer64]> do.
+#'
+#' | **argument1** | **op** | **argument2** | **->** | **coerced1** | **op** | **coerced2** | **->** | **result** |
+#' |:-------------:|:------:|:-------------:|:------:|:------------:|:------:|:------------:|:------:|:----------:|
+#' | integer64     | +      | double        | ->     | integer64    | +      | integer64    | ->     | integer64  |
+#' | double        | +      | integer64     | ->     | integer64    | +      | integer64    | ->     | integer64  |
+#' | integer64     | -      | double        | ->     | integer64    | -      | integer64    | ->     | integer64  |
+#' | double        | -      | integer64     | ->     | integer64    | -      | integer64    | ->     | integer64  |
+#' | integer64     | %/%    | double        | ->     | integer64    | %/%    | integer64    | ->     | integer64  |
+#' | double        | %/%    | integer64     | ->     | integer64    | %/%    | integer64    | ->     | integer64  |
+#' | integer64     | %%     | double        | ->     | integer64    | %%     | integer64    | ->     | integer64  |
+#' | double        | %%     | integer64     | ->     | integer64    | %%     | integer64    | ->     | integer64  |
+#' | integer64     | *      | double        | ->     | integer64    | *      | long double  | ->     | integer64  |
+#' | double        | *      | integer64     | ->     | integer64    | *      | integer64    | ->     | integer64  |
+#' | integer64     | /      | double        | ->     | integer64    | /      | long double  | ->     | double     |
+#' | double        | /      | integer64     | ->     | integer64    | /      | long double  | ->     | double     |
+#' | integer64     | ^      | double        | ->     | integer64    | /      | long double  | ->     | double     |
+#' | double        | ^      | integer64     | ->     | integer64    | /      | long double  | ->     | double     |
+#'
+#' ## Creating and testing S3 class 'integer64'}
+#'
+#' Our creator function `integer64` takes an argument `length`, creates an atomic
+#' double vector of this length, attaches an S3 class attribute 'integer64' to it, 
+#' and that's it. We simply rely on S3 method dispatch and interpret those 64-bit
+#' elements as 'long long int'.
+#'
+#' [is.double()] currently returns TRUE for `integer64` and might return `FALSE` in
+#' a later release. Consider `is.double()` to have undefined behavior and do query
+#' [is.integer64()] _before_ querying `is.double()`.
+#'
+# As a second line of defense against misinterpretation we make `is.double()` return
+# FALSE by making it S3 generic and adding a method `as.double.integer64()`.
+#
+#' The methods [is.integer64()] and [is.vector()] both return `TRUE` for `integer64`.
+#' Note that we did not patch [storage.mode()] and [typeof()], which both continue
+#' returning 'double'. Like for 32 bit [integer], [mode()] returns 'numeric' and
+#' [as.double()] tries coercing to [double]. It is possible that 'integer64' becomes
+#' a [vmode] in package {ff}.
+#'
+#' Further methods for creating `integer64` are <[`range()`][range.integer64]> which
+#' returns the range of the data type if calles without arguments,
+#' <[`rep()`][rep.integer64]>, <[`seq()`][seq.integer64]>.
+#'
+#' For all available methods on `integer64` vectors see the index below and the examples.
+#'
+#' ## Index of implemented methods
+#'
+#' | **creating, testing, printing** | **see also**   | **description**           |
+#' |--------------------------------:|---------------:|:--------------------------|
+#' |                 `NA_integer64_` |  [NA_integer_] | NA constant               |
+#' |                     `integer64` |      [integer] | create zero atomic vector |
+#' |                     [runif64()] |      [runif()] | create random vector      |
+#' |               [rep.integer64()] |        [rep()] |                           |
+#' |               [seq.integer64()] |        [seq()] |                           |
+#' |                [is.integer64()] |         [is()] |                           |
+#' |                                 | [is.integer()] | inherited from Base R     |
+#  |         [is.double.integer64()] |  [is.double()] |                           |
+#' |         [is.vector.integer64()] |  [is.vector()] |                           |
+#' |         [identical.integer64()] |  [identical()] |                           |
+#' |            [length<-.integer64] |     [length<-] |                           |
+#' |                                 |     [length()] | inherited from Base R     |
+#' |                                 |      [names<-] | inherited from Base R     |
+#' |                                 |      [names()] | inherited from Base R     |
+#' |                                 |        [dim<-] | inherited from Base R     |
+#' |                                 |        [dim()] | inherited from Base R     |
+#' |                                 |   [dimnames<-] | inherited from Base R     |
+#' |                                 |   [dimnames()] | inherited from Base R     |
+#' |                                 |        [str()] | inherited from Base R, does not print values correctly |
+#' |             [print.integer64()] |      [print()] |                           |
+#' |               [str.integer64()] |        [str()] |                           |
+#'
 #'    \bold{coercing to integer64} \tab \bold{see also}          \tab \bold{description} \cr
 #'    \code{\link{as.integer64}} \tab   \tab generic \cr
 #'    \code{\link{as.integer64.bitstring}} \tab \code{\link{as.bitstring}} \tab  \cr
