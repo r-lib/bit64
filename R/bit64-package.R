@@ -175,7 +175,7 @@
 #'    \code{\link{as.integer64.character}} \tab \code{\link{character}} \tab  \cr
 #'    \code{\link{as.integer64.double}} \tab \code{\link{double}} \tab  \cr
 #'    \code{\link{as.integer64.integer}} \tab \code{\link{integer}} \tab  \cr
-#'    \code{\link{as.integer64.integer64}} \tab \code{integer64} \tab  \cr
+#'    \code{\link{as.integer64.integer64}} \tab `integer64` \tab  \cr
 #'    \code{\link{as.integer64.logical}} \tab \code{\link{logical}} \tab  \cr
 #'    \code{\link{as.integer64.NULL}} \tab \code{\link{NULL}} \tab  \cr
 #'  \cr
@@ -291,106 +291,104 @@
 #'                                \tab \code{\link{dput}} \tab inherited from Base R \cr
 #'                                \tab \code{\link{dget}} \tab inherited from Base R \cr
 #' }
-#' }
-#' \section{Limitations inherited from implementing 64 bit integers via an external package}{
-#'   \itemize{
-#'     \item \bold{vector size} of atomic vectors is still limited to \code{\link{.Machine}$integer.max}.
-#'     However, external memory extending packages such as \code{ff} or \code{bigmemory}
-#'     can extend their address space now with \code{integer64}. Having 64 bit integers also help
-#'     with those not so obvious address issues that arise once we exchange data with SQL databases
-#'     and datawarehouses, which use big integers as surrogate keys, e.g. on indexed primary key columns.
-#'     This puts R into a relatively strong position compared to certain commercial statistical
-#'     softwares, which sell database connectivity but neither have the range of 64 bit integers,
-#'     nor have integers at all, nor have a single numeric data type in their macro-glue-language.
 #'
-#'     \item \bold{literals} such as \code{123LL} would require changes to Base R, up to then we need to write (and call)
-#'     \code{as.integer64(123L)} or \code{as.integer64(123)} or \code{as.integer64('123')}.
-#'     Only the latter allows to specify numbers beyond Base R's numeric data types and therefore is the recommended
-#'     way to use -- using only one way may facilitate migrating code to literals at a later stage.
+#' ## Limitations inherited from implementing 64 bit integers via an external package
 #'
-#'   }
-#' }
-#' \section{Limitations inherited from Base R, Core team, can you change this?}{
-#'   \itemize{
-#'     \item \bold{\code{\link{identical}}} with default parameters does not distinguish all bit-patterns of doubles.
-#'     For testing purposes we provide a wrapper \code{\link{identical.integer64}} that will distinguish all bit-patterns.
-#'     It would be desireable to have a single call of \code{\link{identical}} handle both, \code{\link{double}} and \code{integer64}.
+#'  - **vector size** of atomic vectors is still limited to
+#'    <[`.Machine$integer.max`][.Machine]>. However, external memory extending packages
+#'    such as {ff} or {bigmemory} can extend their address space now with `integer64`.
+#'    Having 64 bit integers also help with those not so obvious address issues that
+#'    arise once we exchange data with SQL databases and datawarehouses, which use big
+#'    integers as surrogate keys, e.g. on indexed primary key columns. This puts R into
+#'    a relatively strong position compared to certain commercial statistical softwares,
+#'    which sell database connectivity but neither have the range of 64 bit integers,
+#'    nor have integers at all, nor have a single numeric data type in their
+#'    macro-glue-language.
+#'  - **literals** such as `123LL` would require changes to Base R, up to then we need
+#'    to write (and call) `as.integer64(123L)` or `as.integer64(123)` or
+#'    `as.integer64('123')`. Only the latter allows to specify numbers beyond Base R's
+#'    numeric data types and therefore is the recommended way to use -- using only one
+#'    way may facilitate migrating code to literals at a later stage.
 #'
-#'     \item the \bold{colon} operator \code{\link{:}} officially does not dispatches S3 methods, however, we have made it generic
-#'      \preformatted{
-#'      from <- lim.integer64()[1]
-#'      to <- from+99
-#'      from:to
-#'    }
-#'    As a limitation remains: it will only dispatch at its first argument \code{from} but not at its second \code{to}.
+#' ## Limitations inherited from Base R, Core team, can you change this?
 #'
-#'     \item \bold{\code{\link{is.double}}} does not dispatches S3 methods, However, we have made it generic
-#'        and it will return \code{FALSE} on \code{integer64}.
+#'  -  **[identical()] with default parameters does not distinguish all bit-patterns of
+#'     doubles. For testing purposes we provide a wrapper [identical.integer64()] that
+#'     will distinguish all bit-patterns. It would be desireable to have a single call
+#'     of `identical()` handle both, [double] and `integer64`.
 #'
-#'     \item \bold{\code{\link{c}}} only dispatches \code{\link{c.integer64}} if the first argument is \code{integer64}
-#'     and it does not recursively dispatch the proper method when called with argument \code{recursive=TRUE}
-#'     Therefore \preformatted{
-#'       c(list(integer64,integer64))
-#'     }
-#'      does not work and for now you can only call \preformatted{
-#'        c.integer64(list(x,x))
-#'      }
+#'  - the **colon** operator [:] officially does not dispatch S3 methods, however, we
+#'    have made it generic:
 #'
-#'     \item \bold{generic binary operators} fail to dispatch *any* user-defined S3 method
-#'     if the two arguments have two different S3 classes. For example we have two classes
-#'     \code{\link[bit]{bit}} and \code{\link[bit]{bitwhich}} sparsely representing boolean vectors
-#'     and we have methods \code{\link[bit:xor.default]{&.bit}} and \code{\link[bit:xor.default]{&.bitwhich}}. For an expression
-#'     involving both as in \code{ bit & bitwhich}, none of the two methods is dispatched.
-#'     Instead a standard method is dispatched, which neither handles \code{\link[bit]{bit}}
-#'     nor \code{\link[bit]{bitwhich}}. Although it lacks symmetry, the better choice would be to
-#'     dispatch simply the method of the class of the first argument in case of class conflict.
-#'     This choice would allow authors of extension packages providing coherent behaviour
-#'     at least within their contributed classes. But as long as none of the package authors
-#'     methods is dispatched, he cannot handle the conflicting classes at all.
+#'    ```r
+#'    from <- lim.integer64()[1]
+#'    to <- from+99
+#'    from:to
+#'    ```
 #'
-#'     \item \bold{\code{\link{unlist}}} is not generic and if it were, we would face similar problems as with \code{c()}
+#'    As a limitation remains: it will only dispatch at its first argument `from` but
+#'    not at its second `to`.
 #'
-#'     \item \bold{\code{\link{vector}}} with argument \code{mode='integer64'} cannot work without adjustment of Base R
-#'     \item \bold{\code{\link{as.vector}}} with argument \code{mode='integer64'} cannot work without adjustment of Base R
+#'  - **[is.double()]** does not dispatch S3 methods, However, we have made it generic
+#'    and it will return `FALSE` on `integer64`.
 #'
-#'     \item \bold{\code{\link{is.vector}}} does not dispatch its method \code{\link{is.vector.integer64}}
+#'  - **[c()]** only dispatches [c.integer64()] if the first argument is `integer64`
+#'    and it does not recursively dispatch the proper method when called with argument
+#'    `recursive=TRUE`. Therefore `c(list(integer64, integer64))` does not work and
+#'    for now you can only call `c.integer64(list(x, x))`.
 #'
-#'     \item \bold{\code{\link{mode<-}}} drops the class 'integer64' which is returned from \code{as.integer64}.
-#'        Also it does not remove an existing class 'integer64' when assigning mode 'integer'.
+#'  - **generic binary operators** fail to dispatch *any* user-defined S3 method
+#'     if the two arguments have two different S3 classes. For example we have two
+#'     classes [bit::bit] and [bit::bitwhich] sparsely representing boolean vectors
+#'     and we have methods <[`&.bit`][bit::xor.default]> and
+#'     <[`&.bitwhich`][bit::xor.default]>. For an expression involving both as in
+#'     `bit & bitwhich`, none of the two methods is dispatched. Instead a standard
+#'     method is dispatched, which neither handles `bit` nor `bitwhich`. Although
+#'     it lacks symmetry, the better choice would be to dispatch simply the method
+#'     of the class of the first argument in case of class conflict. This choice would
+#'     allow authors of extension packages providing coherent behaviour at least within
+#'     their contributed classes. But as long as none of the package author's methods is
+#'     dispatched, they cannot handle the conflicting classes at all.
 #'
-#'     \item \bold{\code{\link{storage.mode<-}}} does not support external data types such as \code{as.integer64}
+#'  - **[unlist()]** is not generic and if it were, we would face similar problems as
+#'    with [c()]
+#'  - **[vector()]** with argument `mode='integer64'` cannot work without adjustment
+#'    of Base R
+#'  - **[as.vector()]** with argument `mode='integer64'` cannot work without adjustment
+#'    of Base R
+#'  - **[is.vector()]** does not dispatch its method [is.vector.integer64()]
+#'  - **[mode<-()]** drops the class 'integer64' which is returned from
+#'    `as.integer64()`. Also it does not remove an existing class 'integer64' when
+#'    assigning mode 'integer'.
+#'  - **[storage.mode<-()]** does not support external data types such as `integer64`
+#'  - **[matrix()]** does drop the 'integer64' class attribute.
+#'  - **[array()]**  does drop the 'integer64' class attribute.
+#'    + In current R versions (1.15.1) this can be circumvented by activating the
+#'      function `as.vector.integer64()`. However, the CRAN maintainer has requested
+#'      to remove `as.vector.integer64()`, even at the price of breaking previously
+#'      working functionality of the package.
 #'
-#'     \item \bold{\code{\link{matrix}}} does drop the 'integer64' class attribute.
+#'  - **[str()]** does not print the values of `integer64` correctly
 #'
-#'     \item \bold{\code{\link{array}}}  does drop the 'integer64' class attribute.
-#'            In current R versions (1.15.1) this can be circumvented by activating the function
-#'                        \code{as.vector.integer64} further down this file.
-#'                        However, the CRAN maintainer has requested to remove \code{as.vector.integer64},
-#'                         even at the price of breaking previously working functionality of the package.
-#'
-#'     \item \bold{\code{\link{str}}} does not print the values of \code{integer64} correctly
-#'
-#'   }
-#' }
 #' \section{further limitations}{
 #'   \itemize{
-#'     \item \bold{subscripting} non-existing elements and subscripting with \code{NA}s is currently not supported.
-#'     Such subscripting currently returns \code{9218868437227407266} instead of \code{NA} (the \code{NA} value of the underlying double code).
+#'     \item \bold{subscripting} non-existing elements and subscripting with `NA`s is currently not supported.
+#'     Such subscripting currently returns `9218868437227407266` instead of `NA` (the `NA` value of the underlying double code).
 #'     Following the full R behaviour here would either destroy performance or require extensive C-coding.
 #'   }
 #' }
 #' \note{
-#'    \code{integer64} are useful for handling database keys and exact counting in +-2^63.
+#'    `integer64` are useful for handling database keys and exact counting in +-2^63.
 #'    Do not use them as replacement for 32bit integers, integer64 are not
 #'    supported for subscripting by R-core and they have different semantics
-#'    when combined with double. Do understand that \code{integer64} can only be
-#'    useful over \code{double} if we do not coerce it to \code{double}. \cr
+#'    when combined with double. Do understand that `integer64` can only be
+#'    useful over `double` if we do not coerce it to `double`. \cr
 #'   \cr
 #'   While \cr
 #'   integer + double -> double + double -> double \cr
 #'   or \cr
 #'   1L + 0.5 -> 1.5 \cr
-#'   for additive operations we coerce to \code{integer64} \cr
+#'   for additive operations we coerce to `integer64` \cr
 #'   integer64 + double ->  integer64 + integer64 -> integer64 \cr
 #'   hence \cr
 #'   as.integer64(1) + 0.5 -> 1LL + 0LL -> 1LL \cr
