@@ -4,7 +4,7 @@
 #'
 #' @format
 #' The format is:
-#' 
+#'
 #' ```
 #' num [1:16, 1:6] 2.55e-05 2.37 2.39 1.28 1.39 ...
 #' - attr(*, "dimnames")=List of 2
@@ -41,7 +41,7 @@
 #'
 #' @format
 #' The format is:
-#' 
+#'
 #' ```
 #' List of 16
 #'  $ : num [1:9, 1:3] 0 0 1.63 0.00114 2.44 ...

@@ -120,7 +120,7 @@
 #' ## Creating and testing S3 class 'integer64'}
 #'
 #' Our creator function `integer64` takes an argument `length`, creates an atomic
-#' double vector of this length, attaches an S3 class attribute 'integer64' to it, 
+#' double vector of this length, attaches an S3 class attribute 'integer64' to it,
 #' and that's it. We simply rely on S3 method dispatch and interpret those 64-bit
 #' elements as 'long long int'.
 #'
