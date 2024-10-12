@@ -2488,36 +2488,25 @@ tiepos.integer64 <- function(x
   p
 }
 
-
-#' \name{rank.integer64}
-#' \alias{rank.integer64}
-#' \title{Sample Ranks from integer64}
-#' \description{
-#'   Returns the sample ranks of the values in a vector.  Ties (i.e., equal
+#' Sample Ranks from integer64
+#'
+#' Returns the sample ranks of the values in a vector.  Ties (i.e., equal
 #'   values) are averaged and missing values propagated.
-#' }
-#' \usage{
-#'     \method{rank}{integer64}(x, method = NULL, ...)
-#' }
-#' \arguments{
-#'   \item{x}{a integer64 vector}
-#'   \item{method}{NULL for automatic method selection or a suitable low-level method, see details}
-#'   \item{...}{ignored}
-#' }
-#' \details{
-#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
-#'   Suitable methods are [sortorderrnk()] (fast ordering)
-#' and [orderrnk()] (memory saving ordering).
-#' }
-#' \value{
-#'   A numeric vector of the same length as `x`.
-#' }
-#' \author{
-#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#' }
-#' \seealso{
-#'   [order.integer64()], [rank()] and [prank()] for percent rank.
-#' }
+#'
+#' @param x a integer64 vector
+#' @param method NULL for automatic method selection or a suitable low-level
+#'   method, see details
+#' @param ... ignored
+#'
+#' @details
+#' This function automatically chooses from several low-level functions
+#'   considering the size of `x` and the availability of a cache.
+#' Suitable methods are
+#'  - [sortorderrnk()] (fast ordering)
+#'  - [orderrnk()] (memory saving ordering).
+#'
+#' @return A numeric vector of the same length as `x`.
+#' @seealso [order.integer64()], [rank()] and [prank()] for percent rank.
 #' @examples
 #' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #' rank.integer64(x)
@@ -2571,45 +2560,33 @@ rank.integer64 <- function(x
   p
 }
 
-#' \name{prank}
-#' \alias{prank}
-#' \alias{prank.integer64}
-#' \title{(P)ercent (Rank)s}
-#' \description{
-#'     Function `prank.integer64`  projects the values [min..max] via ranks [1..n] to [0..1].
-#'     [qtile.integer64()] is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
-#' }
-#' \usage{
-#'     prank(x, ...)
-#'     \method{prank}{integer64}(x, method = NULL, ...)
-#' }
-#' \arguments{
-#'   \item{x}{a integer64 vector}
-#'   \item{method}{NULL for automatic method selection or a suitable low-level method, see details}
-#'   \item{...}{ignored}
-#' }
-#' \details{
-#'     Function `prank.integer64` is based on [rank.integer64()].
-#' }
-#' \value{
-#'   `prank` returns a numeric vector of the same length as `x`.
-#' }
-#' \author{
-#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#' }
-#' \seealso{
-#'   [rank.integer64()] for simple ranks and [qtile()] for the inverse function quantiles.
-#' }
-#' \examples{
+#' (P)ercent (Rank)s
+#'
+#' Function `prank.integer64`  projects the values `[min..max]` via ranks
+#'   `[1..n]` to `[0..1]`.
+#'
+#' [qtile.integer64()] is the inverse function of 'prank.integer64' and
+#'   projects `[0..1]` to `[min..max]`.
+#'
+#' @param x a integer64 vector
+#' @param method NULL for automatic method selection or a suitable low-level
+#'   method, see details
+#' @param ... ignored
+#'
+#' @details Function `prank.integer64` is based on [rank.integer64()].
+#' @return `prank` returns a numeric vector of the same length as `x`.
+#' @seealso [rank.integer64()] for simple ranks and [qtile()] for the
+#'   inverse function quantiles.
+#' @examples
 #' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #' prank(x)
 #'
 #' x <- x[!is.na(x)]
 #' stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))
-#' }
-#' \keyword{univar}
-
-prank <- function(x, ...)UseMethod("prank")
+#' @keywords univar
+#' @export
+prank <- function(x, ...) UseMethod("prank")
+#' @export
 prank.integer64 <- function(x
 , method = NULL
 , ...
