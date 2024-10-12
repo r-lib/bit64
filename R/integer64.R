@@ -389,32 +389,22 @@ NULL
 #'   data.frame(a=1:12, b=as.integer64(1:12))
 NULL
 
-#' \name{plusclass}
-#' \alias{plusclass}
-#' \alias{minusclass}
-#' \title{
-#'    integer64: Maintaining S3 class attribute
-#' }
-#' \description{
-#'   Maintaining integer64 S3 class attribute.
-#' }
+#' integer64: Maintaining S3 class attribute
+#'
+#' Maintaining integer64 S3 class attribute.
 #'
 #' @param class NULL or a character vector of class attributes
 #' @param whichclass the (single) class name to add or remove from the class vector
-#' }
-#' @returns
-#'   NULL or a character vector of class attributes
-#' }
+#'
+#' @returns NULL or a character vector of class attributes
+#'
 #' @keywords classes manip internal
-#' @seealso
-#'   [oldClass()] [integer64()]
-#' }
+#' @seealso [oldClass()] [integer64()]
 #' @examples
 #'   plusclass("inheritingclass","integer64")
 #'   minusclass(c("inheritingclass","integer64"), "integer64")
-#' }
+#' @name plusclass
 NULL
-
 
 #' \name{all.equal.integer64}
 #' \alias{all.equal.integer64}
@@ -658,8 +648,8 @@ UseMethod("as.integer64")
 as.bitstring <- function(x, ...)
 UseMethod("as.bitstring")
 
-
-
+#' @rdname plusclass
+#' @export
 minusclass <- function(class, whichclass){
   if (length(class)){
       i <- whichclass==class
@@ -671,6 +661,7 @@ minusclass <- function(class, whichclass){
     class
 }
 
+#' @export
 plusclass <- function(class, whichclass){
   if (length(class)){
       i <- whichclass==class
