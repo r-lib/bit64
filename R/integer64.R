@@ -8,14 +8,9 @@
 # Last changed:  2011-12-11
 #*/
 
-#' \name{identical.integer64}
-#' \alias{identical.integer64}
-#' \title{
-#'    Identity function for class 'integer64'
-#' }
-#' \description{
-#'   This will discover any deviation between objects containing integer64 vectors.
-#' }
+#' Identity function for class 'integer64'
+#'
+#' This will discover any deviation between objects containing integer64 vectors.
 #'
 #' @param x atomic vector of class 'integer64'
 #' @param y atomic vector of class 'integer64'
@@ -27,61 +22,44 @@
 #' @param ignore.srcref see [identical()]
 #' @param extptr.as.ref see [identical()]
 #'
-#' \details{
-#'   This is simply a wrapper to [identical()] with default arguments `num.eq = FALSE, single.NA = FALSE`.
-#' }
-#' \value{
-#'   A single logical value, `TRUE` or `FALSE`, never `NA` and never anything other than a single value.
-#' }
-#' \keyword{ classes }
-#' \keyword{ manip }
-#' \seealso{ [==.integer64()] [identical()] [integer64()]  }
-#' \examples{
+#' @details This is simply a wrapper to [identical()] with default arguments
+#'   `num.eq = FALSE, single.NA = FALSE`.
+#' @return A single logical value, `TRUE` or `FALSE`, never `NA` and never
+#'   anything other than a single value.
+#' @keywords classes manip
+#' @seealso [==.integer64] [identical()] [integer64()]  }
+#' @examples
 #'   i64 <- as.double(NA); class(i64) <- "integer64"
 #'   identical(i64-1, i64+1)
 #'   identical.integer64(i64-1, i64+1)
-#' }
+#' @name identical.integer64
+NULL
 
-
-#' \name{as.character.integer64}
-#' \alias{as.character.integer64}
-#' \alias{as.double.integer64}
-#' \alias{as.integer.integer64}
-#' \alias{as.logical.integer64}
-#' \alias{as.bitstring}
-#' \alias{print.bitstring}
-#' \alias{as.bitstring.integer64}
-#' \alias{as.factor.integer64}
-#' \alias{as.ordered.integer64}
-#' \alias{as.list.integer64}
-#' \title{
-#'    Coerce from integer64
-#' }
-#' \description{
-#'   Methods to coerce integer64 to other atomic types.
-#'   'as.bitstring' coerces to a human-readable bit representation (strings of zeroes and ones).
+#' Coerce from integer64
+#'
+#' Methods to coerce integer64 to other atomic types. 'as.bitstring' coerces
+#'   to a human-readable bit representation (strings of zeroes and ones).
 #'   The methods [format()], [as.character()], [as.double()],
 #'   [as.logical()], [as.integer()] do what you would expect.
-#' }
 #'
 #' @param x an integer64 vector
 #' @param keep.names FALSE, set to TRUE to keep a names vector
 #' @param ... further arguments to the [NextMethod()]
-#' }
-#' \value{
-#'   `as.bitstring` returns a string of class 'bitstring'. \cr
-#'   The other methods return atomic vectors of the expected types
-#' }
-#' \keyword{ classes }
-#' \keyword{ manip }
-#' \seealso{ [as.integer64.character()] [integer64()]  }
-#' \examples{
+#'
+#' @return `as.bitstring` returns a string of class 'bitstring'.
+#' 
+#' The other methods return atomic vectors of the expected types
+#'
+#' @keywords classes manip
+#' @seealso [as.integer64.character()] [integer64()]
+#' @examples
 #'   as.character(lim.integer64())
 #'   as.bitstring(lim.integer64())
 #'   as.bitstring(as.integer64(c(
 #'    -2,-1,NA,0:2
 #'   )))
-#' }
+#' name as.character.integer64
+NULL
 
 #' \name{as.integer64.character}
 #' \alias{as.integer64}
@@ -219,7 +197,7 @@
 #' }
 #' \value{
 #'   [format()] returns a character vector \cr
-#'   [is.na()] and [!()] return a logical vector \cr
+#'   [is.na()] and [`!`] return a logical vector \cr
 #'   [sqrt()], [log()], [log2()] and [log10()] return a double vector \cr
 #'   [sign()], [abs()], [floor()], [ceiling()], [trunc()] and
 #'   [round()] return a vector of class 'integer64' \cr
@@ -271,10 +249,10 @@
 #' @param y an atomic vector of class 'integer64'
 #' }
 #' \value{
-#'   [&()], [|()], [xor()], [!=()], [==()],
-#'   [<()], [<=()], [>()], [>=()] return a logical vector \cr
-#'   [^()] and [/()] return a double vector\cr
-#'   [+()], [-()], [*()], [\%/\%()], [\%\%()]
+#'   [`&`], [`|`], [xor()], [`!=`], [`==`],
+#'   [`<`], [`<=`], [`>`], [`>=`] return a logical vector \cr
+#'   [^()] and [`/`] return a double vector\cr
+#'   [`+`], [`-`], [*()], [`\%/\%`], [`\%\%`]
 #'    return a vector of class 'integer64'
 #' }
 #' \keyword{ classes }
@@ -457,7 +435,7 @@
 #'   an integer64 vector with the generated sequence
 #' }
 #' \note{
-#'   In base R [:()] currently is not generic and does not dispatch, see section "Limitations inherited from Base R" in [integer64()]
+#'   In base R [`:`] currently is not generic and does not dispatch, see section "Limitations inherited from Base R" in [integer64()]
 #' }
 #' \keyword{ classes }
 #' \keyword{ manip }
@@ -743,6 +721,7 @@ if (FALSE){
 }
 # nocov end
 
+#' @export
 identical.integer64 <- function(x, y
 , num.eq = FALSE
 , single.NA = FALSE
@@ -766,6 +745,8 @@ identical(x=x, y=y
 as.integer64 <- function (x, ...)
 UseMethod("as.integer64")
 
+#' @rdname as.character.integer64
+#' @export
 as.bitstring <- function(x, ...)
 UseMethod("as.bitstring")
 
@@ -986,34 +967,45 @@ as.integer64.character <- function(x, ...){
 as.integer64.factor <- function(x, ...)
 as.integer64(unclass(x), ...)
 
-as.double.integer64 <- function(x, keep.names=FALSE, ...){
+#' @rdname as.character.integer64
+#' @export
+as.double.integer64 <- function(x, keep.names=FALSE, ...) {
   ret <- .Call(C_as_double_integer64, x, double(length(x)))
   if (keep.names)
     names(ret) <- names(x)
   ret
 }
 
-as.integer.integer64 <- function(x, ...){
+#' @rdname as.character.integer64
+#' @export
+as.integer.integer64 <- function(x, ...) {
   .Call(C_as_integer_integer64, x, integer(length(x)))
 }
 
-as.logical.integer64 <- function(x, ...){
+#' @rdname as.character.integer64
+#' @export
+as.logical.integer64 <- function(x, ...) {
   .Call(C_as_logical_integer64, x, logical(length(x)))
 }
 
-as.character.integer64 <- function(x, ...){
+#' @export
+as.character.integer64 <- function(x, ...) {
   n <- length(x)
   .Call(C_as_character_integer64, x, rep(NA_character_, n))
 }
 
-as.bitstring.integer64 <- function(x, ...){
+#' @rdname as.character.integer64
+#' @export
+as.bitstring.integer64 <- function(x, ...) {
   n <- length(x)
   ret <- .Call(C_as_bitstring_integer64, x, rep(NA_character_, n))
   oldClass(ret) <- 'bitstring'
   ret
 }
 
-print.bitstring <- function(x, ...){
+#' @rdname as.character.integer64
+#' @export
+print.bitstring <- function(x, ...) {
   oldClass(x) <- minusclass(class(x), 'bitstring')
   NextMethod(x)
 }
@@ -1907,8 +1899,9 @@ is.vector.integer64 <- function(x, mode="any"){
     TRUE
 }
 
-
-as.list.integer64 <- function (x, ...){
+#' @rdname as.character.integer64
+#' @export
+as.list.integer64 <- function (x, ...) {
   ret <- NextMethod("as.list", x, ...)
   .Call(C_as_list_integer64, ret)
 }

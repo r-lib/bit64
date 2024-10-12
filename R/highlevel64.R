@@ -2276,7 +2276,9 @@ table.integer64 <- function(
   cnt
 }
 
-as.factor.integer64 <- function(x){
+#' @rdname as.character.integer64
+#' @export
+as.factor.integer64 <- function(x) {
 
     cache_env <- cache(x)
     if (is.null(cache_env$order)){
@@ -2302,7 +2304,9 @@ as.factor.integer64 <- function(x){
     dimpos
 }
 
-as.ordered.integer64 <- function(x){
+#' @rdname as.character.integer64
+#' @export
+as.ordered.integer64 <- function(x) {
 
     cache_env <- cache(x)
     if (is.null(cache_env$order)){
