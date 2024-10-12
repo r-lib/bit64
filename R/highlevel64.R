@@ -1227,71 +1227,60 @@ optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
 }
 # nocov end
 
-#' \name{match.integer64}
-#' \alias{match.integer64}
-#' \alias{\%in\%.integer64}
-#' \title{
 #' 64-bit integer matching
-#' }
-#' \description{
-#' `match` returns a vector of the positions of (first) matches of its first argument in its second.
 #'
-#' `\%in\%` is a more intuitive interface as a binary operator, which returns a logical vector indicating if there is a match or not for its left operand.
+#' `match` returns a vector of the positions of (first) matches of its first
+#'   argument in its second.
 #'
-#' }
-#' \usage{
-#' \method{match}{integer64}(x, table, nomatch = NA_integer_, nunique = NULL, method = NULL, ...)
-#' \method{\%in\%}{integer64}(x, table, ...)
-#' }
-#' \arguments{
-#'   \item{x}{
-#'     integer64 vector: the values to be matched, optionally carrying a cache created with [hashcache()]
-#' }
-#'   \item{table}{
-#'     integer64 vector: the values to be matched against, optionally carrying a cache created with [hashcache()] or [sortordercache()]
-#' }
-#'   \item{nomatch}{
-#'   the value to be returned in the case when no match is found. Note that it is coerced to integer.
-#' }
-#'   \item{nunique}{
-#'     NULL or the number of unique values of table (including NA). Providing `nunique` can speed-up matching when `table` has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
-#' }
-#'   \item{method}{
-#'     NULL for automatic method selection or a suitable low-level method, see details
-#' }
-#'   \item{\dots}{
-#' ignored
-#' }
-#' }
-#' \details{
-#'   These functions automatically choose from several low-level functions considering the size of `x` and `table` and the availability of caches.
+#' `%in%` is a more intuitive interface as a binary operator, which returns a
+#'   logical vector indicating if there is a match or not for its left operand.
 #'
+#' @param x integer64 vector: the values to be matched, optionally carrying a
+#'   cache created with [hashcache()]
+#' @param table integer64 vector: the values to be matched against, optionally
+#'   carrying a cache created with [hashcache()] or [sortordercache()]
+#' @param nomatch the value to be returned in the case when no match is found.
+#'   Note that it is coerced to integer.
+#' @param nunique NULL or the number of unique values of table (including NA).
+#'   Providing `nunique` can speed-up matching when `table` has no cache. Note
+#'   that a wrong nunique can cause undefined behaviour up to a crash.
+#' @param method NULL for automatic method selection or a suitable low-level
+#'   method, see details
+#' @param ... ignored
 #'
-#'   Suitable methods for `\%in\%.integer64` are [hashpos()] (hash table lookup), [hashrev()] (reverse lookup), [sortorderpos()] (fast ordering) and [orderpos()] (memory saving ordering).
-#'   Suitable methods for `match.integer64` are [hashfin()] (hash table lookup), [hashrin()] (reverse lookup), [sortfin()] (fast sorting) and [orderfin()] (memory saving ordering).
-#' }
-#' \value{
-#'   A vector of the same length as `x`.
+#' @details
+#' These functions automatically choose from several low-level functions
+#'   considering the size of `x` and `table` and the availability of caches.
 #'
-#'   `match`: An integer vector giving the position in `table` of
+#' Suitable methods for `%in%.integer64` are
+#'  - [hashpos] (hash table lookup)
+#'  - [hashrev] (reverse lookup)
+#'  - [sortorderpos] (fast ordering)
+#'  - [orderpos] (memory saving ordering).
+#'
+#' Suitable methods for `match.integer64` are
+#'  - [hashfin] (hash table lookup)
+#'  - [hashrin] (reverse lookup)
+#'  - [sortfin] (fast sorting)
+#'  - [orderfin] (memory saving ordering).
+#'
+#' @return
+#' A vector of the same length as `x`.
+#'
+#' `match`: An integer vector giving the position in `table` of
 #'   the first match if there is a match, otherwise `nomatch`.
 #'
-#'   If `x[i]` is found to equal `table[j]` then the value
+#' If `x[i]` is found to equal `table[j]` then the value
 #'   returned in the `i`-th position of the return value is `j`,
 #'   for the smallest possible `j`.  If no match is found, the value
 #'   is `nomatch`.
 #'
-#'   `\%in\%`: A logical vector, indicating if a match was located for
+#' `%in%`: A logical vector, indicating if a match was located for
 #'   each element of `x`: thus the values are `TRUE` or
 #'   `FALSE` and never `NA`.
-#' }
-#' \author{
-#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#' }
-#' \seealso{
-#'     [match()]
-#' }
-#' \examples{
+#'
+#' @seealso [match()]
+#' @examples
 #' x <- as.integer64(c(NA, 0:9), 32)
 #' table <- as.integer64(c(1:9, NA))
 #' match.integer64(x, table)
@@ -1349,11 +1338,8 @@ optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
 #'       print(apply(tim, 1:2, function(ti)if(any(is.na(ti)))NA else which.min(ti)))
 #'     }
 #' }
-#' }
-#' \keyword{manip}
-#' \keyword{logic}
-NULL
-
+#' @keywords manip logic
+#' @export
 match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, method=NULL, ...){
   stopifnot(is.integer64(x))
   table <- as.integer64(table)
@@ -1446,7 +1432,8 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
   p
 }
 
-
+#' @rdname match.integer64
+#' @export
 `%in%.integer64` <- function(x, table, ...){
   stopifnot(is.integer64(x))
   table <- as.integer64(table)
