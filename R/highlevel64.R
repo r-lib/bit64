@@ -1526,36 +1526,31 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
   p
 }
 
-#' \name{duplicated.integer64}
-#' \alias{duplicated.integer64}
-#' \title{Determine Duplicate Elements of integer64}
-#' \description{
-#'   `duplicated()` determines which elements of a vector or data frame are duplicates
+#' Determine Duplicate Elements of integer64
+#'
+#' `duplicated()` determines which elements of a vector or data frame are duplicates
 #'   of elements with smaller subscripts, and returns a logical vector
 #'   indicating which elements (rows) are duplicates.
-#' }
-#' \usage{
-#' \method{duplicated}{integer64}(x, incomparables = FALSE, nunique = NULL, method = NULL, \dots)
-#' }
-#' \arguments{
-#'   \item{x}{a vector or a data frame or an array or `NULL`.}
-#'   \item{incomparables}{ignored}
-#'   \item{nunique}{
-#'     NULL or the number of unique values (including NA). Providing `nunique` can speed-up matching when `x` has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
-#' }
-#'   \item{method}{
-#'     NULL for automatic method selection or a suitable low-level method, see details
-#' }
-#'   \item{\dots}{ignored}
-#' }
-#' \details{
-#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
 #'
-#'   Suitable methods are [hashdup()] (hashing), [sortorderdup()] (fast ordering) and [orderdup()] (memory saving ordering).
-#' }
-#' \value{
-#'     `duplicated()`: a logical vector of the same length as `x`.
-#' }
+#' @param x a vector or a data frame or an array or `NULL`.
+#' @param incomparables ignored
+#' @param nunique NULL or the number of unique values (including NA). Providing
+#'   `nunique` can speed-up matching when `x` has no cache. Note that a wrong
+#'   `nunique` can cause undefined behaviour up to a crash.
+#' @param method NULL for automatic method selection or a suitable low-level
+#'   method, see details
+#' @param ... ignored
+#'
+#' @details
+#' This function automatically chooses from several low-level functions
+#'   considering the size of `x` and the availability of a cache.
+#'
+#' Suitable methods are
+#'  - [hashdup] (hashing)
+#'  - [sortorderdup] (fast ordering)
+#'  - [orderdup] (memory saving ordering).
+#'
+#' @return `duplicated()`: a logical vector of the same length as `x`.
 #' @seealso [duplicated()], [unique.integer64()]
 #' @examples
 #' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -1624,54 +1619,48 @@ duplicated.integer64 <- function(x
   p
 }
 
-
-#' \name{unique.integer64}
-#' \alias{unique.integer64}
-#' \title{Extract Unique Elements from integer64}
-#' \description{
-#'   `unique` returns a vector like `x` but with duplicate elements/rows removed.
-#' }
-#' \usage{
-#' \method{unique}{integer64}(x, incomparables = FALSE, order = c("original","values","any")
-#' , nunique = NULL, method = NULL, \dots)
-#' }
-#' \arguments{
-#'   \item{x}{a vector or a data frame or an array or `NULL`.}
-#'   \item{incomparables}{ignored}
-#'   \item{order}{The order in which unique values will be returned, see details}
-#'   \item{nunique}{
-#'     NULL or the number of unique values (including NA). Providing `nunique` can speed-up matching when `x` has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
-#' }
-#'   \item{method}{
-#'     NULL for automatic method selection or a suitable low-level method, see details
-#' }
-#'   \item{\dots}{ignored}
-#' }
-#' \details{
-#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
-#'   Suitable methods are [hashmapuni()] (simultaneously creating and using a hashmap)
-#' , [hashuni()] (first creating a hashmap then using it)
-#' , [sortuni()] (fast sorting for sorted order only)
-#' , [sortorderuni()] (fast ordering for original order only)
-#' and [orderuni()] (memory saving ordering).
-#' \cr
-#' The default `order="original"` returns unique values in the order of the first appearance in `x` like in [unique()], this costs extra processing.
-#' `order="values"` returns unique values in sorted order like in [table()], this costs extra processing with the hash methods but comes for free.
-#' `order="any"` returns unique values in undefined order, possibly faster. For hash methods this will be a quasi random order, for sort methods this will be sorted order.
-#' }
-#' \value{
-#'   For a vector, an object of the same type of `x`, but with only
+#' Extract Unique Elements from integer64
+#'
+#' `unique` returns a vector like `x` but with duplicate elements/rows removed.
+#'
+#' @param x a vector or a data frame or an array or `NULL`.
+#' @param incomparables ignored
+#' @param order The order in which unique values will be returned, see details
+#' @param nunique NULL or the number of unique values (including NA). Providing
+#'   `nunique` can speed-up matching when `x` has no cache. Note that a wrong
+#'   `nunique`` can cause undefined behaviour up to a crash.
+#' @param method NULL for automatic method selection or a suitable low-level
+#'   method, see details
+#' @param ... ignored
+#'
+#' @details
+#' This function automatically chooses from several low-level functions
+#'   considering the size of `x` and the availability of a cache.
+#'
+#' Suitable methods are
+#'  - [hashmapuni] (simultaneously creating and using a hashmap)
+#'  - [hashuni] (first creating a hashmap then using it)
+#'  - [sortuni] (fast sorting for sorted order only)
+#'  - [sortorderuni] (fast ordering for original order only)
+#'  - [orderuni] (memory saving ordering).
+#'
+#' The default `order="original"` returns unique values in the order of the
+#'   first appearance in `x` like in [unique()], this costs extra processing.
+#'   `order="values"` returns unique values in sorted order like in [table()],
+#'   this costs extra processing with the hash methods but comes for free.
+#'   `order="any"` returns unique values in undefined order, possibly faster.
+#'   For hash methods this will be a quasi random order, for sort methods this
+#'   will be sorted order.
+#'
+#' @return For a vector, an object of the same type of `x`, but with only
 #'   one copy of each duplicated element.  No attributes are copied (so
 #'   the result has no names).
-#' }
-#' \author{
-#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#' }
-#' \seealso{
-#'   [unique()] for the generic, [unipos()] which gives the indices of the unique
-#'   elements and [table.integer64()] which gives frequencies of the unique elements.
-#' }
-#' \examples{
+#'
+#' @seealso [unique()] for the generic, [unipos()] which gives the indices
+#'   of the unique elements and [table.integer64()] which gives frequencies
+#'   of the unique elements.
+#'
+#' @examples
 #' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #' unique(x)
 #' unique(x, order="values")
@@ -1680,9 +1669,8 @@ duplicated.integer64 <- function(x
 #' stopifnot(identical(unique(x),  as.integer64(unique(as.integer(x)))))
 #' stopifnot(identical(unique(x, order="values")
 #' ,  as.integer64(sort(unique(as.integer(x)), na.last=FALSE))))
-#' }
-#' \keyword{manip}
-#' \keyword{logic}
+#' 
+#' @keywords manip logic
 #' @export
 unique.integer64 <- function(x
 , incomparables = FALSE  # dummy parameter
