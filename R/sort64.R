@@ -438,60 +438,33 @@ ramorder.integer64 <- function (x
       stop("names not supported")
 }
 
-#' \name{sort.integer64}
-#' \alias{sort.integer64}
-#' \alias{order.integer64}
-#' \title{
-#'    High-level intger64 methods for sorting and ordering
-#' }
-#' \description{
-#'   Fast high-level methods for sorting and ordering.
-#'   These are wrappers to [ramsort.integer64()] and friends and do not modify their arguments.
-#' }
-#' \usage{
-#' \method{sort}{integer64}(x, decreasing = FALSE, has.na = TRUE, na.last = TRUE, stable = TRUE
-#' , optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
-#' \method{order}{integer64}(\dots, na.last = TRUE, decreasing = FALSE, has.na = TRUE, stable = TRUE
-#' , optimize = c("time", "memory"), VERBOSE = FALSE)
-#' }
-#' \arguments{
-#' @param x { a vector to be sorted by [ramsort.integer64()] and [ramsortorder.integer64()], i.e. the output of  [sort.integer64()] }
-#' @param has.na {
-#' boolean scalar defining whether the input vector might contain `NA`s. If we know we don't have NAs, this may speed-up.
-#' _Note_ that you risk a crash if there are unexpected `NA`s with `has.na=FALSE`
-#' }
-#' @param na.last {
-#' boolean scalar telling ramsort whether to sort `NA`s last or first.
-#' _Note_ that 'boolean' means that there is no third option `NA` as in [sort()]
-#' }
-#' @param decreasing {
-#' boolean scalar telling ramsort whether to sort increasing or decreasing
-#' }
-#' @param stable {
-#' boolean scalar defining whether stable sorting is needed. Allowing non-stable may speed-up.
-#' }
-#' @param optimize {
-#' by default ramsort optimizes for 'time' which requires more RAM,
-#' set to 'memory' to minimize RAM requirements and sacrifice speed
-#' }
-#' @param VERBOSE {
-#'   cat some info about chosen method
-#' }
-#'   \item{\dots}{ further arguments, passed from generics, ignored in methods }
-#' }
-#' \details{
-#'  see [sort()] and [order()]
-#' }
-#' \value{
-#'   `sort` returns the sorted vector and `vector` returns the order positions.
-#' }
-#' \author{
-#' Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#' }
-#' \keyword{ programming }
-#' \keyword{ manip }
-#' \seealso{ \code{\link[=sort.integer64]{sort}}, [sortcache()] }
-#' \examples{
+#' High-level intger64 methods for sorting and ordering
+#'
+#' Fast high-level methods for sorting and ordering. These are wrappers to
+#'   [ramsort.integer64()] and friends and do not modify their arguments.
+#'
+#' @param x a vector to be sorted by [ramsort.integer64()] and
+#'   [ramsortorder.integer64()], i.e. the output of  [sort.integer64()]
+#' @param has.na boolean scalar defining whether the input vector might
+#'   contain `NA`s. If we know we don't have NAs, this may speed-up. _Note_
+#'   that you risk a crash if there are unexpected `NA`s with `has.na=FALSE`
+#' @param na.last boolean scalar telling ramsort whether to sort `NA`s last
+#'   or first. _Note_ that 'boolean' means that there is no third option
+#'   `NA` as in [sort()]
+#' @param decreasing boolean scalar telling ramsort whether to sort
+#'   increasing or decreasing
+#' @param stable boolean scalar defining whether stable sorting is needed.
+#'   Allowing non-stable may speed-up.
+#' @param optimize by default ramsort optimizes for 'time' which requires
+#'   more RAM, set to 'memory' to minimize RAM requirements and sacrifice speed
+#' @param VERBOSE cat some info about chosen method
+#' @param ... further arguments, passed from generics, ignored in methods
+#'
+#' @details see [sort()] and [order()]
+#' @return `sort` returns the sorted vector and `vector` returns the order positions.
+#' @keywords programming manip
+#' @seealso <[`sort()`][sort.integer64]>, [sortcache()]
+#' @examples
 #'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #'   x
 #'   sort(x)
@@ -500,7 +473,8 @@ ramorder.integer64 <- function (x
 #'   order.integer64(x)
 #'   message("slower with less RAM, this calls 'ramsortorder'")
 #'   order.integer64(x, optimize="memory")
-#' }
+#' @name sort.integer64
+NULL
 
 # nocov start
 if (FALSE){
@@ -531,6 +505,8 @@ if (FALSE){
 }
 # nocov end
 
+#' @rdname sort.integer64
+#' @export
 sort.integer64 <- function(x
 , decreasing = FALSE
 , has.na = TRUE
@@ -589,7 +565,8 @@ sort.integer64 <- function(x
   s
 }
 
-
+#' @rdname sort.integer64
+#' @export
 order.integer64 <- function(
   ...
 , na.last = TRUE
