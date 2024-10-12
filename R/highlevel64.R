@@ -8,88 +8,67 @@
 # Last changed:  2011-12-11
 # */
 
-#' \name{benchmark64}
-#' \alias{benchmark64}
-#' \alias{optimizer64}
-#' \title{
-#'  Function for measuring algorithmic performance \cr
-#'  of high-level and low-level integer64 functions
-#' }
-#' \description{
-#'  `benchmark64` compares high-level integer64 functions against the integer functions from Base R \cr
-#'  `optimizer64` compares for each high-level integer64 function the Base R integer function with several low-level integer64 functions with and without caching \cr
-#' }
-#' \usage{
-#' benchmark64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
-#' )
-#' optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
-#' , what = c("match", "\%in\%", "duplicated", "unique", "unipos", "table", "rank", "quantile")
-#' , uniorder = c("original", "values", "any")
-#' , taborder = c("values", "counts")
-#' , plot = TRUE
-#' )
-#' }
-#' \arguments{
-#'   \item{nsmall}{ size of smaller vector }
-#'   \item{nbig}{ size of larger bigger vector }
-#'   \item{timefun}{ a function for timing such as \code{\link[bit]{repeat.time}} or [system.time()] }
-#'   \item{what}{
-#'  a vector of names of high-level functions
-#' }
-#'   \item{uniorder}{
-#'  one of the order parameters that are allowed in [unique.integer64()] and [unipos.integer64()]
-#' }
-#'   \item{taborder}{
-#'  one of the order parameters that are allowed in [table.integer64()]
-#' }
-#'   \item{plot}{
-#'  set to FALSE to suppress plotting
-#' }
-#' }
-#' \details{
-#'  `benchmark64` compares the following scenarios for the following use cases:
-#'  \tabular{rl}{
-#'   \bold{scenario name} \tab \bold{explanation} \cr
-#'   32-bit  \tab applying Base R function to 32-bit integer data \cr
-#'   64-bit \tab applying bit64 function to 64-bit integer data (with no cache) \cr
-#'   hashcache \tab dito when cache contains [hashmap()], see [hashcache()] \cr
-#'   sortordercache \tab dito when cache contains sorting and ordering, see [sortordercache()] \cr
-#'   ordercache \tab dito when cache contains ordering only, see [ordercache()] \cr
-#'   allcache \tab dito when cache contains sorting, ordering and hashing \cr
-#'  }
-#'  \tabular{rl}{
-#'   \bold{use case name} \tab \bold{explanation} \cr
-#'   cache         \tab filling the cache according to scenario \cr
-#'   match(s,b)    \tab match small in big vector \cr
-#'   s \%in\% b      \tab small \%in\% big vector \cr
-#'   match(b,s)    \tab match big in small vector \cr
-#'   b \%in\% s      \tab big \%in\% small vector \cr
-#'   match(b,b)    \tab match big in (different) big vector \cr
-#'   b \%in\% b      \tab big \%in\% (different) big vector \cr
-#'   duplicated(b) \tab duplicated of big vector \cr
-#'   unique(b)     \tab unique of big vector \cr
-#'   table(b)      \tab table of big vector \cr
-#'   sort(b)       \tab sorting of big vector \cr
-#'   order(b)      \tab ordering of big vector \cr
-#'   rank(b)       \tab ranking of big vector \cr
-#'   quantile(b)   \tab quantiles of big vector \cr
-#'   summary(b)    \tab summary of of big vector \cr
-#'   SESSION       \tab exemplary session involving multiple calls (including cache filling costs) \cr
-#'  }
-#'  Note that the timings for the cached variants do \emph{not} contain the time costs of building the cache, except for the timing of the exemplary user session, where the cache costs are included in order to evaluate amortization.
-#' }
-#' \value{
-#'  `benchmark64` returns a matrix with elapsed seconds, different high-level tasks in rows and different scenarios to solve the task in columns. The last row named 'SESSION' contains the elapsed seconds of the exemplary sesssion.
-#'  \cr
-#'  `optimizer64` returns a dimensioned list with one row for each high-level function timed and two columns named after the values of the `nsmall` and `nbig` sample sizes. Each list cell contains a matrix with timings, low-level-methods in rows and three measurements `c("prep","both","use")` in columns. If it can be measured separately, `prep` contains the timing of preparatory work such as sorting and hashing, and `use` contains the timing of using the prepared work. If the function timed does both, preparation and use, the timing is in `both`.
-#' }
-#' \author{
-#'  Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#' }
-#' \seealso{
-#'  [integer64()]
-#' }
-#' \examples{
+#' Function for measuring algorithmic performance of high-level and low-level integer64 functions
+#'
+#' @param nsmall size of smaller vector
+#' @param nbig size of larger bigger vector
+#' @param timefun a function for timing such as [bit::repeat.time()] or [system.time()]
+#' @param what a vector of names of high-level functions
+#' @param uniorder one of the order parameters that are allowed in [unique.integer64()] and [unipos.integer64()]
+#' @param taborder one of the order parameters that are allowed in [table.integer64()]
+#' @param plot set to FALSE to suppress plotting
+#'
+#' @details
+#' `benchmark64` compares the following scenarios for the following use cases:
+#'
+#' | **scenario name** | **explanation**                                 |
+#' |------------------:|:------------------------------------------------|
+#' |            32-bit | applying Base R function to 32-bit integer data |
+#' |            64-bit | applying bit64 function to 64-bit integer data (with no cache) |
+#' |         hashcache | ditto when cache contains [hashmap()], see [hashcache()] |
+#' |    sortordercache | ditto when cache contains sorting and ordering, see [sortordercache()] |
+#' |        ordercache | ditto when cache contains ordering only, see [ordercache()] |
+#' |          allcache | ditto when cache contains sorting, ordering and hashing |
+#'
+#' | **use case name** | **explanation**                         |
+#' |------------------:|:----------------------------------------|
+#' |             cache | filling the cache according to scenario |
+#' |        match(s,b) | match small in big vector               |
+#' |          s %in% b | small %in% big vector                   |
+#' |        match(b,s) | match big in small vector               |
+#' |          b %in% s | big %in% small vector                   |
+#' |        match(b,b) | match big in (different) big vector     |
+#' |          b %in% b | big %in% (different) big vector         |
+#' |     duplicated(b) | duplicated of big vector                |
+#' |         unique(b) | unique of big vector                    |
+#' |          table(b) | table of big vector                     |
+#' |           sort(b) | sorting of big vector                   |
+#' |          order(b) | ordering of big vector                  |
+#' |           rank(b) | ranking of big vector                   |
+#' |       quantile(b) | quantiles of big vector                 |
+#' |        summary(b) | summary of of big vector                |
+#' |           SESSION | exemplary session involving multiple calls (including cache filling costs) |
+#'
+#' Note that the timings for the cached variants do \emph{not} contain the
+#'   time costs of building the cache, except for the timing of the exemplary
+#'   user session, where the cache costs are included in order to evaluate amortization.
+#'
+#' @return
+#' `benchmark64` returns a matrix with elapsed seconds, different high-level tasks
+#'   in rows and different scenarios to solve the task in columns. The last row
+#'   named 'SESSION' contains the elapsed seconds of the exemplary sesssion.
+#'
+#' `optimizer64` returns a dimensioned list with one row for each high-level
+#'   function timed and two columns named after the values of the `nsmall` and
+#'   `nbig` sample sizes. Each list cell contains a matrix with timings,
+#'   low-level-methods in rows and three measurements `c("prep","both","use")`
+#'   in columns. If it can be measured separately, `prep` contains the timing
+#'   of preparatory work such as sorting and hashing, and `use` contains the
+#'   timing of using the prepared work. If the function timed does both,
+#'   preparation and use, the timing is in `both`.
+#'
+#' @seealso [integer64()]
+#' @examples
 #' message("this small example using system.time does not give serious timings\n
 #' this we do this only to run regression tests")
 #' benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFirst=FALSE))
@@ -139,156 +118,12 @@
 #'  }
 #' }
 #' par(mfrow=c(1,1))
-#'}
-#' \keyword{ misc }
+#' @keywords misc
+#' @name benchmark64
 NULL
 
-#' \name{benchmark64.data}
-#' \alias{benchmark64.data}
-#' \docType{data}
-#' \title{
-#'  Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM under Windows 7 64bit
-#' }
-#' \description{
-#'   These are the results of calling [benchmark64()]
-#' }
-#' \usage{data(benchmark64.data)}
-#' \format{
-#'   The format is:
-#'  num [1:16, 1:6] 2.55e-05 2.37 2.39 1.28 1.39 ...
-#'  - attr(*, "dimnames")=List of 2
-#'   ..$ : chr [1:16] "cache" "match(s,b)" "s \%in\% b" "match(b,s)" ...
-#'   ..$ : chr [1:6] "32-bit" "64-bit" "hashcache" "sortordercache" ...
-#' }
-#' \examples{
-#' data(benchmark64.data)
-#' print(benchmark64.data)
-#' matplot(log2(benchmark64.data[-1,1]/benchmark64.data[-1,])
-#' , pch=c("3", "6", "h", "s", "o", "a")
-#' , xlab="tasks [last=session]"
-#' , ylab="log2(relative speed) [bigger is better]"
-#' )
-#' matplot(t(log2(benchmark64.data[-1,1]/benchmark64.data[-1,]))
-#' , axes=FALSE
-#' , type="b"
-#' , lwd=c(rep(1, 14), 3)
-#' , xlab="context"
-#' , ylab="log2(relative speed) [bigger is better]"
-#' )
-#' axis(1
-#' , labels=c("32-bit", "64-bit", "hash", "sortorder", "order", "hash+sortorder")
-#' , at=1:6
-#' )
-#' axis(2)
-#' }
-#' \keyword{datasets}
-NULL
-
-#' \name{optimizer64.data}
-#' \alias{optimizer64.data}
-#' \docType{data}
-#' \title{
-#'  Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM under Windows 7 64bit
-#' }
-#' \description{
-#'   These are the results of calling [optimizer64()]
-#' }
-#' \usage{data(optimizer64.data)}
-#' \format{
-#'   The format is:
-#' List of 16
-#'  $ : num [1:9, 1:3] 0 0 1.63 0.00114 2.44 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:9] "match" "match.64" "hashpos" "hashrev" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:10, 1:3] 0 0 0 1.62 0.00114 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:10] "\%in\%" "match.64" "\%in\%.64" "hashfin" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:10, 1:3] 0 0 0.00105 0.00313 0.00313 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:10] "duplicated" "duplicated.64" "hashdup" "sortorderdup1" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:15, 1:3] 0 0 0 0.00104 0.00104 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:15] "unique" "unique.64" "hashmapuni" "hashuni" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:14, 1:3] 0 0 0 0.000992 0.000992 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:14] "unique" "unipos.64" "hashmapupo" "hashupo" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:13, 1:3] 0 0 0 0 0.000419 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:13] "tabulate" "table" "table.64" "hashmaptab" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:7, 1:3] 0 0 0 0.00236 0.00714 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:7] "rank" "rank.keep" "rank.64" "sortorderrnk" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:6, 1:3] 0 0 0.00189 0.00714 0 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:6] "quantile" "quantile.64" "sortqtl" "orderqtl" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:9, 1:3] 0 0 0.00105 1.17 0 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:9] "match" "match.64" "hashpos" "hashrev" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:10, 1:3] 0 0 0 0.00104 1.18 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:10] "\%in\%" "match.64" "\%in\%.64" "hashfin" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:10, 1:3] 0 0 1.64 2.48 2.48 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:10] "duplicated" "duplicated.64" "hashdup" "sortorderdup1" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:15, 1:3] 0 0 0 1.64 1.64 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:15] "unique" "unique.64" "hashmapuni" "hashuni" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:14, 1:3] 0 0 0 1.62 1.62 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:14] "unique" "unipos.64" "hashmapupo" "hashupo" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:13, 1:3] 0 0 0 0 0.32 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:13] "tabulate" "table" "table.64" "hashmaptab" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:7, 1:3] 0 0 0 2.96 10.69 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:7] "rank" "rank.keep" "rank.64" "sortorderrnk" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  $ : num [1:6, 1:3] 0 0 1.62 10.61 0 ...
-#'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:6] "quantile" "quantile.64" "sortqtl" "orderqtl" ...
-#'   .. ..$ : chr [1:3] "prep" "both" "use"
-#'  - attr(*, "dim")= int [1:2] 8 2
-#'  - attr(*, "dimnames")=List of 2
-#'   ..$ : chr [1:8] "match" "\%in\%" "duplicated" "unique" ...
-#'   ..$ : chr [1:2] "65536" "33554432"
-#' }
-#' \examples{
-#' data(optimizer64.data)
-#' print(optimizer64.data)
-#' oldpar <- par(no.readonly = TRUE)
-#' par(mfrow=c(2,1))
-#' par(cex=0.7)
-#' for (i in 1:nrow(optimizer64.data)){
-#'  for (j in 1:2){
-#'    tim <- optimizer64.data[[i,j]]
-#'   barplot(t(tim))
-#'   if (rownames(optimizer64.data)[i]=="match")
-#'    title(paste("match", colnames(optimizer64.data)[j], "in", colnames(optimizer64.data)[3-j]))
-#'   else if (rownames(optimizer64.data)[i]=="\%in\%")
-#'    title(paste(colnames(optimizer64.data)[j], "\%in\%", colnames(optimizer64.data)[3-j]))
-#'   else
-#'    title(paste(rownames(optimizer64.data)[i], colnames(optimizer64.data)[j]))
-#'  }
-#' }
-#' par(mfrow=c(1,1))
-#' }
-#' \keyword{datasets}
-NULL
-
+#' @describeIn benchmark64 compares high-level integer64 functions against the
+#'   integer functions from Base R
 #' @export
 # nocov start
 benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
@@ -554,6 +389,9 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
   tim3
 }
 
+#' @rdname benchmark64 compares for each high-level integer64 function the Base
+#'   R integer function with several low-level integer64 functions with and
+#'   without caching
 #' @export
 optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
 , what=c("match","%in%","duplicated","unique","unipos","table","rank","quantile")
