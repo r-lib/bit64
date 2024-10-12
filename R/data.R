@@ -134,5 +134,5 @@
 #' }
 #' par(mfrow=c(1,1))
 #'
-#' @keyword datasets
+#' @keywords datasets
 "optimizer64.data"

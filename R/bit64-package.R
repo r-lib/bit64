@@ -117,7 +117,7 @@
 #' | integer64     | ^      | double        | ->     | integer64    | /      | long double  | ->     | double     |
 #' | double        | ^      | integer64     | ->     | integer64    | /      | long double  | ->     | double     |
 #'
-#' ## Creating and testing S3 class 'integer64'}
+#' ## Creating and testing S3 class 'integer64'
 #'
 #' Our creator function `integer64` takes an argument `length`, creates an atomic
 #' double vector of this length, attaches an S3 class attribute 'integer64' to it,
@@ -879,8 +879,6 @@
 #' #matplot(1:21, cbind(td32, t64, T64), pch=c("d","i","I"), log="y")
 #' matplot(1:21, cbind(td32, t64), pch=c("d","i"), log="y")
 #'   }
-#'
-#' }
 #' @aliases bit64 is.integer.integer64 is.vector.integer64
 #' @keywords internal package classes manip
 "_PACKAGE"

@@ -93,28 +93,35 @@ NULL
 
 if (!exists(":.default")){
     `:` <- function(from,to) UseMethod(":")
+    #' @exportS3Method : default
     `:.default` <- function(from,to) base::`:`(from,to)
 }
+#' @export
 `:.integer64` <- function(from, to)seq.integer64(from=from, to=to)
 
 if (!exists("is.double.default")){
     is.double <- function(x) UseMethod("is.double")
+    #' @exportS3Method is.double default
     is.double.default <- function(x) base::is.double(x)
 }
+#' @export
 is.double.integer64 <- function(x)FALSE
 
 if (!exists("match.default")){
     match <- function(x, table, ...) UseMethod("match")
+    #' @export
     match.default <- function(x, table, ...) base::match(x, table, ...)
 }
 
 if (!exists("%in%.default")){
     `%in%` <- function(x, table) UseMethod("%in%")
+    #' @exportS3Method %in% default
     `%in%.default` <- function(x, table) base::`%in%`(x, table)
 }
 
 if (!exists("rank.default")){
     rank <- function(x, ...) UseMethod("rank")
+    #' @exportS3Method rank default
     rank.default <- function(x, ...) base::rank(x, ...)
 }
 
@@ -126,5 +133,6 @@ if (!exists("rank.default")){
 
 if (!exists("order.default")){
     order <- function(...) UseMethod("order")
+    #' @exportS3Method order default
     order.default <- function(...) base::order(...)
 }

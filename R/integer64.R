@@ -27,7 +27,7 @@
 #' @return A single logical value, `TRUE` or `FALSE`, never `NA` and never
 #'   anything other than a single value.
 #' @keywords classes manip
-#' @seealso [==.integer64] [identical()] [integer64()]  }
+#' @seealso [==.integer64] [identical()] [integer64()]
 #' @examples
 #'   i64 <- as.double(NA); class(i64) <- "integer64"
 #'   identical(i64-1, i64+1)
@@ -118,7 +118,7 @@ NULL
 #'   The current implementation returns `9218868437227407266` instead of `NA`.
 #' @returns A vector or scalar of class 'integer64'
 #' @keywords classes manip
-#' @seealso [[()] [integer64()]  }
+#' @seealso [[()] [integer64()]
 #' @examples
 #'   as.integer64(1:12)[1:3]
 #'   x <- as.integer64(1:12)
@@ -171,6 +171,7 @@ NULL
 #' r <- as.integer64(round(as.integer(i), s))
 #'   r64 <- round(as.integer64(i), s)
 #'   stopifnot(identical(r,r64))
+#' }
 #' }
 #' @name format.integer64
 NULL
@@ -315,6 +316,7 @@ NULL
 #'   rep(as.integer64(1:2), 6)
 #'   rep(as.integer64(1:2), c(6,6))
 #'   rep(as.integer64(1:2), length.out=6)
+#' @name rep.integer64
 NULL
 
 #' integer64: Sequence Generation
@@ -345,6 +347,7 @@ NULL
 #'   # colon not activated: as.integer64(1):12
 #'   seq(as.integer64(1), 12, 2)
 #'   seq(as.integer64(1), by=2, length.out=6)
+#' @name seq.integer64
 NULL
 
 #' integer64: Coercing to data.frame column
@@ -367,6 +370,7 @@ NULL
 #' @examples
 #'   as.data.frame.integer64(as.integer64(1:12))
 #'   data.frame(a=1:12, b=as.integer64(1:12))
+#' @name as.data.frame.integer64
 NULL
 
 #' integer64: Maintaining S3 class attribute
@@ -437,6 +441,7 @@ NULL
 #'   all.equal(as.integer64(1:10), as.integer(1:10))
 #'   all.equal(as.integer64(1:10), as.double(1:10))
 #'   all.equal(as.integer64(1), as.double(1e300))
+#' @name all.equal.integer64
 NULL
 
 # if (!exists(":.default")){
@@ -797,7 +802,7 @@ if (FALSE){
 
 #' @rdname bit64-package
 #' @param length length of vector using [integer()]
-#' @value `integer64` returns a vector of 'integer64', i.e.,
+#' @return `integer64` returns a vector of 'integer64', i.e.,
 #'   a vector of [double()] decorated with class 'integer64'.
 #' @export
 integer64 <- function(length=0L){

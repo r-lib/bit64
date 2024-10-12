@@ -101,7 +101,6 @@
 #'     }
 #'     message("we conclude that n*sqrt(2) is enough to avoid collisions")
 #'     }
-#' }
 #' @name hashmap
 NULL
 
@@ -225,6 +224,8 @@ hashdup.cache_integer64 <- function(cache, ...) {
 #' @rdname hashmap
 #' @export
 hashuni <- function(cache, ...) UseMethod("hashuni")
+#' @rdname hashmap
+#' @export
 hashuni.cache_integer64 <- function(cache, keep.order=FALSE, ...) {
   hashbits <- get("hashbits", envir=cache, inherits=FALSE)
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)
@@ -238,6 +239,8 @@ hashuni.cache_integer64 <- function(cache, keep.order=FALSE, ...) {
 #' @rdname hashmap
 #' @export
 hashupo <- function(cache, ...) UseMethod("hashupo")
+#' @rdname hashmap
+#' @export
 hashupo.cache_integer64 <- function(cache, keep.order=FALSE, ...) {
   hashbits <- get("hashbits", envir=cache, inherits=FALSE)
   hashmap <- get("hashmap", envir=cache, inherits=FALSE)

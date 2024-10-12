@@ -57,8 +57,8 @@
 #'   getcache(x, "abc")
 #'   remcache(x)
 #'   cache(x)
-#' @keyword environment
-#' @rdname cache
+#' @keywords environment
+#' @name cache
 NULL
 
 #still.identical <- function(x, y){
@@ -107,7 +107,7 @@ cache <- function(x) {
     }
 }
 
-#' @describeIn cacheassigns a value into the cache of `x`
+#' @describeIn cache assigns a value into the cache of `x`
 #' @param which A character naming the object to be retrieved from the cache or to be stored in the cache
 #' @param value An object to be stored in the cache
 #' @export
@@ -157,6 +157,9 @@ print.cache<- function(x, all.names=FALSE, pattern, ...){
 #' Functions to create cache that accelerates many operations
 #'
 #' @param x an atomic vector (note that currently only integer64 is supported)
+#' @param nunique giving _correct_ number of unique elements can help reducing
+#'   the size of the hashmap
+#' @param ... passed to [hashmap()]
 #'
 #' @details
 #' The result of relative expensive operations [hashmap()], [ramsort()],
@@ -181,12 +184,7 @@ print.cache<- function(x, all.names=FALSE, pattern, ...){
 #'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #'   sortordercache(x)
 #'
-#' @keyword environment
-NULL
-
-#' @rdname hashcache
-#' @param nunique giving _correct_ number of unique elements can help reducing the size of the hashmap
-#' @param ... passed to [hashmap()]
+#' @keywords environment
 #' @export
 hashcache <-function(x, nunique=NULL, ...){
     env <- jamcache(x)

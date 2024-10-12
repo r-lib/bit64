@@ -389,7 +389,7 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
   tim3
 }
 
-#' @rdname benchmark64 compares for each high-level integer64 function the Base
+#' @describeIn benchmark64 compares for each high-level integer64 function the Base
 #'   R integer function with several low-level integer64 functions with and
 #'   without caching
 #' @export
@@ -1931,7 +1931,7 @@ unipos.integer64 <- function(x
   p
 }
 
-#' Cross Tabulation and Table Creation for integer64}
+#' Cross Tabulation and Table Creation for integer64
 #'
 #' `table.integer64` uses the cross-classifying integer64 vectors to build a
 #'   contingency table of the counts at each combination of vector values.
@@ -2719,8 +2719,6 @@ quantile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), na.rm = FALSE, na
 
 # TODO(R>=3.4.0): Drop this branch when median always gets '...'
 # adding ... (wish of Kurt Hornik 23.3.2017)
-#' @rdname qtile
-#' @export
 if (is.na(match("...", names(formals(median))))){
     # nocov start. Only run on old R.
     median.integer64 <- function(x, na.rm=FALSE){
@@ -2730,6 +2728,8 @@ if (is.na(match("...", names(formals(median))))){
     }
     # nocov end.
 }else{
+    #' @rdname qtile
+    #' @exportS3Method median integer64
     median.integer64 <- function(x, na.rm=FALSE, ...){
         if (!na.rm && na.count(x)>0L)
             stop("missing values not allowed with 'na.rm='==FALSE")

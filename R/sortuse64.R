@@ -97,6 +97,8 @@ ordernut.integer64 <- function(table, order, ...)
 #' @param x an [integer64] vector
 #' @export
 sortfin <- function(sorted, x, ...) UseMethod("sortfin")
+#' @rdname sortnut
+#' @export
 sortfin.integer64 <- function(sorted, x, method=NULL, ...)
 {
   n <- length(x)
