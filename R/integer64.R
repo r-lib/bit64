@@ -204,14 +204,16 @@ NULL
 #' @param e2 an atomic vector of class 'integer64'
 #' @param x an atomic vector of class 'integer64'
 #' @param y an atomic vector of class 'integer64'
-#' }
+#'
 #' @returns
 #'   [`&`], [`|`], [xor()], [`!=`], [`==`],
-#'   [`<`], [`<=`], [`>`], [`>=`] return a logical vector \cr
-#'   [^()] and [`/`] return a double vector\cr
+#'   [`<`], [`<=`], [`>`], [`>=`] return a logical vector
+#'
+#'   [^()] and [`/`] return a double vector
+#'
 #'   [`+`], [`-`], [*()], [`\%/\%`], [`\%\%`]
 #'    return a vector of class 'integer64'
-#' }
+#'
 #' @keywords classes manip
 #' @seealso [format.integer64()] [integer64()]
 #' @examples
@@ -228,46 +230,38 @@ NULL
 #'   i*d  # old: 13
 NULL
 
-
-#' \name{sum.integer64}
-#' \alias{all.integer64}
-#' \alias{any.integer64}
-#' \alias{min.integer64}
-#' \alias{max.integer64}
-#' \alias{range.integer64}
-#' \alias{lim.integer64}
-#' \alias{sum.integer64}
-#' \alias{prod.integer64}
-#' \title{
-#'    Summary functions for integer64 vectors
-#' }
-#' \description{
-#'   Summary functions for integer64 vectors.
-#'   Function 'range' without arguments returns the smallest and largest value of the 'integer64' class.
-#' }
+#' Summary functions for integer64 vectors
+#'
+#' Summary functions for integer64 vectors. Function 'range' without arguments
+#'   returns the smallest and largest value of the 'integer64' class.
 #'
 #' @param ... atomic vectors of class 'integer64'
 #' @param na.rm logical scalar indicating whether to ignore NAs
-#' @param finite logical scalar indicating whether to ignore NAs (just for compatibility with [range.default()])
-#' }
+#' @param finite logical scalar indicating whether to ignore NAs (just for
+#'   compatibility with [range.default()])
+#'
 #' @details
-#'   The numerical summary methods always return `integer64`.
-#'   Therefor the methods for `min`,`max` and `range` do not return `+Inf,-Inf`
-#'   on empty arguments, but `+9223372036854775807, -9223372036854775807` (in this sequence).
+#' The numerical summary methods always return `integer64`. Therefore the
+#'   methods for `min`,`max` and `range` do not return `+Inf,-Inf` on empty
+#'   arguments, but `+9223372036854775807, -9223372036854775807` (in this sequence).
 #'   The same is true if only  `NA`s are submitted with argument `na.rm=TRUE`.
-#'  \cr
-#'   `lim.integer64` returns these limits in proper order `-9223372036854775807, +9223372036854775807` and without a [warning()].
-#' }
+#'
+#' `lim.integer64` returns these limits in proper order
+#'   `-9223372036854775807, +9223372036854775807` and without a [warning()].
+#'
 #' @returns
-#'   [all()] and [any()] return a logical scalar\cr
-#'   [range()] returns a integer64 vector with two elements\cr
+#'   [all()] and [any()] return a logical scalar
+#'
+#'   [range()] returns a integer64 vector with two elements
+#'
 #'   [min()], [max()], [sum()] and [prod()] return a integer64 scalar
-#' }
+#'
 #' @keywords classes manip
 #' @seealso [mean.integer64()] [cumsum.integer64()] [integer64()]
 #' @examples
 #'   lim.integer64()
 #'   range(as.integer64(1:12))
+#' @name sum.integer64
 NULL
 
 
@@ -291,17 +285,17 @@ NULL
 #' }
 #' @returns
 #'   [cummin()], [cummax()] , [cumsum()] and [cumprod()]
-#'      return a integer64 vector of the same length as their input\cr
-#'   [diff()] returns a integer64 vector shorter by `lag*differences` elements \cr
-#' }
+#'      return a integer64 vector of the same length as their input
+#'
+#'   [diff()] returns a integer64 vector shorter by `lag*differences` elements
+#'
 #' @keywords classes manip
-#' @seealso [sum.integer64()] [integer64()]  }
+#' @seealso [sum.integer64()] [integer64()]
 #' @examples
 #'   cumsum(rep(as.integer64(1), 12))
 #'   diff(as.integer64(c(0,1:12)))
 #'   cumsum(as.integer64(c(0, 1:12)))
 #'   diff(cumsum(as.integer64(c(0,0,1:12))), differences=2)
-#' }
 NULL
 
 
@@ -320,21 +314,21 @@ NULL
 #' @param recursive logical. If `recursive = TRUE`, the function recursively descends through lists (and pairlists) combining all their elements into a vector.
 #' }
 #' @returns
-#'   [c()] returns a integer64 vector of the total length of the input \cr
+#'   [c()] returns a integer64 vector of the total length of the input
+#'
 #'   [cbind()] and [rbind()] return a integer64 matrix
-#' }
+#'
 #' @note
 #'   R currently only dispatches generic 'c' to method 'c.integer64' if the first argument is 'integer64'
-#' }
+#'
 #' @keywords classes manip
 #' @seealso [rep.integer64()] [seq.integer64()]
 #'           [as.data.frame.integer64()] [integer64()]
-#' }
+#'
 #' @examples
 #'   c(as.integer64(1), 2:6)
 #'   cbind(1:6, as.integer(1:6))
 #'   rbind(1:6, as.integer(1:6))
-#' }
 NULL
 
 
@@ -1547,6 +1541,8 @@ round.integer64 <- function(x, digits=0L){
   ret
 }
 
+#' @rdname sum.integer64
+#' @export
 any.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   if (length(l)==1L){
@@ -1562,6 +1558,8 @@ any.integer64 <- function(..., na.rm = FALSE){
   }
 }
 
+#' @rdname sum.integer64
+#' @export
 all.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   if (length(l)==1L){
@@ -1577,6 +1575,7 @@ all.integer64 <- function(..., na.rm = FALSE){
   }
 }
 
+#' @export
 sum.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   if (length(l)==1L){
@@ -1596,6 +1595,8 @@ sum.integer64 <- function(..., na.rm = FALSE){
   }
 }
 
+#' @rdname sum.integer64
+#' @export
 prod.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   if (length(l)==1L){
@@ -1615,6 +1616,8 @@ prod.integer64 <- function(..., na.rm = FALSE){
   }
 }
 
+#' @rdname sum.integer64
+#' @export
 min.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   noval <- TRUE
@@ -1641,6 +1644,8 @@ min.integer64 <- function(..., na.rm = FALSE){
   ret
 }
 
+#' @rdname sum.integer64
+#' @export
 max.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
   noval <- TRUE
@@ -1667,6 +1672,8 @@ max.integer64 <- function(..., na.rm = FALSE){
   ret
 }
 
+#' @rdname sum.integer64
+#' @export
 range.integer64 <- function(..., na.rm = FALSE, finite = FALSE){
   if (finite)
     na.rm = TRUE
@@ -1695,6 +1702,8 @@ range.integer64 <- function(..., na.rm = FALSE, finite = FALSE){
   ret
 }
 
+#' @rdname sum.integer64
+#' @export
 lim.integer64 <- function(){
   ret <- .Call(C_lim_integer64, double(2L))
     oldClass(ret) <- "integer64"
