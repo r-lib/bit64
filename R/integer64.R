@@ -47,7 +47,7 @@ NULL
 #' @param ... further arguments to the [NextMethod()]
 #'
 #' @return `as.bitstring` returns a string of class 'bitstring'.
-#' 
+#'
 #' The other methods return atomic vectors of the expected types
 #'
 #' @keywords classes manip
@@ -119,7 +119,7 @@ NULL
 #'   ), class = "bitstring")
 #' )
 #' }
-
+NULL
 
 #' \name{extract.replace.integer64}
 #' \alias{[.integer64}
@@ -160,6 +160,7 @@ NULL
 #'     stopifnot(identical(r, as.integer64(as.bitstring(r))))
 #'   }
 #' }
+NULL
 
 #' \name{format.integer64}
 #' \alias{format.integer64}
@@ -217,6 +218,7 @@ NULL
 #' }
 #' }
 #' }
+NULL
 
 #' \name{xor.integer64}
 #' \alias{&.integer64}
@@ -271,6 +273,7 @@ NULL
 #'   d*i  # old: 10
 #'   i*d  # old: 13
 #' }
+NULL
 
 
 #' \name{sum.integer64}
@@ -314,6 +317,7 @@ NULL
 #'   lim.integer64()
 #'   range(as.integer64(1:12))
 #' }
+NULL
 
 
 #' \name{cumsum.integer64}
@@ -348,6 +352,7 @@ NULL
 #'   cumsum(as.integer64(c(0, 1:12)))
 #'   diff(cumsum(as.integer64(c(0,0,1:12))), differences=2)
 #' }
+NULL
 
 
 #' \name{c.integer64}
@@ -381,6 +386,7 @@ NULL
 #'   cbind(1:6, as.integer(1:6))
 #'   rbind(1:6, as.integer(1:6))
 #' }
+NULL
 
 
 #' \name{rep.integer64}
@@ -408,6 +414,7 @@ NULL
 #'   rep(as.integer64(1:2), c(6,6))
 #'   rep(as.integer64(1:2), length.out=6)
 #' }
+NULL
 
 
 #' \name{seq.integer64}
@@ -447,6 +454,7 @@ NULL
 #'   seq(as.integer64(1), 12, 2)
 #'   seq(as.integer64(1), by=2, length.out=6)
 #' }
+NULL
 
 
 #' \name{as.data.frame.integer64}
@@ -480,6 +488,7 @@ NULL
 #'   as.data.frame.integer64(as.integer64(1:12))
 #'   data.frame(a=1:12, b=as.integer64(1:12))
 #' }
+NULL
 
 
 
@@ -509,6 +518,7 @@ NULL
 #'   plusclass("inheritingclass","integer64")
 #'   minusclass(c("inheritingclass","integer64"), "integer64")
 #' }
+NULL
 
 
 #' \name{all.equal.integer64}
@@ -568,6 +578,7 @@ NULL
 #'   all.equal(as.integer64(1:10), as.double(1:10))
 #'   all.equal(as.integer64(1), as.double(1e300))
 #' }
+NULL
 
 # if (!exists(":.default")){
     # ":.default" <- get(":")
