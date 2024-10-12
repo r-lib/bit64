@@ -319,42 +319,27 @@ NULL
 #' @name c.integer64
 NULL
 
-
-#' \name{rep.integer64}
-#' \alias{rep.integer64}
-#' \title{
-#'    Replicate elements of integer64 vectors
-#' }
-#' \description{
-#'   Replicate elements of integer64 vectors
-#' }
+#' Replicate elements of integer64 vectors
+#'
+#' Replicate elements of integer64 vectors
 #'
 #' @param x a vector of 'integer64' to be replicated
 #' @param ... further arguments passed to [NextMethod()]
-#' }
-#' @returns
-#'   [rep()] returns a integer64 vector
-#' }
+#'
+#' @returns [rep()] returns a integer64 vector
 #' @keywords classes manip
 #' @seealso [c.integer64()] [rep.integer64()]
-#'           [as.data.frame.integer64()] [integer64()]
-#' }
+#'   [as.data.frame.integer64()] [integer64()]
+#'
 #' @examples
 #'   rep(as.integer64(1:2), 6)
 #'   rep(as.integer64(1:2), c(6,6))
 #'   rep(as.integer64(1:2), length.out=6)
-#' }
 NULL
 
-
-#' \name{seq.integer64}
-#' \alias{seq.integer64}
-#' \title{
-#'    integer64: Sequence Generation
-#' }
-#' \description{
-#'   Generating sequence of integer64 values
-#' }
+#' integer64: Sequence Generation
+#'
+#' Generating sequence of integer64 values
 #'
 #' @param from integer64 scalar (in order to dispatch the integer64 method of [seq()]
 #' @param to scalar
@@ -362,27 +347,24 @@ NULL
 #' @param length.out scalar
 #' @param along.with scalar
 #' @param ... ignored
-#' }
 #' @details
 #'   `seq.integer64` does coerce its arguments 'from', 'to' and 'by' to `integer64`.
 #'   If not provided, the argument 'by' is automatically determined as `+1` or `-1`,
-#'   but the size of 'by' is not calculated as in [seq()] (because this might result in a non-integer value).
-#' }
-#' @returns
-#'   an integer64 vector with the generated sequence
-#' }
+#'   but the size of 'by' is not calculated as in [seq()] (because this might result
+#'   in a non-integer value).
+#'
+#' @returns an integer64 vector with the generated sequence
 #' @note
-#'   In base R [`:`] currently is not generic and does not dispatch, see section "Limitations inherited from Base R" in [integer64()]
-#' }
+#'   In base R [`:`] currently is not generic and does not dispatch, see section
+#'   "Limitations inherited from Base R" in [integer64()]
+#'
 #' @keywords classes manip
 #' @seealso [c.integer64()] [rep.integer64()]
-#'           [as.data.frame.integer64()] [integer64()]
-#' }
+#'   [as.data.frame.integer64()] [integer64()]
 #' @examples
 #'   # colon not activated: as.integer64(1):12
 #'   seq(as.integer64(1), 12, 2)
 #'   seq(as.integer64(1), by=2, length.out=6)
-#' }
 NULL
 
 
@@ -1235,7 +1217,7 @@ as.data.frame.integer64 <- function(x, ...){
   ret
 }
 
-
+#' @export
 rep.integer64 <- function(x, ...){
     cl <- oldClass(x)
     ret <- NextMethod()
@@ -1252,6 +1234,7 @@ rep.integer64 <- function(x, ...){
   ret
 }
 
+#' @export
 seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...){
     if (is.null(length.out))
       length.out <- length(along.with)
