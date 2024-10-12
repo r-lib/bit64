@@ -2602,10 +2602,6 @@ prank.integer64 <- function(x
     (rank.integer64(x, method=method, ...)-1L)/(n-1L)
 }
 
-#' \alias{median.integer64}
-#' \alias{mean.integer64}
-#' \alias{summary.integer64}
-
 #' (Q)uan(Tile)s
 #'
 #' Function [prank.integer64()]  projects the values `[min..max]` via ranks

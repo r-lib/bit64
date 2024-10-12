@@ -209,13 +209,13 @@
 #'
 #' | **binary operators** | **see also** | **description**   |
 #' |---------------------:|-------------:|:------------------|
-#' |      [+.integer64()] |        [`+`] | returns integer64 |
-#' |      [-.integer64()] |        [`-`] | returns integer64 |
-#' |      [*.integer64()] |        [`*`] | returns integer64 |
-#' |      [^.integer64()] |        [`^`] | returns double    |
-#' |      [/.integer64()] |        [`/`] | returns double    |
-#' |    [%/%.integer64()] |        [%/%] | returns integer64 |
-#' |     [%%.integer64()] |         [%%] | returns integer64 |
+#' |      [`+.integer64`] |        [`+`] | returns integer64 |
+#' |      [`-.integer64`] |        [`-`] | returns integer64 |
+#' |      [`*.integer64`] |        [`*`] | returns integer64 |
+#' |      [`^.integer64`] |        [`^`] | returns double    |
+#' |      [`/.integer64`] |        [`/`] | returns double    |
+#' |    [`%/%.integer64`] |        [%/%] | returns integer64 |
+#' |     [`%%.integer64`] |         [%%] | returns integer64 |
 #'
 #' | **comparison operators** | **see also** | **description** |
 #' |-------------------------:|-------------:|:----------------|
@@ -442,7 +442,7 @@
 #' message("Using integer64 in array - note that 'matrix' currently does not work")
 #' message("as.vector.integer64 removed as requested by the CRAN maintainer")
 #' message("as consequence 'array' also does not work anymore")
-#' %y <- array(as.integer64(NA), dim=c(3,4), dimnames=list(letters[1:3], LETTERS[1:4]))
+#  y <- array(as.integer64(NA), dim=c(3,4), dimnames=list(letters[1:3], LETTERS[1:4]))
 #' message("we still can create a matrix or array by assigning 'dim'")
 #' y <- rep(as.integer64(NA), 12)
 #' dim(y) <- c(3,4)
@@ -510,20 +510,20 @@
 #'     i64[i] <- 2*i64[i-1]
 #' stopifnot(identical.integer64(i64 * rev(i64), rep(i64[63], 63)))
 #' for (i in 63:2)
-#'     i64[i-1] <- i64[i]\%/\%2
+#'     i64[i-1] <- i64[i]%/%2
 #' stopifnot(identical.integer64(i64 * rev(i64), rep(i64[63], 63)))
 #' for (i in 63:2)
 #'     i64[i-1] <- i64[i]/2
 #' stopifnot(identical.integer64(i64 * rev(i64), rep(i64[63], 63)))
 #' stopifnot(identical.integer64(c( -i64[63] - (i64[63]-1), i64[63]+(i64[63]-1) ), lim.integer64()))
 #'
-#' stopifnot(identical.integer64(i64[-1]\%/\%2*as.integer64(2), i64[-1]))
-#' stopifnot(identical.integer64(i64[-1]\%/\%2L*as.integer64(2), i64[-1]))
+#' stopifnot(identical.integer64(i64[-1]%/%2*as.integer64(2), i64[-1]))
+#' stopifnot(identical.integer64(i64[-1]%/%2L*as.integer64(2), i64[-1]))
 #' stopifnot(identical.integer64(i64[-1]/2*as.integer64(2), i64[-1]))
 #' stopifnot(identical.integer64(i64[-1]/2*as.integer64(2), i64[-1]))
 #'
-#' stopifnot(identical.integer64(i64[-63]*2\%/\%2, i64[-63]))
-#' stopifnot(identical.integer64(i64[-63]*2L\%/\%2L, i64[-63]))
+#' stopifnot(identical.integer64(i64[-63]*2%/%2, i64[-63]))
+#' stopifnot(identical.integer64(i64[-63]*2L%/%2L, i64[-63]))
 #' stopifnot(identical.integer64(as.integer64(i64[-63]*2/2), i64[-63]))
 #' stopifnot(identical.integer64(as.integer64(i64[-63]*2L/2L), i64[-63]))
 #'

@@ -68,8 +68,8 @@
 #'
 #' stopifnot(identical(match(as.integer(x),as.integer(y)),hashpos(hy, x)))
 #' stopifnot(identical(match(as.integer(x),as.integer(y)),hashrev(hx, y)))
-#' stopifnot(identical(as.integer(x) \%in\% as.integer(y), hashfin(hy, x)))
-#' stopifnot(identical(as.integer(x) \%in\% as.integer(y), hashrin(hx, y)))
+#' stopifnot(identical(as.integer(x) %in% as.integer(y), hashfin(hy, x)))
+#' stopifnot(identical(as.integer(x) %in% as.integer(y), hashrin(hx, y)))
 #' stopifnot(identical(duplicated(as.integer(y)), hashdup(hy)))
 #' stopifnot(identical(as.integer64(unique(as.integer(y))), hashuni(hy, keep.order=TRUE)))
 #' stopifnot(identical(sort(hashuni(hy, keep.order=FALSE)), sort(hashuni(hy, keep.order=TRUE))))

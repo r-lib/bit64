@@ -188,9 +188,9 @@ NULL
 #'   [`&`], [`|`], [xor()], [`!=`], [`==`],
 #'   [`<`], [`<=`], [`>`], [`>=`] return a logical vector
 #'
-#'   [^()] and [`/`] return a double vector
+#'   [`^`] and [`/`] return a double vector
 #'
-#'   [`+`], [`-`], [*()], [`\%/\%`], [`\%\%`]
+#'   [`+`], [`-`], [`*`], [`%/%`], [`%%`]
 #'    return a vector of class 'integer64'
 #'
 #' @keywords classes manip

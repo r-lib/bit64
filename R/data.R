@@ -8,7 +8,7 @@
 #' ```
 #' num [1:16, 1:6] 2.55e-05 2.37 2.39 1.28 1.39 ...
 #' - attr(*, "dimnames")=List of 2
-#' ..$ : chr [1:16] "cache" "match(s,b)" "s \%in\% b" "match(b,s)" ...
+#' ..$ : chr [1:16] "cache" "match(s,b)" "s %in% b" "match(b,s)" ...
 #' ..$ : chr [1:6] "32-bit" "64-bit" "hashcache" "sortordercache" ...
 #' ```
 #'
@@ -50,7 +50,7 @@
 #'   .. ..$ : chr [1:3] "prep" "both" "use"
 #'  $ : num [1:10, 1:3] 0 0 0 1.62 0.00114 ...
 #'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:10] "\%in\%" "match.64" "\%in\%.64" "hashfin" ...
+#'   .. ..$ : chr [1:10] "%in%" "match.64" "%in%.64" "hashfin" ...
 #'   .. ..$ : chr [1:3] "prep" "both" "use"
 #'  $ : num [1:10, 1:3] 0 0 0.00105 0.00313 0.00313 ...
 #'   ..- attr(*, "dimnames")=List of 2
@@ -82,7 +82,7 @@
 #'   .. ..$ : chr [1:3] "prep" "both" "use"
 #'  $ : num [1:10, 1:3] 0 0 0 0.00104 1.18 ...
 #'   ..- attr(*, "dimnames")=List of 2
-#'   .. ..$ : chr [1:10] "\%in\%" "match.64" "\%in\%.64" "hashfin" ...
+#'   .. ..$ : chr [1:10] "%in%" "match.64" "%in%.64" "hashfin" ...
 #'   .. ..$ : chr [1:3] "prep" "both" "use"
 #'  $ : num [1:10, 1:3] 0 0 1.64 2.48 2.48 ...
 #'   ..- attr(*, "dimnames")=List of 2
@@ -110,7 +110,7 @@
 #'   .. ..$ : chr [1:3] "prep" "both" "use"
 #'  - attr(*, "dim")= int [1:2] 8 2
 #'  - attr(*, "dimnames")=List of 2
-#'   ..$ : chr [1:8] "match" "\%in\%" "duplicated" "unique" ...
+#'   ..$ : chr [1:8] "match" "%in%" "duplicated" "unique" ...
 #'   ..$ : chr [1:2] "65536" "33554432"
 #' ```
 #'
@@ -126,8 +126,8 @@
 #'   barplot(t(tim))
 #'   if (rownames(optimizer64.data)[i]=="match")
 #'    title(paste("match", colnames(optimizer64.data)[j], "in", colnames(optimizer64.data)[3-j]))
-#'   else if (rownames(optimizer64.data)[i]=="\%in\%")
-#'    title(paste(colnames(optimizer64.data)[j], "\%in\%", colnames(optimizer64.data)[3-j]))
+#'   else if (rownames(optimizer64.data)[i]=="%in%")
+#'    title(paste(colnames(optimizer64.data)[j], "%in%", colnames(optimizer64.data)[3-j]))
 #'   else
 #'    title(paste(rownames(optimizer64.data)[i], colnames(optimizer64.data)[j]))
 #'  }

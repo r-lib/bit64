@@ -16,24 +16,6 @@
 #'   is.double.integer64 match match.default %in% %in%.default rank
 #'   rank.default order order.default
 # @aliases table table.default
-#' @usage
-#'    from:to
-#'  #--as-cran complains about \method{:}{default}(from, to)
-#'  #--as-cran complains about \method{:}{integer64}(from, to)
-#'    is.double(x)
-#'  \method{is.double}{default}(x)
-#'  \method{is.double}{integer64}(x)
-#'     match(x, table, ...)
-#'  \method{match}{default}(x, table, ...)
-#'     x \%in\% table
-#'  \method{\%in\%}{default}(x, table)
-#'     rank(x, ...)
-#'  \method{rank}{default}(x, ...)
-#'     %table(...)
-#'  %\method{table}{default}(...)
-#'     order(...)
-#'  \method{order}{default}(...)
-#'
 #' @param x integer64 vector: the values to be matched, optionally carrying a
 #'   cache created with [hashcache()]
 #' @param table integer64 vector: the values to be matched against, optionally
@@ -56,7 +38,7 @@
 #'
 #' @return [invisible()]
 #' @note
-#'  - [is.double()] returns `FALSE` for \code{\link{integer64}}
+#'  - [is.double()] returns `FALSE` for [integer64]
 #'  - [`:`] currently only dispatches at its first argument, thus
 #'    `as.integer64(1):9` works but `1:as.integer64(9)` doesn't
 #'  - [match()] currently only dispatches at its first argument and expects
@@ -64,7 +46,7 @@
 #'    Beware of something like `match(2, as.integer64(0:3))`
 #'  - [`%in%`] currently only dispatches at its first argument and expects
 #'    its second argument also to be integer64, otherwise throws an error.
-#'    Beware of something like `2 \%in\% as.integer64(0:3)`
+#'    Beware of something like `2 %in% as.integer64(0:3)`
 #'  - [order()] currently only orders a single argument, trying more than
 #'    one raises an error
 #'
@@ -74,29 +56,29 @@
 #'  is.double(as.integer64(1))
 #'     as.integer64(1):9
 #'  match(as.integer64(2), as.integer64(0:3))
-#'  as.integer64(2) \%in\% as.integer64(0:3)
+#'  as.integer64(2) %in% as.integer64(0:3)
 #'
 #'  unique(as.integer64(c(1,1,2)))
 #'  rank(as.integer64(c(1,1,2)))
 #'
-#'  %table(as.integer64(c(1,1,2)))
-#'  %table(as.integer64(c(1,1,2)),as.integer64(c(3,4,4)))
-#'  %table(as.integer64(c(1,1,2)),c(3,4,4))
-#'  %table(c(1,1,2),as.integer64(c(3,4,4)))
+#   %table(as.integer64(c(1,1,2)))
+#   %table(as.integer64(c(1,1,2)),as.integer64(c(3,4,4)))
+#   %table(as.integer64(c(1,1,2)),c(3,4,4))
+#   %table(c(1,1,2),as.integer64(c(3,4,4)))
 #'
 #'  order(as.integer64(c(1,NA,2)))
 #'
 #'  \dontshow{
 #'  stopifnot(identical(match(as.integer64(2), as.integer64(0:3)), match(2, 0:3)))
-#'  stopifnot(identical(as.integer64(2) \%in\% as.integer64(0:3), 2 \%in\% 0:3))
+#'  stopifnot(identical(as.integer64(2) %in% as.integer64(0:3), 2 %in% 0:3))
 #'
 #'  stopifnot(identical(unique(as.integer64(c(1,1,2))), as.integer64(unique(c(1,1,2)))))
 #'  stopifnot(identical(rank(as.integer64(c(1,1,2))), rank(c(1,1,2))))
 #'
-#'  %stopifnot(identical(table(as.integer64(c(1,1,2))), table(c(1,1,2))))
-#'  %stopifnot(identical(table(as.integer64(c(1,1,2)),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
-#'  %stopifnot(identical(table(as.integer64(c(1,1,2)),c(3,4,4)), table(c(1,1,2),c(3,4,4))))
-#'  %stopifnot(identical(table(c(1,1,2),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
+#   stopifnot(identical(table(as.integer64(c(1,1,2))), table(c(1,1,2))))
+#   stopifnot(identical(table(as.integer64(c(1,1,2)),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
+#   stopifnot(identical(table(as.integer64(c(1,1,2)),c(3,4,4)), table(c(1,1,2),c(3,4,4))))
+#   stopifnot(identical(table(c(1,1,2),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
 #'
 #'  stopifnot(identical(order(as.integer64(c(1,NA,2))), order(c(1,NA,2))))
 #'  stopifnot(identical(order(as.integer64(c(1,NA,2)), decreasing=TRUE), order(c(1,NA,2), decreasing=TRUE)))
