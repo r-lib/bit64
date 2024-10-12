@@ -264,25 +264,15 @@ NULL
 #' @name sum.integer64
 NULL
 
-
-#' \name{cumsum.integer64}
-#' \alias{cummin.integer64}
-#' \alias{cummax.integer64}
-#' \alias{cumsum.integer64}
-#' \alias{cumprod.integer64}
-#' \alias{diff.integer64}
-#' \title{
-#'    Cumulative Sums, Products, Extremes and lagged differences
-#' }
-#' \description{
-#'   Cumulative Sums, Products, Extremes and lagged differences
-#' }
+#' Cumulative Sums, Products, Extremes and lagged differences
+#'
+#' Cumulative Sums, Products, Extremes and lagged differences
 #'
 #' @param x an atomic vector of class 'integer64'
 #' @param lag see [diff()]
 #' @param differences see [diff()]
 #' @param ... ignored
-#' }
+#'
 #' @returns
 #'   [cummin()], [cummax()] , [cumsum()] and [cumprod()]
 #'      return a integer64 vector of the same length as their input
@@ -296,39 +286,37 @@ NULL
 #'   diff(as.integer64(c(0,1:12)))
 #'   cumsum(as.integer64(c(0, 1:12)))
 #'   diff(cumsum(as.integer64(c(0,0,1:12))), differences=2)
+#' @name cumsum.integer64
 NULL
 
-
-#' \name{c.integer64}
-#' \alias{c.integer64}
-#' \alias{cbind.integer64}
-#' \alias{rbind.integer64}
-#' \title{
-#'    Concatenating integer64 vectors
-#' }
-#' \description{
-#'   The ususal functions 'c', 'cbind' and 'rbind'
-#' }
+#' Concatenating integer64 vectors
 #'
-#' @param ... two or more arguments coerced to 'integer64' and passed to [NextMethod()]
-#' @param recursive logical. If `recursive = TRUE`, the function recursively descends through lists (and pairlists) combining all their elements into a vector.
-#' }
+#' The ususal functions 'c', 'cbind' and 'rbind'
+#'
+#' @param ... two or more arguments coerced to 'integer64' and
+#'   passed to [NextMethod()]
+#' @param recursive logical. If `recursive = TRUE`, the function
+#'   recursively descends through lists (and pairlists) combining all
+#'   their elements into a vector.
+#'
 #' @returns
 #'   [c()] returns a integer64 vector of the total length of the input
 #'
 #'   [cbind()] and [rbind()] return a integer64 matrix
 #'
 #' @note
-#'   R currently only dispatches generic 'c' to method 'c.integer64' if the first argument is 'integer64'
+#' R currently only dispatches generic 'c' to method 'c.integer64' if the
+#'   first argument is 'integer64'
 #'
 #' @keywords classes manip
-#' @seealso [rep.integer64()] [seq.integer64()]
-#'           [as.data.frame.integer64()] [integer64()]
+#' @seealso [rep.integer64()] [seq.integer64()] [as.data.frame.integer64()]
+#'   [integer64()]
 #'
 #' @examples
 #'   c(as.integer64(1), 2:6)
 #'   cbind(1:6, as.integer(1:6))
 #'   rbind(1:6, as.integer(1:6))
+#' @name c.integer64
 NULL
 
 
@@ -1167,6 +1155,7 @@ if (FALSE){
   ret
 }
 
+#' @export
 c.integer64 <-
 function (..., recursive = FALSE)
 {
@@ -1189,8 +1178,9 @@ function (..., recursive = FALSE)
     ret
 }
 
-
-cbind.integer64 <- function(...){
+#' @rdname c.integer64
+#' @export
+cbind.integer64 <- function(...) {
   l <- list(...)
     K <- length(l)
   for (k in 1:K){
@@ -1206,7 +1196,9 @@ cbind.integer64 <- function(...){
   ret
 }
 
-rbind.integer64 <- function(...){
+#' @rdname c.integer64
+#' @export
+rbind.integer64 <- function(...) {
   l <- list(...)
     K <- length(l)
   for (k in 1:K){
@@ -1710,6 +1702,8 @@ lim.integer64 <- function(){
     ret
 }
 
+#' @rdname cumsum.integer64
+#' @export
 diff.integer64 <- function(x, lag=1L, differences=1L, ...){
   lag <- as.integer(lag)
   n <- length(x)
@@ -1735,23 +1729,31 @@ diff.integer64 <- function(x, lag=1L, differences=1L, ...){
   ret
 }
 
+#' @rdname cumsum.integer64
+#' @export
 cummin.integer64 <- function(x){
   ret <- .Call(C_cummin_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
+#' @rdname cumsum.integer64
+#' @export
 cummax.integer64 <- function(x){
   ret <- .Call(C_cummax_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
 
+#' @rdname cumsum.integer64
+#' @export
 cumsum.integer64 <- function(x){
   ret <- .Call(C_cumsum_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
 
+#' @rdname cumsum.integer64
+#' @export
 cumprod.integer64 <- function(x){
   ret <- .Call(C_cumprod_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
