@@ -2330,52 +2330,40 @@ as.ordered.integer64 <- function(x){
 
 as.integer64.factor <- function(x, ...)as.integer64(unclass(x))
 
-
-
-#' \name{keypos}
-#' \alias{keypos}
-#' \alias{keypos.integer64}
-#' \title{Extract Positions in redundant dimension table}
-#' \description{
-#'   `keypos` returns the positions of the (fact table) elements that participate in their sorted unique subset (dimension table)
-#' }
-#' \usage{
-#' keypos(x, ...)
-#' \method{keypos}{integer64}(x, method = NULL, ...)
-#' }
-#' \arguments{
-#'   \item{x}{a vector or a data frame or an array or `NULL`.}
-#'   \item{method}{NULL for automatic method selection or a suitable low-level method, see details}
-#'   \item{...}{ignored}
-#' }
-#' \details{
-#'   NAs are sorted first in the dimension table, see [ramorder.integer64()].
-#'   \cr
-#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
-#'   Suitable methods are [sortorderkey()] (fast ordering)
-#' and [orderkey()] (memory saving ordering).
-#' }
-#' \value{
-#'   an integer vector of the same length as `x` containing positions relativ to `sort(unique(x), na.last=FALSE)`
-#' }
-#' \author{
-#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#' }
-#' \seealso{
-#'   [unique.integer64()] for the unique subset and [match.integer64()] for finding positions in a different vector.
-#' }
-#' \examples{
+#' Extract Positions in redundant dimension table
+#'
+#' `keypos` returns the positions of the (fact table) elements that participate
+#'   in their sorted unique subset (dimension table)
+#'
+#' @param x a vector or a data frame or an array or `NULL`.
+#' @param method NULL for automatic method selection or a suitable low-level
+#'   method, see details
+#' @param ... ignored
+#'
+#' @details
+#' NAs are sorted first in the dimension table, see [ramorder.integer64()].
+#'
+#' This function automatically chooses from several low-level functions
+#'   considering the size of `x` and the availability of a cache.
+#'
+#' Suitable methods are
+#'  - [sortorderkey] (fast ordering)
+#'  - [orderkey] (memory saving ordering).
+#'
+#' @return an integer vector of the same length as `x` containing positions
+#'   relative to `sort(unique(x), na.last=FALSE)`
+#' @seealso [unique.integer64()] for the unique subset and [match.integer64()]
+#'   for finding positions in a different vector.
+#'
+#' @examples
 #' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #' keypos(x)
 #'
 #' stopifnot(identical(keypos(x),  match.integer64(x, sort(unique(x), na.last=FALSE))))
-#' }
-#' \keyword{manip}
-#' \keyword{univar}
-
-
-
-keypos <- function(x, ...)UseMethod("keypos")
+#' @keywords manip univar
+#' @export
+keypos <- function(x, ...) UseMethod("keypos")
+#' @export
 keypos.integer64 <- function(x
 , method = NULL
 , ...
