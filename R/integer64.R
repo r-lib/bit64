@@ -8,751 +8,588 @@
 # Last changed:  2011-12-11
 #*/
 
-#! \name{identical.integer64}
-#! \alias{identical.integer64}
-#! \title{
-#!    Identity function for class 'integer64'
-#! }
-#! \description{
-#!   This will discover any deviation between objects containing integer64 vectors.
-#! }
-#! \usage{
-#!  identical.integer64(x, y, num.eq = FALSE, single.NA = FALSE
-#! , attrib.as.set = TRUE, ignore.bytecode = TRUE)
-#! }
-#! \arguments{
-#!   \item{x}{ atomic vector of class 'integer64' }
-#!   \item{y}{ atomic vector of class 'integer64' }
-#!   \item{num.eq}{ see \code{\link{identical}} }
-#!   \item{single.NA}{ see \code{\link{identical}} }
-#!   \item{attrib.as.set}{ see \code{\link{identical}} }
-#!   \item{ignore.bytecode}{ see \code{\link{identical}} }
-#!   \item{ignore.environment}{ see \code{\link{identical}} }
-#!   \item{ignore.srcref}{ see \code{\link{identical}} }
-#!   \item{extptr.as.ref}{ see \code{\link{identical}} }
-#! }
-#! \details{
-#!   This is simply a wrapper to \code{\link{identical}} with default arguments \code{num.eq = FALSE, single.NA = FALSE}.
-#! }
-#! \value{
-#!   A single logical value, \code{TRUE} or \code{FALSE}, never \code{NA} and never anything other than a single value.
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ classes }
-#! \keyword{ manip }
-#! \seealso{ \code{\link{==.integer64}} \code{\link{identical}} \code{\link{integer64}}  }
-#! \examples{
-#!   i64 <- as.double(NA); class(i64) <- "integer64"
-#!   identical(i64-1, i64+1)
-#!   identical.integer64(i64-1, i64+1)
-#! }
+#' \name{identical.integer64}
+#' \alias{identical.integer64}
+#' \title{
+#'    Identity function for class 'integer64'
+#' }
+#' \description{
+#'   This will discover any deviation between objects containing integer64 vectors.
+#' }
+#'
+#' @param x atomic vector of class 'integer64'
+#' @param y atomic vector of class 'integer64'
+#' @param num.eq see [identical()]
+#' @param single.NA see [identical()]
+#' @param attrib.as.set see [identical()]
+#' @param ignore.bytecode see [identical()]
+#' @param ignore.environment see [identical()]
+#' @param ignore.srcref see [identical()]
+#' @param extptr.as.ref see [identical()]
+#'
+#' \details{
+#'   This is simply a wrapper to [identical()] with default arguments `num.eq = FALSE, single.NA = FALSE`.
+#' }
+#' \value{
+#'   A single logical value, `TRUE` or `FALSE`, never `NA` and never anything other than a single value.
+#' }
+#' \keyword{ classes }
+#' \keyword{ manip }
+#' \seealso{ [==.integer64()] [identical()] [integer64()]  }
+#' \examples{
+#'   i64 <- as.double(NA); class(i64) <- "integer64"
+#'   identical(i64-1, i64+1)
+#'   identical.integer64(i64-1, i64+1)
+#' }
 
 
-#! \name{as.character.integer64}
-#! \alias{as.character.integer64}
-#! \alias{as.double.integer64}
-#! \alias{as.integer.integer64}
-#! \alias{as.logical.integer64}
-#! \alias{as.bitstring}
-#! \alias{print.bitstring}
-#! \alias{as.bitstring.integer64}
-#! \alias{as.factor.integer64}
-#! \alias{as.ordered.integer64}
-#! \alias{as.list.integer64}
-#! \title{
-#!    Coerce from integer64
-#! }
-#! \description{
-#!   Methods to coerce integer64 to other atomic types.
-#!   'as.bitstring' coerces to a human-readable bit representation (strings of zeroes and ones).
-#!   The methods \code{\link{format}}, \code{\link{as.character}}, \code{\link{as.double}},
-#!   \code{\link{as.logical}}, \code{\link{as.integer}} do what you would expect.
-#! }
-#! \usage{
-#!  as.bitstring(x, \dots)
-#!  \method{as.bitstring}{integer64}(x, \dots)
-#!  \method{print}{bitstring}(x, \dots)
-#!  \method{as.character}{integer64}(x, \dots)
-#!  \method{as.double}{integer64}(x, keep.names = FALSE, \dots)
-#!  \method{as.integer}{integer64}(x, \dots)
-#!  \method{as.logical}{integer64}(x, \dots)
-#!  \method{as.factor}{integer64}(x)
-#!  \method{as.ordered}{integer64}(x)
-#!  \method{as.list}{integer64}(x, \dots)
-#! }
-#! \arguments{
-#!   \item{x}{ an integer64 vector }
-#!   \item{keep.names}{ FALSE, set to TRUE to keep a names vector }
-#!   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
-#! }
-#! \value{
-#!   \code{as.bitstring} returns a string of class 'bitstring'. \cr
-#!   The other methods return atomic vectors of the expected types
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ classes }
-#! \keyword{ manip }
-#! \seealso{ \code{\link{as.integer64.character}} \code{\link{integer64}}  }
-#! \examples{
-#!   as.character(lim.integer64())
-#!   as.bitstring(lim.integer64())
-#!   as.bitstring(as.integer64(c(
-#!    -2,-1,NA,0:2
-#!   )))
-#! }
+#' \name{as.character.integer64}
+#' \alias{as.character.integer64}
+#' \alias{as.double.integer64}
+#' \alias{as.integer.integer64}
+#' \alias{as.logical.integer64}
+#' \alias{as.bitstring}
+#' \alias{print.bitstring}
+#' \alias{as.bitstring.integer64}
+#' \alias{as.factor.integer64}
+#' \alias{as.ordered.integer64}
+#' \alias{as.list.integer64}
+#' \title{
+#'    Coerce from integer64
+#' }
+#' \description{
+#'   Methods to coerce integer64 to other atomic types.
+#'   'as.bitstring' coerces to a human-readable bit representation (strings of zeroes and ones).
+#'   The methods [format()], [as.character()], [as.double()],
+#'   [as.logical()], [as.integer()] do what you would expect.
+#' }
+#'
+#' @param x an integer64 vector
+#' @param keep.names FALSE, set to TRUE to keep a names vector
+#' @param ... further arguments to the [NextMethod()]
+#' }
+#' \value{
+#'   `as.bitstring` returns a string of class 'bitstring'. \cr
+#'   The other methods return atomic vectors of the expected types
+#' }
+#' \keyword{ classes }
+#' \keyword{ manip }
+#' \seealso{ [as.integer64.character()] [integer64()]  }
+#' \examples{
+#'   as.character(lim.integer64())
+#'   as.bitstring(lim.integer64())
+#'   as.bitstring(as.integer64(c(
+#'    -2,-1,NA,0:2
+#'   )))
+#' }
 
-#! \name{as.integer64.character}
-#! \alias{as.integer64}
-#! \alias{as.integer64.integer64}
-#! \alias{as.integer64.NULL}
-#! \alias{as.integer64.bitstring}
-#! \alias{as.integer64.character}
-#! \alias{as.integer64.double}
-#! \alias{as.integer64.integer}
-#! \alias{as.integer64.logical}
-#! \alias{as.integer64.factor}
-#! \alias{NA_integer64_}
-#! \title{
-#!    Coerce to integer64
-#! }
-#! \description{
-#!   Methods to coerce from other atomic types to integer64.
-#! }
-#! \usage{
-#!  NA_integer64_
-#!  as.integer64(x, \dots)
-#!  \method{as.integer64}{integer64}(x, \dots)
-#!  \method{as.integer64}{NULL}(x, \dots)
-#!  \method{as.integer64}{character}(x, \dots)
-#!  \method{as.integer64}{bitstring}(x, \dots)
-#!  \method{as.integer64}{double}(x, keep.names = FALSE, \dots)
-#!  \method{as.integer64}{integer}(x, \dots)
-#!  \method{as.integer64}{logical}(x, \dots)
-#!  \method{as.integer64}{factor}(x, \dots)
-#! }
-#! \arguments{
-#!   \item{x}{ an atomic vector }
-#!   \item{keep.names}{ FALSE, set to TRUE to keep a names vector }
-#!   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
-#! }
-#! \details{
-#!   \code{as.integer64.character} is realized using C function \code{strtoll} which does not support scientific notation.
-#!   Instead of '1e6' use '1000000'.
-#!   \code{as.integer64.bitstring} evaluates characters '0' anbd ' ' as zero-bit,
-#!   all other one byte characters as one-bit,
-#!   multi-byte characters are not allowed,
-#!   strings shorter than 64 characters are treated as if they were left-padded with '0',
-#!   strings longer than 64 bytes are mapped to \code{NA_INTEGER64} and a warning is emitted.
-#! }
-#! \value{
-#!   The other methods return atomic vectors of the expected types
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ classes }
-#! \keyword{ manip }
-#! \seealso{ \code{\link{as.character.integer64}} \code{\link{integer64}}  }
-#! \examples{
-#! as.integer64(as.character(lim.integer64()))
-#! as.integer64(
-#!   structure(c("1111111111111111111111111111111111111111111111111111111111111110",
-#!               "1111111111111111111111111111111111111111111111111111111111111111",
-#!               "1000000000000000000000000000000000000000000000000000000000000000",
-#!               "0000000000000000000000000000000000000000000000000000000000000000",
-#!               "0000000000000000000000000000000000000000000000000000000000000001",
-#!               "0000000000000000000000000000000000000000000000000000000000000010"
-#!   ), class = "bitstring")
-#! )
-#! as.integer64(
-#!  structure(c("............................................................... ",
-#!              "................................................................",
-#!              ".                                                               ",
-#!              "",
-#!              ".",
-#!              "10"
-#!   ), class = "bitstring")
-#! )
-#! }
+#' \name{as.integer64.character}
+#' \alias{as.integer64}
+#' \alias{as.integer64.integer64}
+#' \alias{as.integer64.NULL}
+#' \alias{as.integer64.bitstring}
+#' \alias{as.integer64.character}
+#' \alias{as.integer64.double}
+#' \alias{as.integer64.integer}
+#' \alias{as.integer64.logical}
+#' \alias{as.integer64.factor}
+#' \alias{NA_integer64_}
+#' \title{
+#'    Coerce to integer64
+#' }
+#' \description{
+#'   Methods to coerce from other atomic types to integer64.
+#' }
+#'
+#' @param x an atomic vector
+#' @param keep.names FALSE, set to TRUE to keep a names vector
+#' @param ... further arguments to the [NextMethod()]
+#' }
+#' \details{
+#'   `as.integer64.character` is realized using C function `strtoll` which does not support scientific notation.
+#'   Instead of '1e6' use '1000000'.
+#'   `as.integer64.bitstring` evaluates characters '0' anbd ' ' as zero-bit,
+#'   all other one byte characters as one-bit,
+#'   multi-byte characters are not allowed,
+#'   strings shorter than 64 characters are treated as if they were left-padded with '0',
+#'   strings longer than 64 bytes are mapped to `NA_INTEGER64` and a warning is emitted.
+#' }
+#' \value{
+#'   The other methods return atomic vectors of the expected types
+#' }
+#' \keyword{ classes }
+#' \keyword{ manip }
+#' \seealso{ [as.character.integer64()] [integer64()]  }
+#' \examples{
+#' as.integer64(as.character(lim.integer64()))
+#' as.integer64(
+#'   structure(c("1111111111111111111111111111111111111111111111111111111111111110",
+#'               "1111111111111111111111111111111111111111111111111111111111111111",
+#'               "1000000000000000000000000000000000000000000000000000000000000000",
+#'               "0000000000000000000000000000000000000000000000000000000000000000",
+#'               "0000000000000000000000000000000000000000000000000000000000000001",
+#'               "0000000000000000000000000000000000000000000000000000000000000010"
+#'   ), class = "bitstring")
+#' )
+#' as.integer64(
+#'  structure(c("............................................................... ",
+#'              "................................................................",
+#'              ".                                                               ",
+#'              "",
+#'              ".",
+#'              "10"
+#'   ), class = "bitstring")
+#' )
+#' }
 
 
-#! \name{extract.replace.integer64}
-#! \alias{[.integer64}
-#! \alias{[[.integer64}
-#! \alias{[[<-.integer64}
-#! \alias{[<-.integer64}
-#! \title{
-#!    Extract or Replace Parts of an integer64 vector
-#! }
-#! \description{
-#!   Methods to extract and replace parts of an integer64 vector.
-#! }
-#! \usage{
-#!  \method{[}{integer64}(x, i, \dots)
-#!  \method{[}{integer64}(x, \dots) <- value
-#!  \method{[[}{integer64}(x, \dots)
-#!  \method{[[}{integer64}(x, \dots) <- value
-#! }
-#! \arguments{
-#!   \item{x}{ an atomic vector }
-#!   \item{i}{ indices specifying elements to extract }
-#!   \item{value}{ an atomic vector with values to be assigned }
-#!   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
-#! }
-#! \note{
-#!   You should not subscript non-existing elements and not use \code{NA}s as subscripts.
-#!   The current implementation returns \code{9218868437227407266} instead of \code{NA}.
-#! }
-#! \value{
-#!   A vector or scalar of class 'integer64'
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ classes }
-#! \keyword{ manip }
-#! \seealso{ \code{\link{[}} \code{\link{integer64}}  }
-#! \examples{
-#!   as.integer64(1:12)[1:3]
-#!   x <- as.integer64(1:12)
-#!   dim(x) <- c(3,4)
-#!   x
-#!   x[]
-#!   x[,2:3]
-#!   \dontshow{
-#!     r <- c(runif64(1e3, lim.integer64()[1], lim.integer64()[2]), NA, -2:2)
-#!     stopifnot(identical(r, as.integer64(as.bitstring(r))))
-#!   }
-#! }
+#' \name{extract.replace.integer64}
+#' \alias{[.integer64}
+#' \alias{[[.integer64}
+#' \alias{[[<-.integer64}
+#' \alias{[<-.integer64}
+#' \title{
+#'    Extract or Replace Parts of an integer64 vector
+#' }
+#' \description{
+#'   Methods to extract and replace parts of an integer64 vector.
+#' }
+#'
+#' @param x an atomic vector
+#' @param i indices specifying elements to extract
+#' @param value an atomic vector with values to be assigned
+#' @param ... further arguments to the [NextMethod()]
+#' }
+#' \note{
+#'   You should not subscript non-existing elements and not use `NA`s as subscripts.
+#'   The current implementation returns `9218868437227407266` instead of `NA`.
+#' }
+#' \value{
+#'   A vector or scalar of class 'integer64'
+#' }
+#' \keyword{ classes }
+#' \keyword{ manip }
+#' \seealso{ [[()] [integer64()]  }
+#' \examples{
+#'   as.integer64(1:12)[1:3]
+#'   x <- as.integer64(1:12)
+#'   dim(x) <- c(3,4)
+#'   x
+#'   x[]
+#'   x[,2:3]
+#'   \dontshow{
+#'     r <- c(runif64(1e3, lim.integer64()[1], lim.integer64()[2]), NA, -2:2)
+#'     stopifnot(identical(r, as.integer64(as.bitstring(r))))
+#'   }
+#' }
 
-#! \name{format.integer64}
-#! \alias{format.integer64}
-#! \alias{is.na.integer64}
-#! \alias{is.nan.integer64}
-#! \alias{is.finite.integer64}
-#! \alias{is.infinite.integer64}
-#! \alias{!.integer64}
-#! \alias{sign.integer64}
-#! \alias{abs.integer64}
-#! \alias{sqrt.integer64}
-#! \alias{log.integer64}
-#! \alias{log2.integer64}
-#! \alias{log10.integer64}
-#! \alias{floor.integer64}
-#! \alias{ceiling.integer64}
-#! \alias{trunc.integer64}
-#! \alias{round.integer64}
-#! \alias{signif.integer64}
-#! \alias{scale.integer64}
-#! \title{
-#!    Unary operators and functions for integer64 vectors
-#! }
-#! \description{
-#!   Unary operators and functions for integer64 vectors.
-#! }
-#! \usage{
-#! \method{format}{integer64}(x, justify="right", \dots)
-#! \method{is.na}{integer64}(x)
-#! \method{is.nan}{integer64}(x)
-#! \method{is.finite}{integer64}(x)
-#! \method{is.infinite}{integer64}(x)
-#! \method{!}{integer64}(x)
-#! \method{sign}{integer64}(x)
-#! \method{abs}{integer64}(x)
-#! \method{sqrt}{integer64}(x)
-#! \method{log}{integer64}(x, base)
-#! \method{log2}{integer64}(x)
-#! \method{log10}{integer64}(x)
-#! \method{floor}{integer64}(x)
-#! \method{ceiling}{integer64}(x)
-#! \method{trunc}{integer64}(x, \dots)
-#! \method{round}{integer64}(x, digits=0)
-#! \method{signif}{integer64}(x, digits=6)
-#! \method{scale}{integer64}(x, center = TRUE, scale = TRUE)
-#! }
-#! \arguments{
-#!   \item{x}{ an atomic vector of class 'integer64'}
-#!   \item{base}{ an atomic scalar (we save 50\% log-calls by not allowing a vector base) }
-#!   \item{digits}{ integer indicating the number of decimal places (round) or significant digits (signif) to be used.
-#!                  Negative values are allowed (see \code{\link{round}}) }
-#!   \item{justify}{ should it be right-justified (the default), left-justified, centred or left alone. }
-#!   \item{center}{ see \code{\link{scale}} }
-#!   \item{scale}{  see \code{\link{scale}} }
-#!   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
-#! }
-#! \value{
-#!   \code{\link{format}} returns a character vector \cr
-#!   \code{\link{is.na}} and \code{\link{!}} return a logical vector \cr
-#!   \code{\link{sqrt}}, \code{\link{log}}, \code{\link{log2}} and \code{\link{log10}} return a double vector \cr
-#!   \code{\link{sign}}, \code{\link{abs}}, \code{\link{floor}}, \code{\link{ceiling}}, \code{\link{trunc}} and
-#!   \code{\link{round}} return a vector of class 'integer64' \cr
-#!   \code{\link{signif}} is not implemented
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ classes }
-#! \keyword{ manip }
-#! \seealso{ \code{\link{xor.integer64}} \code{\link{integer64}}  }
-#! \examples{
-#!   sqrt(as.integer64(1:12))
-#! \dontshow{
-#! i <- -999:999
-#! for (s in -3:3){
-#! r <- as.integer64(round(as.integer(i), s))
-#!   r64 <- round(as.integer64(i), s)
-#!   stopifnot(identical(r,r64))
-#! }
-#! }
-#! }
+#' \name{format.integer64}
+#' \alias{format.integer64}
+#' \alias{is.na.integer64}
+#' \alias{is.nan.integer64}
+#' \alias{is.finite.integer64}
+#' \alias{is.infinite.integer64}
+#' \alias{!.integer64}
+#' \alias{sign.integer64}
+#' \alias{abs.integer64}
+#' \alias{sqrt.integer64}
+#' \alias{log.integer64}
+#' \alias{log2.integer64}
+#' \alias{log10.integer64}
+#' \alias{floor.integer64}
+#' \alias{ceiling.integer64}
+#' \alias{trunc.integer64}
+#' \alias{round.integer64}
+#' \alias{signif.integer64}
+#' \alias{scale.integer64}
+#' \title{
+#'    Unary operators and functions for integer64 vectors
+#' }
+#' \description{
+#'   Unary operators and functions for integer64 vectors.
+#' }
+#'
+#' @param x an atomic vector of class 'integer64'
+#' @param base an atomic scalar (we save 50\% log-calls by not allowing a vector base)
+#' @param digits integer indicating the number of decimal places (round) or significant digits (signif) to be used. Negative values are allowed (see [round()]) }
+#' @param justify should it be right-justified (the default), left-justified, centred or left alone.
+#' @param center see [scale()]
+#' @param scale see [scale()]
+#' @param ... further arguments to the [NextMethod()]
+#' }
+#' \value{
+#'   [format()] returns a character vector \cr
+#'   [is.na()] and [!()] return a logical vector \cr
+#'   [sqrt()], [log()], [log2()] and [log10()] return a double vector \cr
+#'   [sign()], [abs()], [floor()], [ceiling()], [trunc()] and
+#'   [round()] return a vector of class 'integer64' \cr
+#'   [signif()] is not implemented
+#' }
+#' \keyword{ classes }
+#' \keyword{ manip }
+#' \seealso{ [xor.integer64()] [integer64()]  }
+#' \examples{
+#'   sqrt(as.integer64(1:12))
+#' \dontshow{
+#' i <- -999:999
+#' for (s in -3:3){
+#' r <- as.integer64(round(as.integer(i), s))
+#'   r64 <- round(as.integer64(i), s)
+#'   stopifnot(identical(r,r64))
+#' }
+#' }
+#' }
 
-#! \name{xor.integer64}
-#! \alias{&.integer64}
-#! \alias{|.integer64}
-#! \alias{xor.integer64}
-#! \alias{!=.integer64}
-#! \alias{==.integer64}
-#! \alias{<.integer64}
-#! \alias{<=.integer64}
-#! \alias{>.integer64}
-#! \alias{>=.integer64}
-#! \alias{+.integer64}
-#! \alias{-.integer64}
-#! \alias{*.integer64}
-#! \alias{^.integer64}
-#! \alias{/.integer64}
-#! \alias{\%/\%.integer64}
-#! \alias{\%\%.integer64}
-#! \alias{binattr}
-#! \title{
-#!    Binary operators for integer64 vectors
-#! }
-#! \description{
-#!   Binary operators for integer64 vectors.
-#! }
-#! \usage{
-#! \method{&}{integer64}(e1,e2)
-#! \method{|}{integer64}(e1,e2)
-#! \method{xor}{integer64}(x,y)
-#! \method{!=}{integer64}(e1,e2)
-#! \method{==}{integer64}(e1,e2)
-#! \method{<}{integer64}(e1,e2)
-#! \method{<=}{integer64}(e1,e2)
-#! \method{>}{integer64}(e1,e2)
-#! \method{>=}{integer64}(e1,e2)
-#! \method{+}{integer64}(e1,e2)
-#! \method{-}{integer64}(e1,e2)
-#! \method{*}{integer64}(e1,e2)
-#! \method{^}{integer64}(e1,e2)
-#! \method{/}{integer64}(e1,e2)
-#! \method{\%/\%}{integer64}(e1,e2)
-#! \method{\%\%}{integer64}(e1,e2)
-#! binattr(e1,e2) # for internal use only
-#! }
-#! \arguments{
-#!   \item{e1}{ an atomic vector of class 'integer64'}
-#!   \item{e2}{ an atomic vector of class 'integer64'}
-#!   \item{x}{ an atomic vector of class 'integer64'}
-#!   \item{y}{ an atomic vector of class 'integer64'}
-#! }
-#! \value{
-#!   \code{\link{&}}, \code{\link{|}}, \code{\link{xor}}, \code{\link{!=}}, \code{\link{==}},
-#!   \code{\link{<}}, \code{\link{<=}}, \code{\link{>}}, \code{\link{>=}} return a logical vector \cr
-#!   \code{\link{^}} and \code{\link{/}} return a double vector\cr
-#!   \code{\link{+}}, \code{\link{-}}, \code{\link{*}}, \code{\link{\%/\%}}, \code{\link{\%\%}}
-#!    return a vector of class 'integer64'
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ classes }
-#! \keyword{ manip }
-#! \seealso{ \code{\link{format.integer64}} \code{\link{integer64}}  }
-#! \examples{
-#!   as.integer64(1:12) - 1
-#!   options(integer64_semantics="new")
-#!   d <- 2.5
-#!   i <- as.integer64(5)
-#!   d/i  # new 0.5
-#!   d*i  # new 13
-#!   i*d  # new 13
-#!   options(integer64_semantics="old")
-#!   d/i  # old: 0.4
-#!   d*i  # old: 10
-#!   i*d  # old: 13
-#! }
+#' \name{xor.integer64}
+#' \alias{&.integer64}
+#' \alias{|.integer64}
+#' \alias{xor.integer64}
+#' \alias{!=.integer64}
+#' \alias{==.integer64}
+#' \alias{<.integer64}
+#' \alias{<=.integer64}
+#' \alias{>.integer64}
+#' \alias{>=.integer64}
+#' \alias{+.integer64}
+#' \alias{-.integer64}
+#' \alias{*.integer64}
+#' \alias{^.integer64}
+#' \alias{/.integer64}
+#' \alias{\%/\%.integer64}
+#' \alias{\%\%.integer64}
+#' \alias{binattr}
+#' \title{
+#'    Binary operators for integer64 vectors
+#' }
+#' \description{
+#'   Binary operators for integer64 vectors.
+#' }
+#'
+#' @param e1 an atomic vector of class 'integer64'
+#' @param e2 an atomic vector of class 'integer64'
+#' @param x an atomic vector of class 'integer64'
+#' @param y an atomic vector of class 'integer64'
+#' }
+#' \value{
+#'   [&()], [|()], [xor()], [!=()], [==()],
+#'   [<()], [<=()], [>()], [>=()] return a logical vector \cr
+#'   [^()] and [/()] return a double vector\cr
+#'   [+()], [-()], [*()], [\%/\%()], [\%\%()]
+#'    return a vector of class 'integer64'
+#' }
+#' \keyword{ classes }
+#' \keyword{ manip }
+#' \seealso{ [format.integer64()] [integer64()]  }
+#' \examples{
+#'   as.integer64(1:12) - 1
+#'   options(integer64_semantics="new")
+#'   d <- 2.5
+#'   i <- as.integer64(5)
+#'   d/i  # new 0.5
+#'   d*i  # new 13
+#'   i*d  # new 13
+#'   options(integer64_semantics="old")
+#'   d/i  # old: 0.4
+#'   d*i  # old: 10
+#'   i*d  # old: 13
+#' }
 
 
-#! \name{sum.integer64}
-#! \alias{all.integer64}
-#! \alias{any.integer64}
-#! \alias{min.integer64}
-#! \alias{max.integer64}
-#! \alias{range.integer64}
-#! \alias{lim.integer64}
-#! \alias{sum.integer64}
-#! \alias{prod.integer64}
-#! \title{
-#!    Summary functions for integer64 vectors
-#! }
-#! \description{
-#!   Summary functions for integer64 vectors.
-#!   Function 'range' without arguments returns the smallest and largest value of the 'integer64' class.
-#! }
-#! \usage{
-#! \method{all}{integer64}(\dots, na.rm = FALSE)
-#! \method{any}{integer64}(\dots, na.rm = FALSE)
-#! \method{min}{integer64}(\dots, na.rm = FALSE)
-#! \method{max}{integer64}(\dots, na.rm = FALSE)
-#! \method{range}{integer64}(\dots, na.rm = FALSE, finite = FALSE)
-#! lim.integer64()
-#! \method{sum}{integer64}(\dots, na.rm = FALSE)
-#! \method{prod}{integer64}(\dots, na.rm = FALSE)
-#! }
-#! \arguments{
-#!   \item{\dots}{ atomic vectors of class 'integer64'}
-#!   \item{na.rm}{ logical scalar indicating whether to ignore NAs }
-#!   \item{finite}{ logical scalar indicating whether to ignore NAs (just for compatibility with \code{\link{range.default}}) }
-#! }
-#! \details{
-#!   The numerical summary methods always return \code{integer64}.
-#!   Therefor the methods for \code{min},\code{max} and \code{range} do not return \code{+Inf,-Inf}
-#!   on empty arguments, but \code{+9223372036854775807, -9223372036854775807} (in this sequence).
-#!   The same is true if only  \code{NA}s are submitted with argument \code{na.rm=TRUE}.
-#!  \cr
-#!   \code{lim.integer64} returns these limits in proper order \code{-9223372036854775807, +9223372036854775807} and without a \code{\link{warning}}.
-#! }
-#! \value{
-#!   \code{\link{all}} and \code{\link{any}} return a logical scalar\cr
-#!   \code{\link{range}} returns a integer64 vector with two elements\cr
-#!   \code{\link{min}}, \code{\link{max}}, \code{\link{sum}} and \code{\link{prod}} return a integer64 scalar
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ classes }
-#! \keyword{ manip }
-#! \seealso{ \code{\link{mean.integer64}} \code{\link{cumsum.integer64}} \code{\link{integer64}}  }
-#! \examples{
-#!   lim.integer64()
-#!   range(as.integer64(1:12))
-#! }
+#' \name{sum.integer64}
+#' \alias{all.integer64}
+#' \alias{any.integer64}
+#' \alias{min.integer64}
+#' \alias{max.integer64}
+#' \alias{range.integer64}
+#' \alias{lim.integer64}
+#' \alias{sum.integer64}
+#' \alias{prod.integer64}
+#' \title{
+#'    Summary functions for integer64 vectors
+#' }
+#' \description{
+#'   Summary functions for integer64 vectors.
+#'   Function 'range' without arguments returns the smallest and largest value of the 'integer64' class.
+#' }
+#'
+#' @param ... atomic vectors of class 'integer64'
+#' @param na.rm logical scalar indicating whether to ignore NAs
+#' @param finite logical scalar indicating whether to ignore NAs (just for compatibility with [range.default()])
+#' }
+#' \details{
+#'   The numerical summary methods always return `integer64`.
+#'   Therefor the methods for `min`,`max` and `range` do not return `+Inf,-Inf`
+#'   on empty arguments, but `+9223372036854775807, -9223372036854775807` (in this sequence).
+#'   The same is true if only  `NA`s are submitted with argument `na.rm=TRUE`.
+#'  \cr
+#'   `lim.integer64` returns these limits in proper order `-9223372036854775807, +9223372036854775807` and without a [warning()].
+#' }
+#' \value{
+#'   [all()] and [any()] return a logical scalar\cr
+#'   [range()] returns a integer64 vector with two elements\cr
+#'   [min()], [max()], [sum()] and [prod()] return a integer64 scalar
+#' }
+#' \keyword{ classes }
+#' \keyword{ manip }
+#' \seealso{ [mean.integer64()] [cumsum.integer64()] [integer64()]  }
+#' \examples{
+#'   lim.integer64()
+#'   range(as.integer64(1:12))
+#' }
 
 
-#! \name{cumsum.integer64}
-#! \alias{cummin.integer64}
-#! \alias{cummax.integer64}
-#! \alias{cumsum.integer64}
-#! \alias{cumprod.integer64}
-#! \alias{diff.integer64}
-#! \title{
-#!    Cumulative Sums, Products, Extremes and lagged differences
-#! }
-#! \description{
-#!   Cumulative Sums, Products, Extremes and lagged differences
-#! }
-#! \usage{
-#! \method{cummin}{integer64}(x)
-#! \method{cummax}{integer64}(x)
-#! \method{cumsum}{integer64}(x)
-#! \method{cumprod}{integer64}(x)
-#! \method{diff}{integer64}(x, lag = 1L, differences = 1L, \dots)
-#! }
-#! \arguments{
-#!   \item{x}{ an atomic vector of class 'integer64'}
-#!   \item{lag}{ see \code{\link{diff}} }
-#!   \item{differences}{ see \code{\link{diff}} }
-#!   \item{\dots}{ ignored }
-#! }
-#! \value{
-#!   \code{\link{cummin}}, \code{\link{cummax}} , \code{\link{cumsum}} and \code{\link{cumprod}}
-#!      return a integer64 vector of the same length as their input\cr
-#!   \code{\link{diff}} returns a integer64 vector shorter by \code{lag*differences} elements \cr
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ classes }
-#! \keyword{ manip }
-#! \seealso{ \code{\link{sum.integer64}} \code{\link{integer64}}  }
-#! \examples{
-#!   cumsum(rep(as.integer64(1), 12))
-#!   diff(as.integer64(c(0,1:12)))
-#!   cumsum(as.integer64(c(0, 1:12)))
-#!   diff(cumsum(as.integer64(c(0,0,1:12))), differences=2)
-#! }
+#' \name{cumsum.integer64}
+#' \alias{cummin.integer64}
+#' \alias{cummax.integer64}
+#' \alias{cumsum.integer64}
+#' \alias{cumprod.integer64}
+#' \alias{diff.integer64}
+#' \title{
+#'    Cumulative Sums, Products, Extremes and lagged differences
+#' }
+#' \description{
+#'   Cumulative Sums, Products, Extremes and lagged differences
+#' }
+#'
+#' @param x an atomic vector of class 'integer64'
+#' @param lag see [diff()]
+#' @param differences see [diff()]
+#' @param ... ignored
+#' }
+#' \value{
+#'   [cummin()], [cummax()] , [cumsum()] and [cumprod()]
+#'      return a integer64 vector of the same length as their input\cr
+#'   [diff()] returns a integer64 vector shorter by `lag*differences` elements \cr
+#' }
+#' \keyword{ classes }
+#' \keyword{ manip }
+#' \seealso{ [sum.integer64()] [integer64()]  }
+#' \examples{
+#'   cumsum(rep(as.integer64(1), 12))
+#'   diff(as.integer64(c(0,1:12)))
+#'   cumsum(as.integer64(c(0, 1:12)))
+#'   diff(cumsum(as.integer64(c(0,0,1:12))), differences=2)
+#' }
 
 
-#! \name{c.integer64}
-#! \alias{c.integer64}
-#! \alias{cbind.integer64}
-#! \alias{rbind.integer64}
-#! \title{
-#!    Concatenating integer64 vectors
-#! }
-#! \description{
-#!   The ususal functions 'c', 'cbind' and 'rbind'
-#! }
-#! \usage{
-#! \method{c}{integer64}(\dots, recursive = FALSE)
-#! \method{cbind}{integer64}(\dots)
-#! \method{rbind}{integer64}(\dots)
-#! }
-#! \arguments{
-#!   \item{\dots}{ two or more arguments coerced to 'integer64' and passed to \code{\link{NextMethod}} }
-#!   \item{recursive}{ logical. If \code{recursive = TRUE}, the function recursively descends through lists (and pairlists) combining all their elements into a vector. }
-#! }
-#! \value{
-#!   \code{\link{c}} returns a integer64 vector of the total length of the input \cr
-#!   \code{\link{cbind}} and \code{\link{rbind}} return a integer64 matrix
-#! }
-#! \note{
-#!   R currently only dispatches generic 'c' to method 'c.integer64' if the first argument is 'integer64'
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ classes }
-#! \keyword{ manip }
-#! \seealso{ \code{\link{rep.integer64}} \code{\link{seq.integer64}}
-#!           \code{\link{as.data.frame.integer64}} \code{\link{integer64}}
-#! }
-#! \examples{
-#!   c(as.integer64(1), 2:6)
-#!   cbind(1:6, as.integer(1:6))
-#!   rbind(1:6, as.integer(1:6))
-#! }
+#' \name{c.integer64}
+#' \alias{c.integer64}
+#' \alias{cbind.integer64}
+#' \alias{rbind.integer64}
+#' \title{
+#'    Concatenating integer64 vectors
+#' }
+#' \description{
+#'   The ususal functions 'c', 'cbind' and 'rbind'
+#' }
+#'
+#' @param ... two or more arguments coerced to 'integer64' and passed to [NextMethod()]
+#' @param recursive logical. If `recursive = TRUE`, the function recursively descends through lists (and pairlists) combining all their elements into a vector.
+#' }
+#' \value{
+#'   [c()] returns a integer64 vector of the total length of the input \cr
+#'   [cbind()] and [rbind()] return a integer64 matrix
+#' }
+#' \note{
+#'   R currently only dispatches generic 'c' to method 'c.integer64' if the first argument is 'integer64'
+#' }
+#' \keyword{ classes }
+#' \keyword{ manip }
+#' \seealso{ [rep.integer64()] [seq.integer64()]
+#'           [as.data.frame.integer64()] [integer64()]
+#' }
+#' \examples{
+#'   c(as.integer64(1), 2:6)
+#'   cbind(1:6, as.integer(1:6))
+#'   rbind(1:6, as.integer(1:6))
+#' }
 
 
-#! \name{rep.integer64}
-#! \alias{rep.integer64}
-#! \title{
-#!    Replicate elements of integer64 vectors
-#! }
-#! \description{
-#!   Replicate elements of integer64 vectors
-#! }
-#! \usage{
-#! \method{rep}{integer64}(x, \dots)
-#! }
-#! \arguments{
-#!   \item{x}{ a vector of 'integer64' to be replicated }
-#!   \item{\dots}{ further arguments passed to \code{\link{NextMethod}} }
-#! }
-#! \value{
-#!   \code{\link{rep}} returns a integer64 vector
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ classes }
-#! \keyword{ manip }
-#! \seealso{ \code{\link{c.integer64}} \code{\link{rep.integer64}}
-#!           \code{\link{as.data.frame.integer64}} \code{\link{integer64}}
-#! }
-#! \examples{
-#!   rep(as.integer64(1:2), 6)
-#!   rep(as.integer64(1:2), c(6,6))
-#!   rep(as.integer64(1:2), length.out=6)
-#! }
+#' \name{rep.integer64}
+#' \alias{rep.integer64}
+#' \title{
+#'    Replicate elements of integer64 vectors
+#' }
+#' \description{
+#'   Replicate elements of integer64 vectors
+#' }
+#'
+#' @param x a vector of 'integer64' to be replicated
+#' @param ... further arguments passed to [NextMethod()]
+#' }
+#' \value{
+#'   [rep()] returns a integer64 vector
+#' }
+#' \keyword{ classes }
+#' \keyword{ manip }
+#' \seealso{ [c.integer64()] [rep.integer64()]
+#'           [as.data.frame.integer64()] [integer64()]
+#' }
+#' \examples{
+#'   rep(as.integer64(1:2), 6)
+#'   rep(as.integer64(1:2), c(6,6))
+#'   rep(as.integer64(1:2), length.out=6)
+#' }
 
 
-#! \name{seq.integer64}
-#! \alias{seq.integer64}
-#! \title{
-#!    integer64: Sequence Generation
-#! }
-#! \description{
-#!   Generating sequence of integer64 values
-#! }
-#! \usage{
-#! \method{seq}{integer64}(from = NULL, to = NULL, by = NULL, length.out = NULL, along.with = NULL, \dots)
-#! }
-#! \arguments{
-#!   \item{from}{ integer64 scalar (in order to dispatch the integer64 method of \code{\link{seq}} }
-#!   \item{to}{ scalar }
-#!   \item{by}{ scalar }
-#!   \item{length.out}{ scalar }
-#!   \item{along.with}{ scalar }
-#!   \item{\dots}{ ignored }
-#! }
-#! \details{
-#!   \code{seq.integer64} does coerce its arguments 'from', 'to' and 'by' to \code{integer64}.
-#!   If not provided, the argument 'by' is automatically determined as \code{+1} or \code{-1},
-#!   but the size of 'by' is not calculated as in \code{\link{seq}} (because this might result in a non-integer value).
-#! }
-#! \value{
-#!   an integer64 vector with the generated sequence
-#! }
-#! \note{
-#!   In base R \code{\link{:}} currently is not generic and does not dispatch, see section "Limitations inherited from Base R" in \code{\link{integer64}}
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ classes }
-#! \keyword{ manip }
-#! \seealso{ \code{\link{c.integer64}} \code{\link{rep.integer64}}
-#!           \code{\link{as.data.frame.integer64}} \code{\link{integer64}}
-#! }
-#! \examples{
-#!   # colon not activated: as.integer64(1):12
-#!   seq(as.integer64(1), 12, 2)
-#!   seq(as.integer64(1), by=2, length.out=6)
-#! }
+#' \name{seq.integer64}
+#' \alias{seq.integer64}
+#' \title{
+#'    integer64: Sequence Generation
+#' }
+#' \description{
+#'   Generating sequence of integer64 values
+#' }
+#'
+#' @param from integer64 scalar (in order to dispatch the integer64 method of [seq()]
+#' @param to scalar
+#' @param by scalar
+#' @param length.out scalar
+#' @param along.with scalar
+#' @param ... ignored
+#' }
+#' \details{
+#'   `seq.integer64` does coerce its arguments 'from', 'to' and 'by' to `integer64`.
+#'   If not provided, the argument 'by' is automatically determined as `+1` or `-1`,
+#'   but the size of 'by' is not calculated as in [seq()] (because this might result in a non-integer value).
+#' }
+#' \value{
+#'   an integer64 vector with the generated sequence
+#' }
+#' \note{
+#'   In base R [:()] currently is not generic and does not dispatch, see section "Limitations inherited from Base R" in [integer64()]
+#' }
+#' \keyword{ classes }
+#' \keyword{ manip }
+#' \seealso{ [c.integer64()] [rep.integer64()]
+#'           [as.data.frame.integer64()] [integer64()]
+#' }
+#' \examples{
+#'   # colon not activated: as.integer64(1):12
+#'   seq(as.integer64(1), 12, 2)
+#'   seq(as.integer64(1), by=2, length.out=6)
+#' }
 
 
-#! \name{as.data.frame.integer64}
-#! \alias{as.data.frame.integer64}
-#! \title{
-#!    integer64: Coercing to data.frame column
-#! }
-#! \description{
-#!   Coercing integer64 vector to data.frame.
-#! }
-#! \usage{
-#!   \method{as.data.frame}{integer64}(x, \dots)
-#! }
-#! \arguments{
-#!   \item{x}{ an integer64 vector }
-#!   \item{\dots}{ passed to NextMethod \code{\link{as.data.frame}} after removing the 'integer64' class attribute }
-#! }
-#! \value{
-#!   a one-column data.frame containing an integer64 vector
-#! }
-#! \details{
-#!   'as.data.frame.integer64' is rather not intended to be called directly,
-#!   but it is required to allow integer64 as data.frame columns.
-#! }
-#! \note{
-#!   This is currently very slow -- any ideas for improvement?
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ classes }
-#! \keyword{ manip }
-#! \seealso{
-#!   \code{\link{cbind.integer64}} \code{\link{integer64}}  %as.vector.integer64 removed as requested by the CRAN maintainer \code{\link{as.vector.integer64}}
-#! }
-#! \examples{
-#!   as.data.frame.integer64(as.integer64(1:12))
-#!   data.frame(a=1:12, b=as.integer64(1:12))
-#! }
+#' \name{as.data.frame.integer64}
+#' \alias{as.data.frame.integer64}
+#' \title{
+#'    integer64: Coercing to data.frame column
+#' }
+#' \description{
+#'   Coercing integer64 vector to data.frame.
+#' }
+#'
+#' @param x an integer64 vector
+#' @param ... passed to NextMethod [as.data.frame()] after removing the 'integer64' class attribute
+#' }
+#' \value{
+#'   a one-column data.frame containing an integer64 vector
+#' }
+#' \details{
+#'   'as.data.frame.integer64' is rather not intended to be called directly,
+#'   but it is required to allow integer64 as data.frame columns.
+#' }
+#' \note{
+#'   This is currently very slow -- any ideas for improvement?
+#' }
+#' \keyword{ classes }
+#' \keyword{ manip }
+#' \seealso{
+#'   [cbind.integer64()] [integer64()]  %as.vector.integer64 removed as requested by the CRAN maintainer [as.vector.integer64()]
+#' }
+#' \examples{
+#'   as.data.frame.integer64(as.integer64(1:12))
+#'   data.frame(a=1:12, b=as.integer64(1:12))
+#' }
 
 
 
-#! \name{plusclass}
-#! \alias{plusclass}
-#! \alias{minusclass}
-#! \title{
-#!    integer64: Maintaining S3 class attribute
-#! }
-#! \description{
-#!   Maintaining integer64 S3 class attribute.
-#! }
-#! \usage{
-#!   plusclass(class, whichclass)
-#!   minusclass(class, whichclass)
-#! }
-#! \arguments{
-#!   \item{class}{ NULL or a character vector of class attributes }
-#!   \item{whichclass}{ the (single) class name to add or remove from the class vector  }
-#! }
-#! \value{
-#!   NULL or a character vector of class attributes
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ classes }
-#! \keyword{ manip }
-#! \keyword{ internal }
-#! \seealso{
-#!   \code{\link{oldClass}} \code{\link{integer64}}
-#! }
-#! \examples{
-#!   plusclass("inheritingclass","integer64")
-#!   minusclass(c("inheritingclass","integer64"), "integer64")
-#! }
+#' \name{plusclass}
+#' \alias{plusclass}
+#' \alias{minusclass}
+#' \title{
+#'    integer64: Maintaining S3 class attribute
+#' }
+#' \description{
+#'   Maintaining integer64 S3 class attribute.
+#' }
+#'
+#' @param class NULL or a character vector of class attributes
+#' @param whichclass the (single) class name to add or remove from the class vector
+#' }
+#' \value{
+#'   NULL or a character vector of class attributes
+#' }
+#' \keyword{ classes }
+#' \keyword{ manip }
+#' \keyword{ internal }
+#' \seealso{
+#'   [oldClass()] [integer64()]
+#' }
+#' \examples{
+#'   plusclass("inheritingclass","integer64")
+#'   minusclass(c("inheritingclass","integer64"), "integer64")
+#' }
 
 
-#! \name{all.equal.integer64}
-#! \alias{all.equal.integer64}
-#! \title{
-#!    Test if two integer64 vectors are all.equal
-#! }
-#! \description{
-#!    A utility to compare integer64 objects 'x' and 'y' testing for ‘near equality’, see \code{\link{all.equal}}.
-#! }
-#! \usage{
-#!   \method{all.equal}{integer64}(
-#!   target
-#! , current
-#! , tolerance = sqrt(.Machine$double.eps)
-#! , scale = NULL
-#! , countEQ = FALSE
-#! , formatFUN = function(err, what) format(err)
-#! , ...
-#! , check.attributes = TRUE
-#! )
-#! }
-#! \arguments{
-#!   \item{target}{ a vector of 'integer64' or an object that can be coerced with \code{\link{as.integer64}} }
-#!   \item{current}{ a vector of 'integer64' or an object that can be coerced with \code{\link{as.integer64}} }
-#!   \item{tolerance}{numeric \eqn{\ge} 0.  Differences smaller than
-#!     \code{tolerance} are not reported.  The default value is close to
-#!     \code{1.5e-8}.}
-#!   \item{scale}{\code{NULL} or numeric > 0, typically of length 1 or
-#!     \code{length(target)}.  See \sQuote{Details}.}
-#!   \item{countEQ}{logical indicating if the \code{target == current}
-#!     cases should be counted when computing the mean (absolute or
-#!     relative) differences.  The default, \code{FALSE} may seem
-#!     misleading in cases where \code{target} and \code{current} only
-#!     differ in a few places; see the extensive example.}
-#!   \item{formatFUN}{a \code{\link{function}} of two arguments,
-#!     \code{err}, the relative, absolute or scaled error, and
-#!     \code{what}, a character string indicating the \emph{kind} of error;
-#!     maybe used, e.g., to format relative and absolute errors differently.}
-#!   \item{\dots}{further arguments are ignored}
-#!   \item{check.attributes}{logical indicating if the
-#!     \code{\link{attributes}} of \code{target} and \code{current}
-#!     (other than the names) should be compared.}
-#! }
-#! \value{
-#!   Either ‘TRUE’ (‘NULL’ for ‘attr.all.equal’) or a vector of ‘mode’
-#!   ‘"character"’ describing the differences between ‘target’ and
-#!   ‘current’.
-#! }
-#! \details{
-#!    In \code{\link{all.equal.numeric}} the type \code{integer} is treated as a proper subset of \code{double}
-#!    i.e. does not complain about comparing \code{integer} with \code{double}.
-#!    Following this logic \code{all.equal.integer64} treats \code{integer} as a proper subset of \code{integer64}
-#!    and does not complain about comparing \code{integer} with \code{integer64}. \code{double} also compares without warning
-#!    as long as the values are within \code{\link{lim.integer64}}, if \code{double} are bigger \code{all.equal.integer64}
-#!    complains about the \code{all.equal.integer64 overflow warning}. For further details see \code{\link{all.equal}}.
-#! }
-#! \note{
-#!    \code{\link{all.equal}} only dispatches to this method if the first argument is \code{integer64},
-#!    calling \code{\link{all.equal}} with a \code{non-integer64} first and a \code{integer64} second argument
-#!    gives undefined behavior!
-#! }
-#! \author{
-#!   Leonardo Silvestri (for package nanotime)
-#! }
-#! \seealso{
-#!   \code{\link{all.equal}}
-#! }
-#! \examples{
-#!   all.equal(as.integer64(1:10), as.integer64(0:9))
-#!   all.equal(as.integer64(1:10), as.integer(1:10))
-#!   all.equal(as.integer64(1:10), as.double(1:10))
-#!   all.equal(as.integer64(1), as.double(1e300))
-#! }
+#' \name{all.equal.integer64}
+#' \alias{all.equal.integer64}
+#' \title{
+#'    Test if two integer64 vectors are all.equal
+#' }
+#' \description{
+#'    A utility to compare integer64 objects 'x' and 'y' testing for ‘near equality’, see [all.equal()].
+#' }
+#'
+#' @param target a vector of 'integer64' or an object that can be coerced with [as.integer64()]
+#' @param current a vector of 'integer64' or an object that can be coerced with [as.integer64()]
+#' @param tolerance{numeric \eqn{\ge} 0.  Differences smaller than
+#'     `tolerance` are not reported.  The default value is close to
+#'     `1.5e-8`.}
+#' @param scale{`NULL` or numeric > 0, typically of length 1 or
+#'     `length(target)`.  See Details.}
+#' @param countEQ logical indicating if the \code{target == current
+#'     cases should be counted when computing the mean (absolute or
+#'     relative) differences.  The default, `FALSE` may seem
+#'     misleading in cases where `target` and `current` only
+#'     differ in a few places; see the extensive example.}
+#' @param formatFUN{a [function()] of two arguments,
+#'     `err`, the relative, absolute or scaled error, and
+#'     `what`, a character string indicating the _kind_ of error;
+#'     maybe used, e.g., to format relative and absolute errors differently.}
+#' @param ... further arguments are ignored
+#' @param check.attributes{logical indicating if the
+#'     [attributes()] of `target` and `current`
+#'     (other than the names) should be compared.}
+#' }
+#' \value{
+#'   Either ‘TRUE’ (‘NULL’ for ‘attr.all.equal’) or a vector of ‘mode’
+#'   ‘"character"’ describing the differences between ‘target’ and
+#'   ‘current’.
+#' }
+#' \details{
+#'    In [all.equal.numeric()] the type `integer` is treated as a proper subset of `double`
+#'    i.e. does not complain about comparing `integer` with `double`.
+#'    Following this logic `all.equal.integer64` treats `integer` as a proper subset of `integer64`
+#'    and does not complain about comparing `integer` with `integer64`. `double` also compares without warning
+#'    as long as the values are within [lim.integer64()], if `double` are bigger `all.equal.integer64`
+#'    complains about the `all.equal.integer64 overflow warning`. For further details see [all.equal()].
+#' }
+#' \note{
+#'    [all.equal()] only dispatches to this method if the first argument is `integer64`,
+#'    calling [all.equal()] with a `non-integer64` first and a `integer64` second argument
+#'    gives undefined behavior!
+#' }
+#' \seealso{
+#'   [all.equal()]
+#' }
+#' \examples{
+#'   all.equal(as.integer64(1:10), as.integer64(0:9))
+#'   all.equal(as.integer64(1:10), as.integer(1:10))
+#'   all.equal(as.integer64(1:10), as.double(1:10))
+#'   all.equal(as.integer64(1), as.double(1e300))
+#' }
 
 # if (!exists(":.default")){
     # ":.default" <- get(":")
