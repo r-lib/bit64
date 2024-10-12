@@ -367,40 +367,27 @@ NULL
 #'   seq(as.integer64(1), by=2, length.out=6)
 NULL
 
-
-#' \name{as.data.frame.integer64}
-#' \alias{as.data.frame.integer64}
-#' \title{
-#'    integer64: Coercing to data.frame column
-#' }
-#' \description{
-#'   Coercing integer64 vector to data.frame.
-#' }
+#' integer64: Coercing to data.frame column
+#'
+#' Coercing integer64 vector to data.frame.
 #'
 #' @param x an integer64 vector
-#' @param ... passed to NextMethod [as.data.frame()] after removing the 'integer64' class attribute
-#' }
-#' @returns
-#'   a one-column data.frame containing an integer64 vector
-#' }
+#' @param ... passed to NextMethod [as.data.frame()] after removing the
+#'   'integer64' class attribute
+#'
+#' @returns a one-column data.frame containing an integer64 vector
 #' @details
 #'   'as.data.frame.integer64' is rather not intended to be called directly,
 #'   but it is required to allow integer64 as data.frame columns.
-#' }
-#' @note
-#'   This is currently very slow -- any ideas for improvement?
-#' }
+#' @note This is currently very slow -- any ideas for improvement?
 #' @keywords classes manip
 #' @seealso
-#'   [cbind.integer64()] [integer64()]  %as.vector.integer64 removed as requested by the CRAN maintainer [as.vector.integer64()]
-#' }
+#'   [cbind.integer64()] [integer64()]
+#    as.vector.integer64 removed as requested by the CRAN maintainer [as.vector.integer64()]
 #' @examples
 #'   as.data.frame.integer64(as.integer64(1:12))
 #'   data.frame(a=1:12, b=as.integer64(1:12))
-#' }
 NULL
-
-
 
 #' \name{plusclass}
 #' \alias{plusclass}
@@ -1206,6 +1193,7 @@ rbind.integer64 <- function(...) {
     # oldClass(ret[[i]]) <- cl
   # ret
 # }
+#' @export
 as.data.frame.integer64 <- function(x, ...){
   cl <- oldClass(x)
   on.exit(setattr(x, "class", cl))
