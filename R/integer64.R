@@ -61,44 +61,27 @@ NULL
 #' name as.character.integer64
 NULL
 
-#' \name{as.integer64.character}
-#' \alias{as.integer64}
-#' \alias{as.integer64.integer64}
-#' \alias{as.integer64.NULL}
-#' \alias{as.integer64.bitstring}
-#' \alias{as.integer64.character}
-#' \alias{as.integer64.double}
-#' \alias{as.integer64.integer}
-#' \alias{as.integer64.logical}
-#' \alias{as.integer64.factor}
-#' \alias{NA_integer64_}
-#' \title{
-#'    Coerce to integer64
-#' }
-#' \description{
-#'   Methods to coerce from other atomic types to integer64.
-#' }
+#' Coerce to integer64
+#'
+#' Methods to coerce from other atomic types to integer64.
 #'
 #' @param x an atomic vector
 #' @param keep.names FALSE, set to TRUE to keep a names vector
 #' @param ... further arguments to the [NextMethod()]
-#' }
-#' \details{
-#'   `as.integer64.character` is realized using C function `strtoll` which does not support scientific notation.
-#'   Instead of '1e6' use '1000000'.
-#'   `as.integer64.bitstring` evaluates characters '0' anbd ' ' as zero-bit,
-#'   all other one byte characters as one-bit,
-#'   multi-byte characters are not allowed,
+#'
+#' @details
+#' `as.integer64.character` is realized using C function `strtoll` which
+#'   does not support scientific notation. Instead of '1e6' use '1000000'.
+#'   `as.integer64.bitstring` evaluates characters '0' and ' ' as zero-bit,
+#'   all other one byte characters as one-bit, multi-byte characters are not allowed,
 #'   strings shorter than 64 characters are treated as if they were left-padded with '0',
 #'   strings longer than 64 bytes are mapped to `NA_INTEGER64` and a warning is emitted.
-#' }
-#' \value{
-#'   The other methods return atomic vectors of the expected types
-#' }
-#' \keyword{ classes }
-#' \keyword{ manip }
-#' \seealso{ [as.character.integer64()] [integer64()]  }
-#' \examples{
+#'
+#' @return The other methods return atomic vectors of the expected types
+#'
+#' @keywords classes manip
+#' @seealso [as.character.integer64()] [integer64()]
+#' @examples
 #' as.integer64(as.character(lim.integer64()))
 #' as.integer64(
 #'   structure(c("1111111111111111111111111111111111111111111111111111111111111110",
@@ -118,37 +101,25 @@ NULL
 #'              "10"
 #'   ), class = "bitstring")
 #' )
-#' }
+#' @name as.integer64.character
 NULL
 
-#' \name{extract.replace.integer64}
-#' \alias{[.integer64}
-#' \alias{[[.integer64}
-#' \alias{[[<-.integer64}
-#' \alias{[<-.integer64}
-#' \title{
-#'    Extract or Replace Parts of an integer64 vector
-#' }
-#' \description{
-#'   Methods to extract and replace parts of an integer64 vector.
-#' }
+#' Extract or Replace Parts of an integer64 vector
+#'
+#' Methods to extract and replace parts of an integer64 vector.
 #'
 #' @param x an atomic vector
 #' @param i indices specifying elements to extract
 #' @param value an atomic vector with values to be assigned
 #' @param ... further arguments to the [NextMethod()]
-#' }
-#' \note{
+#'
+#' @note
 #'   You should not subscript non-existing elements and not use `NA`s as subscripts.
 #'   The current implementation returns `9218868437227407266` instead of `NA`.
-#' }
-#' \value{
-#'   A vector or scalar of class 'integer64'
-#' }
-#' \keyword{ classes }
-#' \keyword{ manip }
-#' \seealso{ [[()] [integer64()]  }
-#' \examples{
+#' @returns A vector or scalar of class 'integer64'
+#' @keywords classes manip
+#' @seealso [[()] [integer64()]  }
+#' @examples
 #'   as.integer64(1:12)[1:3]
 #'   x <- as.integer64(1:12)
 #'   dim(x) <- c(3,4)
@@ -159,7 +130,7 @@ NULL
 #'     r <- c(runif64(1e3, lim.integer64()[1], lim.integer64()[2]), NA, -2:2)
 #'     stopifnot(identical(r, as.integer64(as.bitstring(r))))
 #'   }
-#' }
+#' @name extract.replace.integer64
 NULL
 
 #' \name{format.integer64}
@@ -196,7 +167,7 @@ NULL
 #' @param scale see [scale()]
 #' @param ... further arguments to the [NextMethod()]
 #' }
-#' \value{
+#' @returns
 #'   [format()] returns a character vector \cr
 #'   [is.na()] and [`!`] return a logical vector \cr
 #'   [sqrt()], [log()], [log2()] and [log10()] return a double vector \cr
@@ -206,8 +177,8 @@ NULL
 #' }
 #' \keyword{ classes }
 #' \keyword{ manip }
-#' \seealso{ [xor.integer64()] [integer64()]  }
-#' \examples{
+#' @seealso [xor.integer64()] [integer64()]  }
+#' @examples
 #'   sqrt(as.integer64(1:12))
 #' \dontshow{
 #' i <- -999:999
@@ -250,7 +221,7 @@ NULL
 #' @param x an atomic vector of class 'integer64'
 #' @param y an atomic vector of class 'integer64'
 #' }
-#' \value{
+#' @returns
 #'   [`&`], [`|`], [xor()], [`!=`], [`==`],
 #'   [`<`], [`<=`], [`>`], [`>=`] return a logical vector \cr
 #'   [^()] and [`/`] return a double vector\cr
@@ -259,8 +230,8 @@ NULL
 #' }
 #' \keyword{ classes }
 #' \keyword{ manip }
-#' \seealso{ [format.integer64()] [integer64()]  }
-#' \examples{
+#' @seealso [format.integer64()] [integer64()]  }
+#' @examples
 #'   as.integer64(1:12) - 1
 #'   options(integer64_semantics="new")
 #'   d <- 2.5
@@ -297,7 +268,7 @@ NULL
 #' @param na.rm logical scalar indicating whether to ignore NAs
 #' @param finite logical scalar indicating whether to ignore NAs (just for compatibility with [range.default()])
 #' }
-#' \details{
+#' @details
 #'   The numerical summary methods always return `integer64`.
 #'   Therefor the methods for `min`,`max` and `range` do not return `+Inf,-Inf`
 #'   on empty arguments, but `+9223372036854775807, -9223372036854775807` (in this sequence).
@@ -305,15 +276,15 @@ NULL
 #'  \cr
 #'   `lim.integer64` returns these limits in proper order `-9223372036854775807, +9223372036854775807` and without a [warning()].
 #' }
-#' \value{
+#' @returns
 #'   [all()] and [any()] return a logical scalar\cr
 #'   [range()] returns a integer64 vector with two elements\cr
 #'   [min()], [max()], [sum()] and [prod()] return a integer64 scalar
 #' }
 #' \keyword{ classes }
 #' \keyword{ manip }
-#' \seealso{ [mean.integer64()] [cumsum.integer64()] [integer64()]  }
-#' \examples{
+#' @seealso [mean.integer64()] [cumsum.integer64()] [integer64()]  }
+#' @examples
 #'   lim.integer64()
 #'   range(as.integer64(1:12))
 #' }
@@ -338,15 +309,15 @@ NULL
 #' @param differences see [diff()]
 #' @param ... ignored
 #' }
-#' \value{
+#' @returns
 #'   [cummin()], [cummax()] , [cumsum()] and [cumprod()]
 #'      return a integer64 vector of the same length as their input\cr
 #'   [diff()] returns a integer64 vector shorter by `lag*differences` elements \cr
 #' }
 #' \keyword{ classes }
 #' \keyword{ manip }
-#' \seealso{ [sum.integer64()] [integer64()]  }
-#' \examples{
+#' @seealso [sum.integer64()] [integer64()]  }
+#' @examples
 #'   cumsum(rep(as.integer64(1), 12))
 #'   diff(as.integer64(c(0,1:12)))
 #'   cumsum(as.integer64(c(0, 1:12)))
@@ -369,19 +340,19 @@ NULL
 #' @param ... two or more arguments coerced to 'integer64' and passed to [NextMethod()]
 #' @param recursive logical. If `recursive = TRUE`, the function recursively descends through lists (and pairlists) combining all their elements into a vector.
 #' }
-#' \value{
+#' @returns
 #'   [c()] returns a integer64 vector of the total length of the input \cr
 #'   [cbind()] and [rbind()] return a integer64 matrix
 #' }
-#' \note{
+#' @note
 #'   R currently only dispatches generic 'c' to method 'c.integer64' if the first argument is 'integer64'
 #' }
 #' \keyword{ classes }
 #' \keyword{ manip }
-#' \seealso{ [rep.integer64()] [seq.integer64()]
+#' @seealso [rep.integer64()] [seq.integer64()]
 #'           [as.data.frame.integer64()] [integer64()]
 #' }
-#' \examples{
+#' @examples
 #'   c(as.integer64(1), 2:6)
 #'   cbind(1:6, as.integer(1:6))
 #'   rbind(1:6, as.integer(1:6))
@@ -401,15 +372,15 @@ NULL
 #' @param x a vector of 'integer64' to be replicated
 #' @param ... further arguments passed to [NextMethod()]
 #' }
-#' \value{
+#' @returns
 #'   [rep()] returns a integer64 vector
 #' }
 #' \keyword{ classes }
 #' \keyword{ manip }
-#' \seealso{ [c.integer64()] [rep.integer64()]
+#' @seealso [c.integer64()] [rep.integer64()]
 #'           [as.data.frame.integer64()] [integer64()]
 #' }
-#' \examples{
+#' @examples
 #'   rep(as.integer64(1:2), 6)
 #'   rep(as.integer64(1:2), c(6,6))
 #'   rep(as.integer64(1:2), length.out=6)
@@ -433,23 +404,23 @@ NULL
 #' @param along.with scalar
 #' @param ... ignored
 #' }
-#' \details{
+#' @details
 #'   `seq.integer64` does coerce its arguments 'from', 'to' and 'by' to `integer64`.
 #'   If not provided, the argument 'by' is automatically determined as `+1` or `-1`,
 #'   but the size of 'by' is not calculated as in [seq()] (because this might result in a non-integer value).
 #' }
-#' \value{
+#' @returns
 #'   an integer64 vector with the generated sequence
 #' }
-#' \note{
+#' @note
 #'   In base R [`:`] currently is not generic and does not dispatch, see section "Limitations inherited from Base R" in [integer64()]
 #' }
 #' \keyword{ classes }
 #' \keyword{ manip }
-#' \seealso{ [c.integer64()] [rep.integer64()]
+#' @seealso [c.integer64()] [rep.integer64()]
 #'           [as.data.frame.integer64()] [integer64()]
 #' }
-#' \examples{
+#' @examples
 #'   # colon not activated: as.integer64(1):12
 #'   seq(as.integer64(1), 12, 2)
 #'   seq(as.integer64(1), by=2, length.out=6)
@@ -469,22 +440,22 @@ NULL
 #' @param x an integer64 vector
 #' @param ... passed to NextMethod [as.data.frame()] after removing the 'integer64' class attribute
 #' }
-#' \value{
+#' @returns
 #'   a one-column data.frame containing an integer64 vector
 #' }
-#' \details{
+#' @details
 #'   'as.data.frame.integer64' is rather not intended to be called directly,
 #'   but it is required to allow integer64 as data.frame columns.
 #' }
-#' \note{
+#' @note
 #'   This is currently very slow -- any ideas for improvement?
 #' }
 #' \keyword{ classes }
 #' \keyword{ manip }
-#' \seealso{
+#' @seealso
 #'   [cbind.integer64()] [integer64()]  %as.vector.integer64 removed as requested by the CRAN maintainer [as.vector.integer64()]
 #' }
-#' \examples{
+#' @examples
 #'   as.data.frame.integer64(as.integer64(1:12))
 #'   data.frame(a=1:12, b=as.integer64(1:12))
 #' }
@@ -505,16 +476,16 @@ NULL
 #' @param class NULL or a character vector of class attributes
 #' @param whichclass the (single) class name to add or remove from the class vector
 #' }
-#' \value{
+#' @returns
 #'   NULL or a character vector of class attributes
 #' }
 #' \keyword{ classes }
 #' \keyword{ manip }
 #' \keyword{ internal }
-#' \seealso{
+#' @seealso
 #'   [oldClass()] [integer64()]
 #' }
-#' \examples{
+#' @examples
 #'   plusclass("inheritingclass","integer64")
 #'   minusclass(c("inheritingclass","integer64"), "integer64")
 #' }
@@ -551,12 +522,12 @@ NULL
 #'     [attributes()] of `target` and `current`
 #'     (other than the names) should be compared.}
 #' }
-#' \value{
+#' @returns
 #'   Either ‘TRUE’ (‘NULL’ for ‘attr.all.equal’) or a vector of ‘mode’
 #'   ‘"character"’ describing the differences between ‘target’ and
 #'   ‘current’.
 #' }
-#' \details{
+#' @details
 #'    In [all.equal.numeric()] the type `integer` is treated as a proper subset of `double`
 #'    i.e. does not complain about comparing `integer` with `double`.
 #'    Following this logic `all.equal.integer64` treats `integer` as a proper subset of `integer64`
@@ -564,15 +535,15 @@ NULL
 #'    as long as the values are within [lim.integer64()], if `double` are bigger `all.equal.integer64`
 #'    complains about the `all.equal.integer64 overflow warning`. For further details see [all.equal()].
 #' }
-#' \note{
+#' @note
 #'    [all.equal()] only dispatches to this method if the first argument is `integer64`,
 #'    calling [all.equal()] with a `non-integer64` first and a `integer64` second argument
 #'    gives undefined behavior!
 #' }
-#' \seealso{
+#' @seealso
 #'   [all.equal()]
 #' }
-#' \examples{
+#' @examples
 #'   all.equal(as.integer64(1:10), as.integer64(0:9))
 #'   all.equal(as.integer64(1:10), as.integer(1:10))
 #'   all.equal(as.integer64(1:10), as.double(1:10))
@@ -753,6 +724,8 @@ identical(x=x, y=y
 )
 
 
+#' @rdname as.integer64.character
+#' @export
 as.integer64 <- function (x, ...)
 UseMethod("as.integer64")
 
@@ -946,14 +919,20 @@ integer64 <- function(length=0L){
 #' @export
 is.integer64 <- function(x) inherits(x, "integer64")
 
+#' @rdname as.integer64.character
+#' @export
 as.integer64.NULL <- function (x, ...){
   ret <- double()
   oldClass(ret) <- "integer64"
   ret
 }
 
-as.integer64.integer64 <- function(x, ...)x
+#' @rdname as.integer64.character
+#' @export
+as.integer64.integer64 <- function(x, ...) x
 
+#' @rdname as.integer64.character
+#' @export
 as.integer64.double <- function(x, keep.names=FALSE, ...){
   ret <- .Call(C_as_integer64_double, x, double(length(x)))
   if (keep.names)
@@ -962,12 +941,15 @@ as.integer64.double <- function(x, keep.names=FALSE, ...){
   ret
 }
 
+#' @rdname as.integer64.character
+#' @export
 as.integer64.logical <- as.integer64.integer <- function(x, ...){
   ret <- .Call(C_as_integer64_integer, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
 
+#' @export
 as.integer64.character <- function(x, ...){
   n <- length(x)
   ret <- .Call(C_as_integer64_character, x, rep(NA_real_, n))
@@ -975,8 +957,10 @@ as.integer64.character <- function(x, ...){
   ret
 }
 
+#' @rdname as.integer64.character
+#' @export
 as.integer64.factor <- function(x, ...)
-as.integer64(unclass(x), ...)
+  as.integer64(unclass(x), ...)
 
 #' @rdname as.character.integer64
 #' @export
@@ -1021,6 +1005,8 @@ print.bitstring <- function(x, ...) {
   NextMethod(x)
 }
 
+#' @rdname as.integer64.character
+#' @export
 as.integer64.bitstring <- function(x, ...){
   ret <- .Call(C_as_integer64_bitstring, x, double(length(x)))
   oldClass(ret) <- "integer64"
@@ -1034,6 +1020,8 @@ methods::setAs("integer64", "character", function(from) as.character.integer64(f
 
 # this is a trick to generate NA_integer64_ for namespace export before
 # as.integer64() is available because dll is not loaded
+#' @rdname as.integer64.character
+#' @export
 NA_integer64_ <- unserialize(as.raw(c(
   0x58, 0x0a, 0x00, 0x00, 0x00, 0x02, 0x00, 0x03, 0x03, 0x00, 0x00, 0x02, 0x03, 0x00, 0x00, 0x00,
   0x03, 0x0e, 0x00, 0x00, 0x00, 0x01, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -1123,8 +1111,9 @@ if (FALSE){
 }
 # nocov end
 
-
-`[.integer64` <- function(x, i, ...){
+#' @rdname extract.replace.integer64
+#' @export
+`[.integer64` <- function(x, i, ...) {
     cl <- oldClass(x)
     ret <- NextMethod()
     # Begin NA-handling from Leonardo Silvestri
@@ -1182,9 +1171,9 @@ if (FALSE){
   ret
 }
 
-
-
-`[<-.integer64` <- function(x,...,value){
+#' @rdname extract.replace.integer64
+#' @export
+`[<-.integer64` <- function(x, ..., value) {
   cl <- oldClass(x)
   value <- as.integer64(value)
   ret <- NextMethod()
@@ -1192,14 +1181,18 @@ if (FALSE){
   ret
 }
 
-`[[.integer64` <- function(x,...){
+#' @rdname extract.replace.integer64
+#' @export
+`[[.integer64` <- function(x, ...) {
   cl <- oldClass(x)
   ret <- NextMethod()
   oldClass(ret) <- cl
   ret
 }
 
-`[[<-.integer64` <- function(x,...,value){
+#' @rdname extract.replace.integer64
+#' @export
+`[[<-.integer64` <- function(x, ..., value) {
   cl <- oldClass(x)
   value <- as.integer64(value)
   ret <- NextMethod()
