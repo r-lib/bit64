@@ -58,7 +58,7 @@ NULL
 #'   as.bitstring(as.integer64(c(
 #'    -2,-1,NA,0:2
 #'   )))
-#' name as.character.integer64
+#' @name as.character.integer64
 NULL
 
 #' Coerce to integer64
@@ -133,51 +133,36 @@ NULL
 #' @name extract.replace.integer64
 NULL
 
-#' \name{format.integer64}
-#' \alias{format.integer64}
-#' \alias{is.na.integer64}
-#' \alias{is.nan.integer64}
-#' \alias{is.finite.integer64}
-#' \alias{is.infinite.integer64}
-#' \alias{!.integer64}
-#' \alias{sign.integer64}
-#' \alias{abs.integer64}
-#' \alias{sqrt.integer64}
-#' \alias{log.integer64}
-#' \alias{log2.integer64}
-#' \alias{log10.integer64}
-#' \alias{floor.integer64}
-#' \alias{ceiling.integer64}
-#' \alias{trunc.integer64}
-#' \alias{round.integer64}
-#' \alias{signif.integer64}
-#' \alias{scale.integer64}
-#' \title{
-#'    Unary operators and functions for integer64 vectors
-#' }
-#' \description{
-#'   Unary operators and functions for integer64 vectors.
-#' }
+#' Unary operators and functions for integer64 vectors
+#'
+#' Unary operators and functions for integer64 vectors.
 #'
 #' @param x an atomic vector of class 'integer64'
-#' @param base an atomic scalar (we save 50\% log-calls by not allowing a vector base)
-#' @param digits integer indicating the number of decimal places (round) or significant digits (signif) to be used. Negative values are allowed (see [round()]) }
-#' @param justify should it be right-justified (the default), left-justified, centred or left alone.
+#' @param base an atomic scalar (we save 50% log-calls by not allowing
+#'   a vector base)
+#' @param digits integer indicating the number of decimal places (round)
+#'   or significant digits (signif) to be used. Negative values are allowed
+#'   (see [round()])
+#' @param justify should it be right-justified (the default), left-justified,
+#'   centred or left alone.
 #' @param center see [scale()]
 #' @param scale see [scale()]
 #' @param ... further arguments to the [NextMethod()]
-#' }
+#'
 #' @returns
-#'   [format()] returns a character vector \cr
-#'   [is.na()] and [`!`] return a logical vector \cr
-#'   [sqrt()], [log()], [log2()] and [log10()] return a double vector \cr
+#'   [format()] returns a character vector
+#'
+#'   [is.na()] and [`!`] return a logical vector
+#'
+#'   [sqrt()], [log()], [log2()] and [log10()] return a double vector
+#'
 #'   [sign()], [abs()], [floor()], [ceiling()], [trunc()] and
-#'   [round()] return a vector of class 'integer64' \cr
+#'   [round()] return a vector of class 'integer64'
+#'
 #'   [signif()] is not implemented
-#' }
-#' \keyword{ classes }
-#' \keyword{ manip }
-#' @seealso [xor.integer64()] [integer64()]  }
+#'
+#' @keywords classes manip
+#' @seealso [xor.integer64()] [integer64()]
 #' @examples
 #'   sqrt(as.integer64(1:12))
 #' \dontshow{
@@ -187,8 +172,7 @@ NULL
 #'   r64 <- round(as.integer64(i), s)
 #'   stopifnot(identical(r,r64))
 #' }
-#' }
-#' }
+#' @name format.integer64
 NULL
 
 #' \name{xor.integer64}
@@ -228,9 +212,8 @@ NULL
 #'   [`+`], [`-`], [*()], [`\%/\%`], [`\%\%`]
 #'    return a vector of class 'integer64'
 #' }
-#' \keyword{ classes }
-#' \keyword{ manip }
-#' @seealso [format.integer64()] [integer64()]  }
+#' @keywords classes manip
+#' @seealso [format.integer64()] [integer64()]
 #' @examples
 #'   as.integer64(1:12) - 1
 #'   options(integer64_semantics="new")
@@ -243,7 +226,6 @@ NULL
 #'   d/i  # old: 0.4
 #'   d*i  # old: 10
 #'   i*d  # old: 13
-#' }
 NULL
 
 
@@ -281,13 +263,11 @@ NULL
 #'   [range()] returns a integer64 vector with two elements\cr
 #'   [min()], [max()], [sum()] and [prod()] return a integer64 scalar
 #' }
-#' \keyword{ classes }
-#' \keyword{ manip }
-#' @seealso [mean.integer64()] [cumsum.integer64()] [integer64()]  }
+#' @keywords classes manip
+#' @seealso [mean.integer64()] [cumsum.integer64()] [integer64()]
 #' @examples
 #'   lim.integer64()
 #'   range(as.integer64(1:12))
-#' }
 NULL
 
 
@@ -314,8 +294,7 @@ NULL
 #'      return a integer64 vector of the same length as their input\cr
 #'   [diff()] returns a integer64 vector shorter by `lag*differences` elements \cr
 #' }
-#' \keyword{ classes }
-#' \keyword{ manip }
+#' @keywords classes manip
 #' @seealso [sum.integer64()] [integer64()]  }
 #' @examples
 #'   cumsum(rep(as.integer64(1), 12))
@@ -347,8 +326,7 @@ NULL
 #' @note
 #'   R currently only dispatches generic 'c' to method 'c.integer64' if the first argument is 'integer64'
 #' }
-#' \keyword{ classes }
-#' \keyword{ manip }
+#' @keywords classes manip
 #' @seealso [rep.integer64()] [seq.integer64()]
 #'           [as.data.frame.integer64()] [integer64()]
 #' }
@@ -375,8 +353,7 @@ NULL
 #' @returns
 #'   [rep()] returns a integer64 vector
 #' }
-#' \keyword{ classes }
-#' \keyword{ manip }
+#' @keywords classes manip
 #' @seealso [c.integer64()] [rep.integer64()]
 #'           [as.data.frame.integer64()] [integer64()]
 #' }
@@ -415,8 +392,7 @@ NULL
 #' @note
 #'   In base R [`:`] currently is not generic and does not dispatch, see section "Limitations inherited from Base R" in [integer64()]
 #' }
-#' \keyword{ classes }
-#' \keyword{ manip }
+#' @keywords classes manip
 #' @seealso [c.integer64()] [rep.integer64()]
 #'           [as.data.frame.integer64()] [integer64()]
 #' }
@@ -450,8 +426,7 @@ NULL
 #' @note
 #'   This is currently very slow -- any ideas for improvement?
 #' }
-#' \keyword{ classes }
-#' \keyword{ manip }
+#' @keywords classes manip
 #' @seealso
 #'   [cbind.integer64()] [integer64()]  %as.vector.integer64 removed as requested by the CRAN maintainer [as.vector.integer64()]
 #' }
@@ -479,9 +454,7 @@ NULL
 #' @returns
 #'   NULL or a character vector of class attributes
 #' }
-#' \keyword{ classes }
-#' \keyword{ manip }
-#' \keyword{ internal }
+#' @keywords classes manip internal
 #' @seealso
 #'   [oldClass()] [integer64()]
 #' }
@@ -1043,8 +1016,8 @@ NA_integer64_ <- unserialize(as.raw(c(
   x
 }
 
-
-format.integer64 <- function(x, justify="right", ...){
+#' @export
+format.integer64 <- function(x, justify="right", ...) {
   a <- attributes(x)
   x <- as.character(x)
   ret <- format(x, justify=justify, ...)
@@ -1471,6 +1444,8 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 }
 
 
+#' @rdname format.integer64
+#' @export
 sign.integer64 <- function(x){
   a <- attributes(x)
   ret <- .Call(C_sign_integer64, x, double(length(x)))
@@ -1478,6 +1453,8 @@ sign.integer64 <- function(x){
   ret
 }
 
+#' @rdname format.integer64
+#' @export
 abs.integer64 <- function(x){
   a <- attributes(x)
   ret <- .Call(C_abs_integer64, x, double(length(x)))
@@ -1485,6 +1462,8 @@ abs.integer64 <- function(x){
   ret
 }
 
+#' @rdname format.integer64
+#' @export
 sqrt.integer64 <- function(x){
   a <- attributes(x)
   ret <- .Call(C_sqrt_integer64, x, double(length(x)))
@@ -1493,6 +1472,8 @@ sqrt.integer64 <- function(x){
   ret
 }
 
+#' @rdname format.integer64
+#' @export
 log.integer64 <- function(x, base=NULL){
   a <- attributes(x)
   l.x <- length(x)
@@ -1511,6 +1492,8 @@ log.integer64 <- function(x, base=NULL){
   ret
 }
 
+#' @rdname format.integer64
+#' @export
 log10.integer64 <- function(x){
   a <- attributes(x)
   ret <- .Call(C_log10_integer64, x, double(length(x)))
@@ -1519,6 +1502,8 @@ log10.integer64 <- function(x){
   ret
 }
 
+#' @rdname format.integer64
+#' @export
 log2.integer64 <- function(x){
   a <- attributes(x)
   ret <- .Call(C_log2_integer64, x, double(length(x)))
@@ -1527,14 +1512,27 @@ log2.integer64 <- function(x){
   ret
 }
 
+#' @rdname format.integer64
+#' @export
 trunc.integer64 <- function(x, ...) x
-floor.integer64 <- ceiling.integer64 <- function(x) x
+#' @rdname format.integer64
+#' @export
+floor.integer64 <- function(x) x
+#' @rdname format.integer64
+#' @export
+ceiling.integer64 <- function(x) x
 
+#' @rdname format.integer64
+#' @export
 signif.integer64 <- function(x, digits=6L) x
 
+#' @rdname format.integer64
+#' @export
 scale.integer64 <- function(x, center = TRUE, scale = TRUE)
   scale(as.double(x, keep.names=TRUE), center=center, scale=scale)
 
+#' @rdname format.integer64
+#' @export
 round.integer64 <- function(x, digits=0L){
   if (digits >= 0L) return(x)
   a <- attributes(x)
@@ -1751,9 +1749,9 @@ cumprod.integer64 <- function(x){
   ret
 }
 
-
-
-is.na.integer64 <- function(x){
+#' @rdname format.integer64
+#' @export
+is.na.integer64 <- function(x) {
   a <- attributes(x)
   ret <- .Call(C_isna_integer64, x, logical(length(x)))
   a$class <- minusclass(a$class, "integer64")
@@ -1761,9 +1759,15 @@ is.na.integer64 <- function(x){
   ret
 }
 
-is.finite.integer64 <- function(x)!is.na(x)
-is.infinite.integer64 <- function(x)rep(FALSE, length(x))
-is.nan.integer64 <- function(x)rep(FALSE, length(x))
+#' @rdname format.integer64
+#' @export
+is.finite.integer64 <- function(x) !is.na(x)
+#' @rdname format.integer64
+#' @export
+is.infinite.integer64 <- function(x) rep(FALSE, length(x))
+#' @rdname format.integer64
+#' @export
+is.nan.integer64 <- function(x) rep(FALSE, length(x))
 
 
 `==.integer64` <- function(e1, e2){
@@ -1875,7 +1879,9 @@ xor.integer64 <- function(x, y){
 }
 
 
-`!.integer64` <- function(x){
+#' @rdname format.integer64
+#' @export
+`!.integer64` <- function(x) {
   a <- attributes(x)
   ret <- !as.logical(x)
   a$class <- minusclass(a$class, "integer64")
