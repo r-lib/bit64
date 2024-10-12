@@ -1780,52 +1780,43 @@ unique.integer64 <- function(x
   p
 }
 
-
-#' \name{unipos}
-#' \alias{unipos}
-#' \alias{unipos.integer64}
-#' \title{Extract Positions of Unique Elements}
-#' \description{
-#'   `unipos` returns the positions of those elements returned by [unique()].
-#' }
-#' \usage{
-#' unipos(x, incomparables = FALSE, order = c("original","values","any"), \dots)
-#' \method{unipos}{integer64}(x, incomparables = FALSE, order = c("original","values","any")
-#' , nunique = NULL, method = NULL, \dots)
-#' }
-#' \arguments{
-#'   \item{x}{a vector or a data frame or an array or `NULL`.}
-#'   \item{incomparables}{ignored}
-#'   \item{order}{The order in which positions of unique values will be returned, see details}
-#'   \item{nunique}{
-#'     NULL or the number of unique values (including NA). Providing `nunique` can speed-up when `x` has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
-#' }
-#'   \item{method}{
-#'     NULL for automatic method selection or a suitable low-level method, see details
-#' }
-#'   \item{\dots}{ignored}
-#' }
-#' \details{
-#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
-#'   Suitable methods are [hashmapupo()] (simultaneously creating and using a hashmap)
-#' , [hashupo()] (first creating a hashmap then using it)
-#' , [sortorderupo()] (fast ordering)
-#' and [orderupo()] (memory saving ordering).
-#' \cr
-#' The default `order="original"` collects unique values in the order of the first appearance in `x` like in [unique()], this costs extra processing.
-#' `order="values"` collects unique values in sorted order like in [table()], this costs extra processing with the hash methods but comes for free.
-#' `order="any"` collects unique values in undefined order, possibly faster. For hash methods this will be a quasi random order, for sort methods this will be sorted order.
-#' }
-#' \value{
-#'   an integer vector of positions
-#' }
-#' \author{
-#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#' }
-#' \seealso{
-#'   [unique.integer64()] for unique values and [match.integer64()] for general matching.
-#' }
-#' \examples{
+#' Extract Positions of Unique Elements
+#'
+#' `unipos` returns the positions of those elements returned by [unique()].
+#'
+#' @param x a vector or a data frame or an array or `NULL`.
+#' @param incomparables ignored
+#' @param order The order in which positions of unique values will be returned,
+#'   see details
+#' @param nunique NULL or the number of unique values (including NA). Providing
+#'   `nunique` can speed-up when `x` has no cache. Note that a wrong `nunique`
+#'   can cause undefined behaviour up to a crash.
+#' @param method NULL for automatic method selection or a suitable low-level
+#'   method, see details
+#' @param ... ignored
+#'
+#' @details
+#' This function automatically chooses from several low-level functions
+#'   considering the size of `x` and the availability of a cache.
+#'
+#' Suitable methods are
+#'  - [hashmapupo] (simultaneously creating and using a hashmap)
+#'  - [hashupo] (first creating a hashmap then using it)
+#'  - [sortorderupo] (fast ordering)
+#'  - [orderupo] (memory saving ordering).
+#'
+#' The default `order="original"` collects unique values in the order of
+#'   the first appearance in `x` like in [unique()], this costs extra processing.
+#'   `order="values"` collects unique values in sorted order like in [table()],
+#'   this costs extra processing with the hash methods but comes for free.
+#'   `order="any"` collects unique values in undefined order, possibly faster.
+#'   For hash methods this will be a quasi random order, for sort methods this
+#'   will be sorted order.
+#'
+#' @return an integer vector of positions
+#' @seealso [unique.integer64()] for unique values and [match.integer64()]
+#'   for general matching.
+#' @examples
 #' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #' unipos(x)
 #' unipos(x, order="values")
@@ -1835,12 +1826,11 @@ unique.integer64 <- function(x
 #' stopifnot(identical(unipos(x, order="values"),  match.integer64(unique(x, order="values"), x)))
 #' stopifnot(identical(unique(x),  x[unipos(x)]))
 #' stopifnot(identical(unique(x, order="values"),  x[unipos(x, order="values")]))
-#' }
-#' \keyword{manip}
-#' \keyword{logic}
-
-
-unipos <- function(x, incomparables = FALSE, order = c("original","values","any"), ...)UseMethod("unipos")
+#'
+#' @keywords manip logic
+#' @export
+unipos <- function(x, incomparables = FALSE, order = c("original","values","any"), ...) UseMethod("unipos")
+#' @export
 unipos.integer64 <- function(x
 , incomparables = FALSE  # dummy parameter
 , order = c("original","values","any")
@@ -1941,8 +1931,6 @@ unipos.integer64 <- function(x
   p
 }
 
-
-
 #' \name{table.integer64}
 #' \title{Cross Tabulation and Table Creation for integer64}
 #' \alias{table.integer64}
@@ -1957,7 +1945,7 @@ unipos.integer64 <- function(x
 #'   table of the counts at each combination of vector values.
 #' }
 #' \usage{
-#' table.integer64(\dots
+#' table.integer64(...
 #' , return = c("table","data.frame","list")
 #' , order = c("values","counts")
 #' , nunique = NULL
@@ -1966,7 +1954,7 @@ unipos.integer64 <- function(x
 #' )
 #' }
 #' \arguments{
-#'   \item{\dots}{one or more objects which can be interpreted as factors
+#'   \item{...}{one or more objects which can be interpreted as factors
 #'     (including character strings), or a list (or data frame) whose
 #'     components can be so interpreted.  (For `as.table` and
 #'     `as.data.frame`, arguments passed to specific methods.)}
@@ -1996,7 +1984,7 @@ unipos.integer64 <- function(x
 #' \cr
 #'   If the argument `dnn` is not supplied, the internal function
 #'   `list.names` is called to compute the \sQuote{dimname names}.  If the
-#'   arguments in `\dots` are named, those names are used.  For the
+#'   arguments in `...` are named, those names are used.  For the
 #'   remaining arguments, `deparse.level = 0` gives an empty name,
 #'   `deparse.level = 1` uses the supplied argument if it is a symbol,
 #'   and `deparse.level = 2` will deparse the argument.
@@ -2353,15 +2341,15 @@ as.integer64.factor <- function(x, ...)as.integer64(unclass(x))
 #'   `keypos` returns the positions of the (fact table) elements that participate in their sorted unique subset (dimension table)
 #' }
 #' \usage{
-#' keypos(x, \dots)
-#' \method{keypos}{integer64}(x, method = NULL, \dots)
+#' keypos(x, ...)
+#' \method{keypos}{integer64}(x, method = NULL, ...)
 #' }
 #' \arguments{
 #'   \item{x}{a vector or a data frame or an array or `NULL`.}
 #'   \item{method}{
 #'     NULL for automatic method selection or a suitable low-level method, see details
 #' }
-#'   \item{\dots}{ignored}
+#'   \item{...}{ignored}
 #' }
 #' \details{
 #'   NAs are sorted first in the dimension table, see [ramorder.integer64()].
@@ -2441,8 +2429,8 @@ keypos.integer64 <- function(x
 #'   `tiepos` returns the positions of those elements that participate in ties.
 #' }
 #' \usage{
-#' tiepos(x, \dots)
-#' \method{tiepos}{integer64}(x, nties = NULL, method = NULL, \dots)
+#' tiepos(x, ...)
+#' \method{tiepos}{integer64}(x, nties = NULL, method = NULL, ...)
 #' }
 #' \arguments{
 #'   \item{x}{a vector or a data frame or an array or `NULL`.}
@@ -2452,7 +2440,7 @@ keypos.integer64 <- function(x
 #'   \item{method}{
 #'     NULL for automatic method selection or a suitable low-level method, see details
 #' }
-#'   \item{\dots}{ignored}
+#'   \item{...}{ignored}
 #' }
 #' \details{
 #'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
@@ -2537,14 +2525,14 @@ tiepos.integer64 <- function(x
 #'   values) are averaged and missing values propagated.
 #' }
 #' \usage{
-#'     \method{rank}{integer64}(x, method = NULL, \dots)
+#'     \method{rank}{integer64}(x, method = NULL, ...)
 #' }
 #' \arguments{
 #'   \item{x}{a integer64 vector}
 #'   \item{method}{
 #'     NULL for automatic method selection or a suitable low-level method, see details
 #' }
-#'   \item{\dots}{ignored}
+#'   \item{...}{ignored}
 #' }
 #' \details{
 #'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
@@ -2622,15 +2610,15 @@ rank.integer64 <- function(x
 #'     [qtile.integer64()] is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
 #' }
 #' \usage{
-#'     prank(x, \dots)
-#'     \method{prank}{integer64}(x, method = NULL, \dots)
+#'     prank(x, ...)
+#'     \method{prank}{integer64}(x, method = NULL, ...)
 #' }
 #' \arguments{
 #'   \item{x}{a integer64 vector}
 #'   \item{method}{
 #'     NULL for automatic method selection or a suitable low-level method, see details
 #' }
-#'   \item{\dots}{ignored}
+#'   \item{...}{ignored}
 #' }
 #' \details{
 #'     Function `prank.integer64` is based on [rank.integer64()].
@@ -2678,12 +2666,12 @@ prank.integer64 <- function(x
 #'     `qtile.ineger64` is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
 #' }
 #' \usage{
-#'     qtile(x, probs=seq(0, 1, 0.25), \dots)
-#'     \method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, \dots)
-#'     \method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, \dots)
-#'     \method{median}{integer64}(x, na.rm = FALSE, \dots)
-#'  \method{mean}{integer64}(x, na.rm = FALSE, \dots)
-#'     \method{summary}{integer64}(object, \dots)
+#'     qtile(x, probs=seq(0, 1, 0.25), ...)
+#'     \method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, ...)
+#'     \method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, ...)
+#'     \method{median}{integer64}(x, na.rm = FALSE, ...)
+#'  \method{mean}{integer64}(x, na.rm = FALSE, ...)
+#'     \method{summary}{integer64}(object, ...)
 #'  ## mean(x, na.rm = FALSE, ...)
 #'  ## or
 #'  ## mean(x, na.rm = FALSE)
@@ -2706,7 +2694,7 @@ prank.integer64 <- function(x
 #'   \item{na.rm}{
 #'     logical; if `TRUE`, any `NA` and `NaN`'s are removed from `x` before the quantiles are computed.
 #' }
-#'   \item{\dots}{ignored}
+#'   \item{...}{ignored}
 #' }
 #' \details{
 #'  Functions `quantile.integer64` with `type=0` and `median.integer64` are convenience wrappers to `qtile`.
