@@ -111,8 +111,8 @@
 #'   barplot(t(tim))
 #'   if (rownames(optimizer64.data)[i]=="match")
 #'    title(paste("match", colnames(optimizer64.data)[j], "in", colnames(optimizer64.data)[3-j]))
-#'   else if (rownames(optimizer64.data)[i]=="\%in\%")
-#'    title(paste(colnames(optimizer64.data)[j], "\%in\%", colnames(optimizer64.data)[3-j]))
+#'   else if (rownames(optimizer64.data)[i]=="%in%")
+#'    title(paste(colnames(optimizer64.data)[j], "%in%", colnames(optimizer64.data)[3-j]))
 #'   else
 #'    title(paste(rownames(optimizer64.data)[i], colnames(optimizer64.data)[j]))
 #'  }
@@ -1284,12 +1284,12 @@ optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
 #' x <- as.integer64(c(NA, 0:9), 32)
 #' table <- as.integer64(c(1:9, NA))
 #' match.integer64(x, table)
-#' "\%in\%.integer64"(x, table)
+#' "%in%.integer64"(x, table)
 #'
 #' x <- as.integer64(sample(c(rep(NA, 9), 0:9), 32, TRUE))
 #' table <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #' stopifnot(identical(match.integer64(x, table), match(as.integer(x), as.integer(table))))
-#' stopifnot(identical("\%in\%.integer64"(x, table), as.integer(x) \%in\% as.integer(table)))
+#' stopifnot(identical("%in%.integer64"(x, table), as.integer(x) %in% as.integer(table)))
 #'
 #' \dontrun{
 #'     message("check when reverse hash-lookup beats standard hash-lookup")
