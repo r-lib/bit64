@@ -2598,66 +2598,49 @@ prank.integer64 <- function(x
     (rank.integer64(x, method=method, ...)-1L)/(n-1L)
 }
 
-#' \name{qtile}
-#' \alias{qtile}
-#' \alias{qtile.integer64}
-#' \alias{quantile.integer64}
 #' \alias{median.integer64}
 #' \alias{mean.integer64}
 #' \alias{summary.integer64}
-#' \title{(Q)uan(Tile)s }
-#' \description{
-#'     Function [prank.integer64()]  projects the values [min..max] via ranks [1..n] to [0..1].
-#'     `qtile.ineger64` is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
-#' }
-#' \usage{
-#'     qtile(x, probs=seq(0, 1, 0.25), ...)
-#'     \method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, ...)
-#'     \method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, ...)
-#'     \method{median}{integer64}(x, na.rm = FALSE, ...)
-#'  \method{mean}{integer64}(x, na.rm = FALSE, ...)
-#'     \method{summary}{integer64}(object, ...)
-#'  ## mean(x, na.rm = FALSE, ...)
-#'  ## or
-#'  ## mean(x, na.rm = FALSE)
-#' }
-#' \arguments{
-#'   \item{x}{a integer64 vector}
-#'   \item{object}{a integer64 vector}
-#'   \item{probs}{numeric vector of probabilities with values in [0,1] - possibly containing `NA`s}
-#'   \item{names}{logical; if `TRUE`, the result has a `names` attribute. Set to `FALSE` for speedup with many probs.}
-#'   \item{type}{an integer selecting the quantile algorithm, currently only 0 is supported, see details}
-#'   \item{method}{NULL for automatic method selection or a suitable low-level method, see details}
-#'   \item{na.rm}{logical; if `TRUE`, any `NA` and `NaN`'s are removed from `x` before the quantiles are computed.}
-#'   \item{...}{ignored}
-#' }
-#' \details{
-#'  Functions `quantile.integer64` with `type=0` and `median.integer64` are convenience wrappers to `qtile`.
-#'  \cr
-#'    Function `qtile` behaves very similar to `quantile.default` with `type=1`
-#'  in that it only returns existing values, it is mostly symetric
-#'  but it is using 'round' rather than 'floor'.
-#'  \cr
-#'  Note that this implies that `median.integer64` does not interpolate for even number of values
-#' (interpolation would create values that could not be represented as 64-bit integers).
-#'  \cr
-#'   This function automatically chooses from several low-level functions considering the size of `x` and the availability of a cache.
-#'   Suitable methods are [sortqtl()] (fast sorting)
-#' and [orderqtl()] (memory saving ordering).
-#' }
-#' \value{
-#'   `prank` returns a numeric vector of the same length as `x`.
-#'   \cr
-#'   `qtile` returns a vector with elements from `x`
+
+#' (Q)uan(Tile)s
+#'
+#' Function [prank.integer64()]  projects the values `[min..max]` via ranks
+#'   `[1..n]` to `[0..1]`.
+#'
+#' `qtile.ineger64` is the inverse function of 'prank.integer64' and projects
+#'   `[0..1]` to `[min..max]`.
+#'
+#' @param x a integer64 vector
+#' @param probs numeric vector of probabilities with values in `[0,1]` - possibly containing `NA`s
+#' @param ... ignored
+#'
+#' @details
+#'
+#' Functions `quantile.integer64` with `type=0` and `median.integer64` are
+#'   convenience wrappers to `qtile`.
+#'
+#' Function `qtile` behaves very similar to `quantile.default` with `type=1`
+#'   in that it only returns existing values, it is mostly symmetric but it is
+#'   using 'round' rather than 'floor'.
+#'
+#' Note that this implies that `median.integer64` does not interpolate for even
+#'   number of values (interpolation would create values that could not be
+#'   represented as 64-bit integers).
+#'
+#' This function automatically chooses from several low-level functions
+#'   considering the size of `x` and the availability of a cache.
+#'
+#' Suitable methods are
+#'  - [sortqtl] (fast sorting)
+#'  - [orderqtl] (memory saving ordering).
+#'
+#' @return
+#' `prank` returns a numeric vector of the same length as `x`.
+#'
+#' `qtile` returns a vector with elements from `x`
 #'   at the relative positions specified by `probs`.
-#' }
-#' \author{
-#'     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#' }
-#' \seealso{
-#'   [rank.integer64()] for simple ranks and [quantile()] for quantiles.
-#' }
-#' \examples{
+#' @seealso [rank.integer64()] for simple ranks and [quantile()] for quantiles.
+#' @examples
 #' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #' qtile(x, probs=seq(0, 1, 0.25))
 #' quantile(x, probs=seq(0, 1, 0.25), na.rm=TRUE)
@@ -2666,11 +2649,13 @@ prank.integer64 <- function(x
 #'
 #' x <- x[!is.na(x)]
 #' stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))
-#' }
-#' \keyword{univar}
-
-qtile <- function(x, probs = seq(0.0, 1.0, 0.25), ...)UseMethod("qtile")
-qtile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), names = TRUE, method = NULL, ...){
+#' @keywords univar
+#' @export
+qtile <- function(x, probs = seq(0.0, 1.0, 0.25), ...) UseMethod("qtile")
+#' @param names logical; if `TRUE`, the result has a `names` attribute. Set to `FALSE` for speedup with many probs.
+#' @param method NULL for automatic method selection or a suitable low-level method, see details
+#' @export
+qtile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), names = TRUE, method = NULL, ...) {
     if (any(is.na(probs) | probs<0.0 | probs>1.0))
         stop("p outside [0,1]")
   cache_env <- cache(x)
@@ -2718,8 +2703,13 @@ qtile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), names = TRUE, method
   qs
 }
 
-
-quantile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), na.rm = FALSE, names = TRUE, type=0L, ...){
+#' @rdname qtile
+#' @param type an integer selecting the quantile algorithm, currently only
+#'   0 is supported, see details
+#' @param na.rm logical; if `TRUE`, any `NA` and `NaN`'s are removed from
+#'   `x` before the quantiles are computed.
+#' @export
+quantile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), na.rm = FALSE, names = TRUE, type=0L, ...) {
     if (type[[1L]]!=0L)
         stop("only type==0 ('qtile') supported")
     if (!na.rm && na.count(x)>0L)
@@ -2727,9 +2717,10 @@ quantile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), na.rm = FALSE, na
     qtile.integer64(x, probs = probs, na.rm = na.rm, names = names, ...)
 }
 
-
 # TODO(R>=3.4.0): Drop this branch when median always gets '...'
 # adding ... (wish of Kurt Hornik 23.3.2017)
+#' @rdname qtile
+#' @export
 if (is.na(match("...", names(formals(median))))){
     # nocov start. Only run on old R.
     median.integer64 <- function(x, na.rm=FALSE){
@@ -2756,13 +2747,18 @@ if (is.na(match("...", names(formals(median))))){
     # }
     # s
 # }
-mean.integer64 <- function(x, na.rm=FALSE, ...){
+#' @rdname qtile
+#' @export
+mean.integer64 <- function(x, na.rm=FALSE, ...) {
     ret <- .Call(C_mean_integer64, x, as.logical(na.rm), double(1L))
     oldClass(ret) <- "integer64"
     ret
 }
 
-summary.integer64 <- function (object, ...){
+#' @rdname qtile
+#' @param object a integer64 vector
+#' @export
+summary.integer64 <- function (object, ...) {
     nas <- na.count(object)
     qq <- quantile(object, na.rm=TRUE)
     qq <- c(qq[1L:3L], mean(object, na.rm=TRUE), qq[4L:5L])
