@@ -31,16 +31,16 @@ qtile(x, probs = seq(0, 1, 0.25), ...)
 \arguments{
 \item{x}{a integer64 vector}
 
-\item{probs}{numeric vector of probabilities with values in `[0,1]` - possibly containing `NA`s}
+\item{probs}{numeric vector of probabilities with values in \verb{[0,1]} - possibly containing \code{NA}s}
 
 \item{...}{ignored}
 
-\item{names}{logical; if `TRUE`, the result has a `names` attribute. Set to `FALSE` for speedup with many probs.}
+\item{names}{logical; if \code{TRUE}, the result has a \code{names} attribute. Set to \code{FALSE} for speedup with many probs.}
 
 \item{method}{NULL for automatic method selection or a suitable low-level method, see details}
 
-\item{na.rm}{logical; if `TRUE`, any `NA` and `NaN`'s are removed from
-`x` before the quantiles are computed.}
+\item{na.rm}{logical; if \code{TRUE}, any \code{NA} and \code{NaN}'s are removed from
+\code{x} before the quantiles are computed.}
 
 \item{type}{an integer selecting the quantile algorithm, currently only
 0 is supported, see details}
@@ -48,38 +48,38 @@ qtile(x, probs = seq(0, 1, 0.25), ...)
 \item{object}{a integer64 vector}
 }
 \value{
-`prank` returns a numeric vector of the same length as `x`.
+\code{prank} returns a numeric vector of the same length as \code{x}.
 
-`qtile` returns a vector with elements from `x`
-  at the relative positions specified by `probs`.
+\code{qtile} returns a vector with elements from \code{x}
+at the relative positions specified by \code{probs}.
 }
 \description{
-Function [prank.integer64()]  projects the values `[min..max]` via ranks
-  `[1..n]` to `[0..1]`.
+Function \code{\link[=prank.integer64]{prank.integer64()}}  projects the values \verb{[min..max]} via ranks
+\verb{[1..n]} to \verb{[0..1]}.
 }
 \details{
-`qtile.ineger64` is the inverse function of 'prank.integer64' and projects
-  `[0..1]` to `[min..max]`.
+\code{qtile.ineger64} is the inverse function of 'prank.integer64' and projects
+\verb{[0..1]} to \verb{[min..max]}.
 
+Functions \code{quantile.integer64} with \code{type=0} and \code{median.integer64} are
+convenience wrappers to \code{qtile}.
 
+Function \code{qtile} behaves very similar to \code{quantile.default} with \code{type=1}
+in that it only returns existing values, it is mostly symmetric but it is
+using 'round' rather than 'floor'.
 
-Functions `quantile.integer64` with `type=0` and `median.integer64` are
-  convenience wrappers to `qtile`.
-
-Function `qtile` behaves very similar to `quantile.default` with `type=1`
-  in that it only returns existing values, it is mostly symmetric but it is
-  using 'round' rather than 'floor'.
-
-Note that this implies that `median.integer64` does not interpolate for even
-  number of values (interpolation would create values that could not be
-  represented as 64-bit integers).
+Note that this implies that \code{median.integer64} does not interpolate for even
+number of values (interpolation would create values that could not be
+represented as 64-bit integers).
 
 This function automatically chooses from several low-level functions
-  considering the size of `x` and the availability of a cache.
+considering the size of \code{x} and the availability of a cache.
 
 Suitable methods are
- - [sortqtl] (fast sorting)
- - [orderqtl] (memory saving ordering).
+\itemize{
+\item \link{sortqtl} (fast sorting)
+\item \link{orderqtl} (memory saving ordering).
+}
 }
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -92,6 +92,6 @@ x <- x[!is.na(x)]
 stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))
 }
 \seealso{
-[rank.integer64()] for simple ranks and [quantile()] for quantiles.
+\code{\link[=rank.integer64]{rank.integer64()}} for simple ranks and \code{\link[=quantile]{quantile()}} for quantiles.
 }
 \keyword{univar}

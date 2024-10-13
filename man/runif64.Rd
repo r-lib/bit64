@@ -18,7 +18,7 @@ runif64(
 
 \item{max}{upper inclusive bound for random numbers}
 
-\item{replace}{set to FALSE for sampleing from a finite pool, see [sample()]}
+\item{replace}{set to FALSE for sampleing from a finite pool, see \code{\link[=sample]{sample()}}}
 }
 \value{
 a integer64 vector
@@ -27,10 +27,10 @@ a integer64 vector
 Create uniform random 64-bit integers within defined range
 }
 \details{
-For each random integer we call R's internal C interface `unif_rand()` twice.
-  Each call is mapped to 2^32 unsigned integers. The two 32-bit patterns are
-  concatenated to form the new integer64. This process is repeated until the
-  result is not a `NA_INTEGER64_`.
+For each random integer we call R's internal C interface \code{unif_rand()} twice.
+Each call is mapped to 2^32 unsigned integers. The two 32-bit patterns are
+concatenated to form the new integer64. This process is repeated until the
+result is not a \code{NA_INTEGER64_}.
 }
 \examples{
   runif64(12)
@@ -46,7 +46,7 @@ For each random integer we call R's internal C interface `unif_rand()` twice.
 
 }
 \seealso{
-[runif()], [hashfun()]
+\code{\link[=runif]{runif()}}, \code{\link[=hashfun]{hashfun()}}
 }
 \keyword{classes}
 \keyword{distribution}

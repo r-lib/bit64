@@ -23,7 +23,7 @@ Maintaining integer64 S3 class attribute.
   minusclass(c("inheritingclass","integer64"), "integer64")
 }
 \seealso{
-[oldClass()] [integer64()]
+\code{\link[=oldClass]{oldClass()}} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{internal}

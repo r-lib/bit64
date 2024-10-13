@@ -5,55 +5,55 @@
 \title{Test if two integer64 vectors are all.equal}
 \arguments{
 \item{target}{a vector of 'integer64' or an object that can be coerced
-with [as.integer64()]}
+with \code{\link[=as.integer64]{as.integer64()}}}
 
 \item{current}{a vector of 'integer64' or an object that can be coerced
-with [as.integer64()]}
+with \code{\link[=as.integer64]{as.integer64()}}}
 
-\item{tolerance}{numeric > 0.  Differences smaller than `tolerance` are
-not reported.  The default value is close to `1.5e-8`.}
+\item{tolerance}{numeric > 0.  Differences smaller than \code{tolerance} are
+not reported.  The default value is close to \code{1.5e-8}.}
 
-\item{scale}{`NULL` or numeric > 0, typically of length 1 or
-`length(target)`. See Details.}
+\item{scale}{\code{NULL} or numeric > 0, typically of length 1 or
+\code{length(target)}. See Details.}
 
-\item{countEQ}{logical indicating if the `target == current` cases should
+\item{countEQ}{logical indicating if the \code{target == current} cases should
 be counted when computing the mean (absolute or relative) differences.
-The default, `FALSE` may seem misleading in cases where `target` and
-`current` only differ in a few places; see the extensive example.}
+The default, \code{FALSE} may seem misleading in cases where \code{target} and
+\code{current} only differ in a few places; see the extensive example.}
 
-\item{formatFUN}{a [function()] of two arguments, `err`, the relative,
-absolute or scaled error, and `what`, a character string indicating the
-_kind_ of error; maybe used, e.g., to format relative and absolute errors
+\item{formatFUN}{a \code{\link[=function]{function()}} of two arguments, \code{err}, the relative,
+absolute or scaled error, and \code{what}, a character string indicating the
+\emph{kind} of error; maybe used, e.g., to format relative and absolute errors
 differently.}
 
 \item{...}{further arguments are ignored}
 
-\item{check.attributes}{logical indicating if the [attributes()] of `target`
-and `current` (other than the names) should be compared.}
+\item{check.attributes}{logical indicating if the \code{\link[=attributes]{attributes()}} of \code{target}
+and \code{current} (other than the names) should be compared.}
 }
 \value{
 Either ‘TRUE’ (‘NULL’ for ‘attr.all.equal’) or a vector of ‘mode’
-  ‘"character"’ describing the differences between ‘target’ and
-  ‘current’.
+‘"character"’ describing the differences between ‘target’ and
+‘current’.
 }
 \description{
 A utility to compare integer64 objects 'x' and 'y' testing for
-  ‘near equality’, see [all.equal()].
+‘near equality’, see \code{\link[=all.equal]{all.equal()}}.
 }
 \details{
-In [all.equal.numeric()] the type `integer` is treated as a proper subset
-  of `double` i.e. does not complain about comparing `integer` with `double`.
-  Following this logic `all.equal.integer64` treats `integer` as a proper
-  subset of `integer64` and does not complain about comparing `integer` with
-  `integer64`. `double` also compares without warning as long as the values
-  are within [lim.integer64()], if `double` are bigger `all.equal.integer64`
-  complains about the `all.equal.integer64 overflow warning`. For further
-  details see [all.equal()].
+In \code{\link[=all.equal.numeric]{all.equal.numeric()}} the type \code{integer} is treated as a proper subset
+of \code{double} i.e. does not complain about comparing \code{integer} with \code{double}.
+Following this logic \code{all.equal.integer64} treats \code{integer} as a proper
+subset of \code{integer64} and does not complain about comparing \code{integer} with
+\code{integer64}. \code{double} also compares without warning as long as the values
+are within \code{\link[=lim.integer64]{lim.integer64()}}, if \code{double} are bigger \code{all.equal.integer64}
+complains about the \verb{all.equal.integer64 overflow warning}. For further
+details see \code{\link[=all.equal]{all.equal()}}.
 }
 \note{
-[all.equal()] only dispatches to this method if the first argument is `integer64`,
-   calling [all.equal()] with a `non-integer64` first and a `integer64` second argument
-   gives undefined behavior!
+\code{\link[=all.equal]{all.equal()}} only dispatches to this method if the first argument is \code{integer64},
+calling \code{\link[=all.equal]{all.equal()}} with a \code{non-integer64} first and a \code{integer64} second argument
+gives undefined behavior!
 }
 \examples{
   all.equal(as.integer64(1:10), as.integer64(0:9))
@@ -62,5 +62,5 @@ In [all.equal.numeric()] the type `integer` is treated as a proper subset
   all.equal(as.integer64(1), as.double(1e300))
 }
 \seealso{
-[all.equal()]
+\code{\link[=all.equal]{all.equal()}}
 }

@@ -14,14 +14,14 @@
 )
 }
 \arguments{
-\item{x}{a vector or a data frame or an array or `NULL`.}
+\item{x}{a vector or a data frame or an array or \code{NULL}.}
 
 \item{incomparables}{ignored}
 
 \item{order}{The order in which unique values will be returned, see details}
 
 \item{nunique}{NULL or the number of unique values (including NA). Providing
-`nunique` can speed-up matching when `x` has no cache. Note that a wrong
+\code{nunique} can speed-up matching when \code{x} has no cache. Note that a wrong
 `nunique`` can cause undefined behaviour up to a crash.}
 
 \item{method}{NULL for automatic method selection or a suitable low-level
@@ -30,31 +30,33 @@ method, see details}
 \item{...}{ignored}
 }
 \value{
-For a vector, an object of the same type of `x`, but with only
-  one copy of each duplicated element.  No attributes are copied (so
-  the result has no names).
+For a vector, an object of the same type of \code{x}, but with only
+one copy of each duplicated element.  No attributes are copied (so
+the result has no names).
 }
 \description{
-`unique` returns a vector like `x` but with duplicate elements/rows removed.
+\code{unique} returns a vector like \code{x} but with duplicate elements/rows removed.
 }
 \details{
 This function automatically chooses from several low-level functions
-  considering the size of `x` and the availability of a cache.
+considering the size of \code{x} and the availability of a cache.
 
 Suitable methods are
- - [hashmapuni] (simultaneously creating and using a hashmap)
- - [hashuni] (first creating a hashmap then using it)
- - [sortuni] (fast sorting for sorted order only)
- - [sortorderuni] (fast ordering for original order only)
- - [orderuni] (memory saving ordering).
+\itemize{
+\item \link{hashmapuni} (simultaneously creating and using a hashmap)
+\item \link{hashuni} (first creating a hashmap then using it)
+\item \link{sortuni} (fast sorting for sorted order only)
+\item \link{sortorderuni} (fast ordering for original order only)
+\item \link{orderuni} (memory saving ordering).
+}
 
-The default `order="original"` returns unique values in the order of the
-  first appearance in `x` like in [unique()], this costs extra processing.
-  `order="values"` returns unique values in sorted order like in [table()],
-  this costs extra processing with the hash methods but comes for free.
-  `order="any"` returns unique values in undefined order, possibly faster.
-  For hash methods this will be a quasi random order, for sort methods this
-  will be sorted order.
+The default \code{order="original"} returns unique values in the order of the
+first appearance in \code{x} like in \code{\link[=unique]{unique()}}, this costs extra processing.
+\code{order="values"} returns unique values in sorted order like in \code{\link[=table]{table()}},
+this costs extra processing with the hash methods but comes for free.
+\code{order="any"} returns unique values in undefined order, possibly faster.
+For hash methods this will be a quasi random order, for sort methods this
+will be sorted order.
 }
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -68,9 +70,9 @@ stopifnot(identical(unique(x, order="values")
 
 }
 \seealso{
-[unique()] for the generic, [unipos()] which gives the indices
-  of the unique elements and [table.integer64()] which gives frequencies
-  of the unique elements.
+\code{\link[=unique]{unique()}} for the generic, \code{\link[=unipos]{unipos()}} which gives the indices
+of the unique elements and \code{\link[=table.integer64]{table.integer64()}} which gives frequencies
+of the unique elements.
 }
 \keyword{logic}
 \keyword{manip}

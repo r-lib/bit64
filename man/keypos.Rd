@@ -7,7 +7,7 @@
 keypos(x, ...)
 }
 \arguments{
-\item{x}{a vector or a data frame or an array or `NULL`.}
+\item{x}{a vector or a data frame or an array or \code{NULL}.}
 
 \item{...}{ignored}
 
@@ -15,22 +15,24 @@ keypos(x, ...)
 method, see details}
 }
 \value{
-an integer vector of the same length as `x` containing positions
-  relative to `sort(unique(x), na.last=FALSE)`
+an integer vector of the same length as \code{x} containing positions
+relative to \code{sort(unique(x), na.last=FALSE)}
 }
 \description{
-`keypos` returns the positions of the (fact table) elements that participate
-  in their sorted unique subset (dimension table)
+\code{keypos} returns the positions of the (fact table) elements that participate
+in their sorted unique subset (dimension table)
 }
 \details{
-NAs are sorted first in the dimension table, see [ramorder.integer64()].
+NAs are sorted first in the dimension table, see \code{\link[=ramorder.integer64]{ramorder.integer64()}}.
 
 This function automatically chooses from several low-level functions
-  considering the size of `x` and the availability of a cache.
+considering the size of \code{x} and the availability of a cache.
 
 Suitable methods are
- - [sortorderkey] (fast ordering)
- - [orderkey] (memory saving ordering).
+\itemize{
+\item \link{sortorderkey} (fast ordering)
+\item \link{orderkey} (memory saving ordering).
+}
 }
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -39,8 +41,8 @@ keypos(x)
 stopifnot(identical(keypos(x),  match.integer64(x, sort(unique(x), na.last=FALSE))))
 }
 \seealso{
-[unique.integer64()] for the unique subset and [match.integer64()]
-  for finding positions in a different vector.
+\code{\link[=unique.integer64]{unique.integer64()}} for the unique subset and \code{\link[=match.integer64]{match.integer64()}}
+for finding positions in a different vector.
 }
 \keyword{manip}
 \keyword{univar}

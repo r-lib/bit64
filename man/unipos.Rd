@@ -7,7 +7,7 @@
 unipos(x, incomparables = FALSE, order = c("original", "values", "any"), ...)
 }
 \arguments{
-\item{x}{a vector or a data frame or an array or `NULL`.}
+\item{x}{a vector or a data frame or an array or \code{NULL}.}
 
 \item{incomparables}{ignored}
 
@@ -17,7 +17,7 @@ see details}
 \item{...}{ignored}
 
 \item{nunique}{NULL or the number of unique values (including NA). Providing
-`nunique` can speed-up when `x` has no cache. Note that a wrong `nunique`
+\code{nunique} can speed-up when \code{x} has no cache. Note that a wrong \code{nunique}
 can cause undefined behaviour up to a crash.}
 
 \item{method}{NULL for automatic method selection or a suitable low-level
@@ -27,25 +27,27 @@ method, see details}
 an integer vector of positions
 }
 \description{
-`unipos` returns the positions of those elements returned by [unique()].
+\code{unipos} returns the positions of those elements returned by \code{\link[=unique]{unique()}}.
 }
 \details{
 This function automatically chooses from several low-level functions
-  considering the size of `x` and the availability of a cache.
+considering the size of \code{x} and the availability of a cache.
 
 Suitable methods are
- - [hashmapupo] (simultaneously creating and using a hashmap)
- - [hashupo] (first creating a hashmap then using it)
- - [sortorderupo] (fast ordering)
- - [orderupo] (memory saving ordering).
+\itemize{
+\item \link{hashmapupo} (simultaneously creating and using a hashmap)
+\item \link{hashupo} (first creating a hashmap then using it)
+\item \link{sortorderupo} (fast ordering)
+\item \link{orderupo} (memory saving ordering).
+}
 
-The default `order="original"` collects unique values in the order of
-  the first appearance in `x` like in [unique()], this costs extra processing.
-  `order="values"` collects unique values in sorted order like in [table()],
-  this costs extra processing with the hash methods but comes for free.
-  `order="any"` collects unique values in undefined order, possibly faster.
-  For hash methods this will be a quasi random order, for sort methods this
-  will be sorted order.
+The default \code{order="original"} collects unique values in the order of
+the first appearance in \code{x} like in \code{\link[=unique]{unique()}}, this costs extra processing.
+\code{order="values"} collects unique values in sorted order like in \code{\link[=table]{table()}},
+this costs extra processing with the hash methods but comes for free.
+\code{order="any"} collects unique values in undefined order, possibly faster.
+For hash methods this will be a quasi random order, for sort methods this
+will be sorted order.
 }
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -60,8 +62,8 @@ stopifnot(identical(unique(x, order="values"),  x[unipos(x, order="values")]))
 
 }
 \seealso{
-[unique.integer64()] for unique values and [match.integer64()]
-  for general matching.
+\code{\link[=unique.integer64]{unique.integer64()}} for unique values and \code{\link[=match.integer64]{match.integer64()}}
+for general matching.
 }
 \keyword{logic}
 \keyword{manip}

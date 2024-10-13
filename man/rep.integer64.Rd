@@ -6,10 +6,10 @@
 \arguments{
 \item{x}{a vector of 'integer64' to be replicated}
 
-\item{...}{further arguments passed to [NextMethod()]}
+\item{...}{further arguments passed to \code{\link[=NextMethod]{NextMethod()}}}
 }
 \value{
-[rep()] returns a integer64 vector
+\code{\link[=rep]{rep()}} returns a integer64 vector
 }
 \description{
 Replicate elements of integer64 vectors
@@ -20,8 +20,8 @@ Replicate elements of integer64 vectors
   rep(as.integer64(1:2), length.out=6)
 }
 \seealso{
-[c.integer64()] [rep.integer64()]
-  [as.data.frame.integer64()] [integer64()]
+\code{\link[=c.integer64]{c.integer64()}} \code{\link[=rep.integer64]{rep.integer64()}}
+\code{\link[=as.data.frame.integer64]{as.data.frame.integer64()}} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}

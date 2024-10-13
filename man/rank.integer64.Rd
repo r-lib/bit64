@@ -15,18 +15,20 @@ method, see details}
 \item{...}{ignored}
 }
 \value{
-A numeric vector of the same length as `x`.
+A numeric vector of the same length as \code{x}.
 }
 \description{
 Returns the sample ranks of the values in a vector.  Ties (i.e., equal
-  values) are averaged and missing values propagated.
+values) are averaged and missing values propagated.
 }
 \details{
 This function automatically chooses from several low-level functions
-  considering the size of `x` and the availability of a cache.
+considering the size of \code{x} and the availability of a cache.
 Suitable methods are
- - [sortorderrnk()] (fast ordering)
- - [orderrnk()] (memory saving ordering).
+\itemize{
+\item \code{\link[=sortorderrnk]{sortorderrnk()}} (fast ordering)
+\item \code{\link[=orderrnk]{orderrnk()}} (memory saving ordering).
+}
 }
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -37,6 +39,6 @@ stopifnot(identical(rank.integer64(x),  rank(as.integer(x)
 
 }
 \seealso{
-[order.integer64()], [rank()] and [prank()] for percent rank.
+\code{\link[=order.integer64]{order.integer64()}}, \code{\link[=rank]{rank()}} and \code{\link[=prank]{prank()}} for percent rank.
 }
 \keyword{univar}

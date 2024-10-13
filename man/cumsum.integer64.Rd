@@ -21,17 +21,17 @@
 \arguments{
 \item{x}{an atomic vector of class 'integer64'}
 
-\item{lag}{see [diff()]}
+\item{lag}{see \code{\link[=diff]{diff()}}}
 
-\item{differences}{see [diff()]}
+\item{differences}{see \code{\link[=diff]{diff()}}}
 
 \item{...}{ignored}
 }
 \value{
-[cummin()], [cummax()] , [cumsum()] and [cumprod()]
-     return a integer64 vector of the same length as their input
+\code{\link[=cummin]{cummin()}}, \code{\link[=cummax]{cummax()}} , \code{\link[=cumsum]{cumsum()}} and \code{\link[=cumprod]{cumprod()}}
+return a integer64 vector of the same length as their input
 
-  [diff()] returns a integer64 vector shorter by `lag*differences` elements
+\code{\link[=diff]{diff()}} returns a integer64 vector shorter by \code{lag*differences} elements
 }
 \description{
 Cumulative Sums, Products, Extremes and lagged differences
@@ -43,7 +43,7 @@ Cumulative Sums, Products, Extremes and lagged differences
   diff(cumsum(as.integer64(c(0,0,1:12))), differences=2)
 }
 \seealso{
-[sum.integer64()] [integer64()]
+\code{\link[=sum.integer64]{sum.integer64()}} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}

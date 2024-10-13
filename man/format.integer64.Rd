@@ -58,33 +58,33 @@
 \arguments{
 \item{x}{an atomic vector of class 'integer64'}
 
-\item{base}{an atomic scalar (we save 50% log-calls by not allowing
+\item{base}{an atomic scalar (we save 50\% log-calls by not allowing
 a vector base)}
 
-\item{...}{further arguments to the [NextMethod()]}
+\item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 
 \item{digits}{integer indicating the number of decimal places (round)
 or significant digits (signif) to be used. Negative values are allowed
-(see [round()])}
+(see \code{\link[=round]{round()}})}
 
-\item{center}{see [scale()]}
+\item{center}{see \code{\link[=scale]{scale()}}}
 
-\item{scale}{see [scale()]}
+\item{scale}{see \code{\link[=scale]{scale()}}}
 
 \item{justify}{should it be right-justified (the default), left-justified,
 centred or left alone.}
 }
 \value{
-[format()] returns a character vector
+\code{\link[=format]{format()}} returns a character vector
 
-  [is.na()] and [`!`] return a logical vector
+\code{\link[=is.na]{is.na()}} and \code{\link{!}} return a logical vector
 
-  [sqrt()], [log()], [log2()] and [log10()] return a double vector
+\code{\link[=sqrt]{sqrt()}}, \code{\link[=log]{log()}}, \code{\link[=log2]{log2()}} and \code{\link[=log10]{log10()}} return a double vector
 
-  [sign()], [abs()], [floor()], [ceiling()], [trunc()] and
-  [round()] return a vector of class 'integer64'
+\code{\link[=sign]{sign()}}, \code{\link[=abs]{abs()}}, \code{\link[=floor]{floor()}}, \code{\link[=ceiling]{ceiling()}}, \code{\link[=trunc]{trunc()}} and
+\code{\link[=round]{round()}} return a vector of class 'integer64'
 
-  [signif()] is not implemented
+\code{\link[=signif]{signif()}} is not implemented
 }
 \description{
 Unary operators and functions for integer64 vectors.
@@ -101,7 +101,7 @@ r <- as.integer64(round(as.integer(i), s))
 }
 }
 \seealso{
-[xor.integer64()] [integer64()]
+\code{\link[=xor.integer64]{xor.integer64()}} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}

@@ -18,14 +18,14 @@ ordercache(x, has.na = NULL, stable = NULL, optimize = "time")
 \arguments{
 \item{x}{an atomic vector (note that currently only integer64 is supported)}
 
-\item{nunique}{giving _correct_ number of unique elements can help reducing
+\item{nunique}{giving \emph{correct} number of unique elements can help reducing
 the size of the hashmap}
 
-\item{...}{passed to [hashmap()]}
+\item{...}{passed to \code{\link[=hashmap]{hashmap()}}}
 
 \item{has.na}{boolean scalar defining whether the input vector might contain
-`NA`s. If we know we don't have `NA`s, this may speed-up. _Note_ that you
-risk a crash if there are unexpected `NA`s with `has.na=FALSE`.}
+\code{NA}s. If we know we don't have \code{NA}s, this may speed-up. \emph{Note} that you
+risk a crash if there are unexpected \code{NA}s with \code{has.na=FALSE}.}
 
 \item{stable}{boolean scalar defining whether stable sorting is needed. Allowing
 non-stable may speed-up.}
@@ -34,23 +34,23 @@ non-stable may speed-up.}
 set to 'memory' to minimize RAM requirements and sacrifice speed.}
 }
 \value{
-`x` with a [cache()] that contains the result of the expensive operations,
-  possible together with small derived information (such as [nunique.integer64()])
-  and previously cached results.
+\code{x} with a \code{\link[=cache]{cache()}} that contains the result of the expensive operations,
+possible together with small derived information (such as \code{\link[=nunique.integer64]{nunique.integer64()}})
+and previously cached results.
 }
 \description{
 Functions to create cache that accelerates many operations
 }
 \details{
-The result of relative expensive operations [hashmap()], [ramsort()],
-  [ramsortorder()], and [ramorder()] can be stored in a cache in order to
-  avoid multiple excutions. Unless in very specific situations, the
-  recommended method is `hashsortorder` only.
+The result of relative expensive operations \code{\link[=hashmap]{hashmap()}}, \code{\link[=ramsort]{ramsort()}},
+\code{\link[=ramsortorder]{ramsortorder()}}, and \code{\link[=ramorder]{ramorder()}} can be stored in a cache in order to
+avoid multiple excutions. Unless in very specific situations, the
+recommended method is \code{hashsortorder} only.
 }
 \note{
 Note that we consider storing the big results from sorting and/or ordering
-  as a relevant side-effect, and therefore storing them in the cache should
-  require a conscious decision of the user.
+as a relevant side-effect, and therefore storing them in the cache should
+require a conscious decision of the user.
 }
 \examples{
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -58,7 +58,7 @@ Note that we consider storing the big results from sorting and/or ordering
 
 }
 \seealso{
-[cache()] for caching functions and [nunique.integer64()] for methods benefiting
-  from small caches
+\code{\link[=cache]{cache()}} for caching functions and \code{\link[=nunique.integer64]{nunique.integer64()}} for methods benefiting
+from small caches
 }
 \keyword{environment}

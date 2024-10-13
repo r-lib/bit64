@@ -15,17 +15,17 @@ prank(x, ...)
 method, see details}
 }
 \value{
-`prank` returns a numeric vector of the same length as `x`.
+\code{prank} returns a numeric vector of the same length as \code{x}.
 }
 \description{
-Function `prank.integer64`  projects the values `[min..max]` via ranks
-  `[1..n]` to `[0..1]`.
+Function \code{prank.integer64}  projects the values \verb{[min..max]} via ranks
+\verb{[1..n]} to \verb{[0..1]}.
 }
 \details{
-[qtile.integer64()] is the inverse function of 'prank.integer64' and
-  projects `[0..1]` to `[min..max]`.
+\code{\link[=qtile.integer64]{qtile.integer64()}} is the inverse function of 'prank.integer64' and
+projects \verb{[0..1]} to \verb{[min..max]}.
 
-Function `prank.integer64` is based on [rank.integer64()].
+Function \code{prank.integer64} is based on \code{\link[=rank.integer64]{rank.integer64()}}.
 }
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -35,7 +35,7 @@ x <- x[!is.na(x)]
 stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))
 }
 \seealso{
-[rank.integer64()] for simple ranks and [qtile()] for the
-  inverse function quantiles.
+\code{\link[=rank.integer64]{rank.integer64()}} for simple ranks and \code{\link[=qtile]{qtile()}} for the
+inverse function quantiles.
 }
 \keyword{univar}

@@ -11,16 +11,16 @@
 }
 \arguments{
 \item{x}{integer64 vector: the values to be matched, optionally carrying a
-cache created with [hashcache()]}
+cache created with \code{\link[=hashcache]{hashcache()}}}
 
 \item{table}{integer64 vector: the values to be matched against, optionally
-carrying a cache created with [hashcache()] or [sortordercache()]}
+carrying a cache created with \code{\link[=hashcache]{hashcache()}} or \code{\link[=sortordercache]{sortordercache()}}}
 
 \item{nomatch}{the value to be returned in the case when no match is found.
 Note that it is coerced to integer.}
 
 \item{nunique}{NULL or the number of unique values of table (including NA).
-Providing `nunique` can speed-up matching when `table` has no cache. Note
+Providing \code{nunique} can speed-up matching when \code{table} has no cache. Note
 that a wrong nunique can cause undefined behaviour up to a crash.}
 
 \item{method}{NULL for automatic method selection or a suitable low-level
@@ -29,43 +29,46 @@ method, see details}
 \item{...}{ignored}
 }
 \value{
-A vector of the same length as `x`.
+A vector of the same length as \code{x}.
 
-`match`: An integer vector giving the position in `table` of
-  the first match if there is a match, otherwise `nomatch`.
+\code{match}: An integer vector giving the position in \code{table} of
+the first match if there is a match, otherwise \code{nomatch}.
 
-If `x[i]` is found to equal `table[j]` then the value
-  returned in the `i`-th position of the return value is `j`,
-  for the smallest possible `j`.  If no match is found, the value
-  is `nomatch`.
+If \code{x[i]} is found to equal \code{table[j]} then the value
+returned in the \code{i}-th position of the return value is \code{j},
+for the smallest possible \code{j}.  If no match is found, the value
+is \code{nomatch}.
 
-`%in%`: A logical vector, indicating if a match was located for
-  each element of `x`: thus the values are `TRUE` or
-  `FALSE` and never `NA`.
+\code{\%in\%}: A logical vector, indicating if a match was located for
+each element of \code{x}: thus the values are \code{TRUE} or
+\code{FALSE} and never \code{NA}.
 }
 \description{
-`match` returns a vector of the positions of (first) matches of its first
-  argument in its second.
+\code{match} returns a vector of the positions of (first) matches of its first
+argument in its second.
 }
 \details{
-`%in%` is a more intuitive interface as a binary operator, which returns a
-  logical vector indicating if there is a match or not for its left operand.
-
+\code{\%in\%} is a more intuitive interface as a binary operator, which returns a
+logical vector indicating if there is a match or not for its left operand.
 
 These functions automatically choose from several low-level functions
-  considering the size of `x` and `table` and the availability of caches.
+considering the size of \code{x} and \code{table} and the availability of caches.
 
-Suitable methods for `%in%.integer64` are
- - [hashpos] (hash table lookup)
- - [hashrev] (reverse lookup)
- - [sortorderpos] (fast ordering)
- - [orderpos] (memory saving ordering).
+Suitable methods for \verb{\%in\%.integer64} are
+\itemize{
+\item \link{hashpos} (hash table lookup)
+\item \link{hashrev} (reverse lookup)
+\item \link{sortorderpos} (fast ordering)
+\item \link{orderpos} (memory saving ordering).
+}
 
-Suitable methods for `match.integer64` are
- - [hashfin] (hash table lookup)
- - [hashrin] (reverse lookup)
- - [sortfin] (fast sorting)
- - [orderfin] (memory saving ordering).
+Suitable methods for \code{match.integer64} are
+\itemize{
+\item \link{hashfin} (hash table lookup)
+\item \link{hashrin} (reverse lookup)
+\item \link{sortfin} (fast sorting)
+\item \link{orderfin} (memory saving ordering).
+}
 }
 \examples{
 x <- as.integer64(c(NA, 0:9), 32)
@@ -127,7 +130,7 @@ stopifnot(identical("\%in\%.integer64"(x, table), as.integer(x) \%in\% as.intege
 }
 }
 \seealso{
-[match()]
+\code{\link[=match]{match()}}
 }
 \keyword{logic}
 \keyword{manip}

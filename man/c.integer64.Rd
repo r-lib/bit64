@@ -12,23 +12,23 @@
 }
 \arguments{
 \item{...}{two or more arguments coerced to 'integer64' and
-passed to [NextMethod()]}
+passed to \code{\link[=NextMethod]{NextMethod()}}}
 
-\item{recursive}{logical. If `recursive = TRUE`, the function
+\item{recursive}{logical. If \code{recursive = TRUE}, the function
 recursively descends through lists (and pairlists) combining all
 their elements into a vector.}
 }
 \value{
-[c()] returns a integer64 vector of the total length of the input
+\code{\link[=c]{c()}} returns a integer64 vector of the total length of the input
 
-  [cbind()] and [rbind()] return a integer64 matrix
+\code{\link[=cbind]{cbind()}} and \code{\link[=rbind]{rbind()}} return a integer64 matrix
 }
 \description{
 The ususal functions 'c', 'cbind' and 'rbind'
 }
 \note{
 R currently only dispatches generic 'c' to method 'c.integer64' if the
-  first argument is 'integer64'
+first argument is 'integer64'
 }
 \examples{
   c(as.integer64(1), 2:6)
@@ -36,8 +36,8 @@ R currently only dispatches generic 'c' to method 'c.integer64' if the
   rbind(1:6, as.integer(1:6))
 }
 \seealso{
-[rep.integer64()] [seq.integer64()] [as.data.frame.integer64()]
-  [integer64()]
+\code{\link[=rep.integer64]{rep.integer64()}} \code{\link[=seq.integer64]{seq.integer64()}} \code{\link[=as.data.frame.integer64]{as.data.frame.integer64()}}
+\code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}

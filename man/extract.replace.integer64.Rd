@@ -21,7 +21,7 @@
 
 \item{i}{indices specifying elements to extract}
 
-\item{...}{further arguments to the [NextMethod()]}
+\item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 
 \item{value}{an atomic vector with values to be assigned}
 }
@@ -32,8 +32,8 @@ A vector or scalar of class 'integer64'
 Methods to extract and replace parts of an integer64 vector.
 }
 \note{
-You should not subscript non-existing elements and not use `NA`s as subscripts.
-  The current implementation returns `9218868437227407266` instead of `NA`.
+You should not subscript non-existing elements and not use \code{NA}s as subscripts.
+The current implementation returns \code{9218868437227407266} instead of \code{NA}.
 }
 \examples{
   as.integer64(1:12)[1:3]
@@ -48,7 +48,7 @@ You should not subscript non-existing elements and not use `NA`s as subscripts.
   }
 }
 \seealso{
-[[()] [integer64()]
+[\code{\link[=]{()}} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}

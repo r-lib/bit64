@@ -24,24 +24,24 @@
 \item{...}{ignored}
 }
 \value{
-`is.sorted` returns a logical scalar, the other methods return an integer scalar.
+\code{is.sorted} returns a logical scalar, the other methods return an integer scalar.
 }
 \description{
-These methods are packaged here for methods in packages `bit64` and `ff`.
+These methods are packaged here for methods in packages \code{bit64} and \code{ff}.
 }
 \details{
-All these functions benefit from a [sortcache()], [ordercache()] or
-  [sortordercache()]. `na.count()`, `nvalid()` and `nunique()` also
-  benefit from a [hashcache()].
+All these functions benefit from a \code{\link[=sortcache]{sortcache()}}, \code{\link[=ordercache]{ordercache()}} or
+\code{\link[=sortordercache]{sortordercache()}}. \code{na.count()}, \code{nvalid()} and \code{nunique()} also
+benefit from a \code{\link[=hashcache]{hashcache()}}.
 }
 \section{Functions}{
 \itemize{
-\item \code{na.count(integer64)}: returns the number of `NA`s
+\item \code{na.count(integer64)}: returns the number of \code{NA}s
 
 \item \code{nvalid(integer64)}: returns the number of valid data points,
-usually [length()] minus `na.count`.
+usually \code{\link[=length]{length()}} minus \code{na.count}.
 
-\item \code{is.sorted(integer64)}: checks for sortedness of `x` (NAs sorted first)
+\item \code{is.sorted(integer64)}: checks for sortedness of \code{x} (NAs sorted first)
 
 \item \code{nunique(integer64)}: returns the number of unique values
 
@@ -49,10 +49,10 @@ usually [length()] minus `na.count`.
 
 }}
 \note{
-If a [cache()] exists but the desired value is not cached, then these
-  functions will store their result in the cache. We do not consider this
-  a relevant side-effect, since these small cache results do not have a
-  relevant memory footprint.
+If a \code{\link[=cache]{cache()}} exists but the desired value is not cached, then these
+functions will store their result in the cache. We do not consider this
+a relevant side-effect, since these small cache results do not have a
+relevant memory footprint.
 }
 \examples{
  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -66,7 +66,7 @@ If a [cache()] exists but the desired value is not cached, then these
 
 }
 \seealso{
-[cache()] for caching functions and [sortordercache()] for functions creating big caches
+\code{\link[=cache]{cache()}} for caching functions and \code{\link[=sortordercache]{sortordercache()}} for functions creating big caches
 }
 \keyword{environment}
 \keyword{methods}

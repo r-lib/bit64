@@ -31,34 +31,34 @@ lim.integer64()
 \item{na.rm}{logical scalar indicating whether to ignore NAs}
 
 \item{finite}{logical scalar indicating whether to ignore NAs (just for
-compatibility with [range.default()])}
+compatibility with \code{\link[=range.default]{range.default()}})}
 }
 \value{
-[all()] and [any()] return a logical scalar
+\code{\link[=all]{all()}} and \code{\link[=any]{any()}} return a logical scalar
 
-  [range()] returns a integer64 vector with two elements
+\code{\link[=range]{range()}} returns a integer64 vector with two elements
 
-  [min()], [max()], [sum()] and [prod()] return a integer64 scalar
+\code{\link[=min]{min()}}, \code{\link[=max]{max()}}, \code{\link[=sum]{sum()}} and \code{\link[=prod]{prod()}} return a integer64 scalar
 }
 \description{
 Summary functions for integer64 vectors. Function 'range' without arguments
-  returns the smallest and largest value of the 'integer64' class.
+returns the smallest and largest value of the 'integer64' class.
 }
 \details{
-The numerical summary methods always return `integer64`. Therefore the
-  methods for `min`,`max` and `range` do not return `+Inf,-Inf` on empty
-  arguments, but `+9223372036854775807, -9223372036854775807` (in this sequence).
-  The same is true if only  `NA`s are submitted with argument `na.rm=TRUE`.
+The numerical summary methods always return \code{integer64}. Therefore the
+methods for \code{min},\code{max} and \code{range} do not return \verb{+Inf,-Inf} on empty
+arguments, but \verb{+9223372036854775807, -9223372036854775807} (in this sequence).
+The same is true if only  \code{NA}s are submitted with argument \code{na.rm=TRUE}.
 
-`lim.integer64` returns these limits in proper order
-  `-9223372036854775807, +9223372036854775807` and without a [warning()].
+\code{lim.integer64} returns these limits in proper order
+\verb{-9223372036854775807, +9223372036854775807} and without a \code{\link[=warning]{warning()}}.
 }
 \examples{
   lim.integer64()
   range(as.integer64(1:12))
 }
 \seealso{
-[mean.integer64()] [cumsum.integer64()] [integer64()]
+\code{\link[=mean.integer64]{mean.integer64()}} \code{\link[=cumsum.integer64]{cumsum.integer64()}} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}

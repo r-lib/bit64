@@ -7,13 +7,13 @@
 \method{duplicated}{integer64}(x, incomparables = FALSE, nunique = NULL, method = NULL, ...)
 }
 \arguments{
-\item{x}{a vector or a data frame or an array or `NULL`.}
+\item{x}{a vector or a data frame or an array or \code{NULL}.}
 
 \item{incomparables}{ignored}
 
 \item{nunique}{NULL or the number of unique values (including NA). Providing
-`nunique` can speed-up matching when `x` has no cache. Note that a wrong
-`nunique` can cause undefined behaviour up to a crash.}
+\code{nunique} can speed-up matching when \code{x} has no cache. Note that a wrong
+\code{nunique} can cause undefined behaviour up to a crash.}
 
 \item{method}{NULL for automatic method selection or a suitable low-level
 method, see details}
@@ -21,21 +21,23 @@ method, see details}
 \item{...}{ignored}
 }
 \value{
-`duplicated()`: a logical vector of the same length as `x`.
+\code{duplicated()}: a logical vector of the same length as \code{x}.
 }
 \description{
-`duplicated()` determines which elements of a vector or data frame are duplicates
-  of elements with smaller subscripts, and returns a logical vector
-  indicating which elements (rows) are duplicates.
+\code{duplicated()} determines which elements of a vector or data frame are duplicates
+of elements with smaller subscripts, and returns a logical vector
+indicating which elements (rows) are duplicates.
 }
 \details{
 This function automatically chooses from several low-level functions
-  considering the size of `x` and the availability of a cache.
+considering the size of \code{x} and the availability of a cache.
 
 Suitable methods are
- - [hashdup] (hashing)
- - [sortorderdup] (fast ordering)
- - [orderdup] (memory saving ordering).
+\itemize{
+\item \link{hashdup} (hashing)
+\item \link{sortorderdup} (fast ordering)
+\item \link{orderdup} (memory saving ordering).
+}
 }
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -44,7 +46,7 @@ duplicated(x)
 stopifnot(identical(duplicated(x),  duplicated(as.integer(x))))
 }
 \seealso{
-[duplicated()], [unique.integer64()]
+\code{\link[=duplicated]{duplicated()}}, \code{\link[=unique.integer64]{unique.integer64()}}
 }
 \keyword{logic}
 \keyword{manip}

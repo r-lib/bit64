@@ -7,18 +7,17 @@
 \format{
 The format is:
 
-```
-num [1:16, 1:6] 2.55e-05 2.37 2.39 1.28 1.39 ...
+\if{html}{\out{<div class="sourceCode">}}\preformatted{num [1:16, 1:6] 2.55e-05 2.37 2.39 1.28 1.39 ...
 - attr(*, "dimnames")=List of 2
-..$ : chr [1:16] "cache" "match(s,b)" "s %in% b" "match(b,s)" ...
+..$ : chr [1:16] "cache" "match(s,b)" "s \%in\% b" "match(b,s)" ...
 ..$ : chr [1:6] "32-bit" "64-bit" "hashcache" "sortordercache" ...
-```
+}\if{html}{\out{</div>}}
 }
 \usage{
 benchmark64.data
 }
 \description{
-These are the results of calling [benchmark64()]
+These are the results of calling \code{\link[=benchmark64]{benchmark64()}}
 }
 \examples{
 data(benchmark64.data)

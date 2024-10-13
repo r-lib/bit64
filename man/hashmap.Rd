@@ -86,17 +86,17 @@ hashmapupo(x, ...)
 
 \item{...}{further arguments, passed from generics, ignored in methods}
 
-\item{minfac}{minimum factor by which the hasmap has more elements compared to the data `x`, ignored if `hashbits` is given directly}
+\item{minfac}{minimum factor by which the hasmap has more elements compared to the data \code{x}, ignored if \code{hashbits} is given directly}
 
-\item{hashbits}{length of hashmap is `2^hashbits`}
+\item{hashbits}{length of hashmap is \code{2^hashbits}}
 
-\item{nunique}{giving _correct_ number of unique elements can help reducing the size of the hashmap}
+\item{nunique}{giving \emph{correct} number of unique elements can help reducing the size of the hashmap}
 
-\item{cache}{an optional [cache()] object into which to put the hashmap (by default a new cache is created}
+\item{cache}{an optional \code{\link[=cache]{cache()}} object into which to put the hashmap (by default a new cache is created}
 
 \item{nomatch}{the value to be returned if an element is not found in the hashmap}
 
-\item{keep.order}{determines order of results and speed: `FALSE` (the default) is faster and returns in the (pseudo)random order of the hash function, `TRUE` returns in the order of first appearance in the original data, but this requires extra work}
+\item{keep.order}{determines order of results and speed: \code{FALSE} (the default) is faster and returns in the (pseudo)random order of the hash function, \code{TRUE} returns in the order of first appearance in the original data, but this requires extra work}
 }
 \value{
 See Details
@@ -108,21 +108,22 @@ store and use hash functionality directly. One advantage is that you can
 re-use hashmaps, which avoid re-building hashmaps again and again.
 }
 \details{
-| **function** | **see also**                              | **description** |
-|-------------:|------------------------------------------:|:----------------|
-|    `hashfun` |                                  `digest` | export of the hash function used in `hashmap` |
-|    `hashmap` |            <[`match()`][match.integer64]> | return hashmap |
-|    `hashpos` |            <[`match()`][match.integer64]> | return positions of `x` in `hashmap` |
-|    `hashrev` |            <[`match()`][match.integer64]> | return positions of `hashmap` in `x` |
-|    `hashfin` |                         [%in%.integer64]  | return logical whether `x` is in `hashmap` |
-|    `hashrin` |                         [%in%.integer64]  | return logical whether `hashmap` is in `x` |
-|    `hashdup` |  <[`duplicated()`][duplicated.integer64]> | return logical whether hashdat is duplicated using hashmap |
-|    `hashuni` |          <[`unique()`][unique.integer64]> | return unique values of hashmap |
-| `hashmapuni` |          <[`unique()`][unique.integer64]> | return unique values of `x` |
-|    `hashupo` |          <[`unique()`][unique.integer64]> | return positions of unique values in hashdat |
-| `hashmapupo` |          <[`unique()`][unique.integer64]> | return positions of unique values in `x` |
-|    `hashtab` |            <[`table()`][table.integer64]> | tabulate values of hashdat using hashmap in `keep.order=FALSE` |
-| `hashmaptab` |            <[`table()`][table.integer64]> | tabulate values of `x` building hasmap on the fly in `keep.order=FALSE` |
+\tabular{rrl}{
+   \strong{function} \tab \strong{see also} \tab \strong{description} \cr
+   \code{hashfun} \tab \code{digest} \tab export of the hash function used in \code{hashmap} \cr
+   \code{hashmap} \tab <\code{\link[=match.integer64]{match()}}> \tab return hashmap \cr
+   \code{hashpos} \tab <\code{\link[=match.integer64]{match()}}> \tab return positions of \code{x} in \code{hashmap} \cr
+   \code{hashrev} \tab <\code{\link[=match.integer64]{match()}}> \tab return positions of \code{hashmap} in \code{x} \cr
+   \code{hashfin} \tab \link{\%in\%.integer64} \tab return logical whether \code{x} is in \code{hashmap} \cr
+   \code{hashrin} \tab \link{\%in\%.integer64} \tab return logical whether \code{hashmap} is in \code{x} \cr
+   \code{hashdup} \tab <\code{\link[=duplicated.integer64]{duplicated()}}> \tab return logical whether hashdat is duplicated using hashmap \cr
+   \code{hashuni} \tab <\code{\link[=unique.integer64]{unique()}}> \tab return unique values of hashmap \cr
+   \code{hashmapuni} \tab <\code{\link[=unique.integer64]{unique()}}> \tab return unique values of \code{x} \cr
+   \code{hashupo} \tab <\code{\link[=unique.integer64]{unique()}}> \tab return positions of unique values in hashdat \cr
+   \code{hashmapupo} \tab <\code{\link[=unique.integer64]{unique()}}> \tab return positions of unique values in \code{x} \cr
+   \code{hashtab} \tab <\code{\link[=table.integer64]{table()}}> \tab tabulate values of hashdat using hashmap in \code{keep.order=FALSE} \cr
+   \code{hashmaptab} \tab <\code{\link[=table.integer64]{table()}}> \tab tabulate values of \code{x} building hasmap on the fly in \code{keep.order=FALSE} \cr
+}
 }
 \examples{
 x <- as.integer64(sample(c(NA, 0:9)))
@@ -182,7 +183,7 @@ stopifnot(identical(hashtab(hy), hashmaptab(y)))
     }
 }
 \seealso{
-<[`match()`][match.integer64]>, [runif64()]
+<\code{\link[=match.integer64]{match()}}>, \code{\link[=runif64]{runif64()}}
 }
 \keyword{manip}
 \keyword{programming}

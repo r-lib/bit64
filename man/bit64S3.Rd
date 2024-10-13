@@ -19,10 +19,10 @@
 \title{Turning base R functions into S3 generics for bit64}
 \arguments{
 \item{x}{integer64 vector: the values to be matched, optionally carrying a
-cache created with [hashcache()]}
+cache created with \code{\link[=hashcache]{hashcache()}}}
 
 \item{table}{integer64 vector: the values to be matched against, optionally
-carrying a cache created with [hashcache()] or [sortordercache()]}
+carrying a cache created with \code{\link[=hashcache]{hashcache()}} or \code{\link[=sortordercache]{sortordercache()}}}
 
 \item{from}{scalar denoting first element of sequence}
 
@@ -31,34 +31,37 @@ carrying a cache created with [hashcache()] or [sortordercache()]}
 \item{...}{ignored}
 }
 \value{
-[invisible()]
+\code{\link[=invisible]{invisible()}}
 }
 \description{
 Turn those base functions S3 generic which are used in bit64
 }
 \details{
 The following functions are turned into S3 generics in order to dispatch
-  methods for [integer64()]:
-
- - [`:`]
- - [is.double()]
- - [match()]
- - [`%in%`]
- - [rank()]
- - [order()]
+methods for \code{\link[=integer64]{integer64()}}:
+\itemize{
+\item \code{\link{:}}
+\item \code{\link[=is.double]{is.double()}}
+\item \code{\link[=match]{match()}}
+\item \code{\link{\%in\%}}
+\item \code{\link[=rank]{rank()}}
+\item \code{\link[=order]{order()}}
+}
 }
 \note{
-- [is.double()] returns `FALSE` for [integer64]
- - [`:`] currently only dispatches at its first argument, thus
-   `as.integer64(1):9` works but `1:as.integer64(9)` doesn't
- - [match()] currently only dispatches at its first argument and expects
-   its second argument also to be integer64, otherwise throws an error.
-   Beware of something like `match(2, as.integer64(0:3))`
- - [`%in%`] currently only dispatches at its first argument and expects
-   its second argument also to be integer64, otherwise throws an error.
-   Beware of something like `2 %in% as.integer64(0:3)`
- - [order()] currently only orders a single argument, trying more than
-   one raises an error
+\itemize{
+\item \code{\link[=is.double]{is.double()}} returns \code{FALSE} for \link{integer64}
+\item \code{\link{:}} currently only dispatches at its first argument, thus
+\code{as.integer64(1):9} works but \code{1:as.integer64(9)} doesn't
+\item \code{\link[=match]{match()}} currently only dispatches at its first argument and expects
+its second argument also to be integer64, otherwise throws an error.
+Beware of something like \code{match(2, as.integer64(0:3))}
+\item \code{\link{\%in\%}} currently only dispatches at its first argument and expects
+its second argument also to be integer64, otherwise throws an error.
+Beware of something like \code{2 \%in\% as.integer64(0:3)}
+\item \code{\link[=order]{order()}} currently only orders a single argument, trying more than
+one raises an error
+}
 }
 \examples{
  is.double(as.integer64(1))
@@ -86,6 +89,6 @@ The following functions are turned into S3 generics in order to dispatch
 
 }
 \seealso{
-[bit64()], [S3]
+\code{\link[=bit64]{bit64()}}, \link{S3}
 }
 \keyword{methods}

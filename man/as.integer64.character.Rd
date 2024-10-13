@@ -35,7 +35,7 @@ NA_integer64_
 \arguments{
 \item{x}{an atomic vector}
 
-\item{...}{further arguments to the [NextMethod()]}
+\item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 
 \item{keep.names}{FALSE, set to TRUE to keep a names vector}
 }
@@ -46,12 +46,12 @@ The other methods return atomic vectors of the expected types
 Methods to coerce from other atomic types to integer64.
 }
 \details{
-`as.integer64.character` is realized using C function `strtoll` which
-  does not support scientific notation. Instead of '1e6' use '1000000'.
-  `as.integer64.bitstring` evaluates characters '0' and ' ' as zero-bit,
-  all other one byte characters as one-bit, multi-byte characters are not allowed,
-  strings shorter than 64 characters are treated as if they were left-padded with '0',
-  strings longer than 64 bytes are mapped to `NA_INTEGER64` and a warning is emitted.
+\code{as.integer64.character} is realized using C function \code{strtoll} which
+does not support scientific notation. Instead of '1e6' use '1000000'.
+\code{as.integer64.bitstring} evaluates characters '0' and ' ' as zero-bit,
+all other one byte characters as one-bit, multi-byte characters are not allowed,
+strings shorter than 64 characters are treated as if they were left-padded with '0',
+strings longer than 64 bytes are mapped to \code{NA_INTEGER64} and a warning is emitted.
 }
 \examples{
 as.integer64(as.character(lim.integer64()))
@@ -75,7 +75,7 @@ as.integer64(
 )
 }
 \seealso{
-[as.character.integer64()] [integer64()]
+\code{\link[=as.character.integer64]{as.character.integer64()}} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{datasets}

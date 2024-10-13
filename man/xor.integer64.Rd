@@ -62,13 +62,13 @@ binattr(e1, e2)
 \item{y}{an atomic vector of class 'integer64'}
 }
 \value{
-[`&`], [`|`], [xor()], [`!=`], [`==`],
-  [`<`], [`<=`], [`>`], [`>=`] return a logical vector
+\code{\link{&}}, \code{\link{|}}, \code{\link[=xor]{xor()}}, \code{\link{!=}}, \code{\link{==}},
+\code{\link{<}}, \code{\link{<=}}, \code{\link{>}}, \code{\link{>=}} return a logical vector
 
-  [`^`] and [`/`] return a double vector
+\code{\link{^}} and \code{\link{/}} return a double vector
 
-  [`+`], [`-`], [`*`], [`%/%`], [`%%`]
-   return a vector of class 'integer64'
+\code{\link{+}}, \code{\link{-}}, \code{\link{*}}, \code{\link{\%/\%}}, \code{\link{\%\%}}
+return a vector of class 'integer64'
 }
 \description{
 Binary operators for integer64 vectors.
@@ -87,7 +87,7 @@ Binary operators for integer64 vectors.
   i*d  # old: 13
 }
 \seealso{
-[format.integer64()] [integer64()]
+\code{\link[=format.integer64]{format.integer64()}} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}

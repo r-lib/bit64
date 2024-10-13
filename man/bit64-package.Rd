@@ -30,7 +30,7 @@ is.integer64(x)
 )
 }
 \arguments{
-\item{length}{length of vector using [integer()]}
+\item{length}{length of vector using \code{\link[=integer]{integer()}}}
 
 \item{x}{an integer64 vector}
 
@@ -38,23 +38,23 @@ is.integer64(x)
 
 \item{quote}{logical, indicating whether or not strings should be printed with surrounding quotes.}
 
-\item{...}{further arguments to the [NextMethod()]}
+\item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 
 \item{object}{an integer64 vector}
 
-\item{vec.len, give.head, give.length}{see [utils::str()]}
+\item{vec.len, give.head, give.length}{see \code{\link[utils:str]{utils::str()}}}
 }
 \value{
-`integer64` returns a vector of 'integer64', i.e.,
-  a vector of [double()] decorated with class 'integer64'.
+\code{integer64} returns a vector of 'integer64', i.e.,
+a vector of \code{\link[=double]{double()}} decorated with class 'integer64'.
 }
 \description{
 Package 'bit64' provides fast serializable S3 atomic 64bit (signed) integers
 that can be used in vectors, matrices, arrays and data.frames. Methods are
 available for coercion from and to logicals, integers, doubles, characters
 and factors as well as many elementwise and summary functions.
+\subsection{Version 0.8}{
 
-### Version 0.8
 With 'integer64' vectors you can store very large integers at the expense
 of 64 bits, which is by factor 7 better than 'int64' from package 'int64'.
 Due to the smaller memory footprint, the atomic vector architecture and
@@ -63,12 +63,14 @@ of magnitude faster: Example speedups are 4x for serialization, 250x for
 adding, 900x for coercion and 2000x for object creation. Also 'integer64'
 avoids an ongoing (potentially infinite) penalty for garbage collection
 observed during existence of 'int64' objects (see code in example section).
+}
 
-### Version 0.9
+\subsection{Version 0.9}{
+
 Package 'bit64' - which extends R with fast 64-bit integers - now has fast
 (single-threaded) implementations the most important univariate algorithmic
 operations (those based on hashing and sorting). We now have methods for
-'match', '%in%', 'duplicated', 'unique', 'table', 'sort', 'order', 'rank',
+'match', '\%in\%', 'duplicated', 'unique', 'table', 'sort', 'order', 'rank',
 'quantile', 'median' and 'summary'. Regarding data management we also have
 novel generics 'unipos' (positions of the unique values), 'tiepos' (
 positions of ties), 'keypos' (positions of foreign keys in a sorted
@@ -81,11 +83,12 @@ interactive. The speed is achieved by simple heuristic optimizers in high-
 level functions choosing the best from multiple low-level algorithms and
 further taking advantage of a novel caching if activated. In an example R
 session using a couple of these operations the 64-bit integers performed 22x
- faster than base 32-bit integers, hash-caching improved this to 24x,
+faster than base 32-bit integers, hash-caching improved this to 24x,
 sortorder-caching was most efficient with 38x (caching hashing and sorting
 is not worth it with 32x at duplicated RAM consumption).
+}
 
-## Design considerations
+\subsection{Design considerations}{
 
 64 bit integers are related to big data: we need them to overcome address space
 limitations. Therefore performance of the 64 bit integer type is critical. In the
@@ -97,13 +100,13 @@ result are products such as MonetDB, Sybase IQ, Vertica, Exasol, Ingres Vectorwi
 If we introduce 64 bit integers not natively in Base R but as an external package,
 we should at least strive to make them as 'basic' as possible. Therefore the design
 choice of bit64 not only differs from {int64}, it is obvious: Like the other atomic
-types in Base R, we model data type 'integer64' as a contiguous [atomic] vector in
-memory, and we use the more basic [S3] class system, not [S4]. Like package {int64}
-we want our 'integer64' to be [serialize]able, therefore we also use an existing
+types in Base R, we model data type 'integer64' as a contiguous \link{atomic} vector in
+memory, and we use the more basic \link{S3} class system, not \link{S4}. Like package {int64}
+we want our 'integer64' to be \link{serialize}able, therefore we also use an existing
 data type as the basis. Again the choice is obvious: R has only one 64 bit data
-type: doubles. By using [double]s, `integer64` [inherits] some functionality such
-as [is.atomic()], [length()], [length<-], [names()], [names<-], [dim()], [dim<-],
-[dimnames()], [dimnames<-].
+type: doubles. By using \link{double}s, \code{integer64} \link{inherits} some functionality such
+as \code{\link[=is.atomic]{is.atomic()}}, \code{\link[=length]{length()}}, \link{length<-}, \code{\link[=names]{names()}}, \link{names<-}, \code{\link[=dim]{dim()}}, \link{dim<-},
+\code{\link[=dimnames]{dimnames()}}, \link{dimnames<-}.
 
 Our R level functions strictly follow the functional programming paradigm:
 no modification of arguments or other side-effects. Before version 0.93  we
@@ -111,351 +114,358 @@ internally deviated from the strict paradigm in order to boost performance. Our 
 functions do not create new return values, instead we pass-in the memory to be
 returned as an argument. This gives us the freedom to apply the C-function to new
 or old vectors, which helps to avoid unnecessary memory allocation, unnecessary
-copying and unnecessary garbage collection. Prior to 0.93 _within_ our R functions
-we also deviated from conventional R programming by not using [attr<-] and
-[attributes<-] because they always did new memory allocation and copying in older
+copying and unnecessary garbage collection. Prior to 0.93 \emph{within} our R functions
+we also deviated from conventional R programming by not using \link{attr<-} and
+\link{attributes<-} because they always did new memory allocation and copying in older
 R versions. If we wanted to set attributes of return values that we have freshly
-created, we instead used functions [bit::setattr()] and [bit::setattributes()].
-From version 0.93 `bit::setattr()` is only used for manipulating [cache] objects,
-in [ramsort.integer64()], [sort.integer64()], and [as.data.frame.integer64()].
+created, we instead used functions \code{\link[bit:getsetattr]{bit::setattr()}} and \code{\link[bit:getsetattr]{bit::setattributes()}}.
+From version 0.93 \code{bit::setattr()} is only used for manipulating \link{cache} objects,
+in \code{\link[=ramsort.integer64]{ramsort.integer64()}}, \code{\link[=sort.integer64]{sort.integer64()}}, and \code{\link[=as.data.frame.integer64]{as.data.frame.integer64()}}.
+}
 
-## Arithmetic precision and coercion
+\subsection{Arithmetic precision and coercion}{
 
 The fact that we introduce 64 bit long long integers -- without introducing 128-bit
-long doubles -- creates some subtle challenges: Unlike 32 bit [integer]s, the
-`integer64` are no longer a proper subset of [double]. If a binary arithmetic
-operation does involve a `double` and a `integer`, it is a no-brainer to return
-`double` without loss of information. If an `integer64` meets a `double`, it is not
-trivial what type to return. Switching to `integer64` limits our ability to
-represent very large numbers, switching to `double` limits our ability to
-distinguish `x` from `x+1`. Since the latter is the purpose of introducing 64 bit
-integers, we usually return `integer64` from functions involving `integer64`, for
-example in <[`c()`][c.integer64]>, <[`cbind()`][cbind.integer64]>, and
-<[`rbind()`][rbind.integer64]>
+long doubles -- creates some subtle challenges: Unlike 32 bit \link{integer}s, the
+\code{integer64} are no longer a proper subset of \link{double}. If a binary arithmetic
+operation does involve a \code{double} and a \code{integer}, it is a no-brainer to return
+\code{double} without loss of information. If an \code{integer64} meets a \code{double}, it is not
+trivial what type to return. Switching to \code{integer64} limits our ability to
+represent very large numbers, switching to \code{double} limits our ability to
+distinguish \code{x} from \code{x+1}. Since the latter is the purpose of introducing 64 bit
+integers, we usually return \code{integer64} from functions involving \code{integer64}, for
+example in <\code{\link[=c.integer64]{c()}}>, <\code{\link[=cbind.integer64]{cbind()}}>, and
+<\code{\link[=rbind.integer64]{rbind()}}>
 
-Different from Base R, our operators <[`+`][+.integer64]>, <[`-`][-.integer64]>,
-<[`%/%`][%/%.integer64]>, and <[`%%`][%%.integer64]> coerce their arguments to
-`integer64` and always return `integer64`.
+Different from Base R, our operators <\code{\link[=+.integer64]{+}}>, <\code{\link[=-.integer64]{-}}>,
+<\code{\link[=\%/\%.integer64]{\%/\%}}>, and <\code{\link[=\%\%.integer64]{\%\%}}> coerce their arguments to
+\code{integer64} and always return \code{integer64}.
 
-The multiplication operator <[`*`][*.integer64]> coerces its first argument to
-`integer64` but allows its second argument to be also `double`: the second
+The multiplication operator <\code{\link[=*.integer64]{*}}> coerces its first argument to
+\code{integer64} but allows its second argument to be also \code{double}: the second
 argument is internaly coerced to 'long double' and the result of the
-multiplication is returned as `integer64`.
+multiplication is returned as \code{integer64}.
 
-The division <[`/`][/.integer64]> and power <[`^`][^.integer64]> operators also
-coerce their first argument to `integer64` and coerce internally their second
-argument to 'long double', they return as `double`, like
-<[`sqrt()`][sqrt.integer64]>, <[`log()`][log.integer64]>,
-<[`log2()`][log2.integer64]>, and <[`log10()`][log10.integer64]> do.
+The division <\code{\link[=/.integer64]{/}}> and power <\code{\link[=^.integer64]{^}}> operators also
+coerce their first argument to \code{integer64} and coerce internally their second
+argument to 'long double', they return as \code{double}, like
+<\code{\link[=sqrt.integer64]{sqrt()}}>, <\code{\link[=log.integer64]{log()}}>,
+<\code{\link[=log2.integer64]{log2()}}>, and <\code{\link[=log10.integer64]{log10()}}> do.\tabular{ccccccccc}{
+   \strong{argument1} \tab \strong{op} \tab \strong{argument2} \tab \strong{->} \tab \strong{coerced1} \tab \strong{op} \tab \strong{coerced2} \tab \strong{->} \tab \strong{result} \cr
+   integer64 \tab + \tab double \tab -> \tab integer64 \tab + \tab integer64 \tab -> \tab integer64 \cr
+   double \tab + \tab integer64 \tab -> \tab integer64 \tab + \tab integer64 \tab -> \tab integer64 \cr
+   integer64 \tab - \tab double \tab -> \tab integer64 \tab - \tab integer64 \tab -> \tab integer64 \cr
+   double \tab - \tab integer64 \tab -> \tab integer64 \tab - \tab integer64 \tab -> \tab integer64 \cr
+   integer64 \tab \%/\% \tab double \tab -> \tab integer64 \tab \%/\% \tab integer64 \tab -> \tab integer64 \cr
+   double \tab \%/\% \tab integer64 \tab -> \tab integer64 \tab \%/\% \tab integer64 \tab -> \tab integer64 \cr
+   integer64 \tab \%\% \tab double \tab -> \tab integer64 \tab \%\% \tab integer64 \tab -> \tab integer64 \cr
+   double \tab \%\% \tab integer64 \tab -> \tab integer64 \tab \%\% \tab integer64 \tab -> \tab integer64 \cr
+   integer64 \tab * \tab double \tab -> \tab integer64 \tab * \tab long double \tab -> \tab integer64 \cr
+   double \tab * \tab integer64 \tab -> \tab integer64 \tab * \tab integer64 \tab -> \tab integer64 \cr
+   integer64 \tab / \tab double \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
+   double \tab / \tab integer64 \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
+   integer64 \tab ^ \tab double \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
+   double \tab ^ \tab integer64 \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
+}
 
-| **argument1** | **op** | **argument2** | **->** | **coerced1** | **op** | **coerced2** | **->** | **result** |
-|:-------------:|:------:|:-------------:|:------:|:------------:|:------:|:------------:|:------:|:----------:|
-| integer64     | +      | double        | ->     | integer64    | +      | integer64    | ->     | integer64  |
-| double        | +      | integer64     | ->     | integer64    | +      | integer64    | ->     | integer64  |
-| integer64     | -      | double        | ->     | integer64    | -      | integer64    | ->     | integer64  |
-| double        | -      | integer64     | ->     | integer64    | -      | integer64    | ->     | integer64  |
-| integer64     | %/%    | double        | ->     | integer64    | %/%    | integer64    | ->     | integer64  |
-| double        | %/%    | integer64     | ->     | integer64    | %/%    | integer64    | ->     | integer64  |
-| integer64     | %%     | double        | ->     | integer64    | %%     | integer64    | ->     | integer64  |
-| double        | %%     | integer64     | ->     | integer64    | %%     | integer64    | ->     | integer64  |
-| integer64     | *      | double        | ->     | integer64    | *      | long double  | ->     | integer64  |
-| double        | *      | integer64     | ->     | integer64    | *      | integer64    | ->     | integer64  |
-| integer64     | /      | double        | ->     | integer64    | /      | long double  | ->     | double     |
-| double        | /      | integer64     | ->     | integer64    | /      | long double  | ->     | double     |
-| integer64     | ^      | double        | ->     | integer64    | /      | long double  | ->     | double     |
-| double        | ^      | integer64     | ->     | integer64    | /      | long double  | ->     | double     |
+}
 
-## Creating and testing S3 class 'integer64'
+\subsection{Creating and testing S3 class 'integer64'}{
 
-Our creator function `integer64` takes an argument `length`, creates an atomic
+Our creator function \code{integer64} takes an argument \code{length}, creates an atomic
 double vector of this length, attaches an S3 class attribute 'integer64' to it,
 and that's it. We simply rely on S3 method dispatch and interpret those 64-bit
 elements as 'long long int'.
 
-[is.double()] currently returns TRUE for `integer64` and might return `FALSE` in
-a later release. Consider `is.double()` to have undefined behavior and do query
-[is.integer64()] _before_ querying `is.double()`.
+\code{\link[=is.double]{is.double()}} currently returns TRUE for \code{integer64} and might return \code{FALSE} in
+a later release. Consider \code{is.double()} to have undefined behavior and do query
+\code{\link[=is.integer64]{is.integer64()}} \emph{before} querying \code{is.double()}.
 
-The methods [is.integer64()] and [is.vector()] both return `TRUE` for `integer64`.
-Note that we did not patch [storage.mode()] and [typeof()], which both continue
-returning 'double'. Like for 32 bit [integer], [mode()] returns 'numeric' and
-[as.double()] tries coercing to [double]. It is possible that 'integer64' becomes
-a [vmode] in package {ff}.
+The methods \code{\link[=is.integer64]{is.integer64()}} and \code{\link[=is.vector]{is.vector()}} both return \code{TRUE} for \code{integer64}.
+Note that we did not patch \code{\link[=storage.mode]{storage.mode()}} and \code{\link[=typeof]{typeof()}}, which both continue
+returning 'double'. Like for 32 bit \link{integer}, \code{\link[=mode]{mode()}} returns 'numeric' and
+\code{\link[=as.double]{as.double()}} tries coercing to \link{double}. It is possible that 'integer64' becomes
+a \link{vmode} in package {ff}.
 
-Further methods for creating `integer64` are <[`range()`][range.integer64]> which
+Further methods for creating \code{integer64} are <\code{\link[=range.integer64]{range()}}> which
 returns the range of the data type if calles without arguments,
-<[`rep()`][rep.integer64]>, <[`seq()`][seq.integer64]>.
+<\code{\link[=rep.integer64]{rep()}}>, <\code{\link[=seq.integer64]{seq()}}>.
 
-For all available methods on `integer64` vectors see the index below and the examples.
+For all available methods on \code{integer64} vectors see the index below and the examples.
+}
 
-## Index of implemented methods
+\subsection{Index of implemented methods}{\tabular{rrl}{
+   \strong{creating, testing, printing} \tab \strong{see also} \tab \strong{description} \cr
+   \code{NA_integer64_} \tab \link{NA_integer_} \tab NA constant \cr
+   \code{integer64} \tab \link{integer} \tab create zero atomic vector \cr
+   \code{\link[=runif64]{runif64()}} \tab \code{\link[=runif]{runif()}} \tab create random vector \cr
+   \code{\link[=rep.integer64]{rep.integer64()}} \tab \code{\link[=rep]{rep()}} \tab  \cr
+   \code{\link[=seq.integer64]{seq.integer64()}} \tab \code{\link[=seq]{seq()}} \tab  \cr
+   \code{\link[=is.integer64]{is.integer64()}} \tab \code{\link[=is]{is()}} \tab  \cr
+    \tab \code{\link[=is.integer]{is.integer()}} \tab inherited from Base R \cr
+   \code{\link[=is.vector.integer64]{is.vector.integer64()}} \tab \code{\link[=is.vector]{is.vector()}} \tab  \cr
+   \code{\link[=identical.integer64]{identical.integer64()}} \tab \code{\link[=identical]{identical()}} \tab  \cr
+   \link{length<-.integer64} \tab \link{length<-} \tab  \cr
+    \tab \code{\link[=length]{length()}} \tab inherited from Base R \cr
+    \tab \link{names<-} \tab inherited from Base R \cr
+    \tab \code{\link[=names]{names()}} \tab inherited from Base R \cr
+    \tab \link{dim<-} \tab inherited from Base R \cr
+    \tab \code{\link[=dim]{dim()}} \tab inherited from Base R \cr
+    \tab \link{dimnames<-} \tab inherited from Base R \cr
+    \tab \code{\link[=dimnames]{dimnames()}} \tab inherited from Base R \cr
+    \tab \code{\link[=str]{str()}} \tab inherited from Base R, does not print values correctly \cr
+   \code{\link[=print.integer64]{print.integer64()}} \tab \code{\link[=print]{print()}} \tab  \cr
+   \code{\link[=str.integer64]{str.integer64()}} \tab \code{\link[=str]{str()}} \tab  \cr
+}
+\tabular{rrl}{
+   \strong{coercing to integer64} \tab \strong{see also} \tab \strong{description} \cr
+   \code{\link[=as.integer64]{as.integer64()}} \tab  \tab generic \cr
+   \code{\link[=as.integer64.bitstring]{as.integer64.bitstring()}} \tab \code{\link[=as.bitstring]{as.bitstring()}} \tab  \cr
+   \code{\link[=as.integer64.character]{as.integer64.character()}} \tab \code{\link[=character]{character()}} \tab  \cr
+   \code{\link[=as.integer64.double]{as.integer64.double()}} \tab \code{\link[=double]{double()}} \tab  \cr
+   \code{\link[=as.integer64.integer]{as.integer64.integer()}} \tab \code{\link[=integer]{integer()}} \tab  \cr
+   \code{\link[=as.integer64.integer64]{as.integer64.integer64()}} \tab \code{integer64} \tab  \cr
+   \code{\link[=as.integer64.logical]{as.integer64.logical()}} \tab \code{\link[=logical]{logical()}} \tab  \cr
+   \code{\link[=as.integer64.NULL]{as.integer64.NULL()}} \tab \code{\link[=NULL]{NULL()}} \tab  \cr
+}
+\tabular{rrl}{
+   \strong{coercing from integer64} \tab \strong{see also} \tab \strong{description} \cr
+   \code{\link[=as.list.integer64]{as.list.integer64()}} \tab \code{\link[=as.list]{as.list()}} \tab generic \cr
+   \code{\link[=as.bitstring]{as.bitstring()}} \tab \code{\link[=as.bitstring]{as.bitstring()}} \tab generic \cr
+   \code{\link[=as.bitstring.integer64]{as.bitstring.integer64()}} \tab  \tab  \cr
+   \code{\link[=as.character.integer64]{as.character.integer64()}} \tab \code{\link[=as.character]{as.character()}} \tab  \cr
+   \code{\link[=as.double.integer64]{as.double.integer64()}} \tab \code{\link[=as.double]{as.double()}} \tab  \cr
+   \code{\link[=as.integer.integer64]{as.integer.integer64()}} \tab \code{\link[=as.integer]{as.integer()}} \tab  \cr
+   \code{\link[=as.logical.integer64]{as.logical.integer64()}} \tab \code{\link[=as.logical]{as.logical()}} \tab  \cr
+}
+\tabular{rrl}{
+   \strong{data structures} \tab \strong{see also} \tab \strong{description} \cr
+   \code{\link[=c.integer64]{c.integer64()}} \tab \code{\link[=c]{c()}} \tab vector concatenate \cr
+   \code{\link[=cbind.integer64]{cbind.integer64()}} \tab \code{\link[=cbind]{cbind()}} \tab column bind \cr
+   \code{\link[=rbind.integer64]{rbind.integer64()}} \tab \code{\link[=rbind]{rbind()}} \tab row bind \cr
+   \code{\link[=as.data.frame.integer64]{as.data.frame.integer64()}} \tab \code{\link[=as.data.frame]{as.data.frame()}} \tab coerce atomic object to data.frame \cr
+}
 
-| **creating, testing, printing** | **see also**   | **description**           |
-|--------------------------------:|---------------:|:--------------------------|
-|                 `NA_integer64_` |  [NA_integer_] | NA constant               |
-|                     `integer64` |      [integer] | create zero atomic vector |
-|                     [runif64()] |      [runif()] | create random vector      |
-|               [rep.integer64()] |        [rep()] |                           |
-|               [seq.integer64()] |        [seq()] |                           |
-|                [is.integer64()] |         [is()] |                           |
-|                                 | [is.integer()] | inherited from Base R     |
-|         [is.vector.integer64()] |  [is.vector()] |                           |
-|         [identical.integer64()] |  [identical()] |                           |
-|            [length<-.integer64] |     [length<-] |                           |
-|                                 |     [length()] | inherited from Base R     |
-|                                 |      [names<-] | inherited from Base R     |
-|                                 |      [names()] | inherited from Base R     |
-|                                 |        [dim<-] | inherited from Base R     |
-|                                 |        [dim()] | inherited from Base R     |
-|                                 |   [dimnames<-] | inherited from Base R     |
-|                                 |   [dimnames()] | inherited from Base R     |
-|                                 |        [str()] | inherited from Base R, does not print values correctly |
-|             [print.integer64()] |      [print()] |                           |
-|               [str.integer64()] |        [str()] |                           |
 
-| **coercing to integer64**  | **see also**     | **description** |
-|---------------------------:|-----------------:|:----------------|
-|           [as.integer64()] |                  | generic         |
-| [as.integer64.bitstring()] | [as.bitstring()] |                 |
-| [as.integer64.character()] |    [character()] |                 |
-|    [as.integer64.double()] |       [double()] |                 |
-|   [as.integer64.integer()] |      [integer()] |                 |
-| [as.integer64.integer64()] |      `integer64` |                 |
-|   [as.integer64.logical()] |      [logical()] |                 |
-|      [as.integer64.NULL()] |         [NULL()] |                 |
+\if{html}{\out{<div class="sourceCode">}}\preformatted{                          |    [data.frame()] | inherited from Base R since we have coercion |
+}\if{html}{\out{</div>}}\tabular{rrl}{
+   \strong{subscripting} \tab \strong{see also} \tab \strong{description} \cr
+   [\verb{[.integer64}] \tab [\code{[}] \tab vector and array extract \cr
+   [\verb{[<-.integer64}] \tab [\verb{[<-}] \tab vector and array assign \cr
+   [\verb{[[.integer64}] \tab [\code{[[}] \tab scalar extract \cr
+   [\verb{[[<-.integer64}] \tab [\verb{[[<-}] \tab scalar assign \cr
+}
+\tabular{rrl}{
+   \strong{binary operators} \tab \strong{see also} \tab \strong{description} \cr
+   \code{\link{+.integer64}} \tab \code{\link{+}} \tab returns integer64 \cr
+   \code{\link{-.integer64}} \tab \code{\link{-}} \tab returns integer64 \cr
+   \code{\link{*.integer64}} \tab \code{\link{*}} \tab returns integer64 \cr
+   \code{\link{^.integer64}} \tab \code{\link{^}} \tab returns double \cr
+   \code{\link{/.integer64}} \tab \code{\link{/}} \tab returns double \cr
+   \code{\link{\%/\%.integer64}} \tab \link{\%/\%} \tab returns integer64 \cr
+   \code{\link{\%\%.integer64}} \tab \link{\%\%} \tab returns integer64 \cr
+}
+\tabular{rrl}{
+   \strong{comparison operators} \tab \strong{see also} \tab \strong{description} \cr
+   \link{==.integer64} \tab \link{==} \tab  \cr
+   \link{!=.integer64} \tab \link{!=} \tab  \cr
+   \link{<.integer64} \tab \link{<} \tab  \cr
+   \link{<=.integer64} \tab \link{<=} \tab  \cr
+   \link{>.integer64} \tab \link{>} \tab  \cr
+   \link{>=.integer64} \tab \link{>=} \tab  \cr
+}
+\tabular{rrl}{
+   \strong{logical operators} \tab \strong{see also} \tab \strong{description} \cr
+   \link{!.integer64} \tab \link{!} \tab  \cr
+   \link{&.integer64} \tab \link{&} \tab  \cr
+   [ \tab .integer64] \tab [ \cr
+   \link{xor.integer64} \tab \code{\link[=xor]{xor()}} \tab  \cr
+}
+\tabular{rrl}{
+   \strong{math functions} \tab \strong{see also} \tab \strong{description} \cr
+   \code{\link[=is.na.integer64]{is.na.integer64()}} \tab \code{\link[=is.na]{is.na()}} \tab returns logical \cr
+   \code{\link[=format.integer64]{format.integer64()}} \tab \code{\link[=format]{format()}} \tab returns character \cr
+   \code{\link[=abs.integer64]{abs.integer64()}} \tab \code{\link[=abs]{abs()}} \tab returns integer64 \cr
+   \code{\link[=sign.integer64]{sign.integer64()}} \tab \code{\link[=sign]{sign()}} \tab returns integer64 \cr
+   \code{\link[=log.integer64]{log.integer64()}} \tab \code{\link[=log]{log()}} \tab returns double \cr
+   \code{\link[=log10.integer64]{log10.integer64()}} \tab \code{\link[=log10]{log10()}} \tab returns double \cr
+   \code{\link[=log2.integer64]{log2.integer64()}} \tab \code{\link[=log2]{log2()}} \tab returns double \cr
+   \code{\link[=sqrt.integer64]{sqrt.integer64()}} \tab \code{\link[=sqrt]{sqrt()}} \tab returns double \cr
+   \code{\link[=ceiling.integer64]{ceiling.integer64()}} \tab \code{\link[=ceiling]{ceiling()}} \tab dummy returning its argument \cr
+   \code{\link[=floor.integer64]{floor.integer64()}} \tab \code{\link[=floor]{floor()}} \tab dummy returning its argument \cr
+   \code{\link[=trunc.integer64]{trunc.integer64()}} \tab \code{\link[=trunc]{trunc()}} \tab dummy returning its argument \cr
+   \code{\link[=round.integer64]{round.integer64()}} \tab \code{\link[=round]{round()}} \tab dummy returning its argument \cr
+   \code{\link[=signif.integer64]{signif.integer64()}} \tab \code{\link[=signif]{signif()}} \tab dummy returning its argument \cr
+}
+\tabular{rrl}{
+   \strong{cumulative functions} \tab \strong{see also} \tab \strong{description} \cr
+   \code{\link[=cummin.integer64]{cummin.integer64()}} \tab \code{\link[=cummin]{cummin()}} \tab  \cr
+   \code{\link[=cummax.integer64]{cummax.integer64()}} \tab \code{\link[=cummax]{cummax()}} \tab  \cr
+   \code{\link[=cumsum.integer64]{cumsum.integer64()}} \tab \code{\link[=cumsum]{cumsum()}} \tab  \cr
+   \code{\link[=cumprod.integer64]{cumprod.integer64()}} \tab \code{\link[=cumprod]{cumprod()}} \tab  \cr
+   \code{\link[=diff.integer64]{diff.integer64()}} \tab \code{\link[=diff]{diff()}} \tab  \cr
+}
+\tabular{rrl}{
+   \strong{summary functions} \tab \strong{see also} \tab \strong{description} \cr
+   \code{\link[=range.integer64]{range.integer64()}} \tab \code{\link[=range]{range()}} \tab  \cr
+   \code{\link[=min.integer64]{min.integer64()}} \tab \code{\link[=min]{min()}} \tab  \cr
+   \code{\link[=max.integer64]{max.integer64()}} \tab \code{\link[=max]{max()}} \tab  \cr
+   \code{\link[=sum.integer64]{sum.integer64()}} \tab \code{\link[=sum]{sum()}} \tab  \cr
+   \code{\link[=mean.integer64]{mean.integer64()}} \tab \code{\link[=mean]{mean()}} \tab  \cr
+   \code{\link[=prod.integer64]{prod.integer64()}} \tab \code{\link[=prod]{prod()}} \tab  \cr
+   \code{\link[=all.integer64]{all.integer64()}} \tab \code{\link[=all]{all()}} \tab  \cr
+   \code{\link[=any.integer64]{any.integer64()}} \tab \code{\link[=any]{any()}} \tab  \cr
+}
+\tabular{rrl}{
+   \strong{algorithmically complex functions} \tab \strong{see also} \tab \strong{description (caching)} \cr
+   \code{\link[=match.integer64]{match.integer64()}} \tab \code{\link[=match]{match()}} \tab position of x in table (h//o/so) \cr
+   \link{\%in\%.integer64} \tab \link{\%in\%} \tab is x in table? (h//o/so) \cr
+   \code{\link[=duplicated.integer64]{duplicated.integer64()}} \tab \code{\link[=duplicated]{duplicated()}} \tab is current element duplicate of previous one? (h//o/so) \cr
+   \code{\link[=unique.integer64]{unique.integer64()}} \tab \code{\link[=unique]{unique()}} \tab (shorter) vector of unique values only (h/s/o/so) \cr
+   \code{\link[=unipos.integer64]{unipos.integer64()}} \tab \code{\link[=unipos]{unipos()}} \tab positions corresponding to unique values (h/s/o/so) \cr
+   \code{\link[=tiepos.integer64]{tiepos.integer64()}} \tab \code{\link[=tiepos]{tiepos()}} \tab positions of values that are tied (//o/so) \cr
+   \code{\link[=keypos.integer64]{keypos.integer64()}} \tab \code{\link[=keypos]{keypos()}} \tab position of current value in sorted list of unique values (//o/so) \cr
+   \code{\link[=as.factor.integer64]{as.factor.integer64()}} \tab \code{\link[=as.factor]{as.factor()}} \tab convert to (unordered) factor with sorted levels of previous values (//o/so) \cr
+   \code{\link[=as.ordered.integer64]{as.ordered.integer64()}} \tab \code{\link[=as.ordered]{as.ordered()}} \tab convert to ordered factor with sorted levels of previous values (//o/so) \cr
+   \code{\link[=table.integer64]{table.integer64()}} \tab \code{\link[=table]{table()}} \tab unique values and their frequencies (h/s/o/so) \cr
+   \code{\link[=sort.integer64]{sort.integer64()}} \tab \code{\link[=sort]{sort()}} \tab sorted vector (/s/o/so) \cr
+   \code{\link[=order.integer64]{order.integer64()}} \tab \code{\link[=order]{order()}} \tab positions of elements that would create sorted vector (//o/so) \cr
+   \code{\link[=rank.integer64]{rank.integer64()}} \tab \code{\link[=rank]{rank()}} \tab (average) ranks of non-NAs, NAs kept in place (/s/o/so) \cr
+   \code{\link[=quantile.integer64]{quantile.integer64()}} \tab \code{\link[=quantile]{quantile()}} \tab (existing) values at specified percentiles (/s/o/so) \cr
+   \code{\link[=median.integer64]{median.integer64()}} \tab \code{\link[=median]{median()}} \tab (existing) value at percentile 0.5 (/s/o/so) \cr
+   \code{\link[=summary.integer64]{summary.integer64()}} \tab \code{\link[=summary]{summary()}} \tab (/s/o/so) \cr
+   \code{\link[=all.equal.integer64]{all.equal.integer64()}} \tab \code{\link[=all.equal]{all.equal()}} \tab test if two objects are (nearly) equal (/s/o/so) \cr
+}
+\tabular{rrl}{
+   \strong{helper functions} \tab \strong{see also} \tab \strong{description} \cr
+   \code{\link[=minusclass]{minusclass()}} \tab \code{\link[=minusclass]{minusclass()}} \tab removing class attritbute \cr
+   \code{\link[=plusclass]{plusclass()}} \tab \code{\link[=plusclass]{plusclass()}} \tab inserting class attribute \cr
+   \code{\link[=binattr]{binattr()}} \tab \code{\link[=binattr]{binattr()}} \tab define binary op behaviour \cr
+}
+\tabular{rrl}{
+   \strong{tested I/O functions} \tab \strong{see also} \tab \strong{description} \cr
+    \tab \code{\link[=read.table]{read.table()}} \tab inherited from Base R \cr
+    \tab \code{\link[=write.table]{write.table()}} \tab inherited from Base R \cr
+    \tab \code{\link[=serialize]{serialize()}} \tab inherited from Base R \cr
+    \tab \code{\link[=unserialize]{unserialize()}} \tab inherited from Base R \cr
+    \tab \code{\link[=save]{save()}} \tab inherited from Base R \cr
+    \tab \code{\link[=load]{load()}} \tab inherited from Base R \cr
+    \tab \code{\link[=dput]{dput()}} \tab inherited from Base R \cr
+    \tab \code{\link[=dget]{dget()}} \tab inherited from Base R \cr
+}
 
-| **coercing from integer64** | **see also**     | **description** |
-|----------------------------:|-----------------:|:----------------|
-|       [as.list.integer64()] |      [as.list()] | generic         |
-|            [as.bitstring()] | [as.bitstring()] | generic         |
-|  [as.bitstring.integer64()] |                  |                 |
-|  [as.character.integer64()] | [as.character()] |                 |
-|     [as.double.integer64()] |    [as.double()] |                 |
-|    [as.integer.integer64()] |   [as.integer()] |                 |
-|    [as.logical.integer64()] |   [as.logical()] |                 |
+}
 
-| **data structures**         | **see also**      | **description**                    |
-|----------------------------:|------------------:|:-----------------------------------|
-|             [c.integer64()] |             [c()] | vector concatenate                 |
-|         [cbind.integer64()] |         [cbind()] | column bind                        |
-|         [rbind.integer64()] |         [rbind()] | row bind                           |
-| [as.data.frame.integer64()] | [as.data.frame()] | coerce atomic object to data.frame |
-                              |    [data.frame()] | inherited from Base R since we have coercion |
+\subsection{Limitations inherited from implementing 64 bit integers via an external package}{
+\itemize{
+\item \strong{vector size} of atomic vectors is still limited to
+<\code{\link[=.Machine]{.Machine$integer.max}}>. However, external memory extending packages
+such as {ff} or {bigmemory} can extend their address space now with \code{integer64}.
+Having 64 bit integers also help with those not so obvious address issues that
+arise once we exchange data with SQL databases and datawarehouses, which use big
+integers as surrogate keys, e.g. on indexed primary key columns. This puts R into
+a relatively strong position compared to certain commercial statistical softwares,
+which sell database connectivity but neither have the range of 64 bit integers,
+nor have integers at all, nor have a single numeric data type in their
+macro-glue-language.
+\item \strong{literals} such as \verb{123LL} would require changes to Base R, up to then we need
+to write (and call) \code{as.integer64(123L)} or \code{as.integer64(123)} or
+\code{as.integer64('123')}. Only the latter allows to specify numbers beyond Base R's
+numeric data types and therefore is the recommended way to use -- using only one
+way may facilitate migrating code to literals at a later stage.
+}
+}
 
-| **subscripting**   | **see also**   | **description**          |
-|-------------------:|---------------:|:-------------------------|
-|    [`[.integer64`] |          [`[`] | vector and array extract |
-|  [`[<-.integer64`] |        [`[<-`] | vector and array assign  |
-|   [`[[.integer64`] |         [`[[`] | scalar extract           |
-| [`[[<-.integer64`] |       [`[[<-`] | scalar assign            |
+\subsection{Limitations inherited from Base R, Core team, can you change this?}{
+\itemize{
+\item **\code{\link[=identical]{identical()}} with default parameters does not distinguish all bit-patterns of
+doubles. For testing purposes we provide a wrapper \code{\link[=identical.integer64]{identical.integer64()}} that
+will distinguish all bit-patterns. It would be desireable to have a single call
+of \code{identical()} handle both, \link{double} and \code{integer64}.
+\item the \strong{colon} operator \link{:} officially does not dispatch S3 methods, however, we
+have made it generic:
 
-| **binary operators** | **see also** | **description**   |
-|---------------------:|-------------:|:------------------|
-|      [`+.integer64`] |        [`+`] | returns integer64 |
-|      [`-.integer64`] |        [`-`] | returns integer64 |
-|      [`*.integer64`] |        [`*`] | returns integer64 |
-|      [`^.integer64`] |        [`^`] | returns double    |
-|      [`/.integer64`] |        [`/`] | returns double    |
-|    [`%/%.integer64`] |        [%/%] | returns integer64 |
-|     [`%%.integer64`] |         [%%] | returns integer64 |
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{from <- lim.integer64()[1]
+to <- from+99
+from:to
+}\if{html}{\out{</div>}}
 
-| **comparison operators** | **see also** | **description** |
-|-------------------------:|-------------:|:----------------|
-|           [==.integer64] |         [==] | |
-|           [!=.integer64] |         [!=] | |
-|            [<.integer64] |          [<] | |
-|           [<=.integer64] |         [<=] | |
-|            [>.integer64] |          [>] | |
-|           [>=.integer64] |         [>=] | |
+As a limitation remains: it will only dispatch at its first argument \code{from} but
+not at its second \code{to}.
+\item \strong{\code{\link[=is.double]{is.double()}}} does not dispatch S3 methods, However, we have made it generic
+and it will return \code{FALSE} on \code{integer64}.
+\item \strong{\code{\link[=c]{c()}}} only dispatches \code{\link[=c.integer64]{c.integer64()}} if the first argument is \code{integer64}
+and it does not recursively dispatch the proper method when called with argument
+\code{recursive=TRUE}. Therefore \code{c(list(integer64, integer64))} does not work and
+for now you can only call \code{c.integer64(list(x, x))}.
+\item \strong{generic binary operators} fail to dispatch \emph{any} user-defined S3 method
+if the two arguments have two different S3 classes. For example we have two
+classes \link[bit:bit]{bit::bit} and \link[bit:bitwhich]{bit::bitwhich} sparsely representing boolean vectors
+and we have methods <\code{\link[bit:xor]{&.bit}}> and
+<\code{\link[bit:xor]{&.bitwhich}}>. For an expression involving both as in
+\code{bit & bitwhich}, none of the two methods is dispatched. Instead a standard
+method is dispatched, which neither handles \code{bit} nor \code{bitwhich}. Although
+it lacks symmetry, the better choice would be to dispatch simply the method
+of the class of the first argument in case of class conflict. This choice would
+allow authors of extension packages providing coherent behaviour at least within
+their contributed classes. But as long as none of the package author's methods is
+dispatched, they cannot handle the conflicting classes at all.
+\item \strong{\code{\link[=unlist]{unlist()}}} is not generic and if it were, we would face similar problems as
+with \code{\link[=c]{c()}}
+\item \strong{\code{\link[=vector]{vector()}}} with argument \code{mode='integer64'} cannot work without adjustment
+of Base R
+\item \strong{\code{\link[=as.vector]{as.vector()}}} with argument \code{mode='integer64'} cannot work without adjustment
+of Base R
+\item \strong{\code{\link[=is.vector]{is.vector()}}} does not dispatch its method \code{\link[=is.vector.integer64]{is.vector.integer64()}}
+\item \strong{\code{\link[=mode<-]{mode<-()}}} drops the class 'integer64' which is returned from
+\code{as.integer64()}. Also it does not remove an existing class 'integer64' when
+assigning mode 'integer'.
+\item \strong{\code{\link[=storage.mode<-]{storage.mode<-()}}} does not support external data types such as \code{integer64}
+\item \strong{\code{\link[=matrix]{matrix()}}} does drop the 'integer64' class attribute.
+\item \strong{\code{\link[=array]{array()}}}  does drop the 'integer64' class attribute.
+\itemize{
+\item In current R versions (1.15.1) this can be circumvented by activating the
+function \code{as.vector.integer64()}. However, the CRAN maintainer has requested
+to remove \code{as.vector.integer64()}, even at the price of breaking previously
+working functionality of the package.
+}
+\item \strong{\code{\link[=str]{str()}}} does not print the values of \code{integer64} correctly
+}
+}
 
-| **logical operators** | **see also** | **description** |
-|----------------------:|-------------:|:----------------|
-|         [!.integer64] |          [!] | |
-|         [&.integer64] |          [&] | |
-|         [|.integer64] |          [|] | |
-|       [xor.integer64] |      [xor()] | |
-
-| **math functions**    | **see also** | **description**              |
-|----------------------:|-------------:|:-----------------------------|
-|   [is.na.integer64()] |    [is.na()] | returns logical              |
-|  [format.integer64()] |   [format()] | returns character            |
-|     [abs.integer64()] |      [abs()] | returns integer64            |
-|    [sign.integer64()] |     [sign()] | returns integer64            |
-|     [log.integer64()] |      [log()] | returns double               |
-|   [log10.integer64()] |    [log10()] | returns double               |
-|    [log2.integer64()] |     [log2()] | returns double               |
-|    [sqrt.integer64()] |     [sqrt()] | returns double               |
-| [ceiling.integer64()] |  [ceiling()] | dummy returning its argument |
-|   [floor.integer64()] |    [floor()] | dummy returning its argument |
-|   [trunc.integer64()] |    [trunc()] | dummy returning its argument |
-|   [round.integer64()] |    [round()] | dummy returning its argument |
-|  [signif.integer64()] |   [signif()] | dummy returning its argument |
-
-| **cumulative functions** | **see also** | **description** |
-|-------------------------:|-------------:|:----------------|
-|     [cummin.integer64()] |   [cummin()] | |
-|     [cummax.integer64()] |   [cummax()] | |
-|     [cumsum.integer64()] |   [cumsum()] | |
-|    [cumprod.integer64()] |  [cumprod()] | |
-|       [diff.integer64()] |     [diff()] | |
-
-| **summary functions** | **see also** | **description** |
-|----------------------:|-------------:|:----------------|
-|   [range.integer64()] |    [range()] | |
-|     [min.integer64()] |      [min()] | |
-|     [max.integer64()] |      [max()] | |
-|     [sum.integer64()] |      [sum()] | |
-|    [mean.integer64()] |     [mean()] | |
-|    [prod.integer64()] |     [prod()] | |
-|     [all.integer64()] |      [all()] | |
-|     [any.integer64()] |      [any()] | |
-
-| **algorithmically complex functions** | **see also** | **description (caching)**  |
-|--------------------------------------:|-------------:|:---------------------------|
-|      [match.integer64()] |      [match()] | position of x in table (h//o/so) |
-|         [%in%.integer64] |         [%in%] | is x in table? (h//o/so) |
-| [duplicated.integer64()] | [duplicated()] | is current element duplicate of previous one? (h//o/so) |
-|     [unique.integer64()] |     [unique()] | (shorter) vector of unique values only (h/s/o/so) |
-|     [unipos.integer64()] |     [unipos()] | positions corresponding to unique values (h/s/o/so) |
-|     [tiepos.integer64()] |     [tiepos()] | positions of values that are tied (//o/so) |
-|     [keypos.integer64()] |     [keypos()] | position of current value in sorted list of unique values (//o/so) |
-|  [as.factor.integer64()] |  [as.factor()] | convert to (unordered) factor with sorted levels of previous values (//o/so) |
-| [as.ordered.integer64()] | [as.ordered()] | convert to ordered factor with sorted levels of previous values (//o/so) |
-|      [table.integer64()] |      [table()] | unique values and their frequencies (h/s/o/so) |
-|       [sort.integer64()] |       [sort()] | sorted vector (/s/o/so) |
-|      [order.integer64()] |      [order()] | positions of elements that would create sorted vector (//o/so) |
-|       [rank.integer64()] |       [rank()] | (average) ranks of non-NAs, NAs kept in place (/s/o/so) |
-|   [quantile.integer64()] |   [quantile()] | (existing) values at specified percentiles (/s/o/so) |
-|     [median.integer64()] |     [median()] | (existing) value at percentile 0.5 (/s/o/so) |
-|    [summary.integer64()] |    [summary()] | (/s/o/so) |
-|  [all.equal.integer64()] |  [all.equal()] | test if two objects are (nearly) equal (/s/o/so) |
-
-| **helper functions** | **see also**   | **description**            |
-|-----------------:|---------------:|:---------------------------|
-|   [minusclass()] | [minusclass()] |  removing class attritbute |
-|    [plusclass()] |  [plusclass()] |  inserting class attribute |
-|      [binattr()] |    [binattr()] | define binary op behaviour |
-
-| **tested I/O functions** | **see also**    | **description**       |
-|-------------------------:|----------------:|:----------------------|
-|                          |  [read.table()] | inherited from Base R |
-|                          | [write.table()] | inherited from Base R |
-|                          |   [serialize()] | inherited from Base R |
-|                          | [unserialize()] | inherited from Base R |
-|                          |        [save()] | inherited from Base R |
-|                          |        [load()] | inherited from Base R |
-|                          |        [dput()] | inherited from Base R |
-|                          |        [dget()] | inherited from Base R |
-
-## Limitations inherited from implementing 64 bit integers via an external package
-
- - **vector size** of atomic vectors is still limited to
-   <[`.Machine$integer.max`][.Machine]>. However, external memory extending packages
-   such as {ff} or {bigmemory} can extend their address space now with `integer64`.
-   Having 64 bit integers also help with those not so obvious address issues that
-   arise once we exchange data with SQL databases and datawarehouses, which use big
-   integers as surrogate keys, e.g. on indexed primary key columns. This puts R into
-   a relatively strong position compared to certain commercial statistical softwares,
-   which sell database connectivity but neither have the range of 64 bit integers,
-   nor have integers at all, nor have a single numeric data type in their
-   macro-glue-language.
- - **literals** such as `123LL` would require changes to Base R, up to then we need
-   to write (and call) `as.integer64(123L)` or `as.integer64(123)` or
-   `as.integer64('123')`. Only the latter allows to specify numbers beyond Base R's
-   numeric data types and therefore is the recommended way to use -- using only one
-   way may facilitate migrating code to literals at a later stage.
-
-## Limitations inherited from Base R, Core team, can you change this?
-
- -  **[identical()] with default parameters does not distinguish all bit-patterns of
-    doubles. For testing purposes we provide a wrapper [identical.integer64()] that
-    will distinguish all bit-patterns. It would be desireable to have a single call
-    of `identical()` handle both, [double] and `integer64`.
-
- - the **colon** operator [:] officially does not dispatch S3 methods, however, we
-   have made it generic:
-
-   ```r
-   from <- lim.integer64()[1]
-   to <- from+99
-   from:to
-   ```
-
-   As a limitation remains: it will only dispatch at its first argument `from` but
-   not at its second `to`.
-
- - **[is.double()]** does not dispatch S3 methods, However, we have made it generic
-   and it will return `FALSE` on `integer64`.
-
- - **[c()]** only dispatches [c.integer64()] if the first argument is `integer64`
-   and it does not recursively dispatch the proper method when called with argument
-   `recursive=TRUE`. Therefore `c(list(integer64, integer64))` does not work and
-   for now you can only call `c.integer64(list(x, x))`.
-
- - **generic binary operators** fail to dispatch *any* user-defined S3 method
-    if the two arguments have two different S3 classes. For example we have two
-    classes [bit::bit] and [bit::bitwhich] sparsely representing boolean vectors
-    and we have methods <[`&.bit`][bit::xor.default]> and
-    <[`&.bitwhich`][bit::xor.default]>. For an expression involving both as in
-    `bit & bitwhich`, none of the two methods is dispatched. Instead a standard
-    method is dispatched, which neither handles `bit` nor `bitwhich`. Although
-    it lacks symmetry, the better choice would be to dispatch simply the method
-    of the class of the first argument in case of class conflict. This choice would
-    allow authors of extension packages providing coherent behaviour at least within
-    their contributed classes. But as long as none of the package author's methods is
-    dispatched, they cannot handle the conflicting classes at all.
-
- - **[unlist()]** is not generic and if it were, we would face similar problems as
-   with [c()]
- - **[vector()]** with argument `mode='integer64'` cannot work without adjustment
-   of Base R
- - **[as.vector()]** with argument `mode='integer64'` cannot work without adjustment
-   of Base R
- - **[is.vector()]** does not dispatch its method [is.vector.integer64()]
- - **[mode<-()]** drops the class 'integer64' which is returned from
-   `as.integer64()`. Also it does not remove an existing class 'integer64' when
-   assigning mode 'integer'.
- - **[storage.mode<-()]** does not support external data types such as `integer64`
- - **[matrix()]** does drop the 'integer64' class attribute.
- - **[array()]**  does drop the 'integer64' class attribute.
-   + In current R versions (1.15.1) this can be circumvented by activating the
-     function `as.vector.integer64()`. However, the CRAN maintainer has requested
-     to remove `as.vector.integer64()`, even at the price of breaking previously
-     working functionality of the package.
-
- - **[str()]** does not print the values of `integer64` correctly
-
-## Further limitations
-
- - **subscripting** non-existing elements and subscripting with `NA`s is currently
-   not supported. Such subscripting currently returns `9218868437227407266` instead
-   of `NA` (the `NA` value of the underlying double code). Following the full R
-   behaviour here would either destroy performance or require extensive C-coding.
+\subsection{Further limitations}{
+\itemize{
+\item \strong{subscripting} non-existing elements and subscripting with \code{NA}s is currently
+not supported. Such subscripting currently returns \code{9218868437227407266} instead
+of \code{NA} (the \code{NA} value of the underlying double code). Following the full R
+behaviour here would either destroy performance or require extensive C-coding.
+}
+}
 }
 \note{
-`integer64` are useful for handling database keys and exact counting in +-2^63.
-  Do not use them as replacement for 32bit integers, integer64 are not supported for
-  subscripting by R-core and they have different semantics when combined with double.
-  Do understand that `integer64` can only be useful over `double` if we do not coerce
-  it to `double`.
+\code{integer64} are useful for handling database keys and exact counting in +-2^63.
+Do not use them as replacement for 32bit integers, integer64 are not supported for
+subscripting by R-core and they have different semantics when combined with double.
+Do understand that \code{integer64} can only be useful over \code{double} if we do not coerce
+it to \code{double}.
 
-  While
+While
 
-  integer + double -> double + double -> double
+integer + double -> double + double -> double
 
-  or
+or
 
-  1L + 0.5 -> 1.5
+1L + 0.5 -> 1.5
 
-  for additive operations we coerce to `integer64`
+for additive operations we coerce to \code{integer64}
 
-  integer64 + double ->  integer64 + integer64 -> integer64
+integer64 + double ->  integer64 + integer64 -> integer64
 
-  hence
+hence
 
-  as.integer64(1) + 0.5 -> 1LL + 0LL -> 1LL
+as.integer64(1) + 0.5 -> 1LL + 0LL -> 1LL
 
-  see section "Arithmetic precision and coercion" above
+see section "Arithmetic precision and coercion" above
 }
 \examples{
 message("Using integer64 in vector")
@@ -922,7 +932,7 @@ matplot(1:21, cbind(td32, t64), pch=c("d","i"), log="y")
   }
 }
 \seealso{
-[integer()] in base R
+\code{\link[=integer]{integer()}} in base R
 }
 \author{
 \strong{Maintainer}: Michael Chirico \email{michaelchirico4@gmail.com}

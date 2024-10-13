@@ -23,67 +23,67 @@ optimizer64(
 
 \item{nbig}{size of larger bigger vector}
 
-\item{timefun}{a function for timing such as [bit::repeat.time()] or [system.time()]}
+\item{timefun}{a function for timing such as \code{\link[bit:repeat.time]{bit::repeat.time()}} or \code{\link[=system.time]{system.time()}}}
 
 \item{what}{a vector of names of high-level functions}
 
-\item{uniorder}{one of the order parameters that are allowed in [unique.integer64()] and [unipos.integer64()]}
+\item{uniorder}{one of the order parameters that are allowed in \code{\link[=unique.integer64]{unique.integer64()}} and \code{\link[=unipos.integer64]{unipos.integer64()}}}
 
-\item{taborder}{one of the order parameters that are allowed in [table.integer64()]}
+\item{taborder}{one of the order parameters that are allowed in \code{\link[=table.integer64]{table.integer64()}}}
 
 \item{plot}{set to FALSE to suppress plotting}
 }
 \value{
-`benchmark64` returns a matrix with elapsed seconds, different high-level tasks
-  in rows and different scenarios to solve the task in columns. The last row
-  named 'SESSION' contains the elapsed seconds of the exemplary sesssion.
+\code{benchmark64} returns a matrix with elapsed seconds, different high-level tasks
+in rows and different scenarios to solve the task in columns. The last row
+named 'SESSION' contains the elapsed seconds of the exemplary sesssion.
 
-`optimizer64` returns a dimensioned list with one row for each high-level
-  function timed and two columns named after the values of the `nsmall` and
-  `nbig` sample sizes. Each list cell contains a matrix with timings,
-  low-level-methods in rows and three measurements `c("prep","both","use")`
-  in columns. If it can be measured separately, `prep` contains the timing
-  of preparatory work such as sorting and hashing, and `use` contains the
-  timing of using the prepared work. If the function timed does both,
-  preparation and use, the timing is in `both`.
+\code{optimizer64} returns a dimensioned list with one row for each high-level
+function timed and two columns named after the values of the \code{nsmall} and
+\code{nbig} sample sizes. Each list cell contains a matrix with timings,
+low-level-methods in rows and three measurements \code{c("prep","both","use")}
+in columns. If it can be measured separately, \code{prep} contains the timing
+of preparatory work such as sorting and hashing, and \code{use} contains the
+timing of using the prepared work. If the function timed does both,
+preparation and use, the timing is in \code{both}.
 }
 \description{
 Function for measuring algorithmic performance of high-level and low-level integer64 functions
 }
 \details{
-`benchmark64` compares the following scenarios for the following use cases:
+\code{benchmark64} compares the following scenarios for the following use cases:\tabular{rl}{
+   \strong{scenario name} \tab \strong{explanation} \cr
+   32-bit \tab applying Base R function to 32-bit integer data \cr
+   64-bit \tab applying bit64 function to 64-bit integer data (with no cache) \cr
+   hashcache \tab ditto when cache contains \code{\link[=hashmap]{hashmap()}}, see \code{\link[=hashcache]{hashcache()}} \cr
+   sortordercache \tab ditto when cache contains sorting and ordering, see \code{\link[=sortordercache]{sortordercache()}} \cr
+   ordercache \tab ditto when cache contains ordering only, see \code{\link[=ordercache]{ordercache()}} \cr
+   allcache \tab ditto when cache contains sorting, ordering and hashing \cr
+}
+\tabular{rl}{
+   \strong{use case name} \tab \strong{explanation} \cr
+   cache \tab filling the cache according to scenario \cr
+   match(s,b) \tab match small in big vector \cr
+   s \%in\% b \tab small \%in\% big vector \cr
+   match(b,s) \tab match big in small vector \cr
+   b \%in\% s \tab big \%in\% small vector \cr
+   match(b,b) \tab match big in (different) big vector \cr
+   b \%in\% b \tab big \%in\% (different) big vector \cr
+   duplicated(b) \tab duplicated of big vector \cr
+   unique(b) \tab unique of big vector \cr
+   table(b) \tab table of big vector \cr
+   sort(b) \tab sorting of big vector \cr
+   order(b) \tab ordering of big vector \cr
+   rank(b) \tab ranking of big vector \cr
+   quantile(b) \tab quantiles of big vector \cr
+   summary(b) \tab summary of of big vector \cr
+   SESSION \tab exemplary session involving multiple calls (including cache filling costs) \cr
+}
 
-| **scenario name** | **explanation**                                 |
-|------------------:|:------------------------------------------------|
-|            32-bit | applying Base R function to 32-bit integer data |
-|            64-bit | applying bit64 function to 64-bit integer data (with no cache) |
-|         hashcache | ditto when cache contains [hashmap()], see [hashcache()] |
-|    sortordercache | ditto when cache contains sorting and ordering, see [sortordercache()] |
-|        ordercache | ditto when cache contains ordering only, see [ordercache()] |
-|          allcache | ditto when cache contains sorting, ordering and hashing |
 
-| **use case name** | **explanation**                         |
-|------------------:|:----------------------------------------|
-|             cache | filling the cache according to scenario |
-|        match(s,b) | match small in big vector               |
-|          s %in% b | small %in% big vector                   |
-|        match(b,s) | match big in small vector               |
-|          b %in% s | big %in% small vector                   |
-|        match(b,b) | match big in (different) big vector     |
-|          b %in% b | big %in% (different) big vector         |
-|     duplicated(b) | duplicated of big vector                |
-|         unique(b) | unique of big vector                    |
-|          table(b) | table of big vector                     |
-|           sort(b) | sorting of big vector                   |
-|          order(b) | ordering of big vector                  |
-|           rank(b) | ranking of big vector                   |
-|       quantile(b) | quantiles of big vector                 |
-|        summary(b) | summary of of big vector                |
-|           SESSION | exemplary session involving multiple calls (including cache filling costs) |
-
-Note that the timings for the cached variants do _not_ contain the
-  time costs of building the cache, except for the timing of the exemplary
-  user session, where the cache costs are included in order to evaluate amortization.
+Note that the timings for the cached variants do \emph{not} contain the
+time costs of building the cache, except for the timing of the exemplary
+user session, where the cache costs are included in order to evaluate amortization.
 }
 \section{Functions}{
 \itemize{
@@ -147,6 +147,6 @@ for (i in 1:nrow(optimizer64.data)){
 par(mfrow=c(1,1))
 }
 \seealso{
-[integer64()]
+\code{\link[=integer64]{integer64()}}
 }
 \keyword{misc}

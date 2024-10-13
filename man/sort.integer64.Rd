@@ -27,19 +27,19 @@
 )
 }
 \arguments{
-\item{x}{a vector to be sorted by [ramsort.integer64()] and
-[ramsortorder.integer64()], i.e. the output of  [sort.integer64()]}
+\item{x}{a vector to be sorted by \code{\link[=ramsort.integer64]{ramsort.integer64()}} and
+\code{\link[=ramsortorder.integer64]{ramsortorder.integer64()}}, i.e. the output of  \code{\link[=sort.integer64]{sort.integer64()}}}
 
 \item{decreasing}{boolean scalar telling ramsort whether to sort
 increasing or decreasing}
 
 \item{has.na}{boolean scalar defining whether the input vector might
-contain `NA`s. If we know we don't have NAs, this may speed-up. _Note_
-that you risk a crash if there are unexpected `NA`s with `has.na=FALSE`}
+contain \code{NA}s. If we know we don't have NAs, this may speed-up. \emph{Note}
+that you risk a crash if there are unexpected \code{NA}s with \code{has.na=FALSE}}
 
-\item{na.last}{boolean scalar telling ramsort whether to sort `NA`s last
-or first. _Note_ that 'boolean' means that there is no third option
-`NA` as in [sort()]}
+\item{na.last}{boolean scalar telling ramsort whether to sort \code{NA}s last
+or first. \emph{Note} that 'boolean' means that there is no third option
+\code{NA} as in \code{\link[=sort]{sort()}}}
 
 \item{stable}{boolean scalar defining whether stable sorting is needed.
 Allowing non-stable may speed-up.}
@@ -52,14 +52,14 @@ more RAM, set to 'memory' to minimize RAM requirements and sacrifice speed}
 \item{...}{further arguments, passed from generics, ignored in methods}
 }
 \value{
-`sort` returns the sorted vector and `vector` returns the order positions.
+\code{sort} returns the sorted vector and \code{vector} returns the order positions.
 }
 \description{
 Fast high-level methods for sorting and ordering. These are wrappers to
-  [ramsort.integer64()] and friends and do not modify their arguments.
+\code{\link[=ramsort.integer64]{ramsort.integer64()}} and friends and do not modify their arguments.
 }
 \details{
-see [sort()] and [order()]
+see \code{\link[=sort]{sort()}} and \code{\link[=order]{order()}}
 }
 \examples{
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -72,7 +72,7 @@ see [sort()] and [order()]
   order.integer64(x, optimize="memory")
 }
 \seealso{
-<[`sort()`][sort.integer64]>, [sortcache()]
+<\code{\link[=sort.integer64]{sort()}}>, \code{\link[=sortcache]{sortcache()}}
 }
 \keyword{manip}
 \keyword{programming}

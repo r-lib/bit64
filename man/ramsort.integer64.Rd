@@ -124,28 +124,28 @@
 )
 }
 \arguments{
-\item{x}{a vector to be sorted by [ramsort.integer64()] and
-[ramsortorder.integer64()], i.e. the output of  [sort.integer64()]}
+\item{x}{a vector to be sorted by \code{\link[=ramsort.integer64]{ramsort.integer64()}} and
+\code{\link[=ramsortorder.integer64]{ramsortorder.integer64()}}, i.e. the output of  \code{\link[=sort.integer64]{sort.integer64()}}}
 
 \item{has.na}{boolean scalar defining whether the input vector might contain
-`NA`s. If we know we don't have NAs, this may speed-up. _Note_ that you
-risk a crash if there are unexpected `NA`s with `has.na=FALSE`}
+\code{NA}s. If we know we don't have NAs, this may speed-up. \emph{Note} that you
+risk a crash if there are unexpected \code{NA}s with \code{has.na=FALSE}}
 
-\item{na.last}{boolean scalar telling ramsort whether to sort `NA`s last
-or first. _Note_ that 'boolean' means that there is no third option `NA`
-as in [sort()]}
+\item{na.last}{boolean scalar telling ramsort whether to sort \code{NA}s last
+or first. \emph{Note} that 'boolean' means that there is no third option \code{NA}
+as in \code{\link[=sort]{sort()}}}
 
 \item{decreasing}{boolean scalar telling ramsort whether to sort increasing
 or decreasing}
 
 \item{...}{further arguments, passed from generics, ignored in methods}
 
-\item{i}{integer positions to be modified by [ramorder.integer64()] and
-[ramsortorder.integer64()], default is 1:n, in this case the output is
-similar to [order.integer64()]}
+\item{i}{integer positions to be modified by \code{\link[=ramorder.integer64]{ramorder.integer64()}} and
+\code{\link[=ramsortorder.integer64]{ramsortorder.integer64()}}, default is 1:n, in this case the output is
+similar to \code{\link[=order.integer64]{order.integer64()}}}
 
-\item{restlevel}{number of remaining recursionlevels before `quicksort`
-switches from recursing to `shellsort`}
+\item{restlevel}{number of remaining recursionlevels before \code{quicksort}
+switches from recursing to \code{shellsort}}
 
 \item{radixbits}{size of radix in bits}
 
@@ -158,22 +158,22 @@ RAM, set to 'memory' to minimize RAM requirements and sacrifice speed}
 \item{VERBOSE}{cat some info about chosen method}
 }
 \value{
-These functions return the number of `NAs` found or assumed
-  during sorting
+These functions return the number of \code{NAs} found or assumed
+during sorting
 }
 \description{
-Fast low-level methods for sorting and ordering. The `..sortorder`
-  methods do sorting and ordering at once, which requires more RAM
-  than ordering but is (almost) as fast as as sorting.
+Fast low-level methods for sorting and ordering. The \code{..sortorder}
+methods do sorting and ordering at once, which requires more RAM
+than ordering but is (almost) as fast as as sorting.
 }
 \details{
-See [bit::ramsort()]
+See \code{\link[bit:Sorting]{bit::ramsort()}}
 }
 \note{
 Note that these methods purposely violate the functional programming
-  paradigm: they are called for the side-effect of changing some of
-  their arguments. The `sort`-methods change `x`, the `order`-methods
-  change `i`, and the `sortoder`-methods change both `x` and `i`
+paradigm: they are called for the side-effect of changing some of
+their arguments. The \code{sort}-methods change \code{x}, the \code{order}-methods
+change \code{i}, and the \code{sortoder}-methods change both \code{x} and \code{i}
 }
 \examples{
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -199,9 +199,9 @@ Note that these methods purposely violate the functional programming
   o
 }
 \seealso{
-[bit::ramsort()] for the generic, `ramsort.default` for the methods
-  provided by package {ff}, [sort.integer64()] for the sort interface and
-  [sortcache()] for caching the work of sorting
+\code{\link[bit:Sorting]{bit::ramsort()}} for the generic, \code{ramsort.default} for the methods
+provided by package {ff}, \code{\link[=sort.integer64]{sort.integer64()}} for the sort interface and
+\code{\link[=sortcache]{sortcache()}} for caching the work of sorting
 }
 \keyword{manip}
 \keyword{programming}

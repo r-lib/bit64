@@ -8,30 +8,30 @@
 
 \item{y}{atomic vector of class 'integer64'}
 
-\item{num.eq}{see [identical()]}
+\item{num.eq}{see \code{\link[=identical]{identical()}}}
 
-\item{single.NA}{see [identical()]}
+\item{single.NA}{see \code{\link[=identical]{identical()}}}
 
-\item{attrib.as.set}{see [identical()]}
+\item{attrib.as.set}{see \code{\link[=identical]{identical()}}}
 
-\item{ignore.bytecode}{see [identical()]}
+\item{ignore.bytecode}{see \code{\link[=identical]{identical()}}}
 
-\item{ignore.environment}{see [identical()]}
+\item{ignore.environment}{see \code{\link[=identical]{identical()}}}
 
-\item{ignore.srcref}{see [identical()]}
+\item{ignore.srcref}{see \code{\link[=identical]{identical()}}}
 
-\item{extptr.as.ref}{see [identical()]}
+\item{extptr.as.ref}{see \code{\link[=identical]{identical()}}}
 }
 \value{
-A single logical value, `TRUE` or `FALSE`, never `NA` and never
-  anything other than a single value.
+A single logical value, \code{TRUE} or \code{FALSE}, never \code{NA} and never
+anything other than a single value.
 }
 \description{
 This will discover any deviation between objects containing integer64 vectors.
 }
 \details{
-This is simply a wrapper to [identical()] with default arguments
-  `num.eq = FALSE, single.NA = FALSE`.
+This is simply a wrapper to \code{\link[=identical]{identical()}} with default arguments
+\verb{num.eq = FALSE, single.NA = FALSE}.
 }
 \examples{
   i64 <- as.double(NA); class(i64) <- "integer64"
@@ -39,7 +39,7 @@ This is simply a wrapper to [identical()] with default arguments
   identical.integer64(i64-1, i64+1)
 }
 \seealso{
-[==.integer64] [identical()] [integer64()]
+\link{==.integer64} \code{\link[=identical]{identical()}} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}

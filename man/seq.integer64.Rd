@@ -4,7 +4,7 @@
 \alias{seq.integer64}
 \title{integer64: Sequence Generation}
 \arguments{
-\item{from}{integer64 scalar (in order to dispatch the integer64 method of [seq()]}
+\item{from}{integer64 scalar (in order to dispatch the integer64 method of \code{\link[=seq]{seq()}}}
 
 \item{to}{scalar}
 
@@ -23,14 +23,14 @@ an integer64 vector with the generated sequence
 Generating sequence of integer64 values
 }
 \details{
-`seq.integer64` does coerce its arguments 'from', 'to' and 'by' to `integer64`.
-  If not provided, the argument 'by' is automatically determined as `+1` or `-1`,
-  but the size of 'by' is not calculated as in [seq()] (because this might result
-  in a non-integer value).
+\code{seq.integer64} does coerce its arguments 'from', 'to' and 'by' to \code{integer64}.
+If not provided, the argument 'by' is automatically determined as \code{+1} or \code{-1},
+but the size of 'by' is not calculated as in \code{\link[=seq]{seq()}} (because this might result
+in a non-integer value).
 }
 \note{
-In base R [`:`] currently is not generic and does not dispatch, see section
-  "Limitations inherited from Base R" in [integer64()]
+In base R \code{\link{:}} currently is not generic and does not dispatch, see section
+"Limitations inherited from Base R" in \code{\link[=integer64]{integer64()}}
 }
 \examples{
   # colon not activated: as.integer64(1):12
@@ -38,8 +38,8 @@ In base R [`:`] currently is not generic and does not dispatch, see section
   seq(as.integer64(1), by=2, length.out=6)
 }
 \seealso{
-[c.integer64()] [rep.integer64()]
-  [as.data.frame.integer64()] [integer64()]
+\code{\link[=c.integer64]{c.integer64()}} \code{\link[=rep.integer64]{rep.integer64()}}
+\code{\link[=as.data.frame.integer64]{as.data.frame.integer64()}} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}

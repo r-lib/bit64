@@ -25,13 +25,13 @@ remcache(x)
 \method{print}{cache}(x, all.names = FALSE, pattern, ...)
 }
 \arguments{
-\item{x}{an integer64 vector (or a cache object in case of `print.cache`)}
+\item{x}{an integer64 vector (or a cache object in case of \code{print.cache})}
 
 \item{which}{A character naming the object to be retrieved from the cache or to be stored in the cache}
 
 \item{value}{An object to be stored in the cache}
 
-\item{all.names, pattern}{passed to [ls()] when listing the cache content}
+\item{all.names, pattern}{passed to \code{\link[=ls]{ls()}} when listing the cache content}
 
 \item{...}{ignored}
 }
@@ -42,26 +42,26 @@ See details
 Functions for caching results attached to atomic objects
 }
 \details{
-A `cache` is an [environment] attached to an atomic object with the
-  [attribute] name 'cache'. It contains at least a reference to the
-  atomic object that carries the cache. This is used when accessing
-  the cache to detect whether the object carrying the cache has been
-  modified meanwhile.
+A \code{cache} is an \link{environment} attached to an atomic object with the
+\link{attribute} name 'cache'. It contains at least a reference to the
+atomic object that carries the cache. This is used when accessing
+the cache to detect whether the object carrying the cache has been
+modified meanwhile.
 }
 \section{Functions}{
 \itemize{
-\item \code{newcache()}: creates a new cache referencing  `x`
+\item \code{newcache()}: creates a new cache referencing  \code{x}
 
-\item \code{jamcache()}: forces `x` to have a cache
+\item \code{jamcache()}: forces \code{x} to have a cache
 
-\item \code{cache()}: returns the cache attached to `x` if it is not
+\item \code{cache()}: returns the cache attached to \code{x} if it is not
 found to be outdated
 
-\item \code{setcache()}: assigns a value into the cache of `x`
+\item \code{setcache()}: assigns a value into the cache of \code{x}
 
-\item \code{getcache()}: gets cache value 'which' from `x`
+\item \code{getcache()}: gets cache value 'which' from \code{x}
 
-\item \code{remcache()}: removes the cache from `x`
+\item \code{remcache()}: removes the cache from \code{x}
 
 }}
 \examples{
@@ -85,19 +85,19 @@ found to be outdated
   cache(x)
 }
 \seealso{
-[bit::still.identical()] for testing whether to symbols point to the same RAM.
+\code{\link[bit:still.identical]{bit::still.identical()}} for testing whether to symbols point to the same RAM.
 
 Functions that get and set small cache-content automatically when a cache is present:
-  [bit::na.count()], [bit::nvalid()], [bit::is.sorted()], [bit::nunique()] and
-  [bit::nties()]
+\code{\link[bit:Metadata]{bit::na.count()}}, \code{\link[bit:Metadata]{bit::nvalid()}}, \code{\link[bit:Metadata]{bit::is.sorted()}}, \code{\link[bit:Metadata]{bit::nunique()}} and
+\code{\link[bit:Metadata]{bit::nties()}}
 
 Setting big caches with a relevant memory footprint requires a conscious decision
-  of the user: [hashcache], [sortcache], [ordercache], [sortordercache]
+of the user: \link{hashcache}, \link{sortcache}, \link{ordercache}, \link{sortordercache}
 
-Functions that use big caches: [match.integer64()], [%in%.integer64],
-  [duplicated.integer64()], [unique.integer64()], [unipos()], [table.integer64()],
-  [as.factor.integer64()], [as.ordered.integer64()], [keypos()], [tiepos()],
-  [rank.integer64()], [prank()], [qtile()], [quantile.integer64()],
-  [median.integer64()], and [summary.integer64()]
+Functions that use big caches: \code{\link[=match.integer64]{match.integer64()}}, \link{\%in\%.integer64},
+\code{\link[=duplicated.integer64]{duplicated.integer64()}}, \code{\link[=unique.integer64]{unique.integer64()}}, \code{\link[=unipos]{unipos()}}, \code{\link[=table.integer64]{table.integer64()}},
+\code{\link[=as.factor.integer64]{as.factor.integer64()}}, \code{\link[=as.ordered.integer64]{as.ordered.integer64()}}, \code{\link[=keypos]{keypos()}}, \code{\link[=tiepos]{tiepos()}},
+\code{\link[=rank.integer64]{rank.integer64()}}, \code{\link[=prank]{prank()}}, \code{\link[=qtile]{qtile()}}, \code{\link[=quantile.integer64]{quantile.integer64()}},
+\code{\link[=median.integer64]{median.integer64()}}, and \code{\link[=summary.integer64]{summary.integer64()}}
 }
 \keyword{environment}

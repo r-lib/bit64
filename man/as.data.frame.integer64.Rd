@@ -6,7 +6,7 @@
 \arguments{
 \item{x}{an integer64 vector}
 
-\item{...}{passed to NextMethod [as.data.frame()] after removing the
+\item{...}{passed to NextMethod \code{\link[=as.data.frame]{as.data.frame()}} after removing the
 'integer64' class attribute}
 }
 \value{
@@ -17,7 +17,7 @@ Coercing integer64 vector to data.frame.
 }
 \details{
 'as.data.frame.integer64' is rather not intended to be called directly,
-  but it is required to allow integer64 as data.frame columns.
+but it is required to allow integer64 as data.frame columns.
 }
 \note{
 This is currently very slow -- any ideas for improvement?
@@ -27,7 +27,7 @@ This is currently very slow -- any ideas for improvement?
   data.frame(a=1:12, b=as.integer64(1:12))
 }
 \seealso{
-[cbind.integer64()] [integer64()]
+\code{\link[=cbind.integer64]{cbind.integer64()}} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}
