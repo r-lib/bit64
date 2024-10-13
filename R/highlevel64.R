@@ -2524,6 +2524,7 @@ rank.integer64 <- function(x
 #' @keywords univar
 #' @export
 prank <- function(x, ...) UseMethod("prank")
+#' @rdname prank
 #' @export
 prank.integer64 <- function(x
 , method = NULL

@@ -2,9 +2,12 @@
 % Please edit documentation in R/highlevel64.R
 \name{prank}
 \alias{prank}
+\alias{prank.integer64}
 \title{(P)ercent (Rank)s}
 \usage{
 prank(x, ...)
+
+\method{prank}{integer64}(x, method = NULL, ...)
 }
 \arguments{
 \item{x}{a integer64 vector}
