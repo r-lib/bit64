@@ -325,8 +325,6 @@ For all available methods on \code{integer64} vectors see the index below and th
    \code{\link[=unipos.integer64]{unipos.integer64()}} \tab \code{\link[=unipos]{unipos()}} \tab positions corresponding to unique values (h/s/o/so) \cr
    \code{\link[=tiepos.integer64]{tiepos.integer64()}} \tab \code{\link[=tiepos]{tiepos()}} \tab positions of values that are tied (//o/so) \cr
    \code{\link[=keypos.integer64]{keypos.integer64()}} \tab \code{\link[=keypos]{keypos()}} \tab position of current value in sorted list of unique values (//o/so) \cr
-   \code{\link[=as.factor.integer64]{as.factor.integer64()}} \tab \code{\link[=as.factor]{as.factor()}} \tab convert to (unordered) factor with sorted levels of previous values (//o/so) \cr
-   \code{\link[=as.ordered.integer64]{as.ordered.integer64()}} \tab \code{\link[=as.ordered]{as.ordered()}} \tab convert to ordered factor with sorted levels of previous values (//o/so) \cr
    \code{\link[=table.integer64]{table.integer64()}} \tab \code{\link[=table]{table()}} \tab unique values and their frequencies (h/s/o/so) \cr
    \code{\link[=sort.integer64]{sort.integer64()}} \tab \code{\link[=sort]{sort()}} \tab sorted vector (/s/o/so) \cr
    \code{\link[=order.integer64]{order.integer64()}} \tab \code{\link[=order]{order()}} \tab positions of elements that would create sorted vector (//o/so) \cr

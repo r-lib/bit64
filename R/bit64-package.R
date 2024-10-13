@@ -277,8 +277,6 @@
 #' |     [unipos.integer64()] |     [unipos()] | positions corresponding to unique values (h/s/o/so) |
 #' |     [tiepos.integer64()] |     [tiepos()] | positions of values that are tied (//o/so) |
 #' |     [keypos.integer64()] |     [keypos()] | position of current value in sorted list of unique values (//o/so) |
-#' |  [as.factor.integer64()] |  [as.factor()] | convert to (unordered) factor with sorted levels of previous values (//o/so) |
-#' | [as.ordered.integer64()] | [as.ordered()] | convert to ordered factor with sorted levels of previous values (//o/so) |
 #' |      [table.integer64()] |      [table()] | unique values and their frequencies (h/s/o/so) |
 #' |       [sort.integer64()] |       [sort()] | sorted vector (/s/o/so) |
 #' |      [order.integer64()] |      [order()] | positions of elements that would create sorted vector (//o/so) |

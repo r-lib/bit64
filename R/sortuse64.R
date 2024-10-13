@@ -473,8 +473,7 @@ sortordertab.integer64 <- function(sorted, order, denormalize=FALSE, ...)
 
 #' @rdname sortnut
 #' @param na.skip.num 0 or the number of `NA`s. With 0, `NA`s are coded with 1L,
-#'   with the number of `NA`s, these are coded with `NA`, the latter needed for
-#'   [as.factor.integer64()]
+#'   with the number of `NA`s, these are coded with `NA`
 #' @export
 orderkey <- function(table, order, na.skip.num=0L, ...) UseMethod("orderkey")
 #' @rdname sortnut

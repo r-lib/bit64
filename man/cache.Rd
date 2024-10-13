@@ -96,8 +96,7 @@ of the user: \link{hashcache}, \link{sortcache}, \link{ordercache}, \link{sortor
 
 Functions that use big caches: \code{\link[=match.integer64]{match.integer64()}}, \link{\%in\%.integer64},
 \code{\link[=duplicated.integer64]{duplicated.integer64()}}, \code{\link[=unique.integer64]{unique.integer64()}}, \code{\link[=unipos]{unipos()}}, \code{\link[=table.integer64]{table.integer64()}},
-\code{\link[=as.factor.integer64]{as.factor.integer64()}}, \code{\link[=as.ordered.integer64]{as.ordered.integer64()}}, \code{\link[=keypos]{keypos()}}, \code{\link[=tiepos]{tiepos()}},
-\code{\link[=rank.integer64]{rank.integer64()}}, \code{\link[=prank]{prank()}}, \code{\link[=qtile]{qtile()}}, \code{\link[=quantile.integer64]{quantile.integer64()}},
-\code{\link[=median.integer64]{median.integer64()}}, and \code{\link[=summary.integer64]{summary.integer64()}}
+\code{\link[=keypos]{keypos()}}, \code{\link[=tiepos]{tiepos()}}, \code{\link[=rank.integer64]{rank.integer64()}}, \code{\link[=prank]{prank()}}, \code{\link[=qtile]{qtile()}},
+\code{\link[=quantile.integer64]{quantile.integer64()}}, \code{\link[=median.integer64]{median.integer64()}}, and \code{\link[=summary.integer64]{summary.integer64()}}
 }
 \keyword{environment}

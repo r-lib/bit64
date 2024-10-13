@@ -34,9 +34,8 @@
 #'
 #' Functions that use big caches: [match.integer64()], [%in%.integer64],
 #'   [duplicated.integer64()], [unique.integer64()], [unipos()], [table.integer64()],
-#'   [as.factor.integer64()], [as.ordered.integer64()], [keypos()], [tiepos()],
-#'   [rank.integer64()], [prank()], [qtile()], [quantile.integer64()],
-#'   [median.integer64()], and [summary.integer64()]
+#'   [keypos()], [tiepos()], [rank.integer64()], [prank()], [qtile()],
+#'   [quantile.integer64()], [median.integer64()], and [summary.integer64()]
 #'
 #' @examples
 #'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))

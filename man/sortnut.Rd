@@ -173,8 +173,7 @@ call \code{sortnut} or \code{ordernut}}
 value with its counts}
 
 \item{na.skip.num}{0 or the number of \code{NA}s. With 0, \code{NA}s are coded with 1L,
-with the number of \code{NA}s, these are coded with \code{NA}, the latter needed for
-\code{\link[=as.factor.integer64]{as.factor.integer64()}}}
+with the number of \code{NA}s, these are coded with \code{NA}}
 
 \item{na.count}{the number of \code{NA}s, needed for this low-level function algorithm}
 
