@@ -1097,6 +1097,7 @@ if (FALSE){
   ret
 }
 
+#' @rdname c.integer64
 #' @export
 c.integer64 <-
 function (..., recursive = FALSE)

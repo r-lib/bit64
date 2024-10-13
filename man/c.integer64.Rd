@@ -6,6 +6,8 @@
 \alias{rbind.integer64}
 \title{Concatenating integer64 vectors}
 \usage{
+\method{c}{integer64}(..., recursive = FALSE)
+
 \method{cbind}{integer64}(...)
 
 \method{rbind}{integer64}(...)
