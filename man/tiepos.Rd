@@ -2,9 +2,12 @@
 % Please edit documentation in R/highlevel64.R
 \name{tiepos}
 \alias{tiepos}
+\alias{tiepos.integer64}
 \title{Extract Positions of Tied Elements}
 \usage{
 tiepos(x, ...)
+
+\method{tiepos}{integer64}(x, nties = NULL, method = NULL, ...)
 }
 \arguments{
 \item{x}{a vector or a data frame or an array or \code{NULL}.}

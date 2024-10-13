@@ -2,9 +2,12 @@
 % Please edit documentation in R/highlevel64.R
 \name{keypos}
 \alias{keypos}
+\alias{keypos.integer64}
 \title{Extract Positions in redundant dimension table}
 \usage{
 keypos(x, ...)
+
+\method{keypos}{integer64}(x, method = NULL, ...)
 }
 \arguments{
 \item{x}{a vector or a data frame or an array or \code{NULL}.}

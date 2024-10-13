@@ -2301,6 +2301,7 @@ as.integer64.factor <- function(x, ...)as.integer64(unclass(x))
 #' @keywords manip univar
 #' @export
 keypos <- function(x, ...) UseMethod("keypos")
+#' @rdname keypos
 #' @export
 keypos.integer64 <- function(x
 , method = NULL
@@ -2376,6 +2377,7 @@ keypos.integer64 <- function(x
 #' @keywords manip univar
 #' @export
 tiepos <- function(x, ...)UseMethod("tiepos")
+#' @rdname tiepos
 #' @export
 tiepos.integer64 <- function(x
 , nties = NULL
