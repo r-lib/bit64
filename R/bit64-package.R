@@ -323,7 +323,7 @@
 #'
 #' # Limitations inherited from Base R, Core team, can you change this?
 #'
-#'  -  **[identical()] with default parameters does not distinguish all bit-patterns of
+#'  -  **[identical()]** with default parameters does not distinguish all bit-patterns of
 #'     doubles. For testing purposes we provide a wrapper [identical.integer64()] that
 #'     will distinguish all bit-patterns. It would be desireable to have a single call
 #'     of `identical()` handle both, [`double`] and `integer64`.
