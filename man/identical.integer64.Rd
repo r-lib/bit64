@@ -3,6 +3,19 @@
 \name{identical.integer64}
 \alias{identical.integer64}
 \title{Identity function for class 'integer64'}
+\usage{
+identical.integer64(
+  x,
+  y,
+  num.eq = FALSE,
+  single.NA = FALSE,
+  attrib.as.set = TRUE,
+  ignore.bytecode = TRUE,
+  ignore.environment = FALSE,
+  ignore.srcref = TRUE,
+  extptr.as.ref = FALSE
+)
+}
 \arguments{
 \item{x}{atomic vector of class 'integer64'}
 

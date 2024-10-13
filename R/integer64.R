@@ -599,6 +599,7 @@ if (FALSE){
 }
 # nocov end
 
+#' @rdname identical.integer64
 #' @export
 identical.integer64 <- function(x, y
 , num.eq = FALSE
