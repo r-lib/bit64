@@ -48,7 +48,7 @@ The current implementation returns \code{9218868437227407266} instead of \code{N
   }
 }
 \seealso{
-[\code{\link[=]{()}} \code{\link[=integer64]{integer64()}}
+\code{\link[base:Extract]{[}} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}

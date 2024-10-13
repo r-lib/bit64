@@ -118,7 +118,7 @@ NULL
 #'   The current implementation returns `9218868437227407266` instead of `NA`.
 #' @returns A vector or scalar of class 'integer64'
 #' @keywords classes manip
-#' @seealso [[()] [integer64()]
+#' @seealso [`[`][base::Extract] [integer64()]
 #' @examples
 #'   as.integer64(1:12)[1:3]
 #'   x <- as.integer64(1:12)

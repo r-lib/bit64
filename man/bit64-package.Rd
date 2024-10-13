@@ -272,10 +272,10 @@ For all available methods on \code{integer64} vectors see the index below and th
 \if{html}{\out{<div class="sourceCode">}}\preformatted{                          |    [data.frame()] | inherited from Base R since we have coercion |
 }\if{html}{\out{</div>}}\tabular{rrl}{
    \strong{subscripting} \tab \strong{see also} \tab \strong{description} \cr
-   [\verb{[.integer64}] \tab [\code{[}] \tab vector and array extract \cr
-   [\verb{[<-.integer64}] \tab [\verb{[<-}] \tab vector and array assign \cr
-   [\verb{[[.integer64}] \tab [\code{[[}] \tab scalar extract \cr
-   [\verb{[[<-.integer64}] \tab [\verb{[[<-}] \tab scalar assign \cr
+   [\verb{[.integer64}] \tab \code{\link[base:Extract]{[}} \tab vector and array extract \cr
+   [\verb{[<-.integer64}] \tab \code{\link[base:Extract]{[<-}} \tab vector and array assign \cr
+   [\verb{[[.integer64}] \tab \code{\link[base:Extract]{[[}} \tab scalar extract \cr
+   [\verb{[[<-.integer64}] \tab \code{\link[base:Extract]{[[<-}} \tab scalar assign \cr
 }
 \tabular{rrl}{
    \strong{binary operators} \tab \strong{see also} \tab \strong{description} \cr
