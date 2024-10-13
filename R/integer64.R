@@ -454,7 +454,8 @@ setOldClass("integer64")
 
 # contributed by Leonardo Silvestri with modifications of JO
 #' @rdname all.equal.integer64
-#' @export
+#' @method all.equal data.frame
+#' @exportS3Method all.equal integer64
 all.equal.integer64  <- function (
   target
 , current

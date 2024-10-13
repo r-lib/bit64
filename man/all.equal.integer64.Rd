@@ -4,7 +4,7 @@
 \alias{all.equal.integer64}
 \title{Test if two integer64 vectors are all.equal}
 \usage{
-\method{all}{equal.integer64}(
+\method{all.equal}{data.frame}(
   target,
   current,
   tolerance = sqrt(.Machine$double.eps),
