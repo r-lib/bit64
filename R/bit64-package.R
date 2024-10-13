@@ -215,23 +215,31 @@
 #' |      [`^.integer64`] |        [`^`] | returns double    |
 #' |      [`/.integer64`] |        [`/`] | returns double    |
 #' |    [`%/%.integer64`] |      [`%/%`] | returns integer64 |
-#' |     [`%%.integer64`] |         [%%] | returns integer64 |
+#' |     [`%%.integer64`] |       [`%%`] | returns integer64 |
 #'
 #' | **comparison operators** | **see also** | **description** |
 #' |-------------------------:|-------------:|:----------------|
-#' |         [`==.integer64`] |         [==] | |
-#' |         [`!=.integer64`] |         [!=] | |
-#' |          [`<.integer64`] |          [<] | |
-#' |         [`<=.integer64`] |         [<=] | |
-#' |          [`>.integer64`] |          [>] | |
-#' |         [`>=.integer64`] |         [>=] | |
+#' |         [`==.integer64`] |       [`==`] | |
+#' |         [`!=.integer64`] |       [`!=`] | |
+#' |          [`<.integer64`] |        [`<`] | |
+#' |         [`<=.integer64`] |       [`<=`] | |
+#' |          [`>.integer64`] |        [`>`] | |
+#' |         [`>=.integer64`] |       [`>=`] | |
 #'
-#' | **logical operators** | **see also** | **description** |
-#' |----------------------:|-------------:|:----------------|
-#' |       [`!.integer64`] |          [!] | |
-#' |       [`&.integer64`] |          [&] | |
-#' |       [`|.integer64`] |          [|] | |
-#' |     [`xor.integer64`] |      [xor()] | |
+#' \tabular{rrl}{
+#'    \strong{logical operators} \tab \strong{see also} \tab \strong{description} \cr
+#'    \code{\link{!.integer64}} \tab \code{\link{!}} \tab  \cr
+#'    \code{\link{&.integer64}} \tab \code{\link{&}} \tab  \cr
+#'    \code{\link[=xor.integer64]{|.integer64}} \tab \code{\link[base:Logic]{|}} \tab  \cr
+#'    \code{\link{xor.integer64}} \tab \code{\link[=xor]{xor()}} \tab  \cr
+#' }
+# TODO(r-lib/roxygen2#1668): Restore the markdown representation of the table.
+# | **logical operators** | **see also** | **description** |
+# |----------------------:|-------------:|:----------------|
+# |       [`!.integer64`] |        [`!`] | |
+# |       [`&.integer64`] |        [`&`] | |
+# | [`\|.integer64`][xor.integer64] | [`\|`][base::Logic] | |
+# |     [`xor.integer64`] |      [xor()] | |
 #'
 #' | **math functions**    | **see also** | **description**              |
 #' |----------------------:|-------------:|:-----------------------------|
