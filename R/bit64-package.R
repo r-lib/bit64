@@ -200,12 +200,12 @@
 #' | [as.data.frame.integer64()] | [as.data.frame()] | coerce atomic object to data.frame |
 #'                               |    [data.frame()] | inherited from Base R since we have coercion |
 #'
-#' | **subscripting**   | **see also**            | **description**          |
-#' |-------------------:|------------------------:|:-------------------------|
-#' |    [`[.integer64`] |    [`[`][base::Extract] | vector and array extract |
-#' |  [`[<-.integer64`] |  [`[<-`][base::Extract] | vector and array assign  |
-#' |   [`[[.integer64`] |   [`[[`][base::Extract] | scalar extract           |
-#' | [`[[<-.integer64`] | [`[[<-`][base::Extract] | scalar assign            |
+#' | **subscripting**                              | **see also**            | **description**          |
+#' |----------------------------------------------:|------------------------:|:-------------------------|
+#' |    [`[.integer64`][extract.replace.integer64] |    [`[`][base::Extract] | vector and array extract |
+#' |  [`[<-.integer64`][extract.replace.integer64] |  [`[<-`][base::Extract] | vector and array assign  |
+#' |   [`[[.integer64`][extract.replace.integer64] |   [`[[`][base::Extract] | scalar extract           |
+#' | [`[[<-.integer64`][extract.replace.integer64] | [`[[<-`][base::Extract] | scalar assign            |
 #'
 #' | **binary operators** | **see also** | **description**   |
 #' |---------------------:|-------------:|:------------------|
