@@ -26,25 +26,25 @@
 #' @param ... further arguments, passed from generics, ignored in methods
 #'
 #' @details
-#' | **function** | **see also**                              | **description** |
-#' |-------------:|------------------------------------------:|:----------------|
-#' |    `hashfun` |                                  `digest` | export of the hash function used in `hashmap` |
-#' |    `hashmap` |            <[`match()`][match.integer64]> | return hashmap |
-#' |    `hashpos` |            <[`match()`][match.integer64]> | return positions of `x` in `hashmap` |
-#' |    `hashrev` |            <[`match()`][match.integer64]> | return positions of `hashmap` in `x` |
-#' |    `hashfin` |                         [%in%.integer64]  | return logical whether `x` is in `hashmap` |
-#' |    `hashrin` |                         [%in%.integer64]  | return logical whether `hashmap` is in `x` |
-#' |    `hashdup` |  <[`duplicated()`][duplicated.integer64]> | return logical whether hashdat is duplicated using hashmap |
-#' |    `hashuni` |          <[`unique()`][unique.integer64]> | return unique values of hashmap |
-#' | `hashmapuni` |          <[`unique()`][unique.integer64]> | return unique values of `x` |
-#' |    `hashupo` |          <[`unique()`][unique.integer64]> | return positions of unique values in hashdat |
-#' | `hashmapupo` |          <[`unique()`][unique.integer64]> | return positions of unique values in `x` |
-#' |    `hashtab` |            <[`table()`][table.integer64]> | tabulate values of hashdat using hashmap in `keep.order=FALSE` |
-#' | `hashmaptab` |            <[`table()`][table.integer64]> | tabulate values of `x` building hasmap on the fly in `keep.order=FALSE` |
+#' | **function** | **see also**                            | **description** |
+#' |-------------:|----------------------------------------:|:----------------|
+#' |    `hashfun` |                                `digest` | export of the hash function used in `hashmap` |
+#' |    `hashmap` |            [`match()`][match.integer64] | return hashmap  |
+#' |    `hashpos` |            [`match()`][match.integer64] | return positions of `x` in `hashmap` |
+#' |    `hashrev` |            [`match()`][match.integer64] | return positions of `hashmap` in `x` |
+#' |    `hashfin` |                        [%in%.integer64] | return logical whether `x` is in `hashmap` |
+#' |    `hashrin` |                        [%in%.integer64] | return logical whether `hashmap` is in `x` |
+#' |    `hashdup` |  [`duplicated()`][duplicated.integer64] | return logical whether hashdat is duplicated using hashmap |
+#' |    `hashuni` |          [`unique()`][unique.integer64] | return unique values of hashmap |
+#' | `hashmapuni` |          [`unique()`][unique.integer64] | return unique values of `x` |
+#' |    `hashupo` |          [`unique()`][unique.integer64] | return positions of unique values in hashdat |
+#' | `hashmapupo` |          [`unique()`][unique.integer64] | return positions of unique values in `x` |
+#' |    `hashtab` |            [`table()`][table.integer64] | tabulate values of hashdat using hashmap in `keep.order=FALSE` |
+#' | `hashmaptab` |            [`table()`][table.integer64] | tabulate values of `x` building hasmap on the fly in `keep.order=FALSE` |
 #'
 #' @return See Details
 #' @keywords programming manip
-#' @seealso <[`match()`][match.integer64]>, [runif64()]
+#' @seealso [`match()`][match.integer64], [runif64()]
 #' @examples
 #' x <- as.integer64(sample(c(NA, 0:9)))
 #' y <- as.integer64(sample(c(NA, 1:9), 10, TRUE))

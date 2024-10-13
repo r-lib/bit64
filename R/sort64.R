@@ -463,7 +463,7 @@ ramorder.integer64 <- function (x
 #' @details see [sort()] and [order()]
 #' @return `sort` returns the sorted vector and `vector` returns the order positions.
 #' @keywords programming manip
-#' @seealso <[`sort()`][sort.integer64]>, [sortcache()]
+#' @seealso [`sort()`][sort.integer64], [sortcache()]
 #' @examples
 #'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #'   x

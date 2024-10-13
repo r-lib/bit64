@@ -192,13 +192,13 @@ can do some more interesting things.
    \strong{sortfun} \tab \strong{orderfun} \tab \strong{sortorderfun} \tab \strong{see also} \tab \strong{description} \cr
    \code{sortnut} \tab \code{ordernut} \tab  \tab  \tab return number of tied and of unique values \cr
    \code{sortfin} \tab \code{orderfin} \tab  \tab \link{\%in\%.integer64} \tab return logical whether \code{x} is in \code{table} \cr
-    \tab \code{orderpos} \tab \code{sortorderpos} \tab <\code{\link[=match.integer64]{match()}}> \tab return positions of \code{x} in \code{table} \cr
-    \tab \code{orderdup} \tab \code{sortorderdup} \tab <\code{\link[=duplicated.integer64]{duplicated()}}> \tab return logical whether values are duplicated \cr
-   \code{sortuni} \tab \code{orderuni} \tab \code{sortorderuni} \tab <\code{\link[=unique.integer64]{unique()}}> \tab return unique values (=dimensiontable) \cr
-    \tab \code{orderupo} \tab \code{sortorderupo} \tab <\code{\link[=unique.integer64]{unique()}}> \tab return positions of unique values \cr
+    \tab \code{orderpos} \tab \code{sortorderpos} \tab \code{\link[=match.integer64]{match()}} \tab return positions of \code{x} in \code{table} \cr
+    \tab \code{orderdup} \tab \code{sortorderdup} \tab \code{\link[=duplicated.integer64]{duplicated()}} \tab return logical whether values are duplicated \cr
+   \code{sortuni} \tab \code{orderuni} \tab \code{sortorderuni} \tab \code{\link[=unique.integer64]{unique()}} \tab return unique values (=dimensiontable) \cr
+    \tab \code{orderupo} \tab \code{sortorderupo} \tab \code{\link[=unique.integer64]{unique()}} \tab return positions of unique values \cr
     \tab \code{ordertie} \tab \code{sortordertie} \tab  \tab return positions of tied values \cr
     \tab \code{orderkey} \tab \code{sortorderkey} \tab  \tab positions of values in vector of unique values (match in dimensiontable) \cr
-   \code{sorttab} \tab \code{ordertab} \tab \code{sortordertab} \tab <\code{\link[=table.integer64]{table()}}> \tab tabulate frequency of values \cr
+   \code{sorttab} \tab \code{ordertab} \tab \code{sortordertab} \tab \code{\link[=table.integer64]{table()}} \tab tabulate frequency of values \cr
     \tab \code{orderrnk} \tab \code{sortorderrnk} \tab  \tab rank averaging ties \cr
    \code{sortqtl} \tab \code{orderqtl} \tab  \tab  \tab return quantiles given probabilities \cr
 }
@@ -238,7 +238,7 @@ algorithm.
  print(optimizer64)
 }
 \seealso{
-<\code{\link[=match.integer64]{match()}}>
+\code{\link[=match.integer64]{match()}}
 }
 \keyword{manip}
 \keyword{programming}

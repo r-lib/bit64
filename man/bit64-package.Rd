@@ -157,23 +157,23 @@ trivial what type to return. Switching to \code{integer64} limits our ability to
 represent very large numbers, switching to \code{double} limits our ability to
 distinguish \code{x} from \code{x+1}. Since the latter is the purpose of introducing 64 bit
 integers, we usually return \code{integer64} from functions involving \code{integer64}, for
-example in <\code{\link[=c.integer64]{c()}}>, <\code{\link[=cbind.integer64]{cbind()}}>, and
-<\code{\link[=rbind.integer64]{rbind()}}>
+example in \code{\link[=c.integer64]{c()}}, \code{\link[=cbind.integer64]{cbind()}}, and
+\code{\link[=rbind.integer64]{rbind()}}
 
-Different from Base R, our operators <\code{\link[=+.integer64]{+}}>, <\code{\link[=-.integer64]{-}}>,
-<\code{\link[=\%/\%.integer64]{\%/\%}}>, and <\code{\link[=\%\%.integer64]{\%\%}}> coerce their arguments to
+Different from Base R, our operators \code{\link[=+.integer64]{+}}, \code{\link[=-.integer64]{-}},
+\code{\link[=\%/\%.integer64]{\%/\%}}, and \code{\link[=\%\%.integer64]{\%\%}} coerce their arguments to
 \code{integer64} and always return \code{integer64}.
 
-The multiplication operator <\code{\link[=*.integer64]{*}}> coerces its first argument to
+The multiplication operator \code{\link[=*.integer64]{*}} coerces its first argument to
 \code{integer64} but allows its second argument to be also \code{double}: the second
 argument is internaly coerced to 'long double' and the result of the
 multiplication is returned as \code{integer64}.
 
-The division <\code{\link[=/.integer64]{/}}> and power <\code{\link[=^.integer64]{^}}> operators also
+The division \code{\link[=/.integer64]{/}} and power \code{\link[=^.integer64]{^}} operators also
 coerce their first argument to \code{integer64} and coerce internally their second
 argument to 'long double', they return as \code{double}, like
-<\code{\link[=sqrt.integer64]{sqrt()}}>, <\code{\link[=log.integer64]{log()}}>,
-<\code{\link[=log2.integer64]{log2()}}>, and <\code{\link[=log10.integer64]{log10()}}> do.\tabular{ccccccccc}{
+\code{\link[=sqrt.integer64]{sqrt()}}, \code{\link[=log.integer64]{log()}},
+\code{\link[=log2.integer64]{log2()}}, and \code{\link[=log10.integer64]{log10()}} do.\tabular{ccccccccc}{
    \strong{argument1} \tab \strong{op} \tab \strong{argument2} \tab \strong{->} \tab \strong{coerced1} \tab \strong{op} \tab \strong{coerced2} \tab \strong{->} \tab \strong{result} \cr
    integer64 \tab + \tab double \tab -> \tab integer64 \tab + \tab integer64 \tab -> \tab integer64 \cr
    double \tab + \tab integer64 \tab -> \tab integer64 \tab + \tab integer64 \tab -> \tab integer64 \cr
@@ -208,9 +208,9 @@ returning 'double'. Like for 32 bit \link{integer}, \code{\link[=mode]{mode()}} 
 \code{\link[=as.double]{as.double()}} tries coercing to \link{double}. It is possible that 'integer64' becomes
 a \link{vmode} in package {ff}.
 
-Further methods for creating \code{integer64} are <\code{\link[=range.integer64]{range()}}> which
+Further methods for creating \code{integer64} are \code{\link[=range.integer64]{range()}} which
 returns the range of the data type if calles without arguments,
-<\code{\link[=rep.integer64]{rep()}}>, <\code{\link[=seq.integer64]{seq()}}>.
+\code{\link[=rep.integer64]{rep()}}, \code{\link[=seq.integer64]{seq()}}.
 
 For all available methods on \code{integer64} vectors see the index below and the examples.
 }
@@ -378,7 +378,7 @@ For all available methods on \code{integer64} vectors see the index below and th
 \section{Limitations inherited from implementing 64 bit integers via an external package}{
 \itemize{
 \item \strong{vector size} of atomic vectors is still limited to
-<\code{\link[=.Machine]{.Machine$integer.max}}>. However, external memory extending packages
+\code{\link[=.Machine]{.Machine$integer.max}}. However, external memory extending packages
 such as {ff} or {bigmemory} can extend their address space now with \code{integer64}.
 Having 64 bit integers also help with those not so obvious address issues that
 arise once we exchange data with SQL databases and datawarehouses, which use big
@@ -420,8 +420,8 @@ for now you can only call \code{c.integer64(list(x, x))}.
 \item \strong{generic binary operators} fail to dispatch \emph{any} user-defined S3 method
 if the two arguments have two different S3 classes. For example we have two
 classes \link[bit:bit]{bit::bit} and \link[bit:bitwhich]{bit::bitwhich} sparsely representing boolean vectors
-and we have methods <\code{\link[bit:xor]{&.bit}}> and
-<\code{\link[bit:xor]{&.bitwhich}}>. For an expression involving both as in
+and we have methods \code{\link[bit:xor]{&.bit}} and
+\code{\link[bit:xor]{&.bitwhich}}. For an expression involving both as in
 \code{bit & bitwhich}, none of the two methods is dispatched. Instead a standard
 method is dispatched, which neither handles \code{bit} nor \code{bitwhich}. Although
 it lacks symmetry, the better choice would be to dispatch simply the method

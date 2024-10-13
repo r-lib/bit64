@@ -82,23 +82,23 @@
 #' represent very large numbers, switching to `double` limits our ability to
 #' distinguish `x` from `x+1`. Since the latter is the purpose of introducing 64 bit
 #' integers, we usually return `integer64` from functions involving `integer64`, for
-#' example in <[`c()`][c.integer64]>, <[`cbind()`][cbind.integer64]>, and
-#' <[`rbind()`][rbind.integer64]>
+#' example in [`c()`][c.integer64], [`cbind()`][cbind.integer64], and
+#' [`rbind()`][rbind.integer64]
 #'
-#' Different from Base R, our operators <[`+`][+.integer64]>, <[`-`][-.integer64]>,
-#' <[`%/%`][%/%.integer64]>, and <[`%%`][%%.integer64]> coerce their arguments to
+#' Different from Base R, our operators [`+`][+.integer64], [`-`][-.integer64],
+#' [`%/%`][%/%.integer64], and [`%%`][%%.integer64] coerce their arguments to
 #' `integer64` and always return `integer64`.
 #'
-#' The multiplication operator <[`*`][*.integer64]> coerces its first argument to
+#' The multiplication operator [`*`][*.integer64] coerces its first argument to
 #' `integer64` but allows its second argument to be also `double`: the second
 #' argument is internaly coerced to 'long double' and the result of the
 #' multiplication is returned as `integer64`.
 #'
-#' The division <[`/`][/.integer64]> and power <[`^`][^.integer64]> operators also
+#' The division [`/`][/.integer64] and power [`^`][^.integer64] operators also
 #' coerce their first argument to `integer64` and coerce internally their second
 #' argument to 'long double', they return as `double`, like
-#' <[`sqrt()`][sqrt.integer64]>, <[`log()`][log.integer64]>,
-#' <[`log2()`][log2.integer64]>, and <[`log10()`][log10.integer64]> do.
+#' [`sqrt()`][sqrt.integer64], [`log()`][log.integer64],
+#' [`log2()`][log2.integer64], and [`log10()`][log10.integer64] do.
 #'
 #' | **argument1** | **op** | **argument2** | **->** | **coerced1** | **op** | **coerced2** | **->** | **result** |
 #' |:-------------:|:------:|:-------------:|:------:|:------------:|:------:|:------------:|:------:|:----------:|
@@ -137,9 +137,9 @@
 #' [as.double()] tries coercing to [double]. It is possible that 'integer64' becomes
 #' a [vmode] in package {ff}.
 #'
-#' Further methods for creating `integer64` are <[`range()`][range.integer64]> which
+#' Further methods for creating `integer64` are [`range()`][range.integer64] which
 #' returns the range of the data type if calles without arguments,
-#' <[`rep()`][rep.integer64]>, <[`seq()`][seq.integer64]>.
+#' [`rep()`][rep.integer64], [`seq()`][seq.integer64].
 #'
 #' For all available methods on `integer64` vectors see the index below and the examples.
 #'
@@ -306,7 +306,7 @@
 #' # Limitations inherited from implementing 64 bit integers via an external package
 #'
 #'  - **vector size** of atomic vectors is still limited to
-#'    <[`.Machine$integer.max`][.Machine]>. However, external memory extending packages
+#'    [`.Machine$integer.max`][.Machine]. However, external memory extending packages
 #'    such as {ff} or {bigmemory} can extend their address space now with `integer64`.
 #'    Having 64 bit integers also help with those not so obvious address issues that
 #'    arise once we exchange data with SQL databases and datawarehouses, which use big
@@ -351,8 +351,8 @@
 #'  - **generic binary operators** fail to dispatch *any* user-defined S3 method
 #'     if the two arguments have two different S3 classes. For example we have two
 #'     classes [bit::bit] and [bit::bitwhich] sparsely representing boolean vectors
-#'     and we have methods <[`&.bit`][bit::xor.default]> and
-#'     <[`&.bitwhich`][bit::xor.default]>. For an expression involving both as in
+#'     and we have methods [`&.bit`][bit::xor.default] and
+#'     [`&.bitwhich`][bit::xor.default]. For an expression involving both as in
 #'     `bit & bitwhich`, none of the two methods is dispatched. Instead a standard
 #'     method is dispatched, which neither handles `bit` nor `bitwhich`. Although
 #'     it lacks symmetry, the better choice would be to dispatch simply the method

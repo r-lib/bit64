@@ -24,13 +24,13 @@
 #' |------------:|-------------:|-----------------:|-----------------:|:----------------|
 #' |   `sortnut` |   `ordernut` |                  |                  | return number of tied and of unique values |
 #' |   `sortfin` |   `orderfin` |                  | [%in%.integer64] | return logical whether `x` is in `table` |
-#' |             |   `orderpos` |   `sortorderpos` | <[`match()`][match.integer64]> | return positions of `x` in `table` |
-#' |             |   `orderdup` |   `sortorderdup` | <[`duplicated()`][duplicated.integer64]> | return logical whether values are duplicated |
-#' |   `sortuni` |   `orderuni` |   `sortorderuni` | <[`unique()`][unique.integer64]> | return unique values (=dimensiontable) |
-#' |             |   `orderupo` |   `sortorderupo` | <[`unique()`][unique.integer64]> | return positions of unique values |
+#' |             |   `orderpos` |   `sortorderpos` | [`match()`][match.integer64] | return positions of `x` in `table` |
+#' |             |   `orderdup` |   `sortorderdup` | [`duplicated()`][duplicated.integer64] | return logical whether values are duplicated |
+#' |   `sortuni` |   `orderuni` |   `sortorderuni` | [`unique()`][unique.integer64] | return unique values (=dimensiontable) |
+#' |             |   `orderupo` |   `sortorderupo` | [`unique()`][unique.integer64] | return positions of unique values |
 #' |             |   `ordertie` |   `sortordertie` |                  | return positions of tied values |
 #' |             |   `orderkey` |   `sortorderkey` |                  | positions of values in vector of unique values (match in dimensiontable) |
-#' |   `sorttab` |   `ordertab` |   `sortordertab` | <[`table()`][table.integer64]> | tabulate frequency of values  |
+#' |   `sorttab` |   `ordertab` |   `sortordertab` | [`table()`][table.integer64] | tabulate frequency of values  |
 #' |             |   `orderrnk` |   `sortorderrnk` |                  | rank averaging ties |
 #' |   `sortqtl` |   `orderqtl` |                  |                  | return quantiles given probabilities |
 #'
@@ -65,7 +65,7 @@
 #'
 #' @return see details
 #' @keywords programming manip
-#' @seealso <[`match()`][match.integer64]>
+#' @seealso [`match()`][match.integer64]
 #' @examples
 #'  message("check the code of 'optimizer64' for examples:")
 #'  print(optimizer64)

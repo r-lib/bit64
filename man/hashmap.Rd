@@ -111,18 +111,18 @@ re-use hashmaps, which avoid re-building hashmaps again and again.
 \tabular{rrl}{
    \strong{function} \tab \strong{see also} \tab \strong{description} \cr
    \code{hashfun} \tab \code{digest} \tab export of the hash function used in \code{hashmap} \cr
-   \code{hashmap} \tab <\code{\link[=match.integer64]{match()}}> \tab return hashmap \cr
-   \code{hashpos} \tab <\code{\link[=match.integer64]{match()}}> \tab return positions of \code{x} in \code{hashmap} \cr
-   \code{hashrev} \tab <\code{\link[=match.integer64]{match()}}> \tab return positions of \code{hashmap} in \code{x} \cr
+   \code{hashmap} \tab \code{\link[=match.integer64]{match()}} \tab return hashmap \cr
+   \code{hashpos} \tab \code{\link[=match.integer64]{match()}} \tab return positions of \code{x} in \code{hashmap} \cr
+   \code{hashrev} \tab \code{\link[=match.integer64]{match()}} \tab return positions of \code{hashmap} in \code{x} \cr
    \code{hashfin} \tab \link{\%in\%.integer64} \tab return logical whether \code{x} is in \code{hashmap} \cr
    \code{hashrin} \tab \link{\%in\%.integer64} \tab return logical whether \code{hashmap} is in \code{x} \cr
-   \code{hashdup} \tab <\code{\link[=duplicated.integer64]{duplicated()}}> \tab return logical whether hashdat is duplicated using hashmap \cr
-   \code{hashuni} \tab <\code{\link[=unique.integer64]{unique()}}> \tab return unique values of hashmap \cr
-   \code{hashmapuni} \tab <\code{\link[=unique.integer64]{unique()}}> \tab return unique values of \code{x} \cr
-   \code{hashupo} \tab <\code{\link[=unique.integer64]{unique()}}> \tab return positions of unique values in hashdat \cr
-   \code{hashmapupo} \tab <\code{\link[=unique.integer64]{unique()}}> \tab return positions of unique values in \code{x} \cr
-   \code{hashtab} \tab <\code{\link[=table.integer64]{table()}}> \tab tabulate values of hashdat using hashmap in \code{keep.order=FALSE} \cr
-   \code{hashmaptab} \tab <\code{\link[=table.integer64]{table()}}> \tab tabulate values of \code{x} building hasmap on the fly in \code{keep.order=FALSE} \cr
+   \code{hashdup} \tab \code{\link[=duplicated.integer64]{duplicated()}} \tab return logical whether hashdat is duplicated using hashmap \cr
+   \code{hashuni} \tab \code{\link[=unique.integer64]{unique()}} \tab return unique values of hashmap \cr
+   \code{hashmapuni} \tab \code{\link[=unique.integer64]{unique()}} \tab return unique values of \code{x} \cr
+   \code{hashupo} \tab \code{\link[=unique.integer64]{unique()}} \tab return positions of unique values in hashdat \cr
+   \code{hashmapupo} \tab \code{\link[=unique.integer64]{unique()}} \tab return positions of unique values in \code{x} \cr
+   \code{hashtab} \tab \code{\link[=table.integer64]{table()}} \tab tabulate values of hashdat using hashmap in \code{keep.order=FALSE} \cr
+   \code{hashmaptab} \tab \code{\link[=table.integer64]{table()}} \tab tabulate values of \code{x} building hasmap on the fly in \code{keep.order=FALSE} \cr
 }
 }
 \examples{
