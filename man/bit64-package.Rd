@@ -422,13 +422,6 @@ is not worth it with 32x at duplicated RAM consumption).
     Following the full R behaviour here would either destroy performance or require extensive C-coding.
   }
 }
-\author{
-Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-}
-\keyword{ package }
-\keyword{ classes }
-\keyword{ manip }
 \examples{
 message("Using integer64 in vector")
 x <- integer64(8)    # create 64 bit vector
@@ -896,3 +889,10 @@ matplot(1:21, cbind(td32, t64), pch=c("d","i"), log="y")
 
 }
 \seealso{ \code{\link{integer}} in base R }
+\author{
+Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+}
+\keyword{ package }
+\keyword{ classes }
+\keyword{ manip }
