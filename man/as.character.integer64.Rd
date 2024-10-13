@@ -17,19 +17,19 @@
   \code{\link{as.logical}}, \code{\link{as.integer}} do what you would expect.
 }
 \usage{
- as.bitstring(x, \dots)
- \method{as.bitstring}{integer64}(x, \dots)
- \method{print}{bitstring}(x, \dots)
- \method{as.character}{integer64}(x, \dots)
- \method{as.double}{integer64}(x, keep.names = FALSE, \dots)
- \method{as.integer}{integer64}(x, \dots)
- \method{as.logical}{integer64}(x, \dots)
- \method{as.list}{integer64}(x, \dots)
+ as.bitstring(x, ...)
+ \method{as.bitstring}{integer64}(x, ...)
+ \method{print}{bitstring}(x, ...)
+ \method{as.character}{integer64}(x, ...)
+ \method{as.double}{integer64}(x, keep.names = FALSE, ...)
+ \method{as.integer}{integer64}(x, ...)
+ \method{as.logical}{integer64}(x, ...)
+ \method{as.list}{integer64}(x, ...)
 }
 \arguments{
   \item{x}{ an integer64 vector }
   \item{keep.names}{ FALSE, set to TRUE to keep a names vector }
-  \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
+  \item{...}{ further arguments to the \code{\link{NextMethod}} }
 }
 \value{
   \code{as.bitstring} returns a string of class 'bitstring'. \cr

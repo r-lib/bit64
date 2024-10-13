@@ -11,17 +11,17 @@
     These methods are packaged here for methods in packages \code{bit64} and \code{ff}.
 }
 \usage{
-    \method{is.sorted}{integer64}(x, \dots)
-    \method{na.count}{integer64}(x, \dots)
-    \method{nvalid}{integer64}(x, \dots)
-    \method{nunique}{integer64}(x, \dots)
-    \method{nties}{integer64}(x, \dots)
+    \method{is.sorted}{integer64}(x, ...)
+    \method{na.count}{integer64}(x, ...)
+    \method{nvalid}{integer64}(x, ...)
+    \method{nunique}{integer64}(x, ...)
+    \method{nties}{integer64}(x, ...)
 }
 \arguments{
   \item{x}{
     some object
     }
-  \item{\dots}{
+  \item{...}{
     ignored
     }
 }

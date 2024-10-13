@@ -30,7 +30,7 @@
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
-  \item{\dots}{
+  \item{...}{
 ignored
 }
 }

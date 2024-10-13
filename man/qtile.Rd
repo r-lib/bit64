@@ -11,12 +11,12 @@
     \code{qtile.ineger64} is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
 }
 \usage{
-    qtile(x, probs=seq(0, 1, 0.25), \dots)
-    \method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, \dots)
-    \method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, \dots)
-    \method{median}{integer64}(x, na.rm = FALSE, \dots)
- \method{mean}{integer64}(x, na.rm = FALSE, \dots)
-    \method{summary}{integer64}(object, \dots)
+    qtile(x, probs=seq(0, 1, 0.25), ...)
+    \method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, ...)
+    \method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, ...)
+    \method{median}{integer64}(x, na.rm = FALSE, ...)
+ \method{mean}{integer64}(x, na.rm = FALSE, ...)
+    \method{summary}{integer64}(object, ...)
  ## mean(x, na.rm = FALSE, ...)
  ## or
  ## mean(x, na.rm = FALSE)
@@ -39,7 +39,7 @@
   \item{na.rm}{
     logical; if \code{TRUE}, any \code{NA} and \code{NaN}'s are removed from \code{x} before the quantiles are computed.
 }
-  \item{\dots}{ignored}
+  \item{...}{ignored}
 }
 \details{
  Functions \code{quantile.integer64} with \code{type=0} and \code{median.integer64} are convenience wrappers to \code{qtile}.

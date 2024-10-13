@@ -10,8 +10,8 @@
 }
 \usage{
 \method{sort}{integer64}(x, decreasing = FALSE, has.na = TRUE, na.last = TRUE, stable = TRUE
-, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
-\method{order}{integer64}(\dots, na.last = TRUE, decreasing = FALSE, has.na = TRUE, stable = TRUE
+, optimize = c("time", "memory"), VERBOSE = FALSE, ...)
+\method{order}{integer64}(..., na.last = TRUE, decreasing = FALSE, has.na = TRUE, stable = TRUE
 , optimize = c("time", "memory"), VERBOSE = FALSE)
 }
 \arguments{
@@ -37,7 +37,7 @@ set to 'memory' to minimize RAM requirements and sacrifice speed
   \item{VERBOSE}{
   cat some info about chosen method
 }
-  \item{\dots}{ further arguments, passed from generics, ignored in methods }
+  \item{...}{ further arguments, passed from generics, ignored in methods }
 }
 \details{
  see \code{\link{sort}} and \code{\link{order}}

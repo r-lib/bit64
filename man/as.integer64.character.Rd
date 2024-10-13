@@ -17,20 +17,20 @@
 }
 \usage{
  NA_integer64_
- as.integer64(x, \dots)
- \method{as.integer64}{integer64}(x, \dots)
- \method{as.integer64}{NULL}(x, \dots)
- \method{as.integer64}{character}(x, \dots)
- \method{as.integer64}{bitstring}(x, \dots)
- \method{as.integer64}{double}(x, keep.names = FALSE, \dots)
- \method{as.integer64}{integer}(x, \dots)
- \method{as.integer64}{logical}(x, \dots)
- \method{as.integer64}{factor}(x, \dots)
+ as.integer64(x, ...)
+ \method{as.integer64}{integer64}(x, ...)
+ \method{as.integer64}{NULL}(x, ...)
+ \method{as.integer64}{character}(x, ...)
+ \method{as.integer64}{bitstring}(x, ...)
+ \method{as.integer64}{double}(x, keep.names = FALSE, ...)
+ \method{as.integer64}{integer}(x, ...)
+ \method{as.integer64}{logical}(x, ...)
+ \method{as.integer64}{factor}(x, ...)
 }
 \arguments{
   \item{x}{ an atomic vector }
   \item{keep.names}{ FALSE, set to TRUE to keep a names vector }
-  \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
+  \item{...}{ further arguments to the \code{\link{NextMethod}} }
 }
 \details{
   \code{as.integer64.character} is realized using C function \code{strtoll} which does not support scientific notation.

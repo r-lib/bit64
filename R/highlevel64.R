@@ -1417,7 +1417,7 @@ optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
 #!   \item{method}{
 #!     NULL for automatic method selection or a suitable low-level method, see details
 #! }
-#!   \item{\dots}{
+#!   \item{...}{
 #! ignored
 #! }
 #! }
@@ -1706,7 +1706,7 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
 #!   indicating which elements (rows) are duplicates.
 #! }
 #! \usage{
-#! \method{duplicated}{integer64}(x, incomparables = FALSE, nunique = NULL, method = NULL, \dots)
+#! \method{duplicated}{integer64}(x, incomparables = FALSE, nunique = NULL, method = NULL, ...)
 #! }
 #! \arguments{
 #!   \item{x}{a vector or a data frame or an array or \code{NULL}.}
@@ -1717,7 +1717,7 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
 #!   \item{method}{
 #!     NULL for automatic method selection or a suitable low-level method, see details
 #! }
-#!   \item{\dots}{ignored}
+#!   \item{...}{ignored}
 #! }
 #! \details{
 #!   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
@@ -1810,7 +1810,7 @@ duplicated.integer64 <- function(x
 #! }
 #! \usage{
 #! \method{unique}{integer64}(x, incomparables = FALSE, order = c("original","values","any")
-#! , nunique = NULL, method = NULL, \dots)
+#! , nunique = NULL, method = NULL, ...)
 #! }
 #! \arguments{
 #!   \item{x}{a vector or a data frame or an array or \code{NULL}.}
@@ -1822,7 +1822,7 @@ duplicated.integer64 <- function(x
 #!   \item{method}{
 #!     NULL for automatic method selection or a suitable low-level method, see details
 #! }
-#!   \item{\dots}{ignored}
+#!   \item{...}{ignored}
 #! }
 #! \details{
 #!   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
@@ -1979,9 +1979,9 @@ unique.integer64 <- function(x
 #!   \code{unipos} returns the positions of those elements returned by \code{\link{unique}}.
 #! }
 #! \usage{
-#! unipos(x, incomparables = FALSE, order = c("original","values","any"), \dots)
+#! unipos(x, incomparables = FALSE, order = c("original","values","any"), ...)
 #! \method{unipos}{integer64}(x, incomparables = FALSE, order = c("original","values","any")
-#! , nunique = NULL, method = NULL, \dots)
+#! , nunique = NULL, method = NULL, ...)
 #! }
 #! \arguments{
 #!   \item{x}{a vector or a data frame or an array or \code{NULL}.}
@@ -1993,7 +1993,7 @@ unique.integer64 <- function(x
 #!   \item{method}{
 #!     NULL for automatic method selection or a suitable low-level method, see details
 #! }
-#!   \item{\dots}{ignored}
+#!   \item{...}{ignored}
 #! }
 #! \details{
 #!   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
@@ -2147,7 +2147,7 @@ unipos.integer64 <- function(x
 #!   table of the counts at each combination of vector values.
 #! }
 #! \usage{
-#! table.integer64(\dots
+#! table.integer64(...
 #! , return = c("table","data.frame","list")
 #! , order = c("values","counts")
 #! , nunique = NULL
@@ -2156,7 +2156,7 @@ unipos.integer64 <- function(x
 #! )
 #! }
 #! \arguments{
-#!   \item{\dots}{one or more objects which can be interpreted as factors
+#!   \item{...}{one or more objects which can be interpreted as factors
 #!     (including character strings), or a list (or data frame) whose
 #!     components can be so interpreted.  (For \code{as.table} and
 #!     \code{as.data.frame}, arguments passed to specific methods.)}
@@ -2186,7 +2186,7 @@ unipos.integer64 <- function(x
 #! \cr
 #!   If the argument \code{dnn} is not supplied, the internal function
 #!   \code{list.names} is called to compute the \sQuote{dimname names}.  If the
-#!   arguments in \code{\dots} are named, those names are used.  For the
+#!   arguments in \code{...} are named, those names are used.  For the
 #!   remaining arguments, \code{deparse.level = 0} gives an empty name,
 #!   \code{deparse.level = 1} uses the supplied argument if it is a symbol,
 #!   and \code{deparse.level = 2} will deparse the argument.
@@ -2481,15 +2481,15 @@ as.integer64.factor <- function(x, ...)as.integer64(unclass(x))
 #!   \code{keypos} returns the positions of the (fact table) elements that participate in their sorted unique subset (dimension table)
 #! }
 #! \usage{
-#! keypos(x, \dots)
-#! \method{keypos}{integer64}(x, method = NULL, \dots)
+#! keypos(x, ...)
+#! \method{keypos}{integer64}(x, method = NULL, ...)
 #! }
 #! \arguments{
 #!   \item{x}{a vector or a data frame or an array or \code{NULL}.}
 #!   \item{method}{
 #!     NULL for automatic method selection or a suitable low-level method, see details
 #! }
-#!   \item{\dots}{ignored}
+#!   \item{...}{ignored}
 #! }
 #! \details{
 #!   NAs are sorted first in the dimension table, see \code{\link{ramorder.integer64}}.
@@ -2569,8 +2569,8 @@ keypos.integer64 <- function(x
 #!   \code{tiepos} returns the positions of those elements that participate in ties.
 #! }
 #! \usage{
-#! tiepos(x, \dots)
-#! \method{tiepos}{integer64}(x, nties = NULL, method = NULL, \dots)
+#! tiepos(x, ...)
+#! \method{tiepos}{integer64}(x, nties = NULL, method = NULL, ...)
 #! }
 #! \arguments{
 #!   \item{x}{a vector or a data frame or an array or \code{NULL}.}
@@ -2580,7 +2580,7 @@ keypos.integer64 <- function(x
 #!   \item{method}{
 #!     NULL for automatic method selection or a suitable low-level method, see details
 #! }
-#!   \item{\dots}{ignored}
+#!   \item{...}{ignored}
 #! }
 #! \details{
 #!   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
@@ -2665,14 +2665,14 @@ tiepos.integer64 <- function(x
 #!   values) are averaged and missing values propagated.
 #! }
 #! \usage{
-#!     \method{rank}{integer64}(x, method = NULL, \dots)
+#!     \method{rank}{integer64}(x, method = NULL, ...)
 #! }
 #! \arguments{
 #!   \item{x}{a integer64 vector}
 #!   \item{method}{
 #!     NULL for automatic method selection or a suitable low-level method, see details
 #! }
-#!   \item{\dots}{ignored}
+#!   \item{...}{ignored}
 #! }
 #! \details{
 #!   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
@@ -2750,15 +2750,15 @@ rank.integer64 <- function(x
 #!     \code{\link{qtile.integer64}} is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
 #! }
 #! \usage{
-#!     prank(x, \dots)
-#!     \method{prank}{integer64}(x, method = NULL, \dots)
+#!     prank(x, ...)
+#!     \method{prank}{integer64}(x, method = NULL, ...)
 #! }
 #! \arguments{
 #!   \item{x}{a integer64 vector}
 #!   \item{method}{
 #!     NULL for automatic method selection or a suitable low-level method, see details
 #! }
-#!   \item{\dots}{ignored}
+#!   \item{...}{ignored}
 #! }
 #! \details{
 #!     Function \code{prank.integer64} is based on \code{\link{rank.integer64}}.
@@ -2806,12 +2806,12 @@ prank.integer64 <- function(x
 #!     \code{qtile.ineger64} is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
 #! }
 #! \usage{
-#!     qtile(x, probs=seq(0, 1, 0.25), \dots)
-#!     \method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, \dots)
-#!     \method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, \dots)
-#!     \method{median}{integer64}(x, na.rm = FALSE, \dots)
-#!  \method{mean}{integer64}(x, na.rm = FALSE, \dots)
-#!     \method{summary}{integer64}(object, \dots)
+#!     qtile(x, probs=seq(0, 1, 0.25), ...)
+#!     \method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, ...)
+#!     \method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, ...)
+#!     \method{median}{integer64}(x, na.rm = FALSE, ...)
+#!  \method{mean}{integer64}(x, na.rm = FALSE, ...)
+#!     \method{summary}{integer64}(object, ...)
 #!  ## mean(x, na.rm = FALSE, ...)
 #!  ## or
 #!  ## mean(x, na.rm = FALSE)
@@ -2834,7 +2834,7 @@ prank.integer64 <- function(x
 #!   \item{na.rm}{
 #!     logical; if \code{TRUE}, any \code{NA} and \code{NaN}'s are removed from \code{x} before the quantiles are computed.
 #! }
-#!   \item{\dots}{ignored}
+#!   \item{...}{ignored}
 #! }
 #! \details{
 #!  Functions \code{quantile.integer64} with \code{type=0} and \code{median.integer64} are convenience wrappers to \code{qtile}.

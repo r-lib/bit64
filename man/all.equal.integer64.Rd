@@ -35,7 +35,7 @@
     \code{err}, the relative, absolute or scaled error, and
     \code{what}, a character string indicating the \emph{kind} of error;
     maybe used, e.g., to format relative and absolute errors differently.}
-  \item{\dots}{further arguments are ignored}
+  \item{...}{further arguments are ignored}
   \item{check.attributes}{logical indicating if the
     \code{\link{attributes}} of \code{target} and \code{current}
     (other than the names) should be compared.}

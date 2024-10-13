@@ -6,15 +6,15 @@
   \code{keypos} returns the positions of the (fact table) elements that participate in their sorted unique subset (dimension table)
 }
 \usage{
-keypos(x, \dots)
-\method{keypos}{integer64}(x, method = NULL, \dots)
+keypos(x, ...)
+\method{keypos}{integer64}(x, method = NULL, ...)
 }
 \arguments{
   \item{x}{a vector or a data frame or an array or \code{NULL}.}
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
-  \item{\dots}{ignored}
+  \item{...}{ignored}
 }
 \details{
   NAs are sorted first in the dimension table, see \code{\link{ramorder.integer64}}.

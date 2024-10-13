@@ -64,8 +64,8 @@
 #!  integer64(length)
 #!  \method{is}{integer64}(x)
 #!  \method{length}{integer64}(x) <- value
-#!  \method{print}{integer64}(x, quote=FALSE, \dots)
-#!  \method{str}{integer64}(object, vec.len  = strO$vec.len, give.head = TRUE, give.length = give.head, \dots)
+#!  \method{print}{integer64}(x, quote=FALSE, ...)
+#!  \method{str}{integer64}(object, vec.len  = strO$vec.len, give.head = TRUE, give.length = give.head, ...)
 #! }
 #! \arguments{
 #!   \item{length}{ length of vector using \code{\link{integer}} }
@@ -76,7 +76,7 @@
 #!   \item{vec.len}{ see \code{\link[utils]{str}} }
 #!   \item{give.head}{ see \code{\link[utils]{str}} }
 #!   \item{give.length}{ see \code{\link[utils]{str}} }
-#!   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
+#!   \item{...}{ further arguments to the \code{\link{NextMethod}} }
 #! }
 #! \details{
 #! \tabular{ll}{
@@ -963,21 +963,21 @@
 #!   \code{\link{as.logical}}, \code{\link{as.integer}} do what you would expect.
 #! }
 #! \usage{
-#!  as.bitstring(x, \dots)
-#!  \method{as.bitstring}{integer64}(x, \dots)
-#!  \method{print}{bitstring}(x, \dots)
-#!  \method{as.character}{integer64}(x, \dots)
-#!  \method{as.double}{integer64}(x, keep.names = FALSE, \dots)
-#!  \method{as.integer}{integer64}(x, \dots)
-#!  \method{as.logical}{integer64}(x, \dots)
+#!  as.bitstring(x, ...)
+#!  \method{as.bitstring}{integer64}(x, ...)
+#!  \method{print}{bitstring}(x, ...)
+#!  \method{as.character}{integer64}(x, ...)
+#!  \method{as.double}{integer64}(x, keep.names = FALSE, ...)
+#!  \method{as.integer}{integer64}(x, ...)
+#!  \method{as.logical}{integer64}(x, ...)
 #!  \method{as.factor}{integer64}(x)
 #!  \method{as.ordered}{integer64}(x)
-#!  \method{as.list}{integer64}(x, \dots)
+#!  \method{as.list}{integer64}(x, ...)
 #! }
 #! \arguments{
 #!   \item{x}{ an integer64 vector }
 #!   \item{keep.names}{ FALSE, set to TRUE to keep a names vector }
-#!   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
+#!   \item{...}{ further arguments to the \code{\link{NextMethod}} }
 #! }
 #! \value{
 #!   \code{as.bitstring} returns a string of class 'bitstring'. \cr
@@ -1016,20 +1016,20 @@
 #! }
 #! \usage{
 #!  NA_integer64_
-#!  as.integer64(x, \dots)
-#!  \method{as.integer64}{integer64}(x, \dots)
-#!  \method{as.integer64}{NULL}(x, \dots)
-#!  \method{as.integer64}{character}(x, \dots)
-#!  \method{as.integer64}{bitstring}(x, \dots)
-#!  \method{as.integer64}{double}(x, keep.names = FALSE, \dots)
-#!  \method{as.integer64}{integer}(x, \dots)
-#!  \method{as.integer64}{logical}(x, \dots)
-#!  \method{as.integer64}{factor}(x, \dots)
+#!  as.integer64(x, ...)
+#!  \method{as.integer64}{integer64}(x, ...)
+#!  \method{as.integer64}{NULL}(x, ...)
+#!  \method{as.integer64}{character}(x, ...)
+#!  \method{as.integer64}{bitstring}(x, ...)
+#!  \method{as.integer64}{double}(x, keep.names = FALSE, ...)
+#!  \method{as.integer64}{integer}(x, ...)
+#!  \method{as.integer64}{logical}(x, ...)
+#!  \method{as.integer64}{factor}(x, ...)
 #! }
 #! \arguments{
 #!   \item{x}{ an atomic vector }
 #!   \item{keep.names}{ FALSE, set to TRUE to keep a names vector }
-#!   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
+#!   \item{...}{ further arguments to the \code{\link{NextMethod}} }
 #! }
 #! \details{
 #!   \code{as.integer64.character} is realized using C function \code{strtoll} which does not support scientific notation.
@@ -1084,16 +1084,16 @@
 #!   Methods to extract and replace parts of an integer64 vector.
 #! }
 #! \usage{
-#!  \method{[}{integer64}(x, i, \dots)
-#!  \method{[}{integer64}(x, \dots) <- value
-#!  \method{[[}{integer64}(x, \dots)
-#!  \method{[[}{integer64}(x, \dots) <- value
+#!  \method{[}{integer64}(x, i, ...)
+#!  \method{[}{integer64}(x, ...) <- value
+#!  \method{[[}{integer64}(x, ...)
+#!  \method{[[}{integer64}(x, ...) <- value
 #! }
 #! \arguments{
 #!   \item{x}{ an atomic vector }
 #!   \item{i}{ indices specifying elements to extract }
 #!   \item{value}{ an atomic vector with values to be assigned }
-#!   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
+#!   \item{...}{ further arguments to the \code{\link{NextMethod}} }
 #! }
 #! \note{
 #!   You should not subscript non-existing elements and not use \code{NA}s as subscripts.
@@ -1147,7 +1147,7 @@
 #!   Unary operators and functions for integer64 vectors.
 #! }
 #! \usage{
-#! \method{format}{integer64}(x, justify="right", \dots)
+#! \method{format}{integer64}(x, justify="right", ...)
 #! \method{is.na}{integer64}(x)
 #! \method{is.nan}{integer64}(x)
 #! \method{is.finite}{integer64}(x)
@@ -1161,7 +1161,7 @@
 #! \method{log10}{integer64}(x)
 #! \method{floor}{integer64}(x)
 #! \method{ceiling}{integer64}(x)
-#! \method{trunc}{integer64}(x, \dots)
+#! \method{trunc}{integer64}(x, ...)
 #! \method{round}{integer64}(x, digits=0)
 #! \method{signif}{integer64}(x, digits=6)
 #! \method{scale}{integer64}(x, center = TRUE, scale = TRUE)
@@ -1174,7 +1174,7 @@
 #!   \item{justify}{ should it be right-justified (the default), left-justified, centred or left alone. }
 #!   \item{center}{ see \code{\link{scale}} }
 #!   \item{scale}{  see \code{\link{scale}} }
-#!   \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
+#!   \item{...}{ further arguments to the \code{\link{NextMethod}} }
 #! }
 #! \value{
 #!   \code{\link{format}} returns a character vector \cr
@@ -1296,17 +1296,17 @@
 #!   Function 'range' without arguments returns the smallest and largest value of the 'integer64' class.
 #! }
 #! \usage{
-#! \method{all}{integer64}(\dots, na.rm = FALSE)
-#! \method{any}{integer64}(\dots, na.rm = FALSE)
-#! \method{min}{integer64}(\dots, na.rm = FALSE)
-#! \method{max}{integer64}(\dots, na.rm = FALSE)
-#! \method{range}{integer64}(\dots, na.rm = FALSE, finite = FALSE)
+#! \method{all}{integer64}(..., na.rm = FALSE)
+#! \method{any}{integer64}(..., na.rm = FALSE)
+#! \method{min}{integer64}(..., na.rm = FALSE)
+#! \method{max}{integer64}(..., na.rm = FALSE)
+#! \method{range}{integer64}(..., na.rm = FALSE, finite = FALSE)
 #! lim.integer64()
-#! \method{sum}{integer64}(\dots, na.rm = FALSE)
-#! \method{prod}{integer64}(\dots, na.rm = FALSE)
+#! \method{sum}{integer64}(..., na.rm = FALSE)
+#! \method{prod}{integer64}(..., na.rm = FALSE)
 #! }
 #! \arguments{
-#!   \item{\dots}{ atomic vectors of class 'integer64'}
+#!   \item{...}{ atomic vectors of class 'integer64'}
 #!   \item{na.rm}{ logical scalar indicating whether to ignore NAs }
 #!   \item{finite}{ logical scalar indicating whether to ignore NAs (just for compatibility with \code{\link{range.default}}) }
 #! }
@@ -1352,13 +1352,13 @@
 #! \method{cummax}{integer64}(x)
 #! \method{cumsum}{integer64}(x)
 #! \method{cumprod}{integer64}(x)
-#! \method{diff}{integer64}(x, lag = 1L, differences = 1L, \dots)
+#! \method{diff}{integer64}(x, lag = 1L, differences = 1L, ...)
 #! }
 #! \arguments{
 #!   \item{x}{ an atomic vector of class 'integer64'}
 #!   \item{lag}{ see \code{\link{diff}} }
 #!   \item{differences}{ see \code{\link{diff}} }
-#!   \item{\dots}{ ignored }
+#!   \item{...}{ ignored }
 #! }
 #! \value{
 #!   \code{\link{cummin}}, \code{\link{cummax}} , \code{\link{cumsum}} and \code{\link{cumprod}}
@@ -1390,12 +1390,12 @@
 #!   The ususal functions 'c', 'cbind' and 'rbind'
 #! }
 #! \usage{
-#! \method{c}{integer64}(\dots, recursive = FALSE)
-#! \method{cbind}{integer64}(\dots)
-#! \method{rbind}{integer64}(\dots)
+#! \method{c}{integer64}(..., recursive = FALSE)
+#! \method{cbind}{integer64}(...)
+#! \method{rbind}{integer64}(...)
 #! }
 #! \arguments{
-#!   \item{\dots}{ two or more arguments coerced to 'integer64' and passed to \code{\link{NextMethod}} }
+#!   \item{...}{ two or more arguments coerced to 'integer64' and passed to \code{\link{NextMethod}} }
 #!   \item{recursive}{ logical. If \code{recursive = TRUE}, the function recursively descends through lists (and pairlists) combining all their elements into a vector. }
 #! }
 #! \value{
@@ -1429,11 +1429,11 @@
 #!   Replicate elements of integer64 vectors
 #! }
 #! \usage{
-#! \method{rep}{integer64}(x, \dots)
+#! \method{rep}{integer64}(x, ...)
 #! }
 #! \arguments{
 #!   \item{x}{ a vector of 'integer64' to be replicated }
-#!   \item{\dots}{ further arguments passed to \code{\link{NextMethod}} }
+#!   \item{...}{ further arguments passed to \code{\link{NextMethod}} }
 #! }
 #! \value{
 #!   \code{\link{rep}} returns a integer64 vector
@@ -1462,7 +1462,7 @@
 #!   Generating sequence of integer64 values
 #! }
 #! \usage{
-#! \method{seq}{integer64}(from = NULL, to = NULL, by = NULL, length.out = NULL, along.with = NULL, \dots)
+#! \method{seq}{integer64}(from = NULL, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
 #! }
 #! \arguments{
 #!   \item{from}{ integer64 scalar (in order to dispatch the integer64 method of \code{\link{seq}} }
@@ -1470,7 +1470,7 @@
 #!   \item{by}{ scalar }
 #!   \item{length.out}{ scalar }
 #!   \item{along.with}{ scalar }
-#!   \item{\dots}{ ignored }
+#!   \item{...}{ ignored }
 #! }
 #! \details{
 #!   \code{seq.integer64} does coerce its arguments 'from', 'to' and 'by' to \code{integer64}.
@@ -1507,11 +1507,11 @@
 #!   Coercing integer64 vector to data.frame.
 #! }
 #! \usage{
-#!   \method{as.data.frame}{integer64}(x, \dots)
+#!   \method{as.data.frame}{integer64}(x, ...)
 #! }
 #! \arguments{
 #!   \item{x}{ an integer64 vector }
-#!   \item{\dots}{ passed to NextMethod \code{\link{as.data.frame}} after removing the 'integer64' class attribute }
+#!   \item{...}{ passed to NextMethod \code{\link{as.data.frame}} after removing the 'integer64' class attribute }
 #! }
 #! \value{
 #!   a one-column data.frame containing an integer64 vector
@@ -1610,7 +1610,7 @@
 #!     \code{err}, the relative, absolute or scaled error, and
 #!     \code{what}, a character string indicating the \emph{kind} of error;
 #!     maybe used, e.g., to format relative and absolute errors differently.}
-#!   \item{\dots}{further arguments are ignored}
+#!   \item{...}{further arguments are ignored}
 #!   \item{check.attributes}{logical indicating if the
 #!     \code{\link{attributes}} of \code{target} and \code{current}
 #!     (other than the names) should be compared.}

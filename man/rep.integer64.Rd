@@ -7,11 +7,11 @@
   Replicate elements of integer64 vectors
 }
 \usage{
-\method{rep}{integer64}(x, \dots)
+\method{rep}{integer64}(x, ...)
 }
 \arguments{
   \item{x}{ a vector of 'integer64' to be replicated }
-  \item{\dots}{ further arguments passed to \code{\link{NextMethod}} }
+  \item{...}{ further arguments passed to \code{\link{NextMethod}} }
 }
 \value{
   \code{\link{rep}} returns a integer64 vector
