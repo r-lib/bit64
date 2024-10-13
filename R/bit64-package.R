@@ -198,7 +198,7 @@
 #' |         [cbind.integer64()] |         [cbind()] | column bind                        |
 #' |         [rbind.integer64()] |         [rbind()] | row bind                           |
 #' | [as.data.frame.integer64()] | [as.data.frame()] | coerce atomic object to data.frame |
-#'                               |    [data.frame()] | inherited from Base R since we have coercion |
+#' |                             |    [data.frame()] | inherited from Base R since we have coercion |
 #'
 #' | **subscripting**                              | **see also**            | **description**          |
 #' |----------------------------------------------:|------------------------:|:-------------------------|

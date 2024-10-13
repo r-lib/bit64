@@ -266,11 +266,9 @@ For all available methods on \code{integer64} vectors see the index below and th
    \code{\link[=cbind.integer64]{cbind.integer64()}} \tab \code{\link[=cbind]{cbind()}} \tab column bind \cr
    \code{\link[=rbind.integer64]{rbind.integer64()}} \tab \code{\link[=rbind]{rbind()}} \tab row bind \cr
    \code{\link[=as.data.frame.integer64]{as.data.frame.integer64()}} \tab \code{\link[=as.data.frame]{as.data.frame()}} \tab coerce atomic object to data.frame \cr
+    \tab \code{\link[=data.frame]{data.frame()}} \tab inherited from Base R since we have coercion \cr
 }
-
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{                          |    [data.frame()] | inherited from Base R since we have coercion |
-}\if{html}{\out{</div>}}\tabular{rrl}{
+\tabular{rrl}{
    \strong{subscripting} \tab \strong{see also} \tab \strong{description} \cr
    \code{\link[=extract.replace.integer64]{[.integer64}} \tab \code{\link[base:Extract]{[}} \tab vector and array extract \cr
    \code{\link[=extract.replace.integer64]{[<-.integer64}} \tab \code{\link[base:Extract]{[<-}} \tab vector and array assign \cr
