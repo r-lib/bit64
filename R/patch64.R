@@ -59,7 +59,7 @@
 #! }
 #!   \item{from}{ scalar denoting first element of sequence }
 #!   \item{to}{ scalar denoting last element of sequence }
-#!   \item{\dots}{ ignored }
+#!   \item{...}{ ignored }
 #! }
 #! \details{
 #!    The following functions are turned into S3 gernerics in order to dispatch methods for \code{\link{integer64}}:

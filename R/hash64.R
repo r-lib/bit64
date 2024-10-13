@@ -46,32 +46,32 @@
 #! re-use hashmaps, which avoid re-building hashmaps again and again.
 #! }
 #! \usage{
-#! hashfun(x, \dots)
-#! \method{hashfun}{integer64}(x, minfac=1.41, hashbits=NULL, \dots)
-#! hashmap(x, \dots)
-#! \method{hashmap}{integer64}(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache=NULL, \dots)
-#! hashpos(cache, \dots)
-#! \method{hashpos}{cache_integer64}(cache, x, nomatch = NA_integer_, \dots)
-#! hashrev(cache, \dots)
-#! \method{hashrev}{cache_integer64}(cache, x, nomatch = NA_integer_, \dots)
-#! hashfin(cache, \dots)
-#! \method{hashfin}{cache_integer64}(cache, x, \dots)
-#! hashrin(cache, \dots)
-#! \method{hashrin}{cache_integer64}(cache, x, \dots)
-#! hashdup(cache, \dots)
-#! \method{hashdup}{cache_integer64}(cache, \dots)
-#! hashuni(cache, \dots)
-#! \method{hashuni}{cache_integer64}(cache, keep.order=FALSE, \dots)
-#! hashmapuni(x, \dots)
-#! \method{hashmapuni}{integer64}(x, nunique=NULL, minfac=1.5, hashbits=NULL, \dots)
-#! hashupo(cache, \dots)
-#! \method{hashupo}{cache_integer64}(cache, keep.order=FALSE, \dots)
-#! hashmapupo(x, \dots)
-#! \method{hashmapupo}{integer64}(x, nunique=NULL, minfac=1.5, hashbits=NULL, \dots)
-#! hashtab(cache, \dots)
-#! \method{hashtab}{cache_integer64}(cache, \dots)
-#! hashmaptab(x, \dots)
-#! \method{hashmaptab}{integer64}(x, nunique=NULL, minfac=1.5, hashbits=NULL, \dots)
+#! hashfun(x, ...)
+#! \method{hashfun}{integer64}(x, minfac=1.41, hashbits=NULL, ...)
+#! hashmap(x, ...)
+#! \method{hashmap}{integer64}(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache=NULL, ...)
+#! hashpos(cache, ...)
+#! \method{hashpos}{cache_integer64}(cache, x, nomatch = NA_integer_, ...)
+#! hashrev(cache, ...)
+#! \method{hashrev}{cache_integer64}(cache, x, nomatch = NA_integer_, ...)
+#! hashfin(cache, ...)
+#! \method{hashfin}{cache_integer64}(cache, x, ...)
+#! hashrin(cache, ...)
+#! \method{hashrin}{cache_integer64}(cache, x, ...)
+#! hashdup(cache, ...)
+#! \method{hashdup}{cache_integer64}(cache, ...)
+#! hashuni(cache, ...)
+#! \method{hashuni}{cache_integer64}(cache, keep.order=FALSE, ...)
+#! hashmapuni(x, ...)
+#! \method{hashmapuni}{integer64}(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...)
+#! hashupo(cache, ...)
+#! \method{hashupo}{cache_integer64}(cache, keep.order=FALSE, ...)
+#! hashmapupo(x, ...)
+#! \method{hashmapupo}{integer64}(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...)
+#! hashtab(cache, ...)
+#! \method{hashtab}{cache_integer64}(cache, ...)
+#! hashmaptab(x, ...)
+#! \method{hashmaptab}{integer64}(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...)
 #! }
 #! \arguments{
 #!   \item{x}{ an integer64 vector }
@@ -82,7 +82,7 @@
 #!   \item{nunique}{ giving \emph{correct} number of unique elements can help reducing the size of the hashmap }
 #!   \item{nomatch}{ the value to be returned if an element is not found in the hashmap }
 #!   \item{keep.order}{ determines order of results and speed: \code{FALSE} (the default) is faster and returns in the (pseudo)random order of the hash function, \code{TRUE} returns in the order of first appearance in the original data, but this requires extra work }
-#!   \item{\dots}{ further arguments, passed from generics, ignored in methods }
+#!   \item{...}{ further arguments, passed from generics, ignored in methods }
 #! }
 #! \details{
 #! \tabular{rrl}{

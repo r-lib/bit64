@@ -6,7 +6,7 @@
 }
 \usage{
 \method{unique}{integer64}(x, incomparables = FALSE, order = c("original","values","any")
-, nunique = NULL, method = NULL, \dots)
+, nunique = NULL, method = NULL, ...)
 }
 \arguments{
   \item{x}{a vector or a data frame or an array or \code{NULL}.}
@@ -18,7 +18,7 @@
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
-  \item{\dots}{ignored}
+  \item{...}{ignored}
 }
 \details{
   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.

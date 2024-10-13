@@ -7,7 +7,7 @@
   Generating sequence of integer64 values
 }
 \usage{
-\method{seq}{integer64}(from = NULL, to = NULL, by = NULL, length.out = NULL, along.with = NULL, \dots)
+\method{seq}{integer64}(from = NULL, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
 }
 \arguments{
   \item{from}{ integer64 scalar (in order to dispatch the integer64 method of \code{\link{seq}} }
@@ -15,7 +15,7 @@
   \item{by}{ scalar }
   \item{length.out}{ scalar }
   \item{along.with}{ scalar }
-  \item{\dots}{ ignored }
+  \item{...}{ ignored }
 }
 \details{
   \code{seq.integer64} does coerce its arguments 'from', 'to' and 'by' to \code{integer64}.

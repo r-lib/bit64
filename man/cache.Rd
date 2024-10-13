@@ -19,7 +19,7 @@ cache(x)
 setcache(x, which, value)
 getcache(x, which)
 remcache(x)
-\method{print}{cache}(x, all.names = FALSE, pattern, \dots)
+\method{print}{cache}(x, all.names = FALSE, pattern, ...)
 }
 \arguments{
   \item{x}{
@@ -37,7 +37,7 @@ remcache(x)
   \item{pattern}{
   passed to \code{\link{ls}} when listing the cache content
 }
-  \item{\dots}{
+  \item{...}{
     ignored
 }
 }

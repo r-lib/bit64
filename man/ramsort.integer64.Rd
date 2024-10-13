@@ -26,27 +26,27 @@
  The \code{sort}-methods change \code{x}, the \code{order}-methods change \code{i}, and the \code{sortoder}-methods change both \code{x} and \code{i}
 }
 \usage{
-\method{shellsort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, \dots)
-\method{shellsortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, \dots)
-\method{shellorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, \dots)
-\method{mergesort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, \dots)
-\method{mergeorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, \dots)
-\method{mergesortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, \dots)
+\method{shellsort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
+\method{shellsortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
+\method{shellorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
+\method{mergesort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
+\method{mergeorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
+\method{mergesortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
 \method{quicksort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE
-, restlevel=floor(1.5*log2(length(x))), \dots)
+, restlevel=floor(1.5*log2(length(x))), ...)
 \method{quicksortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE
-, restlevel=floor(1.5*log2(length(x))), \dots)
+, restlevel=floor(1.5*log2(length(x))), ...)
 \method{quickorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE
-, restlevel=floor(1.5*log2(length(x))), \dots)
-\method{radixsort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, \dots)
-\method{radixsortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, \dots)
-\method{radixorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, \dots)
+, restlevel=floor(1.5*log2(length(x))), ...)
+\method{radixsort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, ...)
+\method{radixsortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, ...)
+\method{radixorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, ...)
 \method{ramsort}{integer64}(x, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE
-, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
+, optimize = c("time", "memory"), VERBOSE = FALSE, ...)
 \method{ramsortorder}{integer64}(x, i, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE
-, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
+, optimize = c("time", "memory"), VERBOSE = FALSE, ...)
 \method{ramorder}{integer64}(x, i, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE
-, optimize = c("time", "memory"), VERBOSE = FALSE, \dots)
+, optimize = c("time", "memory"), VERBOSE = FALSE, ...)
 }
 \arguments{
   \item{x}{ a vector to be sorted by \code{\link{ramsort.integer64}} and \code{\link{ramsortorder.integer64}}, i.e. the output of  \code{\link{sort.integer64}} }
@@ -78,7 +78,7 @@ number of remaining recursionlevels before \code{quicksort} switches from recurs
   \item{VERBOSE}{
   cat some info about chosen method
 }
-  \item{\dots}{ further arguments, passed from generics, ignored in methods }
+  \item{...}{ further arguments, passed from generics, ignored in methods }
 }
 \details{
  see \code{\link[bit:Sorting]{ramsort}}

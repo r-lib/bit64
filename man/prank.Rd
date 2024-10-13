@@ -7,15 +7,15 @@
     \code{\link{qtile.integer64}} is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
 }
 \usage{
-    prank(x, \dots)
-    \method{prank}{integer64}(x, method = NULL, \dots)
+    prank(x, ...)
+    \method{prank}{integer64}(x, method = NULL, ...)
 }
 \arguments{
   \item{x}{a integer64 vector}
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
-  \item{\dots}{ignored}
+  \item{...}{ignored}
 }
 \details{
     Function \code{prank.integer64} is based on \code{\link{rank.integer64}}.

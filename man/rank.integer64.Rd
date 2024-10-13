@@ -6,14 +6,14 @@
   values) are averaged and missing values propagated.
 }
 \usage{
-    \method{rank}{integer64}(x, method = NULL, \dots)
+    \method{rank}{integer64}(x, method = NULL, ...)
 }
 \arguments{
   \item{x}{a integer64 vector}
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
-  \item{\dots}{ignored}
+  \item{...}{ignored}
 }
 \details{
   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.

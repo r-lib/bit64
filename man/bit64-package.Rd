@@ -54,8 +54,8 @@ is not worth it with 32x at duplicated RAM consumption).
  integer64(length)
  \method{is}{integer64}(x)
  \method{length}{integer64}(x) <- value
- \method{print}{integer64}(x, quote=FALSE, \dots)
- \method{str}{integer64}(object, vec.len  = strO$vec.len, give.head = TRUE, give.length = give.head, \dots)
+ \method{print}{integer64}(x, quote=FALSE, ...)
+ \method{str}{integer64}(object, vec.len  = strO$vec.len, give.head = TRUE, give.length = give.head, ...)
 }
 \arguments{
   \item{length}{ length of vector using \code{\link{integer}} }
@@ -66,7 +66,7 @@ is not worth it with 32x at duplicated RAM consumption).
   \item{vec.len}{ see \code{\link[utils]{str}} }
   \item{give.head}{ see \code{\link[utils]{str}} }
   \item{give.length}{ see \code{\link[utils]{str}} }
-  \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
+  \item{...}{ further arguments to the \code{\link{NextMethod}} }
 }
 \details{
 \tabular{ll}{

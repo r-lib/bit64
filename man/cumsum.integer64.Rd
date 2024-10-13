@@ -15,13 +15,13 @@
 \method{cummax}{integer64}(x)
 \method{cumsum}{integer64}(x)
 \method{cumprod}{integer64}(x)
-\method{diff}{integer64}(x, lag = 1L, differences = 1L, \dots)
+\method{diff}{integer64}(x, lag = 1L, differences = 1L, ...)
 }
 \arguments{
   \item{x}{ an atomic vector of class 'integer64'}
   \item{lag}{ see \code{\link{diff}} }
   \item{differences}{ see \code{\link{diff}} }
-  \item{\dots}{ ignored }
+  \item{...}{ ignored }
 }
 \value{
   \code{\link{cummin}}, \code{\link{cummax}} , \code{\link{cumsum}} and \code{\link{cumprod}}

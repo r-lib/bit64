@@ -29,7 +29,7 @@
 #! setcache(x, which, value)
 #! getcache(x, which)
 #! remcache(x)
-#! \method{print}{cache}(x, all.names = FALSE, pattern, \dots)
+#! \method{print}{cache}(x, all.names = FALSE, pattern, ...)
 #! }
 #! \arguments{
 #!   \item{x}{
@@ -47,7 +47,7 @@
 #!   \item{pattern}{
 #!   passed to \code{\link{ls}} when listing the cache content
 #! }
-#!   \item{\dots}{
+#!   \item{...}{
 #!     ignored
 #! }
 #! }
@@ -181,7 +181,7 @@ print.cache<- function(x, all.names=FALSE, pattern, ...){
 #!     Functions to create cache that accelerates many operations
 #! }
 #! \usage{
-#! hashcache(x, nunique=NULL, \dots)
+#! hashcache(x, nunique=NULL, ...)
 #! sortcache(x, has.na = NULL)
 #! sortordercache(x, has.na = NULL, stable = NULL)
 #! ordercache(x, has.na = NULL, stable = NULL, optimize = "time")
@@ -202,7 +202,7 @@ print.cache<- function(x, all.names=FALSE, pattern, ...){
 #! by default ramsort optimizes for 'time' which requires more RAM,
 #! set to 'memory' to minimize RAM requirements and sacrifice speed
 #! }
-#!   \item{\dots}{
+#!   \item{...}{
 #!         passed to \code{\link{hashmap}}
 #! }
 #! }
@@ -327,17 +327,17 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
 #!     These methods are packaged here for methods in packages \code{bit64} and \code{ff}.
 #! }
 #! \usage{
-#!     \method{is.sorted}{integer64}(x, \dots)
-#!     \method{na.count}{integer64}(x, \dots)
-#!     \method{nvalid}{integer64}(x, \dots)
-#!     \method{nunique}{integer64}(x, \dots)
-#!     \method{nties}{integer64}(x, \dots)
+#!     \method{is.sorted}{integer64}(x, ...)
+#!     \method{na.count}{integer64}(x, ...)
+#!     \method{nvalid}{integer64}(x, ...)
+#!     \method{nunique}{integer64}(x, ...)
+#!     \method{nties}{integer64}(x, ...)
 #! }
 #! \arguments{
 #!   \item{x}{
 #!     some object
 #!     }
-#!   \item{\dots}{
+#!   \item{...}{
 #!     ignored
 #!     }
 #! }

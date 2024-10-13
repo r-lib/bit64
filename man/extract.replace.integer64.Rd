@@ -10,16 +10,16 @@
   Methods to extract and replace parts of an integer64 vector.
 }
 \usage{
- \method{[}{integer64}(x, i, \dots)
- \method{[}{integer64}(x, \dots) <- value
- \method{[[}{integer64}(x, \dots)
- \method{[[}{integer64}(x, \dots) <- value
+ \method{[}{integer64}(x, i, ...)
+ \method{[}{integer64}(x, ...) <- value
+ \method{[[}{integer64}(x, ...)
+ \method{[[}{integer64}(x, ...) <- value
 }
 \arguments{
   \item{x}{ an atomic vector }
   \item{i}{ indices specifying elements to extract }
   \item{value}{ an atomic vector with values to be assigned }
-  \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
+  \item{...}{ further arguments to the \code{\link{NextMethod}} }
 }
 \note{
   You should not subscript non-existing elements and not use \code{NA}s as subscripts.

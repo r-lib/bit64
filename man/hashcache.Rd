@@ -10,7 +10,7 @@
     Functions to create cache that accelerates many operations
 }
 \usage{
-hashcache(x, nunique=NULL, \dots)
+hashcache(x, nunique=NULL, ...)
 sortcache(x, has.na = NULL)
 sortordercache(x, has.na = NULL, stable = NULL)
 ordercache(x, has.na = NULL, stable = NULL, optimize = "time")
@@ -31,7 +31,7 @@ boolean scalar defining whether stable sorting is needed. Allowing non-stable ma
 by default ramsort optimizes for 'time' which requires more RAM,
 set to 'memory' to minimize RAM requirements and sacrifice speed
 }
-  \item{\dots}{
+  \item{...}{
         passed to \code{\link{hashmap}}
 }
 }

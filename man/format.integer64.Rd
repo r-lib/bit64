@@ -24,7 +24,7 @@
   Unary operators and functions for integer64 vectors.
 }
 \usage{
-\method{format}{integer64}(x, justify="right", \dots)
+\method{format}{integer64}(x, justify="right", ...)
 \method{is.na}{integer64}(x)
 \method{is.nan}{integer64}(x)
 \method{is.finite}{integer64}(x)
@@ -38,7 +38,7 @@
 \method{log10}{integer64}(x)
 \method{floor}{integer64}(x)
 \method{ceiling}{integer64}(x)
-\method{trunc}{integer64}(x, \dots)
+\method{trunc}{integer64}(x, ...)
 \method{round}{integer64}(x, digits=0)
 \method{signif}{integer64}(x, digits=6)
 \method{scale}{integer64}(x, center = TRUE, scale = TRUE)
@@ -51,7 +51,7 @@
   \item{justify}{ should it be right-justified (the default), left-justified, centred or left alone. }
   \item{center}{ see \code{\link{scale}} }
   \item{scale}{  see \code{\link{scale}} }
-  \item{\dots}{ further arguments to the \code{\link{NextMethod}} }
+  \item{...}{ further arguments to the \code{\link{NextMethod}} }
 }
 \value{
   \code{\link{format}} returns a character vector \cr

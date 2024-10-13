@@ -12,7 +12,7 @@
   table of the counts at each combination of vector values.
 }
 \usage{
-table.integer64(\dots
+table.integer64(...
 , return = c("table","data.frame","list")
 , order = c("values","counts")
 , nunique = NULL
@@ -21,7 +21,7 @@ table.integer64(\dots
 )
 }
 \arguments{
-  \item{\dots}{one or more objects which can be interpreted as factors
+  \item{...}{one or more objects which can be interpreted as factors
     (including character strings), or a list (or data frame) whose
     components can be so interpreted.  (For \code{as.table} and
     \code{as.data.frame}, arguments passed to specific methods.)}
@@ -51,7 +51,7 @@ and \code{\link{ordertab}} (memory saving ordering).
 \cr
   If the argument \code{dnn} is not supplied, the internal function
   \code{list.names} is called to compute the \sQuote{dimname names}.  If the
-  arguments in \code{\dots} are named, those names are used.  For the
+  arguments in \code{...} are named, those names are used.  For the
   remaining arguments, \code{deparse.level = 0} gives an empty name,
   \code{deparse.level = 1} uses the supplied argument if it is a symbol,
   and \code{deparse.level = 2} will deparse the argument.

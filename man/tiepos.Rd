@@ -6,8 +6,8 @@
   \code{tiepos} returns the positions of those elements that participate in ties.
 }
 \usage{
-tiepos(x, \dots)
-\method{tiepos}{integer64}(x, nties = NULL, method = NULL, \dots)
+tiepos(x, ...)
+\method{tiepos}{integer64}(x, nties = NULL, method = NULL, ...)
 }
 \arguments{
   \item{x}{a vector or a data frame or an array or \code{NULL}.}
@@ -17,7 +17,7 @@ tiepos(x, \dots)
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
-  \item{\dots}{ignored}
+  \item{...}{ignored}
 }
 \details{
   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
