@@ -8,6 +8,7 @@
 }
 \arguments{
   \item{x}{ an integer64 vector }
+
   \item{...}{ passed to NextMethod \code{\link{as.data.frame}} after removing the 'integer64' class attribute }
 }
 \value{

@@ -18,17 +18,23 @@ optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
 }
 \arguments{
   \item{nsmall}{ size of smaller vector }
+
   \item{nbig}{ size of larger bigger vector }
+
   \item{timefun}{ a function for timing such as \code{\link[bit]{repeat.time}} or \code{\link{system.time}} }
+
   \item{what}{
  a vector of names of high-level functions
 }
+
   \item{uniorder}{
  one of the order parameters that are allowed in \code{\link{unique.integer64}} and \code{\link{unipos.integer64}}
 }
+
   \item{taborder}{
  one of the order parameters that are allowed in \code{\link{table.integer64}}
 }
+
   \item{plot}{
  set to FALSE to suppress plotting
 }

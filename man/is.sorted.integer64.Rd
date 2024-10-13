@@ -22,6 +22,7 @@
   \item{x}{
     some object
     }
+
   \item{...}{
     ignored
     }

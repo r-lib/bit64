@@ -11,6 +11,7 @@
 }
 \arguments{
   \item{class}{ NULL or a character vector of class attributes }
+
   \item{whichclass}{ the (single) class name to add or remove from the class vector  }
 }
 \value{

@@ -26,13 +26,21 @@
 }
 \arguments{
   \item{length}{ length of vector using \code{\link{integer}} }
+
   \item{x}{ an integer64 vector }
+
   \item{object}{ an integer64 vector }
+
   \item{value}{ an integer64 vector of values to be assigned }
+
   \item{quote}{ logical, indicating whether or not strings should be printed with surrounding quotes. }
+
   \item{vec.len}{ see \code{\link[utils]{str}} }
+
   \item{give.head}{ see \code{\link[utils]{str}} }
+
   \item{give.length}{ see \code{\link[utils]{str}} }
+
   \item{...}{ further arguments to the \code{\link{NextMethod}} }
 }
 \value{

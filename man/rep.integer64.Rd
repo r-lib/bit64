@@ -8,6 +8,7 @@
 }
 \arguments{
   \item{x}{ a vector of 'integer64' to be replicated }
+
   \item{...}{ further arguments passed to \code{\link{NextMethod}} }
 }
 \value{

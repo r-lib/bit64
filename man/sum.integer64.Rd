@@ -29,7 +29,9 @@ lim.integer64()
 }
 \arguments{
   \item{...}{ atomic vectors of class 'integer64'}
+
   \item{na.rm}{ logical scalar indicating whether to ignore NAs }
+
   \item{finite}{ logical scalar indicating whether to ignore NAs (just for compatibility with \code{\link{range.default}}) }
 }
 \value{

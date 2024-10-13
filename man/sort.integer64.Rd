@@ -13,27 +13,34 @@
 }
 \arguments{
   \item{x}{ a vector to be sorted by \code{\link{ramsort.integer64}} and \code{\link{ramsortorder.integer64}}, i.e. the output of  \code{\link{sort.integer64}} }
+
   \item{has.na}{
 boolean scalar defining whether the input vector might contain \code{NA}s. If we know we don't have NAs, this may speed-up.
 \emph{Note} that you risk a crash if there are unexpected \code{NA}s with \code{has.na=FALSE}
 }
+
   \item{na.last}{
 boolean scalar telling ramsort whether to sort \code{NA}s last or first.
 \emph{Note} that 'boolean' means that there is no third option \code{NA} as in \code{\link{sort}}
 }
+
   \item{decreasing}{
 boolean scalar telling ramsort whether to sort increasing or decreasing
 }
+
   \item{stable}{
 boolean scalar defining whether stable sorting is needed. Allowing non-stable may speed-up.
 }
+
   \item{optimize}{
 by default ramsort optimizes for 'time' which requires more RAM,
 set to 'memory' to minimize RAM requirements and sacrifice speed
 }
+
   \item{VERBOSE}{
   cat some info about chosen method
 }
+
   \item{...}{ further arguments, passed from generics, ignored in methods }
 }
 \value{

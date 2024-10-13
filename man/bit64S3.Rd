@@ -54,11 +54,15 @@
   \item{x}{
     integer64 vector: the values to be matched, optionally carrying a cache created with \code{\link{hashcache}}
 }
+
   \item{table}{
     integer64 vector: the values to be matched against, optionally carrying a cache created with \code{\link{hashcache}} or \code{\link{sortordercache}}
 }
+
   \item{from}{ scalar denoting first element of sequence }
+
   \item{to}{ scalar denoting last element of sequence }
+
   \item{...}{ ignored }
 }
 \value{

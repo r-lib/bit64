@@ -9,9 +9,11 @@
 }
 \arguments{
   \item{x}{a integer64 vector}
+
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
+
   \item{...}{ignored}
 }
 \value{

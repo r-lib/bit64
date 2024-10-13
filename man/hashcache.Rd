@@ -19,18 +19,23 @@ ordercache(x, has.na = NULL, stable = NULL, optimize = "time")
   \item{x}{
         an atomic vector (note that currently only integer64 is supported)
 }
+
   \item{nunique}{ giving \emph{correct} number of unique elements can help reducing the size of the hashmap }
+
   \item{has.na}{
 boolean scalar defining whether the input vector might contain \code{NA}s. If we know we don't have NAs, this may speed-up.
 \emph{Note} that you risk a crash if there are unexpected \code{NA}s with \code{has.na=FALSE}
 }
+
   \item{stable}{
 boolean scalar defining whether stable sorting is needed. Allowing non-stable may speed-up.
 }
+
   \item{optimize}{
 by default ramsort optimizes for 'time' which requires more RAM,
 set to 'memory' to minimize RAM requirements and sacrifice speed
 }
+
   \item{...}{
         passed to \code{\link{hashmap}}
 }
