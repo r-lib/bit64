@@ -19,6 +19,8 @@ as.bitstring(x, ...)
 
 \method{as.logical}{integer64}(x, ...)
 
+\method{as.character}{integer64}(x, ...)
+
 \method{as.bitstring}{integer64}(x, ...)
 
 \method{print}{bitstring}(x, ...)
