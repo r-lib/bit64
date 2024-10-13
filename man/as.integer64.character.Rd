@@ -35,7 +35,9 @@
 }
 \arguments{
   \item{x}{ an atomic vector }
+
   \item{keep.names}{ FALSE, set to TRUE to keep a names vector }
+
   \item{...}{ further arguments to the \code{\link{NextMethod}} }
 }
 \value{

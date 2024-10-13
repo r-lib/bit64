@@ -17,22 +17,29 @@
 }
 \arguments{
   \item{target}{ a vector of 'integer64' or an object that can be coerced with \code{\link{as.integer64}} }
+
   \item{current}{ a vector of 'integer64' or an object that can be coerced with \code{\link{as.integer64}} }
+
   \item{tolerance}{numeric \eqn{\ge} 0.  Differences smaller than
     \code{tolerance} are not reported.  The default value is close to
     \code{1.5e-8}.}
+
   \item{scale}{\code{NULL} or numeric > 0, typically of length 1 or
     \code{length(target)}.  See \sQuote{Details}.}
+
   \item{countEQ}{logical indicating if the \code{target == current}
     cases should be counted when computing the mean (absolute or
     relative) differences.  The default, \code{FALSE} may seem
     misleading in cases where \code{target} and \code{current} only
     differ in a few places; see the extensive example.}
+
   \item{formatFUN}{a \code{\link{function}} of two arguments,
     \code{err}, the relative, absolute or scaled error, and
     \code{what}, a character string indicating the \emph{kind} of error;
     maybe used, e.g., to format relative and absolute errors differently.}
+
   \item{...}{further arguments are ignored}
+
   \item{check.attributes}{logical indicating if the
     \code{\link{attributes}} of \code{target} and \code{current}
     (other than the names) should be compared.}

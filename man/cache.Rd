@@ -28,18 +28,23 @@ remcache(x)
   \item{x}{
   an integer64 vector (or a cache object in case of \code{print.cache})
 }
+
   \item{which}{
   A character naming the object to be retrieved from the cache or to be stored in the cache
 }
+
   \item{value}{
   An object to be stored in the cache
 }
+
   \item{all.names}{
   passed to \code{\link{ls}} when listing the cache content
 }
+
   \item{pattern}{
   passed to \code{\link{ls}} when listing the cache content
 }
+
   \item{...}{
     ignored
 }

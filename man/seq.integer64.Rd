@@ -8,10 +8,15 @@
 }
 \arguments{
   \item{from}{ integer64 scalar (in order to dispatch the integer64 method of \code{\link{seq}} }
+
   \item{to}{ scalar }
+
   \item{by}{ scalar }
+
   \item{length.out}{ scalar }
+
   \item{along.with}{ scalar }
+
   \item{...}{ ignored }
 }
 \value{

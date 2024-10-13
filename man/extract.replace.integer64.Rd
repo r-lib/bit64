@@ -17,8 +17,11 @@
 }
 \arguments{
   \item{x}{ an atomic vector }
+
   \item{i}{ indices specifying elements to extract }
+
   \item{value}{ an atomic vector with values to be assigned }
+
   \item{...}{ further arguments to the \code{\link{NextMethod}} }
 }
 \value{

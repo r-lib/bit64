@@ -56,8 +56,11 @@ binattr(e1,e2) # for internal use only
 }
 \arguments{
   \item{e1}{ an atomic vector of class 'integer64'}
+
   \item{e2}{ an atomic vector of class 'integer64'}
+
   \item{x}{ an atomic vector of class 'integer64'}
+
   \item{y}{ an atomic vector of class 'integer64'}
 }
 \value{

@@ -20,8 +20,11 @@
 }
 \arguments{
   \item{x}{ an atomic vector of class 'integer64'}
+
   \item{lag}{ see \code{\link{diff}} }
+
   \item{differences}{ see \code{\link{diff}} }
+
   \item{...}{ ignored }
 }
 \value{

@@ -14,6 +14,7 @@
 }
 \arguments{
   \item{...}{ two or more arguments coerced to 'integer64' and passed to \code{\link{NextMethod}} }
+
   \item{recursive}{ logical. If \code{recursive = TRUE}, the function recursively descends through lists (and pairlists) combining all their elements into a vector. }
 }
 \value{

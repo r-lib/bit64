@@ -9,9 +9,11 @@ keypos(x, ...)
 }
 \arguments{
   \item{x}{a vector or a data frame or an array or \code{NULL}.}
+
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
+
   \item{...}{ignored}
 }
 \value{

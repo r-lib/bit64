@@ -13,18 +13,23 @@
   \item{x}{
     integer64 vector: the values to be matched, optionally carrying a cache created with \code{\link{hashcache}}
 }
+
   \item{table}{
     integer64 vector: the values to be matched against, optionally carrying a cache created with \code{\link{hashcache}} or \code{\link{sortordercache}}
 }
+
   \item{nomatch}{
   the value to be returned in the case when no match is found. Note that it is coerced to integer.
 }
+
   \item{nunique}{
     NULL or the number of unique values of table (including NA). Providing \code{nunique} can speed-up matching when \code{table} has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
 }
+
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
+
   \item{...}{
 ignored
 }

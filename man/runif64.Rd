@@ -8,8 +8,11 @@
 }
 \arguments{
   \item{n}{ length of return vector }
+
   \item{min}{ lower inclusive bound for random numbers }
+
   \item{max}{ upper inclusive bound for random numbers }
+
   \item{replace}{ set to FALSE for sampleing from a finite pool, see \code{\link{sample}} }
 }
 \value{

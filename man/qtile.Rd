@@ -24,22 +24,29 @@
 }
 \arguments{
   \item{x}{a integer64 vector}
+
   \item{object}{a integer64 vector}
+
   \item{probs}{
         numeric vector of probabilities with values in [0,1] - possibly containing \code{NA}s
 }
+
   \item{names}{
     logical; if \code{TRUE}, the result has a \code{names} attribute. Set to \code{FALSE} for speedup with many probs.
 }
+
   \item{type}{
     an integer selecting the quantile algorithm, currently only 0 is supported, see details
 }
+
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
+
   \item{na.rm}{
     logical; if \code{TRUE}, any \code{NA} and \code{NaN}'s are removed from \code{x} before the quantiles are computed.
 }
+
   \item{...}{ignored}
 }
 \value{

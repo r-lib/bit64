@@ -12,12 +12,19 @@
 \arguments{
   \item{x}{ atomic vector of class 'integer64' }
   \item{y}{ atomic vector of class 'integer64' }
+
   \item{num.eq}{ see \code{\link{identical}} }
+
   \item{single.NA}{ see \code{\link{identical}} }
+
   \item{attrib.as.set}{ see \code{\link{identical}} }
+
   \item{ignore.bytecode}{ see \code{\link{identical}} }
+
   \item{ignore.environment}{ see \code{\link{identical}} }
+
   \item{ignore.srcref}{ see \code{\link{identical}} }
+
   \item{extptr.as.ref}{ see \code{\link{identical}} }
 }
 \value{

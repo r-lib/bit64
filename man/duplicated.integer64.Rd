@@ -6,13 +6,17 @@
 }
 \arguments{
   \item{x}{a vector or a data frame or an array or \code{NULL}.}
+
   \item{incomparables}{ignored}
+
   \item{nunique}{
     NULL or the number of unique values (including NA). Providing \code{nunique} can speed-up matching when \code{x} has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
 }
+
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
+
   \item{...}{ignored}
 }
 \value{
