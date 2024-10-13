@@ -7,6 +7,7 @@
 }
 \usage{
 tiepos(x, ...)
+
 \method{tiepos}{integer64}(x, nties = NULL, method = NULL, ...)
 }
 \arguments{

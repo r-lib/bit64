@@ -11,8 +11,11 @@
 }
 \usage{
  \method{[}{integer64}(x, i, ...)
+
  \method{[}{integer64}(x, ...) <- value
+
  \method{[[}{integer64}(x, ...)
+
  \method{[[}{integer64}(x, ...) <- value
 }
 \arguments{

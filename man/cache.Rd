@@ -14,11 +14,17 @@
 }
 \usage{
 newcache(x)
+
 jamcache(x)
+
 cache(x)
+
 setcache(x, which, value)
+
 getcache(x, which)
+
 remcache(x)
+
 \method{print}{cache}(x, all.names = FALSE, pattern, ...)
 }
 \arguments{

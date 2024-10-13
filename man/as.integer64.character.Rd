@@ -17,14 +17,23 @@
 }
 \usage{
  NA_integer64_
+
  as.integer64(x, ...)
+
  \method{as.integer64}{integer64}(x, ...)
+
  \method{as.integer64}{NULL}(x, ...)
+
  \method{as.integer64}{character}(x, ...)
+
  \method{as.integer64}{bitstring}(x, ...)
+
  \method{as.integer64}{double}(x, keep.names = FALSE, ...)
+
  \method{as.integer64}{integer}(x, ...)
+
  \method{as.integer64}{logical}(x, ...)
+
  \method{as.integer64}{factor}(x, ...)
 }
 \arguments{

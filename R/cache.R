@@ -24,11 +24,17 @@
 #! }
 #! \usage{
 #! newcache(x)
+#!
 #! jamcache(x)
+#!
 #! cache(x)
+#!
 #! setcache(x, which, value)
+#!
 #! getcache(x, which)
+#!
 #! remcache(x)
+#!
 #! \method{print}{cache}(x, all.names = FALSE, pattern, ...)
 #! }
 #! \arguments{
@@ -182,8 +188,11 @@ print.cache<- function(x, all.names=FALSE, pattern, ...){
 #! }
 #! \usage{
 #! hashcache(x, nunique=NULL, ...)
+#!
 #! sortcache(x, has.na = NULL)
+#!
 #! sortordercache(x, has.na = NULL, stable = NULL)
+#!
 #! ordercache(x, has.na = NULL, stable = NULL, optimize = "time")
 #! }
 #! \arguments{
@@ -328,9 +337,13 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
 #! }
 #! \usage{
 #!     \method{is.sorted}{integer64}(x, ...)
+#!
 #!     \method{na.count}{integer64}(x, ...)
+#!
 #!     \method{nvalid}{integer64}(x, ...)
+#!
 #!     \method{nunique}{integer64}(x, ...)
+#!
 #!     \method{nties}{integer64}(x, ...)
 #! }
 #! \arguments{

@@ -47,30 +47,55 @@
 #! }
 #! \usage{
 #! hashfun(x, ...)
+#!
 #! \method{hashfun}{integer64}(x, minfac=1.41, hashbits=NULL, ...)
+#!
 #! hashmap(x, ...)
+#!
 #! \method{hashmap}{integer64}(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache=NULL, ...)
+#!
 #! hashpos(cache, ...)
+#!
 #! \method{hashpos}{cache_integer64}(cache, x, nomatch = NA_integer_, ...)
+#!
 #! hashrev(cache, ...)
+#!
 #! \method{hashrev}{cache_integer64}(cache, x, nomatch = NA_integer_, ...)
+#!
 #! hashfin(cache, ...)
+#!
 #! \method{hashfin}{cache_integer64}(cache, x, ...)
+#!
 #! hashrin(cache, ...)
+#!
 #! \method{hashrin}{cache_integer64}(cache, x, ...)
+#!
 #! hashdup(cache, ...)
+#!
 #! \method{hashdup}{cache_integer64}(cache, ...)
+#!
 #! hashuni(cache, ...)
+#!
 #! \method{hashuni}{cache_integer64}(cache, keep.order=FALSE, ...)
+#!
 #! hashmapuni(x, ...)
+#!
 #! \method{hashmapuni}{integer64}(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...)
+#!
 #! hashupo(cache, ...)
+#!
 #! \method{hashupo}{cache_integer64}(cache, keep.order=FALSE, ...)
+#!
 #! hashmapupo(x, ...)
+#!
 #! \method{hashmapupo}{integer64}(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...)
+#!
 #! hashtab(cache, ...)
+#!
 #! \method{hashtab}{cache_integer64}(cache, ...)
+#!
 #! hashmaptab(x, ...)
+#!
 #! \method{hashmaptab}{integer64}(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...)
 #! }
 #! \arguments{

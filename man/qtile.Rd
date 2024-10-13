@@ -12,10 +12,15 @@
 }
 \usage{
     qtile(x, probs=seq(0, 1, 0.25), ...)
+
     \method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, ...)
+
     \method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, ...)
+
     \method{median}{integer64}(x, na.rm = FALSE, ...)
+
  \method{mean}{integer64}(x, na.rm = FALSE, ...)
+
     \method{summary}{integer64}(object, ...)
  ## mean(x, na.rm = FALSE, ...)
  ## or

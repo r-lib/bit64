@@ -12,9 +12,13 @@
 }
 \usage{
     \method{is.sorted}{integer64}(x, ...)
+
     \method{na.count}{integer64}(x, ...)
+
     \method{nvalid}{integer64}(x, ...)
+
     \method{nunique}{integer64}(x, ...)
+
     \method{nties}{integer64}(x, ...)
 }
 \arguments{

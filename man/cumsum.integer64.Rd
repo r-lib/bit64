@@ -12,9 +12,13 @@
 }
 \usage{
 \method{cummin}{integer64}(x)
+
 \method{cummax}{integer64}(x)
+
 \method{cumsum}{integer64}(x)
+
 \method{cumprod}{integer64}(x)
+
 \method{diff}{integer64}(x, lag = 1L, differences = 1L, ...)
 }
 \arguments{

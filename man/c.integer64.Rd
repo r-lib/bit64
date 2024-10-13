@@ -10,7 +10,9 @@
 }
 \usage{
 \method{c}{integer64}(..., recursive = FALSE)
+
 \method{cbind}{integer64}(...)
+
 \method{rbind}{integer64}(...)
 }
 \arguments{

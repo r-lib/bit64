@@ -11,8 +11,11 @@
 }
 \usage{
 hashcache(x, nunique=NULL, ...)
+
 sortcache(x, has.na = NULL)
+
 sortordercache(x, has.na = NULL, stable = NULL)
+
 ordercache(x, has.na = NULL, stable = NULL, optimize = "time")
 }
 \arguments{

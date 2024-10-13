@@ -25,22 +25,39 @@
 }
 \usage{
 \method{format}{integer64}(x, justify="right", ...)
+
 \method{is.na}{integer64}(x)
+
 \method{is.nan}{integer64}(x)
+
 \method{is.finite}{integer64}(x)
+
 \method{is.infinite}{integer64}(x)
+
 \method{!}{integer64}(x)
+
 \method{sign}{integer64}(x)
+
 \method{abs}{integer64}(x)
+
 \method{sqrt}{integer64}(x)
+
 \method{log}{integer64}(x, base)
+
 \method{log2}{integer64}(x)
+
 \method{log10}{integer64}(x)
+
 \method{floor}{integer64}(x)
+
 \method{ceiling}{integer64}(x)
+
 \method{trunc}{integer64}(x, ...)
+
 \method{round}{integer64}(x, digits=0)
+
 \method{signif}{integer64}(x, digits=6)
+
 \method{scale}{integer64}(x, center = TRUE, scale = TRUE)
 }
 \arguments{

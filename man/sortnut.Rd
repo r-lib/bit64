@@ -56,50 +56,95 @@
 }
 \usage{
 sortnut(sorted, ...)
+
 ordernut(table, order, ...)
+
 sortfin(sorted, x, ...)
+
 orderfin(table, order, x, ...)
+
 orderpos(table, order, x, ...)
+
 sortorderpos(sorted, order, x, ...)
+
 orderdup(table, order, ...)
+
 sortorderdup(sorted, order, ...)
+
 sortuni(sorted, nunique, ...)
+
 orderuni(table, order, nunique, ...)
+
 sortorderuni(table, sorted, order, nunique, ...)
+
 orderupo(table, order, nunique, ...)
+
 sortorderupo(sorted, order, nunique, keep.order = FALSE, ...)
+
 ordertie(table, order, nties, ...)
+
 sortordertie(sorted, order, nties, ...)
+
 sorttab(sorted, nunique, ...)
+
 ordertab(table, order, nunique, ...)
+
 sortordertab(sorted, order, ...)
+
 orderkey(table, order, na.skip.num = 0L, ...)
+
 sortorderkey(sorted, order, na.skip.num = 0L, ...)
+
 orderrnk(table, order, na.count, ...)
+
 sortorderrnk(sorted, order, na.count, ...)
+
 \method{sortnut}{integer64}(sorted, ...)
+
 \method{ordernut}{integer64}(table, order, ...)
+
 \method{sortfin}{integer64}(sorted, x, method=NULL, ...)
+
 \method{orderfin}{integer64}(table, order, x, method=NULL, ...)
+
 \method{orderpos}{integer64}(table, order, x, nomatch=NA, method=NULL, ...)
+
 \method{sortorderpos}{integer64}(sorted, order, x, nomatch=NA, method=NULL, ...)
+
 \method{orderdup}{integer64}(table, order, method=NULL, ...)
+
 \method{sortorderdup}{integer64}(sorted, order, method=NULL, ...)
+
 \method{sortuni}{integer64}(sorted, nunique, ...)
+
 \method{orderuni}{integer64}(table, order, nunique, keep.order=FALSE, ...)
+
 \method{sortorderuni}{integer64}(table, sorted, order, nunique, ...)
+
 \method{orderupo}{integer64}(table, order, nunique, keep.order=FALSE, ...)
+
 \method{sortorderupo}{integer64}(sorted, order, nunique, keep.order = FALSE, ...)
+
 \method{ordertie}{integer64}(table, order, nties, ...)
+
 \method{sortordertie}{integer64}(sorted, order, nties, ...)
+
 \method{sorttab}{integer64}(sorted, nunique, ...)
+
 \method{ordertab}{integer64}(table, order, nunique, denormalize=FALSE, keep.order=FALSE, ...)
+
 \method{sortordertab}{integer64}(sorted, order, denormalize=FALSE, ...)
+
 \method{orderkey}{integer64}(table, order, na.skip.num = 0L, ...)
+
 \method{sortorderkey}{integer64}(sorted, order, na.skip.num = 0L, ...)
+
 \method{orderrnk}{integer64}(table, order, na.count, ...)
+
 \method{sortorderrnk}{integer64}(sorted, order, na.count, ...)
+
 \method{sortqtl}{integer64}(sorted, na.count, probs, ...)
+
 \method{orderqtl}{integer64}(table, order, na.count, probs, ...)
 }
 \arguments{

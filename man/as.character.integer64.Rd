@@ -18,12 +18,19 @@
 }
 \usage{
  as.bitstring(x, ...)
+
  \method{as.bitstring}{integer64}(x, ...)
+
  \method{print}{bitstring}(x, ...)
+
  \method{as.character}{integer64}(x, ...)
+
  \method{as.double}{integer64}(x, keep.names = FALSE, ...)
+
  \method{as.integer}{integer64}(x, ...)
+
  \method{as.logical}{integer64}(x, ...)
+
  \method{as.list}{integer64}(x, ...)
 }
 \arguments{

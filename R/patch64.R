@@ -34,20 +34,35 @@
 #! }
 #! \usage{
 #!    from:to
+#!
 #!  #--as-cran complains about \method{:}{default}(from, to)
+#!
 #!  #--as-cran complains about \method{:}{integer64}(from, to)
+#!
 #!    is.double(x)
+#!
 #!  \method{is.double}{default}(x)
+#!
 #!  \method{is.double}{integer64}(x)
+#!
 #!     match(x, table, ...)
+#!
 #!  \method{match}{default}(x, table, ...)
+#!
 #!     x \%in\% table
+#!
 #!  \method{\%in\%}{default}(x, table)
+#!
 #!     rank(x, ...)
+#!
 #!  \method{rank}{default}(x, ...)
+#!
 #!     %table(...)
+#!
 #!  %\method{table}{default}(...)
+#!
 #!     order(...)
+#!
 #!  \method{order}{default}(...)
 #! }
 #! \arguments{

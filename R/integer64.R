@@ -62,9 +62,13 @@
 #! }
 #! \usage{
 #!  integer64(length)
+#!
 #!  \method{is}{integer64}(x)
+#!
 #!  \method{length}{integer64}(x) <- value
+#!
 #!  \method{print}{integer64}(x, quote=FALSE, ...)
+#!
 #!  \method{str}{integer64}(object, vec.len  = strO$vec.len, give.head = TRUE, give.length = give.head, ...)
 #! }
 #! \arguments{
@@ -964,14 +968,23 @@
 #! }
 #! \usage{
 #!  as.bitstring(x, ...)
+#!
 #!  \method{as.bitstring}{integer64}(x, ...)
+#!
 #!  \method{print}{bitstring}(x, ...)
+#!
 #!  \method{as.character}{integer64}(x, ...)
+#!
 #!  \method{as.double}{integer64}(x, keep.names = FALSE, ...)
+#!
 #!  \method{as.integer}{integer64}(x, ...)
+#!
 #!  \method{as.logical}{integer64}(x, ...)
+#!
 #!  \method{as.factor}{integer64}(x)
+#!
 #!  \method{as.ordered}{integer64}(x)
+#!
 #!  \method{as.list}{integer64}(x, ...)
 #! }
 #! \arguments{
@@ -1016,14 +1029,23 @@
 #! }
 #! \usage{
 #!  NA_integer64_
+#!
 #!  as.integer64(x, ...)
+#!
 #!  \method{as.integer64}{integer64}(x, ...)
+#!
 #!  \method{as.integer64}{NULL}(x, ...)
+#!
 #!  \method{as.integer64}{character}(x, ...)
+#!
 #!  \method{as.integer64}{bitstring}(x, ...)
+#!
 #!  \method{as.integer64}{double}(x, keep.names = FALSE, ...)
+#!
 #!  \method{as.integer64}{integer}(x, ...)
+#!
 #!  \method{as.integer64}{logical}(x, ...)
+#!
 #!  \method{as.integer64}{factor}(x, ...)
 #! }
 #! \arguments{
@@ -1085,8 +1107,11 @@
 #! }
 #! \usage{
 #!  \method{[}{integer64}(x, i, ...)
+#!
 #!  \method{[}{integer64}(x, ...) <- value
+#!
 #!  \method{[[}{integer64}(x, ...)
+#!
 #!  \method{[[}{integer64}(x, ...) <- value
 #! }
 #! \arguments{
@@ -1148,22 +1173,39 @@
 #! }
 #! \usage{
 #! \method{format}{integer64}(x, justify="right", ...)
+#!
 #! \method{is.na}{integer64}(x)
+#!
 #! \method{is.nan}{integer64}(x)
+#!
 #! \method{is.finite}{integer64}(x)
+#!
 #! \method{is.infinite}{integer64}(x)
+#!
 #! \method{!}{integer64}(x)
+#!
 #! \method{sign}{integer64}(x)
+#!
 #! \method{abs}{integer64}(x)
+#!
 #! \method{sqrt}{integer64}(x)
+#!
 #! \method{log}{integer64}(x, base)
+#!
 #! \method{log2}{integer64}(x)
+#!
 #! \method{log10}{integer64}(x)
+#!
 #! \method{floor}{integer64}(x)
+#!
 #! \method{ceiling}{integer64}(x)
+#!
 #! \method{trunc}{integer64}(x, ...)
+#!
 #! \method{round}{integer64}(x, digits=0)
+#!
 #! \method{signif}{integer64}(x, digits=6)
+#!
 #! \method{scale}{integer64}(x, center = TRUE, scale = TRUE)
 #! }
 #! \arguments{
@@ -1228,21 +1270,37 @@
 #! }
 #! \usage{
 #! \method{&}{integer64}(e1,e2)
+#!
 #! \method{|}{integer64}(e1,e2)
+#!
 #! \method{xor}{integer64}(x,y)
+#!
 #! \method{!=}{integer64}(e1,e2)
+#!
 #! \method{==}{integer64}(e1,e2)
+#!
 #! \method{<}{integer64}(e1,e2)
+#!
 #! \method{<=}{integer64}(e1,e2)
+#!
 #! \method{>}{integer64}(e1,e2)
+#!
 #! \method{>=}{integer64}(e1,e2)
+#!
 #! \method{+}{integer64}(e1,e2)
+#!
 #! \method{-}{integer64}(e1,e2)
+#!
 #! \method{*}{integer64}(e1,e2)
+#!
 #! \method{^}{integer64}(e1,e2)
+#!
 #! \method{/}{integer64}(e1,e2)
+#!
 #! \method{\%/\%}{integer64}(e1,e2)
+#!
 #! \method{\%\%}{integer64}(e1,e2)
+#!
 #! binattr(e1,e2) # for internal use only
 #! }
 #! \arguments{
@@ -1297,12 +1355,19 @@
 #! }
 #! \usage{
 #! \method{all}{integer64}(..., na.rm = FALSE)
+#!
 #! \method{any}{integer64}(..., na.rm = FALSE)
+#!
 #! \method{min}{integer64}(..., na.rm = FALSE)
+#!
 #! \method{max}{integer64}(..., na.rm = FALSE)
+#!
 #! \method{range}{integer64}(..., na.rm = FALSE, finite = FALSE)
+#!
 #! lim.integer64()
+#!
 #! \method{sum}{integer64}(..., na.rm = FALSE)
+#!
 #! \method{prod}{integer64}(..., na.rm = FALSE)
 #! }
 #! \arguments{
@@ -1349,9 +1414,13 @@
 #! }
 #! \usage{
 #! \method{cummin}{integer64}(x)
+#!
 #! \method{cummax}{integer64}(x)
+#!
 #! \method{cumsum}{integer64}(x)
+#!
 #! \method{cumprod}{integer64}(x)
+#!
 #! \method{diff}{integer64}(x, lag = 1L, differences = 1L, ...)
 #! }
 #! \arguments{
@@ -1391,7 +1460,9 @@
 #! }
 #! \usage{
 #! \method{c}{integer64}(..., recursive = FALSE)
+#!
 #! \method{cbind}{integer64}(...)
+#!
 #! \method{rbind}{integer64}(...)
 #! }
 #! \arguments{
@@ -1549,6 +1620,7 @@
 #! }
 #! \usage{
 #!   plusclass(class, whichclass)
+#!
 #!   minusclass(class, whichclass)
 #! }
 #! \arguments{

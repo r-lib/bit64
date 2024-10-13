@@ -22,6 +22,7 @@
 #! \usage{
 #! benchmark64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
 #! )
+#!
 #! optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
 #! , what = c("match", "\%in\%", "duplicated", "unique", "unipos", "table", "rank", "quantile")
 #! , uniorder = c("original", "values", "any")
@@ -1399,6 +1400,7 @@ optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
 #! }
 #! \usage{
 #! \method{match}{integer64}(x, table, nomatch = NA_integer_, nunique = NULL, method = NULL, ...)
+#!
 #! \method{\%in\%}{integer64}(x, table, ...)
 #! }
 #! \arguments{
@@ -1980,6 +1982,7 @@ unique.integer64 <- function(x
 #! }
 #! \usage{
 #! unipos(x, incomparables = FALSE, order = c("original","values","any"), ...)
+#!
 #! \method{unipos}{integer64}(x, incomparables = FALSE, order = c("original","values","any")
 #! , nunique = NULL, method = NULL, ...)
 #! }
@@ -2482,6 +2485,7 @@ as.integer64.factor <- function(x, ...)as.integer64(unclass(x))
 #! }
 #! \usage{
 #! keypos(x, ...)
+#!
 #! \method{keypos}{integer64}(x, method = NULL, ...)
 #! }
 #! \arguments{
@@ -2570,6 +2574,7 @@ keypos.integer64 <- function(x
 #! }
 #! \usage{
 #! tiepos(x, ...)
+#!
 #! \method{tiepos}{integer64}(x, nties = NULL, method = NULL, ...)
 #! }
 #! \arguments{
@@ -2751,6 +2756,7 @@ rank.integer64 <- function(x
 #! }
 #! \usage{
 #!     prank(x, ...)
+#!
 #!     \method{prank}{integer64}(x, method = NULL, ...)
 #! }
 #! \arguments{
@@ -2808,9 +2814,13 @@ prank.integer64 <- function(x
 #! \usage{
 #!     qtile(x, probs=seq(0, 1, 0.25), ...)
 #!     \method{qtile}{integer64}(x, probs = seq(0, 1, 0.25), names = TRUE, method = NULL, ...)
+#!
 #!     \method{quantile}{integer64}(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type=0L, ...)
+#!
 #!     \method{median}{integer64}(x, na.rm = FALSE, ...)
+#!
 #!  \method{mean}{integer64}(x, na.rm = FALSE, ...)
+#!
 #!     \method{summary}{integer64}(object, ...)
 #!  ## mean(x, na.rm = FALSE, ...)
 #!  ## or
