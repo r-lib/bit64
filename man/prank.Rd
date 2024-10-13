@@ -8,6 +8,7 @@
 }
 \usage{
     prank(x, ...)
+
     \method{prank}{integer64}(x, method = NULL, ...)
 }
 \arguments{

@@ -9,6 +9,7 @@
 }
 \usage{
   plusclass(class, whichclass)
+
   minusclass(class, whichclass)
 }
 \arguments{

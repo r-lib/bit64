@@ -27,24 +27,38 @@
 }
 \usage{
 \method{shellsort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
+
 \method{shellsortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
+
 \method{shellorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
+
 \method{mergesort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
+
 \method{mergeorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
+
 \method{mergesortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
+
 \method{quicksort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE
 , restlevel=floor(1.5*log2(length(x))), ...)
+
 \method{quicksortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE
 , restlevel=floor(1.5*log2(length(x))), ...)
+
 \method{quickorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE
 , restlevel=floor(1.5*log2(length(x))), ...)
+
 \method{radixsort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, ...)
+
 \method{radixsortorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, ...)
+
 \method{radixorder}{integer64}(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, ...)
+
 \method{ramsort}{integer64}(x, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE
 , optimize = c("time", "memory"), VERBOSE = FALSE, ...)
+
 \method{ramsortorder}{integer64}(x, i, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE
 , optimize = c("time", "memory"), VERBOSE = FALSE, ...)
+
 \method{ramorder}{integer64}(x, i, has.na = TRUE, na.last=FALSE, decreasing = FALSE, stable = TRUE
 , optimize = c("time", "memory"), VERBOSE = FALSE, ...)
 }

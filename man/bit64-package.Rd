@@ -52,9 +52,13 @@ is not worth it with 32x at duplicated RAM consumption).
 }
 \usage{
  integer64(length)
+
  \method{is}{integer64}(x)
+
  \method{length}{integer64}(x) <- value
+
  \method{print}{integer64}(x, quote=FALSE, ...)
+
  \method{str}{integer64}(object, vec.len  = strO$vec.len, give.head = TRUE, give.length = give.head, ...)
 }
 \arguments{

@@ -16,12 +16,19 @@
 }
 \usage{
 \method{all}{integer64}(..., na.rm = FALSE)
+
 \method{any}{integer64}(..., na.rm = FALSE)
+
 \method{min}{integer64}(..., na.rm = FALSE)
+
 \method{max}{integer64}(..., na.rm = FALSE)
+
 \method{range}{integer64}(..., na.rm = FALSE, finite = FALSE)
+
 lim.integer64()
+
 \method{sum}{integer64}(..., na.rm = FALSE)
+
 \method{prod}{integer64}(..., na.rm = FALSE)
 }
 \arguments{

@@ -11,6 +11,7 @@
 \usage{
 \method{sort}{integer64}(x, decreasing = FALSE, has.na = TRUE, na.last = TRUE, stable = TRUE
 , optimize = c("time", "memory"), VERBOSE = FALSE, ...)
+
 \method{order}{integer64}(..., na.last = TRUE, decreasing = FALSE, has.na = TRUE, stable = TRUE
 , optimize = c("time", "memory"), VERBOSE = FALSE)
 }

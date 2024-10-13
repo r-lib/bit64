@@ -7,6 +7,7 @@
 }
 \usage{
 keypos(x, ...)
+
 \method{keypos}{integer64}(x, method = NULL, ...)
 }
 \arguments{

@@ -12,6 +12,7 @@
 \usage{
 benchmark64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
 )
+
 optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
 , what = c("match", "\%in\%", "duplicated", "unique", "unipos", "table", "rank", "quantile")
 , uniorder = c("original", "values", "any")

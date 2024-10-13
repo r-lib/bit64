@@ -7,6 +7,7 @@
 }
 \usage{
 unipos(x, incomparables = FALSE, order = c("original","values","any"), ...)
+
 \method{unipos}{integer64}(x, incomparables = FALSE, order = c("original","values","any")
 , nunique = NULL, method = NULL, ...)
 }
