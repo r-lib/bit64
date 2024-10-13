@@ -848,6 +848,7 @@ as.integer64.logical <- as.integer64.integer <- function(x, ...){
   ret
 }
 
+#' @rdname as.integer64.character
 #' @export
 as.integer64.character <- function(x, ...){
   n <- length(x)

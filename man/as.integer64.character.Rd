@@ -26,6 +26,8 @@ as.integer64(x, ...)
 
 \method{as.integer64}{logical}(x, ...)
 
+\method{as.integer64}{character}(x, ...)
+
 \method{as.integer64}{factor}(x, ...)
 
 \method{as.integer64}{bitstring}(x, ...)
