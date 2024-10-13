@@ -32,11 +32,11 @@
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{==.integer64}} \code{\link{identical}} \code{\link{integer64}}  }
 \examples{
   i64 <- as.double(NA); class(i64) <- "integer64"
   identical(i64-1, i64+1)
   identical.integer64(i64-1, i64+1)
 }
+\seealso{ \code{\link{==.integer64}} \code{\link{identical}} \code{\link{integer64}}  }
+\keyword{ classes }
+\keyword{ manip }

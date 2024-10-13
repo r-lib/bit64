@@ -31,14 +31,14 @@ and \code{\link{ordertie}} (memory saving ordering).
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\seealso{
-  \code{\link{rank.integer64}} for possibly tied ranks and \code{\link{unipos.integer64}} for positions of unique values.
-}
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 tiepos(x)
 
 stopifnot(identical(tiepos(x),  (1:length(x))[duplicated(x) | rev(duplicated(rev(x)))]))
+}
+\seealso{
+  \code{\link{rank.integer64}} for possibly tied ranks and \code{\link{unipos.integer64}} for positions of unique values.
 }
 \keyword{manip}
 \keyword{univar}

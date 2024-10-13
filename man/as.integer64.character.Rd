@@ -58,7 +58,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
 \keyword{ classes }
 \keyword{ manip }
-\seealso{ \code{\link{as.character.integer64}} \code{\link{integer64}}  }
 \examples{
 as.integer64(as.character(lim.integer64()))
 as.integer64(
@@ -80,3 +79,4 @@ as.integer64(
   ), class = "bitstring")
 )
 }
+\seealso{ \code{\link{as.character.integer64}} \code{\link{integer64}}  }

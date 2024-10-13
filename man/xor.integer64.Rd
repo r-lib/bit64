@@ -73,9 +73,6 @@ binattr(e1,e2) # for internal use only
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{format.integer64}} \code{\link{integer64}}  }
 \examples{
   as.integer64(1:12) - 1
   options(integer64_semantics="new")
@@ -89,3 +86,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   d*i  # old: 10
   i*d  # old: 13
 }
+\seealso{ \code{\link{format.integer64}} \code{\link{integer64}}  }
+\keyword{ classes }
+\keyword{ manip }

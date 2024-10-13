@@ -26,12 +26,6 @@
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{distribution}
-\keyword{sysdata}
-\seealso{
-  \code{\link{runif}}, \code{\link{hashfun}}
-}
 \examples{
   runif64(12)
   runif64(12, -16, 16)
@@ -44,3 +38,9 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   table(sample(16, replace=TRUE))
   table(runif64(16, 1, 16, replace=TRUE))
 }
+\seealso{
+  \code{\link{runif}}, \code{\link{hashfun}}
+}
+\keyword{ classes }
+\keyword{distribution}
+\keyword{sysdata}

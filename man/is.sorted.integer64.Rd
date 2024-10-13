@@ -51,9 +51,6 @@
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\seealso{
-    \code{\link{cache}} for caching functions and \code{\link{sortordercache}} for functions creating big caches
-}
 \examples{
     x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
  length(x)
@@ -63,6 +60,9 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
  nties(x)
  table.integer64(x)
  x
+}
+\seealso{
+    \code{\link{cache}} for caching functions and \code{\link{sortordercache}} for functions creating big caches
 }
 \keyword{ environment }
 \keyword{ methods }

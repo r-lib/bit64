@@ -27,14 +27,14 @@
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\seealso{
-  \code{\link{rank.integer64}} for simple ranks and \code{\link{qtile}} for the inverse function quantiles.
-}
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 prank(x)
 
 x <- x[!is.na(x)]
 stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))
+}
+\seealso{
+  \code{\link{rank.integer64}} for simple ranks and \code{\link{qtile}} for the inverse function quantiles.
 }
 \keyword{univar}

@@ -81,9 +81,6 @@
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{xor.integer64}} \code{\link{integer64}}  }
 \examples{
   sqrt(as.integer64(1:12))
 \dontshow{
@@ -95,3 +92,6 @@ r <- as.integer64(round(as.integer(i), s))
 }
 }
 }
+\seealso{ \code{\link{xor.integer64}} \code{\link{integer64}}  }
+\keyword{ classes }
+\keyword{ manip }

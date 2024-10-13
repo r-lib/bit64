@@ -49,9 +49,6 @@ set to 'memory' to minimize RAM requirements and sacrifice speed
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ programming }
-\keyword{ manip }
-\seealso{ \code{\link[=sort.integer64]{sort}}, \code{\link{sortcache}} }
 \examples{
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   x
@@ -62,3 +59,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   message("slower with less RAM, this calls 'ramsortorder'")
   order.integer64(x, optimize="memory")
 }
+\seealso{ \code{\link[=sort.integer64]{sort}}, \code{\link{sortcache}} }
+\keyword{ programming }
+\keyword{ manip }

@@ -77,9 +77,6 @@ optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
 \author{
  Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\seealso{
- \code{\link{integer64}}
-}
 \examples{
 message("this small example using system.time does not give serious timings\n
 this we do this only to run regression tests")
@@ -130,5 +127,8 @@ for (i in 1:nrow(optimizer64.data)){
  }
 }
 par(mfrow=c(1,1))
+}
+\seealso{
+ \code{\link{integer64}}
 }
 \keyword{ misc }

@@ -31,13 +31,13 @@
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\seealso{ \code{\link{duplicated}}, \code{\link{unique.integer64}}  }
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 duplicated(x)
 
 stopifnot(identical(duplicated(x),  duplicated(as.integer(x))))
 }
+\seealso{ \code{\link{duplicated}}, \code{\link{unique.integer64}}  }
 \keyword{logic}
 \keyword{manip}
 

@@ -195,10 +195,10 @@ With \code{method=NULL} the functions use a heuristic to determine the fastest a
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ programming }
-\keyword{ manip }
-\seealso{ \code{\link[=match.integer64]{match}} }
 \examples{
  message("check the code of 'optimizer64' for examples:")
  print(optimizer64)
 }
+\seealso{ \code{\link[=match.integer64]{match}} }
+\keyword{ programming }
+\keyword{ manip }

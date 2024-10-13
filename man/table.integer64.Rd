@@ -76,9 +76,6 @@ and \code{\link{ordertab}} (memory saving ordering).
   Note that by using \code{\link{as.integer64.factor}} we can also input
   factors into \code{table.integer64} -- only the \code{\link{levels}} get lost.
 }
-\seealso{
-  \code{\link{table}} for more info on the standard version coping with Base R's data types, \code{\link{tabulate}} which can faster tabulate \code{\link{integer}s} with a limited range \code{[1L .. nL not too big]}, \code{\link{unique.integer64}} for the unique values without counting them and \code{\link{unipos.integer64}} for the positions of the unique values.
-}
 \examples{
 message("pure integer64 examples")
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -106,5 +103,8 @@ table.integer64(x, as.integer64(as.factor(z)))
  stopifnot(identical(table(c(1,1,2),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
 }
 
+}
+\seealso{
+  \code{\link{table}} for more info on the standard version coping with Base R's data types, \code{\link{tabulate}} which can faster tabulate \code{\link{integer}s} with a limited range \code{[1L .. nL not too big]}, \code{\link{unique.integer64}} for the unique values without counting them and \code{\link{unipos.integer64}} for the positions of the unique values.
 }
 \keyword{category}

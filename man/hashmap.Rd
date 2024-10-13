@@ -122,9 +122,6 @@ re-use hashmaps, which avoid re-building hashmaps again and again.
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ programming }
-\keyword{ manip }
-\seealso{ \code{\link[=match.integer64]{match}}, \code{\link{runif64}} }
 \examples{
 x <- as.integer64(sample(c(NA, 0:9)))
 y <- as.integer64(sample(c(NA, 1:9), 10, TRUE))
@@ -182,3 +179,6 @@ stopifnot(identical(hashtab(hy), hashmaptab(y)))
     message("we conclude that n*sqrt(2) is enough to avoid collisions")
     }
 }
+\seealso{ \code{\link[=match.integer64]{match}}, \code{\link{runif64}} }
+\keyword{ programming }
+\keyword{ manip }

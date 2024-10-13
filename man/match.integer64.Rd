@@ -60,9 +60,6 @@ ignored
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\seealso{
-    \code{\link{match}}
-}
 \examples{
 x <- as.integer64(c(NA, 0:9), 32)
 table <- as.integer64(c(1:9, NA))
@@ -121,6 +118,9 @@ stopifnot(identical("\%in\%.integer64"(x, table), as.integer(x) \%in\% as.intege
       print(apply(tim, 1:2, function(ti)if(any(is.na(ti)))NA else which.min(ti)))
     }
 }
+}
+\seealso{
+    \code{\link{match}}
 }
 \keyword{manip}
 \keyword{logic}

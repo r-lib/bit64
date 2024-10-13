@@ -40,10 +40,6 @@ The default \code{order="original"} returns unique values in the order of the fi
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\seealso{
-  \code{\link{unique}} for the generic, \code{\link{unipos}} which gives the indices of the unique
-  elements and \code{\link{table.integer64}} which gives frequencies of the unique elements.
-}
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 unique(x)
@@ -53,6 +49,10 @@ stopifnot(identical(unique(x),  x[!duplicated(x)]))
 stopifnot(identical(unique(x),  as.integer64(unique(as.integer(x)))))
 stopifnot(identical(unique(x, order="values")
 ,  as.integer64(sort(unique(as.integer(x)), na.last=FALSE))))
+}
+\seealso{
+  \code{\link{unique}} for the generic, \code{\link{unipos}} which gives the indices of the unique
+  elements and \code{\link{table.integer64}} which gives frequencies of the unique elements.
 }
 \keyword{manip}
 \keyword{logic}

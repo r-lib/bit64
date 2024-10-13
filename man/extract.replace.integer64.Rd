@@ -34,9 +34,6 @@
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{[}} \code{\link{integer64}}  }
 \examples{
   as.integer64(1:12)[1:3]
   x <- as.integer64(1:12)
@@ -49,3 +46,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
     stopifnot(identical(r, as.integer64(as.bitstring(r))))
   }
 }
+\seealso{ \code{\link{[}} \code{\link{integer64}}  }
+\keyword{ classes }
+\keyword{ manip }

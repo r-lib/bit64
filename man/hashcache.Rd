@@ -51,11 +51,11 @@ and therefore storing them in the cache should require a conscious decision of t
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\seealso{
-    \code{\link{cache}} for caching functions and \code{\link{nunique.integer64}} for methods benefiting from small caches
-}
 \examples{
     x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
  sortordercache(x)
+}
+\seealso{
+    \code{\link{cache}} for caching functions and \code{\link{nunique.integer64}} for methods benefiting from small caches
 }
 \keyword{ environment }

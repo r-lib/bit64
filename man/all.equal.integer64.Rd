@@ -61,12 +61,12 @@
 \author{
   Leonardo Silvestri (for package nanotime)
 }
-\seealso{
-  \code{\link{all.equal}}
-}
 \examples{
   all.equal(as.integer64(1:10), as.integer64(0:9))
   all.equal(as.integer64(1:10), as.integer(1:10))
   all.equal(as.integer64(1:10), as.double(1:10))
   all.equal(as.integer64(1), as.double(1e300))
+}
+\seealso{
+  \code{\link{all.equal}}
 }

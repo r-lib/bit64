@@ -29,13 +29,13 @@
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{rep.integer64}} \code{\link{seq.integer64}}
-          \code{\link{as.data.frame.integer64}} \code{\link{integer64}}
-}
 \examples{
   c(as.integer64(1), 2:6)
   cbind(1:6, as.integer(1:6))
   rbind(1:6, as.integer(1:6))
 }
+\seealso{ \code{\link{rep.integer64}} \code{\link{seq.integer64}}
+          \code{\link{as.data.frame.integer64}} \code{\link{integer64}}
+}
+\keyword{ classes }
+\keyword{ manip }

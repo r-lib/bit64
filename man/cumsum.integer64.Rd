@@ -35,12 +35,12 @@
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{sum.integer64}} \code{\link{integer64}}  }
 \examples{
   cumsum(rep(as.integer64(1), 12))
   diff(as.integer64(c(0,1:12)))
   cumsum(as.integer64(c(0, 1:12)))
   diff(cumsum(as.integer64(c(0,0,1:12))), differences=2)
 }
+\seealso{ \code{\link{sum.integer64}} \code{\link{integer64}}  }
+\keyword{ classes }
+\keyword{ manip }

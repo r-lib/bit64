@@ -26,14 +26,14 @@ and \code{\link{orderrnk}} (memory saving ordering).
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\seealso{
-  \code{\link{order.integer64}}, \code{\link{rank}} and \code{\link{prank}} for percent rank.
-}
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 rank.integer64(x)
 
 stopifnot(identical(rank.integer64(x),  rank(as.integer(x)
 , na.last="keep", ties.method = "average")))
+}
+\seealso{
+  \code{\link{order.integer64}}, \code{\link{rank}} and \code{\link{prank}} for percent rank.
 }
 \keyword{univar}
