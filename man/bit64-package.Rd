@@ -87,6 +87,24 @@ is not worth it with 32x at duplicated RAM consumption).
    Encoding: \tab latin1\cr
 }
 }
+\note{
+   \code{integer64} are useful for handling database keys and exact counting in +-2^63.
+   Do not use them as replacement for 32bit integers, integer64 are not
+   supported for subscripting by R-core and they have different semantics
+   when combined with double. Do understand that \code{integer64} can only be
+   useful over \code{double} if we do not coerce it to \code{double}. \cr
+  \cr
+  While \cr
+  integer + double -> double + double -> double \cr
+  or \cr
+  1L + 0.5 -> 1.5 \cr
+  for additive operations we coerce to \code{integer64} \cr
+  integer64 + double ->  integer64 + integer64 -> integer64 \cr
+  hence \cr
+  as.integer64(1) + 0.5 -> 1LL + 0LL -> 1LL \cr
+  \cr
+  see section "Arithmetic precision and coercion" above
+}
 \section{Design considerations}{
   64 bit integers are related to big data: we need them to overcome address space limitations.
   Therefore performance of the 64 bit integer type is critical.
@@ -403,24 +421,6 @@ is not worth it with 32x at duplicated RAM consumption).
     Such subscripting currently returns \code{9218868437227407266} instead of \code{NA} (the \code{NA} value of the underlying double code).
     Following the full R behaviour here would either destroy performance or require extensive C-coding.
   }
-}
-\note{
-   \code{integer64} are useful for handling database keys and exact counting in +-2^63.
-   Do not use them as replacement for 32bit integers, integer64 are not
-   supported for subscripting by R-core and they have different semantics
-   when combined with double. Do understand that \code{integer64} can only be
-   useful over \code{double} if we do not coerce it to \code{double}. \cr
-  \cr
-  While \cr
-  integer + double -> double + double -> double \cr
-  or \cr
-  1L + 0.5 -> 1.5 \cr
-  for additive operations we coerce to \code{integer64} \cr
-  integer64 + double ->  integer64 + integer64 -> integer64 \cr
-  hence \cr
-  as.integer64(1) + 0.5 -> 1LL + 0LL -> 1LL \cr
-  \cr
-  see section "Arithmetic precision and coercion" above
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

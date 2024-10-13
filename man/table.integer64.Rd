@@ -2,11 +2,6 @@
 \alias{table.integer64}
 \title{Cross Tabulation and Table Creation for integer64}
 
-\concept{counts}
-\concept{frequencies}
-\concept{occurrences}
-\concept{contingency table}
-
 \usage{
 table.integer64(...
 , return = c("table","data.frame","list")
@@ -107,4 +102,8 @@ table.integer64(x, as.integer64(as.factor(z)))
 \seealso{
   \code{\link{table}} for more info on the standard version coping with Base R's data types, \code{\link{tabulate}} which can faster tabulate \code{\link{integer}s} with a limited range \code{[1L .. nL not too big]}, \code{\link{unique.integer64}} for the unique values without counting them and \code{\link{unipos.integer64}} for the positions of the unique values.
 }
+\concept{counts}
+\concept{frequencies}
+\concept{occurrences}
+\concept{contingency table}
 \keyword{category}
