@@ -77,8 +77,8 @@ considering the size of \code{x} and the availability of a cache.
 
 Suitable methods are
 \itemize{
-\item \link{sortqtl} (fast sorting)
-\item \link{orderqtl} (memory saving ordering).
+\item \code{\link{sortqtl}} (fast sorting)
+\item \code{\link{orderqtl}} (memory saving ordering).
 }
 }
 \examples{

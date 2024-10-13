@@ -1253,16 +1253,16 @@ optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
 #'   considering the size of `x` and `table` and the availability of caches.
 #'
 #' Suitable methods for `%in%.integer64` are
-#'  - [hashpos] (hash table lookup)
-#'  - [hashrev] (reverse lookup)
-#'  - [sortorderpos] (fast ordering)
-#'  - [orderpos] (memory saving ordering).
+#'  - [`hashpos`] (hash table lookup)
+#'  - [`hashrev`] (reverse lookup)
+#'  - [`sortorderpos`] (fast ordering)
+#'  - [`orderpos`] (memory saving ordering).
 #'
 #' Suitable methods for `match.integer64` are
-#'  - [hashfin] (hash table lookup)
-#'  - [hashrin] (reverse lookup)
-#'  - [sortfin] (fast sorting)
-#'  - [orderfin] (memory saving ordering).
+#'  - [`hashfin`] (hash table lookup)
+#'  - [`hashrin`] (reverse lookup)
+#'  - [`sortfin`] (fast sorting)
+#'  - [`orderfin`] (memory saving ordering).
 #'
 #' @return
 #' A vector of the same length as `x`.
@@ -1546,9 +1546,9 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
 #'   considering the size of `x` and the availability of a cache.
 #'
 #' Suitable methods are
-#'  - [hashdup] (hashing)
-#'  - [sortorderdup] (fast ordering)
-#'  - [orderdup] (memory saving ordering).
+#'  - [`hashdup`] (hashing)
+#'  - [`sortorderdup`] (fast ordering)
+#'  - [`orderdup`] (memory saving ordering).
 #'
 #' @return `duplicated()`: a logical vector of the same length as `x`.
 #' @seealso [duplicated()], [unique.integer64()]
@@ -1638,11 +1638,11 @@ duplicated.integer64 <- function(x
 #'   considering the size of `x` and the availability of a cache.
 #'
 #' Suitable methods are
-#'  - [hashmapuni] (simultaneously creating and using a hashmap)
-#'  - [hashuni] (first creating a hashmap then using it)
-#'  - [sortuni] (fast sorting for sorted order only)
-#'  - [sortorderuni] (fast ordering for original order only)
-#'  - [orderuni] (memory saving ordering).
+#'  - [`hashmapuni`] (simultaneously creating and using a hashmap)
+#'  - [`hashuni`] (first creating a hashmap then using it)
+#'  - [`sortuni`] (fast sorting for sorted order only)
+#'  - [`sortorderuni`] (fast ordering for original order only)
+#'  - [`orderuni`] (memory saving ordering).
 #'
 #' The default `order="original"` returns unique values in the order of the
 #'   first appearance in `x` like in [unique()], this costs extra processing.
@@ -1800,10 +1800,10 @@ unique.integer64 <- function(x
 #'   considering the size of `x` and the availability of a cache.
 #'
 #' Suitable methods are
-#'  - [hashmapupo] (simultaneously creating and using a hashmap)
-#'  - [hashupo] (first creating a hashmap then using it)
-#'  - [sortorderupo] (fast ordering)
-#'  - [orderupo] (memory saving ordering).
+#'  - [`hashmapupo`] (simultaneously creating and using a hashmap)
+#'  - [`hashupo`] (first creating a hashmap then using it)
+#'  - [`sortorderupo`] (fast ordering)
+#'  - [`orderupo`] (memory saving ordering).
 #'
 #' The default `order="original"` collects unique values in the order of
 #'   the first appearance in `x` like in [unique()], this costs extra processing.
@@ -1956,10 +1956,10 @@ unipos.integer64 <- function(x
 #'   the size of `x` and the availability of a cache.
 #'
 #' Suitable methods are
-#'  - [hashmaptab] (simultaneously creating and using a hashmap)
-#'  - [hashtab] (first creating a hashmap then using it)
-#'  - [sortordertab] (fast ordering)
-#'  - [ordertab] (memory saving ordering).
+#'  - [`hashmaptab`] (simultaneously creating and using a hashmap)
+#'  - [`hashtab`] (first creating a hashmap then using it)
+#'  - [`sortordertab`] (fast ordering)
+#'  - [`ordertab`] (memory saving ordering).
 #'
 #' If the argument `dnn` is not supplied, the internal function
 #'   `list.names` is called to compute the 'dimname names'.  If the
@@ -2006,7 +2006,7 @@ unipos.integer64 <- function(x
 #'   factors into `table.integer64` -- only the [levels()] get lost.
 #'
 #' @seealso [table()] for more info on the standard version coping with Base R's
-#'   data types, [tabulate()] which can faster tabulate [integer]s with a limited
+#'   data types, [tabulate()] which can faster tabulate [`integer`]s with a limited
 #'   range `[1L .. nL not too big]`, [unique.integer64()] for the unique values
 #'   without counting them and [unipos.integer64()] for the positions of the unique values.
 #'
@@ -2285,8 +2285,8 @@ as.integer64.factor <- function(x, ...)as.integer64(unclass(x))
 #'   considering the size of `x` and the availability of a cache.
 #'
 #' Suitable methods are
-#'  - [sortorderkey] (fast ordering)
-#'  - [orderkey] (memory saving ordering).
+#'  - [`sortorderkey`] (fast ordering)
+#'  - [`orderkey`] (memory saving ordering).
 #'
 #' @return an integer vector of the same length as `x` containing positions
 #'   relative to `sort(unique(x), na.last=FALSE)`
@@ -2361,8 +2361,8 @@ keypos.integer64 <- function(x
 #'   considering the size of `x` and the availability of a cache.
 #'
 #' Suitable methods are
-#'  - [sortordertie] (fast ordering)
-#'  - [ordertie] (memory saving ordering).
+#'  - [`sortordertie`] (fast ordering)
+#'  - [`ordertie`] (memory saving ordering).
 #'
 #' @return an integer vector of positions
 #' @seealso [rank.integer64()] for possibly tied ranks and [unipos.integer64()]
@@ -2565,8 +2565,8 @@ prank.integer64 <- function(x
 #'   considering the size of `x` and the availability of a cache.
 #'
 #' Suitable methods are
-#'  - [sortqtl] (fast sorting)
-#'  - [orderqtl] (memory saving ordering).
+#'  - [`sortqtl`] (fast sorting)
+#'  - [`orderqtl`] (memory saving ordering).
 #'
 #' @return
 #' `prank` returns a numeric vector of the same length as `x`.

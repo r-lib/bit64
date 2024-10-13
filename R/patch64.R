@@ -38,7 +38,7 @@
 #'
 #' @return [invisible()]
 #' @note
-#'  - [is.double()] returns `FALSE` for [integer64]
+#'  - [is.double()] returns `FALSE` for [`integer64`]
 #'  - [`:`] currently only dispatches at its first argument, thus
 #'    `as.integer64(1):9` works but `1:as.integer64(9)` doesn't
 #'  - [match()] currently only dispatches at its first argument and expects

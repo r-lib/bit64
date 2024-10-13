@@ -34,9 +34,9 @@ considering the size of \code{x} and the availability of a cache.
 
 Suitable methods are
 \itemize{
-\item \link{hashdup} (hashing)
-\item \link{sortorderdup} (fast ordering)
-\item \link{orderdup} (memory saving ordering).
+\item \code{\link{hashdup}} (hashing)
+\item \code{\link{sortorderdup}} (fast ordering)
+\item \code{\link{orderdup}} (memory saving ordering).
 }
 }
 \examples{

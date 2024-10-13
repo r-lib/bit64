@@ -32,8 +32,8 @@
 #' |    `hashmap` |            [`match()`][match.integer64] | return hashmap  |
 #' |    `hashpos` |            [`match()`][match.integer64] | return positions of `x` in `hashmap` |
 #' |    `hashrev` |            [`match()`][match.integer64] | return positions of `hashmap` in `x` |
-#' |    `hashfin` |                        [%in%.integer64] | return logical whether `x` is in `hashmap` |
-#' |    `hashrin` |                        [%in%.integer64] | return logical whether `hashmap` is in `x` |
+#' |    `hashfin` |                      [`%in%.integer64`] | return logical whether `x` is in `hashmap` |
+#' |    `hashrin` |                      [`%in%.integer64`] | return logical whether `hashmap` is in `x` |
 #' |    `hashdup` |  [`duplicated()`][duplicated.integer64] | return logical whether hashdat is duplicated using hashmap |
 #' |    `hashuni` |          [`unique()`][unique.integer64] | return unique values of hashmap |
 #' | `hashmapuni` |          [`unique()`][unique.integer64] | return unique values of `x` |

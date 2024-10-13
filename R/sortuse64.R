@@ -14,25 +14,25 @@
 #'   instead on a hashmap. Since sorting is more informative than hashing we
 #'   can do some more interesting things.
 #'
-#' @param sorted a sorted [integer64] vector
+#' @param sorted a sorted [`integer64`] vector
 #' @param ... further arguments, passed from generics, ignored in methods
 #' @param method see Details
 #'
 #' @details
 #'
-#' | **sortfun** | **orderfun** | **sortorderfun** | **see also**     | **description** |
-#' |------------:|-------------:|-----------------:|-----------------:|:----------------|
-#' |   `sortnut` |   `ordernut` |                  |                  | return number of tied and of unique values |
-#' |   `sortfin` |   `orderfin` |                  | [%in%.integer64] | return logical whether `x` is in `table` |
+#' | **sortfun** | **orderfun** | **sortorderfun** | **see also**       | **description** |
+#' |------------:|-------------:|-----------------:|-------------------:|:----------------|
+#' |   `sortnut` |   `ordernut` |                  |                    | return number of tied and of unique values |
+#' |   `sortfin` |   `orderfin` |                  | [`%in%.integer64`] | return logical whether `x` is in `table` |
 #' |             |   `orderpos` |   `sortorderpos` | [`match()`][match.integer64] | return positions of `x` in `table` |
 #' |             |   `orderdup` |   `sortorderdup` | [`duplicated()`][duplicated.integer64] | return logical whether values are duplicated |
 #' |   `sortuni` |   `orderuni` |   `sortorderuni` | [`unique()`][unique.integer64] | return unique values (=dimensiontable) |
 #' |             |   `orderupo` |   `sortorderupo` | [`unique()`][unique.integer64] | return positions of unique values |
-#' |             |   `ordertie` |   `sortordertie` |                  | return positions of tied values |
-#' |             |   `orderkey` |   `sortorderkey` |                  | positions of values in vector of unique values (match in dimensiontable) |
+#' |             |   `ordertie` |   `sortordertie` |                    | return positions of tied values |
+#' |             |   `orderkey` |   `sortorderkey` |                    | positions of values in vector of unique values (match in dimensiontable) |
 #' |   `sorttab` |   `ordertab` |   `sortordertab` | [`table()`][table.integer64] | tabulate frequency of values  |
-#' |             |   `orderrnk` |   `sortorderrnk` |                  | rank averaging ties |
-#' |   `sortqtl` |   `orderqtl` |                  |                  | return quantiles given probabilities |
+#' |             |   `orderrnk` |   `sortorderrnk` |                    | rank averaging ties |
+#' |   `sortqtl` |   `orderqtl` |                  |                    | return quantiles given probabilities |
 #'
 #' The functions `sortfin`, `orderfin`, `orderpos` and `sortorderpos` each
 #'   offer three algorithms for finding `x` in `table`.
@@ -81,7 +81,7 @@ sortnut.integer64 <- function(sorted, ...)
 
 #' @rdname sortnut
 #' @param table the original data with original order under the sorted vector
-#' @param order an [integer] order vector that turns 'table' into 'sorted'
+#' @param order an [`integer`] order vector that turns 'table' into 'sorted'
 #' @export
 ordernut <- function(table, order, ...) UseMethod("ordernut")
 #' @rdname sortnut
@@ -94,7 +94,7 @@ ordernut.integer64 <- function(table, order, ...)
 }
 
 #' @rdname sortnut
-#' @param x an [integer64] vector
+#' @param x an [`integer64`] vector
 #' @export
 sortfin <- function(sorted, x, ...) UseMethod("sortfin")
 #' @rdname sortnut

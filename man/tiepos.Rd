@@ -30,8 +30,8 @@ considering the size of \code{x} and the availability of a cache.
 
 Suitable methods are
 \itemize{
-\item \link{sortordertie} (fast ordering)
-\item \link{ordertie} (memory saving ordering).
+\item \code{\link{sortordertie}} (fast ordering)
+\item \code{\link{ordertie}} (memory saving ordering).
 }
 }
 \examples{

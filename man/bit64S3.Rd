@@ -50,7 +50,7 @@ methods for \code{\link[=integer64]{integer64()}}:
 }
 \note{
 \itemize{
-\item \code{\link[=is.double]{is.double()}} returns \code{FALSE} for \link{integer64}
+\item \code{\link[=is.double]{is.double()}} returns \code{FALSE} for \code{\link{integer64}}
 \item \code{\link{:}} currently only dispatches at its first argument, thus
 \code{as.integer64(1):9} works but \code{1:as.integer64(9)} doesn't
 \item \code{\link[=match]{match()}} currently only dispatches at its first argument and expects

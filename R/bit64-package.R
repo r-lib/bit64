@@ -49,13 +49,13 @@
 #' If we introduce 64 bit integers not natively in Base R but as an external package,
 #' we should at least strive to make them as 'basic' as possible. Therefore the design
 #' choice of bit64 not only differs from {int64}, it is obvious: Like the other atomic
-#' types in Base R, we model data type 'integer64' as a contiguous [atomic] vector in
+#' types in Base R, we model data type 'integer64' as a contiguous [`atomic`] vector in
 #' memory, and we use the more basic [S3] class system, not [S4]. Like package {int64}
-#' we want our 'integer64' to be [serialize]able, therefore we also use an existing
+#' we want our 'integer64' to be [`serialize`]able, therefore we also use an existing
 #' data type as the basis. Again the choice is obvious: R has only one 64 bit data
-#' type: doubles. By using [double]s, `integer64` [inherits] some functionality such
-#' as [is.atomic()], [length()], [length<-], [names()], [names<-], [dim()], [dim<-],
-#' [dimnames()], [dimnames<-].
+#' type: doubles. By using [`double`]s, `integer64` [`inherits`] some functionality such
+#' as [is.atomic()], [length()], [`length<-`], [names()], [`names<-`], [dim()], [`dim<-`],
+#' [dimnames()], [`dimnames<-`].
 #'
 #' Our R level functions strictly follow the functional programming paradigm:
 #' no modification of arguments or other side-effects. Before version 0.93  we
@@ -64,18 +64,18 @@
 #' returned as an argument. This gives us the freedom to apply the C-function to new
 #' or old vectors, which helps to avoid unnecessary memory allocation, unnecessary
 #' copying and unnecessary garbage collection. Prior to 0.93 _within_ our R functions
-#' we also deviated from conventional R programming by not using [attr<-] and
-#' [attributes<-] because they always did new memory allocation and copying in older
+#' we also deviated from conventional R programming by not using [`attr<-`] and
+#' [`attributes<-`] because they always did new memory allocation and copying in older
 #' R versions. If we wanted to set attributes of return values that we have freshly
 #' created, we instead used functions [bit::setattr()] and [bit::setattributes()].
-#' From version 0.93 `bit::setattr()` is only used for manipulating [cache] objects,
+#' From version 0.93 `bit::setattr()` is only used for manipulating [`cache`] objects,
 #' in [ramsort.integer64()], [sort.integer64()], and [as.data.frame.integer64()].
 #'
 #' # Arithmetic precision and coercion
 #'
 #' The fact that we introduce 64 bit long long integers -- without introducing 128-bit
-#' long doubles -- creates some subtle challenges: Unlike 32 bit [integer]s, the
-#' `integer64` are no longer a proper subset of [double]. If a binary arithmetic
+#' long doubles -- creates some subtle challenges: Unlike 32 bit [`integer`]s, the
+#' `integer64` are no longer a proper subset of [`double`]. If a binary arithmetic
 #' operation does involve a `double` and a `integer`, it is a no-brainer to return
 #' `double` without loss of information. If an `integer64` meets a `double`, it is not
 #' trivial what type to return. Switching to `integer64` limits our ability to
@@ -133,9 +133,9 @@
 #
 #' The methods [is.integer64()] and [is.vector()] both return `TRUE` for `integer64`.
 #' Note that we did not patch [storage.mode()] and [typeof()], which both continue
-#' returning 'double'. Like for 32 bit [integer], [mode()] returns 'numeric' and
-#' [as.double()] tries coercing to [double]. It is possible that 'integer64' becomes
-#' a [vmode] in package {ff}.
+#' returning 'double'. Like for 32 bit [`integer`], [mode()] returns 'numeric' and
+#' [as.double()] tries coercing to [`double`]. It is possible that 'integer64' becomes
+#' a [`vmode`] in package {ff}.
 #'
 #' Further methods for creating `integer64` are [`range()`][range.integer64] which
 #' returns the range of the data type if calles without arguments,
@@ -145,29 +145,29 @@
 #'
 #' # Index of implemented methods
 #'
-#' | **creating, testing, printing** | **see also**   | **description**           |
-#' |--------------------------------:|---------------:|:--------------------------|
-#' |                 `NA_integer64_` |  [NA_integer_] | NA constant               |
-#' |                     `integer64` |      [integer] | create zero atomic vector |
-#' |                     [runif64()] |      [runif()] | create random vector      |
-#' |               [rep.integer64()] |        [rep()] |                           |
-#' |               [seq.integer64()] |        [seq()] |                           |
-#' |                [is.integer64()] |         [is()] |                           |
-#' |                                 | [is.integer()] | inherited from Base R     |
-#  |         [is.double.integer64()] |  [is.double()] |                           |
-#' |         [is.vector.integer64()] |  [is.vector()] |                           |
-#' |         [identical.integer64()] |  [identical()] |                           |
-#' |            [length<-.integer64] |     [length<-] |                           |
-#' |                                 |     [length()] | inherited from Base R     |
-#' |                                 |      [names<-] | inherited from Base R     |
-#' |                                 |      [names()] | inherited from Base R     |
-#' |                                 |        [dim<-] | inherited from Base R     |
-#' |                                 |        [dim()] | inherited from Base R     |
-#' |                                 |   [dimnames<-] | inherited from Base R     |
-#' |                                 |   [dimnames()] | inherited from Base R     |
-#' |                                 |        [str()] | inherited from Base R, does not print values correctly |
-#' |             [print.integer64()] |      [print()] |                           |
-#' |               [str.integer64()] |        [str()] |                           |
+#' | **creating, testing, printing** | **see also**    | **description**           |
+#' |--------------------------------:|----------------:|:--------------------------|
+#' |                 `NA_integer64_` | [`NA_integer_`] | NA constant               |
+#' |                     `integer64` |     [`integer`] | create zero atomic vector |
+#' |                     [runif64()] |       [runif()] | create random vector      |
+#' |               [rep.integer64()] |         [rep()] |                           |
+#' |               [seq.integer64()] |         [seq()] |                           |
+#' |                [is.integer64()] |          [is()] |                           |
+#' |                                 |  [is.integer()] | inherited from Base R     |
+#  |         [is.double.integer64()] |   [is.double()] |                           |
+#' |         [is.vector.integer64()] |   [is.vector()] |                           |
+#' |         [identical.integer64()] |   [identical()] |                           |
+#' |          [`length<-.integer64`] |    [`length<-`] |                           |
+#' |                                 |      [length()] | inherited from Base R     |
+#' |                                       [`names<-`] | inherited from Base R     |
+#' |                                 |       [names()] | inherited from Base R     |
+#' |                                 |       [`dim<-`] | inherited from Base R     |
+#' |                                 |         [dim()] | inherited from Base R     |
+#' |                                 |  [`dimnames<-`] | inherited from Base R     |
+#' |                                 |    [dimnames()] | inherited from Base R     |
+#' |                                 |         [str()] | inherited from Base R, does not print values correctly |
+#' |             [print.integer64()] |       [print()] |                           |
+#' |               [str.integer64()] |         [str()] |                           |
 #'
 #' | **coercing to integer64**  | **see also**     | **description** |
 #' |---------------------------:|-----------------:|:----------------|
@@ -214,24 +214,24 @@
 #' |      [`*.integer64`] |        [`*`] | returns integer64 |
 #' |      [`^.integer64`] |        [`^`] | returns double    |
 #' |      [`/.integer64`] |        [`/`] | returns double    |
-#' |    [`%/%.integer64`] |        [%/%] | returns integer64 |
+#' |    [`%/%.integer64`] |      [`%/%`] | returns integer64 |
 #' |     [`%%.integer64`] |         [%%] | returns integer64 |
 #'
 #' | **comparison operators** | **see also** | **description** |
 #' |-------------------------:|-------------:|:----------------|
-#' |           [==.integer64] |         [==] | |
-#' |           [!=.integer64] |         [!=] | |
-#' |            [<.integer64] |          [<] | |
-#' |           [<=.integer64] |         [<=] | |
-#' |            [>.integer64] |          [>] | |
-#' |           [>=.integer64] |         [>=] | |
+#' |         [`==.integer64`] |         [==] | |
+#' |         [`!=.integer64`] |         [!=] | |
+#' |          [`<.integer64`] |          [<] | |
+#' |         [`<=.integer64`] |         [<=] | |
+#' |          [`>.integer64`] |          [>] | |
+#' |         [`>=.integer64`] |         [>=] | |
 #'
 #' | **logical operators** | **see also** | **description** |
 #' |----------------------:|-------------:|:----------------|
-#' |         [!.integer64] |          [!] | |
-#' |         [&.integer64] |          [&] | |
-#' |         [|.integer64] |          [|] | |
-#' |       [xor.integer64] |      [xor()] | |
+#' |       [`!.integer64`] |          [!] | |
+#' |       [`&.integer64`] |          [&] | |
+#' |       [`|.integer64`] |          [|] | |
+#' |     [`xor.integer64`] |      [xor()] | |
 #'
 #' | **math functions**    | **see also** | **description**              |
 #' |----------------------:|-------------:|:-----------------------------|
@@ -271,7 +271,7 @@
 #' | **algorithmically complex functions** | **see also** | **description (caching)**  |
 #' |--------------------------------------:|-------------:|:---------------------------|
 #' |      [match.integer64()] |      [match()] | position of x in table (h//o/so) |
-#' |         [%in%.integer64] |         [%in%] | is x in table? (h//o/so) |
+#' |       [`%in%.integer64`] |       [`%in%`] | is x in table? (h//o/so) |
 #' | [duplicated.integer64()] | [duplicated()] | is current element duplicate of previous one? (h//o/so) |
 #' |     [unique.integer64()] |     [unique()] | (shorter) vector of unique values only (h/s/o/so) |
 #' |     [unipos.integer64()] |     [unipos()] | positions corresponding to unique values (h/s/o/so) |
@@ -326,7 +326,7 @@
 #'  -  **[identical()] with default parameters does not distinguish all bit-patterns of
 #'     doubles. For testing purposes we provide a wrapper [identical.integer64()] that
 #'     will distinguish all bit-patterns. It would be desireable to have a single call
-#'     of `identical()` handle both, [double] and `integer64`.
+#'     of `identical()` handle both, [`double`] and `integer64`.
 #'
 #'  - the **colon** operator [:] officially does not dispatch S3 methods, however, we
 #'    have made it generic:
@@ -350,7 +350,7 @@
 #'
 #'  - **generic binary operators** fail to dispatch *any* user-defined S3 method
 #'     if the two arguments have two different S3 classes. For example we have two
-#'     classes [bit::bit] and [bit::bitwhich] sparsely representing boolean vectors
+#'     classes [`bit::bit`] and [`bit::bitwhich`] sparsely representing boolean vectors
 #'     and we have methods [`&.bit`][bit::xor.default] and
 #'     [`&.bitwhich`][bit::xor.default]. For an expression involving both as in
 #'     `bit & bitwhich`, none of the two methods is dispatched. Instead a standard

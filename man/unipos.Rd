@@ -35,10 +35,10 @@ considering the size of \code{x} and the availability of a cache.
 
 Suitable methods are
 \itemize{
-\item \link{hashmapupo} (simultaneously creating and using a hashmap)
-\item \link{hashupo} (first creating a hashmap then using it)
-\item \link{sortorderupo} (fast ordering)
-\item \link{orderupo} (memory saving ordering).
+\item \code{\link{hashmapupo}} (simultaneously creating and using a hashmap)
+\item \code{\link{hashupo}} (first creating a hashmap then using it)
+\item \code{\link{sortorderupo}} (fast ordering)
+\item \code{\link{orderupo}} (memory saving ordering).
 }
 
 The default \code{order="original"} collects unique values in the order of

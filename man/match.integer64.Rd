@@ -56,18 +56,18 @@ considering the size of \code{x} and \code{table} and the availability of caches
 
 Suitable methods for \verb{\%in\%.integer64} are
 \itemize{
-\item \link{hashpos} (hash table lookup)
-\item \link{hashrev} (reverse lookup)
-\item \link{sortorderpos} (fast ordering)
-\item \link{orderpos} (memory saving ordering).
+\item \code{\link{hashpos}} (hash table lookup)
+\item \code{\link{hashrev}} (reverse lookup)
+\item \code{\link{sortorderpos}} (fast ordering)
+\item \code{\link{orderpos}} (memory saving ordering).
 }
 
 Suitable methods for \code{match.integer64} are
 \itemize{
-\item \link{hashfin} (hash table lookup)
-\item \link{hashrin} (reverse lookup)
-\item \link{sortfin} (fast sorting)
-\item \link{orderfin} (memory saving ordering).
+\item \code{\link{hashfin}} (hash table lookup)
+\item \code{\link{hashrin}} (reverse lookup)
+\item \code{\link{sortfin}} (fast sorting)
+\item \code{\link{orderfin}} (memory saving ordering).
 }
 }
 \examples{

@@ -27,7 +27,7 @@
 #' @return A single logical value, `TRUE` or `FALSE`, never `NA` and never
 #'   anything other than a single value.
 #' @keywords classes manip
-#' @seealso [==.integer64] [identical()] [integer64()]
+#' @seealso [`==.integer64`] [identical()] [integer64()]
 #' @examples
 #'   i64 <- as.double(NA); class(i64) <- "integer64"
 #'   identical(i64-1, i64+1)

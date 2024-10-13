@@ -72,7 +72,7 @@ see \code{\link[=sort]{sort()}} and \code{\link[=order]{order()}}
   order.integer64(x, optimize="memory")
 }
 \seealso{
-<\code{\link[=sort.integer64]{sort()}}>, \code{\link[=sortcache]{sortcache()}}
+\code{\link[=sort.integer64]{sort()}}, \code{\link[=sortcache]{sortcache()}}
 }
 \keyword{manip}
 \keyword{programming}

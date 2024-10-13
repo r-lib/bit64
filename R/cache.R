@@ -15,8 +15,8 @@
 #' @param x an integer64 vector (or a cache object in case of `print.cache`)
 #'
 #' @details
-#' A `cache` is an [environment] attached to an atomic object with the
-#'   [attribute] name 'cache'. It contains at least a reference to the
+#' A `cache` is an [`environment`] attached to an atomic object with the
+#'   [`attribute`] name 'cache'. It contains at least a reference to the
 #'   atomic object that carries the cache. This is used when accessing
 #'   the cache to detect whether the object carrying the cache has been
 #'   modified meanwhile.
@@ -30,9 +30,9 @@
 #'   [bit::nties()]
 #'
 #' Setting big caches with a relevant memory footprint requires a conscious decision
-#'   of the user: [hashcache], [sortcache], [ordercache], [sortordercache]
+#'   of the user: [`hashcache`], [`sortcache`], [`ordercache`], [`sortordercache`]
 #'
-#' Functions that use big caches: [match.integer64()], [%in%.integer64],
+#' Functions that use big caches: [match.integer64()], [`%in%.integer64`],
 #'   [duplicated.integer64()], [unique.integer64()], [unipos()], [table.integer64()],
 #'   [keypos()], [tiepos()], [rank.integer64()], [prank()], [qtile()],
 #'   [quantile.integer64()], [median.integer64()], and [summary.integer64()]

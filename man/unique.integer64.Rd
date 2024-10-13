@@ -43,11 +43,11 @@ considering the size of \code{x} and the availability of a cache.
 
 Suitable methods are
 \itemize{
-\item \link{hashmapuni} (simultaneously creating and using a hashmap)
-\item \link{hashuni} (first creating a hashmap then using it)
-\item \link{sortuni} (fast sorting for sorted order only)
-\item \link{sortorderuni} (fast ordering for original order only)
-\item \link{orderuni} (memory saving ordering).
+\item \code{\link{hashmapuni}} (simultaneously creating and using a hashmap)
+\item \code{\link{hashuni}} (first creating a hashmap then using it)
+\item \code{\link{sortuni}} (fast sorting for sorted order only)
+\item \code{\link{sortorderuni}} (fast ordering for original order only)
+\item \code{\link{orderuni}} (memory saving ordering).
 }
 
 The default \code{order="original"} returns unique values in the order of the

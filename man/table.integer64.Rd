@@ -80,10 +80,10 @@ the size of \code{x} and the availability of a cache.
 
 Suitable methods are
 \itemize{
-\item \link{hashmaptab} (simultaneously creating and using a hashmap)
-\item \link{hashtab} (first creating a hashmap then using it)
-\item \link{sortordertab} (fast ordering)
-\item \link{ordertab} (memory saving ordering).
+\item \code{\link{hashmaptab}} (simultaneously creating and using a hashmap)
+\item \code{\link{hashtab}} (first creating a hashmap then using it)
+\item \code{\link{sortordertab}} (fast ordering)
+\item \code{\link{ordertab}} (memory saving ordering).
 }
 
 If the argument \code{dnn} is not supplied, the internal function
@@ -129,7 +129,7 @@ table.integer64(x, as.integer64(as.factor(z)))
 }
 \seealso{
 \code{\link[=table]{table()}} for more info on the standard version coping with Base R's
-data types, \code{\link[=tabulate]{tabulate()}} which can faster tabulate \link{integer}s with a limited
+data types, \code{\link[=tabulate]{tabulate()}} which can faster tabulate \code{\link{integer}}s with a limited
 range \verb{[1L .. nL not too big]}, \code{\link[=unique.integer64]{unique.integer64()}} for the unique values
 without counting them and \code{\link[=unipos.integer64]{unipos.integer64()}} for the positions of the unique values.
 }

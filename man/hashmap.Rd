@@ -114,8 +114,8 @@ re-use hashmaps, which avoid re-building hashmaps again and again.
    \code{hashmap} \tab \code{\link[=match.integer64]{match()}} \tab return hashmap \cr
    \code{hashpos} \tab \code{\link[=match.integer64]{match()}} \tab return positions of \code{x} in \code{hashmap} \cr
    \code{hashrev} \tab \code{\link[=match.integer64]{match()}} \tab return positions of \code{hashmap} in \code{x} \cr
-   \code{hashfin} \tab \link{\%in\%.integer64} \tab return logical whether \code{x} is in \code{hashmap} \cr
-   \code{hashrin} \tab \link{\%in\%.integer64} \tab return logical whether \code{hashmap} is in \code{x} \cr
+   \code{hashfin} \tab \code{\link{\%in\%.integer64}} \tab return logical whether \code{x} is in \code{hashmap} \cr
+   \code{hashrin} \tab \code{\link{\%in\%.integer64}} \tab return logical whether \code{hashmap} is in \code{x} \cr
    \code{hashdup} \tab \code{\link[=duplicated.integer64]{duplicated()}} \tab return logical whether hashdat is duplicated using hashmap \cr
    \code{hashuni} \tab \code{\link[=unique.integer64]{unique()}} \tab return unique values of hashmap \cr
    \code{hashmapuni} \tab \code{\link[=unique.integer64]{unique()}} \tab return unique values of \code{x} \cr
@@ -183,7 +183,7 @@ stopifnot(identical(hashtab(hy), hashmaptab(y)))
     }
 }
 \seealso{
-<\code{\link[=match.integer64]{match()}}>, \code{\link[=runif64]{runif64()}}
+\code{\link[=match.integer64]{match()}}, \code{\link[=runif64]{runif64()}}
 }
 \keyword{manip}
 \keyword{programming}

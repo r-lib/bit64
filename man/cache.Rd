@@ -42,8 +42,8 @@ See details
 Functions for caching results attached to atomic objects
 }
 \details{
-A \code{cache} is an \link{environment} attached to an atomic object with the
-\link{attribute} name 'cache'. It contains at least a reference to the
+A \code{cache} is an \code{\link{environment}} attached to an atomic object with the
+\code{\link{attribute}} name 'cache'. It contains at least a reference to the
 atomic object that carries the cache. This is used when accessing
 the cache to detect whether the object carrying the cache has been
 modified meanwhile.
@@ -92,9 +92,9 @@ Functions that get and set small cache-content automatically when a cache is pre
 \code{\link[bit:Metadata]{bit::nties()}}
 
 Setting big caches with a relevant memory footprint requires a conscious decision
-of the user: \link{hashcache}, \link{sortcache}, \link{ordercache}, \link{sortordercache}
+of the user: \code{\link{hashcache}}, \code{\link{sortcache}}, \code{\link{ordercache}}, \code{\link{sortordercache}}
 
-Functions that use big caches: \code{\link[=match.integer64]{match.integer64()}}, \link{\%in\%.integer64},
+Functions that use big caches: \code{\link[=match.integer64]{match.integer64()}}, \code{\link{\%in\%.integer64}},
 \code{\link[=duplicated.integer64]{duplicated.integer64()}}, \code{\link[=unique.integer64]{unique.integer64()}}, \code{\link[=unipos]{unipos()}}, \code{\link[=table.integer64]{table.integer64()}},
 \code{\link[=keypos]{keypos()}}, \code{\link[=tiepos]{tiepos()}}, \code{\link[=rank.integer64]{rank.integer64()}}, \code{\link[=prank]{prank()}}, \code{\link[=qtile]{qtile()}},
 \code{\link[=quantile.integer64]{quantile.integer64()}}, \code{\link[=median.integer64]{median.integer64()}}, and \code{\link[=summary.integer64]{summary.integer64()}}

@@ -39,7 +39,7 @@ This is simply a wrapper to \code{\link[=identical]{identical()}} with default a
   identical.integer64(i64-1, i64+1)
 }
 \seealso{
-\link{==.integer64} \code{\link[=identical]{identical()}} \code{\link[=integer64]{integer64()}}
+\code{\link{==.integer64}} \code{\link[=identical]{identical()}} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}
