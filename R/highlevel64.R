@@ -2652,6 +2652,7 @@ prank.integer64 <- function(x
 #' @keywords univar
 #' @export
 qtile <- function(x, probs = seq(0.0, 1.0, 0.25), ...) UseMethod("qtile")
+#' @rdname qtile
 #' @param names logical; if `TRUE`, the result has a `names` attribute. Set to `FALSE` for speedup with many probs.
 #' @param method NULL for automatic method selection or a suitable low-level method, see details
 #' @export
@@ -2721,21 +2722,23 @@ quantile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), na.rm = FALSE, na
 # adding ... (wish of Kurt Hornik 23.3.2017)
 if (is.na(match("...", names(formals(median))))){
     # nocov start. Only run on old R.
-    median.integer64 <- function(x, na.rm=FALSE){
+    median_i64_impl_ <- function(x, na.rm=FALSE){
         if (!na.rm && na.count(x)>0L)
             stop("missing values not allowed with 'na.rm='==FALSE")
         qtile.integer64(x, probs = 0.5, na.rm = na.rm, names = FALSE)
     }
     # nocov end.
 }else{
-    #' @rdname qtile
-    #' @exportS3Method median integer64
-    median.integer64 <- function(x, na.rm=FALSE, ...){
+    median_i64_impl_ <- function(x, na.rm=FALSE, ...){
         if (!na.rm && na.count(x)>0L)
             stop("missing values not allowed with 'na.rm='==FALSE")
         qtile.integer64(x, probs = 0.5, na.rm = na.rm, names = FALSE)
     }
 }
+
+#' @rdname qtile
+#' @export
+median.integer64 <- median_i64_impl_
 
 # mean.integer64 <- function(x, na.rm=FALSE){
     # s <- sum(x, na.rm=na.rm)

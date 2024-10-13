@@ -91,39 +91,31 @@ NULL
 # OCT 2013: bit64S3() at wish of CRAN maintainers replaced by direct conversion to S3 generics
 # in order to avoid assigning to globalenv
 
-if (!exists(":.default")){
-    `:` <- function(from,to) UseMethod(":")
-    #' @exportS3Method : default
-    `:.default` <- function(from,to) base::`:`(from,to)
-}
+`:` <- function(from,to) UseMethod(":")
+#' @export
+`:.default` <- function(from,to) base::`:`(from,to)
+
 #' @export
 `:.integer64` <- function(from, to)seq.integer64(from=from, to=to)
 
-if (!exists("is.double.default")){
-    is.double <- function(x) UseMethod("is.double")
-    #' @exportS3Method is.double default
-    is.double.default <- function(x) base::is.double(x)
-}
+is.double <- function(x) UseMethod("is.double")
+#' @export
+is.double.default <- function(x) base::is.double(x)
+
 #' @export
 is.double.integer64 <- function(x)FALSE
 
-if (!exists("match.default")){
-    match <- function(x, table, ...) UseMethod("match")
-    #' @export
-    match.default <- function(x, table, ...) base::match(x, table, ...)
-}
+match <- function(x, table, ...) UseMethod("match")
+#' @export
+match.default <- function(x, table, ...) base::match(x, table, ...)
 
-if (!exists("%in%.default")){
-    `%in%` <- function(x, table) UseMethod("%in%")
-    #' @exportS3Method %in% default
-    `%in%.default` <- function(x, table) base::`%in%`(x, table)
-}
+`%in%` <- function(x, table) UseMethod("%in%")
+#' @export
+`%in%.default` <- function(x, table) base::`%in%`(x, table)
 
-if (!exists("rank.default")){
-    rank <- function(x, ...) UseMethod("rank")
-    #' @exportS3Method rank default
-    rank.default <- function(x, ...) base::rank(x, ...)
-}
+rank <- function(x, ...) UseMethod("rank")
+#' @export
+rank.default <- function(x, ...) base::rank(x, ...)
 
 # not yet able to combinewith other column types - better leave table() as is and hope for as.factor.integer64
 #if (!exists("table.default")){
@@ -131,8 +123,6 @@ if (!exists("rank.default")){
 #    "table.default" <- function(...) base::"table"(...)
 #}
 
-if (!exists("order.default")){
-    order <- function(...) UseMethod("order")
-    #' @exportS3Method order default
-    order.default <- function(...) base::order(...)
-}
+order <- function(...) UseMethod("order")
+#' @export
+order.default <- function(...) base::order(...)
