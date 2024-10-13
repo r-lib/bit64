@@ -1,6 +1,6 @@
+\docType{data}
 \name{benchmark64.data}
 \alias{benchmark64.data}
-\docType{data}
 \title{
  Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM under Windows 7 64bit
 }

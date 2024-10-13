@@ -1,3 +1,4 @@
+\docType{package}
 \name{bit64-package}
 \alias{bit64-package}
 \alias{bit64}
@@ -9,7 +10,6 @@
 \alias{length<-.integer64}
 \alias{print.integer64}
 \alias{str.integer64}
-\docType{package}
 \title{
    A S3 class for vectors of 64bit integers
 }

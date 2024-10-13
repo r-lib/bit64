@@ -1,6 +1,6 @@
+\docType{data}
 \name{optimizer64.data}
 \alias{optimizer64.data}
-\docType{data}
 \title{
  Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM under Windows 7 64bit
 }

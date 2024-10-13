@@ -1,6 +1,6 @@
 \name{table.integer64}
-\title{Cross Tabulation and Table Creation for integer64}
 \alias{table.integer64}
+\title{Cross Tabulation and Table Creation for integer64}
 
 \concept{counts}
 \concept{frequencies}

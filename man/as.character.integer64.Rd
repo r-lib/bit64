@@ -45,8 +45,6 @@
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
 \examples{
   as.character(lim.integer64())
   as.bitstring(lim.integer64())
@@ -55,3 +53,5 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   )))
 }
 \seealso{ \code{\link{as.integer64.character}} \code{\link{integer64}}  }
+\keyword{ classes }
+\keyword{ manip }

@@ -56,8 +56,6 @@
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
 \examples{
 as.integer64(as.character(lim.integer64()))
 as.integer64(
@@ -80,3 +78,5 @@ as.integer64(
 )
 }
 \seealso{ \code{\link{as.character.integer64}} \code{\link{integer64}}  }
+\keyword{ classes }
+\keyword{ manip }

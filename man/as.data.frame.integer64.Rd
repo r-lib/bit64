@@ -26,8 +26,6 @@
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
 \examples{
   as.data.frame.integer64(as.integer64(1:12))
   data.frame(a=1:12, b=as.integer64(1:12))
@@ -35,3 +33,5 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 \seealso{
   \code{\link{cbind.integer64}} \code{\link{integer64}}  %as.vector.integer64 removed as requested by the CRAN maintainer \code{\link{as.vector.integer64}}
 }
+\keyword{ classes }
+\keyword{ manip }

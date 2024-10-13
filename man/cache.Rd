@@ -64,12 +64,6 @@ remcache(x)
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\seealso{
- \code{\link[bit]{still.identical}} for testing whether to symbols point to the same RAM. \cr
-    Functions that get and set small cache-content automatically when a cache is present: \code{\link[bit:Metadata]{na.count}}, \code{\link[bit:Metadata]{nvalid}}, \code{\link[bit:Metadata]{is.sorted}}, \code{\link[bit:Metadata]{nunique}} and \code{\link[bit:Metadata]{nties}} \cr
-    Setting big caches with a relevant memory footprint requires a conscious decision of the user: \code{\link{hashcache}}, \code{\link{sortcache}}, \code{\link{ordercache}} and \code{\link{sortordercache}} \cr
-    Functions that use big caches: \code{\link{match.integer64}}, \code{\link{\%in\%.integer64}}, \code{\link{duplicated.integer64}}, \code{\link{unique.integer64}}, \code{\link{unipos}}, \code{\link{table.integer64}}, \code{\link{keypos}}, \code{\link{tiepos}}, \code{\link{rank.integer64}}, \code{\link{prank}}, \code{\link{qtile}}, \code{\link{quantile.integer64}}, \code{\link{median.integer64}} and \code{\link{summary.integer64}} \cr
-}
 \examples{
     x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
     y <- x
@@ -89,5 +83,11 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
     getcache(x, "abc")
     remcache(x)
     cache(x)
+}
+\seealso{
+ \code{\link[bit]{still.identical}} for testing whether to symbols point to the same RAM. \cr
+    Functions that get and set small cache-content automatically when a cache is present: \code{\link[bit:Metadata]{na.count}}, \code{\link[bit:Metadata]{nvalid}}, \code{\link[bit:Metadata]{is.sorted}}, \code{\link[bit:Metadata]{nunique}} and \code{\link[bit:Metadata]{nties}} \cr
+    Setting big caches with a relevant memory footprint requires a conscious decision of the user: \code{\link{hashcache}}, \code{\link{sortcache}}, \code{\link{ordercache}} and \code{\link{sortordercache}} \cr
+    Functions that use big caches: \code{\link{match.integer64}}, \code{\link{\%in\%.integer64}}, \code{\link{duplicated.integer64}}, \code{\link{unique.integer64}}, \code{\link{unipos}}, \code{\link{table.integer64}}, \code{\link{keypos}}, \code{\link{tiepos}}, \code{\link{rank.integer64}}, \code{\link{prank}}, \code{\link{qtile}}, \code{\link{quantile.integer64}}, \code{\link{median.integer64}} and \code{\link{summary.integer64}} \cr
 }
 \keyword{ environment }

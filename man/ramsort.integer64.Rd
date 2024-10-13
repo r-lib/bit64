@@ -17,10 +17,6 @@
 \title{
    Low-level intger64 methods for in-RAM sorting and ordering
 }
-\note{
- Note that these methods purposely violate the functional programming paradigm: they are called for the side-effect of changing some of their arguments.
- The \code{sort}-methods change \code{x}, the \code{order}-methods change \code{i}, and the \code{sortoder}-methods change both \code{x} and \code{i}
-}
 \usage{
 \method{shellsort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
 
@@ -99,6 +95,10 @@ number of remaining recursionlevels before \code{quicksort} switches from recurs
 }
 \details{
  see \code{\link[bit:Sorting]{ramsort}}
+}
+\note{
+ Note that these methods purposely violate the functional programming paradigm: they are called for the side-effect of changing some of their arguments.
+ The \code{sort}-methods change \code{x}, the \code{order}-methods change \code{i}, and the \code{sortoder}-methods change both \code{x} and \code{i}
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
