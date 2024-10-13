@@ -2479,59 +2479,6 @@ table.integer64 <- function(
   cnt
 }
 
-
-as.factor.integer64 <- function(x){
-
-    cache_env <- cache(x)
-    if (is.null(cache_env$order)){
-        s <- clone(x)
-        o <- seq_along(s)
-        na.count <- ramsortorder(s,o)
-        nu <- sortnut(s)[["nunique"]]
-    }else if (is.null(cache_env$sort)){
-        o <- cache_env$order
-        s <- x[o]
-        na.count <- cache_env$na.count
-        nu <- cache_env$nunique
-    }else{
-        o <- cache_env$order
-        s <- cache_env$sort
-        na.count <- cache_env$na.count
-        nu <- cache_env$nunique
-    }
-    dimtab <- sortuni(s, nu)
-    dimpos <- sortorderkey(s,o,na.skip.num=na.count) - 1L
-    attr(dimpos, "levels") <- dimtab
-    oldClass(dimpos) <- "factor"
-    dimpos
-}
-
-as.ordered.integer64 <- function(x){
-
-    cache_env <- cache(x)
-    if (is.null(cache_env$order)){
-        s <- clone(x)
-        o <- seq_along(s)
-        na.count <- ramsortorder(s,o)
-        nu <- sortnut(s)[["nunique"]]
-    }else if (is.null(cache_env$sort)){
-        o <- cache_env$order
-        s <- x[o]
-        na.count <- cache_env$na.count
-        nu <- cache_env$nunique
-    }else{
-        o <- cache_env$order
-        s <- cache_env$sort
-        na.count <- cache_env$na.count
-        nu <- cache_env$nunique
-    }
-    dimtab <- sortuni(s, nu)
-    dimpos <- sortorderkey(s,o,na.skip.num=na.count) - 1L
-    attr(dimpos, "levels") <- dimtab
-    oldClass(dimpos) <- c("ordered", "factor")
-    dimpos
-}
-
 as.integer64.factor <- function(x, ...)as.integer64(unclass(x))
 
 
