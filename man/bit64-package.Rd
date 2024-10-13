@@ -87,9 +87,33 @@ faster than base 32-bit integers, hash-caching improved this to 24x,
 sortorder-caching was most efficient with 38x (caching hashing and sorting
 is not worth it with 32x at duplicated RAM consumption).
 }
+}
+\note{
+\code{integer64} are useful for handling database keys and exact counting in +-2^63.
+Do not use them as replacement for 32bit integers, integer64 are not supported for
+subscripting by R-core and they have different semantics when combined with double.
+Do understand that \code{integer64} can only be useful over \code{double} if we do not coerce
+it to \code{double}.
 
-\subsection{Design considerations}{
+While
 
+integer + double -> double + double -> double
+
+or
+
+1L + 0.5 -> 1.5
+
+for additive operations we coerce to \code{integer64}
+
+integer64 + double ->  integer64 + integer64 -> integer64
+
+hence
+
+as.integer64(1) + 0.5 -> 1LL + 0LL -> 1LL
+
+see section "Arithmetic precision and coercion" above
+}
+\section{Design considerations}{
 64 bit integers are related to big data: we need them to overcome address space
 limitations. Therefore performance of the 64 bit integer type is critical. In the
 S language -- designed in 1975 -- atomic objects were defined to be vectors for a
@@ -123,8 +147,7 @@ From version 0.93 \code{bit::setattr()} is only used for manipulating \link{cach
 in \code{\link[=ramsort.integer64]{ramsort.integer64()}}, \code{\link[=sort.integer64]{sort.integer64()}}, and \code{\link[=as.data.frame.integer64]{as.data.frame.integer64()}}.
 }
 
-\subsection{Arithmetic precision and coercion}{
-
+\section{Arithmetic precision and coercion}{
 The fact that we introduce 64 bit long long integers -- without introducing 128-bit
 long doubles -- creates some subtle challenges: Unlike 32 bit \link{integer}s, the
 \code{integer64} are no longer a proper subset of \link{double}. If a binary arithmetic
@@ -167,11 +190,9 @@ argument to 'long double', they return as \code{double}, like
    integer64 \tab ^ \tab double \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
    double \tab ^ \tab integer64 \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
 }
-
 }
 
-\subsection{Creating and testing S3 class 'integer64'}{
-
+\section{Creating and testing S3 class 'integer64'}{
 Our creator function \code{integer64} takes an argument \code{length}, creates an atomic
 double vector of this length, attaches an S3 class attribute 'integer64' to it,
 and that's it. We simply rely on S3 method dispatch and interpret those 64-bit
@@ -194,7 +215,8 @@ returns the range of the data type if calles without arguments,
 For all available methods on \code{integer64} vectors see the index below and the examples.
 }
 
-\subsection{Index of implemented methods}{\tabular{rrl}{
+\section{Index of implemented methods}{
+\tabular{rrl}{
    \strong{creating, testing, printing} \tab \strong{see also} \tab \strong{description} \cr
    \code{NA_integer64_} \tab \link{NA_integer_} \tab NA constant \cr
    \code{integer64} \tab \link{integer} \tab create zero atomic vector \cr
@@ -351,10 +373,9 @@ For all available methods on \code{integer64} vectors see the index below and th
     \tab \code{\link[=dput]{dput()}} \tab inherited from Base R \cr
     \tab \code{\link[=dget]{dget()}} \tab inherited from Base R \cr
 }
-
 }
 
-\subsection{Limitations inherited from implementing 64 bit integers via an external package}{
+\section{Limitations inherited from implementing 64 bit integers via an external package}{
 \itemize{
 \item \strong{vector size} of atomic vectors is still limited to
 <\code{\link[=.Machine]{.Machine$integer.max}}>. However, external memory extending packages
@@ -374,7 +395,7 @@ way may facilitate migrating code to literals at a later stage.
 }
 }
 
-\subsection{Limitations inherited from Base R, Core team, can you change this?}{
+\section{Limitations inherited from Base R, Core team, can you change this?}{
 \itemize{
 \item **\code{\link[=identical]{identical()}} with default parameters does not distinguish all bit-patterns of
 doubles. For testing purposes we provide a wrapper \code{\link[=identical.integer64]{identical.integer64()}} that
@@ -431,7 +452,7 @@ working functionality of the package.
 }
 }
 
-\subsection{Further limitations}{
+\section{Further limitations}{
 \itemize{
 \item \strong{subscripting} non-existing elements and subscripting with \code{NA}s is currently
 not supported. Such subscripting currently returns \code{9218868437227407266} instead
@@ -439,32 +460,7 @@ of \code{NA} (the \code{NA} value of the underlying double code). Following the 
 behaviour here would either destroy performance or require extensive C-coding.
 }
 }
-}
-\note{
-\code{integer64} are useful for handling database keys and exact counting in +-2^63.
-Do not use them as replacement for 32bit integers, integer64 are not supported for
-subscripting by R-core and they have different semantics when combined with double.
-Do understand that \code{integer64} can only be useful over \code{double} if we do not coerce
-it to \code{double}.
 
-While
-
-integer + double -> double + double -> double
-
-or
-
-1L + 0.5 -> 1.5
-
-for additive operations we coerce to \code{integer64}
-
-integer64 + double ->  integer64 + integer64 -> integer64
-
-hence
-
-as.integer64(1) + 0.5 -> 1LL + 0LL -> 1LL
-
-see section "Arithmetic precision and coercion" above
-}
 \examples{
 message("Using integer64 in vector")
 x <- integer64(8)    # create 64 bit vector

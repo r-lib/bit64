@@ -37,7 +37,7 @@
 #' sortorder-caching was most efficient with 38x (caching hashing and sorting
 #' is not worth it with 32x at duplicated RAM consumption).
 #'
-#' ## Design considerations
+#' # Design considerations
 #'
 #' 64 bit integers are related to big data: we need them to overcome address space
 #' limitations. Therefore performance of the 64 bit integer type is critical. In the
@@ -71,7 +71,7 @@
 #' From version 0.93 `bit::setattr()` is only used for manipulating [cache] objects,
 #' in [ramsort.integer64()], [sort.integer64()], and [as.data.frame.integer64()].
 #'
-#' ## Arithmetic precision and coercion
+#' # Arithmetic precision and coercion
 #'
 #' The fact that we introduce 64 bit long long integers -- without introducing 128-bit
 #' long doubles -- creates some subtle challenges: Unlike 32 bit [integer]s, the
@@ -117,7 +117,7 @@
 #' | integer64     | ^      | double        | ->     | integer64    | /      | long double  | ->     | double     |
 #' | double        | ^      | integer64     | ->     | integer64    | /      | long double  | ->     | double     |
 #'
-#' ## Creating and testing S3 class 'integer64'
+#' # Creating and testing S3 class 'integer64'
 #'
 #' Our creator function `integer64` takes an argument `length`, creates an atomic
 #' double vector of this length, attaches an S3 class attribute 'integer64' to it,
@@ -143,7 +143,7 @@
 #'
 #' For all available methods on `integer64` vectors see the index below and the examples.
 #'
-#' ## Index of implemented methods
+#' # Index of implemented methods
 #'
 #' | **creating, testing, printing** | **see also**   | **description**           |
 #' |--------------------------------:|---------------:|:--------------------------|
@@ -303,7 +303,7 @@
 #' |                          |        [dput()] | inherited from Base R |
 #' |                          |        [dget()] | inherited from Base R |
 #'
-#' ## Limitations inherited from implementing 64 bit integers via an external package
+#' # Limitations inherited from implementing 64 bit integers via an external package
 #'
 #'  - **vector size** of atomic vectors is still limited to
 #'    <[`.Machine$integer.max`][.Machine]>. However, external memory extending packages
@@ -321,7 +321,7 @@
 #'    numeric data types and therefore is the recommended way to use -- using only one
 #'    way may facilitate migrating code to literals at a later stage.
 #'
-#' ## Limitations inherited from Base R, Core team, can you change this?
+#' # Limitations inherited from Base R, Core team, can you change this?
 #'
 #'  -  **[identical()] with default parameters does not distinguish all bit-patterns of
 #'     doubles. For testing purposes we provide a wrapper [identical.integer64()] that
@@ -381,7 +381,7 @@
 #'
 #'  - **[str()]** does not print the values of `integer64` correctly
 #'
-#' ## Further limitations
+#' # Further limitations
 #'
 #'  - **subscripting** non-existing elements and subscripting with `NA`s is currently
 #'    not supported. Such subscripting currently returns `9218868437227407266` instead
