@@ -82,7 +82,7 @@ hashmapupo(x, ...)
 \method{hashmapupo}{integer64}(x, nunique = NULL, minfac = 1.5, hashbits = NULL, ...)
 }
 \arguments{
-\item{x}{n integer64 vector}
+\item{x}{an integer64 vector}
 
 \item{...}{further arguments, passed from generics, ignored in methods}
 

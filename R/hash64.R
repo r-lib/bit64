@@ -16,7 +16,7 @@
 #' store and use hash functionality directly. One advantage is that you can
 #' re-use hashmaps, which avoid re-building hashmaps again and again.
 #'
-#' @param x n integer64 vector
+#' @param x an integer64 vector
 #' @param minfac minimum factor by which the hasmap has more elements compared to the data `x`, ignored if `hashbits` is given directly
 #' @param hashbits length of hashmap is `2^hashbits`
 #' @param cache an optional [cache()] object into which to put the hashmap (by default a new cache is created
