@@ -1,9 +1,6 @@
 \name{unique.integer64}
 \alias{unique.integer64}
 \title{Extract Unique Elements from integer64}
-\description{
-  \code{unique} returns a vector like \code{x} but with duplicate elements/rows removed.
-}
 \usage{
 \method{unique}{integer64}(x, incomparables = FALSE, order = c("original","values","any")
 , nunique = NULL, method = NULL, ...)
@@ -20,6 +17,14 @@
 }
   \item{...}{ignored}
 }
+\value{
+  For a vector, an object of the same type of \code{x}, but with only
+  one copy of each duplicated element.  No attributes are copied (so
+  the result has no names).
+}
+\description{
+  \code{unique} returns a vector like \code{x} but with duplicate elements/rows removed.
+}
 \details{
   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
   Suitable methods are \code{\link{hashmapuni}} (simultaneously creating and using a hashmap)
@@ -31,11 +36,6 @@ and \code{\link{orderuni}} (memory saving ordering).
 The default \code{order="original"} returns unique values in the order of the first appearance in \code{x} like in \code{\link{unique}}, this costs extra processing.
 \code{order="values"} returns unique values in sorted order like in \code{\link{table}}, this costs extra processing with the hash methods but comes for free.
 \code{order="any"} returns unique values in undefined order, possibly faster. For hash methods this will be a quasi random order, for sort methods this will be sorted order.
-}
-\value{
-  For a vector, an object of the same type of \code{x}, but with only
-  one copy of each duplicated element.  No attributes are copied (so
-  the result has no names).
 }
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

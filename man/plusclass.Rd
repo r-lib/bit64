@@ -4,9 +4,6 @@
 \title{
    integer64: Maintaining S3 class attribute
 }
-\description{
-  Maintaining integer64 S3 class attribute.
-}
 \usage{
   plusclass(class, whichclass)
 
@@ -18,6 +15,9 @@
 }
 \value{
   NULL or a character vector of class attributes
+}
+\description{
+  Maintaining integer64 S3 class attribute.
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

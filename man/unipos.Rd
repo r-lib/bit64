@@ -2,9 +2,6 @@
 \alias{unipos}
 \alias{unipos.integer64}
 \title{Extract Positions of Unique Elements}
-\description{
-  \code{unipos} returns the positions of those elements returned by \code{\link{unique}}.
-}
 \usage{
 unipos(x, incomparables = FALSE, order = c("original","values","any"), ...)
 
@@ -23,6 +20,12 @@ unipos(x, incomparables = FALSE, order = c("original","values","any"), ...)
 }
   \item{...}{ignored}
 }
+\value{
+  an integer vector of positions
+}
+\description{
+  \code{unipos} returns the positions of those elements returned by \code{\link{unique}}.
+}
 \details{
   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
   Suitable methods are \code{\link{hashmapupo}} (simultaneously creating and using a hashmap)
@@ -33,9 +36,6 @@ and \code{\link{orderupo}} (memory saving ordering).
 The default \code{order="original"} collects unique values in the order of the first appearance in \code{x} like in \code{\link{unique}}, this costs extra processing.
 \code{order="values"} collects unique values in sorted order like in \code{\link{table}}, this costs extra processing with the hash methods but comes for free.
 \code{order="any"} collects unique values in undefined order, possibly faster. For hash methods this will be a quasi random order, for sort methods this will be sorted order.
-}
-\value{
-  an integer vector of positions
 }
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

@@ -3,9 +3,6 @@
 \title{
    Replicate elements of integer64 vectors
 }
-\description{
-  Replicate elements of integer64 vectors
-}
 \usage{
 \method{rep}{integer64}(x, ...)
 }
@@ -15,6 +12,9 @@
 }
 \value{
   \code{\link{rep}} returns a integer64 vector
+}
+\description{
+  Replicate elements of integer64 vectors
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

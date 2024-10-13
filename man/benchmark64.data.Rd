@@ -4,9 +4,6 @@
 \title{
  Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM under Windows 7 64bit
 }
-\description{
-  These are the results of calling \code{\link{benchmark64}}
-}
 \usage{data(benchmark64.data)}
 \format{
   The format is:
@@ -14,6 +11,9 @@
  - attr(*, "dimnames")=List of 2
   ..$ : chr [1:16] "cache" "match(s,b)" "s \%in\% b" "match(b,s)" ...
   ..$ : chr [1:6] "32-bit" "64-bit" "hashcache" "sortordercache" ...
+}
+\description{
+  These are the results of calling \code{\link{benchmark64}}
 }
 \examples{
 data(benchmark64.data)

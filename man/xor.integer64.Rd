@@ -19,9 +19,6 @@
 \title{
    Binary operators for integer64 vectors
 }
-\description{
-  Binary operators for integer64 vectors.
-}
 \usage{
 \method{&}{integer64}(e1,e2)
 
@@ -69,6 +66,9 @@ binattr(e1,e2) # for internal use only
   \code{\link{^}} and \code{\link{/}} return a double vector\cr
   \code{\link{+}}, \code{\link{-}}, \code{\link{*}}, \code{\link{\%/\%}}, \code{\link{\%\%}}
    return a vector of class 'integer64'
+}
+\description{
+  Binary operators for integer64 vectors.
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

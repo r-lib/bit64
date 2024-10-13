@@ -13,6 +13,32 @@
 \title{
    A S3 class for vectors of 64bit integers
 }
+\usage{
+ integer64(length)
+
+ \method{is}{integer64}(x)
+
+ \method{length}{integer64}(x) <- value
+
+ \method{print}{integer64}(x, quote=FALSE, ...)
+
+ \method{str}{integer64}(object, vec.len  = strO$vec.len, give.head = TRUE, give.length = give.head, ...)
+}
+\arguments{
+  \item{length}{ length of vector using \code{\link{integer}} }
+  \item{x}{ an integer64 vector }
+  \item{object}{ an integer64 vector }
+  \item{value}{ an integer64 vector of values to be assigned }
+  \item{quote}{ logical, indicating whether or not strings should be printed with surrounding quotes. }
+  \item{vec.len}{ see \code{\link[utils]{str}} }
+  \item{give.head}{ see \code{\link[utils]{str}} }
+  \item{give.length}{ see \code{\link[utils]{str}} }
+  \item{...}{ further arguments to the \code{\link{NextMethod}} }
+}
+\value{
+  \code{integer64} returns a vector of 'integer64',
+   i.e. a vector of \code{\link{double}} decorated with class 'integer64'.
+}
 \description{
 Package 'bit64' provides fast serializable S3 atomic 64bit (signed) integers
 that can be used in vectors, matrices, arrays and data.frames. Methods are
@@ -49,28 +75,6 @@ session using a couple of these operations the 64-bit integers performed 22x
  faster than base 32-bit integers, hash-caching improved this to 24x,
 sortorder-caching was most efficient with 38x (caching hashing and sorting
 is not worth it with 32x at duplicated RAM consumption).
-}
-\usage{
- integer64(length)
-
- \method{is}{integer64}(x)
-
- \method{length}{integer64}(x) <- value
-
- \method{print}{integer64}(x, quote=FALSE, ...)
-
- \method{str}{integer64}(object, vec.len  = strO$vec.len, give.head = TRUE, give.length = give.head, ...)
-}
-\arguments{
-  \item{length}{ length of vector using \code{\link{integer}} }
-  \item{x}{ an integer64 vector }
-  \item{object}{ an integer64 vector }
-  \item{value}{ an integer64 vector of values to be assigned }
-  \item{quote}{ logical, indicating whether or not strings should be printed with surrounding quotes. }
-  \item{vec.len}{ see \code{\link[utils]{str}} }
-  \item{give.head}{ see \code{\link[utils]{str}} }
-  \item{give.length}{ see \code{\link[utils]{str}} }
-  \item{...}{ further arguments to the \code{\link{NextMethod}} }
 }
 \details{
 \tabular{ll}{
@@ -417,10 +421,6 @@ is not worth it with 32x at duplicated RAM consumption).
   as.integer64(1) + 0.5 -> 1LL + 0LL -> 1LL \cr
   \cr
   see section "Arithmetic precision and coercion" above
-}
-\value{
-  \code{integer64} returns a vector of 'integer64',
-   i.e. a vector of \code{\link{double}} decorated with class 'integer64'.
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

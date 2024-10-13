@@ -17,10 +17,6 @@
 \title{
    Low-level intger64 methods for in-RAM sorting and ordering
 }
-\description{
-  Fast low-level methods for sorting and ordering.
-  The \code{..sortorder} methods do sorting and ordering at once, which requires more RAM than ordering but is (almost) as fast as as sorting.
-}
 \note{
  Note that these methods purposely violate the functional programming paradigm: they are called for the side-effect of changing some of their arguments.
  The \code{sort}-methods change \code{x}, the \code{order}-methods change \code{i}, and the \code{sortoder}-methods change both \code{x} and \code{i}
@@ -94,11 +90,15 @@ number of remaining recursionlevels before \code{quicksort} switches from recurs
 }
   \item{...}{ further arguments, passed from generics, ignored in methods }
 }
-\details{
- see \code{\link[bit:Sorting]{ramsort}}
-}
 \value{
   These functions return the number of \code{NAs} found or assumed during sorting
+}
+\description{
+  Fast low-level methods for sorting and ordering.
+  The \code{..sortorder} methods do sorting and ordering at once, which requires more RAM than ordering but is (almost) as fast as as sorting.
+}
+\details{
+ see \code{\link[bit:Sorting]{ramsort}}
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

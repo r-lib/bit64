@@ -20,9 +20,6 @@
 \title{
    Unary operators and functions for integer64 vectors
 }
-\description{
-  Unary operators and functions for integer64 vectors.
-}
 \usage{
 \method{format}{integer64}(x, justify="right", ...)
 
@@ -77,6 +74,9 @@
   \code{\link{sign}}, \code{\link{abs}}, \code{\link{floor}}, \code{\link{ceiling}}, \code{\link{trunc}} and
   \code{\link{round}} return a vector of class 'integer64' \cr
   \code{\link{signif}} is not implemented
+}
+\description{
+  Unary operators and functions for integer64 vectors.
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

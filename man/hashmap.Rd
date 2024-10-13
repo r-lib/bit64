@@ -28,12 +28,6 @@
 \title{
    Hashing for 64bit integers
 }
-\description{
-This is an explicit implementation of hash functionality that underlies
-matching and other functions in R. Explicit means that you can create,
-store and use hash functionality directly. One advantage is that you can
-re-use hashmaps, which avoid re-building hashmaps again and again.
-}
 \usage{
 hashfun(x, ...)
 
@@ -98,6 +92,15 @@ hashmaptab(x, ...)
   \item{keep.order}{ determines order of results and speed: \code{FALSE} (the default) is faster and returns in the (pseudo)random order of the hash function, \code{TRUE} returns in the order of first appearance in the original data, but this requires extra work }
   \item{...}{ further arguments, passed from generics, ignored in methods }
 }
+\value{
+  see details
+}
+\description{
+This is an explicit implementation of hash functionality that underlies
+matching and other functions in R. Explicit means that you can create,
+store and use hash functionality directly. One advantage is that you can
+re-use hashmaps, which avoid re-building hashmaps again and again.
+}
 \details{
 \tabular{rrl}{
    \bold{function} \tab \bold{see also}          \tab \bold{description} \cr
@@ -115,9 +118,6 @@ hashmaptab(x, ...)
    \code{hashtab} \tab \code{\link[=table.integer64]{table}} \tab tabulate values of hashdat using hashmap in \code{keep.order=FALSE} \cr
    \code{hashmaptab} \tab \code{\link[=table.integer64]{table}} \tab tabulate values of \code{x} building hasmap on the fly in \code{keep.order=FALSE}\cr
 }
-}
-\value{
-  see details
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

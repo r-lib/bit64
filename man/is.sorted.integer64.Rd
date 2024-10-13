@@ -7,9 +7,6 @@
 \title{
     Small cache access methods
 }
-\description{
-    These methods are packaged here for methods in packages \code{bit64} and \code{ff}.
-}
 \usage{
     \method{is.sorted}{integer64}(x, ...)
 
@@ -29,6 +26,12 @@
     ignored
     }
 }
+\value{
+    \code{is.sorted} returns a logical scalar, the other methods return an integer scalar.
+}
+\description{
+    These methods are packaged here for methods in packages \code{bit64} and \code{ff}.
+}
 \details{
   All these functions benefit from a \code{\link{sortcache}}, \code{\link{ordercache}} or \code{\link{sortordercache}}.
   \code{na.count}, \code{nvalid} and \code{nunique} also benefit from a \code{\link{hashcache}}.
@@ -44,9 +47,6 @@
  then these functions will store their result in the cache.
  We do not consider this a relevant side-effect,
  since these small cache results do not have a relevant memory footprint.
-}
-\value{
-    \code{is.sorted} returns a logical scalar, the other methods return an integer scalar.
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

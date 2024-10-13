@@ -50,10 +50,6 @@
 \title{
    Searching and other uses of sorting for 64bit integers
 }
-\description{
-  This is roughly an implementation of hash functionality but based on sorting instead on a hasmap.
-  Since sorting is more informative than hashingwe can do some more interesting things.
-}
 \usage{
 sortnut(sorted, ...)
 
@@ -163,6 +159,13 @@ sortorderrnk(sorted, order, na.count, ...)
   \item{method}{ see details }
   \item{...}{ further arguments, passed from generics, ignored in methods }
 }
+\value{
+  see details
+}
+\description{
+  This is roughly an implementation of hash functionality but based on sorting instead on a hasmap.
+  Since sorting is more informative than hashingwe can do some more interesting things.
+}
 \details{
 \tabular{rrrrl}{
    \bold{sortfun} \tab \bold{orderfun} \tab \bold{sortorderfun} \tab \bold{see also}          \tab \bold{description} \cr
@@ -188,9 +191,6 @@ The functions \code{orderdup} and \code{sortorderdup} each offer two algorithms 
 With \code{method=1L} the return values are set directly which causes random write access on a possibly large return vector. \cr
 With \code{method=2L} the return values are first set in a smaller bit-vector -- random access limited to a smaller memory region -- and finally written sequentially to the logical output  vector. \cr
 With \code{method=NULL} the functions use a heuristic to determine the fastest algorithm. \cr
-}
-\value{
-  see details
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

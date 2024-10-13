@@ -7,9 +7,6 @@
 \title{
    Cumulative Sums, Products, Extremes and lagged differences
 }
-\description{
-  Cumulative Sums, Products, Extremes and lagged differences
-}
 \usage{
 \method{cummin}{integer64}(x)
 
@@ -31,6 +28,9 @@
   \code{\link{cummin}}, \code{\link{cummax}} , \code{\link{cumsum}} and \code{\link{cumprod}}
      return a integer64 vector of the same length as their input\cr
   \code{\link{diff}} returns a integer64 vector shorter by \code{lag*differences} elements \cr
+}
+\description{
+  Cumulative Sums, Products, Extremes and lagged differences
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

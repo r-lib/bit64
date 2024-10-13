@@ -3,9 +3,6 @@
 \title{
    integer64: Sequence Generation
 }
-\description{
-  Generating sequence of integer64 values
-}
 \usage{
 \method{seq}{integer64}(from = NULL, to = NULL, by = NULL, length.out = NULL, along.with = NULL, ...)
 }
@@ -17,13 +14,16 @@
   \item{along.with}{ scalar }
   \item{...}{ ignored }
 }
+\value{
+  an integer64 vector with the generated sequence
+}
+\description{
+  Generating sequence of integer64 values
+}
 \details{
   \code{seq.integer64} does coerce its arguments 'from', 'to' and 'by' to \code{integer64}.
   If not provided, the argument 'by' is automatically determined as \code{+1} or \code{-1},
   but the size of 'by' is not calculated as in \code{\link{seq}} (because this might result in a non-integer value).
-}
-\value{
-  an integer64 vector with the generated sequence
 }
 \note{
   In base R \code{\link{:}} currently is not generic and does not dispatch, see section "Limitations inherited from Base R" in \code{\link{integer64}}

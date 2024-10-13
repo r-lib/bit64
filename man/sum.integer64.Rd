@@ -10,10 +10,6 @@
 \title{
    Summary functions for integer64 vectors
 }
-\description{
-  Summary functions for integer64 vectors.
-  Function 'range' without arguments returns the smallest and largest value of the 'integer64' class.
-}
 \usage{
 \method{all}{integer64}(..., na.rm = FALSE)
 
@@ -36,6 +32,15 @@ lim.integer64()
   \item{na.rm}{ logical scalar indicating whether to ignore NAs }
   \item{finite}{ logical scalar indicating whether to ignore NAs (just for compatibility with \code{\link{range.default}}) }
 }
+\value{
+  \code{\link{all}} and \code{\link{any}} return a logical scalar\cr
+  \code{\link{range}} returns a integer64 vector with two elements\cr
+  \code{\link{min}}, \code{\link{max}}, \code{\link{sum}} and \code{\link{prod}} return a integer64 scalar
+}
+\description{
+  Summary functions for integer64 vectors.
+  Function 'range' without arguments returns the smallest and largest value of the 'integer64' class.
+}
 \details{
   The numerical summary methods always return \code{integer64}.
   Therefor the methods for \code{min},\code{max} and \code{range} do not return \code{+Inf,-Inf}
@@ -43,11 +48,6 @@ lim.integer64()
   The same is true if only  \code{NA}s are submitted with argument \code{na.rm=TRUE}.
  \cr
   \code{lim.integer64} returns these limits in proper order \code{-9223372036854775807, +9223372036854775807} and without a \code{\link{warning}}.
-}
-\value{
-  \code{\link{all}} and \code{\link{any}} return a logical scalar\cr
-  \code{\link{range}} returns a integer64 vector with two elements\cr
-  \code{\link{min}}, \code{\link{max}}, \code{\link{sum}} and \code{\link{prod}} return a integer64 scalar
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

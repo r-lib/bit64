@@ -4,12 +4,6 @@
 \title{
 64-bit integer matching
 }
-\description{
-\code{match} returns a vector of the positions of (first) matches of its first argument in its second.
-
-\code{\%in\%} is a more intuitive interface as a binary operator, which returns a logical vector indicating if there is a match or not for its left operand.
-
-}
 \usage{
 \method{match}{integer64}(x, table, nomatch = NA_integer_, nunique = NULL, method = NULL, ...)
 
@@ -35,13 +29,6 @@
 ignored
 }
 }
-\details{
-  These functions automatically choose from several low-level functions considering the size of \code{x} and \code{table} and the availability of caches.
-
-
-  Suitable methods for \code{\%in\%.integer64} are \code{\link{hashpos}} (hash table lookup), \code{\link{hashrev}} (reverse lookup), \code{\link{sortorderpos}} (fast ordering) and \code{\link{orderpos}} (memory saving ordering).
-  Suitable methods for \code{match.integer64} are \code{\link{hashfin}} (hash table lookup), \code{\link{hashrin}} (reverse lookup), \code{\link{sortfin}} (fast sorting) and \code{\link{orderfin}} (memory saving ordering).
-}
 \value{
   A vector of the same length as \code{x}.
 
@@ -56,6 +43,19 @@ ignored
   \code{\%in\%}: A logical vector, indicating if a match was located for
   each element of \code{x}: thus the values are \code{TRUE} or
   \code{FALSE} and never \code{NA}.
+}
+\description{
+\code{match} returns a vector of the positions of (first) matches of its first argument in its second.
+
+\code{\%in\%} is a more intuitive interface as a binary operator, which returns a logical vector indicating if there is a match or not for its left operand.
+
+}
+\details{
+  These functions automatically choose from several low-level functions considering the size of \code{x} and \code{table} and the availability of caches.
+
+
+  Suitable methods for \code{\%in\%.integer64} are \code{\link{hashpos}} (hash table lookup), \code{\link{hashrev}} (reverse lookup), \code{\link{sortorderpos}} (fast ordering) and \code{\link{orderpos}} (memory saving ordering).
+  Suitable methods for \code{match.integer64} are \code{\link{hashfin}} (hash table lookup), \code{\link{hashrin}} (reverse lookup), \code{\link{sortfin}} (fast sorting) and \code{\link{orderfin}} (memory saving ordering).
 }
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

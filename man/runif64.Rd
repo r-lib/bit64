@@ -3,9 +3,6 @@
 \title{
    integer64: random numbers
 }
-\description{
-  Create uniform random 64-bit integers within defined range
-}
 \usage{
   runif64(n, min = lim.integer64()[1], max = lim.integer64()[2], replace=TRUE)
 }
@@ -17,6 +14,9 @@
 }
 \value{
   a integer64 vector
+}
+\description{
+  Create uniform random 64-bit integers within defined range
 }
 \details{
   For each random integer we call R's internal C interface \code{unif_rand()} twice.

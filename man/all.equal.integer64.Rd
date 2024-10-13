@@ -3,9 +3,6 @@
 \title{
    Test if two integer64 vectors are all.equal
 }
-\description{
-   A utility to compare integer64 objects 'x' and 'y' testing for ‘near equality’, see \code{\link{all.equal}}.
-}
 \usage{
   \method{all.equal}{integer64}(
   target
@@ -44,6 +41,9 @@
   Either ‘TRUE’ (‘NULL’ for ‘attr.all.equal’) or a vector of ‘mode’
   ‘"character"’ describing the differences between ‘target’ and
   ‘current’.
+}
+\description{
+   A utility to compare integer64 objects 'x' and 'y' testing for ‘near equality’, see \code{\link{all.equal}}.
 }
 \details{
    In \code{\link{all.equal.numeric}} the type \code{integer} is treated as a proper subset of \code{double}

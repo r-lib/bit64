@@ -5,9 +5,6 @@
 \title{
    Concatenating integer64 vectors
 }
-\description{
-  The ususal functions 'c', 'cbind' and 'rbind'
-}
 \usage{
 \method{c}{integer64}(..., recursive = FALSE)
 
@@ -22,6 +19,9 @@
 \value{
   \code{\link{c}} returns a integer64 vector of the total length of the input \cr
   \code{\link{cbind}} and \code{\link{rbind}} return a integer64 matrix
+}
+\description{
+  The ususal functions 'c', 'cbind' and 'rbind'
 }
 \note{
   R currently only dispatches generic 'c' to method 'c.integer64' if the first argument is 'integer64'

@@ -9,9 +9,6 @@
 \title{
     Atomic Caching
 }
-\description{
-    Functions for caching results attached to atomic objects
-}
 \usage{
 newcache(x)
 
@@ -47,6 +44,12 @@ remcache(x)
     ignored
 }
 }
+\value{
+    see details
+}
+\description{
+    Functions for caching results attached to atomic objects
+}
 \details{
     A \code{cache} is an \code{link{environment}} attached to an atomic object with the \code{link{attrib}} name 'cache'.
     It contains at least a reference to the atomic object that carries the cache.
@@ -57,9 +60,6 @@ remcache(x)
     Function \code{setcache(x, which, value)} assigns a value into the cache of \code{x} \cr
     Function \code{getcache(x, which)} gets cache value 'which' from \code{x} \cr
     Function \code{remcache} removes the cache from \code{x} \cr
-}
-\value{
-    see details
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

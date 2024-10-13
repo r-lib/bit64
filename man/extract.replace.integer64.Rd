@@ -6,9 +6,6 @@
 \title{
    Extract or Replace Parts of an integer64 vector
 }
-\description{
-  Methods to extract and replace parts of an integer64 vector.
-}
 \usage{
  \method{[}{integer64}(x, i, ...)
 
@@ -30,6 +27,9 @@
 }
 \value{
   A vector or scalar of class 'integer64'
+}
+\description{
+  Methods to extract and replace parts of an integer64 vector.
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>

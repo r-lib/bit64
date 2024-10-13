@@ -3,9 +3,6 @@
 \title{
    integer64: Coercing to data.frame column
 }
-\description{
-  Coercing integer64 vector to data.frame.
-}
 \usage{
   \method{as.data.frame}{integer64}(x, ...)
 }
@@ -15,6 +12,9 @@
 }
 \value{
   a one-column data.frame containing an integer64 vector
+}
+\description{
+  Coercing integer64 vector to data.frame.
 }
 \details{
   'as.data.frame.integer64' is rather not intended to be called directly,

@@ -19,9 +19,6 @@
 \title{
   Turning base R functions into S3 generics for bit64
 }
-\description{
-    Turn those base functions S3 generic which are used in bit64
-}
 \usage{
     from:to
 
@@ -64,6 +61,12 @@
   \item{to}{ scalar denoting last element of sequence }
   \item{...}{ ignored }
 }
+\value{
+    \code{\link{invisible}}
+}
+\description{
+    Turn those base functions S3 generic which are used in bit64
+}
 \details{
    The following functions are turned into S3 gernerics in order to dispatch methods for \code{\link{integer64}}:
    \preformatted{
@@ -75,9 +78,6 @@
        \code{\link{rank}}
        \code{\link{order}}
    }
-}
-\value{
-    \code{\link{invisible}}
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
