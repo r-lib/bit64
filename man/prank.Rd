@@ -23,11 +23,10 @@ method, see details}
 \description{
 Function \code{prank.integer64}  projects the values \verb{[min..max]} via ranks
 \verb{[1..n]} to \verb{[0..1]}.
-}
-\details{
 \code{\link[=qtile.integer64]{qtile.integer64()}} is the inverse function of 'prank.integer64' and
 projects \verb{[0..1]} to \verb{[min..max]}.
-
+}
+\details{
 Function \code{prank.integer64} is based on \code{\link[=rank.integer64]{rank.integer64()}}.
 }
 \examples{

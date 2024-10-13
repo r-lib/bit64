@@ -2502,7 +2502,6 @@ rank.integer64 <- function(x
 #'
 #' Function `prank.integer64`  projects the values `[min..max]` via ranks
 #'   `[1..n]` to `[0..1]`.
-#'
 #' [qtile.integer64()] is the inverse function of 'prank.integer64' and
 #'   projects `[0..1]` to `[min..max]`.
 #'
