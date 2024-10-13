@@ -3,6 +3,18 @@
 \name{all.equal.integer64}
 \alias{all.equal.integer64}
 \title{Test if two integer64 vectors are all.equal}
+\usage{
+\method{all}{equal.integer64}(
+  target,
+  current,
+  tolerance = sqrt(.Machine$double.eps),
+  scale = NULL,
+  countEQ = FALSE,
+  formatFUN = function(err, what) format(err),
+  ...,
+  check.attributes = TRUE
+)
+}
 \arguments{
 \item{target}{a vector of 'integer64' or an object that can be coerced
 with \code{\link[=as.integer64]{as.integer64()}}}

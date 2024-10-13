@@ -453,6 +453,7 @@ setOldClass("integer64")
 
 
 # contributed by Leonardo Silvestri with modifications of JO
+#' @rdname all.equal.integer64
 #' @export
 all.equal.integer64  <- function (
   target
