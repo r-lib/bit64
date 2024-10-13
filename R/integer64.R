@@ -1166,6 +1166,7 @@ rbind.integer64 <- function(...) {
     # oldClass(ret[[i]]) <- cl
   # ret
 # }
+#' @rdname as.data.frame.integer64
 #' @export
 as.data.frame.integer64 <- function(x, ...){
   cl <- oldClass(x)

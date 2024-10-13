@@ -3,6 +3,9 @@
 \name{as.data.frame.integer64}
 \alias{as.data.frame.integer64}
 \title{integer64: Coercing to data.frame column}
+\usage{
+\method{as.data.frame}{integer64}(x, ...)
+}
 \arguments{
 \item{x}{an integer64 vector}
 
