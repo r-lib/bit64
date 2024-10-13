@@ -21,6 +21,8 @@
 \alias{!.integer64}
 \title{Unary operators and functions for integer64 vectors}
 \usage{
+\method{format}{integer64}(x, justify = "right", ...)
+
 \method{sign}{integer64}(x)
 
 \method{abs}{integer64}(x)
@@ -58,10 +60,13 @@
 \arguments{
 \item{x}{an atomic vector of class 'integer64'}
 
-\item{base}{an atomic scalar (we save 50\% log-calls by not allowing
-a vector base)}
+\item{justify}{should it be right-justified (the default), left-justified,
+centred or left alone.}
 
 \item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{base}{an atomic scalar (we save 50\% log-calls by not allowing
+a vector base)}
 
 \item{digits}{integer indicating the number of decimal places (round)
 or significant digits (signif) to be used. Negative values are allowed
@@ -70,9 +75,6 @@ or significant digits (signif) to be used. Negative values are allowed
 \item{center}{see \code{\link[=scale]{scale()}}}
 
 \item{scale}{see \code{\link[=scale]{scale()}}}
-
-\item{justify}{should it be right-justified (the default), left-justified,
-centred or left alone.}
 }
 \value{
 \code{\link[=format]{format()}} returns a character vector

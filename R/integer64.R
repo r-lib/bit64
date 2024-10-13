@@ -940,6 +940,7 @@ NA_integer64_ <- unserialize(as.raw(c(
   x
 }
 
+#' @rdname format.integer64
 #' @export
 format.integer64 <- function(x, justify="right", ...) {
   a <- attributes(x)
