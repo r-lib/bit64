@@ -6,8 +6,6 @@
 \alias{as.bitstring}
 \alias{print.bitstring}
 \alias{as.bitstring.integer64}
-\alias{as.factor.integer64}
-\alias{as.ordered.integer64}
 \alias{as.list.integer64}
 \title{
    Coerce from integer64
@@ -26,8 +24,6 @@
  \method{as.double}{integer64}(x, keep.names = FALSE, \dots)
  \method{as.integer}{integer64}(x, \dots)
  \method{as.logical}{integer64}(x, \dots)
- \method{as.factor}{integer64}(x)
- \method{as.ordered}{integer64}(x)
  \method{as.list}{integer64}(x, \dots)
 }
 \arguments{

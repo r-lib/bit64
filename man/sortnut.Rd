@@ -113,7 +113,7 @@ sortorderrnk(sorted, order, na.count, \dots)
   \item{nomatch}{ the value to be returned if an element is not found in the hashmap }
   \item{keep.order}{ determines order of results and speed: \code{FALSE} (the default) is faster and returns in sorted order, \code{TRUE} returns in the order of first appearance in the original data, but this requires extra work }
   \item{probs}{ vector of probabilities in [0..1] for which we seek quantiles }
-  \item{na.skip.num}{ 0 or the number of \code{NA}s. With 0, \code{NA}s are coded with 1L, with the number of \code{NA}s, these are coded with \code{NA}, the latter needed for \code{\link{as.factor.integer64}} }
+  \item{na.skip.num}{ 0 or the number of \code{NA}s. With 0, \code{NA}s are coded with 1L, with the number of \code{NA}s, these are coded with \code{NA} }
   \item{na.count}{ the number of \code{NA}s, needed for this low-level function algorithm }
   \item{method}{ see details }
   \item{\dots}{ further arguments, passed from generics, ignored in methods }

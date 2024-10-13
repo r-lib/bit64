@@ -294,8 +294,6 @@
 #!    \code{\link{unipos.integer64}} \tab \code{\link{unipos}} \tab positions corresponding to unique values (h/s/o/so) \cr
 #!    \code{\link{tiepos.integer64}} \tab \code{\link{tiepos}} \tab positions of values that are tied (//o/so) \cr
 #!    \code{\link{keypos.integer64}} \tab \code{\link{keypos}} \tab position of current value in sorted list of unique values (//o/so) \cr
-#!    \code{\link{as.factor.integer64}} \tab \code{\link{as.factor}} \tab convert to (unordered) factor with sorted levels of previous values (//o/so) \cr
-#!    \code{\link{as.ordered.integer64}} \tab \code{\link{as.ordered}} \tab convert to ordered factor with sorted levels of previous values (//o/so) \cr
 #!    \code{\link{table.integer64}} \tab \code{\link{table}} \tab unique values and their frequencies (h/s/o/so) \cr
 #!    \code{\link{sort.integer64}} \tab \code{\link{sort}} \tab sorted vector (/s/o/so) \cr
 #!    \code{\link{order.integer64}} \tab \code{\link{order}} \tab positions of elements that would create sorted vector (//o/so) \cr
@@ -954,8 +952,6 @@
 #! \alias{as.bitstring}
 #! \alias{print.bitstring}
 #! \alias{as.bitstring.integer64}
-#! \alias{as.factor.integer64}
-#! \alias{as.ordered.integer64}
 #! \alias{as.list.integer64}
 #! \title{
 #!    Coerce from integer64
@@ -2067,58 +2063,6 @@ as.bitstring.integer64 <- function(x, ...){
 print.bitstring <- function(x, ...){
   oldClass(x) <- minusclass(class(x), 'bitstring')
   NextMethod(x)
-}
-
-as.factor.integer64 <- function(x){
-
-    cache_env <- cache(x)
-    if (is.null(cache_env$order)){
-        s <- clone(x)
-        o <- seq_along(s)
-        na.count <- ramsortorder(s,o)
-        nu <- sortnut(s)[["nunique"]]
-    }else if (is.null(cache_env$sort)){
-        o <- cache_env$order
-        s <- x[o]
-        na.count <- cache_env$na.count
-        nu <- cache_env$nunique
-    }else{
-        o <- cache_env$order
-        s <- cache_env$sort
-        na.count <- cache_env$na.count
-        nu <- cache_env$nunique
-    }
-    dimtab <- sortuni(s, nu)
-    dimpos <- sortorderkey(s,o,na.skip.num=na.count) - 1L
-    attr(dimpos, "levels") <- dimtab
-    oldClass(dimpos) <- "factor"
-    dimpos
-}
-
-as.ordered.integer64 <- function(x){
-
-    cache_env <- cache(x)
-    if (is.null(cache_env$order)){
-        s <- clone(x)
-        o <- seq_along(s)
-        na.count <- ramsortorder(s,o)
-        nu <- sortnut(s)[["nunique"]]
-    }else if (is.null(cache_env$sort)){
-        o <- cache_env$order
-        s <- x[o]
-        na.count <- cache_env$na.count
-        nu <- cache_env$nunique
-    }else{
-        o <- cache_env$order
-        s <- cache_env$sort
-        na.count <- cache_env$na.count
-        nu <- cache_env$nunique
-    }
-    dimtab <- sortuni(s, nu)
-    dimpos <- sortorderkey(s,o,na.skip.num=na.count) - 1L
-    attr(dimpos, "levels") <- dimtab
-    oldClass(dimpos) <- c("ordered", "factor")
-    dimpos
 }
 
 as.integer64.bitstring <- function(x, ...){
