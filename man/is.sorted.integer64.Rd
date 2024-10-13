@@ -7,9 +7,6 @@
 \title{
     Small cache access methods
 }
-\description{
-    These methods are packaged here for methods in packages \code{bit64} and \code{ff}.
-}
 \usage{
     \method{is.sorted}{integer64}(x, ...)
 
@@ -29,6 +26,12 @@
     ignored
     }
 }
+\value{
+    \code{is.sorted} returns a logical scalar, the other methods return an integer scalar.
+}
+\description{
+    These methods are packaged here for methods in packages \code{bit64} and \code{ff}.
+}
 \details{
   All these functions benefit from a \code{\link{sortcache}}, \code{\link{ordercache}} or \code{\link{sortordercache}}.
   \code{na.count}, \code{nvalid} and \code{nunique} also benefit from a \code{\link{hashcache}}.
@@ -45,14 +48,8 @@
  We do not consider this a relevant side-effect,
  since these small cache results do not have a relevant memory footprint.
 }
-\value{
-    \code{is.sorted} returns a logical scalar, the other methods return an integer scalar.
-}
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-}
-\seealso{
-    \code{\link{cache}} for caching functions and \code{\link{sortordercache}} for functions creating big caches
 }
 \examples{
     x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -63,6 +60,9 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
  nties(x)
  table.integer64(x)
  x
+}
+\seealso{
+    \code{\link{cache}} for caching functions and \code{\link{sortordercache}} for functions creating big caches
 }
 \keyword{ environment }
 \keyword{ methods }

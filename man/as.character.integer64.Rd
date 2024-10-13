@@ -10,12 +10,6 @@
 \title{
    Coerce from integer64
 }
-\description{
-  Methods to coerce integer64 to other atomic types.
-  'as.bitstring' coerces to a human-readable bit representation (strings of zeroes and ones).
-  The methods \code{\link{format}}, \code{\link{as.character}}, \code{\link{as.double}},
-  \code{\link{as.logical}}, \code{\link{as.integer}} do what you would expect.
-}
 \usage{
  as.bitstring(x, ...)
 
@@ -42,12 +36,15 @@
   \code{as.bitstring} returns a string of class 'bitstring'. \cr
   The other methods return atomic vectors of the expected types
 }
+\description{
+  Methods to coerce integer64 to other atomic types.
+  'as.bitstring' coerces to a human-readable bit representation (strings of zeroes and ones).
+  The methods \code{\link{format}}, \code{\link{as.character}}, \code{\link{as.double}},
+  \code{\link{as.logical}}, \code{\link{as.integer}} do what you would expect.
+}
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{as.integer64.character}} \code{\link{integer64}}  }
 \examples{
   as.character(lim.integer64())
   as.bitstring(lim.integer64())
@@ -55,3 +52,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
    -2,-1,NA,0:2
   )))
 }
+\seealso{ \code{\link{as.integer64.character}} \code{\link{integer64}}  }
+\keyword{ classes }
+\keyword{ manip }

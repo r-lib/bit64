@@ -1,3 +1,4 @@
+\docType{package}
 \name{bit64-package}
 \alias{bit64-package}
 \alias{bit64}
@@ -9,9 +10,34 @@
 \alias{length<-.integer64}
 \alias{print.integer64}
 \alias{str.integer64}
-\docType{package}
 \title{
    A S3 class for vectors of 64bit integers
+}
+\usage{
+ integer64(length)
+
+ \method{is}{integer64}(x)
+
+ \method{length}{integer64}(x) <- value
+
+ \method{print}{integer64}(x, quote=FALSE, ...)
+
+ \method{str}{integer64}(object, vec.len  = strO$vec.len, give.head = TRUE, give.length = give.head, ...)
+}
+\arguments{
+  \item{length}{ length of vector using \code{\link{integer}} }
+  \item{x}{ an integer64 vector }
+  \item{object}{ an integer64 vector }
+  \item{value}{ an integer64 vector of values to be assigned }
+  \item{quote}{ logical, indicating whether or not strings should be printed with surrounding quotes. }
+  \item{vec.len}{ see \code{\link[utils]{str}} }
+  \item{give.head}{ see \code{\link[utils]{str}} }
+  \item{give.length}{ see \code{\link[utils]{str}} }
+  \item{...}{ further arguments to the \code{\link{NextMethod}} }
+}
+\value{
+  \code{integer64} returns a vector of 'integer64',
+   i.e. a vector of \code{\link{double}} decorated with class 'integer64'.
 }
 \description{
 Package 'bit64' provides fast serializable S3 atomic 64bit (signed) integers
@@ -50,28 +76,6 @@ session using a couple of these operations the 64-bit integers performed 22x
 sortorder-caching was most efficient with 38x (caching hashing and sorting
 is not worth it with 32x at duplicated RAM consumption).
 }
-\usage{
- integer64(length)
-
- \method{is}{integer64}(x)
-
- \method{length}{integer64}(x) <- value
-
- \method{print}{integer64}(x, quote=FALSE, ...)
-
- \method{str}{integer64}(object, vec.len  = strO$vec.len, give.head = TRUE, give.length = give.head, ...)
-}
-\arguments{
-  \item{length}{ length of vector using \code{\link{integer}} }
-  \item{x}{ an integer64 vector }
-  \item{object}{ an integer64 vector }
-  \item{value}{ an integer64 vector of values to be assigned }
-  \item{quote}{ logical, indicating whether or not strings should be printed with surrounding quotes. }
-  \item{vec.len}{ see \code{\link[utils]{str}} }
-  \item{give.head}{ see \code{\link[utils]{str}} }
-  \item{give.length}{ see \code{\link[utils]{str}} }
-  \item{...}{ further arguments to the \code{\link{NextMethod}} }
-}
 \details{
 \tabular{ll}{
    Package: \tab bit64\cr
@@ -82,6 +86,24 @@ is not worth it with 32x at duplicated RAM consumption).
    LazyLoad: \tab yes\cr
    Encoding: \tab latin1\cr
 }
+}
+\note{
+   \code{integer64} are useful for handling database keys and exact counting in +-2^63.
+   Do not use them as replacement for 32bit integers, integer64 are not
+   supported for subscripting by R-core and they have different semantics
+   when combined with double. Do understand that \code{integer64} can only be
+   useful over \code{double} if we do not coerce it to \code{double}. \cr
+  \cr
+  While \cr
+  integer + double -> double + double -> double \cr
+  or \cr
+  1L + 0.5 -> 1.5 \cr
+  for additive operations we coerce to \code{integer64} \cr
+  integer64 + double ->  integer64 + integer64 -> integer64 \cr
+  hence \cr
+  as.integer64(1) + 0.5 -> 1LL + 0LL -> 1LL \cr
+  \cr
+  see section "Arithmetic precision and coercion" above
 }
 \section{Design considerations}{
   64 bit integers are related to big data: we need them to overcome address space limitations.
@@ -400,36 +422,6 @@ is not worth it with 32x at duplicated RAM consumption).
     Following the full R behaviour here would either destroy performance or require extensive C-coding.
   }
 }
-\note{
-   \code{integer64} are useful for handling database keys and exact counting in +-2^63.
-   Do not use them as replacement for 32bit integers, integer64 are not
-   supported for subscripting by R-core and they have different semantics
-   when combined with double. Do understand that \code{integer64} can only be
-   useful over \code{double} if we do not coerce it to \code{double}. \cr
-  \cr
-  While \cr
-  integer + double -> double + double -> double \cr
-  or \cr
-  1L + 0.5 -> 1.5 \cr
-  for additive operations we coerce to \code{integer64} \cr
-  integer64 + double ->  integer64 + integer64 -> integer64 \cr
-  hence \cr
-  as.integer64(1) + 0.5 -> 1LL + 0LL -> 1LL \cr
-  \cr
-  see section "Arithmetic precision and coercion" above
-}
-\value{
-  \code{integer64} returns a vector of 'integer64',
-   i.e. a vector of \code{\link{double}} decorated with class 'integer64'.
-}
-\author{
-Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-}
-\keyword{ package }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{integer}} in base R }
 \examples{
 message("Using integer64 in vector")
 x <- integer64(8)    # create 64 bit vector
@@ -896,3 +888,11 @@ matplot(1:21, cbind(td32, t64), pch=c("d","i"), log="y")
   }
 
 }
+\seealso{ \code{\link{integer}} in base R }
+\author{
+Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+}
+\keyword{ package }
+\keyword{ classes }
+\keyword{ manip }

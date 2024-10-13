@@ -4,10 +4,6 @@
 \title{
    High-level intger64 methods for sorting and ordering
 }
-\description{
-  Fast high-level methods for sorting and ordering.
-  These are wrappers to \code{\link{ramsort.integer64}} and friends and do not modify their arguments.
-}
 \usage{
 \method{sort}{integer64}(x, decreasing = FALSE, has.na = TRUE, na.last = TRUE, stable = TRUE
 , optimize = c("time", "memory"), VERBOSE = FALSE, ...)
@@ -40,18 +36,19 @@ set to 'memory' to minimize RAM requirements and sacrifice speed
 }
   \item{...}{ further arguments, passed from generics, ignored in methods }
 }
-\details{
- see \code{\link{sort}} and \code{\link{order}}
-}
 \value{
   \code{sort} returns the sorted vector and \code{vector} returns the order positions.
+}
+\description{
+  Fast high-level methods for sorting and ordering.
+  These are wrappers to \code{\link{ramsort.integer64}} and friends and do not modify their arguments.
+}
+\details{
+ see \code{\link{sort}} and \code{\link{order}}
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ programming }
-\keyword{ manip }
-\seealso{ \code{\link[=sort.integer64]{sort}}, \code{\link{sortcache}} }
 \examples{
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   x
@@ -62,3 +59,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   message("slower with less RAM, this calls 'ramsortorder'")
   order.integer64(x, optimize="memory")
 }
+\seealso{ \code{\link[=sort.integer64]{sort}}, \code{\link{sortcache}} }
+\keyword{ programming }
+\keyword{ manip }

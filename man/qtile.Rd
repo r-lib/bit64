@@ -6,10 +6,6 @@
 \alias{mean.integer64}
 \alias{summary.integer64}
 \title{(Q)uan(Tile)s }
-\description{
-    Function \code{\link{prank.integer64}}  projects the values [min..max] via ranks [1..n] to [0..1].
-    \code{qtile.ineger64} is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
-}
 \usage{
     qtile(x, probs=seq(0, 1, 0.25), ...)
 
@@ -46,6 +42,16 @@
 }
   \item{...}{ignored}
 }
+\value{
+  \code{prank} returns a numeric vector of the same length as \code{x}.
+  \cr
+  \code{qtile} returns a vector with elements from \code{x}
+  at the relative positions specified by \code{probs}.
+}
+\description{
+    Function \code{\link{prank.integer64}}  projects the values [min..max] via ranks [1..n] to [0..1].
+    \code{qtile.ineger64} is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
+}
 \details{
  Functions \code{quantile.integer64} with \code{type=0} and \code{median.integer64} are convenience wrappers to \code{qtile}.
  \cr
@@ -60,17 +66,8 @@
   Suitable methods are \code{\link{sortqtl}} (fast sorting)
 and \code{\link{orderqtl}} (memory saving ordering).
 }
-\value{
-  \code{prank} returns a numeric vector of the same length as \code{x}.
-  \cr
-  \code{qtile} returns a vector with elements from \code{x}
-  at the relative positions specified by \code{probs}.
-}
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-}
-\seealso{
-  \code{\link{rank.integer64}} for simple ranks and \code{\link{quantile}} for quantiles.
 }
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -81,5 +78,8 @@ summary(x)
 
 x <- x[!is.na(x)]
 stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))
+}
+\seealso{
+  \code{\link{rank.integer64}} for simple ranks and \code{\link{quantile}} for quantiles.
 }
 \keyword{univar}

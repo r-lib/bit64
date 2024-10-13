@@ -6,9 +6,6 @@
 \title{
    Extract or Replace Parts of an integer64 vector
 }
-\description{
-  Methods to extract and replace parts of an integer64 vector.
-}
 \usage{
  \method{[}{integer64}(x, i, ...)
 
@@ -24,19 +21,19 @@
   \item{value}{ an atomic vector with values to be assigned }
   \item{...}{ further arguments to the \code{\link{NextMethod}} }
 }
+\value{
+  A vector or scalar of class 'integer64'
+}
+\description{
+  Methods to extract and replace parts of an integer64 vector.
+}
 \note{
   You should not subscript non-existing elements and not use \code{NA}s as subscripts.
   The current implementation returns \code{9218868437227407266} instead of \code{NA}.
 }
-\value{
-  A vector or scalar of class 'integer64'
-}
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{[}} \code{\link{integer64}}  }
 \examples{
   as.integer64(1:12)[1:3]
   x <- as.integer64(1:12)
@@ -49,3 +46,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
     stopifnot(identical(r, as.integer64(as.bitstring(r))))
   }
 }
+\seealso{ \code{\link{[}} \code{\link{integer64}}  }
+\keyword{ classes }
+\keyword{ manip }

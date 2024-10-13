@@ -1,13 +1,9 @@
+\docType{data}
 \name{optimizer64.data}
 \alias{optimizer64.data}
-\docType{data}
 \title{
  Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM under Windows 7 64bit
 }
-\description{
-  These are the results of calling \code{\link{optimizer64}}
-}
-\usage{data(optimizer64.data)}
 \format{
   The format is:
 List of 16
@@ -79,6 +75,10 @@ List of 16
  - attr(*, "dimnames")=List of 2
   ..$ : chr [1:8] "match" "\%in\%" "duplicated" "unique" ...
   ..$ : chr [1:2] "65536" "33554432"
+}
+\usage{data(optimizer64.data)}
+\description{
+  These are the results of calling \code{\link{optimizer64}}
 }
 \examples{
 data(optimizer64.data)

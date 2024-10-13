@@ -7,9 +7,6 @@
 \title{
    Cumulative Sums, Products, Extremes and lagged differences
 }
-\description{
-  Cumulative Sums, Products, Extremes and lagged differences
-}
 \usage{
 \method{cummin}{integer64}(x)
 
@@ -32,15 +29,18 @@
      return a integer64 vector of the same length as their input\cr
   \code{\link{diff}} returns a integer64 vector shorter by \code{lag*differences} elements \cr
 }
+\description{
+  Cumulative Sums, Products, Extremes and lagged differences
+}
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{sum.integer64}} \code{\link{integer64}}  }
 \examples{
   cumsum(rep(as.integer64(1), 12))
   diff(as.integer64(c(0,1:12)))
   cumsum(as.integer64(c(0, 1:12)))
   diff(cumsum(as.integer64(c(0,0,1:12))), differences=2)
 }
+\seealso{ \code{\link{sum.integer64}} \code{\link{integer64}}  }
+\keyword{ classes }
+\keyword{ manip }

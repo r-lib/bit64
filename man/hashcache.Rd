@@ -6,9 +6,6 @@
 \title{
         Big caching of hashing, sorting, ordering
 }
-\description{
-    Functions to create cache that accelerates many operations
-}
 \usage{
 hashcache(x, nunique=NULL, ...)
 
@@ -38,6 +35,12 @@ set to 'memory' to minimize RAM requirements and sacrifice speed
         passed to \code{\link{hashmap}}
 }
 }
+\value{
+    \code{x} with a \code{\link{cache}} that contains the result of the expensive operations, possible together with small derived information (such as \code{\link{nunique.integer64}}) and previously cached results.
+}
+\description{
+    Functions to create cache that accelerates many operations
+}
 \details{
     The result of relative expensive operations \code{\link{hashmap}}, \code{\link[=ramsort.integer64]{ramsort}}, \code{\link[=ramsort.integer64]{ramsortorder}} and \code{\link[=ramsort.integer64]{ramorder}} can be stored in a cache in order to avoid multiple excutions. Unless in very specific situations, the recommended method is \code{hashsortorder} only.
 }
@@ -45,17 +48,14 @@ set to 'memory' to minimize RAM requirements and sacrifice speed
   Note that we consider storing the big results from sorting and/or ordering as a relevant side-effect,
 and therefore storing them in the cache should require a conscious decision of the user.
 }
-\value{
-    \code{x} with a \code{\link{cache}} that contains the result of the expensive operations, possible together with small derived information (such as \code{\link{nunique.integer64}}) and previously cached results.
-}
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-}
-\seealso{
-    \code{\link{cache}} for caching functions and \code{\link{nunique.integer64}} for methods benefiting from small caches
 }
 \examples{
     x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
  sortordercache(x)
+}
+\seealso{
+    \code{\link{cache}} for caching functions and \code{\link{nunique.integer64}} for methods benefiting from small caches
 }
 \keyword{ environment }

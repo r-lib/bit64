@@ -20,9 +20,6 @@
 \title{
    Unary operators and functions for integer64 vectors
 }
-\description{
-  Unary operators and functions for integer64 vectors.
-}
 \usage{
 \method{format}{integer64}(x, justify="right", ...)
 
@@ -78,12 +75,12 @@
   \code{\link{round}} return a vector of class 'integer64' \cr
   \code{\link{signif}} is not implemented
 }
+\description{
+  Unary operators and functions for integer64 vectors.
+}
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{xor.integer64}} \code{\link{integer64}}  }
 \examples{
   sqrt(as.integer64(1:12))
 \dontshow{
@@ -95,3 +92,6 @@ r <- as.integer64(round(as.integer(i), s))
 }
 }
 }
+\seealso{ \code{\link{xor.integer64}} \code{\link{integer64}}  }
+\keyword{ classes }
+\keyword{ manip }

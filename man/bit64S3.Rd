@@ -19,9 +19,6 @@
 \title{
   Turning base R functions into S3 generics for bit64
 }
-\description{
-    Turn those base functions S3 generic which are used in bit64
-}
 \usage{
     from:to
 
@@ -64,6 +61,12 @@
   \item{to}{ scalar denoting last element of sequence }
   \item{...}{ ignored }
 }
+\value{
+    \code{\link{invisible}}
+}
+\description{
+    Turn those base functions S3 generic which are used in bit64
+}
 \details{
    The following functions are turned into S3 gernerics in order to dispatch methods for \code{\link{integer64}}:
    \preformatted{
@@ -76,9 +79,6 @@
        \code{\link{order}}
    }
 }
-\value{
-    \code{\link{invisible}}
-}
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
@@ -88,9 +88,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
     \code{\link{match}} currently only dispatches at its first argument and expects its second argument also to be integer64, otherwise throws an error. Beware of something like \code{match(2, as.integer64(0:3))}
     \code{\link{\%in\%}} currently only dispatches at its first argument and expects its second argument also to be integer64, otherwise throws an error. Beware of something like \code{2 \%in\% as.integer64(0:3)}
     \code{\link{order}} currently only orders a single argument, trying more than one raises an error
-}
-\seealso{
-    \code{\link{bit64}}, \code{\link{S3}}
 }
 \examples{
  is.double(as.integer64(1))
@@ -123,5 +120,8 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
  stopifnot(identical(order(as.integer64(c(1,NA,2))), order(c(1,NA,2))))
  stopifnot(identical(order(as.integer64(c(1,NA,2)), decreasing=TRUE), order(c(1,NA,2), decreasing=TRUE)))
  }
+}
+\seealso{
+    \code{\link{bit64}}, \code{\link{S3}}
 }
 \keyword{ methods }

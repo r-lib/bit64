@@ -12,9 +12,6 @@
 \title{
    Coerce to integer64
 }
-\description{
-  Methods to coerce from other atomic types to integer64.
-}
 \usage{
  NA_integer64_
 
@@ -41,6 +38,12 @@
   \item{keep.names}{ FALSE, set to TRUE to keep a names vector }
   \item{...}{ further arguments to the \code{\link{NextMethod}} }
 }
+\value{
+  The other methods return atomic vectors of the expected types
+}
+\description{
+  Methods to coerce from other atomic types to integer64.
+}
 \details{
   \code{as.integer64.character} is realized using C function \code{strtoll} which does not support scientific notation.
   Instead of '1e6' use '1000000'.
@@ -50,15 +53,9 @@
   strings shorter than 64 characters are treated as if they were left-padded with '0',
   strings longer than 64 bytes are mapped to \code{NA_INTEGER64} and a warning is emitted.
 }
-\value{
-  The other methods return atomic vectors of the expected types
-}
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{as.character.integer64}} \code{\link{integer64}}  }
 \examples{
 as.integer64(as.character(lim.integer64()))
 as.integer64(
@@ -80,3 +77,6 @@ as.integer64(
   ), class = "bitstring")
 )
 }
+\seealso{ \code{\link{as.character.integer64}} \code{\link{integer64}}  }
+\keyword{ classes }
+\keyword{ manip }

@@ -2,9 +2,6 @@
 \alias{tiepos}
 \alias{tiepos.integer64}
 \title{Extract Positions of Tied Elements}
-\description{
-  \code{tiepos} returns the positions of those elements that participate in ties.
-}
 \usage{
 tiepos(x, ...)
 
@@ -20,25 +17,28 @@ tiepos(x, ...)
 }
   \item{...}{ignored}
 }
+\value{
+  an integer vector of positions
+}
+\description{
+  \code{tiepos} returns the positions of those elements that participate in ties.
+}
 \details{
   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
   Suitable methods are \code{\link{sortordertie}} (fast ordering)
 and \code{\link{ordertie}} (memory saving ordering).
 }
-\value{
-  an integer vector of positions
-}
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-}
-\seealso{
-  \code{\link{rank.integer64}} for possibly tied ranks and \code{\link{unipos.integer64}} for positions of unique values.
 }
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 tiepos(x)
 
 stopifnot(identical(tiepos(x),  (1:length(x))[duplicated(x) | rev(duplicated(rev(x)))]))
+}
+\seealso{
+  \code{\link{rank.integer64}} for possibly tied ranks and \code{\link{unipos.integer64}} for positions of unique values.
 }
 \keyword{manip}
 \keyword{univar}

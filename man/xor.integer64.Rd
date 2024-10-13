@@ -19,9 +19,6 @@
 \title{
    Binary operators for integer64 vectors
 }
-\description{
-  Binary operators for integer64 vectors.
-}
 \usage{
 \method{&}{integer64}(e1,e2)
 
@@ -70,12 +67,12 @@ binattr(e1,e2) # for internal use only
   \code{\link{+}}, \code{\link{-}}, \code{\link{*}}, \code{\link{\%/\%}}, \code{\link{\%\%}}
    return a vector of class 'integer64'
 }
+\description{
+  Binary operators for integer64 vectors.
+}
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{format.integer64}} \code{\link{integer64}}  }
 \examples{
   as.integer64(1:12) - 1
   options(integer64_semantics="new")
@@ -89,3 +86,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   d*i  # old: 10
   i*d  # old: 13
 }
+\seealso{ \code{\link{format.integer64}} \code{\link{integer64}}  }
+\keyword{ classes }
+\keyword{ manip }

@@ -3,9 +3,6 @@
 \title{
    Test if two integer64 vectors are all.equal
 }
-\description{
-   A utility to compare integer64 objects 'x' and 'y' testing for ‘near equality’, see \code{\link{all.equal}}.
-}
 \usage{
   \method{all.equal}{integer64}(
   target
@@ -45,6 +42,9 @@
   ‘"character"’ describing the differences between ‘target’ and
   ‘current’.
 }
+\description{
+   A utility to compare integer64 objects 'x' and 'y' testing for ‘near equality’, see \code{\link{all.equal}}.
+}
 \details{
    In \code{\link{all.equal.numeric}} the type \code{integer} is treated as a proper subset of \code{double}
    i.e. does not complain about comparing \code{integer} with \code{double}.
@@ -61,12 +61,12 @@
 \author{
   Leonardo Silvestri (for package nanotime)
 }
-\seealso{
-  \code{\link{all.equal}}
-}
 \examples{
   all.equal(as.integer64(1:10), as.integer64(0:9))
   all.equal(as.integer64(1:10), as.integer(1:10))
   all.equal(as.integer64(1:10), as.double(1:10))
   all.equal(as.integer64(1), as.double(1e300))
+}
+\seealso{
+  \code{\link{all.equal}}
 }

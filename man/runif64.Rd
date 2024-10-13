@@ -3,9 +3,6 @@
 \title{
    integer64: random numbers
 }
-\description{
-  Create uniform random 64-bit integers within defined range
-}
 \usage{
   runif64(n, min = lim.integer64()[1], max = lim.integer64()[2], replace=TRUE)
 }
@@ -18,6 +15,9 @@
 \value{
   a integer64 vector
 }
+\description{
+  Create uniform random 64-bit integers within defined range
+}
 \details{
   For each random integer we call R's internal C interface \code{unif_rand()} twice.
   Each call is mapped to 2^32 unsigned integers. The two 32-bit patterns are concatenated
@@ -25,12 +25,6 @@
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-}
-\keyword{ classes }
-\keyword{distribution}
-\keyword{sysdata}
-\seealso{
-  \code{\link{runif}}, \code{\link{hashfun}}
 }
 \examples{
   runif64(12)
@@ -44,3 +38,9 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   table(sample(16, replace=TRUE))
   table(runif64(16, 1, 16, replace=TRUE))
 }
+\seealso{
+  \code{\link{runif}}, \code{\link{hashfun}}
+}
+\keyword{ classes }
+\keyword{distribution}
+\keyword{sysdata}

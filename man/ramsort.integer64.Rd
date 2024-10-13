@@ -17,14 +17,6 @@
 \title{
    Low-level intger64 methods for in-RAM sorting and ordering
 }
-\description{
-  Fast low-level methods for sorting and ordering.
-  The \code{..sortorder} methods do sorting and ordering at once, which requires more RAM than ordering but is (almost) as fast as as sorting.
-}
-\note{
- Note that these methods purposely violate the functional programming paradigm: they are called for the side-effect of changing some of their arguments.
- The \code{sort}-methods change \code{x}, the \code{order}-methods change \code{i}, and the \code{sortoder}-methods change both \code{x} and \code{i}
-}
 \usage{
 \method{shellsort}{integer64}(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
 
@@ -94,18 +86,23 @@ number of remaining recursionlevels before \code{quicksort} switches from recurs
 }
   \item{...}{ further arguments, passed from generics, ignored in methods }
 }
+\value{
+  These functions return the number of \code{NAs} found or assumed during sorting
+}
+\description{
+  Fast low-level methods for sorting and ordering.
+  The \code{..sortorder} methods do sorting and ordering at once, which requires more RAM than ordering but is (almost) as fast as as sorting.
+}
 \details{
  see \code{\link[bit:Sorting]{ramsort}}
 }
-\value{
-  These functions return the number of \code{NAs} found or assumed during sorting
+\note{
+ Note that these methods purposely violate the functional programming paradigm: they are called for the side-effect of changing some of their arguments.
+ The \code{sort}-methods change \code{x}, the \code{order}-methods change \code{i}, and the \code{sortoder}-methods change both \code{x} and \code{i}
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ programming }
-\keyword{ manip }
-\seealso{ \code{\link[bit:Sorting]{ramsort}} for the generic, \code{ramsort.default} for the methods provided by package \code{ff}, \code{\link{sort.integer64}} for the sort interface and \code{\link{sortcache}} for caching the work of sorting}
 \examples{
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   x
@@ -129,3 +126,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   s
   o
 }
+\seealso{ \code{\link[bit:Sorting]{ramsort}} for the generic, \code{ramsort.default} for the methods provided by package \code{ff}, \code{\link{sort.integer64}} for the sort interface and \code{\link{sortcache}} for caching the work of sorting}
+\keyword{ programming }
+\keyword{ manip }

@@ -5,9 +5,6 @@
 \title{
    Concatenating integer64 vectors
 }
-\description{
-  The ususal functions 'c', 'cbind' and 'rbind'
-}
 \usage{
 \method{c}{integer64}(..., recursive = FALSE)
 
@@ -23,19 +20,22 @@
   \code{\link{c}} returns a integer64 vector of the total length of the input \cr
   \code{\link{cbind}} and \code{\link{rbind}} return a integer64 matrix
 }
+\description{
+  The ususal functions 'c', 'cbind' and 'rbind'
+}
 \note{
   R currently only dispatches generic 'c' to method 'c.integer64' if the first argument is 'integer64'
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
-\keyword{ classes }
-\keyword{ manip }
-\seealso{ \code{\link{rep.integer64}} \code{\link{seq.integer64}}
-          \code{\link{as.data.frame.integer64}} \code{\link{integer64}}
-}
 \examples{
   c(as.integer64(1), 2:6)
   cbind(1:6, as.integer(1:6))
   rbind(1:6, as.integer(1:6))
 }
+\seealso{ \code{\link{rep.integer64}} \code{\link{seq.integer64}}
+          \code{\link{as.data.frame.integer64}} \code{\link{integer64}}
+}
+\keyword{ classes }
+\keyword{ manip }

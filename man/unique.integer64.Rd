@@ -1,9 +1,6 @@
 \name{unique.integer64}
 \alias{unique.integer64}
 \title{Extract Unique Elements from integer64}
-\description{
-  \code{unique} returns a vector like \code{x} but with duplicate elements/rows removed.
-}
 \usage{
 \method{unique}{integer64}(x, incomparables = FALSE, order = c("original","values","any")
 , nunique = NULL, method = NULL, ...)
@@ -20,6 +17,14 @@
 }
   \item{...}{ignored}
 }
+\value{
+  For a vector, an object of the same type of \code{x}, but with only
+  one copy of each duplicated element.  No attributes are copied (so
+  the result has no names).
+}
+\description{
+  \code{unique} returns a vector like \code{x} but with duplicate elements/rows removed.
+}
 \details{
   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
   Suitable methods are \code{\link{hashmapuni}} (simultaneously creating and using a hashmap)
@@ -32,17 +37,8 @@ The default \code{order="original"} returns unique values in the order of the fi
 \code{order="values"} returns unique values in sorted order like in \code{\link{table}}, this costs extra processing with the hash methods but comes for free.
 \code{order="any"} returns unique values in undefined order, possibly faster. For hash methods this will be a quasi random order, for sort methods this will be sorted order.
 }
-\value{
-  For a vector, an object of the same type of \code{x}, but with only
-  one copy of each duplicated element.  No attributes are copied (so
-  the result has no names).
-}
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-}
-\seealso{
-  \code{\link{unique}} for the generic, \code{\link{unipos}} which gives the indices of the unique
-  elements and \code{\link{table.integer64}} which gives frequencies of the unique elements.
 }
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
@@ -53,6 +49,10 @@ stopifnot(identical(unique(x),  x[!duplicated(x)]))
 stopifnot(identical(unique(x),  as.integer64(unique(as.integer(x)))))
 stopifnot(identical(unique(x, order="values")
 ,  as.integer64(sort(unique(as.integer(x)), na.last=FALSE))))
+}
+\seealso{
+  \code{\link{unique}} for the generic, \code{\link{unipos}} which gives the indices of the unique
+  elements and \code{\link{table.integer64}} which gives frequencies of the unique elements.
 }
 \keyword{manip}
 \keyword{logic}

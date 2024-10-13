@@ -5,10 +5,6 @@
  Function for measuring algorithmic performance \cr
  of high-level and low-level integer64 functions
 }
-\description{
- \code{benchmark64} compares high-level integer64 functions against the integer functions from Base R \cr
- \code{optimizer64} compares for each high-level integer64 function the Base R integer function with several low-level integer64 functions with and without caching \cr
-}
 \usage{
 benchmark64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
 )
@@ -36,6 +32,15 @@ optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
   \item{plot}{
  set to FALSE to suppress plotting
 }
+}
+\value{
+ \code{benchmark64} returns a matrix with elapsed seconds, different high-level tasks in rows and different scenarios to solve the task in columns. The last row named 'SESSION' contains the elapsed seconds of the exemplary sesssion.
+ \cr
+ \code{optimizer64} returns a dimensioned list with one row for each high-level function timed and two columns named after the values of the \code{nsmall} and \code{nbig} sample sizes. Each list cell contains a matrix with timings, low-level-methods in rows and three measurements \code{c("prep","both","use")} in columns. If it can be measured separately, \code{prep} contains the timing of preparatory work such as sorting and hashing, and \code{use} contains the timing of using the prepared work. If the function timed does both, preparation and use, the timing is in \code{both}.
+}
+\description{
+ \code{benchmark64} compares high-level integer64 functions against the integer functions from Base R \cr
+ \code{optimizer64} compares for each high-level integer64 function the Base R integer function with several low-level integer64 functions with and without caching \cr
 }
 \details{
  \code{benchmark64} compares the following scenarios for the following use cases:
@@ -69,16 +74,8 @@ optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
  }
  Note that the timings for the cached variants do \emph{not} contain the time costs of building the cache, except for the timing of the exemplary user session, where the cache costs are included in order to evaluate amortization.
 }
-\value{
- \code{benchmark64} returns a matrix with elapsed seconds, different high-level tasks in rows and different scenarios to solve the task in columns. The last row named 'SESSION' contains the elapsed seconds of the exemplary sesssion.
- \cr
- \code{optimizer64} returns a dimensioned list with one row for each high-level function timed and two columns named after the values of the \code{nsmall} and \code{nbig} sample sizes. Each list cell contains a matrix with timings, low-level-methods in rows and three measurements \code{c("prep","both","use")} in columns. If it can be measured separately, \code{prep} contains the timing of preparatory work such as sorting and hashing, and \code{use} contains the timing of using the prepared work. If the function timed does both, preparation and use, the timing is in \code{both}.
-}
 \author{
  Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-}
-\seealso{
- \code{\link{integer64}}
 }
 \examples{
 message("this small example using system.time does not give serious timings\n
@@ -130,5 +127,8 @@ for (i in 1:nrow(optimizer64.data)){
  }
 }
 par(mfrow=c(1,1))
+}
+\seealso{
+ \code{\link{integer64}}
 }
 \keyword{ misc }
