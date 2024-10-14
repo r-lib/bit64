@@ -78,7 +78,7 @@ List of 16
 }
 \usage{data(optimizer64.data)}
 \description{
-  These are the results of calling \code{\link{optimizer64}}
+  These are the results of calling code{link[=optimizer64]{optimizer64()}}
 }
 \examples{
 data(optimizer64.data)

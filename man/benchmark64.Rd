@@ -21,18 +21,18 @@ optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
 
   \item{nbig}{ size of larger bigger vector }
 
-  \item{timefun}{ a function for timing such as \code{\link[bit]{repeat.time}} or \code{\link{system.time}} }
+  \item{timefun}{ a function for timing such as \code{\link[bit]{repeat.time}} or code{link[=system.time]{system.time()}} }
 
   \item{what}{
  a vector of names of high-level functions
 }
 
   \item{uniorder}{
- one of the order parameters that are allowed in \code{\link{unique.integer64}} and \code{\link{unipos.integer64}}
+ one of the order parameters that are allowed in code{link[=unique.integer64]{unique.integer64()}} and code{link[=unipos.integer64]{unipos.integer64()}}
 }
 
   \item{taborder}{
- one of the order parameters that are allowed in \code{\link{table.integer64}}
+ one of the order parameters that are allowed in code{link[=table.integer64]{table.integer64()}}
 }
 
   \item{plot}{
@@ -54,9 +54,9 @@ optimizer64(nsmall = 2^16, nbig = 2^25, timefun = repeat.time
   \bold{scenario name} \tab \bold{explanation} \cr
   32-bit  \tab applying Base R function to 32-bit integer data \cr
   64-bit \tab applying bit64 function to 64-bit integer data (with no cache) \cr
-  hashcache \tab dito when cache contains \code{\link{hashmap}}, see \code{\link{hashcache}} \cr
-  sortordercache \tab dito when cache contains sorting and ordering, see \code{\link{sortordercache}} \cr
-  ordercache \tab dito when cache contains ordering only, see \code{\link{ordercache}} \cr
+  hashcache \tab dito when cache contains code{link[=hashmap]{hashmap()}}, see code{link[=hashcache]{hashcache()}} \cr
+  sortordercache \tab dito when cache contains sorting and ordering, see code{link[=sortordercache]{sortordercache()}} \cr
+  ordercache \tab dito when cache contains ordering only, see code{link[=ordercache]{ordercache()}} \cr
   allcache \tab dito when cache contains sorting, ordering and hashing \cr
  }
  \tabular{rl}{

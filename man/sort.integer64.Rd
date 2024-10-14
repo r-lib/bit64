@@ -12,7 +12,7 @@
 , optimize = c("time", "memory"), VERBOSE = FALSE)
 }
 \arguments{
-  \item{x}{ a vector to be sorted by \code{\link{ramsort.integer64}} and \code{\link{ramsortorder.integer64}}, i.e. the output of  \code{\link{sort.integer64}} }
+  \item{x}{ a vector to be sorted by code{link[=ramsort.integer64]{ramsort.integer64()}} and code{link[=ramsortorder.integer64]{ramsortorder.integer64()}}, i.e. the output of  code{link[=sort.integer64]{sort.integer64()}} }
 
   \item{decreasing}{
 boolean scalar telling ramsort whether to sort increasing or decreasing
@@ -25,7 +25,7 @@ boolean scalar defining whether the input vector might contain \code{NA}s. If we
 
   \item{na.last}{
 boolean scalar telling ramsort whether to sort \code{NA}s last or first.
-\emph{Note} that 'boolean' means that there is no third option \code{NA} as in \code{\link{sort}}
+\emph{Note} that 'boolean' means that there is no third option \code{NA} as in code{link[=sort]{sort()}}
 }
 
   \item{stable}{
@@ -48,10 +48,10 @@ set to 'memory' to minimize RAM requirements and sacrifice speed
 }
 \description{
   Fast high-level methods for sorting and ordering.
-  These are wrappers to \code{\link{ramsort.integer64}} and friends and do not modify their arguments.
+  These are wrappers to code{link[=ramsort.integer64]{ramsort.integer64()}} and friends and do not modify their arguments.
 }
 \details{
- see \code{\link{sort}} and \code{\link{order}}
+ see code{link[=sort]{sort()}} and code{link[=order]{order()}}
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
@@ -66,6 +66,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   message("slower with less RAM, this calls 'ramsortorder'")
   order.integer64(x, optimize="memory")
 }
-\seealso{ \code{\link[=sort.integer64]{sort}}, \code{\link{sortcache}} }
+\seealso{ \code{\link[=sort.integer64]{sort}}, code{link[=sortcache]{sortcache()}} }
 \keyword{ programming }
 \keyword{ manip }
