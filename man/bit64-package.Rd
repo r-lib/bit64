@@ -206,7 +206,7 @@ The methods \code{\link[=is.integer64]{is.integer64()}} and \code{\link[=is.vect
 Note that we did not patch \code{\link[=storage.mode]{storage.mode()}} and \code{\link[=typeof]{typeof()}}, which both continue
 returning 'double'. Like for 32 bit \code{\link{integer}}, \code{\link[=mode]{mode()}} returns 'numeric' and
 \code{\link[=as.double]{as.double()}} tries coercing to \code{\link{double}}. It is possible that 'integer64' becomes
-a \code{\link{vmode}} in package ff.
+a \code{vmode} in package ff.
 
 Further methods for creating \code{integer64} are \code{\link[=range.integer64]{range()}} which
 returns the range of the data type if calles without arguments,

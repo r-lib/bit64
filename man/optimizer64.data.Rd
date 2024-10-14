@@ -79,7 +79,7 @@ The format is:
 }\if{html}{\out{</div>}}
 }
 \usage{
-optimizer64.data
+data(optimizer64.data)
 }
 \description{
 These are the results of calling \code{\link[=optimizer64]{optimizer64()}}

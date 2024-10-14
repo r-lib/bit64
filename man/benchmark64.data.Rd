@@ -14,7 +14,7 @@ The format is:
 }\if{html}{\out{</div>}}
 }
 \usage{
-benchmark64.data
+data(benchmark64.data)
 }
 \description{
 These are the results of calling \code{\link[=benchmark64]{benchmark64()}}

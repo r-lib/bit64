@@ -11,6 +11,8 @@
 #' ..$ : chr [1:16] "cache" "match(s,b)" "s %in% b" "match(b,s)" ...
 #' ..$ : chr [1:6] "32-bit" "64-bit" "hashcache" "sortordercache" ...
 #' ```
+#' @usage
+#' data(benchmark64.data)
 #'
 #' @examples
 #' data(benchmark64.data)
@@ -113,6 +115,9 @@
 #'   ..$ : chr [1:8] "match" "%in%" "duplicated" "unique" ...
 #'   ..$ : chr [1:2] "65536" "33554432"
 #' ```
+#'
+#' @usage
+#' data(optimizer64.data)
 #'
 #' @examples
 #' data(optimizer64.data)

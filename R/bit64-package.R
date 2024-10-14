@@ -135,7 +135,7 @@
 #' Note that we did not patch [storage.mode()] and [typeof()], which both continue
 #' returning 'double'. Like for 32 bit [`integer`], [mode()] returns 'numeric' and
 #' [as.double()] tries coercing to [`double`]. It is possible that 'integer64' becomes
-#' a [`vmode`] in package ff.
+#' a `vmode` in package ff.
 #'
 #' Further methods for creating `integer64` are [`range()`][range.integer64] which
 #' returns the range of the data type if calles without arguments,

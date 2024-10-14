@@ -16,7 +16,7 @@
 #'
 #' @details
 #' A `cache` is an [`environment`] attached to an atomic object with the
-#'   [`attribute`] name 'cache'. It contains at least a reference to the
+#'   [`attribute`][attr] name 'cache'. It contains at least a reference to the
 #'   atomic object that carries the cache. This is used when accessing
 #'   the cache to detect whether the object carrying the cache has been
 #'   modified meanwhile.
