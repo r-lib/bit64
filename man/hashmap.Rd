@@ -84,8 +84,6 @@ hashmaptab(x, ...)
 \arguments{
   \item{x}{ an integer64 vector }
 
-  \item{hashmap}{ an object of class 'hashmap' i.e. here 'cache_integer64' }
-
   \item{minfac}{ minimum factor by which the hasmap has more elements compared to the data \code{x}, ignored if \code{hashbits} is given directly }
 
   \item{hashbits}{ length of hashmap is \code{2^hashbits} }

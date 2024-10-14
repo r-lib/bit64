@@ -37,11 +37,7 @@ remcache(x)
   An object to be stored in the cache
 }
 
-  \item{all.names}{
-  passed to \code{\link{ls}} when listing the cache content
-}
-
-  \item{pattern}{
+  \item{all.names, pattern}{
   passed to \code{\link{ls}} when listing the cache content
 }
 
