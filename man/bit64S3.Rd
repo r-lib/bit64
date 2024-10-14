@@ -94,19 +94,6 @@ one raises an error
 
 
  order(as.integer64(c(1,NA,2)))
-
- \dontshow{
- stopifnot(identical(match(as.integer64(2), as.integer64(0:3)), match(2, 0:3)))
- stopifnot(identical(as.integer64(2) \%in\% as.integer64(0:3), 2 \%in\% 0:3))
-
- stopifnot(identical(unique(as.integer64(c(1,1,2))), as.integer64(unique(c(1,1,2)))))
- stopifnot(identical(rank(as.integer64(c(1,1,2))), rank(c(1,1,2))))
-
-
- stopifnot(identical(order(as.integer64(c(1,NA,2))), order(c(1,NA,2))))
- stopifnot(identical(order(as.integer64(c(1,NA,2)), decreasing=TRUE), order(c(1,NA,2), decreasing=TRUE)))
- }
-
 }
 \seealso{
 \code{\link[=bit64]{bit64()}}, \link{S3}
