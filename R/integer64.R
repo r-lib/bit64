@@ -1868,6 +1868,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
   ret
 }
 
+#' @rdname xor.integer64
 #' @export
 xor.integer64 <- function(x, y){
   a <- binattr(x,y)

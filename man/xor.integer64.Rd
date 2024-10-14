@@ -51,6 +51,8 @@ binattr(e1, e2)
 \method{&}{integer64}(e1, e2)
 
 \method{|}{integer64}(e1, e2)
+
+\method{xor}{integer64}(x, y)
 }
 \arguments{
 \item{e1}{an atomic vector of class 'integer64'}
