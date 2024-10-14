@@ -22,8 +22,8 @@
 }
 \details{
   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
-  Suitable methods are \code{\link{sortorderrnk}} (fast ordering)
-and \code{\link{orderrnk}} (memory saving ordering).
+  Suitable methods are code{link[=sortorderrnk]{sortorderrnk()}} (fast ordering)
+and code{link[=orderrnk]{orderrnk()}} (memory saving ordering).
 }
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
@@ -36,6 +36,6 @@ stopifnot(identical(rank.integer64(x),  rank(as.integer(x)
 , na.last="keep", ties.method = "average")))
 }
 \seealso{
-  \code{\link{order.integer64}}, \code{\link{rank}} and \code{\link{prank}} for percent rank.
+  code{link[=order.integer64]{order.integer64()}}, code{link[=rank]{rank()}} and \code{\link{prank}} for percent rank.
 }
 \keyword{univar}
