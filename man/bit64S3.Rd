@@ -18,6 +18,13 @@
 \alias{order.default}
 \title{Turning base R functions into S3 generics for bit64}
 \usage{
+from:to
+is.double(x)
+match(x, table, ...)
+x %in% table
+rank(x, ...)
+order(...)
+
 \method{is.double}{default}(x)
 
 \method{is.double}{integer64}(x)
