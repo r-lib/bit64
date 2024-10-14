@@ -17,6 +17,19 @@
 \alias{order}
 \alias{order.default}
 \title{Turning base R functions into S3 generics for bit64}
+\usage{
+\method{is.double}{default}(x)
+
+\method{is.double}{integer64}(x)
+
+\method{match}{default}(x, table, ...)
+
+\method{\%in\%}{default}(x, table)
+
+\method{rank}{default}(x, ...)
+
+\method{order}{default}(...)
+}
 \arguments{
 \item{x}{integer64 vector: the values to be matched, optionally carrying a
 cache created with \code{\link[=hashcache]{hashcache()}}}
@@ -24,11 +37,11 @@ cache created with \code{\link[=hashcache]{hashcache()}}}
 \item{table}{integer64 vector: the values to be matched against, optionally
 carrying a cache created with \code{\link[=hashcache]{hashcache()}} or \code{\link[=sortordercache]{sortordercache()}}}
 
+\item{...}{ignored}
+
 \item{from}{scalar denoting first element of sequence}
 
 \item{to}{scalar denoting last element of sequence}
-
-\item{...}{ignored}
 }
 \value{
 \code{\link[=invisible]{invisible()}}

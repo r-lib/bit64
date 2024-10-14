@@ -99,21 +99,26 @@ NULL
 `:.integer64` <- function(from, to)seq.integer64(from=from, to=to)
 
 is.double <- function(x) UseMethod("is.double")
+#' @rdname bit64S3
 #' @export
 is.double.default <- function(x) base::is.double(x)
 
+#' @rdname bit64S3
 #' @export
 is.double.integer64 <- function(x)FALSE
 
 match <- function(x, table, ...) UseMethod("match")
+#' @rdname bit64S3
 #' @export
 match.default <- function(x, table, ...) base::match(x, table, ...)
 
 `%in%` <- function(x, table) UseMethod("%in%")
+#' @rdname bit64S3
 #' @export
 `%in%.default` <- function(x, table) base::`%in%`(x, table)
 
 rank <- function(x, ...) UseMethod("rank")
+#' @rdname bit64S3
 #' @export
 rank.default <- function(x, ...) base::rank(x, ...)
 
@@ -124,5 +129,6 @@ rank.default <- function(x, ...) base::rank(x, ...)
 #}
 
 order <- function(...) UseMethod("order")
+#' @rdname bit64S3
 #' @export
 order.default <- function(...) base::order(...)
