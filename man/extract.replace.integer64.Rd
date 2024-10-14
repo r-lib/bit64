@@ -21,9 +21,9 @@
 
   \item{i}{ indices specifying elements to extract }
 
-  \item{value}{ an atomic vector with values to be assigned }
-
   \item{...}{ further arguments to the \code{\link{NextMethod}} }
+
+  \item{value}{ an atomic vector with values to be assigned }
 }
 \value{
   A vector or scalar of class 'integer64'

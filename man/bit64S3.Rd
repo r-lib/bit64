@@ -57,11 +57,11 @@
     integer64 vector: the values to be matched against, optionally carrying a cache created with \code{\link{hashcache}} or \code{\link{sortordercache}}
 }
 
+  \item{...}{ ignored }
+
   \item{from}{ scalar denoting first element of sequence }
 
   \item{to}{ scalar denoting last element of sequence }
-
-  \item{...}{ ignored }
 }
 \value{
     \code{\link{invisible}}

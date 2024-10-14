@@ -28,15 +28,15 @@
 
   \item{x}{ an integer64 vector }
 
-  \item{object}{ an integer64 vector }
-
   \item{value}{ an integer64 vector of values to be assigned }
 
   \item{quote}{ logical, indicating whether or not strings should be printed with surrounding quotes. }
 
-  \item{vec.len, give.head, give.length}{ see \code{\link[utils]{str}} }
-
   \item{...}{ further arguments to the \code{\link{NextMethod}} }
+
+  \item{object}{ an integer64 vector }
+
+  \item{vec.len, give.head, give.length}{ see \code{\link[utils]{str}} }
 }
 \value{
   \code{integer64} returns a vector of 'integer64',

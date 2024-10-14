@@ -10,11 +10,11 @@ keypos(x, ...)
 \arguments{
   \item{x}{a vector or a data frame or an array or \code{NULL}.}
 
+  \item{...}{ignored}
+
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
-
-  \item{...}{ignored}
 }
 \value{
   an integer vector of the same length as \code{x} containing positions relativ to \code{sort(unique(x), na.last=FALSE)}
