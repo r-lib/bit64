@@ -21,7 +21,7 @@
 from:to
 is.double(x)
 match(x, table, ...)
-x %in% table
+x \%in\% table
 rank(x, ...)
 order(...)
 

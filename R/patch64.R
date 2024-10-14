@@ -16,7 +16,7 @@
 #' from:to
 #' is.double(x)
 #' match(x, table, ...)
-#' x %in% table
+#' x \%in\% table
 #' rank(x, ...)
 #' order(...)
 #' @aliases bit64S3 : :.default :.integer64 is.double is.double.default
