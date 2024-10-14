@@ -41,7 +41,7 @@ duplicated(x)
 
 stopifnot(identical(duplicated(x),  duplicated(as.integer(x))))
 }
-\seealso{ \code{\link{duplicated}}, \code{\link{unique.integer64}}  }
+\seealso{ code{link[=duplicated]{duplicated()}}, code{link[=unique.integer64]{unique.integer64()}}  }
 \keyword{logic}
 \keyword{manip}
 
