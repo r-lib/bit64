@@ -71,6 +71,7 @@
 #'  print(optimizer64)
 #' @export
 sortnut <- function(sorted, ...) UseMethod("sortnut")
+#' @rdname sortnut
 #' @export
 sortnut.integer64 <- function(sorted, ...)
 {

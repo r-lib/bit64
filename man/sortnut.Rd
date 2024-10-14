@@ -2,6 +2,7 @@
 % Please edit documentation in R/sortuse64.R
 \name{sortnut}
 \alias{sortnut}
+\alias{sortnut.integer64}
 \alias{ordernut}
 \alias{ordernut.integer64}
 \alias{sortfin}
@@ -51,6 +52,8 @@
 \title{Searching and other uses of sorting for 64bit integers}
 \usage{
 sortnut(sorted, ...)
+
+\method{sortnut}{integer64}(sorted, ...)
 
 ordernut(table, order, ...)
 
