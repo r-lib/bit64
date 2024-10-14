@@ -150,7 +150,7 @@ sortorderrnk(sorted, order, na.count, ...)
 
   \item{table}{ the original data with original order under the sorted vector }
 
-  \item{order}{ an code{link[=integer]{integer()}} order vector that turns 'table' into 'sorted' }
+  \item{order}{ an \code{\link{integer}} order vector that turns 'table' into 'sorted' }
 
   \item{x}{ an \code{\link{integer64}} vector }
 

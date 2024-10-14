@@ -21,7 +21,7 @@
 
   \item{i}{ indices specifying elements to extract }
 
-  \item{...}{ further arguments to the code{link[=NextMethod]{NextMethod()}} }
+  \item{...}{ further arguments to the \code{\link{NextMethod}} }
 
   \item{value}{ an atomic vector with values to be assigned }
 }

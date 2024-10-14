@@ -34,17 +34,17 @@
     These methods are packaged here for methods in packages \code{bit64} and \code{ff}.
 }
 \details{
-  All these functions benefit from a code{link[=sortcache]{sortcache()}}, code{link[=ordercache]{ordercache()}} or code{link[=sortordercache]{sortordercache()}}.
-  \code{na.count}, \code{nvalid} and \code{nunique} also benefit from a code{link[=hashcache]{hashcache()}}.
+  All these functions benefit from a \code{\link{sortcache}}, \code{\link{ordercache}} or \code{\link{sortordercache}}.
+  \code{na.count}, \code{nvalid} and \code{nunique} also benefit from a \code{\link{hashcache}}.
     \cr
     \code{is.sorted} checks for sortedness of \code{x} (NAs sorted first) \cr
  \code{na.count} returns the number of \code{NA}s \cr
- \code{nvalid} returns the number of valid data points, usually code{link[=length]{length()}} minus \code{na.count}. \cr
+ \code{nvalid} returns the number of valid data points, usually \code{\link{length}} minus \code{na.count}. \cr
  \code{nunique} returns the number of unique values \cr
  \code{nties} returns the number of tied values.
 }
 \note{
-    If a code{link[=cache]{cache()}} exists but the desired value is not cached,
+    If a \code{\link{cache}} exists but the desired value is not cached,
  then these functions will store their result in the cache.
  We do not consider this a relevant side-effect,
  since these small cache results do not have a relevant memory footprint.
@@ -63,7 +63,7 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
  x
 }
 \seealso{
-    code{link[=cache]{cache()}} for caching functions and code{link[=sortordercache]{sortordercache()}} for functions creating big caches
+    \code{\link{cache}} for caching functions and \code{\link{sortordercache}} for functions creating big caches
 }
 \keyword{ environment }
 \keyword{ methods }

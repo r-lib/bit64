@@ -55,7 +55,7 @@
 , optimize = c("time", "memory"), VERBOSE = FALSE, ...)
 }
 \arguments{
-  \item{x}{ a vector to be sorted by code{link[=ramsort.integer64]{ramsort.integer64()}} and code{link[=ramsortorder.integer64]{ramsortorder.integer64()}}, i.e. the output of  code{link[=sort.integer64]{sort.integer64()}} }
+  \item{x}{ a vector to be sorted by \code{\link{ramsort.integer64}} and \code{\link{ramsortorder.integer64}}, i.e. the output of  \code{\link{sort.integer64}} }
 
   \item{has.na}{
 boolean scalar defining whether the input vector might contain \code{NA}s. If we know we don't have NAs, this may speed-up.
@@ -64,7 +64,7 @@ boolean scalar defining whether the input vector might contain \code{NA}s. If we
 
   \item{na.last}{
 boolean scalar telling ramsort whether to sort \code{NA}s last or first.
-\emph{Note} that 'boolean' means that there is no third option \code{NA} as in code{link[=sort]{sort()}}
+\emph{Note} that 'boolean' means that there is no third option \code{NA} as in \code{\link{sort}}
 }
 
   \item{decreasing}{
@@ -73,7 +73,7 @@ boolean scalar telling ramsort whether to sort increasing or decreasing
 
   \item{...}{ further arguments, passed from generics, ignored in methods }
 
-  \item{i}{ integer positions to be modified by code{link[=ramorder.integer64]{ramorder.integer64()}} and code{link[=ramsortorder.integer64]{ramsortorder.integer64()}}, default is 1:n, in this case the output is similar to code{link[=order.integer64]{order.integer64()}} }
+  \item{i}{ integer positions to be modified by \code{\link{ramorder.integer64}} and \code{\link{ramsortorder.integer64}}, default is 1:n, in this case the output is similar to \code{\link{order.integer64}} }
 
   \item{restlevel}{
 number of remaining recursionlevels before \code{quicksort} switches from recursing to \code{shellsort}
@@ -136,6 +136,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   s
   o
 }
-\seealso{ \code{\link[bit:Sorting]{ramsort}} for the generic, \code{ramsort.default} for the methods provided by package \code{ff}, code{link[=sort.integer64]{sort.integer64()}} for the sort interface and code{link[=sortcache]{sortcache()}} for caching the work of sorting}
+\seealso{ \code{\link[bit:Sorting]{ramsort}} for the generic, \code{ramsort.default} for the methods provided by package \code{ff}, \code{\link{sort.integer64}} for the sort interface and \code{\link{sortcache}} for caching the work of sorting}
 \keyword{ programming }
 \keyword{ manip }

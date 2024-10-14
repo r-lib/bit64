@@ -13,7 +13,7 @@
 }
 \usage{data(benchmark64.data)}
 \description{
-  These are the results of calling code{link[=benchmark64]{benchmark64()}}
+  These are the results of calling \code{\link{benchmark64}}
 }
 \examples{
 data(benchmark64.data)

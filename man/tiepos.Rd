@@ -41,7 +41,7 @@ tiepos(x)
 stopifnot(identical(tiepos(x),  (1:length(x))[duplicated(x) | rev(duplicated(rev(x)))]))
 }
 \seealso{
-  code{link[=rank.integer64]{rank.integer64()}} for possibly tied ranks and code{link[=unipos.integer64]{unipos.integer64()}} for positions of unique values.
+  \code{\link{rank.integer64}} for possibly tied ranks and \code{\link{unipos.integer64}} for positions of unique values.
 }
 \keyword{manip}
 \keyword{univar}

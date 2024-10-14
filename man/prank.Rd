@@ -21,10 +21,10 @@
 }
 \description{
     Function \code{prank.integer64}  projects the values [min..max] via ranks [1..n] to [0..1].
-    code{link[=qtile.integer64]{qtile.integer64()}} is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
+    \code{\link{qtile.integer64}} is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
 }
 \details{
-    Function \code{prank.integer64} is based on code{link[=rank.integer64]{rank.integer64()}}.
+    Function \code{prank.integer64} is based on \code{\link{rank.integer64}}.
 }
 \author{
     Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
@@ -37,6 +37,6 @@ x <- x[!is.na(x)]
 stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))
 }
 \seealso{
-  code{link[=rank.integer64]{rank.integer64()}} for simple ranks and \code{\link{qtile}} for the inverse function quantiles.
+  \code{\link{rank.integer64}} for simple ranks and \code{\link{qtile}} for the inverse function quantiles.
 }
 \keyword{univar}

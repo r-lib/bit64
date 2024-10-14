@@ -50,11 +50,11 @@
 }
 \arguments{
   \item{x}{
-    integer64 vector: the values to be matched, optionally carrying a cache created with code{link[=hashcache]{hashcache()}}
+    integer64 vector: the values to be matched, optionally carrying a cache created with \code{\link{hashcache}}
 }
 
   \item{table}{
-    integer64 vector: the values to be matched against, optionally carrying a cache created with code{link[=hashcache]{hashcache()}} or code{link[=sortordercache]{sortordercache()}}
+    integer64 vector: the values to be matched against, optionally carrying a cache created with \code{\link{hashcache}} or \code{\link{sortordercache}}
 }
 
   \item{...}{ ignored }
@@ -64,7 +64,7 @@
   \item{to}{ scalar denoting last element of sequence }
 }
 \value{
-    code{link[=invisible]{invisible()}}
+    \code{\link{invisible}}
 }
 \description{
     Turn those base functions S3 generic which are used in bit64
@@ -73,23 +73,23 @@
    The following functions are turned into S3 gernerics in order to dispatch methods for \code{\link{integer64}}:
    \preformatted{
        \code{\link{:}}
-       code{link[=is.double]{is.double()}}
-       code{link[=match]{match()}}
+       \code{\link{is.double}}
+       \code{\link{match}}
        \code{\link{\%in\%}}
-       %code{link[=table]{table()}}
-       code{link[=rank]{rank()}}
-       code{link[=order]{order()}}
+       %\code{\link{table}}
+       \code{\link{rank}}
+       \code{\link{order}}
    }
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
 }
 \note{
-    code{link[=is.double]{is.double()}} returns \code{FALSE} for \code{\link{integer64}} \cr
+    \code{\link{is.double}} returns \code{FALSE} for \code{\link{integer64}} \cr
     \code{\link{:}} currently only dispatches at its first argument, thus \code{as.integer64(1):9} works but \code{1:as.integer64(9)} doesn't
-    code{link[=match]{match()}} currently only dispatches at its first argument and expects its second argument also to be integer64, otherwise throws an error. Beware of something like \code{match(2, as.integer64(0:3))}
+    \code{\link{match}} currently only dispatches at its first argument and expects its second argument also to be integer64, otherwise throws an error. Beware of something like \code{match(2, as.integer64(0:3))}
     \code{\link{\%in\%}} currently only dispatches at its first argument and expects its second argument also to be integer64, otherwise throws an error. Beware of something like \code{2 \%in\% as.integer64(0:3)}
-    code{link[=order]{order()}} currently only orders a single argument, trying more than one raises an error
+    \code{\link{order}} currently only orders a single argument, trying more than one raises an error
 }
 \examples{
  is.double(as.integer64(1))
@@ -124,6 +124,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
  }
 }
 \seealso{
-    code{link[=bit64]{bit64()}}, \code{\link{S3}}
+    \code{\link{bit64}}, \code{\link{S3}}
 }
 \keyword{ methods }
