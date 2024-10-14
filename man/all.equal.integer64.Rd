@@ -16,9 +16,9 @@
 )
 }
 \arguments{
-  \item{target}{ a vector of 'integer64' or an object that can be coerced with \code{\link{as.integer64}} }
+  \item{target}{ a vector of 'integer64' or an object that can be coerced with \code{\link[=as.integer64]{as.integer64()}} }
 
-  \item{current}{ a vector of 'integer64' or an object that can be coerced with \code{\link{as.integer64}} }
+  \item{current}{ a vector of 'integer64' or an object that can be coerced with \code{\link[=as.integer64]{as.integer64()}} }
 
   \item{tolerance}{numeric \eqn{\ge} 0.  Differences smaller than
     \code{tolerance} are not reported.  The default value is close to
@@ -33,7 +33,7 @@
     misleading in cases where \code{target} and \code{current} only
     differ in a few places; see the extensive example.}
 
-  \item{formatFUN}{a \code{\link{function}} of two arguments,
+  \item{formatFUN}{a \code{\link[=function]{function()}} of two arguments,
     \code{err}, the relative, absolute or scaled error, and
     \code{what}, a character string indicating the \emph{kind} of error;
     maybe used, e.g., to format relative and absolute errors differently.}
@@ -41,7 +41,7 @@
   \item{...}{further arguments are ignored}
 
   \item{check.attributes}{logical indicating if the
-    \code{\link{attributes}} of \code{target} and \code{current}
+    \code{\link[=attributes]{attributes()}} of \code{target} and \code{current}
     (other than the names) should be compared.}
 }
 \value{
@@ -50,19 +50,19 @@
   ‘current’.
 }
 \description{
-   A utility to compare integer64 objects 'x' and 'y' testing for ‘near equality’, see \code{\link{all.equal}}.
+   A utility to compare integer64 objects 'x' and 'y' testing for ‘near equality’, see \code{\link[=all.equal]{all.equal()}}.
 }
 \details{
-   In \code{\link{all.equal.numeric}} the type \code{integer} is treated as a proper subset of \code{double}
+   In \code{\link[=all.equal.numeric]{all.equal.numeric()}} the type \code{integer} is treated as a proper subset of \code{double}
    i.e. does not complain about comparing \code{integer} with \code{double}.
    Following this logic \code{all.equal.integer64} treats \code{integer} as a proper subset of \code{integer64}
    and does not complain about comparing \code{integer} with \code{integer64}. \code{double} also compares without warning
-   as long as the values are within \code{\link{lim.integer64}}, if \code{double} are bigger \code{all.equal.integer64}
-   complains about the \code{all.equal.integer64 overflow warning}. For further details see \code{\link{all.equal}}.
+   as long as the values are within \code{\link[=lim.integer64]{lim.integer64()}}, if \code{double} are bigger \code{all.equal.integer64}
+   complains about the \code{all.equal.integer64 overflow warning}. For further details see \code{\link[=all.equal]{all.equal()}}.
 }
 \note{
-   \code{\link{all.equal}} only dispatches to this method if the first argument is \code{integer64},
-   calling \code{\link{all.equal}} with a \code{non-integer64} first and a \code{integer64} second argument
+   \code{\link[=all.equal]{all.equal()}} only dispatches to this method if the first argument is \code{integer64},
+   calling \code{\link[=all.equal]{all.equal()}} with a \code{non-integer64} first and a \code{integer64} second argument
    gives undefined behavior!
 }
 \author{
@@ -75,5 +75,5 @@
   all.equal(as.integer64(1), as.double(1e300))
 }
 \seealso{
-  \code{\link{all.equal}}
+  \code{\link[=all.equal]{all.equal()}}
 }

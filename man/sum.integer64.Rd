@@ -32,12 +32,12 @@ lim.integer64()
 
   \item{na.rm}{ logical scalar indicating whether to ignore NAs }
 
-  \item{finite}{ logical scalar indicating whether to ignore NAs (just for compatibility with \code{\link{range.default}}) }
+  \item{finite}{ logical scalar indicating whether to ignore NAs (just for compatibility with \code{\link[=range.default]{range.default()}}) }
 }
 \value{
-  \code{\link{all}} and \code{\link{any}} return a logical scalar\cr
-  \code{\link{range}} returns a integer64 vector with two elements\cr
-  \code{\link{min}}, \code{\link{max}}, \code{\link{sum}} and \code{\link{prod}} return a integer64 scalar
+  \code{\link[=all]{all()}} and \code{\link{any}} return a logical scalar\cr
+  \code{\link[=range]{range()}} returns a integer64 vector with two elements\cr
+  \code{\link[=min]{min()}}, \code{\link{max}}, \code{\link{sum}} and \code{\link{prod}} return a integer64 scalar
 }
 \description{
   Summary functions for integer64 vectors.
@@ -49,7 +49,7 @@ lim.integer64()
   on empty arguments, but \code{+9223372036854775807, -9223372036854775807} (in this sequence).
   The same is true if only  \code{NA}s are submitted with argument \code{na.rm=TRUE}.
  \cr
-  \code{lim.integer64} returns these limits in proper order \code{-9223372036854775807, +9223372036854775807} and without a \code{\link{warning}}.
+  \code{lim.integer64} returns these limits in proper order \code{-9223372036854775807, +9223372036854775807} and without a \code{\link[=warning]{warning()}}.
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
@@ -58,6 +58,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   lim.integer64()
   range(as.integer64(1:12))
 }
-\seealso{ \code{\link{mean.integer64}} \code{\link{cumsum.integer64}} \code{\link{integer64}}  }
+\seealso{ \code{\link[=mean.integer64]{mean.integer64()}} \code{\link[=cumsum.integer64]{cumsum.integer64()}} \code{\link{integer64}}  }
 \keyword{ classes }
 \keyword{ manip }

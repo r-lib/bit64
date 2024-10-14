@@ -29,7 +29,7 @@ unipos(x, incomparables = FALSE, order = c("original","values","any"), ...)
   an integer vector of positions
 }
 \description{
-  \code{unipos} returns the positions of those elements returned by \code{\link{unique}}.
+  \code{unipos} returns the positions of those elements returned by \code{\link[=unique]{unique()}}.
 }
 \details{
   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
@@ -38,8 +38,8 @@ unipos(x, incomparables = FALSE, order = c("original","values","any"), ...)
 , \code{\link{sortorderupo}} (fast ordering)
 and \code{\link{orderupo}} (memory saving ordering).
 \cr
-The default \code{order="original"} collects unique values in the order of the first appearance in \code{x} like in \code{\link{unique}}, this costs extra processing.
-\code{order="values"} collects unique values in sorted order like in \code{\link{table}}, this costs extra processing with the hash methods but comes for free.
+The default \code{order="original"} collects unique values in the order of the first appearance in \code{x} like in \code{\link[=unique]{unique()}}, this costs extra processing.
+\code{order="values"} collects unique values in sorted order like in \code{\link[=table]{table()}}, this costs extra processing with the hash methods but comes for free.
 \code{order="any"} collects unique values in undefined order, possibly faster. For hash methods this will be a quasi random order, for sort methods this will be sorted order.
 }
 \author{
@@ -57,7 +57,7 @@ stopifnot(identical(unique(x),  x[unipos(x)]))
 stopifnot(identical(unique(x, order="values"),  x[unipos(x, order="values")]))
 }
 \seealso{
-  \code{\link{unique.integer64}} for unique values and \code{\link{match.integer64}} for general matching.
+  \code{\link[=unique.integer64]{unique.integer64()}} for unique values and \code{\link[=match.integer64]{match.integer64()}} for general matching.
 }
 \keyword{manip}
 \keyword{logic}

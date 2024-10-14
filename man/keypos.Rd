@@ -23,7 +23,7 @@ keypos(x, ...)
   \code{keypos} returns the positions of the (fact table) elements that participate in their sorted unique subset (dimension table)
 }
 \details{
-  NAs are sorted first in the dimension table, see \code{\link{ramorder.integer64}}.
+  NAs are sorted first in the dimension table, see \code{\link[=ramorder.integer64]{ramorder.integer64()}}.
   \cr
   This function automatically chooses from several low-level functions considering the size of \code{x} and the availability of a cache.
   Suitable methods are \code{\link{sortorderkey}} (fast ordering)
@@ -39,7 +39,7 @@ keypos(x)
 stopifnot(identical(keypos(x),  match.integer64(x, sort(unique(x), na.last=FALSE))))
 }
 \seealso{
-  \code{\link{unique.integer64}} for the unique subset and \code{\link{match.integer64}} for finding positions in a different vector.
+  \code{\link[=unique.integer64]{unique.integer64()}} for the unique subset and \code{\link[=match.integer64]{match.integer64()}} for finding positions in a different vector.
 }
 \keyword{manip}
 \keyword{univar}

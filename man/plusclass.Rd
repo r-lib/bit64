@@ -28,7 +28,7 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   minusclass(c("inheritingclass","integer64"), "integer64")
 }
 \seealso{
-  \code{\link{oldClass}} \code{\link{integer64}}
+  \code{\link[=oldClass]{oldClass()}} \code{\link{integer64}}
 }
 \keyword{ classes }
 \keyword{ manip }

@@ -30,7 +30,7 @@
 \arguments{
   \item{x}{ an integer64 vector }
 
-  \item{...}{ further arguments to the \code{\link{NextMethod}} }
+  \item{...}{ further arguments to the \code{\link[=NextMethod]{NextMethod()}} }
 
   \item{keep.names}{ FALSE, set to TRUE to keep a names vector }
 }
@@ -41,8 +41,8 @@
 \description{
   Methods to coerce integer64 to other atomic types.
   'as.bitstring' coerces to a human-readable bit representation (strings of zeroes and ones).
-  The methods \code{\link{format}}, \code{\link{as.character}}, \code{\link{as.double}},
-  \code{\link{as.logical}}, \code{\link{as.integer}} do what you would expect.
+  The methods \code{\link[=format]{format()}}, \code{\link{as.character}}, \code{\link[=as.double]{as.double()}},
+  \code{\link[=as.logical]{as.logical()}}, \code{\link{as.integer}} do what you would expect.
 }
 \author{
 Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
@@ -54,6 +54,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
    -2,-1,NA,0:2
   )))
 }
-\seealso{ \code{\link{as.integer64.character}} \code{\link{integer64}}  }
+\seealso{ \code{\link[=as.integer64.character]{as.integer64.character()}} \code{\link{integer64}}  }
 \keyword{ classes }
 \keyword{ manip }

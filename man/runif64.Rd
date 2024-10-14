@@ -13,7 +13,7 @@
 
   \item{max}{ upper inclusive bound for random numbers }
 
-  \item{replace}{ set to FALSE for sampleing from a finite pool, see \code{\link{sample}} }
+  \item{replace}{ set to FALSE for sampleing from a finite pool, see \code{\link[=sample]{sample()}} }
 }
 \value{
   a integer64 vector
@@ -42,7 +42,7 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   table(runif64(16, 1, 16, replace=TRUE))
 }
 \seealso{
-  \code{\link{runif}}, \code{\link{hashfun}}
+  \code{\link[=runif]{runif()}}, \code{\link{hashfun}}
 }
 \keyword{ classes }
 \keyword{distribution}

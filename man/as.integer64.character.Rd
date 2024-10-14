@@ -36,7 +36,7 @@
 \arguments{
   \item{x}{ an atomic vector }
 
-  \item{...}{ further arguments to the \code{\link{NextMethod}} }
+  \item{...}{ further arguments to the \code{\link[=NextMethod]{NextMethod()}} }
 
   \item{keep.names}{ FALSE, set to TRUE to keep a names vector }
 }
@@ -79,6 +79,6 @@ as.integer64(
   ), class = "bitstring")
 )
 }
-\seealso{ \code{\link{as.character.integer64}} \code{\link{integer64}}  }
+\seealso{ \code{\link[=as.character.integer64]{as.character.integer64()}} \code{\link{integer64}}  }
 \keyword{ classes }
 \keyword{ manip }
