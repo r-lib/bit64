@@ -1231,7 +1231,6 @@ optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
 #'
 #' `match` returns a vector of the positions of (first) matches of its first
 #'   argument in its second.
-#'
 #' `%in%` is a more intuitive interface as a binary operator, which returns a
 #'   logical vector indicating if there is a match or not for its left operand.
 #'

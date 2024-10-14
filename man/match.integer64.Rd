@@ -46,11 +46,10 @@ each element of \code{x}: thus the values are \code{TRUE} or
 \description{
 \code{match} returns a vector of the positions of (first) matches of its first
 argument in its second.
-}
-\details{
 \code{\%in\%} is a more intuitive interface as a binary operator, which returns a
 logical vector indicating if there is a match or not for its left operand.
-
+}
+\details{
 These functions automatically choose from several low-level functions
 considering the size of \code{x} and \code{table} and the availability of caches.
 
