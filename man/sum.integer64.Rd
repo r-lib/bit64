@@ -1,12 +1,12 @@
 \name{sum.integer64}
-\alias{all.integer64}
+\alias{sum.integer64}
 \alias{any.integer64}
+\alias{all.integer64}
+\alias{prod.integer64}
 \alias{min.integer64}
 \alias{max.integer64}
 \alias{range.integer64}
 \alias{lim.integer64}
-\alias{sum.integer64}
-\alias{prod.integer64}
 \title{
    Summary functions for integer64 vectors
 }

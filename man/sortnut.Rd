@@ -5,10 +5,10 @@
 \alias{ordernut.integer64}
 \alias{sortfin}
 \alias{sortfin.integer64}
-\alias{orderpos}
-\alias{orderpos.integer64}
 \alias{orderfin}
 \alias{orderfin.integer64}
+\alias{orderpos}
+\alias{orderpos.integer64}
 \alias{sortorderpos}
 \alias{sortorderpos.integer64}
 \alias{orderdup}

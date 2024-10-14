@@ -1,9 +1,9 @@
 \name{cumsum.integer64}
+\alias{cumsum.integer64}
+\alias{diff.integer64}
 \alias{cummin.integer64}
 \alias{cummax.integer64}
-\alias{cumsum.integer64}
 \alias{cumprod.integer64}
-\alias{diff.integer64}
 \title{
    Cumulative Sums, Products, Extremes and lagged differences
 }

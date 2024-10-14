@@ -1,13 +1,12 @@
 \name{as.integer64.character}
-\alias{as.integer64}
-\alias{as.integer64.integer64}
-\alias{as.integer64.NULL}
-\alias{as.integer64.bitstring}
 \alias{as.integer64.character}
+\alias{as.integer64}
+\alias{as.integer64.NULL}
+\alias{as.integer64.integer64}
 \alias{as.integer64.double}
-\alias{as.integer64.integer}
 \alias{as.integer64.logical}
 \alias{as.integer64.factor}
+\alias{as.integer64.bitstring}
 \alias{NA_integer64_}
 \title{
    Coerce to integer64

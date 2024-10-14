@@ -12,8 +12,6 @@
 \alias{\%in\%.default}
 \alias{rank}
 \alias{rank.default}
-%\alias{table}
-%\alias{table.default}
 \alias{order}
 \alias{order.default}
 \title{
