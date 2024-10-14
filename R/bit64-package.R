@@ -900,5 +900,50 @@
 #' @importFrom methods as is
 #' @importFrom stats cor median quantile
 #' @importFrom utils packageDescription strOptions
+#' @export -.integer64 : :.default :.integer64 !.integer64 !=.integer64
+#' @export [.integer64 [[.integer64 [[<-.integer64 [<-.integer64 *.integer64
+#' @export /.integer64 &.integer64 %/%.integer64 %%.integer64 %in% %in%.default
+#' @export %in%.integer64 ^.integer64 +.integer64 <.integer64 <=.integer64
+#' @export ==.integer64 >.integer64 >=.integer64 |.integer64 abs.integer64
+#' @export all.equal.integer64 all.integer64 any.integer64 as.bitstring.integer64
+#' @export as.character.integer64 as.data.frame.integer64 as.double.integer64
+#' @export as.integer.integer64 as.integer64.bitstring as.integer64.character
+#' @export as.integer64.double as.integer64.factor as.integer64.integer
+#' @export as.integer64.integer64 as.integer64.logical as.integer64.NULL
+#' @export as.list.integer64 as.logical.integer64 c.integer64 cbind.integer64
+#' @export ceiling.integer64 cummax.integer64 cummin.integer64 cumprod.integer64
+#' @export cumsum.integer64 diff.integer64 duplicated.integer64 floor.integer64
+#' @export format.integer64 hashdup.cache_integer64 hashfin.cache_integer64
+#' @export hashfun.integer64 hashmap.integer64 hashmaptab.integer64
+#' @export hashmapuni.integer64 hashmapupo.integer64 hashpos.cache_integer64
+#' @export hashrev.cache_integer64 hashrin.cache_integer64
+#' @export hashtab.cache_integer64 hashuni.cache_integer64
+#' @export hashupo.cache_integer64 is.double is.double.default
+#' @export is.double.integer64 is.finite.integer64 is.infinite.integer64
+#' @export is.na.integer64 is.nan.integer64 is.sorted.integer64
+#' @export is.vector.integer64 keypos.integer64 length<-.integer64 log.integer64
+#' @export log10.integer64 log2.integer64 match match.default match.integer64
+#' @export max.integer64 mean.integer64 median.integer64 mergeorder.integer64
+#' @export mergesort.integer64 mergesortorder.integer64 min.integer64
+#' @export na.count.integer64 nties.integer64 nunique.integer64 nvalid.integer64
+#' @export order order.default order.integer64 orderdup.integer64
+#' @export orderfin.integer64 orderkey.integer64 ordernut.integer64
+#' @export orderpos.integer64 orderqtl.integer64 orderrnk.integer64
+#' @export ordertab.integer64 ordertie.integer64 orderuni.integer64
+#' @export orderupo.integer64 prank.integer64 print.bitstring print.cache
+#' @export print.integer64 prod.integer64 qtile.integer64 quantile.integer64
+#' @export quickorder.integer64 quicksort.integer64 quicksortorder.integer64
+#' @export radixorder.integer64 radixsort.integer64 radixsortorder.integer64
+#' @export ramorder.integer64 ramsort.integer64 ramsortorder.integer64
+#' @export range.integer64 rank rank.default rank.integer64 rbind.integer64
+#' @export rep.integer64 round.integer64 scale.integer64 seq.integer64
+#' @export shellorder.integer64 shellsort.integer64 shellsortorder.integer64
+#' @export sign.integer64 signif.integer64 sort.integer64 sortfin.integer64
+#' @export sortnut.integer64 sortorderdup.integer64 sortorderkey.integer64
+#' @export sortorderpos.integer64 sortorderrnk.integer64 sortordertab.integer64
+#' @export sortordertie.integer64 sortorderuni.integer64 sortorderupo.integer64
+#' @export sortqtl.integer64 sorttab.integer64 sortuni.integer64 sqrt.integer64
+#' @export str.integer64 sum.integer64 summary.integer64 tiepos.integer64
+#' @export trunc.integer64 unipos.integer64 unique.integer64 xor.integer64
 ## usethis namespace: end
 NULL
