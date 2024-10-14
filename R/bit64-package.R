@@ -887,6 +887,7 @@
 #'   }
 #' @aliases bit64 is.integer.integer64 is.vector.integer64
 #' @keywords internal package classes manip
+#' @useDynLib bit64, .registration = TRUE, .fixes = "C_"
 "_PACKAGE"
 
 ## usethis namespace: start
