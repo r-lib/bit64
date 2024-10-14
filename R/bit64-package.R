@@ -890,5 +890,14 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom bit clone is.sorted keyorder keysort keysortorder mergeorder
+#'   mergesort mergesortorder na.count nties nunique nvalid quickorder
+#'   quicksort quicksortorder radixorder radixsort radixsortorder ramorder
+#'   ramsort ramsortorder repeat.time setattr shellorder shellsort
+#'   shellsortorder xor
+#' @importFrom graphics barplot par title
+#' @importFrom methods as is
+#' @importFrom stats cor median quantile
+#' @importFrom utils packageDescription strOptions
 ## usethis namespace: end
 NULL
