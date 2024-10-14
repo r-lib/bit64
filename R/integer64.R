@@ -600,6 +600,7 @@ if (FALSE){
 # nocov end
 
 #' @rdname identical.integer64
+#' @exportS3Method identical integer64
 #' @export
 identical.integer64 <- function(x, y
 , num.eq = FALSE
@@ -1896,6 +1897,7 @@ xor.integer64 <- function(x, y){
 # }
 
 # bug in R does not dispatch
+#' @exportS3Method is.vector integer64
 is.vector.integer64 <- function(x, mode="any"){
   cl <- minusclass(oldClass(x), "integer64")
   a <- attributes(x)
