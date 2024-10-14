@@ -100,3 +100,41 @@ test_that("sorting methods work", {
   expect_identical(quantile(x), q)
   expect_identical(quantile(x, 0.2, names=FALSE), as.integer64(21L))
 })
+
+# These tests were previously kept as tests under \examples{\dontshow{...}}.
+#   Converted to "proper" unit tests for clarity, after making them more
+#   canonical within {testthat}, e.g. better capturing expected warnings,
+#   changing stopifnot(identical(...)) to expect_identical(...).
+test_that("Old \\dontshow{} tests continue working", {
+  xi = c(1L, 1L, 2L)
+  xi64 = as.integer64(xi)
+  yi = c(3L, 4L, 4L)
+  yi64 = as.integer64(yi)
+
+  t_xi = table(x=xi)
+  t_xi_yi = table(x=xi, y=yi)
+
+  expect_identical(table.integer64(x=xi64), t_xi)
+  expect_identical(table.integer64(x=xi64, y=yi64), t_xi_yi)
+
+  expect_warning(
+    expect_identical(table.integer64(x=xi), t_xi),
+    "coercing first argument to integer64",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_identical(table.integer64(x=xi64, y=yi), t_xi_yi),
+    "coercing argument 2 to integer64",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_identical(table.integer64(x=xi, y=yi64), t_xi_yi),
+    "coercing argument 1 to integer64",
+    fixed = TRUE
+  )
+
+  expect_identical(table(x=xi64), t_xi)
+  expect_identical(table(x=xi64, y=yi64), t_xi_yi)
+  expect_identical(table(x=xi64, y=yi), t_xi_yi)
+  expect_identical(table(x=xi, y=yi64), t_xi_yi)
+})

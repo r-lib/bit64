@@ -112,20 +112,6 @@ table.integer64(x, y, return="data.frame")
 
 message("via as.integer64.factor we can use 'table.integer64' also for factors")
 table.integer64(x, as.integer64(as.factor(z)))
-
-\dontshow{
- stopifnot(identical(table.integer64(as.integer64(c(1,1,2))), table(c(1,1,2))))
- stopifnot(identical(table.integer64(as.integer64(c(1,1,2)),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
- message("the following works with three warnings due to coercion")
- stopifnot(identical(table.integer64(c(1,1,2)), table(c(1,1,2))))
- stopifnot(identical(table.integer64(as.integer64(c(1,1,2)),c(3,4,4)), table(c(1,1,2),c(3,4,4))))
- stopifnot(identical(table.integer64(c(1,1,2),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
- message("the following works because of ?")
- stopifnot(identical(table(as.integer64(c(1,1,2))), table(c(1,1,2))))
- stopifnot(identical(table(as.integer64(c(1,1,2)),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
- stopifnot(identical(table(as.integer64(c(1,1,2)),c(3,4,4)), table(c(1,1,2),c(3,4,4))))
- stopifnot(identical(table(c(1,1,2),as.integer64(c(3,4,4))), table(c(1,1,2),c(3,4,4))))
-}
 }
 \seealso{
 \code{\link[=table]{table()}} for more info on the standard version coping with Base R's
