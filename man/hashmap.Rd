@@ -92,7 +92,7 @@ hashmaptab(x, ...)
 
   \item{nunique}{ giving \emph{correct} number of unique elements can help reducing the size of the hashmap }
 
-  \item{cache}{ an optional code{link[=cache]{cache()}} object into which to put the hashmap (by default a new cache is created)}
+  \item{cache}{ an optional \code{\link[=cache]{cache()}} object into which to put the hashmap (by default a new cache is created)}
 
   \item{nomatch}{ the value to be returned if an element is not found in the hashmap }
 
@@ -185,6 +185,6 @@ stopifnot(identical(hashtab(hy), hashmaptab(y)))
     message("we conclude that n*sqrt(2) is enough to avoid collisions")
     }
 }
-\seealso{ \code{\link[=match.integer64]{match}}, code{link[=runif64]{runif64()}} }
+\seealso{ \code{\link[=match.integer64]{match}}, \code{\link[=runif64]{runif64()}} }
 \keyword{ programming }
 \keyword{ manip }

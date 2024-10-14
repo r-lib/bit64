@@ -23,7 +23,7 @@ ordercache(x, has.na = NULL, stable = NULL, optimize = "time")
   \item{nunique}{ giving \emph{correct} number of unique elements can help reducing the size of the hashmap }
 
   \item{...}{
-        passed to code{link[=hashmap]{hashmap()}}
+        passed to \code{\link[=hashmap]{hashmap()}}
 }
 
   \item{has.na}{
@@ -41,13 +41,13 @@ set to 'memory' to minimize RAM requirements and sacrifice speed
 }
 }
 \value{
-    \code{x} with a code{link[=cache]{cache()}} that contains the result of the expensive operations, possible together with small derived information (such as code{link[=nunique.integer64]{nunique.integer64()}}) and previously cached results.
+    \code{x} with a \code{\link[=cache]{cache()}} that contains the result of the expensive operations, possible together with small derived information (such as \code{\link[=nunique.integer64]{nunique.integer64()}}) and previously cached results.
 }
 \description{
     Functions to create cache that accelerates many operations
 }
 \details{
-    The result of relative expensive operations code{link[=hashmap]{hashmap()}}, \code{\link[=ramsort.integer64]{ramsort}}, \code{\link[=ramsort.integer64]{ramsortorder}} and \code{\link[=ramsort.integer64]{ramorder}} can be stored in a cache in order to avoid multiple excutions. Unless in very specific situations, the recommended method is \code{hashsortorder} only.
+    The result of relative expensive operations \code{\link[=hashmap]{hashmap()}}, \code{\link[=ramsort.integer64]{ramsort}}, \code{\link[=ramsort.integer64]{ramsortorder}} and \code{\link[=ramsort.integer64]{ramorder}} can be stored in a cache in order to avoid multiple excutions. Unless in very specific situations, the recommended method is \code{hashsortorder} only.
 }
 \note{
   Note that we consider storing the big results from sorting and/or ordering as a relevant side-effect,
@@ -61,6 +61,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
  sortordercache(x)
 }
 \seealso{
-    code{link[=cache]{cache()}} for caching functions and code{link[=nunique.integer64]{nunique.integer64()}} for methods benefiting from small caches
+    \code{\link[=cache]{cache()}} for caching functions and \code{\link[=nunique.integer64]{nunique.integer64()}} for methods benefiting from small caches
 }
 \keyword{ environment }

@@ -11,11 +11,11 @@
 }
 \arguments{
   \item{x}{
-    integer64 vector: the values to be matched, optionally carrying a cache created with code{link[=hashcache]{hashcache()}}
+    integer64 vector: the values to be matched, optionally carrying a cache created with \code{\link[=hashcache]{hashcache()}}
 }
 
   \item{table}{
-    integer64 vector: the values to be matched against, optionally carrying a cache created with code{link[=hashcache]{hashcache()}} or code{link[=sortordercache]{sortordercache()}}
+    integer64 vector: the values to be matched against, optionally carrying a cache created with \code{\link[=hashcache]{hashcache()}} or \code{\link[=sortordercache]{sortordercache()}}
 }
 
   \item{nomatch}{
@@ -125,7 +125,7 @@ stopifnot(identical("\%in\%.integer64"(x, table), as.integer(x) \%in\% as.intege
 }
 }
 \seealso{
-    code{link[=match]{match()}}
+    \code{\link[=match]{match()}}
 }
 \keyword{manip}
 \keyword{logic}
