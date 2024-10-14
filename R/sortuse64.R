@@ -8,214 +8,71 @@
 # Last changed:  2011-12-11
 # */
 
-#! \name{sortnut}
-#! \alias{sortnut}
-#! \alias{sortnut.integer64}
-#! \alias{ordernut}
-#! \alias{ordernut.integer64}
-#! \alias{sortfin}
-#! \alias{sortfin.integer64}
-#! \alias{orderpos}
-#! \alias{orderpos.integer64}
-#! \alias{orderfin}
-#! \alias{orderfin.integer64}
-#! \alias{sortorderpos}
-#! \alias{sortorderpos.integer64}
-#! \alias{orderdup}
-#! \alias{orderdup.integer64}
-#! \alias{sortorderdup}
-#! \alias{sortorderdup.integer64}
-#! \alias{sortuni}
-#! \alias{sortuni.integer64}
-#! \alias{orderuni}
-#! \alias{orderuni.integer64}
-#! \alias{sortorderuni}
-#! \alias{sortorderuni.integer64}
-#! \alias{orderupo}
-#! \alias{orderupo.integer64}
-#! \alias{sortorderupo}
-#! \alias{sortorderupo.integer64}
-#! \alias{ordertie}
-#! \alias{ordertie.integer64}
-#! \alias{sortordertie}
-#! \alias{sortordertie.integer64}
-#! \alias{sorttab}
-#! \alias{sorttab.integer64}
-#! \alias{ordertab}
-#! \alias{ordertab.integer64}
-#! \alias{sortordertab}
-#! \alias{sortordertab.integer64}
-#! \alias{orderkey}
-#! \alias{orderkey.integer64}
-#! \alias{sortorderkey}
-#! \alias{sortorderkey.integer64}
-#! \alias{orderrnk}
-#! \alias{orderrnk.integer64}
-#! \alias{sortorderrnk}
-#! \alias{sortorderrnk.integer64}
-#! \alias{sortqtl}
-#! \alias{sortqtl.integer64}
-#! \alias{orderqtl}
-#! \alias{orderqtl.integer64}
-#! \title{
-#!    Searching and other uses of sorting for 64bit integers
-#! }
-#! \description{
-#!   This is roughly an implementation of hash functionality but based on sorting instead on a hasmap.
-#!   Since sorting is more informative than hashingwe can do some more interesting things.
-#! }
-#! \usage{
-#! sortnut(sorted, ...)
-#!
-#! ordernut(table, order, ...)
-#!
-#! sortfin(sorted, x, ...)
-#!
-#! orderfin(table, order, x, ...)
-#!
-#! orderpos(table, order, x, ...)
-#!
-#! sortorderpos(sorted, order, x, ...)
-#!
-#! orderdup(table, order, ...)
-#!
-#! sortorderdup(sorted, order, ...)
-#!
-#! sortuni(sorted, nunique, ...)
-#!
-#! orderuni(table, order, nunique, ...)
-#!
-#! sortorderuni(table, sorted, order, nunique, ...)
-#!
-#! orderupo(table, order, nunique, ...)
-#!
-#! sortorderupo(sorted, order, nunique, keep.order = FALSE, ...)
-#!
-#! ordertie(table, order, nties, ...)
-#!
-#! sortordertie(sorted, order, nties, ...)
-#!
-#! sorttab(sorted, nunique, ...)
-#!
-#! ordertab(table, order, nunique, ...)
-#!
-#! sortordertab(sorted, order, ...)
-#!
-#! orderkey(table, order, na.skip.num = 0L, ...)
-#!
-#! sortorderkey(sorted, order, na.skip.num = 0L, ...)
-#!
-#! orderrnk(table, order, na.count, ...)
-#!
-#! sortorderrnk(sorted, order, na.count, ...)
-#!
-#! \method{sortnut}{integer64}(sorted, ...)
-#!
-#! \method{ordernut}{integer64}(table, order, ...)
-#!
-#! \method{sortfin}{integer64}(sorted, x, method=NULL, ...)
-#!
-#! \method{orderfin}{integer64}(table, order, x, method=NULL, ...)
-#!
-#! \method{orderpos}{integer64}(table, order, x, nomatch=NA, method=NULL, ...)
-#!
-#! \method{sortorderpos}{integer64}(sorted, order, x, nomatch=NA, method=NULL, ...)
-#!
-#! \method{orderdup}{integer64}(table, order, method=NULL, ...)
-#!
-#! \method{sortorderdup}{integer64}(sorted, order, method=NULL, ...)
-#!
-#! \method{sortuni}{integer64}(sorted, nunique, ...)
-#!
-#! \method{orderuni}{integer64}(table, order, nunique, keep.order=FALSE, ...)
-#!
-#! \method{sortorderuni}{integer64}(table, sorted, order, nunique, ...)
-#!
-#! \method{orderupo}{integer64}(table, order, nunique, keep.order=FALSE, ...)
-#!
-#! \method{sortorderupo}{integer64}(sorted, order, nunique, keep.order = FALSE, ...)
-#!
-#! \method{ordertie}{integer64}(table, order, nties, ...)
-#!
-#! \method{sortordertie}{integer64}(sorted, order, nties, ...)
-#!
-#! \method{sorttab}{integer64}(sorted, nunique, ...)
-#!
-#! \method{ordertab}{integer64}(table, order, nunique, denormalize=FALSE, keep.order=FALSE, ...)
-#!
-#! \method{sortordertab}{integer64}(sorted, order, denormalize=FALSE, ...)
-#!
-#! \method{orderkey}{integer64}(table, order, na.skip.num = 0L, ...)
-#!
-#! \method{sortorderkey}{integer64}(sorted, order, na.skip.num = 0L, ...)
-#!
-#! \method{orderrnk}{integer64}(table, order, na.count, ...)
-#!
-#! \method{sortorderrnk}{integer64}(sorted, order, na.count, ...)
-#!
-#! \method{sortqtl}{integer64}(sorted, na.count, probs, ...)
-#!
-#! \method{orderqtl}{integer64}(table, order, na.count, probs, ...)
-#! }
-#! \arguments{
-#!   \item{x}{ an \code{\link{integer64}} vector }
-#!   \item{sorted}{ a sorted \code{\link{integer64}} vector }
-#!   \item{table}{ the original data with original order under the sorted vector }
-#!   \item{order}{ an \code{\link{integer}} order vector that turns 'table' into 'sorted' }
-#!   \item{nunique}{ number of unique elements, usually we get this from cache or call \code{sortnut} or \code{ordernut} }
-#!   \item{nties}{ number of tied values, usually we get this from cache or call \code{sortnut} or \code{ordernut} }
-#!   \item{denormalize}{ FALSE returns counts of unique values, TRUE returns each value with its counts }
-#!   \item{nomatch}{ the value to be returned if an element is not found in the hashmap }
-#!   \item{keep.order}{ determines order of results and speed: \code{FALSE} (the default) is faster and returns in sorted order, \code{TRUE} returns in the order of first appearance in the original data, but this requires extra work }
-#!   \item{probs}{ vector of probabilities in [0..1] for which we seek quantiles }
-#!   \item{na.skip.num}{ 0 or the number of \code{NA}s. With 0, \code{NA}s are coded with 1L, with the number of \code{NA}s, these are coded with \code{NA} }
-#!   \item{na.count}{ the number of \code{NA}s, needed for this low-level function algorithm }
-#!   \item{method}{ see details }
-#!   \item{...}{ further arguments, passed from generics, ignored in methods }
-#! }
-#! \details{
-#! \tabular{rrrrl}{
-#!    \bold{sortfun} \tab \bold{orderfun} \tab \bold{sortorderfun} \tab \bold{see also}          \tab \bold{description} \cr
-#!    \code{sortnut} \tab \code{ordernut} \tab                     \tab  \tab return number of tied and of unique values \cr
-#!    \code{sortfin} \tab \code{orderfin} \tab                     \tab \code{\link{\%in\%.integer64}} \tab return logical whether \code{x} is in \code{table} \cr
-#!                   \tab \code{orderpos} \tab \code{sortorderpos} \tab \code{\link[=match.integer64]{match}} \tab return positions of \code{x} in \code{table} \cr
-#!                   \tab \code{orderdup} \tab \code{sortorderdup} \tab \code{\link[=duplicated.integer64]{duplicated}} \tab return logical whether values are duplicated \cr
-#!    \code{sortuni} \tab \code{orderuni} \tab \code{sortorderuni} \tab \code{\link[=unique.integer64]{unique}} \tab return unique values (=dimensiontable) \cr
-#!                   \tab \code{orderupo} \tab \code{sortorderupo} \tab \code{\link[=unique.integer64]{unique}} \tab return positions of unique values \cr
-#!                   \tab \code{ordertie} \tab \code{sortordertie} \tab  \tab return positions of tied values \cr
-#!                   \tab \code{orderkey} \tab \code{sortorderkey} \tab  \tab positions of values in vector of unique values (match in dimensiontable) \cr
-#!    \code{sorttab} \tab \code{ordertab} \tab \code{sortordertab} \tab \code{\link[=table.integer64]{table}} \tab tabulate frequency of values  \cr
-#!                   \tab \code{orderrnk} \tab \code{sortorderrnk} \tab  \tab rank averaging ties \cr
-#!    \code{sortqtl} \tab \code{orderqtl} \tab                     \tab  \tab return quantiles given probabilities \cr
-#! }
-#! The functions \code{sortfin}, \code{orderfin}, \code{orderpos} and \code{sortorderpos} each offer three algorithms for finding \code{x} in \code{table}.  \cr
-#! With \code{method=1L} each value of \code{x} is searched independently using \emph{binary search}, this is fastest for small \code{table}s. \cr
-#! With \code{method=2L} the values of \code{x} are first sorted and then searched using \emph{doubly exponential search}, this is the best allround method. \cr
-#! With \code{method=3L} the values of \code{x} are first sorted and then searched using simple merging, this is the fastest method if \code{table} is huge and \code{x} has similar size and distribution of values. \cr
-#! With \code{method=NULL} the functions use a heuristic to determine the fastest algorithm. \cr
-#!
-#! The functions \code{orderdup} and \code{sortorderdup} each offer two algorithms for setting the truth values in the return vector.  \cr
-#! With \code{method=1L} the return values are set directly which causes random write access on a possibly large return vector. \cr
-#! With \code{method=2L} the return values are first set in a smaller bit-vector -- random access limited to a smaller memory region -- and finally written sequentially to the logical output  vector. \cr
-#! With \code{method=NULL} the functions use a heuristic to determine the fastest algorithm. \cr
-#! }
-#! \value{
-#!   see details
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \keyword{ programming }
-#! \keyword{ manip }
-#! \seealso{ \code{\link[=match.integer64]{match}} }
-#! \examples{
-#!  message("check the code of 'optimizer64' for examples:")
-#!  print(optimizer64)
-#! }
-
-
-
-sortnut <- function(sorted, ...)UseMethod("sortnut")
+#' Searching and other uses of sorting for 64bit integers
+#'
+#' This is roughly an implementation of hash functionality but based on sorting
+#'   instead on a hashmap. Since sorting is more informative than hashing we
+#'   can do some more interesting things.
+#'
+#' @param sorted a sorted [`integer64`] vector
+#' @param ... further arguments, passed from generics, ignored in methods
+#' @param method see Details
+#'
+#' @details
+#'
+#' | **sortfun** | **orderfun** | **sortorderfun** | **see also**       | **description** |
+#' |------------:|-------------:|-----------------:|-------------------:|:----------------|
+#' |   `sortnut` |   `ordernut` |                  |                    | return number of tied and of unique values |
+#' |   `sortfin` |   `orderfin` |                  | [`%in%.integer64`] | return logical whether `x` is in `table` |
+#' |             |   `orderpos` |   `sortorderpos` | [`match()`][match.integer64] | return positions of `x` in `table` |
+#' |             |   `orderdup` |   `sortorderdup` | [`duplicated()`][duplicated.integer64] | return logical whether values are duplicated |
+#' |   `sortuni` |   `orderuni` |   `sortorderuni` | [`unique()`][unique.integer64] | return unique values (=dimensiontable) |
+#' |             |   `orderupo` |   `sortorderupo` | [`unique()`][unique.integer64] | return positions of unique values |
+#' |             |   `ordertie` |   `sortordertie` |                    | return positions of tied values |
+#' |             |   `orderkey` |   `sortorderkey` |                    | positions of values in vector of unique values (match in dimensiontable) |
+#' |   `sorttab` |   `ordertab` |   `sortordertab` | [`table()`][table.integer64] | tabulate frequency of values  |
+#' |             |   `orderrnk` |   `sortorderrnk` |                    | rank averaging ties |
+#' |   `sortqtl` |   `orderqtl` |                  |                    | return quantiles given probabilities |
+#'
+#' The functions `sortfin`, `orderfin`, `orderpos` and `sortorderpos` each
+#'   offer three algorithms for finding `x` in `table`.
+#'
+#' With `method=1L` each value of `x` is searched independently using
+#'   _binary search_, this is fastest for small `table`s.
+#'
+#' With `method=2L` the values of `x` are first sorted and then searched using
+#'   _doubly exponential search_, this is the best allround method.
+#'
+#' With `method=3L` the values of `x` are first sorted and then searched using
+#'   simple merging, this is the fastest method if `table` is huge and `x` has
+#'   similar size and distribution of values.
+#'
+#' With `method=NULL` the functions use a heuristic to determine the fastest
+#'   algorithm.
+#'
+#' The functions `orderdup` and `sortorderdup` each offer two algorithms for
+#'   setting the truth values in the return vector.
+#'
+#' With `method=1L` the return values are set directly which causes random
+#'   write access on a possibly large return vector.
+#'
+#' With `method=2L` the return values are first set in a smaller bit-vector --
+#'   random access limited to a smaller memory region -- and finally written
+#'   sequentially to the logical output  vector.
+#'
+#' With `method=NULL` the functions use a heuristic to determine the fastest
+#'   algorithm.
+#'
+#' @return see details
+#' @keywords programming manip
+#' @seealso [`match()`][match.integer64]
+#' @examples
+#'  message("check the code of 'optimizer64' for examples:")
+#'  print(optimizer64)
+#' @export
+sortnut <- function(sorted, ...) UseMethod("sortnut")
+#' @rdname sortnut
+#' @export
 sortnut.integer64 <- function(sorted, ...)
 {
   ret <- .Call(C_r_ram_integer64_sortnut, x = sorted, PACKAGE = "bit64")
@@ -223,7 +80,13 @@ sortnut.integer64 <- function(sorted, ...)
   ret
 }
 
-ordernut <- function(table, order, ...)UseMethod("ordernut")
+#' @rdname sortnut
+#' @param table the original data with original order under the sorted vector
+#' @param order an [`integer`] order vector that turns 'table' into 'sorted'
+#' @export
+ordernut <- function(table, order, ...) UseMethod("ordernut")
+#' @rdname sortnut
+#' @export
 ordernut.integer64 <- function(table, order, ...)
 {
   ret <- .Call(C_r_ram_integer64_ordernut, table = as.integer64(table), order = as.integer(order), PACKAGE = "bit64")
@@ -231,7 +94,12 @@ ordernut.integer64 <- function(table, order, ...)
   ret
 }
 
-sortfin <- function(sorted, x, ...)UseMethod("sortfin")
+#' @rdname sortnut
+#' @param x an [`integer64`] vector
+#' @export
+sortfin <- function(sorted, x, ...) UseMethod("sortfin")
+#' @rdname sortnut
+#' @export
 sortfin.integer64 <- function(sorted, x, method=NULL, ...)
 {
   n <- length(x)
@@ -266,7 +134,11 @@ sortfin.integer64 <- function(sorted, x, method=NULL, ...)
   }
 }
 
-orderfin <- function(table, order, x, ...)UseMethod("orderfin")
+#' @rdname sortnut
+#' @export
+orderfin <- function(table, order, x, ...) UseMethod("orderfin")
+#' @rdname sortnut
+#' @export
 orderfin.integer64 <- function(table, order, x, method=NULL, ...)
 {
   n <- length(x)
@@ -303,8 +175,12 @@ orderfin.integer64 <- function(table, order, x, method=NULL, ...)
   }
 }
 
-
-orderpos <- function(table, order, x, ...)UseMethod("orderpos")
+#' @rdname sortnut
+#' @export
+orderpos <- function(table, order, x, ...) UseMethod("orderpos")
+#' @rdname sortnut
+#' @param nomatch the value to be returned if an element is not found in the hashmap
+#' @export
 orderpos.integer64 <- function(table, order, x, nomatch=NA, method=NULL, ...)
 {
   n <- length(x)
@@ -343,7 +219,11 @@ orderpos.integer64 <- function(table, order, x, nomatch=NA, method=NULL, ...)
   }
 }
 
-sortorderpos <- function(sorted, order, x, ...)UseMethod("sortorderpos")
+#' @rdname sortnut
+#' @export
+sortorderpos <- function(sorted, order, x, ...) UseMethod("sortorderpos")
+#' @rdname sortnut
+#' @export
 sortorderpos.integer64 <- function(sorted, order, x, nomatch=NA, method=NULL, ...)
 {
   n <- length(x)
@@ -382,9 +262,11 @@ sortorderpos.integer64 <- function(sorted, order, x, nomatch=NA, method=NULL, ..
   }
 }
 
-
-
-orderdup <- function(table, order, ...)UseMethod("orderdup")
+#' @rdname sortnut
+#' @export
+orderdup <- function(table, order, ...) UseMethod("orderdup")
+#' @rdname sortnut
+#' @export
 orderdup.integer64 <- function(table, order, method=NULL, ...)
 {
   if (is.null(method)){
@@ -402,8 +284,11 @@ orderdup.integer64 <- function(table, order, method=NULL, ...)
   )
 }
 
-
-sortorderdup <- function(sorted, order, ...)UseMethod("sortorderdup")
+#' @rdname sortnut
+#' @export
+sortorderdup <- function(sorted, order, ...) UseMethod("sortorderdup")
+#' @rdname sortnut
+#' @export
 sortorderdup.integer64 <- function(sorted, order, method=NULL, ...)
 {
   if (is.null(method)){
@@ -421,8 +306,13 @@ sortorderdup.integer64 <- function(sorted, order, method=NULL, ...)
   )
 }
 
-
-sortuni <- function(sorted, nunique, ...)UseMethod("sortuni")
+#' @rdname sortnut
+#' @param nunique number of unique elements, usually we get this from cache
+#'   or call `sortnut` or `ordernut`
+#' @export
+sortuni <- function(sorted, nunique, ...) UseMethod("sortuni")
+#' @rdname sortnut
+#' @export
 sortuni.integer64 <- function(sorted, nunique, ...)
 {
   .Call(C_r_ram_integer64_sortuni_asc
@@ -432,7 +322,14 @@ sortuni.integer64 <- function(sorted, nunique, ...)
   )
 }
 
-orderuni <- function(table, order, nunique, ...)UseMethod("orderuni")
+#' @rdname sortnut
+#' @export
+orderuni <- function(table, order, nunique, ...) UseMethod("orderuni")
+#' @rdname sortnut
+#' @param keep.order determines order of results and speed: `FALSE` (the default)
+#'   is faster and returns in sorted order, `TRUE` returns in the order of first
+#'   appearance in the original data, but this requires extra work
+#' @export
 orderuni.integer64 <- function(table, order, nunique, keep.order=FALSE, ...)
 {
   .Call(C_r_ram_integer64_orderuni_asc
@@ -444,7 +341,11 @@ orderuni.integer64 <- function(table, order, nunique, keep.order=FALSE, ...)
   )
 }
 
-sortorderuni <- function(table, sorted, order, nunique, ...)UseMethod("sortorderuni")
+#' @rdname sortnut
+#' @export
+sortorderuni <- function(table, sorted, order, nunique, ...) UseMethod("sortorderuni")
+#' @rdname sortnut
+#' @export
 sortorderuni.integer64 <- function(table, sorted, order, nunique, ...)
 {
   .Call(C_r_ram_integer64_sortorderuni_asc
@@ -456,7 +357,11 @@ sortorderuni.integer64 <- function(table, sorted, order, nunique, ...)
   )
 }
 
-orderupo <- function(table, order, nunique, ...)UseMethod("orderupo")
+#' @rdname sortnut
+#' @export
+orderupo <- function(table, order, nunique, ...) UseMethod("orderupo")
+#' @rdname sortnut
+#' @export
 orderupo.integer64 <- function(table, order, nunique, keep.order=FALSE, ...)
 {
     .Call(C_r_ram_integer64_orderupo_asc
@@ -468,7 +373,11 @@ orderupo.integer64 <- function(table, order, nunique, keep.order=FALSE, ...)
     )
 }
 
-sortorderupo <- function(sorted, order, nunique, keep.order=FALSE, ...)UseMethod("sortorderupo")
+#' @rdname sortnut
+#' @export
+sortorderupo <- function(sorted, order, nunique, keep.order=FALSE, ...) UseMethod("sortorderupo")
+#' @rdname sortnut
+#' @export
 sortorderupo.integer64 <- function(sorted, order, nunique, keep.order=FALSE, ...)
 {
   .Call(C_r_ram_integer64_sortorderupo_asc
@@ -480,8 +389,13 @@ sortorderupo.integer64 <- function(sorted, order, nunique, keep.order=FALSE, ...
     )
 }
 
-
-ordertie <- function(table, order, nties, ...)UseMethod("ordertie")
+#' @rdname sortnut
+#' @param nties number of tied values, usually we get this from cache or
+#'   call `sortnut` or `ordernut`
+#' @export
+ordertie <- function(table, order, nties, ...) UseMethod("ordertie")
+#' @rdname sortnut
+#' @export
 ordertie.integer64 <- function(table, order, nties, ...)
 {
   .Call(C_r_ram_integer64_ordertie_asc
@@ -492,7 +406,11 @@ ordertie.integer64 <- function(table, order, nties, ...)
   )
 }
 
-sortordertie <- function(sorted, order, nties, ...)UseMethod("sortordertie")
+#' @rdname sortnut
+#' @export
+sortordertie <- function(sorted, order, nties, ...) UseMethod("sortordertie")
+#' @rdname sortnut
+#' @export
 sortordertie.integer64 <- function(sorted, order, nties, ...)
 {
   .Call(C_r_ram_integer64_sortordertie_asc
@@ -503,8 +421,11 @@ sortordertie.integer64 <- function(sorted, order, nties, ...)
   )
 }
 
-
-sorttab <- function(sorted, nunique, ...)UseMethod("sorttab")
+#' @rdname sortnut
+#' @export
+sorttab <- function(sorted, nunique, ...) UseMethod("sorttab")
+#' @rdname sortnut
+#' @export
 sorttab.integer64 <- function(sorted, nunique, ...)
 {
   .Call(C_r_ram_integer64_sorttab_asc
@@ -514,7 +435,13 @@ sorttab.integer64 <- function(sorted, nunique, ...)
   )
 }
 
-ordertab <- function(table, order, nunique, ...)UseMethod("ordertab")
+#' @rdname sortnut
+#' @export
+ordertab <- function(table, order, nunique, ...) UseMethod("ordertab")
+#' @rdname sortnut
+#' @param denormalize FALSE returns counts of unique values, TRUE returns each
+#'   value with its counts
+#' @export
 ordertab.integer64 <- function(table, order, nunique, denormalize=FALSE, keep.order=FALSE, ...)
 {
   denormalize <- as.logical(denormalize)
@@ -529,7 +456,11 @@ ordertab.integer64 <- function(table, order, nunique, denormalize=FALSE, keep.or
   )
 }
 
-sortordertab <- function(sorted, order, ...)UseMethod("sortordertab")
+#' @rdname sortnut
+#' @export
+sortordertab <- function(sorted, order, ...) UseMethod("sortordertab")
+#' @rdname sortnut
+#' @export
 sortordertab.integer64 <- function(sorted, order, denormalize=FALSE, ...)
 {
   .Call(C_r_ram_integer64_sortordertab_asc
@@ -541,7 +472,13 @@ sortordertab.integer64 <- function(sorted, order, denormalize=FALSE, ...)
   )
 }
 
-orderkey <- function(table, order, na.skip.num=0L, ...)UseMethod("orderkey")
+#' @rdname sortnut
+#' @param na.skip.num 0 or the number of `NA`s. With 0, `NA`s are coded with 1L,
+#'   with the number of `NA`s, these are coded with `NA`
+#' @export
+orderkey <- function(table, order, na.skip.num=0L, ...) UseMethod("orderkey")
+#' @rdname sortnut
+#' @export
 orderkey.integer64 <- function(table, order, na.skip.num=0L, ...)
 {
     .Call(C_r_ram_integer64_orderkey_asc
@@ -553,7 +490,11 @@ orderkey.integer64 <- function(table, order, na.skip.num=0L, ...)
     )
 }
 
-sortorderkey <- function(sorted, order, na.skip.num=0L, ...)UseMethod("sortorderkey")
+#' @rdname sortnut
+#' @export
+sortorderkey <- function(sorted, order, na.skip.num=0L, ...) UseMethod("sortorderkey")
+#' @rdname sortnut
+#' @export
 sortorderkey.integer64 <- function(sorted, order, na.skip.num=0L, ...)
 {
     .Call(C_r_ram_integer64_sortorderkey_asc
@@ -565,8 +506,12 @@ sortorderkey.integer64 <- function(sorted, order, na.skip.num=0L, ...)
     )
 }
 
-
-orderrnk <- function(table, order, na.count, ...)UseMethod("orderrnk")
+#' @rdname sortnut
+#' @param na.count the number of `NA`s, needed for this low-level function algorithm
+#' @export
+orderrnk <- function(table, order, na.count, ...) UseMethod("orderrnk")
+#' @rdname sortnut
+#' @export
 orderrnk.integer64 <- function(table, order, na.count, ...)
 {
   .Call(C_r_ram_integer64_orderrnk_asc
@@ -578,7 +523,11 @@ orderrnk.integer64 <- function(table, order, na.count, ...)
   )
 }
 
-sortorderrnk <- function(sorted, order, na.count, ...)UseMethod("sortorderrnk")
+#' @rdname sortnut
+#' @export
+sortorderrnk <- function(sorted, order, na.count, ...) UseMethod("sortorderrnk")
+#' @rdname sortnut
+#' @export
 sortorderrnk.integer64 <- function(sorted, order, na.count, ...)
 {
   .Call(C_r_ram_integer64_sortorderrnk_asc
@@ -590,8 +539,12 @@ sortorderrnk.integer64 <- function(sorted, order, na.count, ...)
   )
 }
 
-
-sortqtl <- function(sorted, na.count, probs, ...)UseMethod("sortqtl")
+#' @rdname sortnut
+#' @param probs vector of probabilities in `[0..1]` for which we seek quantiles
+#' @export
+sortqtl <- function(sorted, na.count, probs, ...) UseMethod("sortqtl")
+#' @rdname sortnut
+#' @export
 sortqtl.integer64 <- function(sorted, na.count, probs, ...){
     n <- length(sorted) - na.count  # nvalid
     ret <- sorted[na.count + round(1L + probs*(n-1L))]
@@ -599,7 +552,11 @@ sortqtl.integer64 <- function(sorted, na.count, probs, ...){
     ret
 }
 
-orderqtl <- function(table, order, na.count, probs, ...)UseMethod("orderqtl")
+#' @rdname sortnut
+#' @export
+orderqtl <- function(table, order, na.count, probs, ...) UseMethod("orderqtl")
+#' @rdname sortnut
+#' @export
 orderqtl.integer64 <- function(table, order, na.count, probs, ...){
     n <- length(table) - na.count  # nvalid
     ret <- table[ order[na.count + round(1L + probs*(n-1L))] ]

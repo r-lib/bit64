@@ -8,105 +8,65 @@
 # Last changed:  2011-12-11
 # */
 
-#! \name{cache}
-#! \alias{cache}
-#! \alias{newcache}
-#! \alias{jamcache}
-#! \alias{setcache}
-#! \alias{getcache}
-#! \alias{remcache}
-#! \alias{print.cache}
-#! \title{
-#!     Atomic Caching
-#! }
-#! \description{
-#!     Functions for caching results attached to atomic objects
-#! }
-#! \usage{
-#! newcache(x)
-#!
-#! jamcache(x)
-#!
-#! cache(x)
-#!
-#! setcache(x, which, value)
-#!
-#! getcache(x, which)
-#!
-#! remcache(x)
-#!
-#! \method{print}{cache}(x, all.names = FALSE, pattern, ...)
-#! }
-#! \arguments{
-#!   \item{x}{
-#!   an integer64 vector (or a cache object in case of \code{print.cache})
-#! }
-#!   \item{which}{
-#!   A character naming the object to be retrieved from the cache or to be stored in the cache
-#! }
-#!   \item{value}{
-#!   An object to be stored in the cache
-#! }
-#!   \item{all.names}{
-#!   passed to \code{\link{ls}} when listing the cache content
-#! }
-#!   \item{pattern}{
-#!   passed to \code{\link{ls}} when listing the cache content
-#! }
-#!   \item{...}{
-#!     ignored
-#! }
-#! }
-#! \details{
-#!     A \code{cache} is an \code{link{environment}} attached to an atomic object with the \code{link{attrib}} name 'cache'.
-#!     It contains at least a reference to the atomic object that carries the cache.
-#!     This is used when accessing the cache to detect whether the object carrying the cache has been modified meanwhile.
-#!     Function \code{newcache(x)} creates a new cache referencing  \code{x} \cr
-#!     Function \code{jamcache(x)} forces \code{x} to have a cache \cr
-#!     Function \code{cache(x)} returns the cache attached to \code{x} if it is not found to be outdated \cr
-#!     Function \code{setcache(x, which, value)} assigns a value into the cache of \code{x} \cr
-#!     Function \code{getcache(x, which)} gets cache value 'which' from \code{x} \cr
-#!     Function \code{remcache} removes the cache from \code{x} \cr
-#! }
-#! \value{
-#!     see details
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \seealso{
-#!  \code{\link[bit]{still.identical}} for testing whether to symbols point to the same RAM. \cr
-#!     Functions that get and set small cache-content automatically when a cache is present: \code{\link[bit:Metadata]{na.count}}, \code{\link[bit:Metadata]{nvalid}}, \code{\link[bit:Metadata]{is.sorted}}, \code{\link[bit:Metadata]{nunique}} and \code{\link[bit:Metadata]{nties}} \cr
-#!     Setting big caches with a relevant memory footprint requires a conscious decision of the user: \code{\link{hashcache}}, \code{\link{sortcache}}, \code{\link{ordercache}} and \code{\link{sortordercache}} \cr
-#!     Functions that use big caches: \code{\link{match.integer64}}, \code{\link{\%in\%.integer64}}, \code{\link{duplicated.integer64}}, \code{\link{unique.integer64}}, \code{\link{unipos}}, \code{\link{table.integer64}}, \code{\link{keypos}}, \code{\link{tiepos}}, \code{\link{rank.integer64}}, \code{\link{prank}}, \code{\link{qtile}}, \code{\link{quantile.integer64}}, \code{\link{median.integer64}} and \code{\link{summary.integer64}} \cr
-#! }
-#! \examples{
-#!     x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#!     y <- x
-#!     still.identical(x,y)
-#!     y[1] <- NA
-#!     still.identical(x,y)
-#!     mycache <- newcache(x)
-#!     ls(mycache)
-#!     mycache
-#!     rm(mycache)
-#!     jamcache(x)
-#!     cache(x)
-#!     x[1] <- NA
-#!     cache(x)
-#!     getcache(x, "abc")
-#!     setcache(x, "abc", 1)
-#!     getcache(x, "abc")
-#!     remcache(x)
-#!     cache(x)
-#! }
-#! \keyword{ environment }
+#' Atomic Caching
+#'
+#' Functions for caching results attached to atomic objects
+#'
+#' @param x an integer64 vector (or a cache object in case of `print.cache`)
+#'
+#' @details
+#' A `cache` is an [`environment`] attached to an atomic object with the
+#'   [`attribute`][attr] name 'cache'. It contains at least a reference to the
+#'   atomic object that carries the cache. This is used when accessing
+#'   the cache to detect whether the object carrying the cache has been
+#'   modified meanwhile.
+#'
+#' @return See details
+#' @seealso
+#'   [bit::still.identical()] for testing whether to symbols point to the same RAM.
+#'
+#' Functions that get and set small cache-content automatically when a cache is present:
+#'   [bit::na.count()], [bit::nvalid()], [bit::is.sorted()], [bit::nunique()] and
+#'   [bit::nties()]
+#'
+#' Setting big caches with a relevant memory footprint requires a conscious decision
+#'   of the user: [`hashcache`], [`sortcache`], [`ordercache`], [`sortordercache`]
+#'
+#' Functions that use big caches: [match.integer64()], [`%in%.integer64`],
+#'   [duplicated.integer64()], [unique.integer64()], [unipos()], [table.integer64()],
+#'   [keypos()], [tiepos()], [rank.integer64()], [prank()], [qtile()],
+#'   [quantile.integer64()], [median.integer64()], and [summary.integer64()]
+#'
+#' @examples
+#'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#'   y <- x
+#'   still.identical(x,y)
+#'   y[1] <- NA
+#'   still.identical(x,y)
+#'   mycache <- newcache(x)
+#'   ls(mycache)
+#'   mycache
+#'   rm(mycache)
+#'   jamcache(x)
+#'   cache(x)
+#'   x[1] <- NA
+#'   cache(x)
+#'   getcache(x, "abc")
+#'   setcache(x, "abc", 1)
+#'   getcache(x, "abc")
+#'   remcache(x)
+#'   cache(x)
+#' @keywords environment
+#' @name cache
+NULL
 
 #still.identical <- function(x, y){
 #  .Call(C_r_ram_truly_identical, x = x, y = y, PACKAGE = "bit64")
 #}
 
-newcache <- function(x){
+#' @describeIn cache creates a new cache referencing  `x`
+#' @export
+newcache <- function(x) {
     env <- new.env()
     vmode <- typeof(x)
     if (vmode=="double" && is.integer64(x))
@@ -116,7 +76,9 @@ newcache <- function(x){
     env
 }
 
-jamcache <- function(x){
+#' @describeIn cache forces `x` to have a cache
+#' @export
+jamcache <- function(x) {
     cache <- attr(x, "cache")
     if (is.null(cache)){
         cache <- newcache(x)
@@ -130,7 +92,10 @@ jamcache <- function(x){
     cache
 }
 
-cache <- function(x){
+#' @describeIn cache returns the cache attached to `x` if it is not
+#'   found to be outdated
+#' @export
+cache <- function(x) {
     cache <- attr(x, "cache")
     if (is.null(cache) || bit::still.identical(x, get("x", envir=cache, inherits=FALSE)))
         cache
@@ -141,12 +106,18 @@ cache <- function(x){
     }
 }
 
-setcache <- function(x, which, value){
+#' @describeIn cache assigns a value into the cache of `x`
+#' @param which A character naming the object to be retrieved from the cache or to be stored in the cache
+#' @param value An object to be stored in the cache
+#' @export
+setcache <- function(x, which, value) {
       env <- jamcache(x)
       assign(which, value, envir=env)
       env
 }
 
+#' @describeIn cache gets cache value 'which' from `x`
+#' @export
 getcache <- function(x, which){
     cache <- attr(x, "cache")
     if (is.null(cache))
@@ -163,80 +134,57 @@ getcache <- function(x, which){
     }
 }
 
-remcache <- function(x){
+#' @describeIn cache removes the cache from `x`
+#' @export
+remcache <- function(x) {
         setattr(x, "cache", NULL)
     invisible()
 }
 
+#' @rdname cache
+#' @param all.names,pattern passed to [ls()] when listing the cache content
+#' @param ... ignored
+#' @export
 print.cache<- function(x, all.names=FALSE, pattern, ...){
   l <- ls(x, all.names, pattern=pattern)
   cat(class(x)[1L], ": ", paste(l, collapse=" - "), "\n", sep="")
   invisible(l)
 }
 
-
-#! \name{hashcache}
-#! \alias{hashcache}
-#! \alias{sortcache}
-#! \alias{sortordercache}
-#! \alias{ordercache}
-#! \title{
-#!         Big caching of hashing, sorting, ordering
-#! }
-#! \description{
-#!     Functions to create cache that accelerates many operations
-#! }
-#! \usage{
-#! hashcache(x, nunique=NULL, ...)
-#!
-#! sortcache(x, has.na = NULL)
-#!
-#! sortordercache(x, has.na = NULL, stable = NULL)
-#!
-#! ordercache(x, has.na = NULL, stable = NULL, optimize = "time")
-#! }
-#! \arguments{
-#!   \item{x}{
-#!         an atomic vector (note that currently only integer64 is supported)
-#! }
-#!   \item{nunique}{ giving \emph{correct} number of unique elements can help reducing the size of the hashmap }
-#!   \item{has.na}{
-#! boolean scalar defining whether the input vector might contain \code{NA}s. If we know we don't have NAs, this may speed-up.
-#! \emph{Note} that you risk a crash if there are unexpected \code{NA}s with \code{has.na=FALSE}
-#! }
-#!   \item{stable}{
-#! boolean scalar defining whether stable sorting is needed. Allowing non-stable may speed-up.
-#! }
-#!   \item{optimize}{
-#! by default ramsort optimizes for 'time' which requires more RAM,
-#! set to 'memory' to minimize RAM requirements and sacrifice speed
-#! }
-#!   \item{...}{
-#!         passed to \code{\link{hashmap}}
-#! }
-#! }
-#! \details{
-#!     The result of relative expensive operations \code{\link{hashmap}}, \code{\link[=ramsort.integer64]{ramsort}}, \code{\link[=ramsort.integer64]{ramsortorder}} and \code{\link[=ramsort.integer64]{ramorder}} can be stored in a cache in order to avoid multiple excutions. Unless in very specific situations, the recommended method is \code{hashsortorder} only.
-#! }
-#! \note{
-#!   Note that we consider storing the big results from sorting and/or ordering as a relevant side-effect,
-#! and therefore storing them in the cache should require a conscious decision of the user.
-#! }
-#! \value{
-#!     \code{x} with a \code{\link{cache}} that contains the result of the expensive operations, possible together with small derived information (such as \code{\link{nunique.integer64}}) and previously cached results.
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \seealso{
-#!     \code{\link{cache}} for caching functions and \code{\link{nunique.integer64}} for methods benefiting from small caches
-#! }
-#! \examples{
-#!     x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#!  sortordercache(x)
-#! }
-#! \keyword{ environment }
-
+#' Big caching of hashing, sorting, ordering
+#'
+#' Functions to create cache that accelerates many operations
+#'
+#' @param x an atomic vector (note that currently only integer64 is supported)
+#' @param nunique giving _correct_ number of unique elements can help reducing
+#'   the size of the hashmap
+#' @param ... passed to [hashmap()]
+#'
+#' @details
+#' The result of relative expensive operations [hashmap()], [ramsort()],
+#'   [ramsortorder()], and [ramorder()] can be stored in a cache in order to
+#'   avoid multiple excutions. Unless in very specific situations, the
+#'   recommended method is `hashsortorder` only.
+#'
+#' @note
+#'   Note that we consider storing the big results from sorting and/or ordering
+#'   as a relevant side-effect, and therefore storing them in the cache should
+#'   require a conscious decision of the user.
+#'
+#' @return `x` with a [cache()] that contains the result of the expensive operations,
+#'   possible together with small derived information (such as [nunique.integer64()])
+#'   and previously cached results.
+#'
+#' @seealso
+#'   [cache()] for caching functions and [nunique.integer64()] for methods benefiting
+#'   from small caches
+#'
+#' @examples
+#'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#'   sortordercache(x)
+#'
+#' @keywords environment
+#' @export
 hashcache <-function(x, nunique=NULL, ...){
     env <- jamcache(x)
     if (is.null(nunique))
@@ -249,6 +197,11 @@ hashcache <-function(x, nunique=NULL, ...){
     invisible(env)
 }
 
+#' @rdname hashcache
+#' @param has.na boolean scalar defining whether the input vector might contain
+#'    `NA`s. If we know we don't have `NA`s, this may speed-up. _Note_ that you
+#'    risk a crash if there are unexpected `NA`s with `has.na=FALSE`.
+#' @export
 sortcache <- function(x, has.na = NULL){
     if (is.null(has.na)){
         na.count <- getcache(x, "na.count")
@@ -267,7 +220,10 @@ sortcache <- function(x, has.na = NULL){
     invisible(x)
 }
 
-
+#' @rdname hashcache
+#' @param stable boolean scalar defining whether stable sorting is needed. Allowing
+#'   non-stable may speed-up.
+#' @export
 sortordercache <- function(x, has.na = NULL, stable = NULL){
     if (is.null(has.na)){
         na.count <- getcache(x, "na.count")
@@ -295,7 +251,10 @@ sortordercache <- function(x, has.na = NULL, stable = NULL){
     invisible(x)
 }
 
-
+#' @rdname hashcache
+#' @param optimize by default ramsort optimizes for 'time' which requires more RAM,
+#'   set to 'memory' to minimize RAM requirements and sacrifice speed.
+#' @export
 ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
     if (is.null(has.na)){
         na.count <- getcache(x, "na.count")
@@ -321,78 +280,46 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
     invisible(x)
 }
 
+#' Small cache access methods
+#'
+#' These methods are packaged here for methods in packages `bit64` and `ff`.
+#'
+#' @param x some object
+#' @param ... ignored
+#'
+#' @details
+#' All these functions benefit from a [sortcache()], [ordercache()] or
+#'   [sortordercache()]. `na.count()`, `nvalid()` and `nunique()` also
+#'   benefit from a [hashcache()].
+#'
+#' @note
+#' If a [cache()] exists but the desired value is not cached, then these
+#'   functions will store their result in the cache. We do not consider this
+#'   a relevant side-effect, since these small cache results do not have a
+#'   relevant memory footprint.
+#'
+#' @return
+#' `is.sorted` returns a logical scalar, the other methods return an integer scalar.
+#'
+#' @seealso
+#' [cache()] for caching functions and [sortordercache()] for functions creating big caches
+#'
+#' @examples
+#'  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#'  length(x)
+#'  na.count(x)
+#'  nvalid(x)
+#'  nunique(x)
+#'  nties(x)
+#'  table.integer64(x)
+#'  x
+#'
+#' @keywords environment methods
+#' @name is.sorted.integer64
+NULL
 
-
-#! \name{is.sorted.integer64}
-#! \alias{is.sorted.integer64}
-#! \alias{na.count.integer64}
-#! \alias{nvalid.integer64}
-#! \alias{nunique.integer64}
-#! \alias{nties.integer64}
-#! \title{
-#!     Small cache access methods
-#! }
-#! \description{
-#!     These methods are packaged here for methods in packages \code{bit64} and \code{ff}.
-#! }
-#! \usage{
-#!     \method{is.sorted}{integer64}(x, ...)
-#!
-#!     \method{na.count}{integer64}(x, ...)
-#!
-#!     \method{nvalid}{integer64}(x, ...)
-#!
-#!     \method{nunique}{integer64}(x, ...)
-#!
-#!     \method{nties}{integer64}(x, ...)
-#! }
-#! \arguments{
-#!   \item{x}{
-#!     some object
-#!     }
-#!   \item{...}{
-#!     ignored
-#!     }
-#! }
-#! \details{
-#!   All these functions benefit from a \code{\link{sortcache}}, \code{\link{ordercache}} or \code{\link{sortordercache}}.
-#!   \code{na.count}, \code{nvalid} and \code{nunique} also benefit from a \code{\link{hashcache}}.
-#!    \cr
-#!     \code{is.sorted} checks for sortedness of \code{x} (NAs sorted first) \cr
-#!  \code{na.count} returns the number of \code{NA}s \cr
-#!  \code{nvalid} returns the number of valid data points, usually \code{\link{length}} minus \code{na.count}. \cr
-#!  \code{nunique} returns the number of unique values \cr
-#!  \code{nties} returns the number of tied values.
-#! }
-#! \note{
-#!     If a \code{\link{cache}} exists but the desired value is not cached,
-#!  then these functions will store their result in the cache.
-#!  We do not consider this a relevant side-effect,
-#!  since these small cache results do not have a relevant memory footprint.
-#! }
-#! \value{
-#!     \code{is.sorted} returns a logical scalar, the other methods return an integer scalar.
-#! }
-#! \author{
-#! Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
-#! }
-#! \seealso{
-#!     \code{\link{cache}} for caching functions and \code{\link{sortordercache}} for functions creating big caches
-#! }
-#! \examples{
-#!     x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#!  length(x)
-#!  na.count(x)
-#!  nvalid(x)
-#!  nunique(x)
-#!  nties(x)
-#!  table.integer64(x)
-#!  x
-#! }
-#! \keyword{ environment }
-#! \keyword{ methods }
-
-
+#' @describeIn is.sorted.integer64 returns the number of `NA`s
+#' @export
 na.count.integer64 <- function(x, ...){
   env <- cache(x)
   if (is.null(env))
@@ -404,10 +331,15 @@ na.count.integer64 <- function(x, ...){
   ret
 }
 
+#' @describeIn is.sorted.integer64 returns the number of valid data points,
+#'   usually [length()] minus `na.count`.
+#' @export
 nvalid.integer64 <- function(x, ...){
     length(x) - na.count(x)
 }
 
+#' @describeIn is.sorted.integer64 checks for sortedness of `x` (NAs sorted first)
+#' @export
 is.sorted.integer64 <- function(x, ...){
   env <- cache(x)
   if (is.null(env))
@@ -419,7 +351,8 @@ is.sorted.integer64 <- function(x, ...){
   ret
 }
 
-
+#' @describeIn is.sorted.integer64 returns the number of unique values
+#' @export
 nunique.integer64 <- function(x, ...){
     env <- cache(x)
     if(is.null(env))
@@ -446,6 +379,8 @@ nunique.integer64 <- function(x, ...){
     }
 }
 
+#' @describeIn is.sorted.integer64 returns the number of tied values.
+#' @export
 nties.integer64 <- function(x, ...){
     cv <- getcache(x, "nties")
     if (is.null(cv)){
