@@ -123,14 +123,14 @@ column based data bases provide superior performance for many applications, the
 result are products such as MonetDB, Sybase IQ, Vertica, Exasol, Ingres Vectorwise.
 If we introduce 64 bit integers not natively in Base R but as an external package,
 we should at least strive to make them as 'basic' as possible. Therefore the design
-choice of bit64 not only differs from {int64}, it is obvious: Like the other atomic
-types in Base R, we model data type 'integer64' as a contiguous \code{\link{atomic}} vector in
-memory, and we use the more basic \link{S3} class system, not \link{S4}. Like package {int64}
-we want our 'integer64' to be \code{\link{serialize}}able, therefore we also use an existing
-data type as the basis. Again the choice is obvious: R has only one 64 bit data
-type: doubles. By using \code{\link{double}}s, \code{integer64} \code{\link{inherits}} some functionality such
-as \code{\link[=is.atomic]{is.atomic()}}, \code{\link[=length]{length()}}, \code{\link{length<-}}, \code{\link[=names]{names()}}, \code{\link{names<-}}, \code{\link[=dim]{dim()}}, \code{\link{dim<-}},
-\code{\link[=dimnames]{dimnames()}}, \code{\link{dimnames<-}}.
+choice of bit64 not only differs from package int64, it is obvious: Like the other
+atomic types in Base R, we model data type 'integer64' as a contiguous \code{\link{atomic}}
+vector in memory, and we use the more basic \link{S3} class system, not \link{S4}. Like
+package int64 we want our 'integer64' to be \code{\link{serialize}}able, therefore we also
+use an existing data type as the basis. Again the choice is obvious: R has only one
+64 bit data type: doubles. By using \code{\link{double}}s, \code{integer64} \code{\link{inherits}} some
+functionality such as \code{\link[=is.atomic]{is.atomic()}}, \code{\link[=length]{length()}}, \code{\link{length<-}}, \code{\link[=names]{names()}},
+\code{\link{names<-}}, \code{\link[=dim]{dim()}}, \code{\link{dim<-}}, \code{\link[=dimnames]{dimnames()}}, \code{\link{dimnames<-}}.
 
 Our R level functions strictly follow the functional programming paradigm:
 no modification of arguments or other side-effects. Before version 0.93  we
@@ -206,7 +206,7 @@ The methods \code{\link[=is.integer64]{is.integer64()}} and \code{\link[=is.vect
 Note that we did not patch \code{\link[=storage.mode]{storage.mode()}} and \code{\link[=typeof]{typeof()}}, which both continue
 returning 'double'. Like for 32 bit \code{\link{integer}}, \code{\link[=mode]{mode()}} returns 'numeric' and
 \code{\link[=as.double]{as.double()}} tries coercing to \code{\link{double}}. It is possible that 'integer64' becomes
-a \code{\link{vmode}} in package {ff}.
+a \code{\link{vmode}} in package ff.
 
 Further methods for creating \code{integer64} are \code{\link[=range.integer64]{range()}} which
 returns the range of the data type if calles without arguments,
@@ -378,7 +378,7 @@ For all available methods on \code{integer64} vectors see the index below and th
 \itemize{
 \item \strong{vector size} of atomic vectors is still limited to
 \code{\link[=.Machine]{.Machine$integer.max}}. However, external memory extending packages
-such as {ff} or {bigmemory} can extend their address space now with \code{integer64}.
+such as ff or bigmemory can extend their address space now with \code{integer64}.
 Having 64 bit integers also help with those not so obvious address issues that
 arise once we exchange data with SQL databases and datawarehouses, which use big
 integers as surrogate keys, e.g. on indexed primary key columns. This puts R into

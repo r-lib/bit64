@@ -48,7 +48,7 @@
 #'   during sorting
 #' @keywords programming manip
 #' @seealso [bit::ramsort()] for the generic, `ramsort.default` for the methods
-#'   provided by package {ff}, [sort.integer64()] for the sort interface and
+#'   provided by package ff, [sort.integer64()] for the sort interface and
 #'   [sortcache()] for caching the work of sorting
 #' @examples
 #'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))

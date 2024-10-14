@@ -48,14 +48,14 @@
 #' result are products such as MonetDB, Sybase IQ, Vertica, Exasol, Ingres Vectorwise.
 #' If we introduce 64 bit integers not natively in Base R but as an external package,
 #' we should at least strive to make them as 'basic' as possible. Therefore the design
-#' choice of bit64 not only differs from {int64}, it is obvious: Like the other atomic
-#' types in Base R, we model data type 'integer64' as a contiguous [`atomic`] vector in
-#' memory, and we use the more basic [S3] class system, not [S4]. Like package {int64}
-#' we want our 'integer64' to be [`serialize`]able, therefore we also use an existing
-#' data type as the basis. Again the choice is obvious: R has only one 64 bit data
-#' type: doubles. By using [`double`]s, `integer64` [`inherits`] some functionality such
-#' as [is.atomic()], [length()], [`length<-`], [names()], [`names<-`], [dim()], [`dim<-`],
-#' [dimnames()], [`dimnames<-`].
+#' choice of bit64 not only differs from package int64, it is obvious: Like the other
+#' atomic types in Base R, we model data type 'integer64' as a contiguous [`atomic`]
+#' vector in memory, and we use the more basic [S3] class system, not [S4]. Like
+#' package int64 we want our 'integer64' to be [`serialize`]able, therefore we also
+#' use an existing data type as the basis. Again the choice is obvious: R has only one
+#' 64 bit data type: doubles. By using [`double`]s, `integer64` [`inherits`] some
+#' functionality such as [is.atomic()], [length()], [`length<-`], [names()],
+#' [`names<-`], [dim()], [`dim<-`], [dimnames()], [`dimnames<-`].
 #'
 #' Our R level functions strictly follow the functional programming paradigm:
 #' no modification of arguments or other side-effects. Before version 0.93  we
@@ -135,7 +135,7 @@
 #' Note that we did not patch [storage.mode()] and [typeof()], which both continue
 #' returning 'double'. Like for 32 bit [`integer`], [mode()] returns 'numeric' and
 #' [as.double()] tries coercing to [`double`]. It is possible that 'integer64' becomes
-#' a [`vmode`] in package {ff}.
+#' a [`vmode`] in package ff.
 #'
 #' Further methods for creating `integer64` are [`range()`][range.integer64] which
 #' returns the range of the data type if calles without arguments,
@@ -315,7 +315,7 @@
 #'
 #'  - **vector size** of atomic vectors is still limited to
 #'    [`.Machine$integer.max`][.Machine]. However, external memory extending packages
-#'    such as {ff} or {bigmemory} can extend their address space now with `integer64`.
+#'    such as ff or bigmemory can extend their address space now with `integer64`.
 #'    Having 64 bit integers also help with those not so obvious address issues that
 #'    arise once we exchange data with SQL databases and datawarehouses, which use big
 #'    integers as surrogate keys, e.g. on indexed primary key columns. This puts R into

@@ -200,7 +200,7 @@ change \code{i}, and the \code{sortoder}-methods change both \code{x} and \code{
 }
 \seealso{
 \code{\link[bit:Sorting]{bit::ramsort()}} for the generic, \code{ramsort.default} for the methods
-provided by package {ff}, \code{\link[=sort.integer64]{sort.integer64()}} for the sort interface and
+provided by package ff, \code{\link[=sort.integer64]{sort.integer64()}} for the sort interface and
 \code{\link[=sortcache]{sortcache()}} for caching the work of sorting
 }
 \keyword{manip}
