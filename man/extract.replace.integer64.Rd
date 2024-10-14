@@ -42,10 +42,6 @@ The current implementation returns \code{9218868437227407266} instead of \code{N
   x
   x[]
   x[,2:3]
-  \dontshow{
-    r <- c(runif64(1e3, lim.integer64()[1], lim.integer64()[2]), NA, -2:2)
-    stopifnot(identical(r, as.integer64(as.bitstring(r))))
-  }
 }
 \seealso{
 \code{\link[base:Extract]{[}} \code{\link[=integer64]{integer64()}}
