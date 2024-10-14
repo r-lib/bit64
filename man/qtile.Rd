@@ -56,7 +56,7 @@
   at the relative positions specified by \code{probs}.
 }
 \description{
-    Function code{link[=prank.integer64]{prank.integer64()}}  projects the values [min..max] via ranks [1..n] to [0..1].
+    Function \code{\link{prank.integer64}}  projects the values [min..max] via ranks [1..n] to [0..1].
     \code{qtile.ineger64} is the inverse function of 'prank.integer64' and projects [0..1] to [min..max].
 }
 \details{
@@ -87,6 +87,6 @@ x <- x[!is.na(x)]
 stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))
 }
 \seealso{
-  code{link[=rank.integer64]{rank.integer64()}} for simple ranks and \code{\link{quantile}} for quantiles.
+  \code{\link{rank.integer64}} for simple ranks and \code{\link{quantile}} for quantiles.
 }
 \keyword{univar}

@@ -13,13 +13,13 @@
 \method{rbind}{integer64}(...)
 }
 \arguments{
-  \item{...}{ two or more arguments coerced to 'integer64' and passed to code{link[=NextMethod]{NextMethod()}} }
+  \item{...}{ two or more arguments coerced to 'integer64' and passed to \code{\link{NextMethod}} }
 
   \item{recursive}{ logical. If \code{recursive = TRUE}, the function recursively descends through lists (and pairlists) combining all their elements into a vector. }
 }
 \value{
-  code{link[=c]{c()}} returns a integer64 vector of the total length of the input \cr
-  code{link[=cbind]{cbind()}} and \code{\link{rbind}} return a integer64 matrix
+  \code{\link{c}} returns a integer64 vector of the total length of the input \cr
+  \code{\link{cbind}} and \code{\link{rbind}} return a integer64 matrix
 }
 \description{
   The ususal functions 'c', 'cbind' and 'rbind'
@@ -35,8 +35,8 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   cbind(1:6, as.integer(1:6))
   rbind(1:6, as.integer(1:6))
 }
-\seealso{ code{link[=rep.integer64]{rep.integer64()}} code{link[=seq.integer64]{seq.integer64()}}
-          code{link[=as.data.frame.integer64]{as.data.frame.integer64()}} \code{\link{integer64}}
+\seealso{ \code{\link{rep.integer64}} \code{\link{seq.integer64}}
+          \code{\link{as.data.frame.integer64}} \code{\link{integer64}}
 }
 \keyword{ classes }
 \keyword{ manip }

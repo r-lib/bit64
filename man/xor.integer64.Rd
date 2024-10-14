@@ -64,7 +64,7 @@ binattr(e1,e2) # for internal use only
   \item{y}{ an atomic vector of class 'integer64'}
 }
 \value{
-  \code{\link{&}}, \code{\link{|}}, code{link[=xor]{xor()}}, \code{\link{!=}}, \code{\link{==}},
+  \code{\link{&}}, \code{\link{|}}, \code{\link{xor}}, \code{\link{!=}}, \code{\link{==}},
   \code{\link{<}}, \code{\link{<=}}, \code{\link{>}}, \code{\link{>=}} return a logical vector \cr
   \code{\link{^}} and \code{\link{/}} return a double vector\cr
   \code{\link{+}}, \code{\link{-}}, \code{\link{*}}, \code{\link{\%/\%}}, \code{\link{\%\%}}
@@ -89,6 +89,6 @@ Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
   d*i  # old: 10
   i*d  # old: 13
 }
-\seealso{ code{link[=format.integer64]{format.integer64()}} \code{\link{integer64}}  }
+\seealso{ \code{\link{format.integer64}} \code{\link{integer64}}  }
 \keyword{ classes }
 \keyword{ manip }
