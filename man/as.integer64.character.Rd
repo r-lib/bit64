@@ -7,6 +7,7 @@
 \alias{as.integer64.NULL}
 \alias{as.integer64.integer64}
 \alias{as.integer64.double}
+\alias{as.integer64.integer}
 \alias{as.integer64.logical}
 \alias{as.integer64.factor}
 \alias{as.integer64.bitstring}
@@ -23,6 +24,8 @@ as.integer64(x, ...)
 \method{as.integer64}{integer64}(x, ...)
 
 \method{as.integer64}{double}(x, keep.names = FALSE, ...)
+
+\method{as.integer64}{integer}(x, ...)
 
 \method{as.integer64}{logical}(x, ...)
 

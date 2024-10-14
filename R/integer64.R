@@ -843,11 +843,15 @@ as.integer64.double <- function(x, keep.names=FALSE, ...){
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.logical <- as.integer64.integer <- function(x, ...){
+as.integer64.integer <- function(x, ...){
   ret <- .Call(C_as_integer64_integer, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
+
+#' @rdname as.integer64.character
+#' @export
+as.integer64.logical <- as.integer64.integer
 
 #' @rdname as.integer64.character
 #' @export
