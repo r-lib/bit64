@@ -15,6 +15,8 @@ unipos(x, incomparables = FALSE, order = c("original","values","any"), ...)
 
   \item{order}{The order in which positions of unique values will be returned, see details}
 
+  \item{...}{ignored}
+
   \item{nunique}{
     NULL or the number of unique values (including NA). Providing \code{nunique} can speed-up when \code{x} has no cache. Note that a wrong nunique can cause undefined behaviour up to a crash.
 }
@@ -22,8 +24,6 @@ unipos(x, incomparables = FALSE, order = c("original","values","any"), ...)
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
-
-  \item{...}{ignored}
 }
 \value{
   an integer vector of positions

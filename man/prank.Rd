@@ -10,11 +10,11 @@
 \arguments{
   \item{x}{a integer64 vector}
 
+  \item{...}{ignored}
+
   \item{method}{
     NULL for automatic method selection or a suitable low-level method, see details
 }
-
-  \item{...}{ignored}
 }
 \value{
   \code{prank} returns a numeric vector of the same length as \code{x}.

@@ -57,8 +57,6 @@
 \arguments{
   \item{x}{ a vector to be sorted by \code{\link{ramsort.integer64}} and \code{\link{ramsortorder.integer64}}, i.e. the output of  \code{\link{sort.integer64}} }
 
-  \item{i}{ integer positions to be modified by \code{\link{ramorder.integer64}} and \code{\link{ramsortorder.integer64}}, default is 1:n, in this case the output is similar to \code{\link{order.integer64}} }
-
   \item{has.na}{
 boolean scalar defining whether the input vector might contain \code{NA}s. If we know we don't have NAs, this may speed-up.
 \emph{Note} that you risk a crash if there are unexpected \code{NA}s with \code{has.na=FALSE}
@@ -73,14 +71,9 @@ boolean scalar telling ramsort whether to sort \code{NA}s last or first.
 boolean scalar telling ramsort whether to sort increasing or decreasing
 }
 
-  \item{stable}{
-boolean scalar defining whether stable sorting is needed. Allowing non-stable may speed-up.
-}
+  \item{...}{ further arguments, passed from generics, ignored in methods }
 
-  \item{optimize}{
-by default ramsort optimizes for 'time' which requires more RAM,
-set to 'memory' to minimize RAM requirements and sacrifice speed
-}
+  \item{i}{ integer positions to be modified by \code{\link{ramorder.integer64}} and \code{\link{ramsortorder.integer64}}, default is 1:n, in this case the output is similar to \code{\link{order.integer64}} }
 
   \item{restlevel}{
 number of remaining recursionlevels before \code{quicksort} switches from recursing to \code{shellsort}
@@ -90,11 +83,18 @@ number of remaining recursionlevels before \code{quicksort} switches from recurs
     size of radix in bits
 }
 
+  \item{stable}{
+boolean scalar defining whether stable sorting is needed. Allowing non-stable may speed-up.
+}
+
+  \item{optimize}{
+by default ramsort optimizes for 'time' which requires more RAM,
+set to 'memory' to minimize RAM requirements and sacrifice speed
+}
+
   \item{VERBOSE}{
   cat some info about chosen method
 }
-
-  \item{...}{ further arguments, passed from generics, ignored in methods }
 }
 \value{
   These functions return the number of \code{NAs} found or assumed during sorting

@@ -30,9 +30,9 @@
 \arguments{
   \item{x}{ an integer64 vector }
 
-  \item{keep.names}{ FALSE, set to TRUE to keep a names vector }
-
   \item{...}{ further arguments to the \code{\link{NextMethod}} }
+
+  \item{keep.names}{ FALSE, set to TRUE to keep a names vector }
 }
 \value{
   \code{as.bitstring} returns a string of class 'bitstring'. \cr

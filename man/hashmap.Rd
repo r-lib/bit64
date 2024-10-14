@@ -84,19 +84,19 @@ hashmaptab(x, ...)
 \arguments{
   \item{x}{ an integer64 vector }
 
+  \item{...}{ further arguments, passed from generics, ignored in methods }
+
   \item{minfac}{ minimum factor by which the hasmap has more elements compared to the data \code{x}, ignored if \code{hashbits} is given directly }
 
   \item{hashbits}{ length of hashmap is \code{2^hashbits} }
 
-  \item{cache}{ an optional \code{\link{cache}} object into which to put the hashmap (by default a new cache is created)}
-
   \item{nunique}{ giving \emph{correct} number of unique elements can help reducing the size of the hashmap }
+
+  \item{cache}{ an optional \code{\link{cache}} object into which to put the hashmap (by default a new cache is created)}
 
   \item{nomatch}{ the value to be returned if an element is not found in the hashmap }
 
   \item{keep.order}{ determines order of results and speed: \code{FALSE} (the default) is faster and returns in the (pseudo)random order of the hash function, \code{TRUE} returns in the order of first appearance in the original data, but this requires extra work }
-
-  \item{...}{ further arguments, passed from generics, ignored in methods }
 }
 \value{
   see details
