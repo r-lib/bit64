@@ -12,4 +12,6 @@
 
   It is my intention to move {bit} from `Depends:` to `Imports:` as well, but this migration will be done more gingerly -- it is more conceivable that this will constitute a breaking change for some use cases, therefore it will be done in phases. Nothing is done in this release, but here is your earliest warning that from the next release, it will be a warning to rely on {bit64} to attach {bit} functions for you.
 
+1. Package documentation is now managed with {roxygen2}, #61. I tried to retain everything in the original documentation, but the diff required to do so was quite unmanageable (5,000+ lines), so please alert me if anything looks amiss. Most importantly, I ensured the NAMESPACE remains unchanged.
+
 # bit64 NEWS for versions 0.8-3 through 4.5.2 are now in [NEWS.0](https://github.com/r-lib/bit64/blob/master/NEWS.0)
