@@ -1,11 +1,11 @@
 \name{as.character.integer64}
 \alias{as.character.integer64}
+\alias{as.bitstring}
 \alias{as.double.integer64}
 \alias{as.integer.integer64}
 \alias{as.logical.integer64}
-\alias{as.bitstring}
-\alias{print.bitstring}
 \alias{as.bitstring.integer64}
+\alias{print.bitstring}
 \alias{as.list.integer64}
 \title{
    Coerce from integer64

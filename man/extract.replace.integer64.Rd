@@ -1,8 +1,9 @@
 \name{extract.replace.integer64}
+\alias{extract.replace.integer64}
 \alias{[.integer64}
+\alias{[<-.integer64}
 \alias{[[.integer64}
 \alias{[[<-.integer64}
-\alias{[<-.integer64}
 \title{
    Extract or Replace Parts of an integer64 vector
 }

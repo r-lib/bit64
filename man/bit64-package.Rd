@@ -2,11 +2,10 @@
 \name{bit64-package}
 \alias{bit64-package}
 \alias{bit64}
-\alias{integer64}
-\alias{is.integer64}
 \alias{is.integer.integer64}
 \alias{is.vector.integer64}
-%as.vector.integer64 removed as requested by the CRAN maintainer \alias{as.vector.integer64}
+\alias{integer64}
+\alias{is.integer64}
 \alias{length<-.integer64}
 \alias{print.integer64}
 \alias{str.integer64}

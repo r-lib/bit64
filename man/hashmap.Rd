@@ -1,7 +1,7 @@
 \name{hashmap}
+\alias{hashmap}
 \alias{hashfun}
 \alias{hashfun.integer64}
-\alias{hashmap}
 \alias{hashmap.integer64}
 \alias{hashpos}
 \alias{hashpos.cache_integer64}
@@ -15,16 +15,16 @@
 \alias{hashdup.cache_integer64}
 \alias{hashuni}
 \alias{hashuni.cache_integer64}
-\alias{hashmapuni}
-\alias{hashmapuni.integer64}
 \alias{hashupo}
 \alias{hashupo.cache_integer64}
-\alias{hashmapupo}
-\alias{hashmapupo.integer64}
 \alias{hashtab}
 \alias{hashtab.cache_integer64}
 \alias{hashmaptab}
 \alias{hashmaptab.integer64}
+\alias{hashmapuni}
+\alias{hashmapuni.integer64}
+\alias{hashmapupo}
+\alias{hashmapupo.integer64}
 \title{
    Hashing for 64bit integers
 }
