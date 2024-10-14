@@ -2,9 +2,19 @@
 % Please edit documentation in R/highlevel64.R
 \name{unipos}
 \alias{unipos}
+\alias{unipos.integer64}
 \title{Extract Positions of Unique Elements}
 \usage{
 unipos(x, incomparables = FALSE, order = c("original", "values", "any"), ...)
+
+\method{unipos}{integer64}(
+  x,
+  incomparables = FALSE,
+  order = c("original", "values", "any"),
+  nunique = NULL,
+  method = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{a vector or a data frame or an array or \code{NULL}.}

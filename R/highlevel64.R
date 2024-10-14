@@ -1829,6 +1829,7 @@ unique.integer64 <- function(x
 #' @keywords manip logic
 #' @export
 unipos <- function(x, incomparables = FALSE, order = c("original","values","any"), ...) UseMethod("unipos")
+#' @rdname unipos
 #' @export
 unipos.integer64 <- function(x
 , incomparables = FALSE  # dummy parameter
