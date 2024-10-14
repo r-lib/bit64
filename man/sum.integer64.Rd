@@ -15,6 +15,8 @@
 
 \method{all}{integer64}(..., na.rm = FALSE)
 
+\method{sum}{integer64}(..., na.rm = FALSE)
+
 \method{prod}{integer64}(..., na.rm = FALSE)
 
 \method{min}{integer64}(..., na.rm = FALSE)

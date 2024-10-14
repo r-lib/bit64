@@ -1532,6 +1532,7 @@ all.integer64 <- function(..., na.rm = FALSE){
   }
 }
 
+#' @rdname sum.integer64
 #' @export
 sum.integer64 <- function(..., na.rm = FALSE){
   l <- list(...)
