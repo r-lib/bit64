@@ -153,3 +153,16 @@ test_that("summary() works as intended", {
   names(smry) = c("Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max.", "NA's")
   expect_identical(summary(as.integer64(c(1L, 2L, 10L, 20L, NA, 30L))), smry)
 })
+
+test_that("qtile() works as intended", {
+  x = as.integer64(1:100)
+  expected = as.integer64(c(1L, 26L, 50L, 75L, 100L))
+  names(expected) = paste0(25L * (0:4), "%")
+  expect_identical(qtile(x, method="sortqtl"), expected)
+  expect_identical(qtile(x, method="orderqtl"), expected)
+})
+
+test_that("prank() works as intended", {
+  x = as.integer64(1:100)
+  expect_identical(prank(x), (x-1.0)/99.0)
+})
