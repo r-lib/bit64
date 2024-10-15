@@ -146,3 +146,10 @@ test_that("unipos() works as intended", {
 test_that("keypos() works as intended", {
   expect_identical(keypos(as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))), c(4L, 1L, 4L, 2L, 1L, 3L))
 })
+
+test_that("summary() works as intended", {
+  # NB: as.integer64() strips names, so as.integer64(c(Min. = ...)) won't work
+  smry = as.integer64(c(1L, 2L, 10L, 12L, 20L, 30L, 1L))
+  names(smry) = c("Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max.", "NA's")
+  expect_identical(summary(as.integer64(c(1L, 2L, 10L, 20L, NA, 30L))), smry)
+})
