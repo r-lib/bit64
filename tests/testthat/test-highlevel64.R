@@ -103,6 +103,16 @@ test_that("sorting methods work", {
   expect_identical(quantile(x), q)
   expect_identical(quantile(x, 0.2, names=FALSE), as.integer64(21L))
 
+  expect_error(quantile(x, type=7L), "only.*qtile.*supported")
+  expect_error(median(NA_integer64_), "missing values not allowed")
+  expect_error(quantile(NA_integer64_), "missing values not allowed")
+
+  x = as.integer64(1:100)
+  q = as.integer64(c(1L, 26L, 50L, 75L, 100L))
+  names(q) = c('0%', '25%', '50%', '75%', '100%')
+  expect_identical(qtile(x, method="sortqtl"), q)
+  expect_identical(qtile(x, method="orderqtl"), q)
+
   x = as.integer64(c(1L, 1L, 2L, 3L, 2L, 4L))
   x_tiepos = c(1L, 2L, 3L, 5L)
   expect_identical(tiepos(x), x_tiepos)
@@ -148,29 +158,32 @@ test_that("Old \\dontshow{} tests continue working", {
 })
 
 test_that("unipos() works as intended", {
-  expect_identical(unipos(as.integer64(c(1L, 2L, 1L, 3L, 2L, 4L))), c(1L, 2L, 4L, 6L))
+  x = as.integer64(c(1L, 2L, 1L, 3L, 2L, 4L))
+  x_unipos = c(1L, 2L, 4L, 6L)
+  expect_identical(unipos(x), x_unipos)
+  expect_identical(unipos(x, method="hashupo"), x_unipos)
+  expect_identical(unipos(x, method="sortorderupo"), x_unipos)
+  expect_identical(unipos(x, method="orderupo"), x_unipos)
 })
 
 test_that("keypos() works as intended", {
-  expect_identical(keypos(as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))), c(4L, 1L, 4L, 2L, 1L, 3L))
+  x = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
+  x_keypos = c(4L, 1L, 4L, 2L, 1L, 3L)
+  expect_identical(keypos(x), x_keypos)
+  expect_identical(keypos(x, method="orderkey"), x_keypos)
 })
 
 test_that("summary() works as intended", {
+  x = as.integer64(c(1L, 2L, 10L, 20L, NA, 30L))
   # NB: as.integer64() strips names, so as.integer64(c(Min. = ...)) won't work
-  smry = as.integer64(c(1L, 2L, 10L, 12L, 20L, 30L, 1L))
-  names(smry) = c("Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max.", "NA's")
-  expect_identical(summary(as.integer64(c(1L, 2L, 10L, 20L, NA, 30L))), smry)
-})
-
-test_that("qtile() works as intended", {
-  x = as.integer64(1:100)
-  expected = as.integer64(c(1L, 26L, 50L, 75L, 100L))
-  names(expected) = paste0(25L * (0:4), "%")
-  expect_identical(qtile(x, method="sortqtl"), expected)
-  expect_identical(qtile(x, method="orderqtl"), expected)
+  x_summary = as.integer64(c(1L, 2L, 10L, 12L, 20L, 30L, 1L))
+  names(x_summary) = c("Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max.", "NA's")
+  expect_identical(summary(x), x_summary)
+  expect_identical(summary(x[-5L]), x_summary[-7L])
 })
 
 test_that("prank() works as intended", {
   x = as.integer64(1:100)
   expect_identical(prank(x), (x-1.0)/99.0)
+  expect_identical(prank(x[1L]), NA_integer64_)
 })
