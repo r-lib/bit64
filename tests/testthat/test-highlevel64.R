@@ -25,6 +25,7 @@ test_that("Different method= for match() and %in% work", {
   expect_identical(match(x, y, method="hashpos"), expected)
   expect_identical(match(x, y, method="hashrev"), expected)
   expect_identical(match(x, y, method="sortorderpos"), expected)
+  expect_error(match(x, y, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
   # TODO(#58): Fix this, currently fails.
   # expect_identical(match(x, y, method="orderpos"), expected)
 
@@ -63,6 +64,9 @@ test_that("duplicated, unique, table methods work", {
   expect_identical(duplicated(x), c(FALSE, TRUE, FALSE))
   expect_identical(unique(x), x[c(1L, 3L)])
   expect_identical(table.integer64(x), table(x = c(1L, 1L, 2L)))
+
+  expect_error(duplicated(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
+  expect_error(unique(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
 })
 
 test_that("different method= for duplicated, unique work", {
@@ -90,7 +94,10 @@ test_that("more coercion works", {
 })
 
 test_that("sorting methods work", {
-  expect_identical(rank(as.integer64(c(10L, 4L, 8L))), c(3.0, 1.0, 2.0))
+  x = as.integer64(c(10L, 4L, 8L))
+  x_rank = c(3.0, 1.0, 2.0)
+  expect_identical(rank(x), x_rank)
+  expect_identical(rank(x, method="orderrnk"), x_rank)
 
   x = as.integer64(1:100)
   q = as.integer64(c(1L, 26L, 50L, 75L, 100L))
@@ -99,6 +106,25 @@ test_that("sorting methods work", {
   names(q) = c('0%', '25%', '50%', '75%', '100%')
   expect_identical(quantile(x), q)
   expect_identical(quantile(x, 0.2, names=FALSE), as.integer64(21L))
+
+  expect_error(quantile(x, type=7L), "only.*qtile.*supported")
+  expect_error(median(NA_integer64_), "missing values not allowed")
+  expect_error(quantile(NA_integer64_), "missing values not allowed")
+
+  x = as.integer64(1:100)
+  q = as.integer64(c(1L, 26L, 50L, 75L, 100L))
+  names(q) = c('0%', '25%', '50%', '75%', '100%')
+  expect_identical(qtile(x, method="sortqtl"), q)
+  expect_identical(qtile(x, method="orderqtl"), q)
+
+  x = as.integer64(c(1L, 1L, 2L, 3L, 2L, 4L))
+  x_tiepos = c(1L, 2L, 3L, 5L)
+  expect_identical(tiepos(x), x_tiepos)
+  expect_identical(tiepos(x, method="ordertie"), x_tiepos)
+
+  expect_error(rank(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
+  expect_error(qtile(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
+  expect_error(tiepos(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
 })
 
 # These tests were previously kept as tests under \examples{\dontshow{...}}.
@@ -137,4 +163,37 @@ test_that("Old \\dontshow{} tests continue working", {
   expect_identical(table(x=xi64, y=yi64), t_xi_yi)
   expect_identical(table(x=xi64, y=yi), t_xi_yi)
   expect_identical(table(x=xi, y=yi64), t_xi_yi)
+})
+
+test_that("unipos() works as intended", {
+  x = as.integer64(c(1L, 2L, 1L, 3L, 2L, 4L))
+  x_unipos = c(1L, 2L, 4L, 6L)
+  expect_identical(unipos(x), x_unipos)
+  expect_identical(unipos(x, method="hashupo"), x_unipos)
+  expect_identical(unipos(x, method="sortorderupo"), x_unipos)
+  expect_identical(unipos(x, method="orderupo"), x_unipos)
+  expect_error(unipos(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
+})
+
+test_that("keypos() works as intended", {
+  x = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
+  x_keypos = c(4L, 1L, 4L, 2L, 1L, 3L)
+  expect_identical(keypos(x), x_keypos)
+  expect_identical(keypos(x, method="orderkey"), x_keypos)
+  expect_error(keypos(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
+})
+
+test_that("summary() works as intended", {
+  x = as.integer64(c(1L, 2L, 10L, 20L, NA, 30L))
+  # NB: as.integer64() strips names, so as.integer64(c(Min. = ...)) won't work
+  x_summary = as.integer64(c(1L, 2L, 10L, 12L, 20L, 30L, 1L))
+  names(x_summary) = c("Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max.", "NA's")
+  expect_identical(summary(x), x_summary)
+  expect_identical(summary(x[-5L]), x_summary[-7L])
+})
+
+test_that("prank() works as intended", {
+  x = as.integer64(1:100)
+  expect_identical(prank(x), (x-1.0)/99.0)
+  expect_identical(prank(x[1L]), NA_integer64_)
 })
