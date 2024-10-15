@@ -138,3 +138,11 @@ test_that("Old \\dontshow{} tests continue working", {
   expect_identical(table(x=xi64, y=yi), t_xi_yi)
   expect_identical(table(x=xi, y=yi64), t_xi_yi)
 })
+
+test_that("unipos() works as intended", {
+  expect_identical(unipos(as.integer64(c(1L, 2L, 1L, 3L, 2L, 4L))), c(1L, 2L, 4L, 6L))
+})
+
+test_that("keypos() works as intended", {
+  expect_identical(keypos(as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))), c(4L, 1L, 4L, 2L, 1L, 3L))
+})
