@@ -9,7 +9,7 @@ test_that("base generic overwrites work", {
 #   canonical within {testthat}, e.g. better capturing expected warnings,
 #   changing stopifnot(identical(...)) to expect_identical(...).
 test_that("Old \\dontshow{} tests continue working", {
-  expect_identical(match(as.integer64(2), as.integer64(0:3)), match(2, 0:3))
+  expect_identical(match(as.integer64(2L), as.integer64(0:3)), match(2L, 0:3))
   expect_identical(as.integer64(2L) %in% as.integer64(0:3), 2L %in% 0:3)
 
   xi = c(1L, 1L, 2L)

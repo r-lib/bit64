@@ -177,6 +177,6 @@ test_that("Old \\dontshow{} tests in ?format.integer64 continue working", {
 })
 
 test_that("Old \\dontshow{} tests in ?extract.replace.integer64 continue working", {
-  r <- c(runif64(1e3, lim.integer64()[1L], lim.integer64()[2L]), NA, -2:2)
+  r <- c(runif64(1000L, lim.integer64()[1L], lim.integer64()[2L]), NA, -2:2)
   expect_identical(r, as.integer64(as.bitstring(r)))
 })
