@@ -12,18 +12,15 @@
 #'
 #' This will discover any deviation between objects containing integer64 vectors.
 #'
-#' @param x atomic vector of class 'integer64'
-#' @param y atomic vector of class 'integer64'
-#' @param num.eq see [identical()]
-#' @param single.NA see [identical()]
-#' @param attrib.as.set see [identical()]
-#' @param ignore.bytecode see [identical()]
-#' @param ignore.environment see [identical()]
-#' @param ignore.srcref see [identical()]
-#' @param extptr.as.ref see [identical()]
-#'
-#' @details This is simply a wrapper to [identical()] with default arguments
+#' This is simply a wrapper to [identical()] with default arguments
 #'   `num.eq = FALSE, single.NA = FALSE`.
+#'
+#' @param x,y Atomic vector of class 'integer64'
+#' @param num.eq,single.NA,attrib.as.set,ignore.bytecode,ignore.environment,ignore.srcref
+#'   See [identical()].
+#' @param ... Passed on to `identical()`. Only `extptr.as.ref=` is available as of R 4.4.1,
+#'   and then only for versions of R >= 4.2.0.
+#'
 #' @return A single logical value, `TRUE` or `FALSE`, never `NA` and never
 #'   anything other than a single value.
 #' @keywords classes manip
@@ -587,6 +584,7 @@ if (FALSE){
 }
 # nocov end
 
+# TODO(R>=4.2.0): Consider restoring extptr.as.ref= to the signature.
 #' @rdname identical.integer64
 #' @exportS3Method identical integer64
 #' @export
@@ -597,7 +595,7 @@ identical.integer64 <- function(x, y
 , ignore.bytecode = TRUE
 , ignore.environment = FALSE
 , ignore.srcref = TRUE
-, extptr.as.ref = FALSE
+, ...
 )
 identical(x=x, y=y
 , num.eq = num.eq
@@ -606,7 +604,7 @@ identical(x=x, y=y
 , ignore.bytecode = ignore.bytecode
 , ignore.environment = ignore.environment
 , ignore.srcref = ignore.srcref
-, extptr.as.ref = extptr.as.ref
+, ...
 )
 
 
