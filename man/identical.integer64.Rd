@@ -13,27 +13,16 @@ identical.integer64(
   ignore.bytecode = TRUE,
   ignore.environment = FALSE,
   ignore.srcref = TRUE,
-  extptr.as.ref = FALSE
+  ...
 )
 }
 \arguments{
-\item{x}{atomic vector of class 'integer64'}
+\item{x, y}{Atomic vector of class 'integer64'}
 
-\item{y}{atomic vector of class 'integer64'}
+\item{num.eq, single.NA, attrib.as.set, ignore.bytecode, ignore.environment, ignore.srcref}{See \code{\link[=identical]{identical()}}.}
 
-\item{num.eq}{see \code{\link[=identical]{identical()}}}
-
-\item{single.NA}{see \code{\link[=identical]{identical()}}}
-
-\item{attrib.as.set}{see \code{\link[=identical]{identical()}}}
-
-\item{ignore.bytecode}{see \code{\link[=identical]{identical()}}}
-
-\item{ignore.environment}{see \code{\link[=identical]{identical()}}}
-
-\item{ignore.srcref}{see \code{\link[=identical]{identical()}}}
-
-\item{extptr.as.ref}{see \code{\link[=identical]{identical()}}}
+\item{...}{Passed on to \code{identical()}. Only \verb{extptr.as.ref=} is available as of R 4.4.1,
+and then only for versions of R >= 4.2.0.}
 }
 \value{
 A single logical value, \code{TRUE} or \code{FALSE}, never \code{NA} and never
