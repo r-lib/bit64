@@ -90,7 +90,10 @@ test_that("more coercion works", {
 })
 
 test_that("sorting methods work", {
-  expect_identical(rank(as.integer64(c(10L, 4L, 8L))), c(3.0, 1.0, 2.0))
+  x = as.integer64(c(10L, 4L, 8L))
+  x_rank = c(3.0, 1.0, 2.0)
+  expect_identical(rank(x), x_rank)
+  expect_identical(rank(x, method="orderrnk"), x_rank)
 
   x = as.integer64(1:100)
   q = as.integer64(c(1L, 26L, 50L, 75L, 100L))
@@ -99,6 +102,11 @@ test_that("sorting methods work", {
   names(q) = c('0%', '25%', '50%', '75%', '100%')
   expect_identical(quantile(x), q)
   expect_identical(quantile(x, 0.2, names=FALSE), as.integer64(21L))
+
+  x = as.integer64(c(1L, 1L, 2L, 3L, 2L, 4L))
+  x_tiepos = c(1L, 2L, 3L, 5L)
+  expect_identical(tiepos(x), x_tiepos)
+  expect_identical(tiepos(x, method="ordertie"), x_tiepos)
 })
 
 # These tests were previously kept as tests under \examples{\dontshow{...}}.
