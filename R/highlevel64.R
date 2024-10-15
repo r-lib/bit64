@@ -2478,7 +2478,7 @@ rank.integer64 <- function(x
         }
         p <- orderrnk(x, o, na.count)
     }
-  , stop("unknown method", method)
+  , stop("unknown method ", method)
   )
   p
 }
@@ -2610,7 +2610,7 @@ qtile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), names = TRUE, method
         }
         qs <- orderqtl(x, o, na.count, probs)
     }
-  , stop("unknown method", method)
+  , stop("unknown method ", method)
   )
   if (names){
     np <- length(probs)

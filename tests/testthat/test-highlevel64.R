@@ -121,6 +121,9 @@ test_that("sorting methods work", {
   x_tiepos = c(1L, 2L, 3L, 5L)
   expect_identical(tiepos(x), x_tiepos)
   expect_identical(tiepos(x, method="ordertie"), x_tiepos)
+
+  expect_error(rank(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
+  expect_error(qtile(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
   expect_error(tiepos(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
 })
 
