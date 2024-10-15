@@ -162,3 +162,21 @@ test_that("vector builders of integer64 work", {
   expect_identical(seq(x[1L], to=11L, by=2L), as.integer64(c(1L, 3L, 5L, 7L, 9L, 11L)))
   # TODO(#47): More tests when the behavior is corrected.
 })
+
+# These tests were previously kept as tests under \examples{\dontshow{...}}.
+#   Converted to "proper" unit tests for clarity, after making them more
+#   canonical within {testthat}, e.g. better capturing expected warnings,
+#   changing stopifnot(identical(...)) to expect_identical(...).
+test_that("Old \\dontshow{} tests in ?format.integer64 continue working", {
+  i <- -999:999
+  for (s in -3:3){
+    r <- as.integer64(round(as.integer(i), s))
+    r64 <- round(as.integer64(i), s)
+    expect_identical(r, r64)
+  }
+})
+
+test_that("Old \\dontshow{} tests in ?extract.replace.integer64 continue working", {
+  r <- c(runif64(1000L, lim.integer64()[1L], lim.integer64()[2L]), NA, -2:2)
+  expect_identical(r, as.integer64(as.bitstring(r)))
+})

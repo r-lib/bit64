@@ -126,10 +126,6 @@ NULL
 #'   x
 #'   x[]
 #'   x[,2:3]
-#'   \dontshow{
-#'     r <- c(runif64(1e3, lim.integer64()[1], lim.integer64()[2]), NA, -2:2)
-#'     stopifnot(identical(r, as.integer64(as.bitstring(r))))
-#'   }
 #' @name extract.replace.integer64
 NULL
 
@@ -165,14 +161,6 @@ NULL
 #' @seealso [xor.integer64()] [integer64()]
 #' @examples
 #'   sqrt(as.integer64(1:12))
-#' \dontshow{
-#' i <- -999:999
-#' for (s in -3:3){
-#' r <- as.integer64(round(as.integer(i), s))
-#'   r64 <- round(as.integer64(i), s)
-#'   stopifnot(identical(r,r64))
-#' }
-#' }
 #' @name format.integer64
 NULL
 
