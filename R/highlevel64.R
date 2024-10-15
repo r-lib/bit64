@@ -1426,7 +1426,7 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
         }
         p <- orderpos(table, o, x, nomatch=nomatch)
     }
-  , stop("unknown method")
+  , stop("unknown method ", method)
   )
   p
 }
@@ -1436,42 +1436,39 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
 `%in%.integer64` <- function(x, table, ...){
   stopifnot(is.integer64(x))
   table <- as.integer64(table)
-    nunique <- NULL
-    method <- NULL
+  nunique <- NULL
   cache_env <- cache(table)
-  if (is.null(method)){
-    if (is.null(cache_env)){
-            nx <- length(x)
-            if (is.null(nunique))
-                nunique <- length(table)
-            btable <- as.integer(ceiling(log2(nunique*1.5)))
-            bx <- as.integer(ceiling(log2(nx*1.5)))
-            if (bx<=17L && btable>=16L){
-                method <- "hashrin"
-            }else{
-                method <- "hashfin"
-            }
-    } else if (exists("hashmap", envir=cache_env, inherits=FALSE)) {
-        method <- "hashfin"
-    } else if (exists("sort", envir=cache_env, inherits=FALSE) && (length(table)>length(x) || length(x)<4096L)) {
-        method <- "sortfin"
-    } else if (exists("order", envir=cache_env, inherits=FALSE) && (length(table)>length(x) || length(x)<4096L)) {
-        method <- "orderfin"
+  if (is.null(cache_env)) {
+    nx <- length(x)
+    if (is.null(nunique))
+      nunique <- length(table)
+    btable <- as.integer(ceiling(log2(nunique*1.5)))
+    bx <- as.integer(ceiling(log2(nx*1.5)))
+    if (bx<=17L && btable>=16L) {
+      method <- "hashrin"
     } else {
-        nx <- length(x)
-        if (is.null(nunique)){
-            if (exists("nunique", envir=cache_env, inherits=FALSE))
-                nunique <- cache_env$nunique
-            else
-                nunique <- length(table)
-        }
-        btable <- as.integer(ceiling(log2(nunique*1.5)))
-        bx <- as.integer(ceiling(log2(nx*1.5)))
-        if (bx<=17L && btable>=16L) {
-            method <- "hashrin"
-        } else {
-            method <- "hashfin"
-        }
+      method <- "hashfin"
+    }
+  } else if (exists("hashmap", envir=cache_env, inherits=FALSE)) {
+    method <- "hashfin"
+  } else if (exists("sort", envir=cache_env, inherits=FALSE) && (length(table)>length(x) || length(x)<4096L)) {
+    method <- "sortfin"
+  } else if (exists("order", envir=cache_env, inherits=FALSE) && (length(table)>length(x) || length(x)<4096L)) {
+    method <- "orderfin"
+  } else {
+    nx <- length(x)
+    if (is.null(nunique)){
+      if (exists("nunique", envir=cache_env, inherits=FALSE))
+        nunique <- cache_env$nunique
+      else
+        nunique <- length(table)
+    }
+    btable <- as.integer(ceiling(log2(nunique*1.5)))
+    bx <- as.integer(ceiling(log2(nx*1.5)))
+    if (bx<=17L && btable>=16L) {
+      method <- "hashrin"
+    } else {
+      method <- "hashfin"
     }
   }
   switch(method
@@ -1520,7 +1517,7 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
         }
         p <- orderfin(table, o, x)
     }
-  , stop("unknown method")
+  , stop("unknown method ", method)
   )
   p
 }
@@ -1571,7 +1568,7 @@ duplicated.integer64 <- function(x
   if (is.null(method)){
     if (is.null(cache_env)){
         if (length(x)>50000000L)
-            method <- "sortorderdup"
+            method <- "sortorderdup" # nocov. Too large for practical unit tests.
         else
             method <- "hashdup"
     } else if (exists("sort", envir=cache_env, inherits=FALSE) && exists("order", envir=cache_env, inherits=FALSE))
@@ -1613,7 +1610,7 @@ duplicated.integer64 <- function(x
         }
         p <- orderdup(x, o)
     }
-  , stop("unknown method", method)
+  , stop("unknown method ", method)
   )
   p
 }
@@ -1774,7 +1771,7 @@ unique.integer64 <- function(x
             nunique <- ordernut(x, o)[1L]
         p <- orderuni(x, o, nunique, keep.order=keep.order)
     }
-  , stop("unknown method", method)
+  , stop("unknown method ", method)
   )
   p
 }
@@ -1926,7 +1923,7 @@ unipos.integer64 <- function(x
             nunique <- ordernut(x, o)[1L]
         p <- orderupo(x, o, nunique, keep.order=keep.order)
     }
-  , stop("unknown method", method)
+  , stop("unknown method ", method)
   )
   p
 }
@@ -2326,7 +2323,7 @@ keypos.integer64 <- function(x
         }
         p <- orderkey(x, o)
     }
-  , stop("unknown method", method)
+  , stop("unknown method ", method)
   )
   p
 }
@@ -2409,7 +2406,7 @@ tiepos.integer64 <- function(x
             nties <- ordernut(x, o)[2L]
         p <- ordertie(x, o, nties)
     }
-  , stop("unknown method", method)
+  , stop("unknown method ", method)
   )
   p
 }
