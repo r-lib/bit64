@@ -4,11 +4,17 @@
 \alias{matrix64}
 \alias{colSums.default}
 \alias{colSums.integer64}
+\alias{rowSums.default}
+\alias{rowSums.integer64}
 \title{Working with integer64 arrays and matrices}
 \usage{
 \method{colSums}{default}(x, na.rm = FALSE, dims = 1L)
 
 \method{colSums}{integer64}(x, na.rm = FALSE, dims = 1L)
+
+\method{rowSums}{default}(x, na.rm = FALSE, dims = 1L)
+
+\method{rowSums}{integer64}(x, na.rm = FALSE, dims = 1L)
 }
 \arguments{
 \item{x}{An array of integer64 numbers.}
@@ -21,4 +27,12 @@ objects stored in matrices. As ever, the primary motivation
 for having tailor-made functions here is that R's methods
 often receive input from bit64 and treat the vectors as doubles,
 leading to unexpected and/or incorrect results.
+}
+\details{
+As of now, the \code{colSums()} and \code{rowSums()} methods are implemented
+as wrappers around equivalent \code{apply()} approaches, because
+re-using the default routine (and then applying integer64 to the
+result) does not work for objects with missing elements. Ideally
+this would eventually get its own dedicated C routine mimicking
+that of \code{colSums()} for integers; feature requests and PRs welcome.
 }

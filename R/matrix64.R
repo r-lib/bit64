@@ -38,3 +38,24 @@ colSums.integer64 <- function(x, na.rm=FALSE, dims=1L) {
   class(ret) = "integer64"
   ret
 }
+
+#' @export
+rowSums <- function(x, na.rm=FALSE, dims=1L) UseMethod("rowSums")
+#' @rdname matrix64
+#' @export
+rowSums.default <- function(x, na.rm=FALSE, dims=1L)
+  base::rowSums(x, na.rm, dims)
+
+#' @rdname matrix64
+#' @export
+rowSums.integer64 <- function(x, na.rm=FALSE, dims=1L) {
+  n_dim <- length(dim(x))
+  stopifnot(
+    `dims= should be a length-1 integer between 1 and length(dim(x))-1L` =
+      length(dims) == 1L && dims > 0L && dims < n_dim
+  )
+  MARGIN = seq_len(dims)
+  ret = apply(x, MARGIN, sum, na.rm = na.rm)
+  class(ret) = "integer64"
+  ret
+}
