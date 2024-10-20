@@ -1,8 +1,9 @@
 ^\.github$
 ^\.gitignore
 ^\.lintr
-^\.*\.Rproj$
+\.Rproj$
 ^\.Rproj\.user$
 ^\.devcontainer$
 README.md
+^NEWS\.[0-9]+$
 ^codecov\.yml$
