@@ -2,16 +2,22 @@
 % Please edit documentation in R/matrix64.R
 \name{matrix64}
 \alias{matrix64}
+\alias{colSums}
 \alias{colSums.default}
 \alias{colSums.integer64}
+\alias{rowSums}
 \alias{rowSums.default}
 \alias{rowSums.integer64}
 \alias{aperm.integer64}
 \title{Working with integer64 arrays and matrices}
 \usage{
+colSums(x, na.rm = FALSE, dims = 1L)
+
 \method{colSums}{default}(x, na.rm = FALSE, dims = 1L)
 
 \method{colSums}{integer64}(x, na.rm = FALSE, dims = 1L)
+
+rowSums(x, na.rm = FALSE, dims = 1L)
 
 \method{rowSums}{default}(x, na.rm = FALSE, dims = 1L)
 

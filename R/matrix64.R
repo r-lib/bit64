@@ -29,6 +29,7 @@
 #' @name matrix64
 NULL
 
+#' @rdname matrix64
 #' @export
 colSums <- function(x, na.rm=FALSE, dims=1L) UseMethod("colSums")
 #' @rdname matrix64
@@ -50,6 +51,7 @@ colSums.integer64 <- function(x, na.rm=FALSE, dims=1L) {
   ret
 }
 
+#' @rdname matrix64
 #' @export
 rowSums <- function(x, na.rm=FALSE, dims=1L) UseMethod("rowSums")
 #' @rdname matrix64
