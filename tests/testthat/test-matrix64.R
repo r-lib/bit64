@@ -58,7 +58,8 @@ test_that("aperm works in simple cases", {
   # example from ?aperm
   A = array64(1:24, 2:4)
   B = aperm(A, c(2L, 1L, 3L))
-  expect_identical(t(B[,, 2L]), A[,, 2L])
-  expect_identical(t(B[,, 3L]), A[,, 3L])
-  expect_identical(t(B[,, 4L]), A[,, 4L])
+  # ignore class: t() gives 'array', not easy to delete it/add it to A[...]
+  expect_identical(t(B[,, 2L]), A[,, 2L], ignore_attr="class")
+  expect_identical(t(B[,, 3L]), A[,, 3L], ignore_attr="class")
+  expect_identical(t(B[,, 4L]), A[,, 4L], ignore_attr="class")
 })
