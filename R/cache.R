@@ -161,9 +161,9 @@ print.cache<- function(x, all.names=FALSE, pattern, ...){
 #' @param ... passed to [hashmap()]
 #'
 #' @details
-#' The result of relative expensive operations [hashmap()], [ramsort()],
-#'   [ramsortorder()], and [ramorder()] can be stored in a cache in order to
-#'   avoid multiple excutions. Unless in very specific situations, the
+#' The result of relative expensive operations [hashmap()], [bit::ramsort()],
+#'   [bit::ramsortorder()], and [bit::ramorder()] can be stored in a cache in
+#'   order to avoid multiple excutions. Unless in very specific situations, the
 #'   recommended method is `hashsortorder` only.
 #'
 #' @note
