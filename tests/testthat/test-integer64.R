@@ -241,11 +241,33 @@ test_that("semantics about mixed types for multiplication are respected", {
   expect_identical(i64 * int, as.integer64(10L))
   expect_identical(int * i64, as.integer64(10L))
   expect_identical(i64 * i64, as.integer64(4L))
+
   withr::with_options(list(integer64_semantics = "new"), {
     expect_identical(i64 * dbl, as.integer64(7L))
     expect_identical(dbl * i64, as.integer64(7L))
     expect_identical(i64 * int, as.integer64(10L))
     expect_identical(int * i64, as.integer64(10L))
     expect_identical(i64 * i64, as.integer64(4L))
+  })
+})
+
+test_that("semantics about mixed types for division are respected", {
+  int = 10L
+  i64 = as.integer64(5L)
+  dbl = 2.5
+
+  # default: "old" semantics, to be deprecated
+  expect_identical(i64 / dbl, 2.0)
+  expect_identical(dbl / i64, 0.4)
+  expect_identical(i64 / int, 0.5)
+  expect_identical(int / i64, 2.0)
+  expect_identical(i64 / i64, 1.0)
+
+  withr::with_options(list(integer64_semantics = "new"), {
+    expect_identical(i64 / dbl, 2.0)
+    expect_identical(dbl / i64, 0.5)
+    expect_identical(i64 / int, 0.5)
+    expect_identical(int / i64, 2.0)
+    expect_identical(i64 / i64, 1.0)
   })
 })
