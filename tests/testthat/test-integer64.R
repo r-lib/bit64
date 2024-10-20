@@ -229,3 +229,23 @@ test_that("empty inputs give empty outputs for arithmetic", {
   expect_identical(xor(x, y), logical())
   expect_identical(xor(y, x), logical())
 })
+
+test_that("semantics about mixed types for multiplication are respected", {
+  int = 5L
+  i64 = as.integer64(2L)
+  dbl = 3.5
+
+  # default: "old" semantics, to be deprecated
+  expect_identical(i64 * dbl, as.integer64(7L))
+  expect_identical(dbl * i64, as.integer64(6L))
+  expect_identical(i64 * int, as.integer64(10L))
+  expect_identical(int * i64, as.integer64(10L))
+  expect_identical(i64 * i64, as.integer64(4L))
+  withr::with_options(list(integer64_semantics = "new"), {
+    expect_identical(i64 * dbl, as.integer64(7L))
+    expect_identical(dbl * i64, as.integer64(7L))
+    expect_identical(i64 * int, as.integer64(10L))
+    expect_identical(int * i64, as.integer64(10L))
+    expect_identical(i64 * i64, as.integer64(4L))
+  })
+})
