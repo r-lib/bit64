@@ -1,5 +1,13 @@
 # bit64 4.5.99 (in development)
 
+## NEW FEATURES
+
+1. Implemented S3 methods for `rowSums()` and `colSums()`. Importantly they handle `NA` values correctly, #38. Thanks @vlulla for the request. Note that these are implemented as wrappers to `apply()` calls, so they may not be as efficient. PRs welcome for implementing the efficient equivalents.
+
+  Note that by necessity, this grows the set of base exports overwritten to include `rowSums()` and `colSums()`, which are exported as S3 generics dispatching to `base::rowSums()` and `base::colSums()` by default.
+
+2. Partially powering this is a new `aperm()` method for integer64 which allows `apply()` to work as intended. Using `apply()` directly may still strip the integer64 class; that may be supported later (see #87).
+
 ## NOTES
 
 1. After creating, developing, and maintaining {bit64} for about 13 years, Jens Oehlschlägel has decided to step down as maintainer of the package. Michael Chirico will take over in this duty. Thank you Jens for creating such a wonderful & important part of the R ecosystem!
