@@ -230,7 +230,7 @@ test_that("empty inputs give empty outputs for arithmetic", {
   expect_identical(xor(y, x), logical())
 })
 
-test_that("semantics about mixed double/integer64 multiplication are respected", {
+test_that("semantics about mixed types for multiplication are respected", {
   int = 5L
   i64 = as.integer64(2L)
   dbl = 3.5
