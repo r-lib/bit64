@@ -48,11 +48,18 @@ test_that("colSums and rowSums work in presence of missing", {
   expect_int_32_64_equivalent(colSums(A, na.rm=TRUE, dims=3L))
 })
 
-test_that("All-missing inputs are handled equivalently by colSums and rowSums", {
+test_that("All-missing inputs are handled correctly by colSums and rowSums", {
   A64 = matrix64(rep(NA_integer64_, 6L), nrow=3L, ncol=2L)
 
   expect_identical(rowSums(A64), rep(NA_integer64_, 3L))
   expect_identical(colSums(A64), rep(NA_integer64_, 2L))
+})
+
+test_that("out-of-integer-range inputs are handled correctly", {
+  A64 = matrix64(2.0^(30:35), nrow=3L, ncol=2L)
+
+  expect_identical(rowSums(A64), as.integer64(2L^30L*c(1L+8L, 2L+16L, 4L+32L)))
+  expect_identical(colSums(A64), as.integer64(2L^30L*c(1L+2L+4L, 8L+16L+32L)))
 })
 
 test_that("aperm works in simple cases", {
