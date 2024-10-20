@@ -6,6 +6,7 @@
 \alias{colSums.integer64}
 \alias{rowSums.default}
 \alias{rowSums.integer64}
+\alias{aperm.integer64}
 \title{Working with integer64 arrays and matrices}
 \usage{
 \method{colSums}{default}(x, na.rm = FALSE, dims = 1L)
@@ -15,6 +16,8 @@
 \method{rowSums}{default}(x, na.rm = FALSE, dims = 1L)
 
 \method{rowSums}{integer64}(x, na.rm = FALSE, dims = 1L)
+
+\method{aperm}{integer64}(a, perm, ...)
 }
 \arguments{
 \item{x}{An array of integer64 numbers.}
@@ -35,4 +38,7 @@ re-using the default routine (and then applying integer64 to the
 result) does not work for objects with missing elements. Ideally
 this would eventually get its own dedicated C routine mimicking
 that of \code{colSums()} for integers; feature requests and PRs welcome.
+
+\code{aperm()} is required for \code{apply()} to work, in general, otherwise
+\code{FUN} gets applied to a class-stripped version of the input.
 }

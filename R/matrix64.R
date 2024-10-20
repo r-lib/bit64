@@ -13,6 +13,9 @@
 #'   this would eventually get its own dedicated C routine mimicking
 #'   that of `colSums()` for integers; feature requests and PRs welcome.
 #'
+#' `aperm()` is required for `apply()` to work, in general, otherwise
+#'    `FUN` gets applied to a class-stripped version of the input.
+#'
 #' @param x An array of integer64 numbers.
 #' @param na.rm,dims Same interpretation as in [colSums()].
 #' @name matrix64
@@ -57,5 +60,14 @@ rowSums.integer64 <- function(x, na.rm=FALSE, dims=1L) {
   MARGIN = seq_len(dims)
   ret = apply(x, MARGIN, sum, na.rm = na.rm)
   class(ret) = "integer64"
+  ret
+}
+
+#' @rdname matrix64
+#' @export
+aperm.integer64 <- function(a, perm, ...) {
+  class(a) = minusclass(class(a), "integer64")
+  ret <- aperm(a, perm, ...)
+  class(ret) = plusclass(class(a), "integer64")
   ret
 }
