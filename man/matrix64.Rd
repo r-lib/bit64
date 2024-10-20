@@ -23,6 +23,10 @@
 \item{x}{An array of integer64 numbers.}
 
 \item{na.rm, dims}{Same interpretation as in \code{\link[=colSums]{colSums()}}.}
+
+\item{a, perm}{Passed on to \code{\link[=aperm]{aperm()}}.}
+
+\item{...}{Passed on to subsequent methods.}
 }
 \description{
 These functions and methods facilitate working with integer64

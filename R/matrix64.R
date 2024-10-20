@@ -18,6 +18,7 @@
 #'
 #' @param x An array of integer64 numbers.
 #' @param na.rm,dims Same interpretation as in [colSums()].
+#' @param ... Passed on to subsequent methods.
 #' @examples
 #' A = as.integer64(1:6)
 #' dim(A) = 3:2
@@ -71,6 +72,7 @@ rowSums.integer64 <- function(x, na.rm=FALSE, dims=1L) {
 }
 
 #' @rdname matrix64
+#' @param a,perm Passed on to [aperm()].
 #' @export
 aperm.integer64 <- function(a, perm, ...) {
   class(a) = minusclass(class(a), "integer64")
