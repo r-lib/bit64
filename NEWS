@@ -38,7 +38,9 @@
 
   Note that by necessity, this grows the set of base exports overwritten to include `rowSums()` and `colSums()`, which are exported as S3 generics dispatching to `base::rowSums()` and `base::colSums()` by default.
 
-2. Partially powering this is a new `aperm()` method for integer64 which allows `apply()` to work as intended. Using `apply()` directly may still strip the integer64 class; that may be supported later (see #87).
+1. Partially powering this is a new `aperm()` method for integer64 which allows `apply()` to work as intended. Using `apply()` directly may still strip the integer64 class; that may be supported later (see #87).
+
+1. `is.na()` is supported for long vector input (more than `2^31` elements), #30. Thanks @ilia-kats for the request. Long vector support will be added on an as-needed basis as I don't have a great machine for testing these features -- PRs welcome!
 
 ## NOTES
 

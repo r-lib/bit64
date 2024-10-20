@@ -902,7 +902,7 @@ SEXP seq_integer64(SEXP from_, SEXP by_, SEXP ret_){
 }
 
 SEXP isna_integer64(SEXP e1_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
+  long long i, n = XLENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
   Rboolean * ret = (Rboolean *) LOGICAL(ret_);
     for(i=0; i<n; i++) {
