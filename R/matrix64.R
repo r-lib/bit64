@@ -18,6 +18,13 @@
 #'
 #' @param x An array of integer64 numbers.
 #' @param na.rm,dims Same interpretation as in [colSums()].
+#' @examples
+#' A = as.integer64(1:6)
+#' dim(A) = 3:2
+#'
+#' colSums(A)
+#' rowSums(A)
+#' aperm(A, 2:1)
 #' @name matrix64
 NULL
 

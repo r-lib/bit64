@@ -42,3 +42,11 @@ that of \code{colSums()} for integers; feature requests and PRs welcome.
 \code{aperm()} is required for \code{apply()} to work, in general, otherwise
 \code{FUN} gets applied to a class-stripped version of the input.
 }
+\examples{
+A = as.integer64(1:6)
+dim(A) = 3:2
+
+colSums(A)
+rowSums(A)
+aperm(A, 2:1)
+}
