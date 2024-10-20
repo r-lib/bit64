@@ -229,3 +229,16 @@ test_that("empty inputs give empty outputs for arithmetic", {
   expect_identical(xor(x, y), logical())
   expect_identical(xor(y, x), logical())
 })
+
+test_that("semantics about mixed double/integer64 multiplication are respected", {
+  i <- as.integer64(2L)
+  d <- 3.5
+
+  # default: "old" semantics, to be deprecated
+  expect_identical(i * d, as.integer64(7L))
+  expect_identical(d * i, as.integer64(6L))
+  withr::with_options(list(integer64_semantics = "new"), {
+    expect_identical(i * d, as.integer64(7L))
+    expect_identical(d * i, as.integer64(7L))
+  })
+})
