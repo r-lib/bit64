@@ -129,17 +129,6 @@ test_that("vector builders of integer64 work", {
   expect_identical(c(x, 4.0, 5.0, 6.0), as.integer64(1:6))
   expect_identical(c(x, as.integer64(4:6)), as.integer64(1:6))
 
-  # TODO(#45): use matrix() directly
-  matrix64 <- function(x, nrow=1L, ncol=1L, byrow=FALSE) {
-    x = as.integer64(x)
-    if (byrow) {
-      dim(x) = c(ncol, nrow)
-      t(x)
-    } else {
-      dim(x) = c(nrow, ncol)
-      x
-    }
-  }
   expect_identical(cbind(x, FALSE), matrix64(c(1:3, 0L, 0L, 0L), nrow=3L, ncol=2L))
   expect_identical(cbind(x, 4:6), matrix64(1:6, nrow=3L, ncol=2L))
   expect_identical(cbind(x, 0.0), matrix64(c(1:3, 0L, 0L, 0L), nrow=3L, ncol=2L))
