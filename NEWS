@@ -30,7 +30,7 @@
   
   Package authors relying on this can (1) add `import(bit)` to make the full {bit} namespace available or (2) namespace-qualify all {bit} calls with `bit::`; adding {bit} to `Imports:` or `Suggests:` will also be necessary.
   
-  I will reach out to CRAN authors with any required changes.
+  I will reach out to CRAN authors with any required changes. Depending on the impact size, I might make this transition more gradual (e.g. starting by re-exporting some or all {bit} functions from {bit64}, with warning, before un-exporting them in a subsequent release).
 
 ## NEW FEATURES
 
