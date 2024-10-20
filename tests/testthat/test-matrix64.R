@@ -48,7 +48,7 @@ test_that("colSums and rowSums work in presence of missing", {
 })
 
 test_that("All-missing inputs are handled equivalently by colSums and rowSums", {
-  A64 = array64(rep(NA_integer64_, 6L), dim=dim(A))
+  A64 = matrix64(rep(NA_integer64_, 6L), nrow=3L, ncol=2L)
 
   expect_identical(rowSums(A64), rep(NA_integer64_, 3L))
   expect_identical(colSums(A64), rep(NA_integer64_, 2L))
