@@ -169,3 +169,63 @@ test_that("Old \\dontshow{} tests in ?extract.replace.integer64 continue working
   r <- c(runif64(1000L, lim.integer64()[1L], lim.integer64()[2L]), NA, -2:2)
   expect_identical(r, as.integer64(as.bitstring(r)))
 })
+
+test_that("empty inputs give empty outputs for arithmetic", {
+  x = integer64(1L)
+  y = integer64(0L)
+
+  expect_identical(x+y, integer64())
+  expect_identical(y+x, integer64())
+
+  expect_identical(x-y, integer64())
+  expect_identical(y-x, integer64())
+
+  expect_identical(+y, integer64())
+  expect_identical(-y, integer64())
+
+  expect_identical(x*y, integer64())
+  expect_identical(y*x, integer64())
+
+  expect_identical(x/y, double())
+  expect_identical(y/x, double())
+
+  expect_identical(x^y, integer64())
+  expect_identical(y^x, integer64())
+
+  expect_identical(x %/% y, integer64())
+  expect_identical(y %/% x, integer64())
+
+  expect_identical(x%%y, integer64())
+  expect_identical(y%%x, integer64())
+
+  expect_identical(log(x, base=y), double())
+  # TODO(#93): don't suppress this warning which is inconsistent with integer()
+  expect_identical(suppressWarnings(log(y, base=x)), double())
+
+  expect_identical(x==y, logical())
+  expect_identical(y==x, logical())
+
+  expect_identical(x!=y, logical())
+  expect_identical(y!=x, logical())
+
+  expect_identical(x>=y, logical())
+  expect_identical(y>=x, logical())
+
+  expect_identical(x<=y, logical())
+  expect_identical(y<=x, logical())
+
+  expect_identical(x>y, logical())
+  expect_identical(y>x, logical())
+
+  expect_identical(x<y, logical())
+  expect_identical(y<x, logical())
+
+  expect_identical(x&y, logical())
+  expect_identical(y&x, logical())
+
+  expect_identical(x|y, logical())
+  expect_identical(y|x, logical())
+
+  expect_identical(xor(x, y), logical())
+  expect_identical(xor(y, x), logical())
+})
