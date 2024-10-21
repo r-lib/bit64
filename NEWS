@@ -52,7 +52,9 @@
 
   I don't have any major plans for new features, and mostly hope to keep the package running and up to date. Contributors most welcome! I am also trying to freshen up the code base to make contribution easier.
 
-1. The R version dependency has increased from 3.0.1 (May 2013) to 3.3.0 (April 2017). We plan to keep roughly the same R dependency as {data.table}, i.e., as old as possibly for as long as possible, with some bias towards gradually bringing in new R features to reduce the maintenance overhead of a growing nest of workarounds to keep the package "fresh" for users of the latest R versions.
+1. The R version dependency has increased from 3.0.1 (May 2013) to 3.4.0 (April 2017). We plan to keep roughly the same R dependency as {data.table}, i.e., as old as possibly for as long as possible, with some bias towards gradually bringing in new R features to reduce the maintenance overhead of a growing nest of workarounds to keep the package "fresh" for users of the latest R versions.
+
+  Required package {bit} already requires R 3.4.0, so the old 3.0.1 requirement was effectively impossible anyway.
 
 1. Default packages {methods}, {stats}, and {utils} are now `Imports:`, not `Depends:`, dependencies. `Depends:` is an out-dated mode of dependency in R. This will only affect the small audience of users that run R with `R_DEFAULT_PACKAGES=NULL` (or some other subset excluding some of these three), _and_ who are relying (perhaps implicitly) on {bit64} being responsible for attaching those packages.
 
