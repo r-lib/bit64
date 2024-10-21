@@ -271,3 +271,22 @@ test_that("semantics about mixed types for division are respected", {
     expect_identical(i64 / i64, 1.0)
   })
 })
+
+test_that("all.equal.numeric for vector scale= is reflected in all.equal.integer64", {
+  # same test as for base R, multiplied by 1000 so the inputs are all integer64
+  expect_identical(
+    all.equal(
+      as.integer64(c(1000L, 1000L)),
+      as.integer64(c(1010L, 1010L)),
+      scale = c(10.0, 10.0)
+    ),
+    "Mean scaled difference: 1"
+  )
+  # same test as for base R, multiplied by 1e9 
+  one_e9 = as.integer64(1000000000L)
+  expect_true(all.equal(
+    rep(one_e9, 5L),
+    one_e9 + (-1:3),
+    scale = (1:5)*one_e9
+  ))
+})

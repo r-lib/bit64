@@ -506,32 +506,32 @@ all.equal.integer64  <- function (
   out <- out | target == current
   if (all(out))
     return(if (is.null(msg)) TRUE else msg)
-  if (countEQ) {
-    N <- length(out)
-    sabst0 <- sum(abs(target[out]))
-  } else {
-    sabst0 <- 0.0
+  anyO <- any(out)
+  sabst0 <- if (countEQ && anyO) mean(abs(target[out])) else 0.0
+  if (anyO) {
+    keep <- which(!out)
+    target  <- target [keep]
+    current <- current[keep]
+    if(!is.null(scale) && length(scale) > 1L)
+      scale <- rep_len(scale, length(out))[keep]
   }
-  target <- target[!out]
-  current <- current[!out]
-  if (!countEQ)
-    N <- length(target)
-  xy <- sum(abs(target - current))/N
+  N <- length(target)
   what <- if (is.null(scale)) {
-            xn <- (sabst0 + sum(abs(target)))/N
-            if (is.finite(xn) && xn > tolerance) {
-              xy <- xy/xn
-              "relative"
-            } else {
-              "absolute"
-            }
-          } else {
-            stopifnot(scale > 0.0)
-            xy <- xy/scale
-            if (all(abs(scale - 1.0) < 1e-07))
-              "absolute"
-            else "scaled"
-          }
+    scale <- sabst0 + sum(abs(target)/N)
+    if (is.finite(scale) && scale > tolerance) {
+      "relative"
+    } else {
+      scale <- 1.0
+      "absolute"
+    }
+  } else {
+    stopifnot(scale > 0.0)
+    if (all(abs(scale - 1.0) < 1e-07))
+      "absolute"
+    else
+      "scaled"
+  }
+  xy <- sum(abs(target - current)/(N*scale))
   if (is.na(xy) || xy > tolerance)
     msg <- c(msg, paste("Mean", what, "difference:", formatFUN(xy, what)))
   if (is.null(msg)) {
