@@ -282,11 +282,13 @@ test_that("all.equal.numeric for vector scale= is reflected in all.equal.integer
     ),
     "Mean scaled difference: 1"
   )
-  # same test as for base R, multiplied by 1e9 
+  # TODO(#100): restore this if possible.
+  skip_if_not_r_version("4.1.3")
+  # same test as for base R, multiplied by 1e9
   one_e9 = as.integer64(1000000000L)
   expect_true(all.equal(
     rep(one_e9, 5L),
-    one_e9 + (-1:3),
+    one_e9 + (-1L:3), # TODO(r-lib/lintr#): no 'L'
     scale = (1:5)*one_e9
   ))
 })
