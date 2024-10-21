@@ -315,6 +315,7 @@ test_that("all.equal works", {
 
   x = as.integer64(1000000000L)
   expect_true(all.equal(x, x+1L))
+  expect_true(all.equal(x, x+1L, tolerance=1.0e9)) # forcing scale=1
   expect_match(all.equal(x, x+100L), "Mean relative difference", fixed=TRUE)
   expect_match(all.equal(x, x+1L, scale=1.0), "Mean absolute difference", fixed=TRUE)
 })
