@@ -271,3 +271,51 @@ test_that("semantics about mixed types for division are respected", {
     expect_identical(i64 / i64, 1.0)
   })
 })
+
+test_that("all.equal.integer64 reflects changes for vector scale= from all.equal.numeric", {
+  # same test as for base R, multiplied by 1000 so the inputs are all integer64
+  expect_identical(
+    all.equal(
+      as.integer64(c(1000L, 1000L)),
+      as.integer64(c(1010L, 1010L)),
+      scale = c(10.0, 10.0)
+    ),
+    "Mean scaled difference: 1"
+  )
+  # TODO(#100): restore this if possible.
+  skip_if_not_r_version("4.1.3")
+  # same test as for base R, multiplied by 1e9
+  one_e9 = as.integer64(1000000000L)
+  expect_true(all.equal(
+    rep(one_e9, 5L),
+    one_e9 + (-1L:3), # TODO(r-lib/lintr#): no 'L'
+    scale = (1:5)*one_e9
+  ))
+})
+
+test_that("all.equal works", {
+  x = y = as.integer64(1L)
+
+  expect_true(all.equal(x, x))
+
+  class(y) = c("xx", "integer64")
+  expect_match(all.equal(x, y), "target is integer64, current is xx", fixed=TRUE, all=FALSE)
+  expect_match(all.equal(x[0L], x[1L]), "integer64: lengths.*differ", all=FALSE)
+
+  class(y) = "integer64"
+  attr(y, "xx") = "zz"
+  expect_match(all.equal(x, y), "Attributes", fixed=TRUE)
+  expect_no_match(
+    expect_match(all.equal(x[0L], y), "integer64: lengths.*differ", all=FALSE),
+    "Lengths:", fixed = TRUE
+  )
+
+  y = NA_integer64_
+  expect_match(all.equal(x, y), "'is.NA' value mismatch", fixed=TRUE)
+
+  x = as.integer64(1000000000L)
+  expect_true(all.equal(x, x+1L))
+  expect_true(all.equal(x, x+1L, tolerance=1.0e9)) # forcing scale=1
+  expect_match(all.equal(x, x+100L), "Mean relative difference", fixed=TRUE)
+  expect_match(all.equal(x, x+1L, scale=1.0), "Mean absolute difference", fixed=TRUE)
+})

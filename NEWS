@@ -42,6 +42,10 @@
 
 1. `is.na()` is supported for long vector input (more than `2^31` elements), #30. Thanks @ilia-kats for the request. Long vector support will be added on an as-needed basis as I don't have a great machine for testing these features -- PRs welcome!
 
+## BUG FIXES
+
+1. `all.equal.integer64()` gets the same fix for vector `scale=` to work as intended that `all.equal.numeric()` got in R 4.1.3, #23.
+
 ## NOTES
 
 1. After creating, developing, and maintaining {bit64} for about 13 years, Jens Oehlschlägel has decided to step down as maintainer of the package. Michael Chirico will take over in this duty. Thank you Jens for creating such a wonderful & important part of the R ecosystem!
