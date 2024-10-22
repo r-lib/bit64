@@ -4,8 +4,6 @@ test_that("match & %in% basics work", {
   expect_identical(match(x, y), c(NA, 1:3))
   expect_identical(match(y, x), c(2:4, NA))
 
-  # TODO(#85): restore these tests on old R.
-  skip_if_not_r_version("4.0.0")
   expect_identical(match(2:5, y), c(NA, 1:3))
   expect_identical(match(as.numeric(2:5), y), c(NA, 1:3))
   expect_identical(match(y, 2:5), c(2:4, NA))
