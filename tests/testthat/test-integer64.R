@@ -284,8 +284,6 @@ test_that("all.equal.integer64 reflects changes for vector scale= from all.equal
     ),
     "Mean scaled difference: 1"
   )
-  # TODO(#100): restore this if possible.
-  skip_if_not_r_version("4.1.3")
   # same test as for base R, multiplied by 1e9
   one_e9 = as.integer64(1000000000L)
   expect_true(all.equal(

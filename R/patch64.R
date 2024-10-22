@@ -100,7 +100,11 @@ is.double.integer64 <- function(x)FALSE
 match <- function(x, table, ...) UseMethod("match")
 #' @rdname bit64S3
 #' @export
-match.default <- function(x, table, ...) base::match(x, table, ...)
+match.default <- function(x, table, ...) {
+  # TODO(R>=4.2.0): Remove this workaround. Needed for #85.
+  if (!exists("mtfrm", baseenv()) && is.integer64(table)) base::match(as.character(x), as.character(table), ...) # nocov
+  else base::match(x, table, ...)
+}
 
 `%in%` <- function(x, table) UseMethod("%in%")
 #' @rdname bit64S3
