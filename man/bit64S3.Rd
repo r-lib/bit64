@@ -16,6 +16,7 @@
 \alias{rank.default}
 \alias{order}
 \alias{order.default}
+\alias{mtfrm.integer64}
 \title{Turning base R functions into S3 generics for bit64}
 \usage{
 from:to
@@ -28,6 +29,8 @@ order(...)
 \method{is.double}{default}(x)
 
 \method{is.double}{integer64}(x)
+
+\method{mtfrm}{integer64}(x)
 
 \method{match}{default}(x, table, ...)
 
