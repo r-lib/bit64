@@ -242,6 +242,7 @@ test_that("semantics about mixed types for multiplication are respected", {
   expect_identical(int * i64, as.integer64(10L))
   expect_identical(i64 * i64, as.integer64(4L))
 
+  skip_if_not_installed("withr") # only really for testing without testthat
   withr::with_options(list(integer64_semantics = "new"), {
     expect_identical(i64 * dbl, as.integer64(7L))
     expect_identical(dbl * i64, as.integer64(7L))
@@ -263,6 +264,7 @@ test_that("semantics about mixed types for division are respected", {
   expect_identical(int / i64, 2.0)
   expect_identical(i64 / i64, 1.0)
 
+  skip_if_not_installed("withr") # only really for testing without testthat
   withr::with_options(list(integer64_semantics = "new"), {
     expect_identical(i64 / dbl, 2.0)
     expect_identical(dbl / i64, 0.5)

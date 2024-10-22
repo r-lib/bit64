@@ -16,3 +16,7 @@ deps = intersect(deps, installable);                                 \
 message("Installing: ", toString(deps));                             \
 install.packages(deps);                                              \
 '
+
+# Needed for testthat equivalency on pre-testthat R
+WORKDIR /root
+COPY .devcontainer/r-340/.Rprofile .
