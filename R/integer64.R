@@ -512,8 +512,12 @@ all.equal.integer64  <- function (
     keep <- which(!out)
     target  <- target [keep]
     current <- current[keep]
-    if(!is.null(scale) && length(scale) > 1L)
-      scale <- rep_len(scale, length(out))[keep]
+    if(!is.null(scale) && length(scale) > 1L) {
+      # TODO(R>=4.0.0): Try removing this ocl part when rep() dispatching WAI on all versions (#100)
+      ocl = class(scale)
+      scale = rep_len(scale, length(out))[keep]
+      class(scale) = ocl
+    }
   }
   N <- length(target)
   what <- if (is.null(scale)) {
