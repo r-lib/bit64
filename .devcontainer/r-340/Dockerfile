@@ -1,4 +1,4 @@
-FROM r-base:3.4.0
+FROM ghcr.io/r-hub/evercran/3.4.0
 
 # RUN apt-get -qq update && \
 #   apt-get install -y --no-install-recommends git
