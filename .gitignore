@@ -8,14 +8,11 @@
 # User-specific files
 .Ruserdata
 
-# Example code in package build process
-*-Ex.R
-
-# Output files from R CMD build
+# Output files from build+check+revdeps
 /*.tar.gz
-
-# Output files from R CMD check
 /*.Rcheck/
+*-Ex.R
+revdep
 
 # RStudio files
 .Rproj.user/
