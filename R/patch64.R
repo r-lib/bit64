@@ -97,11 +97,15 @@ is.double.default <- function(x) base::is.double(x)
 #' @export
 is.double.integer64 <- function(x)FALSE
 
+# TODO(R>=4.2.0): Remove workarounds for match(). Needed for #85 and #111.
+#' @rdname bit64S3
+#' @rawNamespace if (getRversion() >= "4.2.0") S3method(mtfrm,integer64)
+mtfrm.integer64 = function(x) as.character(x)
+
 match <- function(x, table, ...) UseMethod("match")
 #' @rdname bit64S3
 #' @export
 match.default <- function(x, table, ...) {
-  # TODO(R>=4.2.0): Remove this workaround. Needed for #85.
   if (!exists("mtfrm", baseenv()) && is.integer64(table)) base::match(as.character(x), as.character(table), ...) # nocov
   else base::match(x, table, ...)
 }
