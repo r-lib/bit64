@@ -1010,18 +1010,22 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
   for (i=0; i<n; i++){
     ii.low = (unsigned int) floor(unif_rand()*4294967296);
     ii.high = (unsigned int) floor(unif_rand()*4294967296);
-//#pragma GCC diagnostic push
-//#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
     while( (*((long long *) &ii)) == NA_INTEGER64){
-//#pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
+#endif
       // xx optimisation opportunity: if we know endianess, we only need to replace one of the two
       ii.low = (unsigned int) floor(unif_rand()*4294967296);
       ii.high = (unsigned int) floor(unif_rand()*4294967296);
     }
-//#pragma GCC diagnostic push
-//#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
     ret[i] = min + ( (long long)(*((unsigned long long *)(&ii))) % d);
-//#pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
+#endif
   }
   PutRNGstate();
   UNPROTECT(1);
