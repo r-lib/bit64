@@ -24,8 +24,9 @@ message(sprintf(
 
 system("
   sudo apt update && sudo apt-get update && \
-  sudo apt install libgsl-dev && \
-  sudo apt-get install libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc pkg-config
+  sudo apt install libgsl-dev mpich libopenmpi-dev && \
+  sudo apt-get install \
+    libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc pkg-config libssh-dev libarchive-dev
 ")
 # install rust in the most insane way possible
 system("curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh")
@@ -47,7 +48,8 @@ first_level_reqs = function(pkgs) {
   c(direct_full_req) |>
     na.omit() |>
     tools:::.split_dependencies() |>
-    names()
+    names() |>
+    setdiff("R")
 }
 
 # This iteration is mainly to ensure second-order deps are also installed,
@@ -78,3 +80,8 @@ for (pkg in rev_df$package) {
     writeLines(readLines(tmp), con)
   })
 }
+close(con)
+
+failing_pkg = unique(sub("-.*", "", list.files(recursive=TRUE, pattern="\\.Rout\\.fail$")))
+
+# examine failure logs manually...
