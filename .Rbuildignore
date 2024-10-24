@@ -3,6 +3,7 @@
 ^\.lintr
 \.Rproj$
 ^\.Rproj\.user$
+^\.dev$
 ^\.devcontainer$
 README.md
 ^NEWS\.[0-9]+$
