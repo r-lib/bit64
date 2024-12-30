@@ -55,6 +55,11 @@ typedef struct Unsigned32x2TStruct {
   unsigned int high;
 } Unsigned32x2T;
 
+typedef union {
+  Unsigned32x2T u32;
+  long long      ll;
+} PunnedU32x2AndLongLong;
+
 /*****************************************************************************/
 /**                                                                         **/
 /**                   PROTOTYPYPES OF LOCAL FUNCTIONS                       **/
@@ -1005,27 +1010,20 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
   SEXP ret_;
   PROTECT(ret_ = allocVector(REALSXP, n));
   long long * ret = (long long *) REAL(ret_);
-  Unsigned32x2T ii;
+  PunnedU32x2AndLongLong ii;
   GetRNGstate();
   for (i=0; i<n; i++){
-    ii.low = (unsigned int) floor(unif_rand()*4294967296);
-    ii.high = (unsigned int) floor(unif_rand()*4294967296);
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wstrict-aliasing"
-    while( (*((long long *) &ii)) == NA_INTEGER64){
-#pragma GCC diagnostic pop
-#endif
+    ii.u32.low = (unsigned int) floor(unif_rand()*4294967296);
+    ii.u32.high = (unsigned int) floor(unif_rand()*4294967296);
+    while(ii.ll == NA_INTEGER64) {
+      // # nocov start. Requires exceedingly rare (2^(-64) probability) occurrence.
+      //   In principle can be found with the 'perfect' random seed, not worth burning compute to find out what that seed is.
       // xx optimisation opportunity: if we know endianess, we only need to replace one of the two
-      ii.low = (unsigned int) floor(unif_rand()*4294967296);
-      ii.high = (unsigned int) floor(unif_rand()*4294967296);
+      ii.u32.low = (unsigned int) floor(unif_rand()*4294967296);
+      ii.u32.high = (unsigned int) floor(unif_rand()*4294967296);
+      // # nocov end
     }
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wstrict-aliasing"
-    ret[i] = min + ( (long long)(*((unsigned long long *)(&ii))) % d);
-#pragma GCC diagnostic pop
-#endif
+    ret[i] = min + (ii.ll % d);
   }
   PutRNGstate();
   UNPROTECT(1);
