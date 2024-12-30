@@ -50,6 +50,10 @@
 /**                                                                         **/
 /*****************************************************************************/
 
+// Type pun to enable drawing 'long long' at random -- unif_rand() is only
+//   suitable for drawing 32-bit values, so we take the approach of drawing
+//   two such values and concatenating them. The way this works is that the
+//   LongLongRepr is exactly 2^32*high + low.
 typedef union {
   struct {
     unsigned int low;
@@ -1011,12 +1015,17 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
   PunnedU32x2AndLongLong rand_draw;
   GetRNGstate();
   for (i=0; i<n; i++){
-    rand_draw.U32x2Repr.low = (unsigned int) floor(unif_rand()*4294967296);
+    rand_draw.U32x2Repr.low = (unsigned int) floor(unif_rand()*4294967296 /* =2^32 */);
     rand_draw.U32x2Repr.high = (unsigned int) floor(unif_rand()*4294967296);
+    // Requires exceedingly rare (2^(-64) probability) occurrence.
+    //   In principle coverage could be done by finding with the 'perfect' random seed,
+    //   but it's not worth burning compute to find out it is.
+    // On a "normal" machine, drawing NA_INTEGER64 corresponds to low=0, high=2^31,
+    //   so in principal we could just try and steer the draw above away from this.
+    //   But the transformation becomes non-trivial, the statistics messy, and it's by no means
+    //   guaranteed to work across all platforms -- simpler to just leave this simple retry approach.
     while(rand_draw.LongLongRepr == NA_INTEGER64) {
-      // # nocov start. Requires exceedingly rare (2^(-64) probability) occurrence.
-      //   In principle can be found with the 'perfect' random seed, not worth burning compute to find out what that seed is.
-      // xx optimisation opportunity: if we know endianess, we only need to replace one of the two
+      // # nocov start.
       rand_draw.U32x2Repr.low = (unsigned int) floor(unif_rand()*4294967296);
       rand_draw.U32x2Repr.high = (unsigned int) floor(unif_rand()*4294967296);
       // # nocov end
