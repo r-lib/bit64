@@ -50,14 +50,12 @@
 /**                                                                         **/
 /*****************************************************************************/
 
-typedef struct Unsigned32x2TStruct {
-  unsigned int low;
-  unsigned int high;
-} Unsigned32x2T;
-
 typedef union {
-  Unsigned32x2T u32;
-  long long      ll;
+  struct {
+    unsigned int low;
+    unsigned int high;
+  } U32x2Repr;
+  long long LongLongRepr;
 } PunnedU32x2AndLongLong;
 
 /*****************************************************************************/
@@ -1010,20 +1008,20 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
   SEXP ret_;
   PROTECT(ret_ = allocVector(REALSXP, n));
   long long * ret = (long long *) REAL(ret_);
-  PunnedU32x2AndLongLong ii;
+  PunnedU32x2AndLongLong rand_draw;
   GetRNGstate();
   for (i=0; i<n; i++){
-    ii.u32.low = (unsigned int) floor(unif_rand()*4294967296);
-    ii.u32.high = (unsigned int) floor(unif_rand()*4294967296);
-    while(ii.ll == NA_INTEGER64) {
+    rand_draw.U32x2Repr.low = (unsigned int) floor(unif_rand()*4294967296);
+    rand_draw.U32x2Repr.high = (unsigned int) floor(unif_rand()*4294967296);
+    while(rand_draw.LongLongRepr == NA_INTEGER64) {
       // # nocov start. Requires exceedingly rare (2^(-64) probability) occurrence.
       //   In principle can be found with the 'perfect' random seed, not worth burning compute to find out what that seed is.
       // xx optimisation opportunity: if we know endianess, we only need to replace one of the two
-      ii.u32.low = (unsigned int) floor(unif_rand()*4294967296);
-      ii.u32.high = (unsigned int) floor(unif_rand()*4294967296);
+      rand_draw.U32x2Repr.low = (unsigned int) floor(unif_rand()*4294967296);
+      rand_draw.U32x2Repr.high = (unsigned int) floor(unif_rand()*4294967296);
       // # nocov end
     }
-    ret[i] = min + (ii.ll % d);
+    ret[i] = min + (rand_draw.LongLongRepr % d);
   }
   PutRNGstate();
   UNPROTECT(1);
