@@ -50,6 +50,10 @@
 /**                                                                         **/
 /*****************************************************************************/
 
+// Type pun to enable drawing 'long long' at random -- unif_rand() is only
+//   suitable for drawing 32-bit values, so we take the approach of drawing
+//   two such values and concatenating them. The way this works is that the
+//   LongLongRepr is exactly 2^32*high + low.
 typedef union {
   struct {
     unsigned int low;
@@ -994,6 +998,11 @@ SEXP GE_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   return ret_;
 }
 
+void draw_u32_twice(PunnedU32x2AndLongLong *x) {
+  x->U32x2Repr.low = (unsigned int) floor(unif_rand()*4294967296 /* =2^32 */);
+  x->U32x2Repr.high = (unsigned int) floor(unif_rand()*4294967296);
+}
+
 SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
   int i, n=asInteger(n_);
   long long min = *((long long * ) REAL(min_));
@@ -1011,16 +1020,16 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
   PunnedU32x2AndLongLong rand_draw;
   GetRNGstate();
   for (i=0; i<n; i++){
-    rand_draw.U32x2Repr.low = (unsigned int) floor(unif_rand()*4294967296);
-    rand_draw.U32x2Repr.high = (unsigned int) floor(unif_rand()*4294967296);
-    while(rand_draw.LongLongRepr == NA_INTEGER64) {
-      // # nocov start. Requires exceedingly rare (2^(-64) probability) occurrence.
-      //   In principle can be found with the 'perfect' random seed, not worth burning compute to find out what that seed is.
-      // xx optimisation opportunity: if we know endianess, we only need to replace one of the two
-      rand_draw.U32x2Repr.low = (unsigned int) floor(unif_rand()*4294967296);
-      rand_draw.U32x2Repr.high = (unsigned int) floor(unif_rand()*4294967296);
-      // # nocov end
-    }
+    draw_u32_twice(&rand_draw);
+    // Requires exceedingly rare (2^(-64) probability) occurrence.
+    //   In principle coverage could be done by finding with the 'perfect' random seed,
+    //   but it's not worth burning compute to find out it is.
+    // On a "normal" machine, drawing NA_INTEGER64 corresponds to low=0, high=2^31,
+    //   so in principal we could just try and steer draw_u32_twice away from this.
+    //   But the transformation becomes non-trivial, the statistics messy, and it's by no means
+    //   guaranteed to work across all platforms -- simpler to just leave this simple retry approach.
+    while(rand_draw.LongLongRepr == NA_INTEGER64)
+      draw_u32_twice(&rand_draw); // # nocov
     ret[i] = min + (rand_draw.LongLongRepr % d);
   }
   PutRNGstate();
