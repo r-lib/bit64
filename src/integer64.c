@@ -1016,9 +1016,12 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
     ii.u32.low = (unsigned int) floor(unif_rand()*4294967296);
     ii.u32.high = (unsigned int) floor(unif_rand()*4294967296);
     while(ii.ll == NA_INTEGER64) {
+      // # nocov start. Requires exceedingly rare (2^(-64) probability) occurrence.
+      //   In principle can be found with the 'perfect' random seed, not worth burning compute to find out what that seed is.
       // xx optimisation opportunity: if we know endianess, we only need to replace one of the two
       ii.u32.low = (unsigned int) floor(unif_rand()*4294967296);
       ii.u32.high = (unsigned int) floor(unif_rand()*4294967296);
+      // # nocov end
     }
     ret[i] = min + (ii.ll % d);
   }
