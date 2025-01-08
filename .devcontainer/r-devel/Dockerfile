@@ -1,7 +1,7 @@
-FROM rocker/r-base
+FROM docker.io/rhub/r-minimal:devel
 
-RUN apt-get -qq update && \
-  apt-get install -y --no-install-recommends git
+RUN apk update && \
+  apk add --no-cache git gcc g++ linux-headers musl-dev
 
 COPY DESCRIPTION .
 
