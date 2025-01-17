@@ -1,4 +1,4 @@
-# bit64 4.5.99 (in development)
+# bit64 4.6.0-1
 
 ## NOTICE OF PLANNED BREAKING CHANGES
 
@@ -46,7 +46,7 @@
 
 1. `all.equal.integer64()` gets the same fix for vector `scale=` to work as intended that `all.equal.numeric()` got in R 4.1.3, #23.
 
-2. Made edits to `match()` to handle `is.integer64(table)` better for older versions of R, including a new `mtfrm()` method for integer64 objects in R>=4.2.0, #85 and #111.
+1. Made edits to `match()` to handle `is.integer64(table)` better for older versions of R, including a new `mtfrm()` method for integer64 objects in R>=4.2.0, #85 and #111.
 
 ## NOTES
 
