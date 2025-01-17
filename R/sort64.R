@@ -476,35 +476,6 @@ ramorder.integer64 <- function (x
 #' @name sort.integer64
 NULL
 
-# nocov start
-if (FALSE){
-    library(bit64)
-    x <- as.integer64(c(sample.int(10000000L),NA))
-    #system.time(sortcache(x))[3]
-    # system.time(ordercache(x))[3]
-    system.time(sortordercache(x))[3L]
-
-    # system.time(s <- sort(x, na.last=FALSE, decreasing=FALSE))[3]
-    # stopifnot(identical(s, {xs<-clone(x);ramsort(xs, na.last=FALSE, decreasing=FALSE);xs}))
-    # system.time(s <- sort(x, na.last=TRUE, decreasing=FALSE))[3]
-    # stopifnot(identical(s, {xs<-clone(x);ramsort(xs, na.last=TRUE, decreasing=FALSE);xs}))
-    # system.time(s <- sort(x, na.last=FALSE, decreasing=TRUE))[3]
-    # stopifnot(identical(s, {xs<-clone(x);ramsort(xs, na.last=FALSE, decreasing=TRUE);xs}))
-    # system.time(s <- sort(x, na.last=TRUE, decreasing=TRUE))[3]
-    # stopifnot(identical(s, {xs<-clone(x);ramsort(xs, na.last=TRUE, decreasing=TRUE);xs}))
-
-    system.time(o <- order.integer64(x, na.last=FALSE, decreasing=FALSE))[3L]
-    stopifnot(identical(o, {xo<-seq_along(x);ramorder(x, xo, na.last=FALSE, decreasing=FALSE);xo}))
-    system.time(o <- order.integer64(x, na.last=TRUE, decreasing=FALSE))[3L]
-    stopifnot(identical(o, {xo<-seq_along(x);ramorder(x, xo, na.last=TRUE, decreasing=FALSE);xo}))
-    system.time(o <- order.integer64(x, na.last=FALSE, decreasing=TRUE))[3L]
-    stopifnot(identical(o, {xo<-seq_along(x);ramorder(x, xo, na.last=FALSE, decreasing=TRUE);xo}))
-    system.time(o <- order.integer64(x, na.last=TRUE, decreasing=TRUE))[3L]
-    stopifnot(identical(o, {xo<-seq_along(x);ramorder(x, xo, na.last=TRUE, decreasing=TRUE);xo}))
-
-}
-# nocov end
-
 #' @rdname sort.integer64
 #' @export
 sort.integer64 <- function(x
