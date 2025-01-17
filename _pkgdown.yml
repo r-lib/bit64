@@ -7,4 +7,3 @@ template:
       <script defer data-domain="bit64.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
 development:
   mode: auto
-
