@@ -11,6 +11,6 @@ RUN Rscript -e '                                \
   remotes::install_deps(dependencies = c(       \
     "Depends",                                  \
     "Imports",                                  \
-    "Config/needs/development"                  \
+    "Config/Needs/development"                  \
   ))                                            \
 '
