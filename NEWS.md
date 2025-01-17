@@ -1,4 +1,10 @@
-# bit64 4.6.0-1
+# bit64 4.7.99 (in development)
+
+## NOTES
+
+1. {bit64} no longer prints any start-up messages through an `.onAttach()` hook (#106). Thanks @hadley for the request.
+
+# bit64 4.6.0-1 (2025-01-16)
 
 ## NOTICE OF PLANNED BREAKING CHANGES
 
