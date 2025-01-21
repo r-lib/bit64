@@ -547,7 +547,7 @@ sortqtl <- function(sorted, na.count, probs, ...) UseMethod("sortqtl")
 #' @export
 sortqtl.integer64 <- function(sorted, na.count, probs, ...){
     n <- length(sorted) - na.count  # nvalid
-    ret <- sorted[na.count + round(1L + probs*(n-1L))]
+    ret <- sorted[na.count + round(1L + probs * (n-1L))]
     ret[is.na(probs)] <- NA ## xx TODO this fix only neccessary until we have C-implementation of [.integer64 handling NA
     ret
 }
@@ -559,7 +559,7 @@ orderqtl <- function(table, order, na.count, probs, ...) UseMethod("orderqtl")
 #' @export
 orderqtl.integer64 <- function(table, order, na.count, probs, ...){
   n = length(table) - na.count  # nvalid
-  idx = na.count + round(1L + probs*(n-1L))
+  idx = na.count + round(1L + probs * (n-1L))
   ret = table[order[idx]]
   ret[is.na(probs)] <- NA ## xx TODO this fix only neccessary until we have C-implementation of [.integer64 handling NA
   ret

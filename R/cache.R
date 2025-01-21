@@ -355,7 +355,7 @@ is.sorted.integer64 <- function(x, ...){
 #' @export
 nunique.integer64 <- function(x, ...){
     env <- cache(x)
-    if(is.null(env))
+    if (is.null(env))
         has.cache <- FALSE
     else if (exists("nunique", envir=env, inherits=FALSE))
         return(get("nunique", envir=env, inherits=FALSE))
