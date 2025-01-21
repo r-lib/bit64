@@ -1742,10 +1742,8 @@ xor.integer64 <- function(x, y){
 #' @exportS3Method is.vector integer64
 is.vector.integer64 <- function(x, mode="any"){
   cl <- minusclass(oldClass(x), "integer64")
-  a <- attributes(x)
-  a$class <- NULL
-  a$names <- NULL
-  is.na(match(mode, c("any", "integer64"))) && length(cl) && length(a)
+  a <- setdiff(names(attributes(x)), c("class", "names"))
+  is.na(match(mode, c("any", "integer64"))) && !length(cl) && !length(a)
 }
 
 #' @rdname as.character.integer64
