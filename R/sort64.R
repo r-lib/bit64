@@ -490,33 +490,35 @@ sort.integer64 <- function(x
   do.na.last <- is.na(na.last) || na.last
   cache_env <- cache(x)
   if (!is.null(cache_env$sort)){
-        if (do.na.last || decreasing){
-            s <- double(length(x))
-            .Call(C_r_ram_integer64_sortsrt
-            , x = cache_env$sort
-            , na_count   = as.integer(na.count <- cache_env$na.count)
-            , na_last    = as.logical(do.na.last)
-            , decreasing = as.logical(decreasing)
-            , s              = s
-            , PACKAGE = "bit64"
-            )
-            setattr(s, "class", "integer64")
-        }else
-            s <- cache_env$sort  # here we save copying at all
+        if (do.na.last || decreasing) {
+          na.count <- cache_env$na.count
+          s <- double(length(x))
+          .Call(C_r_ram_integer64_sortsrt,
+            x = cache_env$sort,
+            na_count = as.integer(na.count),
+            na_last = as.logical(do.na.last),
+            decreasing = as.logical(decreasing),
+            s = s
+          )
+          setattr(s, "class", "integer64")
+        } else {
+          s <- cache_env$sort  # here we save copying at all
+        }
   }else if (!is.null(cache_env$order)){
-        if (do.na.last || decreasing){
-            s <- double(length(x))
-            .Call(C_r_ram_integer64_sortsrt
-            , x = x[cache_env$order]
-            , na_count   = as.integer(na.count <- cache_env$na.count)
-            , na_last    = as.logical(do.na.last)
-            , decreasing = as.logical(decreasing)
-            , s              = s
-            , PACKAGE = "bit64"
-            )
-            setattr(s, "class", "integer64")
-        }else
-            s <- x[cache_env$order]
+        if (do.na.last || decreasing) {
+          na.count <- cache_env$na.count
+          s <- double(length(x))
+          .Call(C_r_ram_integer64_sortsrt,
+            x = x[cache_env$order],
+            na_count = as.integer(na.count),
+            na_last = as.logical(do.na.last),
+            decreasing = as.logical(decreasing),
+            s = s
+          )
+          setattr(s, "class", "integer64")
+        } else {
+          s <- x[cache_env$order]
+        }
   }else{
     if (identical(cache_env$na.count, 0L))
       has.na <- FALSE
@@ -560,28 +562,28 @@ order.integer64 <- function(
   x <- A(1L)
   cache_env <- cache(x)
   if (!is.null(cache_env$order)){
-        if (do.na.last || decreasing){
+        if (do.na.last || decreasing) {
             o <- integer(length(x))
-            if (is.null(cache_env$sort)){
-                .Call(C_r_ram_integer64_orderord
-                , x = x
-                , i = cache_env$order
-                , na_count   = as.integer(na.count <- cache_env$na.count)
-                , na_last    = as.logical(do.na.last)
-                , decreasing = as.logical(decreasing)
-                , o              = o
-                , PACKAGE = "bit64"
-                )
-            }else{
-                .Call(C_r_ram_integer64_sortorderord
-                , x = cache_env$sort
-                , i = cache_env$order
-                , na_count   = as.integer(na.count <- cache_env$na.count)
-                , na_last    = as.logical(do.na.last)
-                , decreasing = as.logical(decreasing)
-                , o              = o
-                , PACKAGE = "bit64"
-                )
+            if (is.null(cache_env$sort)) {
+              na.count <- cache_env$na.count
+              .Call(C_r_ram_integer64_orderord,
+                x = x,
+                i = cache_env$order,
+                na_count = as.integer(na.count),
+                na_last = as.logical(do.na.last),
+                decreasing = as.logical(decreasing),
+                o = o
+              )
+            } else {
+              na.count <- cache_env$na.count
+              .Call(C_r_ram_integer64_sortorderord,
+                x = cache_env$sort,
+                i = cache_env$order,
+                na_count = as.integer(na.count),
+                na_last = as.logical(do.na.last),
+                decreasing = as.logical(decreasing),
+                o = o
+              )
             }
           }else
             o <- cache_env$order  # here we save copying at all
