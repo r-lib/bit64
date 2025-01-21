@@ -2675,7 +2675,7 @@ mean.integer64 <- function(x, na.rm=FALSE, ...) {
 #' @rdname qtile
 #' @param object a integer64 vector
 #' @export
-summary.integer64 <- function (object, ...) {
+summary.integer64 <- function(object, ...) {
     nas <- na.count(object)
     qq <- quantile(object, na.rm=TRUE)
     qq <- c(qq[1L:3L], mean(object, na.rm=TRUE), qq[4L:5L])

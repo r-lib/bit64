@@ -441,17 +441,13 @@ setOldClass("integer64")
 #' @rdname all.equal.integer64
 #' @method all.equal integer64
 #' @exportS3Method all.equal integer64
-all.equal.integer64  <- function (
-  target
-, current
-, tolerance = sqrt(.Machine$double.eps)
-, scale = NULL
-, countEQ = FALSE
-, formatFUN = function(err, what) format(err)
-, ...
-, check.attributes = TRUE
-)
-{
+all.equal.integer64  <- function(target, current,
+                                 tolerance = sqrt(.Machine$double.eps),
+                                 scale = NULL,
+                                 countEQ = FALSE,
+                                 formatFUN = function(err, what) format(err),
+                                 ...,
+                                 check.attributes = TRUE) {
   if (!is.numeric(tolerance))
     stop("'tolerance' should be numeric")
   if (!is.numeric(scale) && !is.null(scale))
@@ -569,37 +565,27 @@ identical(x=x, y=y
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64 <- function (x, ...)
-UseMethod("as.integer64")
+as.integer64 <- function(x, ...) UseMethod("as.integer64")
 
 #' @rdname as.character.integer64
 #' @export
-as.bitstring <- function(x, ...)
-UseMethod("as.bitstring")
+as.bitstring <- function(x, ...) UseMethod("as.bitstring")
 
 #' @rdname plusclass
 #' @export
 minusclass <- function(class, whichclass){
-  if (length(class)){
-      i <- whichclass==class
-      if (any(i))
-        class[!i]
-      else
-        class
-  }else
+  if (!length(class)) return(class)
+  i <- whichclass == class
+  if (any(i))
+    class[!i]
+  else
     class
 }
 
 #' @export
-plusclass <- function(class, whichclass){
-  if (length(class)){
-      i <- whichclass==class
-      if (any(i))
-        class
-      else
-        c(class, whichclass)
-  }else
-    whichclass
+plusclass <- function(class, whichclass) {
+  if (!length(class)) return(whichclass)
+  c(class, if (!any(whichclass == class)) whichclass)
 }
 
 # Version of Leonardo Silvestri
@@ -696,7 +682,7 @@ is.integer64 <- function(x) inherits(x, "integer64")
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.NULL <- function (x, ...){
+as.integer64.NULL <- function(x, ...) {
   ret <- double()
   oldClass(ret) <- "integer64"
   ret
@@ -968,26 +954,23 @@ str.integer64 <- function(object,
 
 #' @rdname c.integer64
 #' @export
-c.integer64 <-
-function (..., recursive = FALSE)
-{
-    l <- list(...)
-    K <- length(l)
-    for (k in 1:K){
-        if (recursive && is.list(l[[k]])){
-            l[[k]] <- do.call(c.integer64, c(l[[k]], list(recursive = TRUE)))
-        }else{
-            if (!is.integer64(l[[k]])) {
-                nam <- names(l[[k]])
-                l[[k]] <- as.integer64(l[[k]])
-                names(l[[k]]) <- nam
-            }
-            oldClass(l[[k]]) <- NULL
-        }
+c.integer64 <- function(..., recursive = FALSE) {
+  l <- list(...)
+  for (k in seq_along(l)) {
+    if (recursive && is.list(l[[k]])) {
+      l[[k]] <- do.call(c.integer64, c(l[[k]], list(recursive = TRUE)))
+    } else {
+      if (!is.integer64(l[[k]])) {
+        nam <- names(l[[k]])
+        l[[k]] <- as.integer64(l[[k]])
+        names(l[[k]]) <- nam
+      }
+      oldClass(l[[k]]) <- NULL
     }
-    ret <- do.call(c, l)
-    oldClass(ret) <- "integer64"
-    ret
+  }
+  ret <- do.call(c, l)
+  oldClass(ret) <- "integer64"
+  ret
 }
 
 #' @rdname c.integer64
@@ -1767,7 +1750,7 @@ is.vector.integer64 <- function(x, mode="any"){
 
 #' @rdname as.character.integer64
 #' @export
-as.list.integer64 <- function (x, ...) {
+as.list.integer64 <- function(x, ...) {
   ret <- NextMethod("as.list", x, ...)
   .Call(C_as_list_integer64, ret)
 }
