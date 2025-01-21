@@ -543,51 +543,6 @@ all.equal.integer64  <- function (
   } else msg
 }
 
-# nocov start
-if (FALSE){
-  require(bit64)
-  a <- as.integer64(1L)
-  b <- 10L
-  oldClass(a) <- c("j", oldClass(a))
-  oldClass(b) <- c("j", oldClass(b))
-  all.equal(a,b)
-
-  a <- 1.0
-  b <- 10L
-  oldClass(a) <- c("j", oldClass(a))
-  oldClass(b) <- c("j", oldClass(b))
-  all.equal(a,b)
-
-  a <- as.integer64(9e17)
-  b <- 9e18
-  oldClass(a) <- c("j", oldClass(a))
-  oldClass(b) <- c("j", oldClass(b))
-  all.equal(a,b)
-
-  a <- as.integer64(9e18)
-  b <- 9e19
-  oldClass(a) <- c("j", oldClass(a))
-  oldClass(b) <- c("j", oldClass(b))
-  all.equal(a,b)
-
-  a <- as.integer64(c(1L,NA))
-  b <- as.integer(c(1L,NA))
-  all.equal(a,b)
-
-  a <- as.integer64(c(1L,NA))
-  b <- as.double(c(1L,NA))
-  all.equal(a,b)
-
-  a <- as.integer64(c(1.0,Inf))
-  b <- as.integer(c(1.0,Inf))
-  all.equal(a,b)
-
-  a <- as.integer64(c(1.0,Inf))
-  b <- as.double(c(1.0,Inf))
-  all.equal(a,b)
-}
-# nocov end
-
 # TODO(R>=4.2.0): Consider restoring extptr.as.ref= to the signature.
 #' @rdname identical.integer64
 #' @exportS3Method identical integer64
@@ -646,46 +601,6 @@ plusclass <- function(class, whichclass){
   }else
     whichclass
 }
-
-# nocov start
-if (FALSE){
-  # version until 0.9-7
-  binattr <- function(e1, e2) {
-    d1 <- dim(e1)
-    d2 <- dim(e2)
-    n1 <- length(e1)
-    n2 <- length(e2)
-    if (length(d1)) {
-      if (length(d2)) {
-        if (!identical(dim(e1),dim(e2)))
-          stop("non-conformable arrays")
-      } else {
-        if (n2>n1)
-          stop("length(e2) does not match dim(e1)")
-        if (n1%%n2)
-          warning("length(e1) not a multiple length(e2)")
-      }
-      attributes(e1)
-    } else if (length(d2)) {
-      if (n1>n2)
-        stop("length(e1) does not match dim(n2)")
-      if (n2%%n1)
-      warning("length(e2) not a multiple length(e1)")
-      attributes(e2)
-    } else {
-      if (n1<n2) {
-        if (n2%%n1)
-          warning("length(e2) not a multiple length(e1)")
-      } else {
-        # nolint next: unnecessary_nesting_linter. Good parallelism.
-        if (n1%%n2)
-          warning("length(e1) not a multiple length(e2)")
-      }
-      attributes(e1)
-    }
-  }
-}
-# nocov end
 
 # Version of Leonardo Silvestri
 #' @rdname xor.integer64
@@ -762,37 +677,6 @@ binattr <- function(e1, e2) {
 #   }
 #   x
 # }
-
-
-
-# nocov start
-if (FALSE){
-  x <- integer64(0L)
-  y <- integer64(0L)
-  #dim(x) <- c(2L,2L)
-  dim(y) <- c(0L,0L)
-  dimnames(y) <- list(character(0L),character(0L))
-  #dim(x) <- c(1L,4L)
-  #dim(y) <- c(4L,1L)
-
-  attr(x,"x") <- "x"
-  attr(y,"y") <- "y"
-
-  z <- x - y
-  z
-  dim(z)
-  dimnames(z)
-
-  z <- y - x
-  z
-  dim(z)
-  dimnames(z)
-
-  ret <- "integer64(0L)"
-  attributes(ret) <- list(dim = c(0L, 0L), class = character(0L), dimnames = list(NULL,NULL))
-
-}
-# nocov end
 
 #' @rdname bit64-package
 #' @param length length of vector using [integer()]
@@ -987,27 +871,6 @@ str.integer64 <- function(object
   cat(if (give.head)paste0("integer64 ", if (give.length && n>1L) paste0("[1:",n,"] ")), paste(as.character(object), collapse=" "),if(n>vec.len)" ...", " \n", sep="")
   invisible()
 }
-
-# nocov start
-if (FALSE){
-    require(microbenchmark)
-    require(bit64)
-    x <- runif64(10000000L)
-    microbenchmark(x[TRUE], times=10L)
-    microbenchmark(x[NA], times=10L)
-  i <- seq_along(x)
-    i[1L] <- NA
-    microbenchmark(x[i], times=10L)
-    i <- rep(TRUE, length(x))
-    i[1L] <- NA
-    microbenchmark(x[i], times=10L)
-  i <- seq_along(x)
-    microbenchmark(x[i], times=10L)
-    i <- rep(TRUE, length(x))
-    microbenchmark(x[i], times=10L)
-
-}
-# nocov end
 
 #' @rdname extract.replace.integer64
 #' @export

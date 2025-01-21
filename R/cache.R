@@ -359,7 +359,7 @@ nunique.integer64 <- function(x, ...){
         has.cache <- FALSE
     else if (exists("nunique", envir=env, inherits=FALSE))
         return(get("nunique", envir=env, inherits=FALSE))
-    else
+    else # nolint: unreachable_code_linter. TODO(r-lib/lintr#2710): Re-enable.
         has.cache <- TRUE
     if (is.sorted(x)){
         ret <- .Call(C_r_ram_integer64_sortnut
