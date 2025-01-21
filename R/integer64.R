@@ -441,17 +441,13 @@ setOldClass("integer64")
 #' @rdname all.equal.integer64
 #' @method all.equal integer64
 #' @exportS3Method all.equal integer64
-all.equal.integer64  <- function (
-  target
-, current
-, tolerance = sqrt(.Machine$double.eps)
-, scale = NULL
-, countEQ = FALSE
-, formatFUN = function(err, what) format(err)
-, ...
-, check.attributes = TRUE
-)
-{
+all.equal.integer64  <- function(target, current,
+                                 tolerance = sqrt(.Machine$double.eps),
+                                 scale = NULL,
+                                 countEQ = FALSE,
+                                 formatFUN = function(err, what) format(err),
+                                 ...,
+                                 check.attributes = TRUE) {
   if (!is.numeric(tolerance))
     stop("'tolerance' should be numeric")
   if (!is.numeric(scale) && !is.null(scale))
@@ -512,7 +508,7 @@ all.equal.integer64  <- function (
     keep <- which(!out)
     target  <- target [keep]
     current <- current[keep]
-    if(!is.null(scale) && length(scale) > 1L) {
+    if (!is.null(scale) && length(scale) > 1L) {
       # TODO(R>=4.0.0): Try removing this ocl part when rep() dispatching WAI on all versions (#100)
       ocl = class(scale)
       scale = rep_len(scale, length(out))[keep]
@@ -535,7 +531,7 @@ all.equal.integer64  <- function (
     else
       "scaled"
   }
-  xy <- sum(abs(target - current)/(N*scale))
+  xy <- sum(abs(target - current) / (N*scale))
   if (is.na(xy) || xy > tolerance)
     msg <- c(msg, paste("Mean", what, "difference:", formatFUN(xy, what)))
   if (is.null(msg)) {
@@ -569,37 +565,27 @@ identical(x=x, y=y
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64 <- function (x, ...)
-UseMethod("as.integer64")
+as.integer64 <- function(x, ...) UseMethod("as.integer64")
 
 #' @rdname as.character.integer64
 #' @export
-as.bitstring <- function(x, ...)
-UseMethod("as.bitstring")
+as.bitstring <- function(x, ...) UseMethod("as.bitstring")
 
 #' @rdname plusclass
 #' @export
 minusclass <- function(class, whichclass){
-  if (length(class)){
-      i <- whichclass==class
-      if (any(i))
-        class[!i]
-      else
-        class
-  }else
+  if (!length(class)) return(class)
+  i <- whichclass == class
+  if (any(i))
+    class[!i]
+  else
     class
 }
 
 #' @export
-plusclass <- function(class, whichclass){
-  if (length(class)){
-      i <- whichclass==class
-      if (any(i))
-        class
-      else
-        c(class, whichclass)
-  }else
-    whichclass
+plusclass <- function(class, whichclass) {
+  if (!length(class)) return(whichclass)
+  c(class, if (!any(whichclass == class)) whichclass)
 }
 
 # Version of Leonardo Silvestri
@@ -696,7 +682,7 @@ is.integer64 <- function(x) inherits(x, "integer64")
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.NULL <- function (x, ...){
+as.integer64.NULL <- function(x, ...) {
   ret <- double()
   oldClass(ret) <- "integer64"
   ret
@@ -857,18 +843,23 @@ print.integer64 <- function(x, quote=FALSE, ...) {
 #' @param object an integer64 vector
 #' @param vec.len,give.head,give.length see [utils::str()]
 #' @export
-str.integer64 <- function(object
-, vec.len  = strO$vec.len
-, give.head = TRUE
-, give.length = give.head
-, ...
-){
+str.integer64 <- function(object,
+                          vec.len  = strO$vec.len,
+                          give.head = TRUE,
+                          give.length = give.head,
+                          ...) {
   strO <- strOptions()
   vec.len <- 2L*vec.len
   n <- length(object)
-  if (n>vec.len)
+  if (n > vec.len)
     object <- object[seq_len(vec.len)]
-  cat(if (give.head)paste0("integer64 ", if (give.length && n>1L) paste0("[1:",n,"] ")), paste(as.character(object), collapse=" "),if(n>vec.len)" ...", " \n", sep="")
+  cat(
+    if (give.head) paste0("integer64 ", if (give.length && n>1L) paste0("[1:", n, "] ")),
+    paste(as.character(object), collapse=" "),
+    if (n > vec.len) " ...",
+    " \n",
+    sep=""
+  )
   invisible()
 }
 
@@ -963,26 +954,23 @@ str.integer64 <- function(object
 
 #' @rdname c.integer64
 #' @export
-c.integer64 <-
-function (..., recursive = FALSE)
-{
-    l <- list(...)
-    K <- length(l)
-    for (k in 1:K){
-        if (recursive && is.list(l[[k]])){
-            l[[k]] <- do.call(c.integer64, c(l[[k]], list(recursive = TRUE)))
-        }else{
-            if (!is.integer64(l[[k]])) {
-                nam <- names(l[[k]])
-                l[[k]] <- as.integer64(l[[k]])
-                names(l[[k]]) <- nam
-            }
-            oldClass(l[[k]]) <- NULL
-        }
+c.integer64 <- function(..., recursive = FALSE) {
+  l <- list(...)
+  for (k in seq_along(l)) {
+    if (recursive && is.list(l[[k]])) {
+      l[[k]] <- do.call(c.integer64, c(l[[k]], list(recursive = TRUE)))
+    } else {
+      if (!is.integer64(l[[k]])) {
+        nam <- names(l[[k]])
+        l[[k]] <- as.integer64(l[[k]])
+        names(l[[k]]) <- nam
+      }
+      oldClass(l[[k]]) <- NULL
     }
-    ret <- do.call(c, l)
-    oldClass(ret) <- "integer64"
-    ret
+  }
+  ret <- do.call(c, l)
+  oldClass(ret) <- "integer64"
+  ret
 }
 
 #' @rdname c.integer64
@@ -1068,14 +1056,14 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
     else
       length.out <- as.integer(length.out)
 
-    if (is.null(by)){
+    if (is.null(by)) {
       if (is.null(from) || is.null(to))
         by <- as.integer64(1L)
       else
         by <- as.integer64(if (to < from) -1L else 1L)
-    }else{
+    } else {
       by <- as.integer64(by)
-      if ((!is.null(from)) && (!is.null(to)) && sign(by)!=(if (to < from) -1L else 1L))
+      if (!is.null(from) && !is.null(to) && (sign(by) != (if (to < from) -1L else 1L)))
         stop("wrong sign of 'by' argument")
     }
 
@@ -1289,11 +1277,11 @@ log.integer64 <- function(x, base=NULL){
   l.base <- length(base)
   l <- if (l.x==0L || (!is.null(base) && l.base==0L)) 0L else max(l.base,l.x)
   ret <- double(l)
-  if (is.null(base)){
-      .Call(C_log_integer64, x, ret)
-  }else if(length(base)==1L){
+  if (is.null(base)) {
+    .Call(C_log_integer64, x, ret)
+  } else if (length(base)==1L) {
     .Call(C_logbase_integer64, x, as.double(base), ret)
-  }else{
+  } else {
     .Call(C_logvect_integer64, x, as.double(base), ret)
   }
   a$class <- minusclass(a$class, "integer64")
@@ -1532,17 +1520,17 @@ diff.integer64 <- function(x, lag=1L, differences=1L, ...){
   lag <- as.integer(lag)
   n <- length(x)
   d <- differences <- as.integer(differences)
-  while(d > 0L){
+  while (d > 0L) {
     n <- n - lag
-    if (n <= 0L){
+    if (n <= 0L) {
       ret <- double()
       break
     }
     # not assigning ret<-.Call in the following is intended because faster
-    if (d==differences){
+    if (d==differences) {
       ret <- double(n)
       .Call(C_diff_integer64, x, as.integer64(lag), as.integer64(n), ret)
-    }else{
+    } else {
       .Call(C_diff_integer64, ret, as.integer64(lag), as.integer64(n), ret)
     }
     d <- d - 1L
@@ -1754,18 +1742,13 @@ xor.integer64 <- function(x, y){
 #' @exportS3Method is.vector integer64
 is.vector.integer64 <- function(x, mode="any"){
   cl <- minusclass(oldClass(x), "integer64")
-  a <- attributes(x)
-  a$class <- NULL
-  a$names <- NULL
-  if (is.na(match(mode, c("any","integer64"))) || length(cl) || length(a) )
-    FALSE
-  else
-    TRUE
+  a <- setdiff(names(attributes(x)), c("class", "names"))
+  is.na(match(mode, c("any", "integer64"))) && !length(cl) && !length(a)
 }
 
 #' @rdname as.character.integer64
 #' @export
-as.list.integer64 <- function (x, ...) {
+as.list.integer64 <- function(x, ...) {
   ret <- NextMethod("as.list", x, ...)
   .Call(C_as_list_integer64, ret)
 }

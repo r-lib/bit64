@@ -176,7 +176,7 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
   })[3L]
   message('OK, for some of these values I want to see the complete ROW, so I need their positions in the data.frame')
   tim1[i] <- tim1[i] + timefun({
-   if(i==1L)order(b) else order.integer64(b)
+   if (i==1L) order(b) else order.integer64(b)
   })[3L]
   message('check if any values are duplicated')
   tim1[i] <- tim1[i] + timefun({
@@ -184,7 +184,7 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
   })[3L]
   message('since not unique, then check distribution of frequencies')
   tim1[i] <- tim1[i] + timefun({
-   if(i==1L)tabulate(table(b, exclude=NULL)) else tabulate(table.integer64(b, return='list')$counts)
+   if (i==1L) tabulate(table(b, exclude=NULL)) else tabulate(table.integer64(b, return='list')$counts)
   })[3L]
   message("OK, let's plot the percentiles of unique values versus the percentiles allowing for duplicates")
   tim1[i] <- tim1[i] + timefun({
@@ -193,29 +193,29 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
   })[3L]
   message('check whether we find a match for each fact in the dimension table')
   tim1[i] <- tim1[i] + timefun({
-   all(if(i==1L) b %in% s else "%in%.integer64"(b, s))
+   all(if (i==1L) b %in% s else "%in%.integer64"(b, s))
   })[3L]
   message('check whether there are any dimension table entries not in the fact table')
   tim1[i] <- tim1[i] + timefun({
-   all(if(i==1L) s %in% b else "%in%.integer64"(s, b))
+   all(if (i==1L) s %in% b else "%in%.integer64"(s, b))
   })[3L]
   message('check whether we find a match for each fact in a parallel fact table')
   tim1[i] <- tim1[i] + timefun({
-   all(if(i==1L) b %in% b2 else "%in%.integer64"(b, b2))
+   all(if (i==1L) b %in% b2 else "%in%.integer64"(b, b2))
   })[3L]
   message('find positions of facts in dimension table for joining')
   tim1[i] <- tim1[i] + timefun({
-   if(i==1L) match(b, s) else match.integer64(b, s)
+   if (i==1L) match(b, s) else match.integer64(b, s)
   })[3L]
   message('find positions of facts in parallel fact table for joining')
   tim1[i] <- tim1[i] + timefun({
-   if(i==1L) match(b, b2) else match.integer64(b, b2)
+   if (i==1L) match(b, b2) else match.integer64(b, b2)
   })[3L]
   message('out of curiosity: how well rank-correlated are fact and parallel fact table?')
   tim1[i] <- tim1[i] + timefun({
-   if (i==1L){
+   if (i==1L) {
     cor(rank(b, na.last="keep"), rank(b2, na.last="keep"), use="na.or.complete")
-   }else{
+   } else {
     cor(rank.integer64(b), rank.integer64(b2), use="na.or.complete")
    }
   })[3L]
@@ -307,7 +307,7 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
 
   message(colnames(tim2)[i], " table(b)")
   tim2["table(b)",i] <- timefun({
-   if(i==1L) table(b) else table.integer64(b, return='list')
+   if (i==1L) table(b) else table.integer64(b, return='list')
   })[3L]
 
   message(colnames(tim2)[i], " sort(b)")
@@ -317,12 +317,12 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
 
   message(colnames(tim2)[i], " order(b)")
   tim2["order(b)",i] <- timefun({
-   if(i==1L) order(b) else order.integer64(b)
+   if (i==1L) order(b) else order.integer64(b)
   })[3L]
 
   message(colnames(tim2)[i], " rank(b)")
   tim2["rank(b)",i] <- timefun({
-   if(i==1L) rank(b) else rank.integer64(b)
+   if (i==1L) rank(b) else rank.integer64(b)
   })[3L]
 
   message(colnames(tim2)[i], " quantile(b)")
@@ -2510,15 +2510,10 @@ rank.integer64 <- function(x
 prank <- function(x, ...) UseMethod("prank")
 #' @rdname prank
 #' @export
-prank.integer64 <- function(x
-, method = NULL
-, ...
-)
-{
-    n <- nvalid(x)
-    if (n<2L)
-        return(rep(as.integer64(NA), length(x)))
-    (rank.integer64(x, method=method, ...)-1L)/(n-1L)
+prank.integer64 <- function(x, method = NULL, ...) {
+  n <- nvalid(x)
+  if (n<2L) return(rep(as.integer64(NA), length(x)))
+  (rank.integer64(x, method=method, ...)-1L) / (n-1L)
 }
 
 #' (Q)uan(Tile)s
@@ -2680,7 +2675,7 @@ mean.integer64 <- function(x, na.rm=FALSE, ...) {
 #' @rdname qtile
 #' @param object a integer64 vector
 #' @export
-summary.integer64 <- function (object, ...) {
+summary.integer64 <- function(object, ...) {
     nas <- na.count(object)
     qq <- quantile(object, na.rm=TRUE)
     qq <- c(qq[1L:3L], mean(object, na.rm=TRUE), qq[4L:5L])

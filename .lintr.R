@@ -1,7 +1,8 @@
 linters = all_linters(
   packages = "lintr",
+  implicit_assignment_linter(allow_lazy=TRUE, allow_scoped=TRUE),
   implicit_integer_linter(allow_colon=TRUE),
-  semicolon_linter(allow_compound = TRUE),
+  semicolon_linter(allow_compound=TRUE),
   assignment_linter = NULL,
   brace_linter = NULL,
   commas_linter = NULL,
@@ -9,8 +10,6 @@ linters = all_linters(
   condition_call_linter = NULL,
   cyclocomp_linter = NULL,
   function_argument_linter = NULL,
-  function_left_parentheses_linter = NULL,
-  implicit_assignment_linter = NULL,
   indentation_linter = NULL,
   infix_spaces_linter = NULL,
   library_call_linter = NULL,
@@ -19,8 +18,6 @@ linters = all_linters(
   object_name_linter = NULL,
   paren_body_linter = NULL,
   quotes_linter = NULL,
-  spaces_inside_linter = NULL,
-  spaces_left_parentheses_linter = NULL,
   todo_comment_linter = NULL,
   undesirable_function_linter = NULL,
   undesirable_operator_linter = NULL

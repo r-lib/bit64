@@ -314,128 +314,102 @@ radixorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FA
 
 #' @rdname ramsort.integer64
 #' @export
-ramsort.integer64 <- function (x
-, has.na = TRUE
-, na.last=FALSE
-, decreasing = FALSE
-, stable = TRUE
-, optimize = c("time", "memory")
-, VERBOSE = FALSE
-, ...
-)
-{
-    optimize <- match.arg(optimize)
-    if (is.null(names(x))){
-        if (optimize == "time"){
-            if (length(x)<2048L){
-                if (VERBOSE)
-                    cat("ramsort selected mergesort\n")
-                mergesort(x, has.na = has.na, na.last = na.last, decreasing = decreasing)
-            }else if (length(x)<16777216L){
-                if (VERBOSE)
-                    cat("ramsort selected radix8sort\n")
-                radixsort(x, radixbits=8L, has.na = has.na, na.last = na.last, decreasing = decreasing)
-            }else{
-                if (VERBOSE)
-                    cat("ramsort selected radix4sort\n")
-                radixsort(x, radixbits=4L, has.na = has.na, na.last = na.last, decreasing = decreasing)
-            }
-        }else{
-            if (VERBOSE)
-                cat("ramsort selected quicksort\n")
-            quicksort(x, has.na = has.na, na.last = na.last, decreasing = decreasing)
-        }
-    }else{
-        if (stable || optimize == "time"){
-            i <- seq_along(x)
-            if (length(x)<2048L){
-                if (VERBOSE)
-                    cat("ramsortorder selected mergesortorder\n")
-                ret <- mergesortorder(x, i, has.na = has.na, na.last = na.last, decreasing = decreasing)
-            }else if (length(x)<2097152L){
-                if (VERBOSE)
-                    cat("ramsortorder selected radix8sortorder\n")
-                ret <- radixsortorder(x, i, radixbits=8L, has.na = has.na, na.last = na.last, decreasing = decreasing)
-            }else{
-                if (VERBOSE)
-                    cat("ramsortorder selected radix4sortorder\n")
-                ret <- radixsortorder(x, i, radixbits=4L, has.na = has.na, na.last = na.last, decreasing = decreasing)
-            }
-        }else{
-            if (VERBOSE)
-                cat("ramsort selected quicksortorder\n")
-            i <- seq_along(x)
-            ret <- quicksortorder(x, i, has.na = has.na, na.last = na.last, decreasing = decreasing)
-        }
+ramsort.integer64 <- function(x,
+                              has.na=TRUE,
+                              na.last=FALSE,
+                              decreasing=FALSE,
+                              stable=TRUE,
+                              optimize=c("time", "memory"),
+                              VERBOSE=FALSE,
+                              ...) {
+  optimize <- match.arg(optimize)
+  if (is.null(names(x))) {
+    if (optimize == "time") {
+      if (length(x) < 2048L) {
+        if (VERBOSE) cat("ramsort selected mergesort\n")
+        mergesort(x, has.na=has.na, na.last=na.last, decreasing=decreasing)
+      } else if (length(x) < 16777216L) {
+        if (VERBOSE) cat("ramsort selected radix8sort\n")
+        radixsort(x, radixbits=8L, has.na=has.na, na.last=na.last, decreasing=decreasing)
+      } else {
+        if (VERBOSE) cat("ramsort selected radix4sort\n")
+        radixsort(x, radixbits=4L, has.na=has.na, na.last=na.last, decreasing=decreasing)
+      }
+    } else {
+      if (VERBOSE) cat("ramsort selected quicksort\n")
+      quicksort(x, has.na=has.na, na.last=na.last, decreasing=decreasing)
+    }
+  } else {
+    if (stable || optimize == "time"){
+      i <- seq_along(x)
+      if (length(x) < 2048L) {
+        if (VERBOSE) cat("ramsortorder selected mergesortorder\n")
+        ret <- mergesortorder(x, i, has.na=has.na, na.last=na.last, decreasing=decreasing)
+      } else if (length(x) < 2097152L) {
+        if (VERBOSE) cat("ramsortorder selected radix8sortorder\n")
+        ret <- radixsortorder(x, i, radixbits=8L, has.na=has.na, na.last=na.last, decreasing=decreasing)
+      } else {
+        if (VERBOSE) cat("ramsortorder selected radix4sortorder\n")
+        ret <- radixsortorder(x, i, radixbits=4L, has.na=has.na, na.last=na.last, decreasing=decreasing)
+      }
+    } else {
+      if (VERBOSE) cat("ramsort selected quicksortorder\n")
+      i <- seq_along(x)
+      ret <- quicksortorder(x, i, has.na=has.na, na.last=na.last, decreasing=decreasing)
+    }
     setattr(x, "names", names(x)[i])
     ret
+  }
+}
+
+#' @rdname ramsort.integer64
+#' @export
+ramsortorder.integer64 <- function(x, i,
+                                   has.na=TRUE,
+                                   na.last=FALSE,
+                                   decreasing=FALSE,
+                                   stable=TRUE,
+                                   optimize=c("time", "memory"),
+                                   VERBOSE=FALSE,
+                                   ...) {
+  optimize <- match.arg(optimize)
+  if (!is.null(names(x)) && !is.null(names(i))) stop("names not supported")
+  if (stable || optimize == "time") {
+    if (length(x) < 2048L){
+      if (VERBOSE) cat("ramsortorder selected mergesortorder\n")
+      mergesortorder(x, i, has.na=has.na, na.last=na.last, decreasing=decreasing)
+    }else if (length(x) < 16777216L){
+      if (VERBOSE) cat("ramsortorder selected radix8sortorder\n")
+      radixsortorder(x, i, radixbits=8L, has.na=has.na, na.last=na.last, decreasing=decreasing)
+    }else{
+      if (VERBOSE) cat("ramsortorder selected radix4sortorder\n")
+      radixsortorder(x, i, radixbits=4L, has.na=has.na, na.last=na.last, decreasing=decreasing)
     }
+  } else {
+    if (VERBOSE) cat("ramsortorder selected quicksortorder\n")
+    quicksortorder(x, i, has.na=has.na, na.last=na.last, decreasing=decreasing)
+  }
 }
 
 #' @rdname ramsort.integer64
 #' @export
-ramsortorder.integer64 <- function (x
-, i
-, has.na = TRUE
-, na.last=FALSE
-, decreasing = FALSE
-, stable = TRUE
-, optimize = c("time", "memory")
-, VERBOSE = FALSE
-, ...
-)
-{
-    optimize <- match.arg(optimize)
-    if (is.null(names(x)) && is.null(names(i))){
-        if (stable || optimize == "time") {
-            if (length(x)<2048L){
-                if (VERBOSE)
-                    cat("ramsortorder selected mergesortorder\n")
-                mergesortorder(x, i, has.na = has.na, na.last = na.last, decreasing = decreasing)
-            }else if (length(x)<16777216L){
-                if (VERBOSE)
-                    cat("ramsortorder selected radix8sortorder\n")
-                radixsortorder(x, i, radixbits=8L, has.na = has.na, na.last = na.last, decreasing = decreasing)
-            }else{
-                if (VERBOSE)
-                    cat("ramsortorder selected radix4sortorder\n")
-                radixsortorder(x, i, radixbits=4L, has.na = has.na, na.last = na.last, decreasing = decreasing)
-            }
-        }else{
-            if (VERBOSE)
-                cat("ramsortorder selected quicksortorder\n")
-            quicksortorder(x, i, has.na = has.na, na.last = na.last, decreasing = decreasing)
-        }
-    }else
-      stop("names not supported")
-}
-
-#' @rdname ramsort.integer64
-#' @export
-ramorder.integer64 <- function (x
-, i
-, has.na = TRUE
-, na.last=FALSE
-, decreasing = FALSE
-, stable = TRUE
-, optimize = c("time", "memory")
-, VERBOSE = FALSE
-, ...
-)
-{
-    optimize <- match.arg(optimize)
-    if (is.null(names(x)) && is.null(names(i))){
-        if (stable) {
-            if (VERBOSE)
-                cat("ramorder selected mergeorder\n")
-            mergeorder(x, i, has.na = has.na, na.last = na.last, decreasing = decreasing)
-        }else{
-            if (VERBOSE)
-                cat("ramorder selected quickorder\n")
-            quickorder(x, i, has.na = has.na, na.last = na.last, decreasing = decreasing)
-        }
-    }else
-      stop("names not supported")
+ramorder.integer64 <- function(x, i,
+                               has.na=TRUE,
+                               na.last=FALSE,
+                               decreasing=FALSE,
+                               stable=TRUE,
+                               optimize=c("time", "memory"),
+                               VERBOSE=FALSE,
+                               ...) {
+  optimize <- match.arg(optimize)
+  if (!is.null(names(x)) || !is.null(names(i))) stop("names not supported")
+  if (stable) {
+    if (VERBOSE) cat("ramorder selected mergeorder\n")
+    mergeorder(x, i, has.na=has.na, na.last=na.last, decreasing=decreasing)
+  } else {
+    if (VERBOSE) cat("ramorder selected quickorder\n")
+    quickorder(x, i, has.na=has.na, na.last=na.last, decreasing=decreasing)
+  }
 }
 
 #' High-level intger64 methods for sorting and ordering
@@ -490,33 +464,35 @@ sort.integer64 <- function(x
   do.na.last <- is.na(na.last) || na.last
   cache_env <- cache(x)
   if (!is.null(cache_env$sort)){
-        if (do.na.last || decreasing){
-            s <- double(length(x))
-            .Call(C_r_ram_integer64_sortsrt
-            , x = cache_env$sort
-            , na_count   = as.integer(na.count <- cache_env$na.count)
-            , na_last    = as.logical(do.na.last)
-            , decreasing = as.logical(decreasing)
-            , s              = s
-            , PACKAGE = "bit64"
-            )
-            setattr(s, "class", "integer64")
-        }else
-            s <- cache_env$sort  # here we save copying at all
+        if (do.na.last || decreasing) {
+          na.count <- cache_env$na.count
+          s <- double(length(x))
+          .Call(C_r_ram_integer64_sortsrt,
+            x = cache_env$sort,
+            na_count = as.integer(na.count),
+            na_last = as.logical(do.na.last),
+            decreasing = as.logical(decreasing),
+            s = s
+          )
+          setattr(s, "class", "integer64")
+        } else {
+          s <- cache_env$sort  # here we save copying at all
+        }
   }else if (!is.null(cache_env$order)){
-        if (do.na.last || decreasing){
-            s <- double(length(x))
-            .Call(C_r_ram_integer64_sortsrt
-            , x = x[cache_env$order]
-            , na_count   = as.integer(na.count <- cache_env$na.count)
-            , na_last    = as.logical(do.na.last)
-            , decreasing = as.logical(decreasing)
-            , s              = s
-            , PACKAGE = "bit64"
-            )
-            setattr(s, "class", "integer64")
-        }else
-            s <- x[cache_env$order]
+        if (do.na.last || decreasing) {
+          na.count <- cache_env$na.count
+          s <- double(length(x))
+          .Call(C_r_ram_integer64_sortsrt,
+            x = x[cache_env$order],
+            na_count = as.integer(na.count),
+            na_last = as.logical(do.na.last),
+            decreasing = as.logical(decreasing),
+            s = s
+          )
+          setattr(s, "class", "integer64")
+        } else {
+          s <- x[cache_env$order]
+        }
   }else{
     if (identical(cache_env$na.count, 0L))
       has.na <- FALSE
@@ -560,28 +536,28 @@ order.integer64 <- function(
   x <- A(1L)
   cache_env <- cache(x)
   if (!is.null(cache_env$order)){
-        if (do.na.last || decreasing){
+        if (do.na.last || decreasing) {
             o <- integer(length(x))
-            if (is.null(cache_env$sort)){
-                .Call(C_r_ram_integer64_orderord
-                , x = x
-                , i = cache_env$order
-                , na_count   = as.integer(na.count <- cache_env$na.count)
-                , na_last    = as.logical(do.na.last)
-                , decreasing = as.logical(decreasing)
-                , o              = o
-                , PACKAGE = "bit64"
-                )
-            }else{
-                .Call(C_r_ram_integer64_sortorderord
-                , x = cache_env$sort
-                , i = cache_env$order
-                , na_count   = as.integer(na.count <- cache_env$na.count)
-                , na_last    = as.logical(do.na.last)
-                , decreasing = as.logical(decreasing)
-                , o              = o
-                , PACKAGE = "bit64"
-                )
+            if (is.null(cache_env$sort)) {
+              na.count <- cache_env$na.count
+              .Call(C_r_ram_integer64_orderord,
+                x = x,
+                i = cache_env$order,
+                na_count = as.integer(na.count),
+                na_last = as.logical(do.na.last),
+                decreasing = as.logical(decreasing),
+                o = o
+              )
+            } else {
+              na.count <- cache_env$na.count
+              .Call(C_r_ram_integer64_sortorderord,
+                x = cache_env$sort,
+                i = cache_env$order,
+                na_count = as.integer(na.count),
+                na_last = as.logical(do.na.last),
+                decreasing = as.logical(decreasing),
+                o = o
+              )
             }
           }else
             o <- cache_env$order  # here we save copying at all
