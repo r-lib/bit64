@@ -558,8 +558,9 @@ orderqtl <- function(table, order, na.count, probs, ...) UseMethod("orderqtl")
 #' @rdname sortnut
 #' @export
 orderqtl.integer64 <- function(table, order, na.count, probs, ...){
-    n <- length(table) - na.count  # nvalid
-    ret <- table[ order[na.count + round(1L + probs*(n-1L))] ]
-    ret[is.na(probs)] <- NA ## xx TODO this fix only neccessary until we have C-implementation of [.integer64 handling NA
-    ret
+  n = length(table) - na.count  # nvalid
+  idx = na.count + round(1L + probs*(n-1L))
+  ret = table[order[idx]]
+  ret[is.na(probs)] <- NA ## xx TODO this fix only neccessary until we have C-implementation of [.integer64 handling NA
+  ret
 }

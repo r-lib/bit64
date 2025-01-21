@@ -1757,10 +1757,7 @@ is.vector.integer64 <- function(x, mode="any"){
   a <- attributes(x)
   a$class <- NULL
   a$names <- NULL
-  if (is.na(match(mode, c("any","integer64"))) || length(cl) || length(a) )
-    FALSE
-  else
-    TRUE
+  is.na(match(mode, c("any", "integer64"))) && length(cl) && length(a)
 }
 
 #' @rdname as.character.integer64
