@@ -126,6 +126,7 @@ NULL
 #'   integer functions from Base R
 #' @export
 # nocov start
+# nolint start: brace_linter.
 benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
 
  message('\ncompare performance for a complete sessions of calls')
@@ -1228,6 +1229,7 @@ optimizer64 <- function(nsmall=2L^16L,
     ret
 
 }
+# nolint end: brace_linter.
 # nocov end
 
 #' 64-bit integer matching
@@ -1569,20 +1571,20 @@ duplicated.integer64 <- function(x, incomparables = FALSE, nunique = NULL, metho
     nunique <- cache_env$nunique
   if (is.null(method)) {
     if (is.null(cache_env)) {
-        if (length(x)>50000000L)
-            method <- "sortorderdup" # nocov. Too large for practical unit tests.
-        else
-            method <- "hashdup"
+      if (length(x)>50000000L)
+        method <- "sortorderdup" # nocov. Too large for practical unit tests.
+      else
+        method <- "hashdup"
     } else if (exists("sort", envir=cache_env, inherits=FALSE) && exists("order", envir=cache_env, inherits=FALSE))
-        method <- "sortorderdup"
+      method <- "sortorderdup"
     else if (exists("hashmap", envir=cache_env, inherits=FALSE))
-        method <- "hashdup"
+      method <- "hashdup"
     else if (exists("order", envir=cache_env, inherits=FALSE))
-        method <- "orderdup"
+      method <- "orderdup"
     else if (length(x) > 50000000L)
-        method <- "sortorderdup"
+      method <- "sortorderdup"
     else
-        method <- "hashdup"
+      method <- "hashdup"
   }
   switch(method
   , hashdup={
