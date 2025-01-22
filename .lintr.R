@@ -19,6 +19,5 @@ linters = all_linters(
   paren_body_linter = NULL,
   quotes_linter = NULL,
   todo_comment_linter = NULL,
-  undesirable_function_linter = NULL,
-  undesirable_operator_linter = NULL
+  undesirable_function_linter = NULL
 )

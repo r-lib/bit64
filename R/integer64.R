@@ -1422,96 +1422,81 @@ prod.integer64 <- function(..., na.rm = FALSE){
 
 #' @rdname sum.integer64
 #' @export
-min.integer64 <- function(..., na.rm = FALSE){
-  l <- list(...)
-  noval <- TRUE
-  if (length(l)==1L){
-    if (length(l[[1L]]))
-      noval <- FALSE
-    ret <- .Call(C_min_integer64, l[[1L]], na.rm, double(1L))
-    oldClass(ret) <- "integer64"
-  }else{
-    ret <- sapply(l, function(e){
-      if (length(e))
-        noval <<- FALSE
+min.integer64 = function(..., na.rm=FALSE) {
+  l = list(...)
+  if (length(l) == 1L) {
+    ret = .Call(C_min_integer64, l[[1L]], na.rm, double(1L))
+    oldClass(ret) = "integer64"
+  } else {
+    ret = sapply(l, function(e) {
       if (is.integer64(e)){
         .Call(C_min_integer64, e, na.rm, double(1L))
-      }else{
-        as.integer64(min(e, na.rm = na.rm))
+      } else {
+        as.integer64(min(e, na.rm=na.rm))
       }
     })
-    oldClass(ret) <- "integer64"
-    ret <- min(ret, na.rm = na.rm)
+    oldClass(ret) = "integer64"
+    ret = min(ret, na.rm=na.rm)
   }
-  if (noval)
+  if (!all(lengths(l)))
     warning("no non-NA value, returning the highest possible integer64 value +9223372036854775807")
   ret
 }
 
 #' @rdname sum.integer64
 #' @export
-max.integer64 <- function(..., na.rm = FALSE){
-  l <- list(...)
-  noval <- TRUE
-  if (length(l)==1L){
-    if (length(l[[1L]]))
-      noval <- FALSE
-      ret <- .Call(C_max_integer64, l[[1L]], na.rm, double(1L))
-    oldClass(ret) <- "integer64"
-  }else{
-    ret <- sapply(l, function(e){
-        if (length(e))
-          noval <<- FALSE
-        if (is.integer64(e)){
-          .Call(C_max_integer64, e, na.rm, double(1L))
-        }else{
-          as.integer64(max(e, na.rm = na.rm))
-        }
+max.integer64 = function(..., na.rm=FALSE) {
+  l = list(...)
+  if (length(l) == 1L) {
+    ret = .Call(C_max_integer64, l[[1L]], na.rm, double(1L))
+    oldClass(ret) = "integer64"
+  } else {
+    ret <- sapply(l, function(e) {
+      if (is.integer64(e)) {
+        .Call(C_max_integer64, e, na.rm, double(1L))
+      } else {
+        as.integer64(max(e, na.rm=na.rm))
+      }
     })
-    oldClass(ret) <- "integer64"
-    ret <- max(ret, na.rm = na.rm)
+    oldClass(ret) = "integer64"
+    ret = max(ret, na.rm=na.rm)
   }
-  if (noval)
-      warning("no non-NA value, returning the lowest possible integer64 value -9223372036854775807")
+  if (!all(lengths(l)))
+    warning("no non-NA value, returning the lowest possible integer64 value -9223372036854775807")
   ret
 }
 
 #' @rdname sum.integer64
 #' @export
-range.integer64 <- function(..., na.rm = FALSE, finite = FALSE){
+range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
   if (finite)
     na.rm = TRUE
   l <- list(...)
-  noval <- TRUE
-  if (length(l)==1L){
-    if (length(l[[1L]]))
-      noval <- FALSE
-      ret <- .Call(C_range_integer64, l[[1L]], na.rm, double(2L))
-    oldClass(ret) <- "integer64"
-  }else{
-      ret <- unlist(sapply(l, function(e){
-        if (length(e))
-          noval <<- FALSE
-        if (is.integer64(e)){
-          .Call(C_range_integer64, e, na.rm, double(2L))
-        }else{
-          as.integer64(range(e, na.rm = na.rm))
-        }
-      }))
-      oldClass(ret) <- "integer64"
-      ret <- range(ret, na.rm = na.rm)
+  if (length(l) == 1L) {
+    ret = .Call(C_range_integer64, l[[1L]], na.rm, double(2L))
+    oldClass(ret) = "integer64"
+  } else {
+    ret <- unlist(sapply(l, function(e) {
+      if (is.integer64(e)) {
+        .Call(C_range_integer64, e, na.rm, double(2L))
+      } else {
+        as.integer64(range(e, na.rm=na.rm))
+      }
+    }))
+    oldClass(ret) = "integer64"
+    ret = range(ret, na.rm=na.rm)
   }
-  if (noval)
+  if (!all(lengths(l)))
     warning("no non-NA value, returning c(+9223372036854775807, -9223372036854775807)")
   ret
 }
 
 #' @rdname sum.integer64
 #' @export
-lim.integer64 <- function(){
-  ret <- .Call(C_lim_integer64, double(2L))
-    oldClass(ret) <- "integer64"
-    ret
+lim.integer64 = function() {
+  ret = .Call(C_lim_integer64, double(2L))
+  oldClass(ret) = "integer64"
+  ret
 }
 
 #' @rdname cumsum.integer64
