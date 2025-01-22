@@ -429,13 +429,7 @@ NULL
 #' @name all.equal.integer64
 NULL
 
-# if (!exists(":.default")){
-    # ":.default" <- get(":")
-    # ":" <- function(from,to)UseMethod(":")
-# }
-
 setOldClass("integer64")
-
 
 # contributed by Leonardo Silvestri with modifications of JO
 #' @rdname all.equal.integer64
@@ -459,7 +453,7 @@ all.equal.integer64  <- function(target, current,
   oldwarn <- getOption("warn")
   on.exit(options(warn=oldwarn))
   options(warn=2L)
-  if (!is.integer64(target)){
+  if (!is.integer64(target)) {
     cl <- oldClass(target)
     oldClass(target) <- NULL
     target <- try(as.integer64(target))
@@ -467,7 +461,7 @@ all.equal.integer64  <- function(target, current,
       return(paste("while coercing 'target' to 'integer64':",  attr(target, "condition")$message))
     oldClass(target) <- c(cl, "integer64")
   }
-  if (!is.integer64(current)){
+  if (!is.integer64(current)) {
     cl <- oldClass(current)
     oldClass(current) <- NULL
     current <- try(as.integer64(current))
@@ -501,6 +495,7 @@ all.equal.integer64  <- function(target, current,
   }
   out <- out | target == current
   if (all(out))
+    # TODO(R>=4.4.0): msg %||% TRUE
     return(if (is.null(msg)) TRUE else msg)
   anyO <- any(out)
   sabst0 <- if (countEQ && anyO) mean(abs(target[out])) else 0.0
@@ -534,33 +529,32 @@ all.equal.integer64  <- function(target, current,
   xy <- sum(abs(target - current) / (N*scale))
   if (is.na(xy) || xy > tolerance)
     msg <- c(msg, paste("Mean", what, "difference:", formatFUN(xy, what)))
-  if (is.null(msg)) {
-    TRUE
-  } else msg
+  # TODO(R>=4.4.0): msg %||% TRUE
+  if (is.null(msg)) TRUE else msg
 }
 
 # TODO(R>=4.2.0): Consider restoring extptr.as.ref= to the signature.
 #' @rdname identical.integer64
 #' @exportS3Method identical integer64
 #' @export
-identical.integer64 <- function(x, y
-, num.eq = FALSE
-, single.NA = FALSE
-, attrib.as.set = TRUE
-, ignore.bytecode = TRUE
-, ignore.environment = FALSE
-, ignore.srcref = TRUE
-, ...
-)
-identical(x=x, y=y
-, num.eq = num.eq
-, single.NA = single.NA
-, attrib.as.set = attrib.as.set
-, ignore.bytecode = ignore.bytecode
-, ignore.environment = ignore.environment
-, ignore.srcref = ignore.srcref
-, ...
-)
+identical.integer64 <- function(x, y,
+                                num.eq=FALSE,
+                                single.NA=FALSE,
+                                attrib.as.set=TRUE,
+                                ignore.bytecode=TRUE,
+                                ignore.environment=FALSE,
+                                ignore.srcref=TRUE,
+                                ...) {
+  identical(x=x, y=y,
+    num.eq=num.eq,
+    single.NA=single.NA,
+    attrib.as.set=attrib.as.set,
+    ignore.bytecode=ignore.bytecode,
+    ignore.environment=ignore.environment,
+    ignore.srcref=ignore.srcref,
+    ...
+  )
+}
 
 
 #' @rdname as.integer64.character
@@ -573,7 +567,7 @@ as.bitstring <- function(x, ...) UseMethod("as.bitstring")
 
 #' @rdname plusclass
 #' @export
-minusclass <- function(class, whichclass){
+minusclass <- function(class, whichclass) {
   if (!length(class)) return(class)
   i <- whichclass == class
   if (any(i))
@@ -603,7 +597,7 @@ binattr <- function(e1, e2) {
     if (length(d2)) {
       if (!identical(dim(e1), dim(e2)))
         stop("non-conformable arrays")
-    } else{
+    } else {
       if (n2 > n1 && n1)
         stop("length(e2) does not match dim(e1)")
       if (n2 && n1 %% n2)
@@ -627,9 +621,9 @@ binattr <- function(e1, e2) {
   }
 
   ## in this part we mimic R's algo for selecting attributes:
-  if (n1 == n2){
+  if (n1 == n2) {
     ## if same size take attribute from e1 if it exists, else from e2
-    if (n1==0L){
+    if (n1 == 0L) {
       ae1 <- attributes(e1)[c("class","dim","dimnames")]
       ae2 <- attributes(e2)[c("class","dim","dimnames")]
     }
@@ -637,7 +631,7 @@ binattr <- function(e1, e2) {
     ae2 <- attributes(e2)
     nae1 <- names(attributes(e1))
     nae2 <- names(attributes(e2))
-    if (n1==0L){
+    if (n1==0L) {
       ae1 <- ae1[nae1 %in% c("class","dim","dimnames")]
       ae2 <- ae1[nae1 %in% c("class","dim","dimnames")]
     }
@@ -648,28 +642,19 @@ binattr <- function(e1, e2) {
     else
       allattr[[a]] <- ae2[[a]]
     allattr
-  }else if (n1 == 0L || n1 > n2) {
+  } else if (n1 == 0L || n1 > n2) {
     attributes(e1)
   } else {
     attributes(e2)
   }
 }
 
-
-# as.matrix.integer64 <- function (x, ...) {
-#   if (!is.matrix(x)){
-#     dim(x) <- c(length(x), 1L)
-#     dimnames(x) <- if (!is.null(names(x))) list(names(x), NULL) else NULL
-#   }
-#   x
-# }
-
 #' @rdname bit64-package
 #' @param length length of vector using [integer()]
 #' @return `integer64` returns a vector of 'integer64', i.e.,
 #'   a vector of [double()] decorated with class 'integer64'.
 #' @export
-integer64 <- function(length=0L){
+integer64 <- function(length=0L) {
   ret <- double(length)
   oldClass(ret) <- "integer64"
   ret
@@ -694,7 +679,7 @@ as.integer64.integer64 <- function(x, ...) x
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.double <- function(x, keep.names=FALSE, ...){
+as.integer64.double <- function(x, keep.names=FALSE, ...) {
   ret <- .Call(C_as_integer64_double, x, double(length(x)))
   if (keep.names)
     names(ret) <- names(x)
@@ -704,7 +689,7 @@ as.integer64.double <- function(x, keep.names=FALSE, ...){
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.integer <- function(x, ...){
+as.integer64.integer <- function(x, ...) {
   ret <- .Call(C_as_integer64_integer, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
@@ -716,7 +701,7 @@ as.integer64.logical <- as.integer64.integer
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.character <- function(x, ...){
+as.integer64.character <- function(x, ...) {
   n <- length(x)
   ret <- .Call(C_as_integer64_character, x, rep(NA_real_, n))
   oldClass(ret) <- "integer64"
@@ -725,8 +710,7 @@ as.integer64.character <- function(x, ...){
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.factor <- function(x, ...)
-  as.integer64(unclass(x), ...)
+as.integer64.factor <- function(x, ...) as.integer64(unclass(x), ...)
 
 #' @rdname as.character.integer64
 #' @export
@@ -774,7 +758,7 @@ print.bitstring <- function(x, ...) {
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.bitstring <- function(x, ...){
+as.integer64.bitstring <- function(x, ...) {
   ret <- .Call(C_as_integer64_bitstring, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
@@ -800,7 +784,7 @@ NA_integer64_ <- unserialize(as.raw(c(
 #' @rdname bit64-package
 #' @param value an integer64 vector of values to be assigned
 #' @export
-`length<-.integer64` <- function(x, value){
+`length<-.integer64` <- function(x, value) {
   cl <- oldClass(x)
   n <- length(x)
   x <- NextMethod()
@@ -827,13 +811,13 @@ format.integer64 <- function(x, justify="right", ...) {
 #' @export
 print.integer64 <- function(x, quote=FALSE, ...) {
   a <- attributes(x)
-  if (length(x)){
+  if (length(x)) {
     cat("integer64\n")
     ret <- as.character(x)
     a$class <- minusclass(a$class, "integer64")
     attributes(ret) <- a
     print(ret, quote=quote, ...)
-  }else{
+  } else {
     cat("integer64(0)\n")
   }
   invisible(x)
@@ -869,19 +853,19 @@ str.integer64 <- function(object,
     cl <- oldClass(x)
     ret <- NextMethod()
     # Begin NA-handling from Leonardo Silvestri
-    if (!missing(i)){
+    if (!missing(i)) {
         if (inherits(i, "character")) {
           na_idx <- union(which(!(i %in% names(x))), which(is.na(i)))
           if (length(na_idx))
                 ret[na_idx] <- NA_integer64_
-        }else{
+        } else {
       ni <- length(i)
       nx <- length(x)
-      if (inherits(i, "logical")){
-            if (ni>nx){
+      if (inherits(i, "logical")) {
+            if (ni>nx) {
               na_idx <- is.na(i) | (i & seq_along(i)>nx)
               na_idx <- na_idx[is.na(i) | i]
-            }else{
+            } else {
           i <- i[is.na(i) | i]
           na_idx <- rep_len(is.na(i), length(ret))
             }
@@ -902,16 +886,16 @@ str.integer64 <- function(object,
 }
 
 
-`[.integer64` <- function(x, i, ...){
+`[.integer64` <- function(x, i, ...) {
   cl <- oldClass(x)
   ret <- NextMethod()
   # Begin NA-handling from Leonardo Silvestri
-  if (!missing(i)){
+  if (!missing(i)) {
     if (inherits(i, "character")) {
       na_idx <- union(which(!(i %in% names(x))), which(is.na(i)))
       if (length(na_idx))
         ret[na_idx] <- NA_integer64_
-    }else{
+    } else {
       na_idx <- is.na(rep(TRUE, length(x))[i])
       if (any(na_idx))
         ret[na_idx] <- NA_integer64_
@@ -978,8 +962,8 @@ c.integer64 <- function(..., recursive = FALSE) {
 cbind.integer64 <- function(...) {
   l <- list(...)
     K <- length(l)
-  for (k in 1:K){
-        if (!is.integer64(l[[k]])){
+  for (k in 1:K) {
+        if (!is.integer64(l[[k]])) {
             nam <- names(l[[k]])
             l[[k]] <- as.integer64(l[[k]])
             names(l[[k]]) <- nam
@@ -996,8 +980,8 @@ cbind.integer64 <- function(...) {
 rbind.integer64 <- function(...) {
   l <- list(...)
     K <- length(l)
-  for (k in 1:K){
-        if (!is.integer64(l[[k]])){
+  for (k in 1:K) {
+        if (!is.integer64(l[[k]])) {
             nam <- names(l[[k]])
             l[[k]] <- as.integer64(l[[k]])
             names(l[[k]]) <- nam
@@ -1009,21 +993,12 @@ rbind.integer64 <- function(...) {
   ret
 }
 
-# tenfold runtime if using attr() here instead of setattr()
-# as.data.frame.integer64 <- function(x, ...){
-  # cl <- oldClass(x)
-  # oldClass(x) <- minusclass(cl, "integer64")
-  # ret <- as.data.frame(x, ...)
-  # k <- length(ret)
-  # for (i in 1:k)
-    # oldClass(ret[[i]]) <- cl
-  # ret
-# }
 #' @rdname as.data.frame.integer64
 #' @export
-as.data.frame.integer64 <- function(x, ...){
+as.data.frame.integer64 <- function(x, ...) {
   cl <- oldClass(x)
   on.exit(setattr(x, "class", cl))
+  # tenfold runtime if using attr() here instead of setattr()
   setattr(x, "class", minusclass(cl, "integer64"))
   ret <- as.data.frame(x, ...)
   k <- length(ret)
@@ -1033,7 +1008,7 @@ as.data.frame.integer64 <- function(x, ...){
 }
 
 #' @export
-rep.integer64 <- function(x, ...){
+rep.integer64 <- function(x, ...) {
     cl <- oldClass(x)
     ret <- NextMethod()
     oldClass(ret) <- cl
@@ -1041,7 +1016,7 @@ rep.integer64 <- function(x, ...){
 }
 
 # FIXME no method dispatch for :
-`:.integer64` <- function(from, to){
+`:.integer64` <- function(from, to) {
   from <- as.integer64(from)
   to <- as.integer64(to)
   ret <- .Call(C_seq_integer64, from, as.integer64(1L), double(as.integer(to-from+1L)))
@@ -1050,58 +1025,54 @@ rep.integer64 <- function(x, ...){
 }
 
 #' @export
-seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...){
-    if (is.null(length.out))
-      length.out <- length(along.with)
+seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
+  if (is.null(length.out))
+    length.out <- length(along.with)
+  else
+    length.out <- as.integer(length.out)
+
+  if (is.null(by)) {
+    if (is.null(from) || is.null(to))
+      by <- as.integer64(1L)
     else
-      length.out <- as.integer(length.out)
+      by <- as.integer64(if (to < from) -1L else 1L)
+  } else {
+    by <- as.integer64(by)
+    if (!is.null(from) && !is.null(to) && (sign(by) != (if (to < from) -1L else 1L)))
+      stop("wrong sign of 'by' argument")
+  }
 
-    if (is.null(by)) {
-      if (is.null(from) || is.null(to))
-        by <- as.integer64(1L)
-      else
-        by <- as.integer64(if (to < from) -1L else 1L)
-    } else {
-      by <- as.integer64(by)
-      if (!is.null(from) && !is.null(to) && (sign(by) != (if (to < from) -1L else 1L)))
-        stop("wrong sign of 'by' argument")
-    }
+  if (is.null(from)) {
+    if (length.out && length(to))
+      from <- to - (length.out-1L)*by
+    else
+      from <- as.integer64(1L)
+  } else {
+    from <- as.integer64(from)
+  }
 
-    if (is.null(from)){
-      if (length.out && length(to))
-        from <- to - (length.out-1L)*by
-      else
-        from <- as.integer64(1L)
-    }else
-      from <- as.integer64(from)
+  if (!length(to)) {
+    if (length.out)
+      to <- from + (length.out-1L)*by
+    else
+      stop("not enough information provided")
+  }
 
-    if (!length(to)){
-      if (length.out)
-        to <- from + (length.out-1L)*by
-      else
-        stop("not enough informatoin provided")
-    }
+  if (!length.out) {
+    length.out <- (to-from) %/% by + 1L
+  }
 
-    if (!length.out){
-      length.out <- (to-from) %/% by + 1L
-    }
-
-    if (length.out){
-      if (length.out==1L)
-        return(from)
-      else{
-        #return(cumsum(c(from, rep(by, length.out-1L))))
-        ret <- .Call(C_seq_integer64, from, by, double(as.integer(length.out)))
-        oldClass(ret) <- "integer64"
-        return(ret)
-      }
-    }else
-      return(integer64())
+  if (!length.out) return(integer64())
+  if (length.out==1L) return(from)
+  #return(cumsum(c(from, rep(by, length.out-1L))))
+  ret <- .Call(C_seq_integer64, from, by, double(as.integer(length.out)))
+  oldClass(ret) <- "integer64"
+  return(ret)
 }
 
 #' @rdname xor.integer64
 #' @export
-`+.integer64` <- function(e1, e2){
+`+.integer64` <- function(e1, e2) {
   if (missing(e2))
     return(e1)
   a <- binattr(e1,e2)
@@ -1119,8 +1090,8 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 
 #' @rdname xor.integer64
 #' @export
-`-.integer64` <- function(e1, e2){
-  if (missing(e2)){
+`-.integer64` <- function(e1, e2) {
+  if (missing(e2)) {
     e2 <- e1
     e1 <- 0L
   }
@@ -1139,7 +1110,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 
 #' @rdname xor.integer64
 #' @export
-`%/%.integer64` <- function(e1, e2){
+`%/%.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -1155,7 +1126,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 
 #' @rdname xor.integer64
 #' @export
-`%%.integer64` <- function(e1, e2){
+`%%.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -1171,18 +1142,18 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 
 #' @rdname xor.integer64
 #' @export
-`*.integer64` <- function(e1, e2){
+`*.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   l1 <- length(e1)
   l2 <- length(e2)
   l <- if (l1 == 0L || l2 == 0L) 0L else max(l1,l2)
   ret <- double(l)
-  if (getOption("integer64_semantics", "old") == "old"){
+  if (getOption("integer64_semantics", "old") == "old") {
     if (is.double(e2))  # implies !is.integer64(e2)
       ret <- .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
     else
       ret <- .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
-  }else{
+  } else {
     # nolint next: unnecessary_nesting_linter. Good parallelism, and on a to-be-deprecated code path.
     if (is.double(e2))  # implies !is.integer64(e2)
       ret <- .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
@@ -1198,7 +1169,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 
 #' @rdname xor.integer64
 #' @export
-`^.integer64` <- function(e1, e2){
+`^.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   l1 <- length(e1)
   l2 <- length(e2)
@@ -1215,18 +1186,18 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 
 #' @rdname xor.integer64
 #' @export
-`/.integer64` <- function(e1, e2){
+`/.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   l1 <- length(e1)
   l2 <- length(e2)
   l <- if (l1 == 0L || l2 == 0L) 0L else max(l1,l2)
   ret <- double(l)
-  if (getOption("integer64_semantics", "old") == "old"){
+  if (getOption("integer64_semantics", "old") == "old") {
     if (is.double(e2))  # implies !is.integer64(e2)
       ret <- .Call(C_divide_integer64_double, as.integer64(e1), e2, ret)
     else
       ret <- .Call(C_divide_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
-  }else{
+  } else {
     # nolint next: unnecessary_nesting_linter. Good parallelism, and on a to-be-deprecated code path.
     if (is.double(e2))  # implies !is.integer64(e2)
       ret <- .Call(C_divide_integer64_double, as.integer64(e1), e2, ret)
@@ -1243,7 +1214,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 
 #' @rdname format.integer64
 #' @export
-sign.integer64 <- function(x){
+sign.integer64 <- function(x) {
   a <- attributes(x)
   ret <- .Call(C_sign_integer64, x, double(length(x)))
   attributes(ret) <- a
@@ -1252,7 +1223,7 @@ sign.integer64 <- function(x){
 
 #' @rdname format.integer64
 #' @export
-abs.integer64 <- function(x){
+abs.integer64 <- function(x) {
   a <- attributes(x)
   ret <- .Call(C_abs_integer64, x, double(length(x)))
   attributes(ret) <- a
@@ -1261,7 +1232,7 @@ abs.integer64 <- function(x){
 
 #' @rdname format.integer64
 #' @export
-sqrt.integer64 <- function(x){
+sqrt.integer64 <- function(x) {
   a <- attributes(x)
   ret <- .Call(C_sqrt_integer64, x, double(length(x)))
   a$class <- minusclass(a$class, "integer64")
@@ -1271,7 +1242,7 @@ sqrt.integer64 <- function(x){
 
 #' @rdname format.integer64
 #' @export
-log.integer64 <- function(x, base=NULL){
+log.integer64 <- function(x, base=NULL) {
   a <- attributes(x)
   l.x <- length(x)
   l.base <- length(base)
@@ -1291,7 +1262,7 @@ log.integer64 <- function(x, base=NULL){
 
 #' @rdname format.integer64
 #' @export
-log10.integer64 <- function(x){
+log10.integer64 <- function(x) {
   a <- attributes(x)
   ret <- .Call(C_log10_integer64, x, double(length(x)))
   a$class <- minusclass(a$class, "integer64")
@@ -1301,7 +1272,7 @@ log10.integer64 <- function(x){
 
 #' @rdname format.integer64
 #' @export
-log2.integer64 <- function(x){
+log2.integer64 <- function(x) {
   a <- attributes(x)
   ret <- .Call(C_log2_integer64, x, double(length(x)))
   a$class <- minusclass(a$class, "integer64")
@@ -1325,12 +1296,13 @@ signif.integer64 <- function(x, digits=6L) x
 
 #' @rdname format.integer64
 #' @export
-scale.integer64 <- function(x, center = TRUE, scale = TRUE)
+scale.integer64 <- function(x, center = TRUE, scale = TRUE) {
   scale(as.double(x, keep.names=TRUE), center=center, scale=scale)
+}
 
 #' @rdname format.integer64
 #' @export
-round.integer64 <- function(x, digits=0L){
+round.integer64 <- function(x, digits=0L) {
   if (digits >= 0L) return(x)
   a <- attributes(x)
   b <- 10L^round(-digits)
@@ -1427,7 +1399,7 @@ min.integer64 = function(..., na.rm=FALSE) {
     oldClass(ret) = "integer64"
   } else {
     ret = vapply(l, FUN.VALUE=integer64(1L), function(e) {
-      if (is.integer64(e)){
+      if (is.integer64(e)) {
         .Call(C_min_integer64, e, na.rm, double(1L))
       } else {
         as.integer64(min(e, na.rm=na.rm))
@@ -1499,7 +1471,7 @@ lim.integer64 = function() {
 
 #' @rdname cumsum.integer64
 #' @export
-diff.integer64 <- function(x, lag=1L, differences=1L, ...){
+diff.integer64 <- function(x, lag=1L, differences=1L, ...) {
   lag <- as.integer(lag)
   n <- length(x)
   d <- differences <- as.integer(differences)
@@ -1526,14 +1498,14 @@ diff.integer64 <- function(x, lag=1L, differences=1L, ...){
 
 #' @rdname cumsum.integer64
 #' @export
-cummin.integer64 <- function(x){
+cummin.integer64 <- function(x) {
   ret <- .Call(C_cummin_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
 #' @rdname cumsum.integer64
 #' @export
-cummax.integer64 <- function(x){
+cummax.integer64 <- function(x) {
   ret <- .Call(C_cummax_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
@@ -1541,7 +1513,7 @@ cummax.integer64 <- function(x){
 
 #' @rdname cumsum.integer64
 #' @export
-cumsum.integer64 <- function(x){
+cumsum.integer64 <- function(x) {
   ret <- .Call(C_cumsum_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
@@ -1549,7 +1521,7 @@ cumsum.integer64 <- function(x){
 
 #' @rdname cumsum.integer64
 #' @export
-cumprod.integer64 <- function(x){
+cumprod.integer64 <- function(x) {
   ret <- .Call(C_cumprod_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
@@ -1578,7 +1550,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 
 #' @rdname xor.integer64
 #' @export
-`==.integer64` <- function(e1, e2){
+`==.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -1594,7 +1566,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 
 #' @rdname xor.integer64
 #' @export
-`!=.integer64` <- function(e1, e2){
+`!=.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -1610,7 +1582,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 
 #' @rdname xor.integer64
 #' @export
-`<.integer64` <- function(e1, e2){
+`<.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -1626,7 +1598,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 
 #' @rdname xor.integer64
 #' @export
-`<=.integer64` <- function(e1, e2){
+`<=.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -1642,7 +1614,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 
 #' @rdname xor.integer64
 #' @export
-`>.integer64` <- function(e1, e2){
+`>.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -1658,7 +1630,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 
 #' @rdname xor.integer64
 #' @export
-`>=.integer64` <- function(e1, e2){
+`>=.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
   e2 <- as.integer64(e2)
@@ -1674,7 +1646,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 
 #' @rdname xor.integer64
 #' @export
-`&.integer64` <- function(e1, e2){
+`&.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   ret <- as.logical(e1) & as.logical(e2)
   a$class <- minusclass(a$class, "integer64")
@@ -1684,7 +1656,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 
 #' @rdname xor.integer64
 #' @export
-`|.integer64` <- function(e1, e2){
+`|.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   ret <- as.logical(e1) | as.logical(e2)
   a$class <- minusclass(a$class, "integer64")
@@ -1694,7 +1666,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 
 #' @rdname xor.integer64
 #' @export
-xor.integer64 <- function(x, y){
+xor.integer64 <- function(x, y) {
   a <- binattr(x,y)
   ret <- as.logical(x) != as.logical(y)
   a$class <- minusclass(a$class, "integer64")
@@ -1714,7 +1686,7 @@ xor.integer64 <- function(x, y){
 }
 
 # as.vector.integer64 removed as requested by the CRAN maintainer
-# as.vector.integer64 <- function(x, mode="any"){
+# as.vector.integer64 <- function(x, mode="any") {
   # ret <- NextMethod()
   # if (mode=="any")
     # oldClass(ret) <- "integer64"
@@ -1723,7 +1695,7 @@ xor.integer64 <- function(x, y){
 
 # bug in R does not dispatch
 #' @exportS3Method is.vector integer64
-is.vector.integer64 <- function(x, mode="any"){
+is.vector.integer64 <- function(x, mode="any") {
   cl <- minusclass(oldClass(x), "integer64")
   a <- setdiff(names(attributes(x)), c("class", "names"))
   is.na(match(mode, c("any", "integer64"))) && !length(cl) && !length(a)
