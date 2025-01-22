@@ -1346,36 +1346,34 @@ round.integer64 <- function(x, digits=0L){
 
 #' @rdname sum.integer64
 #' @export
-any.integer64 <- function(..., na.rm = FALSE){
+any.integer64 = function(..., na.rm=FALSE) {
   l <- list(...)
-  if (length(l)==1L){
-          .Call(C_any_integer64, l[[1L]], na.rm, logical(1L))
-  }else{
-      any(sapply(l, function(e){
-          if (is.integer64(e)){
-            .Call(C_any_integer64, e, na.rm, logical(1L))
-          }else{
-            any(e, na.rm = na.rm)
-          }
-      }), na.rm = na.rm)
-  }
+  if (length(l) == 1L)
+    return(.Call(C_any_integer64, l[[1L]], na.rm, logical(1L)))
+  any_elts = vapply(l, FUN.VALUE=logical(1L), function(e) {
+    if (is.integer64(e)) {
+      .Call(C_any_integer64, e, na.rm, logical(1L))
+    } else {
+      any(e, na.rm=na.rm)
+    }
+  })
+  any(any_elts, na.rm=na.rm)
 }
 
 #' @rdname sum.integer64
 #' @export
-all.integer64 <- function(..., na.rm = FALSE){
+all.integer64 = function(..., na.rm=FALSE) {
   l <- list(...)
-  if (length(l)==1L){
-          .Call(C_all_integer64, l[[1L]], na.rm, logical(1L))
-  }else{
-      all(sapply(l, function(e){
-          if (is.integer64(e)){
-            .Call(C_all_integer64, e, na.rm, logical(1L))
-          }else{
-            all(e, na.rm = na.rm)
-          }
-      }), na.rm = na.rm)
-  }
+  if (length(l) == 1L)
+    return(.Call(C_all_integer64, l[[1L]], na.rm, logical(1L)))
+  all_elts = vapply(l, FUN.VALUE=logical(1L), function(e) {
+    if (is.integer64(e)) {
+      .Call(C_all_integer64, e, na.rm, logical(1L))
+    } else {
+      all(e, na.rm=na.rm)
+    }
+  })
+  all(all_elts, na.rm=na.rm)
 }
 
 #' @rdname sum.integer64

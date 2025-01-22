@@ -3,6 +3,12 @@ linters = all_linters(
   implicit_assignment_linter(allow_lazy=TRUE, allow_scoped=TRUE),
   implicit_integer_linter(allow_colon=TRUE),
   semicolon_linter(allow_compound=TRUE),
+  undesirable_function_linter(fun = modify_defaults(
+    defaults = default_undesirable_functions,
+    library = NULL,
+    options = NULL,
+    par = NULL,
+  )),
   assignment_linter = NULL,
   brace_linter = NULL,
   commas_linter = NULL,
