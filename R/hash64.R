@@ -91,7 +91,7 @@
 #'     bits <- 24
 #'     b <- seq(-1, 0, 0.1)
 #'     tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits","bits+1")))
-#'     for (i in 1:length(b)){
+#'     for (i in 1:length(b)) {
 #'       n <- as.integer(2^(bits+b[i]))
 #'       x <- as.integer64(sample(n))
 #'       tim[i,1] <- repeat.time(hashmap(x, hashbits=bits))[3]
@@ -111,7 +111,7 @@ hashfun <- function(x, ...) UseMethod("hashfun")
 #' @export
 hashfun.integer64 <- function(x, minfac=1.41, hashbits=NULL, ...) {
   n <- length(x)
-  if (is.null(hashbits)){
+  if (is.null(hashbits)) {
     minlen <- ceiling(n*minfac)
     if (minlen > 0L)
       hashbits <- as.integer(ceiling(log2(minlen)))
@@ -128,14 +128,14 @@ hashmap <- function(x, ...) UseMethod("hashmap")
 #' @rdname hashmap
 #' @export
 hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache=NULL, ...) {
-  if (is.null(nunique)){
+  if (is.null(nunique)) {
     nunique <- integer(1L)
     n <- length(x)
   }else{
     nunique <- as.integer(nunique)
     n <- nunique
   }
-  if (is.null(hashbits)){
+  if (is.null(hashbits)) {
     minlen <- ceiling(n*minfac)
     if (minlen > 0L)
       hashbits <- as.integer(ceiling(log2(minlen)))
@@ -272,7 +272,7 @@ hashmaptab <- function(x, ...) UseMethod("hashmaptab")
 #' @rdname hashmap
 #' @export
 hashmaptab.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...) {
-  if (is.null(nunique)){
+  if (is.null(nunique)) {
     nunique <- integer(1L)
     n <- length(x)
   }else{
@@ -297,14 +297,14 @@ hashmapuni <- function(x, ...) UseMethod("hashmapuni")
 #' @rdname hashmap
 #' @export
 hashmapuni.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...) {
-  if (is.null(nunique)){
+  if (is.null(nunique)) {
     nunique <- integer(1L)
     n <- length(x)
   }else{
     nunique <- as.integer(nunique)
     n <- nunique
   }
-  if (is.null(hashbits)){
+  if (is.null(hashbits)) {
     minlen <- ceiling(n*minfac)
     if (minlen > 0L)
       hashbits <- as.integer(ceiling(log2(minlen)))
@@ -326,14 +326,14 @@ hashmapupo <- function(x, ...) UseMethod("hashmapupo")
 #' @rdname hashmap
 #' @export
 hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...) {
-  if (is.null(nunique)){
+  if (is.null(nunique)) {
     nunique <- integer(1L)
     n <- length(x)
   }else{
     nunique <- as.integer(nunique)
     n <- nunique
   }
-  if (is.null(hashbits)){
+  if (is.null(hashbits)) {
     minlen <- ceiling(n*minfac)
     if (minlen > 0L)
       hashbits <- as.integer(ceiling(log2(minlen)))
@@ -380,11 +380,11 @@ hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
 #'   table(runif64(16, 1, 16, replace=TRUE))
 #'
 #' @export
-runif64 <- function(n, min=lim.integer64()[1L], max=lim.integer64()[2L], replace = TRUE){
+runif64 <- function(n, min=lim.integer64()[1L], max=lim.integer64()[2L], replace = TRUE) {
   n <- as.integer(n)
   min <- as.integer64(min)
   max <- as.integer64(max)
-  if (replace){
+  if (replace) {
     ret <- .Call(C_runif_integer64, n, min, max)
     oldClass(ret) <- "integer64"
   }else{
@@ -392,13 +392,13 @@ runif64 <- function(n, min=lim.integer64()[1L], max=lim.integer64()[2L], replace
     d <- max - min + 1L
     if (!is.na(d) && N > d)
       stop("cannot take a sample larger than the population when 'replace = FALSE'")
-    if (!is.na(d) && n > d  / (2.0*log(n, 64.0))){
+    if (!is.na(d) && n > d  / (2.0*log(n, 64.0))) {
       ret <- .Call(C_runif_integer64, as.integer(d), as.integer64(min), as.integer64(max))
       oldClass(ret) <- "integer64"
       ret <- sample(ret, n, FALSE)
     }else{
       ret <- integer64()
-      while (N > 0L){
+      while (N > 0L) {
         ret <- unique(c(ret, Recall(
           if (N*1.05 < .Machine$integer.max) N*1.05 else N
         , min

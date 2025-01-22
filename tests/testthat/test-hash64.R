@@ -25,7 +25,7 @@ test_that("runif64 behaves as expected", {
   #   require(microbenchmark)
   #   n <- 1000000L
   #   print(microbenchmark(runif64(n, 1.0, n), times=20L))
-  #   for (m in c(1.0, 2.0, 4.0, 8.0, 16.0)){
+  #   for (m in c(1.0, 2.0, 4.0, 8.0, 16.0)) {
   #     print(microbenchmark(runif64(n, 1.0, n*m, replace=FALSE), times=20L))
   #     print(microbenchmark(sample(n*m, n, replace=FALSE), times=20L))
   #   }

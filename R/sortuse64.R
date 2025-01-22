@@ -103,16 +103,16 @@ sortfin <- function(sorted, x, ...) UseMethod("sortfin")
 sortfin.integer64 <- function(sorted, x, method=NULL, ...)
 {
   n <- length(x)
-  if (is.null(method)){
-    if (n<2048L){
+  if (is.null(method)) {
+    if (n<2048L) {
       method <- 1L
-    }else if (n<length(sorted)/128L){
+    }else if (n<length(sorted)/128L) {
       method <- 2L
     }else{
       method <- 3L
     }
   }else method <- as.integer(method)
-  if (method==1L){
+  if (method==1L) {
       .Call(C_r_ram_integer64_sortfin_asc
       , x = as.integer64(x)
       , sorted = as.integer64(sorted)
@@ -142,16 +142,16 @@ orderfin <- function(table, order, x, ...) UseMethod("orderfin")
 orderfin.integer64 <- function(table, order, x, method=NULL, ...)
 {
   n <- length(x)
-  if (is.null(method)){
-    if (n<4096L){
+  if (is.null(method)) {
+    if (n<4096L) {
       method <- 1L
-    }else if (n<length(table)/8L){
+    }else if (n<length(table)/8L) {
       method <- 2L
     }else{
       method <- 3L
     }
   }else method <- as.integer(method)
-  if (method==1L){
+  if (method==1L) {
       .Call(C_r_ram_integer64_orderfin_asc
       , x = as.integer64(x)
       , table = as.integer64(table)
@@ -184,16 +184,16 @@ orderpos <- function(table, order, x, ...) UseMethod("orderpos")
 orderpos.integer64 <- function(table, order, x, nomatch=NA, method=NULL, ...)
 {
   n <- length(x)
-  if (is.null(method)){
-    if (n<4096L){
+  if (is.null(method)) {
+    if (n<4096L) {
       method <- 1L
-    }else if (n<length(table)/8L){
+    }else if (n<length(table)/8L) {
       method <- 2L
     }else{
       method <- 3L
     }
   }else method <- as.integer(method)
-  if (method==1L){
+  if (method==1L) {
       .Call(C_r_ram_integer64_orderpos_asc
       , x = as.integer64(x)
       , table = as.integer64(table)
@@ -227,16 +227,16 @@ sortorderpos <- function(sorted, order, x, ...) UseMethod("sortorderpos")
 sortorderpos.integer64 <- function(sorted, order, x, nomatch=NA, method=NULL, ...)
 {
   n <- length(x)
-  if (is.null(method)){
-    if (n<2048L){
+  if (is.null(method)) {
+    if (n<2048L) {
       method <- 1L
-    }else if (n<length(sorted)/128L){
+    }else if (n<length(sorted)/128L) {
       method <- 2L
     }else{
       method <- 3L
     }
   }else method <- as.integer(method)
-  if (method==1L){
+  if (method==1L) {
       .Call(C_r_ram_integer64_sortorderpos_asc
       , x = as.integer64(x)
       , sorted = as.integer64(sorted)
@@ -269,7 +269,7 @@ orderdup <- function(table, order, ...) UseMethod("orderdup")
 #' @export
 orderdup.integer64 <- function(table, order, method=NULL, ...)
 {
-  if (is.null(method)){
+  if (is.null(method)) {
     if (length(table)<4194304L)
         method <- 1L
       else
@@ -291,7 +291,7 @@ sortorderdup <- function(sorted, order, ...) UseMethod("sortorderdup")
 #' @export
 sortorderdup.integer64 <- function(sorted, order, method=NULL, ...)
 {
-  if (is.null(method)){
+  if (is.null(method)) {
     if (length(sorted)<4194304L)
         method <- 1L
       else
@@ -545,7 +545,7 @@ sortorderrnk.integer64 <- function(sorted, order, na.count, ...)
 sortqtl <- function(sorted, na.count, probs, ...) UseMethod("sortqtl")
 #' @rdname sortnut
 #' @export
-sortqtl.integer64 <- function(sorted, na.count, probs, ...){
+sortqtl.integer64 <- function(sorted, na.count, probs, ...) {
     n <- length(sorted) - na.count  # nvalid
     ret <- sorted[na.count + round(1L + probs * (n-1L))]
     ret[is.na(probs)] <- NA ## xx TODO this fix only neccessary until we have C-implementation of [.integer64 handling NA
@@ -557,7 +557,7 @@ sortqtl.integer64 <- function(sorted, na.count, probs, ...){
 orderqtl <- function(table, order, na.count, probs, ...) UseMethod("orderqtl")
 #' @rdname sortnut
 #' @export
-orderqtl.integer64 <- function(table, order, na.count, probs, ...){
+orderqtl.integer64 <- function(table, order, na.count, probs, ...) {
   n = length(table) - na.count  # nvalid
   idx = na.count + round(1L + probs * (n-1L))
   ret = table[order[idx]]

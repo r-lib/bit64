@@ -121,7 +121,7 @@ rank <- function(x, ...) UseMethod("rank")
 rank.default <- function(x, ...) base::rank(x, ...)
 
 # not yet able to combinewith other column types - better leave table() as is and hope for as.factor.integer64
-#if (!exists("table.default")){
+#if (!exists("table.default")) {
 #    "table" <- function(...) UseMethod("table")
 #    "table.default" <- function(...) base::"table"(...)
 #}

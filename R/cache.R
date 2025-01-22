@@ -60,7 +60,7 @@
 #' @name cache
 NULL
 
-#still.identical <- function(x, y){
+#still.identical <- function(x, y) {
 #  .Call(C_r_ram_truly_identical, x = x, y = y, PACKAGE = "bit64")
 #}
 
@@ -80,11 +80,11 @@ newcache <- function(x) {
 #' @export
 jamcache <- function(x) {
     cache <- attr(x, "cache")
-    if (is.null(cache)){
+    if (is.null(cache)) {
         cache <- newcache(x)
         setattr(x, "cache", cache)
     }else
-        if (!bit::still.identical(x, get("x", envir=cache, inherits=FALSE))){
+        if (!bit::still.identical(x, get("x", envir=cache, inherits=FALSE))) {
             cache <- newcache(x)
             setattr(x, "cache", cache)
             warning("replaced outdated cache with empty cache")
@@ -118,11 +118,11 @@ setcache <- function(x, which, value) {
 
 #' @describeIn cache gets cache value 'which' from `x`
 #' @export
-getcache <- function(x, which){
+getcache <- function(x, which) {
     cache <- attr(x, "cache")
     if (is.null(cache))
       return(NULL)
-    if (bit::still.identical(x, get("x", envir=cache, inherits=FALSE))){
+    if (bit::still.identical(x, get("x", envir=cache, inherits=FALSE))) {
         if (exists(which, envir=cache, inherits=FALSE))
             get(which, envir=cache, inherits=FALSE)
         else
@@ -145,7 +145,7 @@ remcache <- function(x) {
 #' @param all.names,pattern passed to [ls()] when listing the cache content
 #' @param ... ignored
 #' @export
-print.cache<- function(x, all.names=FALSE, pattern, ...){
+print.cache<- function(x, all.names=FALSE, pattern, ...) {
   l <- ls(x, all.names, pattern=pattern)
   cat(class(x)[1L], ": ", paste(l, collapse=" - "), "\n", sep="")
   invisible(l)
@@ -185,7 +185,7 @@ print.cache<- function(x, all.names=FALSE, pattern, ...){
 #'
 #' @keywords environment
 #' @export
-hashcache <-function(x, nunique=NULL, ...){
+hashcache <-function(x, nunique=NULL, ...) {
     env <- jamcache(x)
     if (is.null(nunique))
         nunique <- env$nunique
@@ -202,8 +202,8 @@ hashcache <-function(x, nunique=NULL, ...){
 #'    `NA`s. If we know we don't have `NA`s, this may speed-up. _Note_ that you
 #'    risk a crash if there are unexpected `NA`s with `has.na=FALSE`.
 #' @export
-sortcache <- function(x, has.na = NULL){
-    if (is.null(has.na)){
+sortcache <- function(x, has.na = NULL) {
+    if (is.null(has.na)) {
         na.count <- getcache(x, "na.count")
         if (is.null(na.count))
             has.na <- TRUE
@@ -224,15 +224,15 @@ sortcache <- function(x, has.na = NULL){
 #' @param stable boolean scalar defining whether stable sorting is needed. Allowing
 #'   non-stable may speed-up.
 #' @export
-sortordercache <- function(x, has.na = NULL, stable = NULL){
-    if (is.null(has.na)){
+sortordercache <- function(x, has.na = NULL, stable = NULL) {
+    if (is.null(has.na)) {
         na.count <- getcache(x, "na.count")
         if (is.null(na.count))
             has.na <- TRUE
         else
             has.na <- na.count > 0L
     }
-    if (is.null(stable)){
+    if (is.null(stable)) {
         nunique <- getcache(x, "nunique")
         if (is.null(nunique))
           stable <- TRUE
@@ -255,15 +255,15 @@ sortordercache <- function(x, has.na = NULL, stable = NULL){
 #' @param optimize by default ramsort optimizes for 'time' which requires more RAM,
 #'   set to 'memory' to minimize RAM requirements and sacrifice speed.
 #' @export
-ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time"){
-    if (is.null(has.na)){
+ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time") {
+    if (is.null(has.na)) {
         na.count <- getcache(x, "na.count")
         if (is.null(na.count))
             has.na <- TRUE
         else
             has.na <- na.count > 0L
     }
-    if (is.null(stable)){
+    if (is.null(stable)) {
         nunique <- getcache(x, "nunique")
         if (is.null(nunique))
           stable <- TRUE
@@ -320,7 +320,7 @@ NULL
 
 #' @describeIn is.sorted.integer64 returns the number of `NA`s
 #' @export
-na.count.integer64 <- function(x, ...){
+na.count.integer64 <- function(x, ...) {
   env <- cache(x)
   if (is.null(env))
     return(.Call(C_r_ram_integer64_nacount, x = x, PACKAGE = "bit64"))
@@ -334,13 +334,13 @@ na.count.integer64 <- function(x, ...){
 #' @describeIn is.sorted.integer64 returns the number of valid data points,
 #'   usually [length()] minus `na.count`.
 #' @export
-nvalid.integer64 <- function(x, ...){
+nvalid.integer64 <- function(x, ...) {
     length(x) - na.count(x)
 }
 
 #' @describeIn is.sorted.integer64 checks for sortedness of `x` (NAs sorted first)
 #' @export
-is.sorted.integer64 <- function(x, ...){
+is.sorted.integer64 <- function(x, ...) {
   env <- cache(x)
   if (is.null(env))
     return(.Call(C_r_ram_integer64_issorted_asc, x = x, PACKAGE = "bit64"))
@@ -353,7 +353,7 @@ is.sorted.integer64 <- function(x, ...){
 
 #' @describeIn is.sorted.integer64 returns the number of unique values
 #' @export
-nunique.integer64 <- function(x, ...){
+nunique.integer64 <- function(x, ...) {
     env <- cache(x)
     if (is.null(env))
         has.cache <- FALSE
@@ -361,12 +361,12 @@ nunique.integer64 <- function(x, ...){
         return(get("nunique", envir=env, inherits=FALSE))
     else # nolint: unreachable_code_linter. TODO(r-lib/lintr#2710): Re-enable.
         has.cache <- TRUE
-    if (is.sorted(x)){
+    if (is.sorted(x)) {
         ret <- .Call(C_r_ram_integer64_sortnut
         , x = x
         , PACKAGE = "bit64"
         )
-        if (has.cache){
+        if (has.cache) {
             assign("nunique", ret[1L], envir=env)
             assign("nties", ret[2L], envir=env)
         }
@@ -381,10 +381,10 @@ nunique.integer64 <- function(x, ...){
 
 #' @describeIn is.sorted.integer64 returns the number of tied values.
 #' @export
-nties.integer64 <- function(x, ...){
+nties.integer64 <- function(x, ...) {
     cv <- getcache(x, "nties")
-    if (is.null(cv)){
-        if (is.sorted(x)){
+    if (is.null(cv)) {
+        if (is.sorted(x)) {
             cv <- .Call(C_r_ram_integer64_sortnut
             , x = x
             , PACKAGE = "bit64"

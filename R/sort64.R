@@ -131,7 +131,7 @@ shellorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FA
 
 #' @rdname ramsort.integer64
 #' @export
-mergesort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...){
+mergesort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...) {
   force(x)
   .Call(C_r_ram_integer64_mergesort
   , x = x
@@ -144,7 +144,7 @@ mergesort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE,
 
 #' @rdname ramsort.integer64
 #' @export
-mergeorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...){
+mergeorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...) {
   force(x)
   force(i)
   if (!is.integer(i))
@@ -163,7 +163,7 @@ mergeorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FA
 
 #' @rdname ramsort.integer64
 #' @export
-mergesortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...){
+mergesortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...) {
   force(x)
   force(i)
   if (!is.integer(i))
@@ -182,9 +182,12 @@ mergesortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasin
 
 #' @rdname ramsort.integer64
 #' @export
-quicksort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE
-, restlevel=floor(1.5*log2(length(x)))
-, ...){
+quicksort.integer64 <- function(x,
+                                has.na=TRUE,
+                                na.last=FALSE,
+                                decreasing=FALSE,
+                                restlevel=floor(1.5 * log2(length(x))),
+                                ...) {
   force(x)
   if (restlevel<0L)
     restlevel = 0L
@@ -200,9 +203,12 @@ quicksort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE
 
 #' @rdname ramsort.integer64
 #' @export
-quicksortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE
-, restlevel=floor(1.5*log2(length(x)))
-, ...){
+quicksortorder.integer64 <- function(x, i,
+                                     has.na=TRUE,
+                                     na.last=FALSE,
+                                     decreasing=FALSE,
+                                     restlevel=floor(1.5 * log2(length(x))),
+                                     ...) {
   force(x)
   force(i)
   if (!is.integer(i))
@@ -224,9 +230,12 @@ quicksortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasin
 
 #' @rdname ramsort.integer64
 #' @export
-quickorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE
-, restlevel=floor(1.5*log2(length(x)))
-, ...){
+quickorder.integer64 <- function(x, i,
+                                 has.na=TRUE,
+                                 na.last=FALSE,
+                                 decreasing=FALSE,
+                                 restlevel=floor(1.5 * log2(length(x))),
+                                 ...) {
   force(x)
   force(i)
   if (!is.integer(i))
@@ -340,7 +349,7 @@ ramsort.integer64 <- function(x,
       quicksort(x, has.na=has.na, na.last=na.last, decreasing=decreasing)
     }
   } else {
-    if (stable || optimize == "time"){
+    if (stable || optimize == "time") {
       i <- seq_along(x)
       if (length(x) < 2048L) {
         if (VERBOSE) cat("ramsortorder selected mergesortorder\n")
@@ -375,10 +384,10 @@ ramsortorder.integer64 <- function(x, i,
   optimize <- match.arg(optimize)
   if (!is.null(names(x)) && !is.null(names(i))) stop("names not supported")
   if (stable || optimize == "time") {
-    if (length(x) < 2048L){
+    if (length(x) < 2048L) {
       if (VERBOSE) cat("ramsortorder selected mergesortorder\n")
       mergesortorder(x, i, has.na=has.na, na.last=na.last, decreasing=decreasing)
-    }else if (length(x) < 16777216L){
+    }else if (length(x) < 16777216L) {
       if (VERBOSE) cat("ramsortorder selected radix8sortorder\n")
       radixsortorder(x, i, radixbits=8L, has.na=has.na, na.last=na.last, decreasing=decreasing)
     }else{
@@ -452,18 +461,17 @@ NULL
 
 #' @rdname sort.integer64
 #' @export
-sort.integer64 <- function(x
-, decreasing = FALSE
-, has.na = TRUE
-, na.last = TRUE
-, stable = TRUE
-, optimize = c("time", "memory")
-, VERBOSE = FALSE
-, ...
-){
+sort.integer64 <- function(x,
+                           decreasing=FALSE,
+                           has.na=TRUE,
+                           na.last=TRUE,
+                           stable=TRUE,
+                           optimize=c("time", "memory"),
+                           VERBOSE=FALSE,
+                           ...) {
   do.na.last <- is.na(na.last) || na.last
   cache_env <- cache(x)
-  if (!is.null(cache_env$sort)){
+  if (!is.null(cache_env$sort)) {
         if (do.na.last || decreasing) {
           na.count <- cache_env$na.count
           s <- double(length(x))
@@ -478,7 +486,7 @@ sort.integer64 <- function(x
         } else {
           s <- cache_env$sort  # here we save copying at all
         }
-  }else if (!is.null(cache_env$order)){
+  }else if (!is.null(cache_env$order)) {
         if (do.na.last || decreasing) {
           na.count <- cache_env$na.count
           s <- double(length(x))
@@ -514,15 +522,13 @@ sort.integer64 <- function(x
 
 #' @rdname sort.integer64
 #' @export
-order.integer64 <- function(
-  ...
-, na.last = TRUE
-, decreasing = FALSE
-, has.na = TRUE
-, stable = TRUE
-, optimize = c("time", "memory")
-, VERBOSE = FALSE
-){
+order.integer64 <- function(...,
+                            na.last=TRUE,
+                            decreasing=FALSE,
+                            has.na=TRUE,
+                            stable=TRUE,
+                            optimize=c("time", "memory"),
+                            VERBOSE=FALSE) {
   do.na.last <- is.na(na.last) || na.last
     # COPY ON MODIFY is broken for reading from list(...)
     # because list(...) creates a copy of all ... and this invalidates our caches
@@ -535,7 +541,7 @@ order.integer64 <- function(
     stop("can only order one vector at the moment")
   x <- A(1L)
   cache_env <- cache(x)
-  if (!is.null(cache_env$order)){
+  if (!is.null(cache_env$order)) {
         if (do.na.last || decreasing) {
             o <- integer(length(x))
             if (is.null(cache_env$sort)) {
@@ -566,7 +572,7 @@ order.integer64 <- function(
         has.na <- FALSE
       optimize <- match.arg(optimize)
       o <- seq_along(x)
-      if (optimize=="time"){
+      if (optimize=="time") {
           s <- clone(x)
           na.count <- ramsortorder(s, o
           , has.na=has.na
