@@ -3,6 +3,12 @@ linters = all_linters(
   implicit_assignment_linter(allow_lazy=TRUE, allow_scoped=TRUE),
   implicit_integer_linter(allow_colon=TRUE),
   semicolon_linter(allow_compound=TRUE),
+  undesirable_function_linter(fun = modify_defaults(
+    defaults = default_undesirable_functions,
+    library = NULL,
+    options = NULL,
+    par = NULL,
+  )),
   assignment_linter = NULL,
   brace_linter = NULL,
   commas_linter = NULL,
@@ -18,7 +24,5 @@ linters = all_linters(
   object_name_linter = NULL,
   paren_body_linter = NULL,
   quotes_linter = NULL,
-  todo_comment_linter = NULL,
-  undesirable_function_linter = NULL,
-  undesirable_operator_linter = NULL
+  todo_comment_linter = NULL
 )
