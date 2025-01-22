@@ -20,6 +20,7 @@
 #'
 #' @details
 #'
+# nolint start: line_length_linter.
 #' | **sortfun** | **orderfun** | **sortorderfun** | **see also**       | **description** |
 #' |------------:|-------------:|-----------------:|-------------------:|:----------------|
 #' |   `sortnut` |   `ordernut` |                  |                    | return number of tied and of unique values |
@@ -33,6 +34,7 @@
 #' |   `sorttab` |   `ordertab` |   `sortordertab` | [`table()`][table.integer64] | tabulate frequency of values  |
 #' |             |   `orderrnk` |   `sortorderrnk` |                    | rank averaging ties |
 #' |   `sortqtl` |   `orderqtl` |                  |                    | return quantiles given probabilities |
+# nolint end: line_length_linter.
 #'
 #' The functions `sortfin`, `orderfin`, `orderpos` and `sortorderpos` each
 #'   offer three algorithms for finding `x` in `table`.
@@ -560,7 +562,8 @@ sortqtl <- function(sorted, na.count, probs, ...) UseMethod("sortqtl")
 sortqtl.integer64 <- function(sorted, na.count, probs, ...) {
     n <- length(sorted) - na.count  # nvalid
     ret <- sorted[na.count + round(1L + probs * (n-1L))]
-    ret[is.na(probs)] <- NA ## xx TODO this fix only neccessary until we have C-implementation of [.integer64 handling NA
+    # TODO(#31): Remove this once `[` can return NA for integer64 directly
+    ret[is.na(probs)] <- NA
     ret
 }
 
@@ -574,6 +577,7 @@ orderqtl.integer64 <- function(table, order, na.count, probs, ...) {
   n = length(table) - na.count  # nvalid
   idx = na.count + round(1L + probs * (n-1L))
   ret = table[order[idx]]
-  ret[is.na(probs)] <- NA ## xx TODO this fix only neccessary until we have C-implementation of [.integer64 handling NA
+  # TODO(#31): Remove this once `[` can return NA for integer64 directly
+  ret[is.na(probs)] <- NA
   ret
 }
