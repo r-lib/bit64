@@ -71,6 +71,7 @@
 #'  print(optimizer64)
 #' @export
 sortnut <- function(sorted, ...) UseMethod("sortnut")
+
 #' @rdname sortnut
 #' @export
 sortnut.integer64 <- function(sorted, ...)
@@ -85,6 +86,7 @@ sortnut.integer64 <- function(sorted, ...)
 #' @param order an [`integer`] order vector that turns 'table' into 'sorted'
 #' @export
 ordernut <- function(table, order, ...) UseMethod("ordernut")
+
 #' @rdname sortnut
 #' @export
 ordernut.integer64 <- function(table, order, ...)
@@ -98,6 +100,7 @@ ordernut.integer64 <- function(table, order, ...)
 #' @param x an [`integer64`] vector
 #' @export
 sortfin <- function(sorted, x, ...) UseMethod("sortfin")
+
 #' @rdname sortnut
 #' @export
 sortfin.integer64 <- function(sorted, x, method=NULL, ...)
@@ -106,12 +109,14 @@ sortfin.integer64 <- function(sorted, x, method=NULL, ...)
   if (is.null(method)) {
     if (n<2048L) {
       method <- 1L
-    }else if (n<length(sorted)/128L) {
+    } else if (n<length(sorted)/128L) {
       method <- 2L
     } else {
       method <- 3L
     }
-  }else method <- as.integer(method)
+  } else {
+    method <- as.integer(method)
+  }
   if (method==1L) {
       .Call(C_r_ram_integer64_sortfin_asc
       , x = as.integer64(x)
@@ -130,13 +135,14 @@ sortfin.integer64 <- function(sorted, x, method=NULL, ...)
       , ret = ret
       , PACKAGE = "bit64"
       )
-      ret
+    ret
   }
 }
 
 #' @rdname sortnut
 #' @export
 orderfin <- function(table, order, x, ...) UseMethod("orderfin")
+
 #' @rdname sortnut
 #' @export
 orderfin.integer64 <- function(table, order, x, method=NULL, ...)
@@ -145,12 +151,14 @@ orderfin.integer64 <- function(table, order, x, method=NULL, ...)
   if (is.null(method)) {
     if (n<4096L) {
       method <- 1L
-    }else if (n<length(table)/8L) {
+    } else if (n<length(table)/8L) {
       method <- 2L
     } else {
       method <- 3L
     }
-  }else method <- as.integer(method)
+  } else {
+    method <- as.integer(method)
+  }
   if (method==1L) {
       .Call(C_r_ram_integer64_orderfin_asc
       , x = as.integer64(x)
@@ -178,6 +186,7 @@ orderfin.integer64 <- function(table, order, x, method=NULL, ...)
 #' @rdname sortnut
 #' @export
 orderpos <- function(table, order, x, ...) UseMethod("orderpos")
+
 #' @rdname sortnut
 #' @param nomatch the value to be returned if an element is not found in the hashmap
 #' @export
@@ -187,12 +196,14 @@ orderpos.integer64 <- function(table, order, x, nomatch=NA, method=NULL, ...)
   if (is.null(method)) {
     if (n<4096L) {
       method <- 1L
-    }else if (n<length(table)/8L) {
+    } else if (n<length(table)/8L) {
       method <- 2L
     } else {
       method <- 3L
     }
-  }else method <- as.integer(method)
+  } else {
+    method <- as.integer(method)
+  }
   if (method==1L) {
       .Call(C_r_ram_integer64_orderpos_asc
       , x = as.integer64(x)
@@ -222,6 +233,7 @@ orderpos.integer64 <- function(table, order, x, nomatch=NA, method=NULL, ...)
 #' @rdname sortnut
 #' @export
 sortorderpos <- function(sorted, order, x, ...) UseMethod("sortorderpos")
+
 #' @rdname sortnut
 #' @export
 sortorderpos.integer64 <- function(sorted, order, x, nomatch=NA, method=NULL, ...)
@@ -230,12 +242,14 @@ sortorderpos.integer64 <- function(sorted, order, x, nomatch=NA, method=NULL, ..
   if (is.null(method)) {
     if (n<2048L) {
       method <- 1L
-    }else if (n<length(sorted)/128L) {
+    } else if (n<length(sorted)/128L) {
       method <- 2L
     } else {
       method <- 3L
     }
-  }else method <- as.integer(method)
+  } else {
+    method <- as.integer(method)
+  }
   if (method==1L) {
       .Call(C_r_ram_integer64_sortorderpos_asc
       , x = as.integer64(x)
@@ -274,7 +288,9 @@ orderdup.integer64 <- function(table, order, method=NULL, ...)
         method <- 1L
       else
         method <- 2L
-  }else method <- as.integer(method)
+  } else {
+    method <- as.integer(method)
+  }
   .Call(C_r_ram_integer64_orderdup_asc
   , table = as.integer64(table)
   , order = as.integer(order)
@@ -296,7 +312,9 @@ sortorderdup.integer64 <- function(sorted, order, method=NULL, ...)
         method <- 1L
       else
         method <- 2L
-  }else method <- as.integer(method)
+  } else {
+    method <- as.integer(method)
+  }
   .Call(C_r_ram_integer64_sortorderdup_asc
   , sorted = as.integer64(sorted)
   , order = as.integer(order)

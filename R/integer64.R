@@ -623,7 +623,7 @@ binattr <- function(e1, e2) {
   ## in this part we mimic R's algo for selecting attributes:
   if (n1 == n2) {
     ## if same size take attribute from e1 if it exists, else from e2
-    if (n1==0L) {
+    if (n1 == 0L) {
       ae1 <- attributes(e1)[c("class","dim","dimnames")]
       ae2 <- attributes(e2)[c("class","dim","dimnames")]
     }
@@ -642,7 +642,7 @@ binattr <- function(e1, e2) {
     else
       allattr[[a]] <- ae2[[a]]
     allattr
-  }else if (n1 == 0L || n1 > n2) {
+  } else if (n1 == 0L || n1 > n2) {
     attributes(e1)
   } else {
     attributes(e2)
@@ -1027,52 +1027,48 @@ rep.integer64 <- function(x, ...) {
 
 #' @export
 seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
-    if (is.null(length.out))
-      length.out <- length(along.with)
+  if (is.null(length.out))
+    length.out <- length(along.with)
+  else
+    length.out <- as.integer(length.out)
+
+  if (is.null(by)) {
+    if (is.null(from) || is.null(to))
+      by <- as.integer64(1L)
     else
-      length.out <- as.integer(length.out)
+      by <- as.integer64(if (to < from) -1L else 1L)
+  } else {
+    by <- as.integer64(by)
+    if (!is.null(from) && !is.null(to) && (sign(by) != (if (to < from) -1L else 1L)))
+      stop("wrong sign of 'by' argument")
+  }
 
-    if (is.null(by)) {
-      if (is.null(from) || is.null(to))
-        by <- as.integer64(1L)
-      else
-        by <- as.integer64(if (to < from) -1L else 1L)
-    } else {
-      by <- as.integer64(by)
-      if (!is.null(from) && !is.null(to) && (sign(by) != (if (to < from) -1L else 1L)))
-        stop("wrong sign of 'by' argument")
-    }
+  if (is.null(from)) {
+    if (length.out && length(to))
+      from <- to - (length.out-1L)*by
+    else
+      from <- as.integer64(1L)
+  } else {
+    from <- as.integer64(from)
+  }
 
-    if (is.null(from)) {
-      if (length.out && length(to))
-        from <- to - (length.out-1L)*by
-      else
-        from <- as.integer64(1L)
-    }else
-      from <- as.integer64(from)
+  if (!length(to)) {
+    if (length.out)
+      to <- from + (length.out-1L)*by
+    else
+      stop("not enough information provided")
+  }
 
-    if (!length(to)) {
-      if (length.out)
-        to <- from + (length.out-1L)*by
-      else
-        stop("not enough informatoin provided")
-    }
+  if (!length.out) {
+    length.out <- (to-from) %/% by + 1L
+  }
 
-    if (!length.out) {
-      length.out <- (to-from) %/% by + 1L
-    }
-
-    if (length.out) {
-      if (length.out==1L)
-        return(from)
-      else{
-        #return(cumsum(c(from, rep(by, length.out-1L))))
-        ret <- .Call(C_seq_integer64, from, by, double(as.integer(length.out)))
-        oldClass(ret) <- "integer64"
-        return(ret)
-      }
-    }else
-      return(integer64())
+  if (!length.out) return(integer64())
+  if (length.out==1L) return(from)
+  #return(cumsum(c(from, rep(by, length.out-1L))))
+  ret <- .Call(C_seq_integer64, from, by, double(as.integer(length.out)))
+  oldClass(ret) <- "integer64"
+  return(ret)
 }
 
 #' @rdname xor.integer64

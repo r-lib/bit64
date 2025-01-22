@@ -117,8 +117,9 @@ hashfun.integer64 <- function(x, minfac=1.41, hashbits=NULL, ...) {
       hashbits <- as.integer(ceiling(log2(minlen)))
     else
       hashbits <- 0L
-  }else
+  } else {
     hashbits <- as.integer(hashbits)
+  }
   .Call(C_hashfun_integer64, x, hashbits, integer(n), PACKAGE = "bit64")
 }
 
@@ -141,8 +142,9 @@ hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache
       hashbits <- as.integer(ceiling(log2(minlen)))
     else
       hashbits <- 0L
-  }else
+  } else {
     hashbits <- as.integer(hashbits)
+  }
   nhash <- as.integer(2L^hashbits)
   hashmap <- integer(nhash)
   .Call(C_hashmap_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
@@ -310,8 +312,9 @@ hashmapuni.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
       hashbits <- as.integer(ceiling(log2(minlen)))
     else
       hashbits <- 0L
-  }else
+  } else {
     hashbits <- as.integer(hashbits)
+  }
   nhash <- as.integer(2L^hashbits)
   hashmap <- integer(nhash)
   ret <- .Call(C_hashmapuni_integer64, x, hashbits, hashmap, nunique, PACKAGE = "bit64")
@@ -339,8 +342,9 @@ hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
       hashbits <- as.integer(ceiling(log2(minlen)))
     else
       hashbits <- 0L
-  }else
+  } else {
     hashbits <- as.integer(hashbits)
+  }
   nhash <- as.integer(2L^hashbits)
   hashmap <- integer(nhash)
   # theoretically we could use {hashmap, nunique} at this point the same way like after calling hashmap_integer64

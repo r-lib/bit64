@@ -79,31 +79,30 @@ newcache <- function(x) {
 #' @describeIn cache forces `x` to have a cache
 #' @export
 jamcache <- function(x) {
-    cache <- attr(x, "cache")
-    if (is.null(cache)) {
-        cache <- newcache(x)
-        setattr(x, "cache", cache)
-    }else
-        if (!bit::still.identical(x, get("x", envir=cache, inherits=FALSE))) {
-            cache <- newcache(x)
-            setattr(x, "cache", cache)
-            warning("replaced outdated cache with empty cache")
-        }
-    cache
+  cache <- attr(x, "cache")
+  if (is.null(cache)) {
+    cache <- newcache(x)
+    setattr(x, "cache", cache)
+  } else if (!bit::still.identical(x, get("x", envir=cache, inherits=FALSE))) {
+    cache <- newcache(x)
+    setattr(x, "cache", cache)
+    warning("replaced outdated cache with empty cache")
+  }
+  cache
 }
 
 #' @describeIn cache returns the cache attached to `x` if it is not
 #'   found to be outdated
 #' @export
 cache <- function(x) {
-    cache <- attr(x, "cache")
-    if (is.null(cache) || bit::still.identical(x, get("x", envir=cache, inherits=FALSE)))
-        cache
-    else{
-        remcache(x)
-        warning("removed outdated cache")
-        NULL
-    }
+  cache <- attr(x, "cache")
+  if (is.null(cache) || bit::still.identical(x, get("x", envir=cache, inherits=FALSE))) {
+    cache
+  } else {
+    remcache(x)
+    warning("removed outdated cache")
+    NULL
+  }
 }
 
 #' @describeIn cache assigns a value into the cache of `x`
