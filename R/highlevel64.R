@@ -153,11 +153,13 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
   tim1[i] <- 0L
 
   tim1[i] <- tim1[i] + timefun({
-   switch(as.character(i)
-   , "3" = {hashcache(s); hashcache(b); hashcache(b2)}
-   , "4" = {sortordercache(s); sortordercache(b); sortordercache(b2)}
-   , "5" = {ordercache(s); ordercache(b); ordercache(b2)}
-   , "6" = {hashcache(s); hashcache(b); hashcache(b2);sortordercache(s); sortordercache(b); sortordercache(b2)}
+   switch(i,
+     NULL, # i=1
+     NULL, # i=2
+     { hashcache(s); hashcache(b); hashcache(b2) },
+     { sortordercache(s); sortordercache(b); sortordercache(b2) },
+     { ordercache(s); ordercache(b); ordercache(b2) },
+     { hashcache(s); hashcache(b); hashcache(b2);sortordercache(s); sortordercache(b); sortordercache(b2) }
    )
   })[3L]
 
@@ -257,11 +259,13 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
 
   if (i>2L) message(colnames(tim2)[i], " cache")
   tim2["cache",i] <- timefun({
-   switch(as.character(i)
-   , "3" = {hashcache(s); hashcache(b); hashcache(b2)}
-   , "4" = {sortordercache(s); sortordercache(b); sortordercache(b2)}
-   , "5" = {ordercache(s); ordercache(b); ordercache(b2)}
-   , "6" = {hashcache(s); hashcache(b); hashcache(b2);sortordercache(s); sortordercache(b); sortordercache(b2)}
+   switch(i,
+     NULL, # i=1
+     NULL, # i=2
+     { hashcache(s); hashcache(b); hashcache(b2) },
+     { sortordercache(s); sortordercache(b); sortordercache(b2) },
+     { ordercache(s); ordercache(b); ordercache(b2) },
+     { hashcache(s); hashcache(b); hashcache(b2);sortordercache(s); sortordercache(b); sortordercache(b2) }
    )
   })[3L]
 
