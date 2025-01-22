@@ -1,19 +1,16 @@
 /*
 # C-Code for hashing and matching
 # S3 atomic 64bit integers for R
-# (c) 2011 Jens Oehlschägel
+# (c) 2011-2024 Jens Oehlschägel
+# (c) 2025 Michael Chirico
 # Licence: GPL2
 # Provided 'as is', use at your own risk
 # Created: 2011-12-11
-# Last changed:  2012-10-22
 #*/
 
-/* for speed (should not really matter in this case as most time is spent in the hashing) */
-// #define USE_RINTERNALS 1
 #include <Rinternals.h>
 #include <R.h>
-
-//#include "timing.h"
+#include <R_ext/Boolean.h> // TRUE,FALSE
 
 // This multiplicator was used in Simon Urbanek's package fastmatch for 32-bit integers
 //#define HASH64(X, SHIFT) (314159265358979323ULL * ((unsigned long long)(X)) >> (SHIFT))

@@ -1,19 +1,22 @@
 /*
 # C-Code for searching and merging
 # S3 atomic 64bit integers for R
-# (c) 2011 Jens Oehlschägel
+# (c) 2011-2024 Jens Oehlschägel
+# (c) 2025 Michael Chirico
 # Licence: GPL2
 # Provided 'as is', use at your own risk
 # Created: 2011-12-11
-# Last changed:  2011-12-11
 */
 
 #include <R.h>
+#include <Rinternals.h> // asLogical
 #include <Rdefines.h>
-//#include <Rinternals.h>
+#include <R_ext/Arith.h> // NA_INTEGER, NA_REAL
+#include <R_ext/Memory.h> // R_alloc
 
-#include "integer64.h"
 #include "bsearch.h"
+#include "integer64.h"
+#include "sort64.h" // LESS
 
 void R_Busy (int which);
 
