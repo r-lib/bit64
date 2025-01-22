@@ -1378,43 +1378,43 @@ all.integer64 = function(..., na.rm=FALSE) {
 
 #' @rdname sum.integer64
 #' @export
-sum.integer64 <- function(..., na.rm = FALSE){
-  l <- list(...)
-  if (length(l)==1L){
-          ret <- .Call(C_sum_integer64, l[[1L]], na.rm, double(1L))
-          oldClass(ret) <- "integer64"
-          ret
-  }else{
-      ret <- sapply(l, function(e){
-        if (is.integer64(e)){
-          .Call(C_sum_integer64, e, na.rm, double(1L))
-        }else{
-          as.integer64(sum(e, na.rm = na.rm))
-        }
-      })
-    oldClass(ret) <- "integer64"
-      sum(ret, na.rm = na.rm)
+sum.integer64 = function(..., na.rm=FALSE) {
+  l = list(...)
+  if (length(l) == 1L) {
+    ret = .Call(C_sum_integer64, l[[1L]], na.rm, double(1L))
+    oldClass(ret) = "integer64"
+    ret
+  } else {
+    ret = vapply(l, FUN.VALUE=integer64(1L), function(e) {
+      if (is.integer64(e)) {
+        .Call(C_sum_integer64, e, na.rm, double(1L))
+      } else {
+        as.integer64(sum(e, na.rm=na.rm))
+      }
+    })
+    oldClass(ret) = "integer64"
+    sum(ret, na.rm=na.rm)
   }
 }
 
 #' @rdname sum.integer64
 #' @export
-prod.integer64 <- function(..., na.rm = FALSE){
-  l <- list(...)
-  if (length(l)==1L){
-    ret <- .Call(C_prod_integer64, l[[1L]], na.rm, double(1L))
-        oldClass(ret) <- "integer64"
-        ret
-  }else{
-      ret <- sapply(l, function(e){
-        if (is.integer64(e)){
-          .Call(C_prod_integer64, e, na.rm, double(1L))
-        }else{
-          as.integer64(prod(e, na.rm = na.rm))
-        }
-      })
-      oldClass(ret) <- "integer64"
-      prod(ret, na.rm = na.rm)
+prod.integer64 <- function(..., na.rm=FALSE) {
+  l = list(...)
+  if (length(l) == 1L) {
+    ret = .Call(C_prod_integer64, l[[1L]], na.rm, double(1L))
+    oldClass(ret) = "integer64"
+    ret
+  } else {
+    ret <- vapply(l, FUN.VALUE=integer64(1L), function(e) {
+      if (is.integer64(e)) {
+        .Call(C_prod_integer64, e, na.rm, double(1L))
+      } else {
+        as.integer64(prod(e, na.rm=na.rm))
+      }
+    })
+    oldClass(ret) = "integer64"
+    prod(ret, na.rm=na.rm)
   }
 }
 
@@ -1426,7 +1426,7 @@ min.integer64 = function(..., na.rm=FALSE) {
     ret = .Call(C_min_integer64, l[[1L]], na.rm, double(1L))
     oldClass(ret) = "integer64"
   } else {
-    ret = sapply(l, function(e) {
+    ret = vapply(l, FUN.VALUE=integer64(1L), function(e) {
       if (is.integer64(e)){
         .Call(C_min_integer64, e, na.rm, double(1L))
       } else {
@@ -1449,7 +1449,7 @@ max.integer64 = function(..., na.rm=FALSE) {
     ret = .Call(C_max_integer64, l[[1L]], na.rm, double(1L))
     oldClass(ret) = "integer64"
   } else {
-    ret <- sapply(l, function(e) {
+    ret <- vapply(l, FUN.VALUE=integer64(1L), function(e) {
       if (is.integer64(e)) {
         .Call(C_max_integer64, e, na.rm, double(1L))
       } else {
@@ -1474,13 +1474,13 @@ range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
     ret = .Call(C_range_integer64, l[[1L]], na.rm, double(2L))
     oldClass(ret) = "integer64"
   } else {
-    ret <- unlist(sapply(l, function(e) {
+    ret <- vapply(l, FUN.VALUE=integer64(2L), function(e) {
       if (is.integer64(e)) {
         .Call(C_range_integer64, e, na.rm, double(2L))
       } else {
         as.integer64(range(e, na.rm=na.rm))
       }
-    }))
+    })
     oldClass(ret) = "integer64"
     ret = range(ret, na.rm=na.rm)
   }
