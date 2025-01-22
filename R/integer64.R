@@ -537,24 +537,24 @@ all.equal.integer64  <- function(target, current,
 #' @rdname identical.integer64
 #' @exportS3Method identical integer64
 #' @export
-identical.integer64 <- function(x, y
-, num.eq = FALSE
-, single.NA = FALSE
-, attrib.as.set = TRUE
-, ignore.bytecode = TRUE
-, ignore.environment = FALSE
-, ignore.srcref = TRUE
-, ...
-)
-identical(x=x, y=y
-, num.eq = num.eq
-, single.NA = single.NA
-, attrib.as.set = attrib.as.set
-, ignore.bytecode = ignore.bytecode
-, ignore.environment = ignore.environment
-, ignore.srcref = ignore.srcref
-, ...
-)
+identical.integer64 <- function(x, y,
+                                num.eq=FALSE,
+                                single.NA=FALSE,
+                                attrib.as.set=TRUE,
+                                ignore.bytecode=TRUE,
+                                ignore.environment=FALSE,
+                                ignore.srcref=TRUE,
+                                ...) {
+  identical(x=x, y=y,
+    num.eq=num.eq,
+    single.NA=single.NA,
+    attrib.as.set=attrib.as.set,
+    ignore.bytecode=ignore.bytecode,
+    ignore.environment=ignore.environment,
+    ignore.srcref=ignore.srcref,
+    ...
+  )
+}
 
 
 #' @rdname as.integer64.character
@@ -710,8 +710,7 @@ as.integer64.character <- function(x, ...) {
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.factor <- function(x, ...)
-  as.integer64(unclass(x), ...)
+as.integer64.factor <- function(x, ...) as.integer64(unclass(x), ...)
 
 #' @rdname as.character.integer64
 #' @export
@@ -1297,8 +1296,9 @@ signif.integer64 <- function(x, digits=6L) x
 
 #' @rdname format.integer64
 #' @export
-scale.integer64 <- function(x, center = TRUE, scale = TRUE)
+scale.integer64 <- function(x, center = TRUE, scale = TRUE) {
   scale(as.double(x, keep.names=TRUE), center=center, scale=scale)
+}
 
 #' @rdname format.integer64
 #' @export
