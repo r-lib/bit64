@@ -1,23 +1,14 @@
 /*
 # C-Code
 # S3 atomic 64bit integers for R
-# (c) 2011 Jens Oehlschägel
+# (c) 2011-2024 Jens Oehlschägel
+# (c) 2025 Michael Chirico
 # Licence: GPL2
 # Provided 'as is', use at your own risk
 # Created: 2011-12-11
-# Last changed:  2011-12-11
 #*/
 
 #define _INTEGER64_C_SRC
-
-
-
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                            MODULES USED                                 **/
-/**                                                                         **/
-/*****************************************************************************/
 
 // this define before stdio.h removes the warnings
 // warning: unknown conversion type character 'l' in format [-Wformat]
@@ -26,29 +17,20 @@
 
 #include "ctype.h"
 #include "stdio.h"
+#include <math.h> // floor
 #include <stdint.h>
+#include <stdlib.h> // strtoll
 
 #include <R.h>
 #include <Rdefines.h>
+#include <R_ext/Arith.h> // NA_LOGICAL
 #include <R_ext/Error.h>
+#include <R_ext/Random.h> // unif_rand
 #include <Rinternals.h>
 
-# include "integer64.h"
-
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                      DEFINITIONS AND MACROS                             **/
-/**                                                                         **/
-/*****************************************************************************/
+#include "integer64.h"
 
 #define mod_iterate(n1,n2,i1,i2) for (i=i1=i2=0; i<n; i1 = (++i1 == n1) ? 0 : i1, i2 = (++i2 == n2) ? 0 : i2,++i)
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                      TYPEDEFS AND STRUCTURES                            **/
-/**                                                                         **/
-/*****************************************************************************/
 
 // Type pun to enable drawing 'long long' at random -- unif_rand() is only
 //   suitable for drawing 32-bit values, so we take the approach of drawing
@@ -61,40 +43,6 @@ typedef union {
   } U32x2Repr;
   long long LongLongRepr;
 } PunnedU32x2AndLongLong;
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                   PROTOTYPYPES OF LOCAL FUNCTIONS                       **/
-/**                                                                         **/
-/*****************************************************************************/
-
-// static
-
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                        EXPORTED VARIABLES                               **/
-/**                                                                         **/
-/*****************************************************************************/
-
-// no static no extern
-
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                          GLOBAL VARIABLES                               **/
-/**                                                                         **/
-/*****************************************************************************/
-
-// static
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                        EXPORTED FUNCTIONS                               **/
-/**                                                                         **/
-/*****************************************************************************/
-
-// no extern
 
 SEXP as_integer64_double(SEXP x_, SEXP ret_){
   long long i, n = LENGTH(x_);
@@ -130,7 +78,6 @@ SEXP as_integer64_integer(SEXP x_, SEXP ret_){
   }
   return ret_;
 }
-
 
 SEXP as_double_integer64(SEXP x_, SEXP ret_){
   long long i, n = LENGTH(x_);
@@ -729,7 +676,6 @@ SEXP prod_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
   return ret_;
 }
 
-
 SEXP min_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
   long long i, n = LENGTH(e1_);
   long long * e1 = (long long *) REAL(e1_);
@@ -818,7 +764,6 @@ SEXP lim_integer64(SEXP ret_){
   return ret_;
 }
 
-
 SEXP cummin_integer64(SEXP e1_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
@@ -835,8 +780,8 @@ SEXP cummin_integer64(SEXP e1_, SEXP ret_){
             ret[i] = e1[i]<ret[i-1] ? e1[i] : ret[i-1];
         }
     }
-    for(i++; i<n; i++){
-        ret[i] = NA_INTEGER64;
+    for(i++; i<n; i++) {
+      ret[i] = NA_INTEGER64;
     }
   }
   return ret_;
@@ -858,8 +803,8 @@ SEXP cummax_integer64(SEXP e1_, SEXP ret_){
             ret[i] = e1[i]>ret[i-1] ? e1[i] : ret[i-1];
         }
     }
-    for(i++; i<n; i++){
-        ret[i] = NA_INTEGER64;
+    for(i++; i<n; i++) {
+      ret[i] = NA_INTEGER64;
     }
   }
   return ret_;
@@ -917,8 +862,6 @@ SEXP isna_integer64(SEXP e1_, SEXP ret_){
     }
   return ret_;
 }
-
-
 
 SEXP EQ_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i, n = LENGTH(ret_);
@@ -1037,7 +980,6 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
   return ret_;
 }
 
-
 SEXP as_list_integer64(SEXP x_){
   long long i, n = LENGTH(x_);
   if (n){
@@ -1052,13 +994,6 @@ SEXP as_list_integer64(SEXP x_){
   return x_;
 }
 
-
-
-
-
-
-
-
 /*
 require(bit64)
 require(microbenchmark)
@@ -1071,24 +1006,3 @@ Unit: milliseconds
            expr      min       lq     mean   median       uq      max neval
  runif64(1e+06) 24.62306 25.60286 25.61903 25.61369 25.62032 26.40202   100
 */
-
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                           LOCAL FUNCTIONS                               **/
-/**                                                                         **/
-/*****************************************************************************/
-
-// static
-
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                                EOF                                      **/
-/**                                                                         **/
-/*****************************************************************************/
-
-
-
-
-
