@@ -1437,7 +1437,7 @@ min.integer64 = function(..., na.rm=FALSE) {
     ret = min(ret, na.rm=na.rm)
   }
   if (!all(lengths(l)))
-    warning("no non-NA value, returning the highest possible integer64 value +9223372036854775807")
+    warning("no non-NA value, returning the highest possible integer64 value +", lim.integer64()[2L])
   ret
 }
 
@@ -1460,7 +1460,7 @@ max.integer64 = function(..., na.rm=FALSE) {
     ret = max(ret, na.rm=na.rm)
   }
   if (!all(lengths(l)))
-    warning("no non-NA value, returning the lowest possible integer64 value -9223372036854775807")
+    warning("no non-NA value, returning the lowest possible integer64 value ", lim.integer64()[1L])
   ret
 }
 
@@ -1485,7 +1485,7 @@ range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
     ret = range(ret, na.rm=na.rm)
   }
   if (!all(lengths(l)))
-    warning("no non-NA value, returning c(+9223372036854775807, -9223372036854775807)")
+    warning("no non-NA value, returning c(+", lim.integer64()[2L], ", ", lim.integer64()[1L], ")")
   ret
 }
 

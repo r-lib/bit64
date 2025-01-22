@@ -101,10 +101,14 @@ test_that("basic statistics work", {
   expect_identical(prod(x[1:5], x[6:10]), as.integer64(factorial(10L)))
   expect_identical(min(x), x[1L])
   expect_identical(min(x, as.integer64(0L)), as.integer64(0L))
+  expect_identical(min(integer64()), lim.integer64()[2L], warning="no non-NA value")
   expect_identical(max(x), x[10L])
   expect_identical(max(x, as.integer64(11L)), as.integer64(11L))
+  expect_identical(max(integer64()), lim.integer64()[1L], warning="no non-NA value")
   expect_identical(range(x), x[c(1L, 10L)])
   expect_identical(range(x, x+1L), c(x[1L], x[10L]+1L))
+  expect_identical(range(x, NA_integer64_, finite=TRUE), x[c(1L, 10L)])
+  expect_identical(range(integer64()), lim.integer64(), warning="no non-NA value")
 
   expect_identical(diff(x), as.integer64(rep(1L, 9L)))
 
