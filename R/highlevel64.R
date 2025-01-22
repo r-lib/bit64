@@ -1575,46 +1575,47 @@ duplicated.integer64 <- function(x, incomparables = FALSE, nunique = NULL, metho
         method <- "sortorderdup" # nocov. Too large for practical unit tests.
       else
         method <- "hashdup"
-    } else if (exists("sort", envir=cache_env, inherits=FALSE) && exists("order", envir=cache_env, inherits=FALSE))
+    } else if (exists("sort", envir=cache_env, inherits=FALSE) && exists("order", envir=cache_env, inherits=FALSE)) {
       method <- "sortorderdup"
-    else if (exists("hashmap", envir=cache_env, inherits=FALSE))
+    } else if (exists("hashmap", envir=cache_env, inherits=FALSE)) {
       method <- "hashdup"
-    else if (exists("order", envir=cache_env, inherits=FALSE))
+    } else if (exists("order", envir=cache_env, inherits=FALSE)) {
       method <- "orderdup"
-    else if (length(x) > 50000000L)
+    } else if (length(x) > 50000000L) {
       method <- "sortorderdup"
-    else
+    } else {
       method <- "hashdup"
+    }
   }
-  switch(method
-  , hashdup={
-        if (is.null(cache_env) || !exists("hashmap", envir=cache_env, inherits=FALSE))
-            h <- hashmap(x, nunique=nunique)
-        else
-            h <- cache_env
-        p <- hashdup(h)
+  method <- match.arg(method, c("hashdup", "sortorderdup", "orderdup"))
+  switch(method,
+    hashdup={
+      if (is.null(cache_env) || !exists("hashmap", envir=cache_env, inherits=FALSE))
+        h <- hashmap(x, nunique=nunique)
+      else
+        h <- cache_env
+      p <- hashdup(h)
+    },
+    sortorderdup={
+      if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
+        s <- clone(x)
+        o <- seq_along(s)
+        ramsortorder(s, o, na.last=FALSE)
+      } else {
+        s <- get("sort", cache_env, inherits=FALSE)
+        o <- get("order", cache_env, inherits=FALSE)
+      }
+      p <- sortorderdup(s, o)
+    },
+    orderdup={
+      if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
+        o <- seq_along(s)
+        ramorder(x, o, na.last=FALSE)
+      } else {
+        o <- get("order", cache_env, inherits=FALSE)
+      }
+      p <- orderdup(x, o)
     }
-  , sortorderdup={
-        if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
-            s <- clone(x)
-            o <- seq_along(s)
-            ramsortorder(s, o, na.last=FALSE)
-        } else {
-            s <- get("sort", cache_env, inherits=FALSE)
-            o <- get("order", cache_env, inherits=FALSE)
-        }
-        p <- sortorderdup(s, o)
-    }
-  , orderdup={
-        if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
-            o <- seq_along(s)
-            ramorder(x, o, na.last=FALSE)
-        } else {
-            o <- get("order", cache_env, inherits=FALSE)
-        }
-        p <- orderdup(x, o)
-    }
-  , stop("unknown method ", method)
   )
   p
 }
@@ -2042,9 +2043,9 @@ table.integer64 <- function(...,
           function(x) switch(deparse.level + 1L, "", if (is.symbol(x)) as.character(x) else "", deparse(x, nlines = 1L)[1L]),
           ""
         )
-        if (is.null(nm))
+        if (is.null(nm)) {
             dep
-        else {
+        } else {
             nm[fixup] <- dep
             nm
         }
@@ -2286,37 +2287,38 @@ keypos.integer64 <- function(x, method = NULL, ...) {
   cache_env <- cache(x)
   if (is.null(method)) {
     if (is.null(cache_env)) {
-        method <- "sortorderkey"
+      method <- "sortorderkey"
     } else if (exists("order", envir=cache_env, inherits=FALSE)) {
-        if (exists("sort", envir=cache_env, inherits=FALSE))
-            method <- "sortorderkey"
-        else
-            method <- "orderkey"
-    } else
+      if (exists("sort", envir=cache_env, inherits=FALSE))
         method <- "sortorderkey"
+      else
+        method <- "orderkey"
+    } else {
+      method <- "sortorderkey"
+    }
   }
-  switch(method
-  , sortorderkey={
-        if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
-            s <- clone(x)
-            o <- seq_along(x)
-            ramsortorder(s, o, na.last=FALSE)
-        } else {
-            s <- get("sort", cache_env, inherits=FALSE)
-            o <- get("order", cache_env, inherits=FALSE)
-        }
-        p <- sortorderkey(s, o)
+  method <- match.arg(method, c("sortorderkey", "orderkey"))
+  switch(method,
+    sortorderkey={
+      if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
+        s <- clone(x)
+        o <- seq_along(x)
+        ramsortorder(s, o, na.last=FALSE)
+      } else {
+        s <- get("sort", cache_env, inherits=FALSE)
+        o <- get("order", cache_env, inherits=FALSE)
+      }
+      p <- sortorderkey(s, o)
+    },
+    orderkey={
+      if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
+        o <- seq_along(x)
+        ramorder(x, o, na.last=FALSE)
+      } else {
+        o <- get("order", cache_env, inherits=FALSE)
+      }
+      p <- orderkey(x, o)
     }
-  , orderkey={
-        if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
-            o <- seq_along(x)
-            ramorder(x, o, na.last=FALSE)
-        } else {
-            o <- get("order", cache_env, inherits=FALSE)
-        }
-        p <- orderkey(x, o)
-    }
-  , stop("unknown method ", method)
   )
   p
 }
@@ -2362,41 +2364,42 @@ tiepos.integer64 <- function(x, nties = NULL, method = NULL, ...) {
     nties <- cache_env$nties
   if (is.null(method)) {
     if (is.null(cache_env)) {
-        method <- "sortordertie"
+      method <- "sortordertie"
     } else if (exists("order", envir=cache_env, inherits=FALSE)) {
-        if (exists("sort", envir=cache_env, inherits=FALSE))
-            method <- "sortordertie"
-        else
-            method <- "ordertie"
-    } else
+      if (exists("sort", envir=cache_env, inherits=FALSE))
         method <- "sortordertie"
+      else
+        method <- "ordertie"
+    } else {
+      method <- "sortordertie"
+    }
   }
-  switch(method
-  , sortordertie={
-        if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
-            s <- clone(x)
-            o <- seq_along(x)
-            ramsortorder(s, o, na.last=FALSE)
-        } else {
-            s <- get("sort", cache_env, inherits=FALSE)
-            o <- get("order", cache_env, inherits=FALSE)
-        }
-        if (is.null(nties))
-            nties <- sortnut(s)[2L]
-        p <- sortordertie(s, o, nties)
+  method <- match.arg(method, c("sortordertie", "ordertie"))
+  switch(method,
+    sortordertie={
+      if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
+        s <- clone(x)
+        o <- seq_along(x)
+        ramsortorder(s, o, na.last=FALSE)
+      } else {
+        s <- get("sort", cache_env, inherits=FALSE)
+        o <- get("order", cache_env, inherits=FALSE)
+      }
+      if (is.null(nties))
+        nties <- sortnut(s)[2L]
+      p <- sortordertie(s, o, nties)
+    },
+    ordertie={
+      if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
+        o <- seq_along(x)
+        ramorder(x, o, na.last=FALSE)
+      } else {
+        o <- get("order", cache_env, inherits=FALSE)
+      }
+      if (is.null(nties))
+        nties <- ordernut(x, o)[2L]
+      p <- ordertie(x, o, nties)
     }
-  , ordertie={
-        if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
-            o <- seq_along(x)
-            ramorder(x, o, na.last=FALSE)
-        } else {
-            o <- get("order", cache_env, inherits=FALSE)
-        }
-        if (is.null(nties))
-            nties <- ordernut(x, o)[2L]
-        p <- ordertie(x, o, nties)
-    }
-  , stop("unknown method ", method)
   )
   p
 }
@@ -2433,39 +2436,40 @@ rank.integer64 <- function(x, method = NULL, ...) {
   cache_env <- cache(x)
   if (is.null(method)) {
     if (is.null(cache_env)) {
-        method <- "sortorderrnk"
+      method <- "sortorderrnk"
     } else if (exists("order", envir=cache_env, inherits=FALSE)) {
-        if (exists("sort", envir=cache_env, inherits=FALSE))
-            method <- "sortorderrnk"
-        else
-            method <- "orderrnk"
-    } else
+      if (exists("sort", envir=cache_env, inherits=FALSE))
         method <- "sortorderrnk"
+      else
+        method <- "orderrnk"
+    } else {
+      method <- "sortorderrnk"
+    }
   }
-  switch(method
-  , sortorderrnk={
-        if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
-            s <- clone(x)
-            o <- seq_along(x)
-            na.count <- ramsortorder(s, o, na.last=FALSE)
-        } else {
-            s <- get("sort", cache_env, inherits=FALSE)
-            o <- get("order", cache_env, inherits=FALSE)
-            na.count <- get("na.count", cache_env, inherits=FALSE)
-        }
-        p <- sortorderrnk(s, o, na.count)
+  method <- match.arg(method, c("sortorderrnk", "orderrnk"))
+  switch(method,
+    sortorderrnk={
+      if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
+        s <- clone(x)
+        o <- seq_along(x)
+        na.count <- ramsortorder(s, o, na.last=FALSE)
+      } else {
+        s <- get("sort", cache_env, inherits=FALSE)
+        o <- get("order", cache_env, inherits=FALSE)
+        na.count <- get("na.count", cache_env, inherits=FALSE)
+      }
+      p <- sortorderrnk(s, o, na.count)
+    },
+    orderrnk={
+      if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
+        o <- seq_along(x)
+        na.count <- ramorder(x, o, na.last=FALSE)
+      } else {
+        o <- get("order", cache_env, inherits=FALSE)
+        na.count <- get("na.count", cache_env, inherits=FALSE)
+      }
+      p <- orderrnk(x, o, na.count)
     }
-  , orderrnk={
-        if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
-            o <- seq_along(x)
-            na.count <- ramorder(x, o, na.last=FALSE)
-        } else {
-            o <- get("order", cache_env, inherits=FALSE)
-            na.count <- get("na.count", cache_env, inherits=FALSE)
-        }
-        p <- orderrnk(x, o, na.count)
-    }
-  , stop("unknown method ", method)
   )
   p
 }

@@ -495,6 +495,7 @@ all.equal.integer64  <- function(target, current,
   }
   out <- out | target == current
   if (all(out))
+    # TODO(R>=4.4.0): msg %||% TRUE
     return(if (is.null(msg)) TRUE else msg)
   anyO <- any(out)
   sabst0 <- if (countEQ && anyO) mean(abs(target[out])) else 0.0
@@ -528,9 +529,8 @@ all.equal.integer64  <- function(target, current,
   xy <- sum(abs(target - current) / (N*scale))
   if (is.na(xy) || xy > tolerance)
     msg <- c(msg, paste("Mean", what, "difference:", formatFUN(xy, what)))
-  if (is.null(msg)) {
-    TRUE
-  } else msg
+  # TODO(R>=4.4.0): msg %||% TRUE
+  if (is.null(msg)) TRUE else msg
 }
 
 # TODO(R>=4.2.0): Consider restoring extptr.as.ref= to the signature.
