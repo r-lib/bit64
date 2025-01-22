@@ -126,8 +126,7 @@ NULL
 #'   integer functions from Base R
 #' @export
 # nocov start
-benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
-{
+benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
 
  message('\ncompare performance for a complete sessions of calls')
  s <- sample(nbig, nsmall, TRUE)
@@ -397,13 +396,13 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
 #'   R integer function with several low-level integer64 functions with and
 #'   without caching
 #' @export
-optimizer64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time
-, what=c("match","%in%","duplicated","unique","unipos","table","rank","quantile")
-, uniorder = c("original", "values", "any")
-, taborder = c("values", "counts")
-, plot = TRUE
-)
-{
+optimizer64 <- function(nsmall=2L^16L,
+                        nbig=2L^25L,
+                        timefun=repeat.time,
+                        what=c("match", "%in%", "duplicated", "unique", "unipos", "table", "rank", "quantile"),
+                        uniorder=c("original", "values", "any"),
+                        taborder=c("values", "counts"),
+                        plot=TRUE) {
  uniorder <- match.arg(uniorder)
  taborder <- match.arg(taborder)
  ret <- vector("list", 2L*length(what))

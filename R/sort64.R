@@ -77,8 +77,7 @@ NULL
 
 #' @rdname ramsort.integer64
 #' @export
-shellsort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
-{
+shellsort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...) {
   force(x)
   .Call(C_r_ram_integer64_shellsort
   , x = x
@@ -91,8 +90,7 @@ shellsort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE,
 
 #' @rdname ramsort.integer64
 #' @export
-shellsortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
-{
+shellsortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...) {
   force(x)
   force(i)
   if (!is.integer(i))
@@ -111,8 +109,7 @@ shellsortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasin
 
 #' @rdname ramsort.integer64
 #' @export
-shellorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...)
-{
+shellorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, ...) {
   force(x)
   force(i)
   if (!is.integer(i))
@@ -257,10 +254,7 @@ quickorder.integer64 <- function(x, i,
 
 #' @rdname ramsort.integer64
 #' @export
-radixsort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE
-, radixbits=8L
-, ...)
-{
+radixsort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, ...) {
   stopifnot(radixbits %in% c(1L, 2L, 4L, 8L, 16L))
   force(x)
   .Call(C_r_ram_integer64_radixsort
@@ -275,10 +269,7 @@ radixsort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE
 
 #' @rdname ramsort.integer64
 #' @export
-radixsortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE
-, radixbits=8L
-, ...)
-{
+radixsortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, ...) {
   stopifnot(radixbits %in% c(1L, 2L, 4L, 8L, 16L))
   force(x)
   force(i)
@@ -299,10 +290,7 @@ radixsortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasin
 
 #' @rdname ramsort.integer64
 #' @export
-radixorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE
-, radixbits=8L
-, ...)
-{
+radixorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FALSE, radixbits=8L, ...) {
   stopifnot(radixbits %in% c(1L, 2L, 4L, 8L, 16L))
   force(x)
   force(i)
