@@ -240,7 +240,8 @@ sortordercache <- function(x, has.na = NULL, stable = NULL) {
     }
     s <- clone(x)
     o <- seq_along(x)
-    na.count <- ramsortorder(s, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = "time")
+    na.count <-
+      ramsortorder(s, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = "time")
     nut <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")
     setcache(x, "sort", s)
     setcache(x, "order", o)
@@ -270,7 +271,8 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time") {
           stable <- nunique < length(x)
     }
     o <- seq_along(x)
-    na.count <- ramorder(x, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = optimize)
+    na.count <-
+      ramorder(x, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = optimize)
     nut <- .Call(C_r_ram_integer64_ordernut, table = x, order = o, PACKAGE = "bit64")
     setcache(x, "order", o)
     setcache(x, "na.count", na.count)

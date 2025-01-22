@@ -126,7 +126,7 @@ NULL
 #'   integer functions from Base R
 #' @export
 # nocov start
-# nolint start: brace_linter.
+# nolint start: brace_linter, line_length_linter.
 benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
 
  message('\ncompare performance for a complete sessions of calls')
@@ -241,9 +241,11 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
  b <- sample(nbig, nbig, TRUE)
  b2 <- sample(nbig, nbig, TRUE)
 
- tim2 <- matrix(0.0, 15L, 6L)
- dimnames(tim2) <- list(c("cache", "match(s,b)", "s %in% b", "match(b,s)", "b %in% s", "match(b,b)", "b %in% b", "duplicated(b)", "unique(b)", "table(b)", "sort(b)", "order(b)", "rank(b)", "quantile(b)", "summary(b)")
- , c("32-bit","64-bit","hashcache","sortordercache","ordercache","allcache"))
+  tim2 <- matrix(0.0, 15L, 6L)
+  dimnames(tim2) <- list(
+    c("cache", "match(s,b)", "s %in% b", "match(b,s)", "b %in% s", "match(b,b)", "b %in% b", "duplicated(b)", "unique(b)", "table(b)", "sort(b)", "order(b)", "rank(b)", "quantile(b)", "summary(b)"), # nolint: line_length_linter.
+    c("32-bit","64-bit","hashcache","sortordercache","ordercache","allcache")
+  )
 
  s <- as.integer(s)
  b <- as.integer(b)
@@ -426,7 +428,10 @@ optimizer64 <- function(nsmall=2L^16L,
    x1 <- c(sample(n2, n1-1L, TRUE), NA)
    x2 <- c(sample(n2, n2-1L, TRUE), NA)
    tim <- matrix(0.0, 9L, 3L)
-   dimnames(tim) <- list(c("match","match.64","hashpos","hashrev","sortorderpos","orderpos","hashcache","sortorder.cache","order.cache"), c("prep","both","use"))
+   dimnames(tim) <- list(
+    c("match", "match.64", "hashpos", "hashrev", "sortorderpos", "orderpos", "hashcache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+    c("prep", "both", "use")
+  )
 
    tim["match","both"] <- timefun({
     p <- match(x1, x2)
@@ -515,7 +520,10 @@ optimizer64 <- function(nsmall=2L^16L,
    x1 <- c(sample(n2, n1-1L, TRUE), NA)
    x2 <- c(sample(n2, n2-1L, TRUE), NA)
    tim <- matrix(0.0, 10L, 3L)
-   dimnames(tim) <- list(c("%in%","match.64","%in%.64","hashfin","hashrin","sortfin","orderfin","hash.cache","sortorder.cache","order.cache"), c("prep","both","use"))
+   dimnames(tim) <- list(
+    c("%in%", "match.64", "%in%.64", "hashfin", "hashrin", "sortfin", "orderfin", "hash.cache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+    c("prep", "both", "use")
+  )
 
    tim["%in%","both"] <- timefun({
     p <- x1 %in% x2
@@ -604,9 +612,10 @@ optimizer64 <- function(nsmall=2L^16L,
    n <- N[i]
    x <- c(sample(n, n-1L, TRUE), NA)
    tim <- matrix(0.0, 10L, 3L)
-   dimnames(tim) <- list(c("duplicated","duplicated.64","hashdup","sortorderdup1","sortorderdup2","orderdup1","orderdup2"
-    ,"hash.cache","sortorder.cache","order.cache")
-   , c("prep","both","use"))
+   dimnames(tim) <- list(
+    c("duplicated", "duplicated.64", "hashdup", "sortorderdup1", "sortorderdup2", "orderdup1", "orderdup2" ,"hash.cache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+    c("prep", "both", "use")
+  )
 
    tim["duplicated","both"] <- timefun({
     p <- duplicated(x)
@@ -692,13 +701,13 @@ optimizer64 <- function(nsmall=2L^16L,
   message("unique: timings of different methods")
   N <- c(nsmall, nbig)
   for (i in seq_along(N)) {
-   n <- N[i]
-   x <- c(sample(n, n-1L, TRUE), NA)
-   tim <- matrix(0.0, 15L, 3L)
-   dimnames(tim) <- list(
-   c("unique","unique.64","hashmapuni","hashuni","hashunikeep","sortuni","sortunikeep","orderuni","orderunikeep","hashdup","sortorderdup"
-    ,"hash.cache","sort.cache","sortorder.cache","order.cache")
-   , c("prep","both","use"))
+    n <- N[i]
+    x <- c(sample(n, n-1L, TRUE), NA)
+    tim <- matrix(0.0, 15L, 3L)
+    dimnames(tim) <- list(
+      c("unique", "unique.64", "hashmapuni", "hashuni", "hashunikeep", "sortuni", "sortunikeep", "orderuni", "orderunikeep", "hashdup", "sortorderdup" ,"hash.cache", "sort.cache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+      c("prep", "both", "use")
+    )
 
    tim["unique","both"] <- timefun({
     p <- unique(x)
@@ -838,13 +847,13 @@ optimizer64 <- function(nsmall=2L^16L,
   message("unipos: timings of different methods")
   N <- c(nsmall, nbig)
   for (i in seq_along(N)) {
-   n <- N[i]
-   x <- c(sample(n, n-1L, TRUE), NA)
-   tim <- matrix(0.0, 14L, 3L)
-   dimnames(tim) <- list(
-   c("unique","unipos.64","hashmapupo","hashupo","hashupokeep","sortorderupo","sortorderupokeep","orderupo","orderupokeep","hashdup","sortorderdup"
-    ,"hash.cache","sortorder.cache","order.cache")
-   , c("prep","both","use"))
+    n <- N[i]
+    x <- c(sample(n, n-1L, TRUE), NA)
+    tim <- matrix(0.0, 14L, 3L)
+    dimnames(tim) <- list(
+      c("unique", "unipos.64", "hashmapupo", "hashupo", "hashupokeep", "sortorderupo", "sortorderupokeep", "orderupo", "orderupokeep", "hashdup", "sortorderdup", "hash.cache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+      c("prep", "both", "use")
+    )
 
    tim["unique","both"] <- timefun({
     unique(x)
@@ -1229,7 +1238,7 @@ optimizer64 <- function(nsmall=2L^16L,
     ret
 
 }
-# nolint end: brace_linter.
+# nolint end: brace_linter, line_length_linter.
 # nocov end
 
 #' 64-bit integer matching
