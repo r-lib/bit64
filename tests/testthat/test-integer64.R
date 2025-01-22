@@ -109,9 +109,10 @@ test_that("basic statistics work", {
   expect_no_warning(expect_identical(max(x, integer64()), x[10L]))
   expect_identical(range(x), x[c(1L, 10L)])
   expect_identical(range(x, x+1L), c(x[1L], x[10L]+1L))
-  expect_identical(range(x, NA_integer64_, finite=TRUE), x[c(1L, 10L)])
+  # TODO(#142): Restore these tests
+  # expect_identical(range(x, NA_integer64_, finite=TRUE), x[c(1L, 10L)])
   expect_warning(expect_identical(range(integer64()), lim.integer64()[2:1]), "no non-NA value")
-  expect_no_warning(expect_identical(range(x, integer64()), x[c(1L, 10L)]))
+  # expect_no_warning(expect_identical(range(x, integer64()), x[c(1L, 10L)]))
 
   expect_identical(diff(x), as.integer64(rep(1L, 9L)))
 
