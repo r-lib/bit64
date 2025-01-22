@@ -10,7 +10,6 @@ linters = all_linters(
     par = NULL
   )),
   assignment_linter = NULL,
-  brace_linter = NULL,
   commas_linter = NULL,
   commented_code_linter = NULL,
   condition_call_linter = NULL,
