@@ -7,7 +7,7 @@ linters = all_linters(
     defaults = default_undesirable_functions,
     library = NULL,
     options = NULL,
-    par = NULL,
+    par = NULL
   )),
   assignment_linter = NULL,
   brace_linter = NULL,
@@ -22,7 +22,6 @@ linters = all_linters(
   line_length_linter = NULL,
   nonportable_path_linter = NULL,
   object_name_linter = NULL,
-  paren_body_linter = NULL,
   quotes_linter = NULL,
   todo_comment_linter = NULL
 )

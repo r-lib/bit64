@@ -255,7 +255,7 @@ benchmark64 <- function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time)
    b2 <- as.integer64(b2)
   }
 
-  if (i>2L)message(colnames(tim2)[i], " cache")
+  if (i>2L) message(colnames(tim2)[i], " cache")
   tim2["cache",i] <- timefun({
    switch(as.character(i)
    , "3" = {hashcache(s); hashcache(b); hashcache(b2)}
@@ -2043,7 +2043,7 @@ table.integer64 <- function(...,
     # therefore we go this sick workaround
     argsymbols <- as.list(substitute(list(...)))[-1L]
     argframe <- parent.frame()
-    A <- function(i)eval(argsymbols[[i]], argframe)
+    A <- function(i) eval(argsymbols[[i]], argframe)
     N <- length(argsymbols)
     if (!N)
         stop("nothing to tabulate")
@@ -2053,7 +2053,7 @@ table.integer64 <- function(...,
             dnn <- if (!is.null(argn <- names(args))) argn
                 else paste(dnn[1L], seq_along(args), sep = ".")
         N <- length(args)
-        A <- function(i)args[[i]]
+        A <- function(i) args[[i]]
     }
     force(dnn)
 
@@ -2232,7 +2232,7 @@ table.integer64 <- function(...,
   cnt
 }
 
-as.integer64.factor <- function(x, ...)as.integer64(unclass(x))
+as.integer64.factor <- function(x, ...) as.integer64(unclass(x))
 
 #' Extract Positions in redundant dimension table
 #'
@@ -2340,7 +2340,8 @@ keypos.integer64 <- function(x, method = NULL, ...) {
 #' stopifnot(identical(tiepos(x),  (1:length(x))[duplicated(x) | rev(duplicated(rev(x)))]))
 #' @keywords manip univar
 #' @export
-tiepos <- function(x, ...)UseMethod("tiepos")
+tiepos <- function(x, ...) UseMethod("tiepos")
+
 #' @rdname tiepos
 #' @export
 tiepos.integer64 <- function(x, nties = NULL, method = NULL, ...) {

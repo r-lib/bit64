@@ -535,7 +535,7 @@ order.integer64 <- function(...,
     # therefore we go this sick workaround
     argsymbols <- as.list(substitute(list(...)))[-1L]
     argframe <- parent.frame()
-    A <- function(i)eval(argsymbols[[i]], argframe)
+    A <- function(i) eval(argsymbols[[i]], argframe)
     N <- length(argsymbols)
   if (N!=1L)
     stop("can only order one vector at the moment")

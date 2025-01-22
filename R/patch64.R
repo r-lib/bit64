@@ -86,7 +86,7 @@ NULL
 `:.default` <- function(from,to) base::`:`(from,to)
 
 #' @export
-`:.integer64` <- function(from, to)seq.integer64(from=from, to=to)
+`:.integer64` <- function(from, to) seq.integer64(from=from, to=to)
 
 is.double <- function(x) UseMethod("is.double")
 #' @rdname bit64S3
@@ -95,7 +95,7 @@ is.double.default <- function(x) base::is.double(x)
 
 #' @rdname bit64S3
 #' @export
-is.double.integer64 <- function(x)FALSE
+is.double.integer64 <- function(x) FALSE
 
 # TODO(R>=4.2.0): Remove workarounds for match(). Needed for #85 and #111.
 #' @rdname bit64S3
