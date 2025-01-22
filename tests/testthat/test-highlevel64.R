@@ -65,7 +65,7 @@ test_that("duplicated, unique, table methods work", {
   expect_identical(unique(x), x[c(1L, 3L)])
   expect_identical(table.integer64(x), table(x = c(1L, 1L, 2L)))
 
-  expect_error(duplicated(x, method="_unknown_"), "'arg' should be one of" fixed=TRUE)
+  expect_error(duplicated(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
   expect_error(unique(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
 })
 
