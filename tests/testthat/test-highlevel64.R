@@ -25,7 +25,7 @@ test_that("Different method= for match() and %in% work", {
   expect_identical(match(x, y, method="hashpos"), expected)
   expect_identical(match(x, y, method="hashrev"), expected)
   expect_identical(match(x, y, method="sortorderpos"), expected)
-  expect_error(match(x, y, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
+  expect_error(match(x, y, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
   # TODO(#58): Fix this, currently fails.
   # expect_identical(match(x, y, method="orderpos"), expected)
 
@@ -65,8 +65,8 @@ test_that("duplicated, unique, table methods work", {
   expect_identical(unique(x), x[c(1L, 3L)])
   expect_identical(table.integer64(x), table(x = c(1L, 1L, 2L)))
 
-  expect_error(duplicated(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
-  expect_error(unique(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
+  expect_error(duplicated(x, method="_unknown_"), "'arg' should be one of" fixed=TRUE)
+  expect_error(unique(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
 })
 
 test_that("different method= for duplicated, unique work", {
@@ -122,9 +122,9 @@ test_that("sorting methods work", {
   expect_identical(tiepos(x), x_tiepos)
   expect_identical(tiepos(x, method="ordertie"), x_tiepos)
 
-  expect_error(rank(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
-  expect_error(qtile(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
-  expect_error(tiepos(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
+  expect_error(rank(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
+  expect_error(qtile(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
+  expect_error(tiepos(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
 })
 
 # These tests were previously kept as tests under \examples{\dontshow{...}}.
@@ -172,7 +172,7 @@ test_that("unipos() works as intended", {
   expect_identical(unipos(x, method="hashupo"), x_unipos)
   expect_identical(unipos(x, method="sortorderupo"), x_unipos)
   expect_identical(unipos(x, method="orderupo"), x_unipos)
-  expect_error(unipos(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
+  expect_error(unipos(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
 })
 
 test_that("keypos() works as intended", {
@@ -180,7 +180,7 @@ test_that("keypos() works as intended", {
   x_keypos = c(4L, 1L, 4L, 2L, 1L, 3L)
   expect_identical(keypos(x), x_keypos)
   expect_identical(keypos(x, method="orderkey"), x_keypos)
-  expect_error(keypos(x, method="_unknown_"), "unknown method _unknown_", fixed=TRUE)
+  expect_error(keypos(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
 })
 
 test_that("summary() works as intended", {
