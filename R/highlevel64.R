@@ -2512,7 +2512,7 @@ prank.integer64 <- function(x, method = NULL, ...) {
 #' Function [prank.integer64()]  projects the values `[min..max]` via ranks
 #'   `[1..n]` to `[0..1]`.
 #'
-#' `qtile.ineger64` is the inverse function of 'prank.integer64' and projects
+#' `qtile.integer64` is the inverse function of 'prank.integer64' and projects
 #'   `[0..1]` to `[min..max]`.
 #'
 #' @param x a integer64 vector
@@ -2557,54 +2557,58 @@ prank.integer64 <- function(x, method = NULL, ...) {
 #' @keywords univar
 #' @export
 qtile <- function(x, probs = seq(0.0, 1.0, 0.25), ...) UseMethod("qtile")
+
 #' @rdname qtile
 #' @param names logical; if `TRUE`, the result has a `names` attribute. Set to `FALSE` for speedup with many probs.
 #' @param method NULL for automatic method selection or a suitable low-level method, see details
 #' @export
 qtile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), names = TRUE, method = NULL, ...) {
-    if (any(is.na(probs) | probs<0.0 | probs>1.0))
-        stop("p outside [0,1]")
+  if (any(is.na(probs) | probs<0.0 | probs>1.0))
+    stop("p outside [0,1]")
   cache_env <- cache(x)
   if (is.null(method)) {
     if (is.null(cache_env))
-        method <- "sortqtl"
+      method <- "sortqtl"
     else if (exists("sort", envir=cache_env, inherits=FALSE))
-        method <- "sortqtl"
+      method <- "sortqtl"
     else if (exists("order", envir=cache_env, inherits=FALSE))
-        method <- "orderqtl"
+      method <- "orderqtl"
     else
-        method <- "sortqtl"
+      method <- "sortqtl"
   }
-  switch(method
-  , sortqtl={
-        if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE)) {
-            s <- clone(x)
-            na.count <- ramsort(s, na.last=FALSE)
-        } else {
-            s <- get("sort", cache_env, inherits=FALSE)
-            na.count <- get("na.count", cache_env, inherits=FALSE)
-        }
-        qs <- sortqtl(s, na.count, probs)
+  method <- match.arg(method, c("sortqtl", "orderqtl"))
+  switch(method,
+    sortqtl={
+      if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE)) {
+        s <- clone(x)
+        na.count <- ramsort(s, na.last=FALSE)
+      } else {
+        s <- get("sort", cache_env, inherits=FALSE)
+        na.count <- get("na.count", cache_env, inherits=FALSE)
+      }
+      qs <- sortqtl(s, na.count, probs)
+    },
+    orderqtl={
+      if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
+        o <- seq_along(x)
+        na.count <- ramorder(x, o, na.last=FALSE)
+      } else {
+        o <- get("order", cache_env, inherits=FALSE)
+        na.count <- get("na.count", cache_env, inherits=FALSE)
+      }
+      qs <- orderqtl(x, o, na.count, probs)
     }
-  , orderqtl={
-        if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
-            o <- seq_along(x)
-            na.count <- ramorder(x, o, na.last=FALSE)
-        } else {
-            o <- get("order", cache_env, inherits=FALSE)
-            na.count <- get("na.count", cache_env, inherits=FALSE)
-        }
-        qs <- orderqtl(x, o, na.count, probs)
-    }
-  , stop("unknown method ", method)
   )
   if (names) {
     np <- length(probs)
     dig <- max(2L, getOption("digits"))
-    names(qs) <- paste0(if (np < 100L)
+    names(qs) <- paste0(
+      if (np < 100L)
         formatC(100.0 * probs, format = "fg", width = 1L, digits = dig)
-    else format(100.0 * probs, trim = TRUE, digits = dig),
-        "%")
+      else
+        format(100.0 * probs, trim = TRUE, digits = dig),
+      "%"
+    )
   }
   qs
 }
