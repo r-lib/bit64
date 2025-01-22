@@ -108,7 +108,7 @@ sortfin.integer64 <- function(sorted, x, method=NULL, ...)
       method <- 1L
     }else if (n<length(sorted)/128L) {
       method <- 2L
-    }else{
+    } else {
       method <- 3L
     }
   }else method <- as.integer(method)
@@ -120,7 +120,7 @@ sortfin.integer64 <- function(sorted, x, method=NULL, ...)
       , ret = logical(n)
       , PACKAGE = "bit64"
       )
-  }else{
+  } else {
     sx <- clone(as.integer64(x)); o <- seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
     ret <- logical(n)
     ret[o] <- .Call(C_r_ram_integer64_sortfin_asc
@@ -147,7 +147,7 @@ orderfin.integer64 <- function(table, order, x, method=NULL, ...)
       method <- 1L
     }else if (n<length(table)/8L) {
       method <- 2L
-    }else{
+    } else {
       method <- 3L
     }
   }else method <- as.integer(method)
@@ -160,7 +160,7 @@ orderfin.integer64 <- function(table, order, x, method=NULL, ...)
       , ret = logical(n)
       , PACKAGE = "bit64"
       )
-  }else{
+  } else {
     o <- seq_along(x); ramorder(x, o, na.last=FALSE, ...)
     ret <- logical(n)
     ret[o] <- .Call(C_r_ram_integer64_orderfin_asc
@@ -189,7 +189,7 @@ orderpos.integer64 <- function(table, order, x, nomatch=NA, method=NULL, ...)
       method <- 1L
     }else if (n<length(table)/8L) {
       method <- 2L
-    }else{
+    } else {
       method <- 3L
     }
   }else method <- as.integer(method)
@@ -203,7 +203,7 @@ orderpos.integer64 <- function(table, order, x, nomatch=NA, method=NULL, ...)
       , ret = integer(n)
       , PACKAGE = "bit64"
       )
-  }else{
+  } else {
     o <- seq_along(x); ramorder(x, o, na.last=FALSE, ...)
     ret <- integer(n)
     ret[o] <- .Call(C_r_ram_integer64_orderpos_asc
@@ -232,7 +232,7 @@ sortorderpos.integer64 <- function(sorted, order, x, nomatch=NA, method=NULL, ..
       method <- 1L
     }else if (n<length(sorted)/128L) {
       method <- 2L
-    }else{
+    } else {
       method <- 3L
     }
   }else method <- as.integer(method)
@@ -246,7 +246,7 @@ sortorderpos.integer64 <- function(sorted, order, x, nomatch=NA, method=NULL, ..
       , ret = integer(n)
       , PACKAGE = "bit64"
       )
-  }else{
+  } else {
     sx <- clone(as.integer64(x)); o <- seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
     ret <- integer(n)
     ret[o] <- .Call(C_r_ram_integer64_sortorderpos_asc

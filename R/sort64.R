@@ -390,7 +390,7 @@ ramsortorder.integer64 <- function(x, i,
     }else if (length(x) < 16777216L) {
       if (VERBOSE) cat("ramsortorder selected radix8sortorder\n")
       radixsortorder(x, i, radixbits=8L, has.na=has.na, na.last=na.last, decreasing=decreasing)
-    }else{
+    } else {
       if (VERBOSE) cat("ramsortorder selected radix4sortorder\n")
       radixsortorder(x, i, radixbits=4L, has.na=has.na, na.last=na.last, decreasing=decreasing)
     }
@@ -501,7 +501,7 @@ sort.integer64 <- function(x,
         } else {
           s <- x[cache_env$order]
         }
-  }else{
+  } else {
     if (identical(cache_env$na.count, 0L))
       has.na <- FALSE
         s <- clone(x)
@@ -567,7 +567,7 @@ order.integer64 <- function(...,
             }
           }else
             o <- cache_env$order  # here we save copying at all
-  }else{
+  } else {
       if (identical(cache_env$na.count, 0L))
         has.na <- FALSE
       optimize <- match.arg(optimize)
@@ -582,7 +582,7 @@ order.integer64 <- function(...,
           , optimize = optimize
           , VERBOSE = FALSE
           )
-      }else{
+      } else {
           na.count <- ramorder(x, o
           , has.na=has.na
           , na.last=do.na.last

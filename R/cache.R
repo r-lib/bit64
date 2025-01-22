@@ -127,7 +127,7 @@ getcache <- function(x, which) {
             get(which, envir=cache, inherits=FALSE)
         else
             NULL
-    }else{
+    } else {
         remcache(x)
         warning("removed outdated cache")
         NULL
@@ -371,7 +371,7 @@ nunique.integer64 <- function(x, ...) {
             assign("nties", ret[2L], envir=env)
         }
         ret[1L]
-    }else{
+    } else {
         h <- hashmap(x)
         if (has.cache)
           assign("nunique", h$nunique, envir=env)
@@ -389,7 +389,7 @@ nties.integer64 <- function(x, ...) {
             , x = x
             , PACKAGE = "bit64"
             )[2L]
-        }else{
+        } else {
             s <- clone(x)
             # nolint next: object_usage_linter. Keep the output of in-place ramsort for debugging.
             na.count <-

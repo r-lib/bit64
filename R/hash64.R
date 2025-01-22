@@ -131,7 +131,7 @@ hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache
   if (is.null(nunique)) {
     nunique <- integer(1L)
     n <- length(x)
-  }else{
+  } else {
     nunique <- as.integer(nunique)
     n <- nunique
   }
@@ -275,7 +275,7 @@ hashmaptab.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
   if (is.null(nunique)) {
     nunique <- integer(1L)
     n <- length(x)
-  }else{
+  } else {
     nunique <- as.integer(nunique)
     n <- nunique
   }
@@ -300,7 +300,7 @@ hashmapuni.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
   if (is.null(nunique)) {
     nunique <- integer(1L)
     n <- length(x)
-  }else{
+  } else {
     nunique <- as.integer(nunique)
     n <- nunique
   }
@@ -329,7 +329,7 @@ hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
   if (is.null(nunique)) {
     nunique <- integer(1L)
     n <- length(x)
-  }else{
+  } else {
     nunique <- as.integer(nunique)
     n <- nunique
   }
@@ -387,7 +387,7 @@ runif64 <- function(n, min=lim.integer64()[1L], max=lim.integer64()[2L], replace
   if (replace) {
     ret <- .Call(C_runif_integer64, n, min, max)
     oldClass(ret) <- "integer64"
-  }else{
+  } else {
     N <- n
     d <- max - min + 1L
     if (!is.na(d) && N > d)
@@ -396,7 +396,7 @@ runif64 <- function(n, min=lim.integer64()[1L], max=lim.integer64()[2L], replace
       ret <- .Call(C_runif_integer64, as.integer(d), as.integer64(min), as.integer64(max))
       oldClass(ret) <- "integer64"
       ret <- sample(ret, n, FALSE)
-    }else{
+    } else {
       ret <- integer64()
       while (N > 0L) {
         ret <- unique(c(ret, Recall(

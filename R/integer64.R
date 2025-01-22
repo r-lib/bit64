@@ -597,7 +597,7 @@ binattr <- function(e1, e2) {
     if (length(d2)) {
       if (!identical(dim(e1), dim(e2)))
         stop("non-conformable arrays")
-    } else{
+    } else {
       if (n2 > n1 && n1)
         stop("length(e2) does not match dim(e1)")
       if (n2 && n1 %% n2)
@@ -818,7 +818,7 @@ print.integer64 <- function(x, quote=FALSE, ...) {
     a$class <- minusclass(a$class, "integer64")
     attributes(ret) <- a
     print(ret, quote=quote, ...)
-  }else{
+  } else {
     cat("integer64(0)\n")
   }
   invisible(x)
@@ -859,14 +859,14 @@ str.integer64 <- function(object,
           na_idx <- union(which(!(i %in% names(x))), which(is.na(i)))
           if (length(na_idx))
                 ret[na_idx] <- NA_integer64_
-        }else{
+        } else {
       ni <- length(i)
       nx <- length(x)
       if (inherits(i, "logical")) {
             if (ni>nx) {
               na_idx <- is.na(i) | (i & seq_along(i)>nx)
               na_idx <- na_idx[is.na(i) | i]
-            }else{
+            } else {
           i <- i[is.na(i) | i]
           na_idx <- rep_len(is.na(i), length(ret))
             }
@@ -896,7 +896,7 @@ str.integer64 <- function(object,
       na_idx <- union(which(!(i %in% names(x))), which(is.na(i)))
       if (length(na_idx))
         ret[na_idx] <- NA_integer64_
-    }else{
+    } else {
       na_idx <- is.na(rep(TRUE, length(x))[i])
       if (any(na_idx))
         ret[na_idx] <- NA_integer64_
@@ -1158,7 +1158,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
       ret <- .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
     else
       ret <- .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
-  }else{
+  } else {
     # nolint next: unnecessary_nesting_linter. Good parallelism, and on a to-be-deprecated code path.
     if (is.double(e2))  # implies !is.integer64(e2)
       ret <- .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
@@ -1202,7 +1202,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
       ret <- .Call(C_divide_integer64_double, as.integer64(e1), e2, ret)
     else
       ret <- .Call(C_divide_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
-  }else{
+  } else {
     # nolint next: unnecessary_nesting_linter. Good parallelism, and on a to-be-deprecated code path.
     if (is.double(e2))  # implies !is.integer64(e2)
       ret <- .Call(C_divide_integer64_double, as.integer64(e1), e2, ret)
