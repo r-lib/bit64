@@ -91,10 +91,9 @@ compatibility with <code><a href="https://rdrr.io/r/base/range.html" class="exte
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The numerical summary methods always return <code>integer64</code>. Therefore the
-methods for <code>min</code>,<code>max</code> and <code>range</code> do not return <code>+Inf,-Inf</code> on empty
-arguments, but <code>+9223372036854775807, -9223372036854775807</code> (in this sequence).
-The same is true if only  <code>NA</code>s are submitted with argument <code>na.rm=TRUE</code>.</p>
+    <p>The numerical summary methods always return <code>integer64</code>. Wherever integer methods would
+return <code>Inf</code> (or its negation), here the extreme 64-bit integer <code>9223372036854775807</code> is
+returned. See <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min()</a></code> for more details about the behavior.</p>
 <p><code>lim.integer64</code> returns these limits in proper order
 <code>-9223372036854775807, +9223372036854775807</code> and without a <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code>.</p>
     </div>
