@@ -1369,16 +1369,16 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
             } else {
                 method <- "hashpos"
             }
-    } else if (exists("hashmap", envir=cache_env, inherits=FALSE)) {
+    } else if (!is.null(cache_env$hashmap)) {
         method <- "hashpos"
-    } else if (exists("sort", envir=cache_env, inherits=FALSE) && exists("order", envir=cache_env, inherits=FALSE) && (length(table)>length(x) || length(x)<4096L)) {
+    } else if (!is.null(cache_env$sort) && !is.null(cache_env$order) && (length(table)>length(x) || length(x)<4096L)) {
         method <- "sortorderpos"
-    } else if (exists("order", envir=cache_env, inherits=FALSE) && (length(table)>length(x) || length(x)<4096L)) {
+    } else if (!is.null(cache_env$order) && (length(table)>length(x) || length(x)<4096L)) {
         method <- "orderpos"
     } else {
         nx <- length(x)
         if (is.null(nunique)) {
-            if (exists("nunique", envir=cache_env, inherits=FALSE))
+            if (!is.null(cache_env$nunique))
                 nunique <- cache_env$nunique
             else
                 nunique <- length(table)
@@ -1395,7 +1395,7 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
   method <- match.arg(method, c("hashpos", "hashrev", "sortorderpos", "orderpos"))
   switch(method,
     hashpos={
-      if (is.null(cache_env) || !exists("hashmap", envir=cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$hashmap)) {
         if (exists("btable", inherits=FALSE)) {
           h <- hashmap(table, hashbits=btable)
         } else {
@@ -1410,7 +1410,7 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
     },
     hashrev={
       cache_env <- cache(x)
-      if (is.null(cache_env) || !exists("hashmap", envir=cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$hashmap)) {
         if (exists("bx", inherits=FALSE)) {
           h <- hashmap(x, bits=bx)
         } else {
@@ -1465,16 +1465,16 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
     } else {
       method <- "hashfin"
     }
-  } else if (exists("hashmap", envir=cache_env, inherits=FALSE)) {
+  } else if (!is.null(cache_env$hashmap)) {
     method <- "hashfin"
-  } else if (exists("sort", envir=cache_env, inherits=FALSE) && (length(table)>length(x) || length(x)<4096L)) {
+  } else if (!is.null(cache_env$sort) && (length(table)>length(x) || length(x)<4096L)) {
     method <- "sortfin"
-  } else if (exists("order", envir=cache_env, inherits=FALSE) && (length(table)>length(x) || length(x)<4096L)) {
+  } else if (!is.null(cache_env$order) && (length(table)>length(x) || length(x)<4096L)) {
     method <- "orderfin"
   } else {
     nx <- length(x)
     if (is.null(nunique)) {
-      if (exists("nunique", envir=cache_env, inherits=FALSE))
+      if (!is.null(cache_env$nunique))
         nunique <- cache_env$nunique
       else
         nunique <- length(table)
@@ -1490,7 +1490,7 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
   method <- match.arg(method, c("hashfin", "hashrin", "sortfin", "orderfin"))
   switch(method,
     hashfin={
-      if (is.null(cache_env) || !exists("hashmap", envir=cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$hashmap)) {
         if (exists("btable", inherits=FALSE)) {
           h <- hashmap(table, hashbits=btable)
         } else {
@@ -1505,7 +1505,7 @@ match.integer64 <- function(x, table, nomatch = NA_integer_, nunique=NULL, metho
     },
     hashrin={
       cache_env <- cache(x)
-      if (is.null(cache_env) || !exists("hashmap", envir=cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$hashmap)) {
         if (exists("bx", inherits=FALSE)) {
           h <- hashmap(x, bits=bx)
         } else {
@@ -1584,11 +1584,11 @@ duplicated.integer64 <- function(x, incomparables = FALSE, nunique = NULL, metho
         method <- "sortorderdup" # nocov. Too large for practical unit tests.
       else
         method <- "hashdup"
-    } else if (exists("sort", envir=cache_env, inherits=FALSE) && exists("order", envir=cache_env, inherits=FALSE)) {
+    } else if (!is.null(cache_env$sort) && !is.null(cache_env$order)) {
       method <- "sortorderdup"
-    } else if (exists("hashmap", envir=cache_env, inherits=FALSE)) {
+    } else if (!is.null(cache_env$hashmap)) {
       method <- "hashdup"
-    } else if (exists("order", envir=cache_env, inherits=FALSE)) {
+    } else if (!is.null(cache_env$order)) {
       method <- "orderdup"
     } else if (length(x) > 50000000L) {
       method <- "sortorderdup"
@@ -1599,14 +1599,14 @@ duplicated.integer64 <- function(x, incomparables = FALSE, nunique = NULL, metho
   method <- match.arg(method, c("hashdup", "sortorderdup", "orderdup"))
   switch(method,
     hashdup={
-      if (is.null(cache_env) || !exists("hashmap", envir=cache_env, inherits=FALSE))
+      if (is.null(cache_env) || is.null(cache_env$hashmap))
         h <- hashmap(x, nunique=nunique)
       else
         h <- cache_env
       p <- hashdup(h)
     },
     sortorderdup={
-      if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$sort) || is.null(cache_env$order)) {
         s <- clone(x)
         o <- seq_along(s)
         ramsortorder(s, o, na.last=FALSE)
@@ -1617,7 +1617,7 @@ duplicated.integer64 <- function(x, incomparables = FALSE, nunique = NULL, metho
       p <- sortorderdup(s, o)
     },
     orderdup={
-      if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$order)) {
         o <- seq_along(s)
         ramorder(x, o, na.last=FALSE)
       } else {
@@ -1682,7 +1682,12 @@ duplicated.integer64 <- function(x, incomparables = FALSE, nunique = NULL, metho
 #'
 #' @keywords manip logic
 #' @export
-unique.integer64 <- function(x, incomparables = FALSE, order = c("original", "values", "any"), nunique = NULL, method = NULL, ...) {
+unique.integer64 <- function(x,
+                             incomparables=FALSE,
+                             order=c("original", "values", "any"),
+                             nunique=NULL,
+                             method=NULL,
+                             ...) {
   stopifnot(identical(incomparables, FALSE))
   order <- match.arg(order)
   cache_env <- cache(x)
@@ -1698,10 +1703,10 @@ unique.integer64 <- function(x, incomparables = FALSE, order = c("original", "va
     } else {
       switch(order,
         original = {
-          if (exists("hashmap", envir=cache_env, inherits=FALSE))
+          if (!is.null(cache_env$hashmap))
             method <- "hashuni"
-          else if (exists("order", envir=cache_env, inherits=FALSE)) {
-            if (exists("sort", envir=cache_env, inherits=FALSE))
+          else if (!is.null(cache_env$order)) {
+            if (!is.null(cache_env$sort))
               method <- "sortorderuni"
             else
               method <- "orderuni"
@@ -1710,21 +1715,21 @@ unique.integer64 <- function(x, incomparables = FALSE, order = c("original", "va
           }
         },
         values = {
-          if (exists("sort", envir=cache_env, inherits=FALSE))
+          if (!is.null(cache_env$sort))
             method <- "sortuni"
-          else if (exists("order", envir=cache_env, inherits=FALSE))
+          else if (!is.null(cache_env$order))
             method <- "orderuni"
-          else if (exists("hashmap", envir=cache_env, inherits=FALSE) && cache_env$nunique<length(x)/2L)
+          else if (!is.null(cache_env$hashmap) && cache_env$nunique<length(x)/2L)
             method <- "hashuni"
           else
             method <- "sortuni"
         },
         any = {
-          if (exists("sort", envir=cache_env, inherits=FALSE))
+          if (!is.null(cache_env$sort))
             method <- "sortuni"
-          else if (exists("hashmap", envir=cache_env, inherits=FALSE))
+          else if (!is.null(cache_env$hashmap))
             method <- "hashuni"
-          else if (exists("order", envir=cache_env, inherits=FALSE))
+          else if (!is.null(cache_env$order))
             method <- "orderuni"
           else
             method <- "sortuni"
@@ -1738,7 +1743,7 @@ unique.integer64 <- function(x, incomparables = FALSE, order = c("original", "va
       p <- hashmapuni(x, nunique=nunique)
     },
     hashuni={
-      if (is.null(cache_env) || !exists("hashmap", envir=cache_env, inherits=FALSE))
+      if (is.null(cache_env) || is.null(cache_env$hashmap))
         h <- hashmap(x, nunique=nunique)
       else
         h <- cache_env
@@ -1747,7 +1752,7 @@ unique.integer64 <- function(x, incomparables = FALSE, order = c("original", "va
         ramsort(p, na.last=FALSE)
     },
     sortuni={
-      if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$sort)) {
         s <- clone(x)
         ramsort(s, na.last=FALSE)
       } else {
@@ -1758,7 +1763,7 @@ unique.integer64 <- function(x, incomparables = FALSE, order = c("original", "va
       p <- sortuni(s, nunique)
     },
     sortorderuni={
-      if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$sort) || is.null(cache_env$order)) {
         s <- clone(x)
         o <- seq_along(x)
         ramsortorder(s, o, na.last=FALSE)
@@ -1771,7 +1776,7 @@ unique.integer64 <- function(x, incomparables = FALSE, order = c("original", "va
       p <- sortorderuni(x, s, o, nunique)
     },
     orderuni={
-      if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$order)) {
         o <- seq_along(x)
         ramorder(x, o, na.last=FALSE)
       } else {
@@ -1838,7 +1843,12 @@ unipos <- function(x, incomparables = FALSE, order = c("original","values","any"
 
 #' @rdname unipos
 #' @export
-unipos.integer64 <- function(x, incomparables=FALSE, order=c("original", "values", "any"), nunique=NULL, method=NULL, ...) {
+unipos.integer64 <- function(x,
+                             incomparables=FALSE,
+                             order=c("original", "values", "any"),
+                             nunique=NULL,
+                             method=NULL,
+                             ...) {
   stopifnot(identical(incomparables, FALSE))
   order <- match.arg(order)
   cache_env <- cache(x)
@@ -1847,47 +1857,47 @@ unipos.integer64 <- function(x, incomparables=FALSE, order=c("original", "values
     nunique <- cache_env$nunique
   if (is.null(method)) {
     if (is.null(cache_env)) {
-        if (order=="values")
-            method <- "sortorderupo"
-        else
-            method <- "hashmapupo"
+      if (order=="values")
+        method <- "sortorderupo"
+      else
+        method <- "hashmapupo"
     } else {
-        switch(order,
-          original = {
-            if (exists("hashmap", envir=cache_env, inherits=FALSE))
-              method <- "hashupo"
-            else if (exists("order", envir=cache_env, inherits=FALSE)) {
-              if (exists("sort", envir=cache_env, inherits=FALSE))
-                method <- "sortorderupo"
-              else
-                method <- "orderupo"
-            } else {
-              method <- "hashmapupo"
-            }
-          },
-          values = {
-            if (exists("order", envir=cache_env, inherits=FALSE)) {
-              if (exists("sort", envir=cache_env, inherits=FALSE))
-                method <- "sortorderupo"
-              else
-                method <- "orderupo"
-            } else if (exists("hashmap", envir=cache_env, inherits=FALSE) && cache_env$nunique<length(x)/2L) {
-              method <- "hashupo"
-            } else {
+      switch(order,
+        original = {
+          if (!is.null(cache_env$hashmap))
+            method <- "hashupo"
+          else if (!is.null(cache_env$order)) {
+            if (!is.null(cache_env$sort))
               method <- "sortorderupo"
-            }
-          },
-          any = {
-            if (exists("sort", envir=cache_env, inherits=FALSE) && exists("order", envir=cache_env, inherits=FALSE))
-              method <- "sortorderupo"
-            else if (exists("hashmap", envir=cache_env, inherits=FALSE))
-              method <- "hashupo"
-            else if (exists("order", envir=cache_env, inherits=FALSE))
-              method <- "orderupo"
             else
-              method <- "sortorderupo"
+              method <- "orderupo"
+          } else {
+            method <- "hashmapupo"
           }
-        )
+        },
+        values = {
+          if (!is.null(cache_env$order)) {
+            if (!is.null(cache_env$sort))
+              method <- "sortorderupo"
+            else
+              method <- "orderupo"
+          } else if (!is.null(cache_env$hashmap) && cache_env$nunique<length(x)/2L) {
+            method <- "hashupo"
+          } else {
+            method <- "sortorderupo"
+          }
+        },
+        any = {
+          if (!is.null(cache_env$sort) && !is.null(cache_env$order))
+            method <- "sortorderupo"
+          else if (!is.null(cache_env$hashmap))
+            method <- "hashupo"
+          else if (!is.null(cache_env$order))
+            method <- "orderupo"
+          else
+            method <- "sortorderupo"
+        }
+      )
     }
   }
   method <- match.arg(method, c("hashmapupo", "hashupo", "sortorderupo", "orderupo"))
@@ -1896,7 +1906,7 @@ unipos.integer64 <- function(x, incomparables=FALSE, order=c("original", "values
       p <- hashmapupo(x, nunique=nunique)
     },
     hashupo={
-      if (is.null(cache_env) || !exists("hashmap", envir=cache_env, inherits=FALSE))
+      if (is.null(cache_env) || is.null(cache_env$hashmap))
         h <- hashmap(x, nunique=nunique)
       else
         h <- cache_env
@@ -1907,7 +1917,7 @@ unipos.integer64 <- function(x, incomparables=FALSE, order=c("original", "values
       }
     },
     sortorderupo={
-      if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$sort) || is.null(cache_env$order)) {
         s <- clone(x)
         o <- seq_along(x)
         ramsortorder(s, o, na.last=FALSE)
@@ -1920,7 +1930,7 @@ unipos.integer64 <- function(x, incomparables=FALSE, order=c("original", "values
       p <- sortorderupo(s, o, nunique, keep.order=keep.order)
     },
     orderupo={
-      if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$order)) {
         o <- seq_along(x)
         ramorder(x, o, na.last=FALSE)
       } else {
@@ -2041,214 +2051,215 @@ table.integer64 <- function(...,
   order <- match.arg(order)
   return <- match.arg(return)
   # this is taken from 'table'
-    list.names <- function(...) {
-        l <- as.list(substitute(list(...)))[-1L]
-        nm <- names(l)
-        fixup <- if (is.null(nm))
-            seq_along(l)
-        else nm == ""
-        dep <- vapply(
-          l[fixup],
-          function(x) switch(deparse.level + 1L, "", if (is.symbol(x)) as.character(x) else "", deparse(x, nlines = 1L)[1L]),
-          ""
-        )
-        if (is.null(nm)) {
-            dep
-        } else {
-            nm[fixup] <- dep
-            nm
-        }
-    }
-
-    # COPY ON MODIFY is broken for reading from list(...)
-    # because list(...) creates a copy of all ... and this invalidates our caches
-    # therefore we go this sick workaround
-    argsymbols <- as.list(substitute(list(...)))[-1L]
-    argframe <- parent.frame()
-    A <- function(i) eval(argsymbols[[i]], argframe)
-    N <- length(argsymbols)
-    if (!N)
-        stop("nothing to tabulate")
-    if (N == 1L && is.list(A(1L))) {
-        args <- A(1L) # nolint: object_overwrite_linter. This code should probably be refactored anyway.
-        if (length(dnn) != length(args))
-            dnn <- if (!is.null(argn <- names(args))) argn
-                else paste(dnn[1L], seq_along(args), sep = ".")
-        N <- length(args)
-        A <- function(i) args[[i]]
-    }
-    force(dnn)
-
-    if (N==1L) {
-        x <- A(1L)
-            if (!is.integer64(x)) {
-                warning("coercing first argument to integer64")
-                x <- as.integer64(x)
-            }
+  list.names <- function(...) {
+    l <- as.list(substitute(list(...)))[-1L]
+    nm <- names(l)
+    fixup <- if (is.null(nm))
+      seq_along(l)
+    else nm == ""
+    dep <- vapply(
+      l[fixup],
+      function(x) switch(deparse.level + 1L, "", if (is.symbol(x)) as.character(x) else "", deparse(x, nlines=1L)[1L]),
+      ""
+    )
+    if (is.null(nm)) {
+      dep
     } else {
-        a <- A(1L)
-        n <- length(a)
-        nu <- integer(N)
-        d <- integer64(N+1L); d[[1L]] <- 1L
-        dims <- vector("list", N)
-        names(dims) <- dnn
-        for (i in 1:N) {
-            a <- A(i)
-            if (length(a) != n)
-                stop("all input vectors must have the same length")
-            if (!is.integer64(a)) {
-                warning("coercing argument ", i, " to integer64")
-                a <- as.integer64(a)
-            }
-            cache_env <- cache(a)
-            if (is.null(cache_env$order)) {
-                s <- clone(a)
-                o <- seq_along(s)
-                ramsortorder(s,o)
-                nu[[i]] <- sortnut(s)[["nunique"]]
-            } else if (is.null(cache_env$sort)) {
-                o <- cache_env$order
-                s <- a[o]
-                nu[[i]] <- cache_env$nunique
-            } else {
-                o <- cache_env$order
-                s <- cache_env$sort
-                nu[[i]] <- cache_env$nunique
-            }
-            d[[i+1L]] <- d[[i]] * nu[[i]]
-            if (is.na(d[[i+1L]]))
-                stop("attempt to make a table from more than >= 2^63 hypothetical combinations")
-            dims[[i]] <- sortuni(s, nu[[i]])
-            if (i==1L)
-                x <- sortorderkey(s,o) - 1L
-            else
-                x <- x + d[[i]] * (sortorderkey(s,o) - 1L)
-        }
+      nm[fixup] <- dep
+      nm
     }
+  }
+
+  # COPY ON MODIFY is broken for reading from list(...)
+  # because list(...) creates a copy of all ... and this invalidates our caches
+  # therefore we go this sick workaround
+  argsymbols <- as.list(substitute(list(...)))[-1L]
+  argframe <- parent.frame()
+  A <- function(i) eval(argsymbols[[i]], argframe)
+  N <- length(argsymbols)
+  if (!N)
+      stop("nothing to tabulate")
+  if (N == 1L && is.list(A(1L))) {
+    args <- A(1L) # nolint: object_overwrite_linter. This code should probably be refactored anyway.
+    if (length(dnn) != length(args))
+      # TODO(R>=4.4.0): names(args) %||% paste(dnn[1L], seq_along(args), sep=".")
+      dnn <- if (!is.null(argn <- names(args))) argn else paste(dnn[1L], seq_along(args), sep=".")
+    N <- length(args)
+    A <- function(i) args[[i]]
+  }
+  force(dnn)
+
+  if (N==1L) {
+    x <- A(1L)
+    if (!is.integer64(x)) {
+      warning("coercing first argument to integer64")
+      x <- as.integer64(x)
+    }
+  } else {
+    a <- A(1L)
+    n <- length(a)
+    nu <- integer(N)
+    d <- integer64(N+1L); d[[1L]] <- 1L
+    dims <- vector("list", N)
+    names(dims) <- dnn
+    for (i in 1:N) {
+      a <- A(i)
+      if (length(a) != n)
+        stop("all input vectors must have the same length")
+      if (!is.integer64(a)) {
+        warning("coercing argument ", i, " to integer64")
+        a <- as.integer64(a)
+      }
+      cache_env <- cache(a)
+      if (is.null(cache_env$order)) {
+        s <- clone(a)
+        o <- seq_along(s)
+        ramsortorder(s,o)
+        nu[[i]] <- sortnut(s)[["nunique"]]
+      } else if (is.null(cache_env$sort)) {
+        o <- cache_env$order
+        s <- a[o]
+        nu[[i]] <- cache_env$nunique
+      } else {
+        o <- cache_env$order
+        s <- cache_env$sort
+        nu[[i]] <- cache_env$nunique
+      }
+      d[[i+1L]] <- d[[i]] * nu[[i]]
+      if (is.na(d[[i+1L]]))
+        stop("attempt to make a table from more than >= 2^63 hypothetical combinations")
+      dims[[i]] <- sortuni(s, nu[[i]])
+      if (i==1L)
+        x <- sortorderkey(s,o) - 1L
+      else
+        x <- x + d[[i]] * (sortorderkey(s,o) - 1L)
+    }
+  }
   cache_env <- cache(x)
   if (is.null(nunique) && !is.null(cache_env))
     nunique <- cache_env$nunique
   if (is.null(method)) {
     if (is.null(cache_env)) {
-        if (order=="values" && (is.null(nunique) || nunique>65536L))
-            method <- "sorttab"
-        else
-            method <- "hashmaptab"
+      if (order=="values" && (is.null(nunique) || nunique>65536L))
+        method <- "sorttab"
+      else
+        method <- "hashmaptab"
     } else {
+      # nolint next: unnecessary_nesting_linter. Good parallelism.
+      if (order=="values") {
+        if (!is.null(cache_env$sort))
+          method <- "sorttab"
+        else if (!is.null(cache_env$hashmap) && cache_env$nunique<sqrt(length(x)))
+          method <- "hashtab"
+        else if (!is.null(cache_env$order))
+          method <- "ordertab"
+        else
+          method <- "sorttab"
+      } else { # order = "counts"
         # nolint next: unnecessary_nesting_linter. Good parallelism.
-        if (order=="values") {
-            if (exists("sort", envir=cache_env, inherits=FALSE))
-                method <- "sorttab"
-            else if (exists("hashmap", envir=cache_env, inherits=FALSE) && cache_env$nunique<sqrt(length(x)))
-                method <- "hashtab"
-            else if (exists("order", envir=cache_env, inherits=FALSE))
-                method <- "ordertab"
-            else
-                method <- "sorttab"
-        } else { # order = "counts"
-            # nolint next: unnecessary_nesting_linter. Good parallelism.
-            if (exists("hashmap", envir=cache_env, inherits=FALSE))
-                method <- "hashtab"
-            else if (exists("sort", envir=cache_env, inherits=FALSE))
-                method <- "sorttab"
-            else if (exists("order", envir=cache_env, inherits=FALSE))
-                method <- "ordertab"
-            else
-                method <- "hashmaptab"
-        }
+        if (!is.null(cache_env$hashmap))
+          method <- "hashtab"
+        else if (!is.null(cache_env$sort))
+          method <- "sorttab"
+        else if (!is.null(cache_env$order))
+          method <- "ordertab"
+        else
+          method <- "hashmaptab"
+      }
     }
   }
-  switch(method
-  , hashmaptab={
-        tmp <- hashmaptab(x, nunique=nunique)
-        cnt <- tmp$counts
-        val <- tmp$values
-        rm(tmp)
+  method <- match.arg(method, c("hashmaptab", "hashtab", "sorttab", "ordertab"))
+  switch(method,
+    hashmaptab={
+      tmp <- hashmaptab(x, nunique=nunique)
+      cnt <- tmp$counts
+      val <- tmp$values
+      rm(tmp)
+    },
+    hashtab={
+      if (is.null(cache_env) || is.null(cache_env$hashmap))
+        h <- hashmap(x, nunique=nunique)
+      else
+        h <- cache_env
+      tmp <- hashtab(h, keep.order=FALSE)
+      cnt <- tmp$counts
+      val <- tmp$values
+      rm(tmp)
+    },
+    sorttab={
+      if (is.null(cache_env) || is.null(cache_env$sort)) {
+        s <- clone(x)
+        ramsort(s, na.last=FALSE)
+      } else {
+        s <- get("sort", cache_env, inherits=FALSE)
+      }
+      if (is.null(nunique))
+        nunique <- sortnut(s)[1L]
+      val <- sortuni(s, nunique)
+      cnt <- sorttab(s, nunique)
+    },
+    ordertab={
+      if (is.null(cache_env) || is.null(cache_env$order)) {
+        o <- seq_along(x)
+        ramorder(x, o, na.last=FALSE)
+      } else {
+        o <- get("order", cache_env, inherits=FALSE)
+      }
+      if (is.null(nunique))
+        nunique <- ordernut(x, o)[1L]
+      val <- orderuni(x, o, nunique, keep.order=FALSE)
+      cnt <- ordertab(x, o, nunique, keep.order=FALSE)
+      rm(o)
     }
-  , hashtab={
-        if (is.null(cache_env) || !exists("hashmap", envir=cache_env, inherits=FALSE))
-            h <- hashmap(x, nunique=nunique)
-        else
-            h <- cache_env
-        tmp <- hashtab(h, keep.order=FALSE)
-        cnt <- tmp$counts
-        val <- tmp$values
-        rm(tmp)
-    }
-  , sorttab={
-        if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE)) {
-            s <- clone(x)
-            ramsort(s, na.last=FALSE)
-        } else {
-            s <- get("sort", cache_env, inherits=FALSE)
-        }
-        if (is.null(nunique))
-            nunique <- sortnut(s)[1L]
-        val <- sortuni(s, nunique)
-        cnt <- sorttab(s, nunique)
-    }
-  , ordertab={
-        if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
-            o <- seq_along(x)
-            ramorder(x, o, na.last=FALSE)
-        } else {
-            o <- get("order", cache_env, inherits=FALSE)
-        }
-        if (is.null(nunique))
-            nunique <- ordernut(x, o)[1L]
-        val <- orderuni(x, o, nunique, keep.order=FALSE)
-        cnt <- ordertab(x, o, nunique, keep.order=FALSE)
-        rm(o)
-    }
-  , stop("unknown method", method)
   )
-    if (order=="values") {
-        if (startsWith(method, "hash")) {
-            o <- seq_along(val)
-            ramsortorder(val, o, na.last=FALSE)
-            cnt <- cnt[o]
-        }
-    } else {
-        # xx workaround until we have implemented ramsort.integer
-        o <- sort.list(cnt, na.last=NA, method="quick")
-        cnt <- cnt[o]
-        # o <- seq_along(cnt)
-        # ramsortorder(cnt, o, na.last=FALSE)
-        val <- val[o]
+  if (order=="values") {
+    if (startsWith(method, "hash")) {
+      o <- seq_along(val)
+      ramsortorder(val, o, na.last=FALSE)
+      cnt <- cnt[o]
     }
+  } else {
+    # xx workaround until we have implemented ramsort.integer
+    o <- sort.list(cnt, na.last=NA, method="quick")
+    cnt <- cnt[o]
+    # o <- seq_along(cnt)
+    # ramsortorder(cnt, o, na.last=FALSE)
+    val <- val[o]
+  }
+
   ## attaching names is extremely expensive with many unique values, doing this only for compatibility with 'table' here
-  switch(return
-  ,  table = {
-          if (N==1L) {
-            attr(cnt, "dim") <-length(cnt)
-            dn <- list(as.character(val))
-            names(dn) <- dnn[1L]
-            attr(cnt, "dimnames") <- dn
-        } else {
-            a <- array(0L, dim=nu, dimnames=lapply(dims, as.character))
-            a[as.integer(val)+1L] <- as.integer(cnt)
-            cnt <- a
+  switch(return,
+    table = {
+      if (N == 1L) {
+        attr(cnt, "dim") <- length(cnt)
+        dn <- list(as.character(val))
+        names(dn) <- dnn[1L]
+        attr(cnt, "dimnames") <- dn
+      } else {
+        a <- array(0L, dim=nu, dimnames=lapply(dims, as.character))
+        a[as.integer(val)+1L] <- as.integer(cnt)
+        cnt <- a
+      }
+      oldClass(cnt) <- "table"
+    },
+    data.frame = {
+      if (N==1L) {
+        cnt <- data.frame(values=val, Freq=cnt)
+        names(cnt)[[1L]] <- dnn[1L]
+      } else {
+        for (i in N:1) {
+          w <- val %/% d[[i]]
+          val <- val - d[[i]]*w
+          dims[[i]] <- dims[[i]][as.integer(w)+1L]
         }
-        oldClass(cnt) <- "table"
-    }
-  ,  data.frame = {
-        if (N==1L) {
-            cnt <- data.frame(values=val, Freq=cnt)
-            names(cnt)[[1L]] <- dnn[1L]
-        } else {
-            for (i in N:1) {
-                w <- val %/% d[[i]]
-                val <- val - d[[i]]*w
-                dims[[i]] <- dims[[i]][as.integer(w)+1L]
-            }
-            cnt <- data.frame(dims, Freq=cnt)
-        }
-    }
-  , list = {
-        if (N==1L)
-            cnt <- list(values=val, counts=cnt)
-        else
-            cnt <- list(values=val, counts=cnt, dims=dims)
+        cnt <- data.frame(dims, Freq=cnt)
+      }
+    },
+    list = {
+      if (N == 1L)
+        cnt <- list(values=val, counts=cnt)
+      else
+        cnt <- list(values=val, counts=cnt, dims=dims)
     }
   )
   cnt
@@ -2297,8 +2308,8 @@ keypos.integer64 <- function(x, method = NULL, ...) {
   if (is.null(method)) {
     if (is.null(cache_env)) {
       method <- "sortorderkey"
-    } else if (exists("order", envir=cache_env, inherits=FALSE)) {
-      if (exists("sort", envir=cache_env, inherits=FALSE))
+    } else if (!is.null(cache_env$order)) {
+      if (!is.null(cache_env$sort))
         method <- "sortorderkey"
       else
         method <- "orderkey"
@@ -2309,7 +2320,7 @@ keypos.integer64 <- function(x, method = NULL, ...) {
   method <- match.arg(method, c("sortorderkey", "orderkey"))
   switch(method,
     sortorderkey={
-      if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$sort) || is.null(cache_env$order)) {
         s <- clone(x)
         o <- seq_along(x)
         ramsortorder(s, o, na.last=FALSE)
@@ -2320,7 +2331,7 @@ keypos.integer64 <- function(x, method = NULL, ...) {
       p <- sortorderkey(s, o)
     },
     orderkey={
-      if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$order)) {
         o <- seq_along(x)
         ramorder(x, o, na.last=FALSE)
       } else {
@@ -2374,8 +2385,8 @@ tiepos.integer64 <- function(x, nties = NULL, method = NULL, ...) {
   if (is.null(method)) {
     if (is.null(cache_env)) {
       method <- "sortordertie"
-    } else if (exists("order", envir=cache_env, inherits=FALSE)) {
-      if (exists("sort", envir=cache_env, inherits=FALSE))
+    } else if (!is.null(cache_env$order)) {
+      if (!is.null(cache_env$sort))
         method <- "sortordertie"
       else
         method <- "ordertie"
@@ -2386,7 +2397,7 @@ tiepos.integer64 <- function(x, nties = NULL, method = NULL, ...) {
   method <- match.arg(method, c("sortordertie", "ordertie"))
   switch(method,
     sortordertie={
-      if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$sort) || is.null(cache_env$order)) {
         s <- clone(x)
         o <- seq_along(x)
         ramsortorder(s, o, na.last=FALSE)
@@ -2399,7 +2410,7 @@ tiepos.integer64 <- function(x, nties = NULL, method = NULL, ...) {
       p <- sortordertie(s, o, nties)
     },
     ordertie={
-      if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$order)) {
         o <- seq_along(x)
         ramorder(x, o, na.last=FALSE)
       } else {
@@ -2446,8 +2457,8 @@ rank.integer64 <- function(x, method = NULL, ...) {
   if (is.null(method)) {
     if (is.null(cache_env)) {
       method <- "sortorderrnk"
-    } else if (exists("order", envir=cache_env, inherits=FALSE)) {
-      if (exists("sort", envir=cache_env, inherits=FALSE))
+    } else if (!is.null(cache_env$order)) {
+      if (!is.null(cache_env$sort))
         method <- "sortorderrnk"
       else
         method <- "orderrnk"
@@ -2458,7 +2469,7 @@ rank.integer64 <- function(x, method = NULL, ...) {
   method <- match.arg(method, c("sortorderrnk", "orderrnk"))
   switch(method,
     sortorderrnk={
-      if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE) || !exists("order", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$sort) || is.null(cache_env$order)) {
         s <- clone(x)
         o <- seq_along(x)
         na.count <- ramsortorder(s, o, na.last=FALSE)
@@ -2470,7 +2481,7 @@ rank.integer64 <- function(x, method = NULL, ...) {
       p <- sortorderrnk(s, o, na.count)
     },
     orderrnk={
-      if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$order)) {
         o <- seq_along(x)
         na.count <- ramorder(x, o, na.last=FALSE)
       } else {
@@ -2578,9 +2589,9 @@ qtile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), names = TRUE, method
   if (is.null(method)) {
     if (is.null(cache_env))
       method <- "sortqtl"
-    else if (exists("sort", envir=cache_env, inherits=FALSE))
+    else if (!is.null(cache_env$sort))
       method <- "sortqtl"
-    else if (exists("order", envir=cache_env, inherits=FALSE))
+    else if (!is.null(cache_env$order))
       method <- "orderqtl"
     else
       method <- "sortqtl"
@@ -2588,7 +2599,7 @@ qtile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), names = TRUE, method
   method <- match.arg(method, c("sortqtl", "orderqtl"))
   switch(method,
     sortqtl={
-      if (is.null(cache_env) || !exists("sort", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$sort)) {
         s <- clone(x)
         na.count <- ramsort(s, na.last=FALSE)
       } else {
@@ -2598,7 +2609,7 @@ qtile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), names = TRUE, method
       qs <- sortqtl(s, na.count, probs)
     },
     orderqtl={
-      if (is.null(cache_env) || !exists("order", cache_env, inherits=FALSE)) {
+      if (is.null(cache_env) || is.null(cache_env$order)) {
         o <- seq_along(x)
         na.count <- ramorder(x, o, na.last=FALSE)
       } else {
