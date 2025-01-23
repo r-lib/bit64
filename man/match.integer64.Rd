@@ -85,7 +85,7 @@ stopifnot(identical("\%in\%.integer64"(x, table), as.integer(x) \%in\% as.intege
     e <- 4:24
     timx <- timy <- matrix(NA, length(e), length(e), dimnames=list(e,e))
     for (iy in seq_along(e))
-    for (ix in 1:iy){
+    for (ix in 1:iy) {
         nx <- 2^e[ix]
         ny <- 2^e[iy]
         x <- as.integer64(sample(ny, nx, FALSE))

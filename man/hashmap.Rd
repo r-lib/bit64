@@ -86,7 +86,8 @@ hashmapupo(x, ...)
 
 \item{...}{further arguments, passed from generics, ignored in methods}
 
-\item{minfac}{minimum factor by which the hasmap has more elements compared to the data \code{x}, ignored if \code{hashbits} is given directly}
+\item{minfac}{minimum factor by which the hasmap has more elements compared to the data \code{x},
+ignored if \code{hashbits} is given directly}
 
 \item{hashbits}{length of hashmap is \code{2^hashbits}}
 
@@ -96,7 +97,9 @@ hashmapupo(x, ...)
 
 \item{nomatch}{the value to be returned if an element is not found in the hashmap}
 
-\item{keep.order}{determines order of results and speed: \code{FALSE} (the default) is faster and returns in the (pseudo)random order of the hash function, \code{TRUE} returns in the order of first appearance in the original data, but this requires extra work}
+\item{keep.order}{determines order of results and speed: \code{FALSE} (the default) is faster and returns in the
+(pseudo)random order of the hash function, \code{TRUE} returns in the order of first appearance in the original
+data, but this requires extra work}
 }
 \value{
 See Details
@@ -171,7 +174,7 @@ stopifnot(identical(hashtab(hy), hashmaptab(y)))
     bits <- 24
     b <- seq(-1, 0, 0.1)
     tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits","bits+1")))
-    for (i in 1:length(b)){
+    for (i in 1:length(b)) {
       n <- as.integer(2^(bits+b[i]))
       x <- as.integer64(sample(n))
       tim[i,1] <- repeat.time(hashmap(x, hashbits=bits))[3]

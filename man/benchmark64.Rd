@@ -132,8 +132,8 @@ print(optimizer64.data)
 oldpar <- par(no.readonly = TRUE)
 par(mfrow=c(2,1))
 par(cex=0.7)
-for (i in 1:nrow(optimizer64.data)){
- for (j in 1:2){
+for (i in 1:nrow(optimizer64.data)) {
+ for (j in 1:2) {
    tim <- optimizer64.data[[i,j]]
   barplot(t(tim))
   if (rownames(optimizer64.data)[i]=="match")
