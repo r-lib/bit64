@@ -47,10 +47,9 @@ Summary functions for integer64 vectors. Function 'range' without arguments
 returns the smallest and largest value of the 'integer64' class.
 }
 \details{
-The numerical summary methods always return \code{integer64}. Therefore the
-methods for \code{min},\code{max} and \code{range} do not return \verb{+Inf,-Inf} on empty
-arguments, but \verb{+9223372036854775807, -9223372036854775807} (in this sequence).
-The same is true if only  \code{NA}s are submitted with argument \code{na.rm=TRUE}.
+The numerical summary methods always return \code{integer64}. Wherever integer methods would
+return \code{Inf} (or its negation), here the extreme 64-bit integer \code{9223372036854775807} is
+returned. See \code{\link[=min]{min()}} for more details about the behavior.
 
 \code{lim.integer64} returns these limits in proper order
 \verb{-9223372036854775807, +9223372036854775807} and without a \code{\link[=warning]{warning()}}.

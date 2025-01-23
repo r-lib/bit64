@@ -207,10 +207,9 @@ NULL
 #'   compatibility with [range.default()])
 #'
 #' @details
-#' The numerical summary methods always return `integer64`. Therefore the
-#'   methods for `min`,`max` and `range` do not return `+Inf,-Inf` on empty
-#'   arguments, but `+9223372036854775807, -9223372036854775807` (in this sequence).
-#'   The same is true if only  `NA`s are submitted with argument `na.rm=TRUE`.
+#' The numerical summary methods always return `integer64`. Wherever integer methods would
+#'   return `Inf` (or its negation), here the extreme 64-bit integer `9223372036854775807` is
+#'   returned. See [min()] for more details about the behavior.
 #'
 #' `lim.integer64` returns these limits in proper order
 #'   `-9223372036854775807, +9223372036854775807` and without a [warning()].
