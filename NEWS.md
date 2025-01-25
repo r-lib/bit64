@@ -1,21 +1,5 @@
 # bit64 4.7.99 (in development)
 
-## BREAKING CHANGES
-
-1. {bit64} no longer `Depends` on {bit}; instead it `Imports` it. Please file an issue if this
-  affects you before release; I plan to have {bit64} temporarily re-export some objects from {bit}
-  to minimize the number of downstream packages/scripts adversely affected.
-
-  Here I copy the advice from 4.6.0-1 about how to adapt to this as a user depending on {bit64} if
-  it affects you:
-
-  Users relying on this in scripts can (1) write `library(bit)` to attach {bit} explicitly or
-  (2) namespace-qualify all {bit} calls with `bit::`.
-  
-  Package authors relying on this can (1) add `import(bit)` to make the full {bit} namespace
-  available or (2) namespace-qualify all {bit} calls with `bit::`; adding {bit} to `Imports:` or
-  `Suggests:` will also be necessary.
-
 ## NOTES
 
 1. {bit64} no longer prints any start-up messages through an `.onAttach()` hook (#106). Thanks @hadley for the request.

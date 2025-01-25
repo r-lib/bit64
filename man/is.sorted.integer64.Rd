@@ -57,10 +57,10 @@ relevant memory footprint.
 \examples{
  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
  length(x)
- bit::na.count(x)
- bit::nvalid(x)
- bit::nunique(x)
- bit::nties(x)
+ na.count(x)
+ nvalid(x)
+ nunique(x)
+ nties(x)
  table.integer64(x)
  x
 

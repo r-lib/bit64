@@ -81,7 +81,6 @@ stopifnot(identical(match.integer64(x, table), match(as.integer(x), as.integer(t
 stopifnot(identical("\%in\%.integer64"(x, table), as.integer(x) \%in\% as.integer(table)))
 
 \dontrun{
-    library(bit)
     message("check when reverse hash-lookup beats standard hash-lookup")
     e <- 4:24
     timx <- timy <- matrix(NA, length(e), length(e), dimnames=list(e,e))

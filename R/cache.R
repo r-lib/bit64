@@ -40,9 +40,9 @@
 #' @examples
 #'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #'   y <- x
-#'   bit::still.identical(x,y)
+#'   still.identical(x,y)
 #'   y[1] <- NA
-#'   bit::still.identical(x,y)
+#'   still.identical(x,y)
 #'   mycache <- newcache(x)
 #'   ls(mycache)
 #'   mycache
@@ -59,6 +59,10 @@
 #' @keywords environment
 #' @name cache
 NULL
+
+#still.identical <- function(x, y) {
+#  .Call(C_r_ram_truly_identical, x = x, y = y, PACKAGE = "bit64")
+#}
 
 #' @describeIn cache creates a new cache referencing  `x`
 #' @export
@@ -79,7 +83,7 @@ jamcache <- function(x) {
   if (is.null(cache)) {
     cache <- newcache(x)
     setattr(x, "cache", cache)
-  } else if (!still.identical(x, get("x", envir=cache, inherits=FALSE))) {
+  } else if (!bit::still.identical(x, get("x", envir=cache, inherits=FALSE))) {
     cache <- newcache(x)
     setattr(x, "cache", cache)
     warning("replaced outdated cache with empty cache")
@@ -92,7 +96,7 @@ jamcache <- function(x) {
 #' @export
 cache <- function(x) {
   cache <- attr(x, "cache")
-  if (is.null(cache) || still.identical(x, get("x", envir=cache, inherits=FALSE))) {
+  if (is.null(cache) || bit::still.identical(x, get("x", envir=cache, inherits=FALSE))) {
     cache
   } else {
     remcache(x)
@@ -117,7 +121,7 @@ getcache <- function(x, which) {
     cache <- attr(x, "cache")
     if (is.null(cache))
       return(NULL)
-    if (still.identical(x, get("x", envir=cache, inherits=FALSE))) {
+    if (bit::still.identical(x, get("x", envir=cache, inherits=FALSE))) {
         if (exists(which, envir=cache, inherits=FALSE))
             get(which, envir=cache, inherits=FALSE)
         else
@@ -304,10 +308,10 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time") {
 #' @examples
 #'  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #'  length(x)
-#'  bit::na.count(x)
-#'  bit::nvalid(x)
-#'  bit::nunique(x)
-#'  bit::nties(x)
+#'  na.count(x)
+#'  nvalid(x)
+#'  nunique(x)
+#'  nties(x)
 #'  table.integer64(x)
 #'  x
 #'
