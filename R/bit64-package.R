@@ -693,7 +693,7 @@
 #'   mergesort mergesortorder na.count nties nunique nvalid quickorder
 #'   quicksort quicksortorder radixorder radixsort radixsortorder ramorder
 #'   ramsort ramsortorder repeat.time setattr shellorder shellsort
-#'   shellsortorder xor
+#'   shellsortorder still.identical xor
 #' @importFrom graphics barplot par title
 #' @importFrom methods as is
 #' @importFrom stats cor median quantile
