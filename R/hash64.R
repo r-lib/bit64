@@ -131,6 +131,7 @@ hashfun.integer64 <- function(x, minfac=1.41, hashbits=NULL, ...) {
 #' @rdname hashmap
 #' @export
 hashmap <- function(x, ...) UseMethod("hashmap")
+
 #' @rdname hashmap
 #' @export
 hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache=NULL, ...) {
@@ -157,7 +158,7 @@ hashmap.integer64 <- function(x, nunique=NULL, minfac=1.41, hashbits=NULL, cache
   if (is.null(cache))
       cache <- newcache(x)
   else
-    if (!bit::still.identical(x, get("x", envir=cache, inherits=FALSE)))
+    if (!still.identical(x, get("x", envir=cache, inherits=FALSE)))
           stop("vector 'x' dissociated from cache")
   assign("hashmap", hashmap, envir=cache)
   assign("hashbits", hashbits, envir=cache)
