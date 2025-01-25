@@ -258,8 +258,8 @@ provided by package ff, <code><a href="sort.integer64.html">sort.integer64()</a>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [29] &lt;NA&gt; &lt;NA&gt; 8    8   </span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"ramsort example"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ramsort example</span>
-<span class="r-in"><span>  <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/bit/man/clone.html" class="external-link">clone</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/bit/man/Sorting.html" class="external-link">ramsort</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu">bit</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/clone.html" class="external-link">clone</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">bit</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/Sorting.html" class="external-link">ramsort</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12</span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"s has been changed in-place - whether or not ramsort uses an in-place algorithm"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> s has been changed in-place - whether or not ramsort uses an in-place algorithm</span>
@@ -270,9 +270,9 @@ provided by package ff, <code><a href="sort.integer64.html">sort.integer64()</a>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [29] 8    8    8    9   </span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"ramorder example"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ramorder example</span>
-<span class="r-in"><span>  <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/bit/man/clone.html" class="external-link">clone</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu">bit</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/clone.html" class="external-link">clone</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/bit/man/Sorting.html" class="external-link">ramorder</a></span><span class="op">(</span><span class="va">s</span>, <span class="va">o</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">bit</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/Sorting.html" class="external-link">ramorder</a></span><span class="op">(</span><span class="va">s</span>, <span class="va">o</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12</span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"o has been changed in-place - s remains unchanged"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> o has been changed in-place - s remains unchanged</span>
@@ -292,7 +292,7 @@ provided by package ff, <code><a href="sort.integer64.html">sort.integer64()</a>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"ramsortorder example"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ramsortorder example</span>
 <span class="r-in"><span>  <span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/bit/man/Sorting.html" class="external-link">ramsortorder</a></span><span class="op">(</span><span class="va">s</span>, <span class="va">o</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">bit</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/Sorting.html" class="external-link">ramsortorder</a></span><span class="op">(</span><span class="va">s</span>, <span class="va">o</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12</span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"s and o have both been changed in-place - this is much faster"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> s and o have both been changed in-place - this is much faster</span>

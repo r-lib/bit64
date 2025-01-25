@@ -40,19 +40,19 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'integer64'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">na.count</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">na.count</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'integer64'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">nvalid</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">nvalid</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'integer64'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">is.sorted</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">is.sorted</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'integer64'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">nunique</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">nunique</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'integer64'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">nties</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">nties</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -74,7 +74,7 @@
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>All these functions benefit from a <code><a href="hashcache.html">sortcache()</a></code>, <code><a href="hashcache.html">ordercache()</a></code> or
-<code><a href="hashcache.html">sortordercache()</a></code>. <code><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">na.count()</a></code>, <code><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">nvalid()</a></code> and <code><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">nunique()</a></code> also
+<code><a href="hashcache.html">sortordercache()</a></code>. <code>na.count()</code>, <code>nvalid()</code> and <code>nunique()</code> also
 benefit from a <code><a href="hashcache.html">hashcache()</a></code>.</p>
     </div>
     <div class="section level2">
@@ -104,13 +104,13 @@ relevant memory footprint.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span> <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="as.integer64.character.html">as.integer64</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">9</span><span class="op">)</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span>, <span class="fl">32</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 32</span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">na.count</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu">bit</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">na.count</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16</span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">nvalid</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu">bit</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">nvalid</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16</span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">nunique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu">bit</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">nunique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9</span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">nties</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu">bit</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bit/man/Metadata.html" class="external-link">nties</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 30</span>
 <span class="r-in"><span> <span class="fu"><a href="table.integer64.html">table.integer64</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> x</span>
