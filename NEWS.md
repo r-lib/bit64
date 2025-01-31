@@ -16,24 +16,13 @@
   available or (2) namespace-qualify all {bit} calls with `bit::`; adding {bit} to `Imports:` or
   `Suggests:` will also be necessary.
 
-1. The following S3 methods now generate a warning if called directly (but not if called properly,
+2. The following S3 methods now generate a warning if called directly (but not if called properly,
    i.e. _via_ S3 dispatch on the generic):
 
    `:.default`, `:.integer64`, `[.integer64`, `[[.integer64`, `[[<-.integer64`, `%in%.default`, `%in%.integer64`, `length<-.integer64`, `all.equal.integer64`, `as.bitstring.integer64`, `as.integer64.factor`, `as.integer64.integer64`, `as.integer64.NULL`, `as.list.integer64`, `as.logical.integer64`, `cbind.integer64`, `diff.integer64`, `duplicated.integer64`, `hashdup.cache_integer64`, `hashfin.cache_integer64`, `hashfun.integer64`, `hashmap.integer64`, `hashmaptab.integer64`, `hashmapuni.integer64`, `hashmapupo.integer64`, `hashpos.cache_integer64`, `hashrev.cache_integer64`, `hashrin.cache_integer64`, `hashtab.cache_integer64`, `hashuni.cache_integer64`, `hashupo.cache_integer64`, `is.double.default`, `is.double.integer64`, `is.finite.integer64`, `is.infinite.integer64`, `is.nan.integer64`, `is.sorted.integer64`, `is.vector.integer64`, `keypos.integer64`, `match.default`, `match.integer64`, `mean.integer64`, `median.integer64`, `mergeorder.integer64`, `mergesort.integer64`, `mergesortorder.integer64`, `na.count.integer64`, `nties.integer64`, `nunique.integer64`, `nvalid.integer64`, `order.default`, `order.integer64`, `orderdup.integer64`, `orderfin.integer64`, `orderkey.integer64`, `ordernut.integer64`, `orderpos.integer64`, `orderqtl.integer64`, `orderrnk.integer64`, `ordertab.integer64`, `ordertie.integer64`, `orderuni.integer64`, `orderupo.integer64`, `prank.integer64`, `print.bitstring`, `qtile.integer64`, `quantile.integer64`, `quickorder.integer64`, `quicksort.integer64`, `quicksortorder.integer64`, `radixorder.integer64`, `radixsort.integer64`, `radixsortorder.integer64`, `ramorder.integer64`, `ramsort.integer64`, `ramsortorder.integer64`, `rank.default`, `rbind.integer64`, `scale.integer64`, `shellorder.integer64`, `shellsort.integer64`, `shellsortorder.integer64`, `sort.integer64`, `sortfin.integer64`, `sortnut.integer64`, `sortorderdup.integer64`, `sortorderkey.integer64`, `sortorderpos.integer64`, `sortorderrnk.integer64`, `sortordertab.integer64`, `sortordertie.integer64`, `sortorderuni.integer64`, `sortorderupo.integer64`, `sortqtl.integer64`, `sorttab.integer64`, `sortuni.integer64`, `summary.integer64`, `table.integer64`, `tiepos.integer64`, `unipos.integer64`
 
    As noted in the notes for 4.6.0-1, there was no recorded instance of users calling these methods
    directly on GitHub; in the next release, they will be removed from the NAMESPACE.
-
-1. The following S3 methods were directly removed from the NAMESPACE:
-
-   `-.integer64`, `!.integer64`, `!=.integer64`, `*.integer64`, `/.integer64`, `&.integer64`, `%/%.integer64`, `%%.integer64`, `^.integer64`, `+.integer64`, `<.integer64`, `<=.integer64`, `==.integer64`, `>.integer64`, `>=.integer64`, `|.integer64`, `ceiling.integer64`, `cummax.integer64`, `cummin.integer64`, `cumprod.integer64`, `cumsum.integer64`, `floor.integer64`, `log10.integer64`, `log2.integer64`, `prod.integer64`, `range.integer64`, `round.integer64`, `sign.integer64`, `signif.integer64`, `sqrt.integer64`, `trunc.integer64`
-
-   Owing to a quirk in R, it is not possible to pursue the same strategy for these methods as for
-   those mentioned above because it is not possible to inspect the call stack to distinguish whether
-   the corresponding generic was invoked or the method was invoked directly.
-
-   Because there was no recorded direct usage for any of these, I am opting to just rip the band-aid
-   off and un-export them in this release as opposed to waiting a full cycle more to do so.
 
 ## NOTES
 
