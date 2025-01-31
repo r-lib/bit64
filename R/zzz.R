@@ -11,7 +11,6 @@
 .onUnload <- function(libpath) {
   library.dynam.unload("bit64", libpath)
 }
-# nocov end
 
 generic_call_in_stack <- function(generic_name) {
   calls = sys.calls()
@@ -230,3 +229,4 @@ deprecate_exported_s3_methods(
   # trunc.integer64,
   unipos.integer64
 )
+# nocov end
