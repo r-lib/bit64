@@ -15,19 +15,35 @@
 
 generic_call_in_stack <- function(generic_name) {
   calls = sys.calls()
-  for (jj in length(calls):1) { # nolint: seq_linter. Guaranteed length>=1.
+  # we define `:.default` --> avoid infinite loop
+  for (jj in base::`:`(length(calls), 1L)) {
     if (identical(calls[[jj]][[1L]], as.name(generic_name))) return(TRUE)
   }
-  return(FALSE)
+  FALSE
 }
 
 # some, but not all, primitives are totally absent from sys.calls(). try
 #   and separate these two classes of is.primitive functions
-generic_appears_in_stack  = function(generic_name) {
-  generic <- get(generic_name)
+primitive_generic_appears_in_stack  = function(generic_name) {
+  generic = get(generic_name)
+  generic_nm = as.name(generic_name)
   if (!is.primitive(generic)) return(TRUE)
 
-  ...
+  fake_method = paste0(generic_name, ".xxx")
+  eval(bquote({
+    .(fake_method) = function(...) {
+      sc = sys.calls()
+      would_be_generic_call = sc[[length(sc) - 1L]]
+      identical(would_be_generic_call[[1L]], .(generic_nm))
+    }
+    generic_args = args(generic)
+    n_args = if (is.null(generic_args)) 1L else length(formals(generic_args))
+    call_args = vector("list", n_args)
+    d = 1L
+    class(d) = "xxx"
+    call_args[[1L]] = d
+    do.call(.(generic_nm), call_args)
+  }))
 }
 
 deprecate_exported_s3_methods <- function(..., verbose=FALSE) {
@@ -47,10 +63,8 @@ deprecate_exported_s3_methods <- function(..., verbose=FALSE) {
     method_name <- method_names[ii]
     generic_name <- generic_method[1L, ii]
 
-    if (!is.function(method)) stop(method_name, " is not a function.")
-
     # call stack may/may not work correctly for primitives. optionally report what's skipped.
-    if (!generic_appears_in_stack(generic_name)) {
+    if (!primitive_generic_appears_in_stack(generic_name)) {
       if (verbose) primitives = c(primitives, generic_name)
       next
     }
@@ -77,34 +91,36 @@ deprecate_exported_s3_methods <- function(..., verbose=FALSE) {
     assign(method_name, method, envir = parent.frame())
   }
 
-  if (verbose) cat(sprintf("Skipped these primitive functions: %s\n", toString(sort(unique(primitives)))))
+  if (verbose && length(primitives))
+    cat(sprintf("Skipped these primitive functions: %s\n", toString(sort(unique(primitives)))))
   invisible()
 }
 
+# commented out: those primitives which don't appear in the call stack
 deprecate_exported_s3_methods(
-  `-.integer64`,
+  # `-.integer64`,
   `:.default`,
   `:.integer64`,
-  `!.integer64`,
-  `!=.integer64`,
+  # `!.integer64`,
+  # `!=.integer64`,
   `[.integer64`,
   `[[.integer64`,
   `[[<-.integer64`,
-  `*.integer64`,
-  `/.integer64`,
-  `&.integer64`,
-  `%/%.integer64`,
-  `%%.integer64`,
+  # `*.integer64`,
+  # `/.integer64`,
+  # `&.integer64`,
+  # `%/%.integer64`,
+  # `%%.integer64`,
   `%in%.default`,
   `%in%.integer64`,
-  `^.integer64`,
-  `+.integer64`,
-  `<.integer64`,
-  `<=.integer64`,
-  `==.integer64`,
-  `>.integer64`,
-  `>=.integer64`,
-  `|.integer64`,
+  # `^.integer64`,
+  # `+.integer64`,
+  # `<.integer64`,
+  # `<=.integer64`,
+  # `==.integer64`,
+  # `>.integer64`,
+  # `>=.integer64`,
+  # `|.integer64`,
   `length<-.integer64`,
   all.equal.integer64,
   as.bitstring.integer64,
@@ -114,14 +130,14 @@ deprecate_exported_s3_methods(
   as.list.integer64,
   as.logical.integer64,
   cbind.integer64,
-  ceiling.integer64,
-  cummax.integer64,
-  cummin.integer64,
-  cumprod.integer64,
-  cumsum.integer64,
+  # ceiling.integer64,
+  # cummax.integer64,
+  # cummin.integer64,
+  # cumprod.integer64,
+  # cumsum.integer64,
   diff.integer64,
   duplicated.integer64,
-  floor.integer64,
+  # floor.integer64,
   hashdup.cache_integer64,
   hashfin.cache_integer64,
   hashfun.integer64,
@@ -143,8 +159,8 @@ deprecate_exported_s3_methods(
   is.sorted.integer64,
   is.vector.integer64,
   keypos.integer64,
-  log10.integer64,
-  log2.integer64,
+  # log10.integer64,
+  # log2.integer64,
   match.default,
   match.integer64,
   mean.integer64,
@@ -171,7 +187,7 @@ deprecate_exported_s3_methods(
   orderupo.integer64,
   prank.integer64,
   print.bitstring,
-  prod.integer64,
+  # prod.integer64,
   qtile.integer64,
   quantile.integer64,
   quickorder.integer64,
@@ -183,16 +199,16 @@ deprecate_exported_s3_methods(
   ramorder.integer64,
   ramsort.integer64,
   ramsortorder.integer64,
-  range.integer64,
+  # range.integer64,
   rank.default,
   rbind.integer64,
-  round.integer64,
+  # round.integer64,
   scale.integer64,
   shellorder.integer64,
   shellsort.integer64,
   shellsortorder.integer64,
-  sign.integer64,
-  signif.integer64,
+  # sign.integer64,
+  # signif.integer64,
   sort.integer64,
   sortfin.integer64,
   sortnut.integer64,
@@ -207,11 +223,10 @@ deprecate_exported_s3_methods(
   sortqtl.integer64,
   sorttab.integer64,
   sortuni.integer64,
-  sqrt.integer64,
+  # sqrt.integer64,
   summary.integer64,
   table.integer64,
   tiepos.integer64,
-  trunc.integer64,
-  unipos.integer64,
-  verbose=TRUE
+  # trunc.integer64,
+  unipos.integer64
 )
