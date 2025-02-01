@@ -42,4 +42,7 @@ src/*.dll
 doc
 Meta
 
+# testthat artifacts
+tests/testthat/testthat-problems.rds
+
 docs
