@@ -108,3 +108,55 @@ test_that("mergesort method for integer64 works", {
     }
   }
 })
+
+test_that("radixsort method for integer64 works", {
+  x = as.integer64(1:10)
+
+  for (na.last in c(FALSE, TRUE)) {
+    for (decreasing in c(FALSE, TRUE)) {
+      for (n_missing in 0:2) {
+        na_entries = rep(NA_integer64_, n_missing)
+        y = sample(c(x, na_entries))
+        expect_identical(radixsort(y, decreasing=decreasing, na.last=na.last), n_missing)
+        # TODO(#154): Drop explicit 'else' branches
+        expected_value = c(
+          if (na.last) integer64() else na_entries,
+          if (decreasing) rev(x) else x,
+          if (na.last) na_entries else integer64()
+        )
+        expect_identical(y, expected_value,
+          info=sprintf(
+            "(na.last, decreasing, n_missing)=(%s, %s, %d)",
+            na.last, decreasing, n_missing
+          )
+        )
+      }
+    }
+  }
+})
+
+test_that("quicksort method for integer64 works", {
+  x = as.integer64(1:10)
+
+  for (na.last in c(FALSE, TRUE)) {
+    for (decreasing in c(FALSE, TRUE)) {
+      for (n_missing in 0:2) {
+        na_entries = rep(NA_integer64_, n_missing)
+        y = sample(c(x, na_entries))
+        expect_identical(quicksort(y, decreasing=decreasing, na.last=na.last), n_missing)
+        # TODO(#154): Drop explicit 'else' branches
+        expected_value = c(
+          if (na.last) integer64() else na_entries,
+          if (decreasing) rev(x) else x,
+          if (na.last) na_entries else integer64()
+        )
+        expect_identical(y, expected_value,
+          info=sprintf(
+            "(na.last, decreasing, n_missing)=(%s, %s, %d)",
+            na.last, decreasing, n_missing
+          )
+        )
+      }
+    }
+  }
+})
