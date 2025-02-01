@@ -48,48 +48,38 @@ static const ValueT shellincs[SHELLARRAYSIZE] = {1073790977, 268460033, 67121153
 
 /* { === NA handling for integer64 ================================================ */
 
-// post sorting NA handling
-int ram_integer64_fixsortNA(
-  ValueT *data       // RETURNED: pointer to data vector
-, IndexT n           // length of data vector
-, int has_na         // 0 for pure doubles, 1 if NA or NaN can be present
-, int na_last        // 0 for placing NA NaN left, 1 for placing NA NaN right
-, int decreasing     // 0 for ascending, 1 for descending (must match the same parameter in sorting)
-)
-{
-  if (has_na){
-    IndexT i,nNA = 0 ;
-    if (decreasing){
-    for (i=n-1; i>=0; i--){
+int ram_integer64_fixsortNA(ValueT *data, IndexT n, int has_na, int na_last, int decreasing) {
+  if (!has_na)
+    return 0;
+  IndexT i, nNA = 0;
+  if (decreasing) {
+    for (i=n-1; i>=0; i--) {
       if (ISNA_INTEGER64(data[i]))
-      nNA++;
-    else
-      break;
+        nNA++;
+      else
+        break;
     }
-    if (!na_last){
-      for (;i>=0; i--)
-      data[i+nNA] = data[i];
+    if (!na_last) {
+      for (; i>=0; i--)
+        data[i+nNA] = data[i];
       for (i=nNA-1;i>=0; i--)
-      data[i] = NA_INTEGER64;
+        data[i] = NA_INTEGER64;
     }
-  }else{
-    for (i=0; i<n; i++){
+  } else {
+    for (i=0; i<n; i++) {
       if (ISNA_INTEGER64(data[i]))
-      nNA++;
-    else
-      break;
+        nNA++;
+      else
+        break;
     }
-    if (na_last){
-      for (;i<n; i++)
-      data[i-nNA] = data[i];
-      for (i=n-nNA;i<n; i++)
-      data[i] = NA_INTEGER64;
+    if (na_last) {
+      for (; i<n; i++)
+        data[i-nNA] = data[i];
+      for (i=n-nNA; i<n; i++)
+        data[i] = NA_INTEGER64;
     }
   }
   return nNA;
-  }else{
-    return 0;
-  }
 }
 
 // post sortordering NA handling
