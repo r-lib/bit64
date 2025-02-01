@@ -90,6 +90,10 @@ test_that("arithmetic & basic math works", {
   expect_identical(round(x), x)
 
   expect_identical(round(x, -1L), as.integer64(rep(c(0L, 10L), each=5L)))
+
+  # regression snuck through, caught by #149
+  expect_identical(as.integer64(1L) * 1:5, as.integer64(1:5))
+  expect_identical(1:5 * as.integer64(1L), as.integer64(1:5))
 })
 
 test_that("basic statistics work", {

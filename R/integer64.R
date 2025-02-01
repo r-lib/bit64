@@ -1070,6 +1070,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 }
 
 #' @rdname xor.integer64
+#' @export
 `+.integer64` <- function(e1, e2) {
   if (missing(e2))
     return(e1)
@@ -1087,6 +1088,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 }
 
 #' @rdname xor.integer64
+#' @export
 `-.integer64` <- function(e1, e2) {
   if (missing(e2)) {
     e2 <- e1
@@ -1106,6 +1108,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 }
 
 #' @rdname xor.integer64
+#' @export
 `%/%.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
@@ -1121,6 +1124,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 }
 
 #' @rdname xor.integer64
+#' @export
 `%%.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
@@ -1136,6 +1140,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 }
 
 #' @rdname xor.integer64
+#' @export
 `*.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   l1 <- length(e1)
@@ -1162,6 +1167,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 }
 
 #' @rdname xor.integer64
+#' @export
 `^.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   l1 <- length(e1)
@@ -1178,6 +1184,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 }
 
 #' @rdname xor.integer64
+#' @export
 `/.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   l1 <- length(e1)
@@ -1205,6 +1212,7 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
 
 
 #' @rdname format.integer64
+#' @export
 sign.integer64 <- function(x) {
   a <- attributes(x)
   ret <- .Call(C_sign_integer64, x, double(length(x)))
@@ -1222,6 +1230,7 @@ abs.integer64 <- function(x) {
 }
 
 #' @rdname format.integer64
+#' @export
 sqrt.integer64 <- function(x) {
   a <- attributes(x)
   ret <- .Call(C_sqrt_integer64, x, double(length(x)))
@@ -1251,6 +1260,7 @@ log.integer64 <- function(x, base=NULL) {
 }
 
 #' @rdname format.integer64
+#' @export
 log10.integer64 <- function(x) {
   a <- attributes(x)
   ret <- .Call(C_log10_integer64, x, double(length(x)))
@@ -1260,6 +1270,7 @@ log10.integer64 <- function(x) {
 }
 
 #' @rdname format.integer64
+#' @export
 log2.integer64 <- function(x) {
   a <- attributes(x)
   ret <- .Call(C_log2_integer64, x, double(length(x)))
@@ -1269,15 +1280,17 @@ log2.integer64 <- function(x) {
 }
 
 #' @rdname format.integer64
+#' @export
 trunc.integer64 <- function(x, ...) x
-
 #' @rdname format.integer64
+#' @export
 floor.integer64 <- function(x) x
-
 #' @rdname format.integer64
+#' @export
 ceiling.integer64 <- function(x) x
 
 #' @rdname format.integer64
+#' @export
 signif.integer64 <- function(x, digits=6L) x
 
 #' @rdname format.integer64
@@ -1287,6 +1300,7 @@ scale.integer64 <- function(x, center = TRUE, scale = TRUE) {
 }
 
 #' @rdname format.integer64
+#' @export
 round.integer64 <- function(x, digits=0L) {
   if (digits >= 0L) return(x)
   a <- attributes(x)
@@ -1355,6 +1369,7 @@ sum.integer64 = function(..., na.rm=FALSE) {
 }
 
 #' @rdname sum.integer64
+#' @export
 prod.integer64 <- function(..., na.rm=FALSE) {
   l = list(...)
   if (length(l) == 1L) {
@@ -1421,6 +1436,7 @@ max.integer64 = function(..., na.rm=FALSE) {
 }
 
 #' @rdname sum.integer64
+#' @export
 range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
   if (finite)
     na.rm = TRUE
@@ -1480,13 +1496,14 @@ diff.integer64 <- function(x, lag=1L, differences=1L, ...) {
 }
 
 #' @rdname cumsum.integer64
+#' @export
 cummin.integer64 <- function(x) {
   ret <- .Call(C_cummin_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
   ret
 }
-
 #' @rdname cumsum.integer64
+#' @export
 cummax.integer64 <- function(x) {
   ret <- .Call(C_cummax_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
@@ -1494,6 +1511,7 @@ cummax.integer64 <- function(x) {
 }
 
 #' @rdname cumsum.integer64
+#' @export
 cumsum.integer64 <- function(x) {
   ret <- .Call(C_cumsum_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
@@ -1501,6 +1519,7 @@ cumsum.integer64 <- function(x) {
 }
 
 #' @rdname cumsum.integer64
+#' @export
 cumprod.integer64 <- function(x) {
   ret <- .Call(C_cumprod_integer64, x, double(length(x)))
   oldClass(ret) <- "integer64"
@@ -1520,17 +1539,16 @@ is.na.integer64 <- function(x) {
 #' @rdname format.integer64
 #' @export
 is.finite.integer64 <- function(x) !is.na(x)
-
 #' @rdname format.integer64
 #' @export
 is.infinite.integer64 <- function(x) rep(FALSE, length(x))
-
 #' @rdname format.integer64
 #' @export
 is.nan.integer64 <- function(x) rep(FALSE, length(x))
 
 
 #' @rdname xor.integer64
+#' @export
 `==.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
@@ -1546,6 +1564,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 }
 
 #' @rdname xor.integer64
+#' @export
 `!=.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
@@ -1561,6 +1580,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 }
 
 #' @rdname xor.integer64
+#' @export
 `<.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
@@ -1576,6 +1596,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 }
 
 #' @rdname xor.integer64
+#' @export
 `<=.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
@@ -1591,6 +1612,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 }
 
 #' @rdname xor.integer64
+#' @export
 `>.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
@@ -1606,6 +1628,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 }
 
 #' @rdname xor.integer64
+#' @export
 `>=.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   e1 <- as.integer64(e1)
@@ -1621,6 +1644,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 }
 
 #' @rdname xor.integer64
+#' @export
 `&.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   ret <- as.logical(e1) & as.logical(e2)
@@ -1630,6 +1654,7 @@ is.nan.integer64 <- function(x) rep(FALSE, length(x))
 }
 
 #' @rdname xor.integer64
+#' @export
 `|.integer64` <- function(e1, e2) {
   a <- binattr(e1,e2)
   ret <- as.logical(e1) | as.logical(e2)
@@ -1650,6 +1675,7 @@ xor.integer64 <- function(x, y) {
 
 
 #' @rdname format.integer64
+#' @export
 `!.integer64` <- function(x) {
   a <- attributes(x)
   ret <- !as.logical(x)
