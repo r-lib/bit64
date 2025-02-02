@@ -69,14 +69,21 @@ deprecate_exported_s3_methods <- function(..., verbose=FALSE) {
     }
 
     # Prepend the warning check to the function body
-    warning_expr <- bquote(if (!generic_call_in_stack(.(generic_name))) {
-      warning(
-        "Don't call '", .(method_name), "' directly. ",
-        "Instead only call '", .(generic_name), "' and rely on S3 dispatch. ",
-        "In the next version, this symbol will stop being exported.",
-        domain=NA
-      )
-    })
+    warning_expr <- bquote(
+      if (
+        getOption("bit64.warn.exported.s3.method", TRUE) &&
+          !generic_call_in_stack(.(generic_name))
+      ) {
+        warning(
+          "Detected that '", .(method_name), "' was called directly. ",
+          "Instead only call '", .(generic_name), "' and rely on S3 dispatch. ",
+          "To suppress this warning, e.g. if this is a false positive, ",
+          "use options(bit64.warn.exported.s3.method = FALSE). ",
+          "In the next version, this symbol will stop being exported.",
+          domain=NA
+        )
+      }
+    )
 
     # in 'function(x) x', body() is a name --> subsetting breaks
     # if un-braced, as.list() will break up the first (and only) expression
