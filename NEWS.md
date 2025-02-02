@@ -11,7 +11,7 @@
 
   Users relying on this in scripts can (1) write `library(bit)` to attach {bit} explicitly or
   (2) namespace-qualify all {bit} calls with `bit::`.
-  
+
   Package authors relying on this can (1) add `import(bit)` to make the full {bit} namespace
   available or (2) namespace-qualify all {bit} calls with `bit::`; adding {bit} to `Imports:` or
   `Suggests:` will also be necessary.
@@ -68,11 +68,11 @@
 1. {bit64} lists {bit} as `Depends:`. IMO this form of dependency should be deprecated by R now that `Imports:` is widely available and well-supported for many years.
 
   In the next release (provisionally, 4.7.0), I will move bit to Imports. The practical implication is that currently, `library(bit64)` will make {bit} objects like `is.bit()` available for use without namespace-qualification. This practice makes code harder to read and maintain.
-  
+
   Users relying on this in scripts can (1) write `library(bit)` to attach {bit} explicitly or (2) namespace-qualify all {bit} calls with `bit::`.
-  
+
   Package authors relying on this can (1) add `import(bit)` to make the full {bit} namespace available or (2) namespace-qualify all {bit} calls with `bit::`; adding {bit} to `Imports:` or `Suggests:` will also be necessary.
-  
+
   I will reach out to CRAN authors with any required changes. Depending on the impact size, I might make this transition more gradual (e.g. starting by re-exporting some or all {bit} functions from {bit64}, with warning, before un-exporting them in a subsequent release).
 
 ## NEW FEATURES
