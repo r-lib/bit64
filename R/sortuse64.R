@@ -43,7 +43,7 @@
 #'   _binary search_, this is fastest for small `table`s.
 #'
 #' With `method=2L` the values of `x` are first sorted and then searched using
-#'   _doubly exponential search_, this is the best allround method.
+#'   _doubly exponential search_, this is the best all-around method.
 #'
 #' With `method=3L` the values of `x` are first sorted and then searched using
 #'   simple merging, this is the fastest method if `table` is huge and `x` has
