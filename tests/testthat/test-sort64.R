@@ -36,22 +36,26 @@ test_that("ramsort method for integer64 works", {
 
   for (na.last in c(FALSE, TRUE)) {
     for (decreasing in c(FALSE, TRUE)) {
-      for (n_missing in 0:2) {
-        na_entries = rep(NA_integer64_, n_missing)
-        y = sample(c(x, na_entries))
-        expect_identical(ramsort(y, decreasing=decreasing, na.last=na.last), n_missing)
-        # TODO(#154): Drop explicit 'else' branches
-        expected_value = c(
-          if (na.last) integer64() else na_entries,
-          if (decreasing) rev(x) else x,
-          if (na.last) na_entries else integer64()
-        )
-        expect_identical(y, expected_value,
-          info=sprintf(
-            "(na.last, decreasing, n_missing)=(%s, %s, %d)",
-            na.last, decreasing, n_missing
+      for (duplicates in c(FALSE, TRUE)) {
+        for (n_missing in 0:2) {
+          na_entries = rep(NA_integer64_, n_missing)
+          y = sample(c(x, if (duplicates) x[1L], na_entries))
+          expect_identical(ramsort(y, decreasing=decreasing, na.last=na.last), n_missing)
+          # TODO(#154): Drop explicit 'else' branches
+          expected_value = c(
+            if (na.last) integer64() else na_entries,
+            if (duplicates && !decreasing) x[1L],
+            if (decreasing) rev(x) else x,
+            if (duplicates && decreasing) x[1L],
+            if (na.last) na_entries else integer64()
           )
-        )
+          expect_identical(y, expected_value,
+            info=sprintf(
+              "(na.last, decreasing, duplicates, n_missing)=(%s, %s, %s, %d)",
+              na.last, decreasing, duplicates, n_missing
+            )
+          )
+        }
       }
     }
   }
@@ -62,22 +66,26 @@ test_that("shellsort method for integer64 works", {
 
   for (na.last in c(FALSE, TRUE)) {
     for (decreasing in c(FALSE, TRUE)) {
-      for (n_missing in 0:2) {
-        na_entries = rep(NA_integer64_, n_missing)
-        y = sample(c(x, na_entries))
-        expect_identical(shellsort(y, decreasing=decreasing, na.last=na.last), n_missing)
-        # TODO(#154): Drop explicit 'else' branches
-        expected_value = c(
-          if (na.last) integer64() else na_entries,
-          if (decreasing) rev(x) else x,
-          if (na.last) na_entries else integer64()
-        )
-        expect_identical(y, expected_value,
-          info=sprintf(
-            "(na.last, decreasing, n_missing)=(%s, %s, %d)",
-            na.last, decreasing, n_missing
+      for (duplicates in c(FALSE, TRUE)) {
+        for (n_missing in 0:2) {
+          na_entries = rep(NA_integer64_, n_missing)
+          y = sample(c(x, if (duplicates) x[1L], na_entries))
+          expect_identical(shell(y, decreasing=decreasing, na.last=na.last), n_missing)
+          # TODO(#154): Drop explicit 'else' branches
+          expected_value = c(
+            if (na.last) integer64() else na_entries,
+            if (duplicates && !decreasing) x[1L],
+            if (decreasing) rev(x) else x,
+            if (duplicates && decreasing) x[1L],
+            if (na.last) na_entries else integer64()
           )
-        )
+          expect_identical(y, expected_value,
+            info=sprintf(
+              "(na.last, decreasing, duplicates, n_missing)=(%s, %s, %s, %d)",
+              na.last, decreasing, duplicates, n_missing
+            )
+          )
+        }
       }
     }
   }
@@ -88,22 +96,26 @@ test_that("mergesort method for integer64 works", {
 
   for (na.last in c(FALSE, TRUE)) {
     for (decreasing in c(FALSE, TRUE)) {
-      for (n_missing in 0:2) {
-        na_entries = rep(NA_integer64_, n_missing)
-        y = sample(c(x, na_entries))
-        expect_identical(mergesort(y, decreasing=decreasing, na.last=na.last), n_missing)
-        # TODO(#154): Drop explicit 'else' branches
-        expected_value = c(
-          if (na.last) integer64() else na_entries,
-          if (decreasing) rev(x) else x,
-          if (na.last) na_entries else integer64()
-        )
-        expect_identical(y, expected_value,
-          info=sprintf(
-            "(na.last, decreasing, n_missing)=(%s, %s, %d)",
-            na.last, decreasing, n_missing
+      for (duplicates in c(FALSE, TRUE)) {
+        for (n_missing in 0:2) {
+          na_entries = rep(NA_integer64_, n_missing)
+          y = sample(c(x, if (duplicates) x[1L], na_entries))
+          expect_identical(mergesort(y, decreasing=decreasing, na.last=na.last), n_missing)
+          # TODO(#154): Drop explicit 'else' branches
+          expected_value = c(
+            if (na.last) integer64() else na_entries,
+            if (duplicates && !decreasing) x[1L],
+            if (decreasing) rev(x) else x,
+            if (duplicates && decreasing) x[1L],
+            if (na.last) na_entries else integer64()
           )
-        )
+          expect_identical(y, expected_value,
+            info=sprintf(
+              "(na.last, decreasing, duplicates, n_missing)=(%s, %s, %s, %d)",
+              na.last, decreasing, duplicates, n_missing
+            )
+          )
+        }
       }
     }
   }
@@ -114,22 +126,26 @@ test_that("radixsort method for integer64 works", {
 
   for (na.last in c(FALSE, TRUE)) {
     for (decreasing in c(FALSE, TRUE)) {
-      for (n_missing in 0:2) {
-        na_entries = rep(NA_integer64_, n_missing)
-        y = sample(c(x, na_entries))
-        expect_identical(radixsort(y, decreasing=decreasing, na.last=na.last), n_missing)
-        # TODO(#154): Drop explicit 'else' branches
-        expected_value = c(
-          if (na.last) integer64() else na_entries,
-          if (decreasing) rev(x) else x,
-          if (na.last) na_entries else integer64()
-        )
-        expect_identical(y, expected_value,
-          info=sprintf(
-            "(na.last, decreasing, n_missing)=(%s, %s, %d)",
-            na.last, decreasing, n_missing
+      for (duplicates in c(FALSE, TRUE)) {
+        for (n_missing in 0:2) {
+          na_entries = rep(NA_integer64_, n_missing)
+          y = sample(c(x, if (duplicates) x[1L], na_entries))
+          expect_identical(radixsort(y, decreasing=decreasing, na.last=na.last), n_missing)
+          # TODO(#154): Drop explicit 'else' branches
+          expected_value = c(
+            if (na.last) integer64() else na_entries,
+            if (duplicates && !decreasing) x[1L],
+            if (decreasing) rev(x) else x,
+            if (duplicates && decreasing) x[1L],
+            if (na.last) na_entries else integer64()
           )
-        )
+          expect_identical(y, expected_value,
+            info=sprintf(
+              "(na.last, decreasing, duplicates, n_missing)=(%s, %s, %s, %d)",
+              na.last, decreasing, duplicates, n_missing
+            )
+          )
+        }
       }
     }
   }
@@ -140,22 +156,88 @@ test_that("quicksort method for integer64 works", {
 
   for (na.last in c(FALSE, TRUE)) {
     for (decreasing in c(FALSE, TRUE)) {
-      for (n_missing in 0:2) {
-        na_entries = rep(NA_integer64_, n_missing)
-        y = sample(c(x, na_entries))
-        expect_identical(quicksort(y, decreasing=decreasing, na.last=na.last), n_missing)
-        # TODO(#154): Drop explicit 'else' branches
-        expected_value = c(
-          if (na.last) integer64() else na_entries,
-          if (decreasing) rev(x) else x,
-          if (na.last) na_entries else integer64()
-        )
-        expect_identical(y, expected_value,
-          info=sprintf(
-            "(na.last, decreasing, n_missing)=(%s, %s, %d)",
-            na.last, decreasing, n_missing
+      for (duplicates in c(FALSE, TRUE)) {
+        for (n_missing in 0:2) {
+          na_entries = rep(NA_integer64_, n_missing)
+          y = sample(c(x, if (duplicates) x[1L], na_entries))
+          expect_identical(quicksort(y, decreasing=decreasing, na.last=na.last), n_missing)
+          # TODO(#154): Drop explicit 'else' branches
+          expected_value = c(
+            if (na.last) integer64() else na_entries,
+            if (duplicates && !decreasing) x[1L],
+            if (decreasing) rev(x) else x,
+            if (duplicates && decreasing) x[1L],
+            if (na.last) na_entries else integer64()
           )
-        )
+          expect_identical(y, expected_value,
+            info=sprintf(
+              "(na.last, decreasing, duplicates, n_missing)=(%s, %s, %s, %d)",
+              na.last, decreasing, duplicates, n_missing
+            )
+          )
+        }
+      }
+    }
+  }
+})
+
+test_that("shellorder method for integer64 works", {
+  x = as.integer64(1:10)
+
+  for (na.last in c(FALSE, TRUE)) {
+    for (decreasing in c(FALSE, TRUE)) {
+      for (duplicates in c(FALSE, TRUE)) {
+        for (n_missing in 0:2) {
+          na_entries = rep(NA_integer64_, n_missing)
+          y = sample(c(x, if (duplicates) x[1L], na_entries))
+          i = seq_along(y)
+          expect_identical(shellorder(y, i, decreasing=decreasing, na.last=na.last), n_missing)
+          # TODO(#154): Drop explicit 'else' branches
+          expected_value = c(
+            if (na.last) integer64() else na_entries,
+            if (duplicates && !decreasing) x[1L],
+            if (decreasing) rev(x) else x,
+            if (duplicates && decreasing) x[1L],
+            if (na.last) na_entries else integer64()
+          )
+          expect_identical(y[i], expected_value,
+            info=sprintf(
+              "(na.last, decreasing, duplicates, n_missing)=(%s, %s, %s, %d)",
+              na.last, decreasing, duplicates, n_missing
+            )
+          )
+        }
+      }
+    }
+  }
+})
+
+test_that("shellsortorder method for integer64 works", {
+  x = as.integer64(1:10)
+
+  for (na.last in c(FALSE, TRUE)) {
+    for (decreasing in c(FALSE, TRUE)) {
+      for (duplicates in c(FALSE, TRUE)) {
+        for (n_missing in 0:2) {
+          na_entries = rep(NA_integer64_, n_missing)
+          y = sample(c(x, if (duplicates) x[1L], na_entries))
+          i = seq_along(y)
+          expect_identical(shellsortorder(y, i, decreasing=decreasing, na.last=na.last), n_missing)
+          # TODO(#154): Drop explicit 'else' branches
+          expected_value = c(
+            if (na.last) integer64() else na_entries,
+            if (duplicates && !decreasing) x[1L],
+            if (decreasing) rev(x) else x,
+            if (duplicates && decreasing) x[1L],
+            if (na.last) na_entries else integer64()
+          )
+          expect_identical(y, expected_value,
+            info=sprintf(
+              "(na.last, decreasing, duplicates, n_missing)=(%s, %s, %s, %d)",
+              na.last, decreasing, duplicates, n_missing
+            )
+          )
+        }
       }
     }
   }
