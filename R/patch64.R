@@ -81,9 +81,9 @@ NULL
 # OCT 2013: bit64S3() at wish of CRAN maintainers replaced by direct conversion to S3 generics
 # in order to avoid assigning to globalenv
 
-`:` <- function(from,to) UseMethod(":")
+`:` <- function(from, to) UseMethod(":")
 #' @export
-`:.default` <- function(from,to) base::`:`(from,to)
+`:.default` <- function(from, to) base::`:`(from, to)
 
 #' @export
 `:.integer64` <- function(from, to) seq.integer64(from=from, to=to)

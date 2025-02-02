@@ -78,7 +78,7 @@ sortnut <- function(sorted, ...) UseMethod("sortnut")
 #' @export
 sortnut.integer64 <- function(sorted, ...) {
   ret <- .Call(C_r_ram_integer64_sortnut, x = sorted)
-  names(ret) <- c("nunique","nties")
+  names(ret) <- c("nunique", "nties")
   ret
 }
 
@@ -92,7 +92,7 @@ ordernut <- function(table, order, ...) UseMethod("ordernut")
 #' @export
 ordernut.integer64 <- function(table, order, ...) {
   ret <- .Call(C_r_ram_integer64_ordernut, table = as.integer64(table), order = as.integer(order))
-  names(ret) <- c("nunique","nties")
+  names(ret) <- c("nunique", "nties")
   ret
 }
 
