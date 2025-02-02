@@ -70,7 +70,7 @@ test_that("shellsort method for integer64 works", {
         for (n_missing in 0:2) {
           na_entries = rep(NA_integer64_, n_missing)
           y = sample(c(x, if (duplicates) x[1L], na_entries))
-          expect_identical(shell(y, decreasing=decreasing, na.last=na.last), n_missing)
+          expect_identical(shellsort(y, decreasing=decreasing, na.last=na.last), n_missing)
           # TODO(#154): Drop explicit 'else' branches
           expected_value = c(
             if (na.last) integer64() else na_entries,
