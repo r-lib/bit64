@@ -231,6 +231,7 @@ test_that("shellsortorder method for integer64 works", {
             if (duplicates && decreasing) x[1L],
             if (na.last) na_entries else integer64()
           )
+          # TODO(#159): Also add expectations for the update to i
           expect_identical(y, expected_value,
             info=sprintf(
               "(na.last, decreasing, duplicates, n_missing)=(%s, %s, %s, %d)",
