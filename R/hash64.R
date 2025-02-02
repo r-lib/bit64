@@ -71,8 +71,8 @@
 #' hashtab(hy)
 #' hashmaptab(y)
 #'
-#' stopifnot(identical(match(as.integer(x),as.integer(y)),hashpos(hy, x)))
-#' stopifnot(identical(match(as.integer(x),as.integer(y)),hashrev(hx, y)))
+#' stopifnot(identical(match(as.integer(x), as.integer(y)), hashpos(hy, x)))
+#' stopifnot(identical(match(as.integer(x), as.integer(y)), hashrev(hx, y)))
 #' stopifnot(identical(as.integer(x) %in% as.integer(y), hashfin(hy, x)))
 #' stopifnot(identical(as.integer(x) %in% as.integer(y), hashrin(hx, y)))
 #' stopifnot(identical(duplicated(as.integer(y)), hashdup(hy)))
@@ -95,12 +95,12 @@
 #'     message("i.e. more data means less random access and more collisions")
 #'     bits <- 24
 #'     b <- seq(-1, 0, 0.1)
-#'     tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits","bits+1")))
+#'     tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits", "bits+1")))
 #'     for (i in 1:length(b)) {
 #'       n <- as.integer(2^(bits+b[i]))
 #'       x <- as.integer64(sample(n))
-#'       tim[i,1] <- repeat.time(hashmap(x, hashbits=bits))[3]
-#'       tim[i,2] <- repeat.time(hashmap(x, hashbits=bits+1))[3]
+#'       tim[i, 1] <- repeat.time(hashmap(x, hashbits=bits))[3]
+#'       tim[i, 2] <- repeat.time(hashmap(x, hashbits=bits+1))[3]
 #'       print(tim)
 #'       matplot(b, tim)
 #'     }
@@ -275,7 +275,7 @@ hashtab.cache_integer64 <- function(cache, ...) {
   hashdat <- get("x", envir=cache, inherits=FALSE)
   nunique <- get("nunique", envir=cache, inherits=FALSE)
   ret <- .Call(C_hashtab_integer64, hashdat, hashbits, hashmap, nunique)
-  attr(ret, "names") <- c("values","counts")
+  attr(ret, "names") <- c("values", "counts")
   ret
 }
 
@@ -300,7 +300,7 @@ hashmaptab.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
   hashmap <- integer(nhash)
   ret <- .Call(C_hashmaptab_integer64, x, hashbits, hashmap, nunique)
   # theoretically we could use {hashmap, nunique} at this point the same way like after calling hashmap_integer64
-  attr(ret, "names") <- c("values","counts")
+  attr(ret, "names") <- c("values", "counts")
   ret
 }
 

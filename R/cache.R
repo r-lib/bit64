@@ -40,9 +40,9 @@
 #' @examples
 #'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #'   y <- x
-#'   bit::still.identical(x,y)
+#'   bit::still.identical(x, y)
 #'   y[1] <- NA
-#'   bit::still.identical(x,y)
+#'   bit::still.identical(x, y)
 #'   mycache <- newcache(x)
 #'   ls(mycache)
 #'   mycache
@@ -67,7 +67,7 @@ newcache <- function(x) {
     vmode <- typeof(x)
     if (vmode=="double" && is.integer64(x))
       vmode <- "integer64"
-    setattr(env, "class", c(paste("cache", vmode, sep="_"),"cache","environment"))
+    setattr(env, "class", c(paste("cache", vmode, sep="_"), "cache", "environment"))
     assign("x", x, envir=env)
     env
 }
