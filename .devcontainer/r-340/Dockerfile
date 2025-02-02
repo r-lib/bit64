@@ -5,7 +5,7 @@ RUN apt-get -qq update && \
 
 COPY DESCRIPTION .
 
-RUN Rscript -e '                                                     \ 
+RUN Rscript -e '                                                     \
 options(repos = "https://cloud.r-project.org");                      \
 dcf = read.dcf("DESCRIPTION", c("Depends", "Imports", "Suggests"));  \
 deps = names(tools:::.split_dependencies(dcf));                      \
