@@ -54,7 +54,7 @@ test_that("runif64 behaves as expected", {
   # system.time({
   #   s <- clone(x)
   #   na.count <- ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
-  #   cv <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")[[2L]]
+  #   cv <- .Call(C_r_ram_integer64_sortnut, x = s)[[2L]]
   #   })
 
   # cv

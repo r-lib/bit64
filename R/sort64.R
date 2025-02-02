@@ -84,7 +84,6 @@ shellsort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE,
   , has_na     = as.logical(has.na)
   , na_last    = as.logical(na.last)
   , decreasing = as.logical(decreasing)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -103,7 +102,6 @@ shellsortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasin
   , has_na     = as.logical(has.na)
   , na_last    = as.logical(na.last)
   , decreasing = as.logical(decreasing)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -122,7 +120,6 @@ shellorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FA
   , has_na     = as.logical(has.na)
   , na_last    = as.logical(na.last)
   , decreasing = as.logical(decreasing)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -135,7 +132,6 @@ mergesort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE,
   , has_na     = as.logical(has.na)
   , na_last    = as.logical(na.last)
   , decreasing = as.logical(decreasing)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -154,7 +150,6 @@ mergeorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FA
   , has_na     = as.logical(has.na)
   , na_last    = as.logical(na.last)
   , decreasing = as.logical(decreasing)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -173,7 +168,6 @@ mergesortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasin
   , has_na     = as.logical(has.na)
   , na_last    = as.logical(na.last)
   , decreasing = as.logical(decreasing)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -194,7 +188,6 @@ quicksort.integer64 <- function(x,
   , na_last    = as.logical(na.last)
   , decreasing = as.logical(decreasing)
   , restlevel = as.integer(restlevel)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -221,7 +214,6 @@ quicksortorder.integer64 <- function(x, i,
   , na_last    = as.logical(na.last)
   , decreasing = as.logical(decreasing)
   , restlevel = as.integer(restlevel)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -248,7 +240,6 @@ quickorder.integer64 <- function(x, i,
   , na_last    = as.logical(na.last)
   , decreasing = as.logical(decreasing)
   , restlevel = as.integer(restlevel)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -263,7 +254,6 @@ radixsort.integer64 <- function(x, has.na=TRUE, na.last=FALSE, decreasing=FALSE,
   , na_last    = as.logical(na.last)
   , decreasing = as.logical(decreasing)
   , radixbits = as.integer(radixbits)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -284,7 +274,6 @@ radixsortorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasin
   , na_last    = as.logical(na.last)
   , decreasing = as.logical(decreasing)
   , radixbits = as.integer(radixbits)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -305,7 +294,6 @@ radixorder.integer64 <- function(x, i, has.na=TRUE, na.last=FALSE, decreasing=FA
   , na_last    = as.logical(na.last)
   , decreasing = as.logical(decreasing)
   , radixbits = as.integer(radixbits)
-  , PACKAGE = "bit64"
   )
 }
 
