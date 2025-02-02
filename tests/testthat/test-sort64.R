@@ -60,14 +60,15 @@ with_parameters_test_that(
 )
 
 with_parameters_test_that(
-  "shellorder method for integer64 works",
+  "order methods for integer64 work",
   {
+    withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
     x = as.integer64(1:10)
 
     na_entries = rep(NA_integer64_, n_missing)
     y = sample(c(x, if (duplicates) x[1L], na_entries))
     i = seq_along(y)
-    expect_identical(shellorder(y, i, decreasing=decreasing, na.last=na.last), n_missing)
+    expect_identical(order_function(y, i, decreasing=decreasing, na.last=na.last), n_missing)
     # TODO(#154): Drop explicit 'else' branches
     expected_value = c(
       if (na.last) integer64() else na_entries,
@@ -79,6 +80,7 @@ with_parameters_test_that(
     expect_identical(y[i], expected_value)
   },
   .cases = expand.grid(
+    order_function = list(mergeorder, quickorder, radixorder, ramorder, shellorder),
     na.last = c(FALSE, TRUE),
     decreasing = c(FALSE, TRUE),
     duplicates = c(FALSE, TRUE),
@@ -87,14 +89,15 @@ with_parameters_test_that(
 )
 
 with_parameters_test_that(
-  "shellsortorder method for integer64 works",
+  "sortorder methods for integer64 work",
   {
+    withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
     x = as.integer64(1:10)
 
     na_entries = rep(NA_integer64_, n_missing)
     y = sample(c(x, if (duplicates) x[1L], na_entries))
     i = seq_along(y)
-    expect_identical(shellsortorder(y, i, decreasing=decreasing, na.last=na.last), n_missing)
+    expect_identical(sortorder_function(y, i, decreasing=decreasing, na.last=na.last), n_missing)
     # TODO(#154): Drop explicit 'else' branches
     expected_value = c(
       if (na.last) integer64() else na_entries,
@@ -112,6 +115,8 @@ with_parameters_test_that(
     )
   },
   .cases = expand.grid(
+    sortorder_function =
+      list(mergesortorder, quicksortorder, radixsortorder, ramsortorder, shellsortorder),
     na.last = c(FALSE, TRUE),
     decreasing = c(FALSE, TRUE),
     duplicates = c(FALSE, TRUE),
