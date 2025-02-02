@@ -43,7 +43,7 @@
 #'   _binary search_, this is fastest for small `table`s.
 #'
 #' With `method=2L` the values of `x` are first sorted and then searched using
-#'   _doubly exponential search_, this is the best allround method.
+#'   _doubly exponential search_, this is the best all-around method.
 #'
 #' With `method=3L` the values of `x` are first sorted and then searched using
 #'   simple merging, this is the fastest method if `table` is huge and `x` has
@@ -77,7 +77,7 @@ sortnut <- function(sorted, ...) UseMethod("sortnut")
 #' @rdname sortnut
 #' @export
 sortnut.integer64 <- function(sorted, ...) {
-  ret <- .Call(C_r_ram_integer64_sortnut, x = sorted, PACKAGE = "bit64")
+  ret <- .Call(C_r_ram_integer64_sortnut, x = sorted)
   names(ret) <- c("nunique","nties")
   ret
 }
@@ -91,7 +91,7 @@ ordernut <- function(table, order, ...) UseMethod("ordernut")
 #' @rdname sortnut
 #' @export
 ordernut.integer64 <- function(table, order, ...) {
-  ret <- .Call(C_r_ram_integer64_ordernut, table = as.integer64(table), order = as.integer(order), PACKAGE = "bit64")
+  ret <- .Call(C_r_ram_integer64_ordernut, table = as.integer64(table), order = as.integer(order))
   names(ret) <- c("nunique","nties")
   ret
 }
@@ -122,7 +122,6 @@ sortfin.integer64 <- function(sorted, x, method=NULL, ...) {
       , sorted = as.integer64(sorted)
       , method= method
       , ret = logical(n)
-      , PACKAGE = "bit64"
       )
   } else {
     sx <- clone(as.integer64(x)); o <- seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
@@ -132,7 +131,6 @@ sortfin.integer64 <- function(sorted, x, method=NULL, ...) {
       , sorted = as.integer64(sorted)
       , method= method
       , ret = ret
-      , PACKAGE = "bit64"
       )
     ret
   }
@@ -164,7 +162,6 @@ orderfin.integer64 <- function(table, order, x, method=NULL, ...) {
       , order = as.integer(order)
       , method= as.integer(method)
       , ret = logical(n)
-      , PACKAGE = "bit64"
       )
   } else {
     o <- seq_along(x); ramorder(x, o, na.last=FALSE, ...)
@@ -175,7 +172,6 @@ orderfin.integer64 <- function(table, order, x, method=NULL, ...) {
       , order = as.integer(order)
       , method= as.integer(method)
       , ret = ret
-      , PACKAGE = "bit64"
       )
       ret
   }
@@ -209,7 +205,6 @@ orderpos.integer64 <- function(table, order, x, nomatch=NA, method=NULL, ...) {
       , nomatch = as.integer(nomatch)
       , method= as.integer(method)
       , ret = integer(n)
-      , PACKAGE = "bit64"
       )
   } else {
     o <- seq_along(x); ramorder(x, o, na.last=FALSE, ...)
@@ -221,7 +216,6 @@ orderpos.integer64 <- function(table, order, x, nomatch=NA, method=NULL, ...) {
       , nomatch = as.integer(nomatch)
       , method= as.integer(method)
       , ret = ret
-      , PACKAGE = "bit64"
       )
       ret
   }
@@ -254,7 +248,6 @@ sortorderpos.integer64 <- function(sorted, order, x, nomatch=NA, method=NULL, ..
       , nomatch = as.integer(nomatch)
       , method= as.integer(method)
       , ret = integer(n)
-      , PACKAGE = "bit64"
       )
   } else {
     sx <- clone(as.integer64(x)); o <- seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
@@ -266,7 +259,6 @@ sortorderpos.integer64 <- function(sorted, order, x, nomatch=NA, method=NULL, ..
       , nomatch = as.integer(nomatch)
       , method= as.integer(method)
       , ret = ret
-      , PACKAGE = "bit64"
       )
       ret
   }
@@ -292,7 +284,6 @@ orderdup.integer64 <- function(table, order, method=NULL, ...) {
   , order = as.integer(order)
   , method = method
   , ret = logical(length(table))
-  , PACKAGE = "bit64"
   )
 }
 
@@ -316,7 +307,6 @@ sortorderdup.integer64 <- function(sorted, order, method=NULL, ...) {
   , order = as.integer(order)
   , method = method
   , ret = logical(length(sorted))
-  , PACKAGE = "bit64"
   )
 }
 
@@ -332,7 +322,6 @@ sortuni.integer64 <- function(sorted, nunique, ...) {
   .Call(C_r_ram_integer64_sortuni_asc
   , sorted = as.integer64(sorted)
   , ret = integer64(nunique)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -351,7 +340,6 @@ orderuni.integer64 <- function(table, order, nunique, keep.order=FALSE, ...) {
   , order = as.integer(order)
   , keep.order = as.logical(keep.order)
   , ret = integer64(nunique)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -367,7 +355,6 @@ sortorderuni.integer64 <- function(table, sorted, order, nunique, ...) {
   , sorted = as.integer64(sorted)
   , order = as.integer(order)
   , ret = integer64(nunique)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -383,7 +370,6 @@ orderupo.integer64 <- function(table, order, nunique, keep.order=FALSE, ...) {
     , order = as.integer(order)
     , keep.order = as.logical(keep.order)
     , ret = integer(nunique)
-    , PACKAGE = "bit64"
     )
 }
 
@@ -399,7 +385,6 @@ sortorderupo.integer64 <- function(sorted, order, nunique, keep.order=FALSE, ...
     , order = as.integer(order)
     , keep.order = as.logical(keep.order)
     , ret = integer(nunique)
-    , PACKAGE = "bit64"
     )
 }
 
@@ -416,7 +401,6 @@ ordertie.integer64 <- function(table, order, nties, ...) {
   , table = as.integer64(table)
   , order = as.integer(order)
   , ret = integer(nties)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -431,7 +415,6 @@ sortordertie.integer64 <- function(sorted, order, nties, ...) {
   , sorted = as.integer64(sorted)
   , order = as.integer(order)
   , ret = integer(nties)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -445,7 +428,6 @@ sorttab.integer64 <- function(sorted, nunique, ...) {
   .Call(C_r_ram_integer64_sorttab_asc
   , sorted = as.integer64(sorted)
   , ret = integer(nunique)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -466,7 +448,6 @@ ordertab.integer64 <- function(table, order, nunique, denormalize=FALSE, keep.or
   , denormalize = denormalize
   , keep.order = keep.order
   , ret = integer(if (denormalize || keep.order) length(table) else nunique)
-  , PACKAGE = "bit64"
   )
 }
 
@@ -482,7 +463,6 @@ sortordertab.integer64 <- function(sorted, order, denormalize=FALSE, ...) {
   , order = as.integer(order)
   , denormalize = as.logical(denormalize)
   , ret = integer(length(sorted))
-  , PACKAGE = "bit64"
   )
 }
 
@@ -500,7 +480,6 @@ orderkey.integer64 <- function(table, order, na.skip.num=0L, ...) {
     , order = as.integer(order)
     , na.skip.num=na.skip.num
     , ret = integer(length(table))
-    , PACKAGE = "bit64"
     )
 }
 
@@ -516,7 +495,6 @@ sortorderkey.integer64 <- function(sorted, order, na.skip.num=0L, ...) {
     , order = as.integer(order)
     , na.skip.num=na.skip.num
     , ret = integer(length(sorted))
-    , PACKAGE = "bit64"
     )
 }
 
@@ -533,7 +511,6 @@ orderrnk.integer64 <- function(table, order, na.count, ...) {
   , order = as.integer(order)
   , na.count=as.integer(na.count)
   , ret = double(length(table))
-  , PACKAGE = "bit64"
   )
 }
 
@@ -548,7 +525,6 @@ sortorderrnk.integer64 <- function(sorted, order, na.count, ...) {
   , order = as.integer(order)
   , na.count=as.integer(na.count)
   , ret = double(length(sorted))
-  , PACKAGE = "bit64"
   )
 }
 

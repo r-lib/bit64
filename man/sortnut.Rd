@@ -214,7 +214,7 @@ With \code{method=1L} each value of \code{x} is searched independently using
 \emph{binary search}, this is fastest for small \code{table}s.
 
 With \code{method=2L} the values of \code{x} are first sorted and then searched using
-\emph{doubly exponential search}, this is the best allround method.
+\emph{doubly exponential search}, this is the best all-around method.
 
 With \code{method=3L} the values of \code{x} are first sorted and then searched using
 simple merging, this is the fastest method if \code{table} is huge and \code{x} has

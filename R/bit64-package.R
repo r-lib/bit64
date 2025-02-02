@@ -697,7 +697,7 @@
 #' @importFrom graphics barplot par title
 #' @importFrom methods as is
 #' @importFrom stats cor median quantile
-#' @importFrom utils packageDescription strOptions tail
+#' @importFrom utils head packageDescription strOptions tail
 #' @export : :.default :.integer64
 #' @export [.integer64 [[.integer64 [[<-.integer64 [<-.integer64
 #' @export %in% %in%.default

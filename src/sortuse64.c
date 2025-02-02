@@ -42,22 +42,19 @@ SEXP r_ram_integer64_nacount(
 }
 
 
-SEXP r_ram_integer64_issorted_asc(
-  SEXP x_
-)
-{
-  int i,n = LENGTH(x_);
+SEXP r_ram_integer64_issorted_asc(SEXP x_) {
+  int i, n = LENGTH(x_);
   ValueT *x = (ValueT *) REAL(x_);
   SEXP ret_;
   PROTECT( ret_ = allocVector(LGLSXP, 1) );
   Rboolean ret = TRUE;
-  if (n){
+  if (n) {
     R_Busy(1);
-    for(i=1;i<n;i++)
-        if (x[i]<x[i-1]){
-            ret = FALSE;
-            goto wrapup;
-        }
+    for(i=1; i<n; i++)
+      if (x[i] < x[i-1]) {
+        ret = FALSE;
+        goto wrapup;
+      }
   }
 wrapup:
   INTEGER(ret_)[0]=ret;

@@ -207,7 +207,7 @@ sortcache <- function(x, has.na = NULL) {
     }
     s <- clone(x)
     na.count <- ramsort(s, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
-    nut <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")
+    nut <- .Call(C_r_ram_integer64_sortnut, x = s)
     setcache(x, "sort", s)
     setcache(x, "na.count", na.count)
     setcache(x, "nunique", nut[[1L]])
@@ -238,7 +238,7 @@ sortordercache <- function(x, has.na = NULL, stable = NULL) {
     o <- seq_along(x)
     na.count <-
       ramsortorder(s, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = "time")
-    nut <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")
+    nut <- .Call(C_r_ram_integer64_sortnut, x = s)
     setcache(x, "sort", s)
     setcache(x, "order", o)
     setcache(x, "na.count", na.count)
@@ -269,7 +269,7 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time") {
     o <- seq_along(x)
     na.count <-
       ramorder(x, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = optimize)
-    nut <- .Call(C_r_ram_integer64_ordernut, table = x, order = o, PACKAGE = "bit64")
+    nut <- .Call(C_r_ram_integer64_ordernut, table = x, order = o)
     setcache(x, "order", o)
     setcache(x, "na.count", na.count)
     setcache(x, "nunique", nut[[1L]])
@@ -320,10 +320,10 @@ NULL
 na.count.integer64 <- function(x, ...) {
   env <- cache(x)
   if (is.null(env))
-    return(.Call(C_r_ram_integer64_nacount, x = x, PACKAGE = "bit64"))
+    return(.Call(C_r_ram_integer64_nacount, x = x))
   if (exists("na.count", envir=env, inherits=FALSE))
     return(get("na.count", envir=env, inherits=FALSE))
-  ret <- .Call(C_r_ram_integer64_nacount, x = x, PACKAGE = "bit64")
+  ret <- .Call(C_r_ram_integer64_nacount, x = x)
   assign("na.count", ret, envir=env)
   ret
 }
@@ -340,10 +340,10 @@ nvalid.integer64 <- function(x, ...) {
 is.sorted.integer64 <- function(x, ...) {
   env <- cache(x)
   if (is.null(env))
-    return(.Call(C_r_ram_integer64_issorted_asc, x = x, PACKAGE = "bit64"))
+    return(.Call(C_r_ram_integer64_issorted_asc, x = x))
   if (exists("is.sorted", envir=env, inherits=FALSE))
     return(get("is.sorted", envir=env, inherits=FALSE))
-  ret <- .Call(C_r_ram_integer64_issorted_asc, x = x, PACKAGE = "bit64")
+  ret <- .Call(C_r_ram_integer64_issorted_asc, x = x)
   assign("is.sorted", ret, envir=env)
   ret
 }
@@ -359,10 +359,7 @@ nunique.integer64 <- function(x, ...) {
     else # nolint: unreachable_code_linter. TODO(r-lib/lintr#2710): Re-enable.
         has.cache <- TRUE
     if (is.sorted(x)) {
-        ret <- .Call(C_r_ram_integer64_sortnut
-        , x = x
-        , PACKAGE = "bit64"
-        )
+        ret <- .Call(C_r_ram_integer64_sortnut, x = x)
         if (has.cache) {
             assign("nunique", ret[1L], envir=env)
             assign("nties", ret[2L], envir=env)
@@ -382,16 +379,13 @@ nties.integer64 <- function(x, ...) {
     cv <- getcache(x, "nties")
     if (is.null(cv)) {
         if (is.sorted(x)) {
-            cv <- .Call(C_r_ram_integer64_sortnut
-            , x = x
-            , PACKAGE = "bit64"
-            )[2L]
+            cv <- .Call(C_r_ram_integer64_sortnut, x = x)[2L]
         } else {
             s <- clone(x)
             # nolint next: object_usage_linter. Keep the output of in-place ramsort for debugging.
             na.count <-
               ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
-            cv <- .Call(C_r_ram_integer64_sortnut, x = s, PACKAGE = "bit64")[[2L]]
+            cv <- .Call(C_r_ram_integer64_sortnut, x = s)[[2L]]
         }
     }
     cv
