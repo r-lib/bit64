@@ -26,6 +26,8 @@
    `as.integer64.bitstring` is a new addition here -- on follow-up, the only references were in old
    (e.g. 2020) Advent of Code solutions and archived repos.
 
+   To disable this warning, use `options(bit64.warn.exported.s3.method = FALSE)`.
+
 1. The following S3 methods were directly removed from the NAMESPACE:
 
    `-.integer64`, `!.integer64`, `!=.integer64`, `*.integer64`, `/.integer64`, `&.integer64`, `%/%.integer64`, `%%.integer64`, `^.integer64`, `+.integer64`, `<.integer64`, `<=.integer64`, `==.integer64`, `>.integer64`, `>=.integer64`, `|.integer64`, `ceiling.integer64`, `cummax.integer64`, `cummin.integer64`, `cumprod.integer64`, `cumsum.integer64`, `floor.integer64`, `log10.integer64`, `log2.integer64`, `prod.integer64`, `range.integer64`, `round.integer64`, `sign.integer64`, `signif.integer64`, `sqrt.integer64`, `trunc.integer64`
