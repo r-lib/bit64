@@ -1160,9 +1160,9 @@ SEXP r_ram_integer64_sortsrt(
   DEBUG_INIT
 
   int i,j,l,r,n = LENGTH(x_);
-  Rboolean na_count   = asInteger(na_count_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int na_count   = asInteger(na_count_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
 
   ValueT *sorted;
   sorted = (ValueT *) REAL(x_);
@@ -1211,9 +1211,9 @@ SEXP r_ram_integer64_sortorderord(
   DEBUG_INIT
 
   int i,j,l,r,n = LENGTH(x_);
-  Rboolean na_count   = asInteger(na_count_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int na_count   = asInteger(na_count_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
 
   ValueT *sorted;
   sorted = (ValueT *) REAL(x_);
@@ -1263,9 +1263,9 @@ SEXP r_ram_integer64_orderord(
   DEBUG_INIT
 
   int i,j,l,r,n = LENGTH(x_);
-  Rboolean na_count   = asInteger(na_count_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int na_count   = asInteger(na_count_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
 
   ValueT *data;
   data = (ValueT *) REAL(x_);

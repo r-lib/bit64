@@ -520,7 +520,7 @@ SEXP log2_integer64(SEXP e1_, SEXP ret_){
 SEXP any_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
   long long i, n = LENGTH(e1_);
   long long * e1 = (long long *) REAL(e1_);
-  Rboolean * ret = (Rboolean *) LOGICAL(ret_);
+  int * ret = (int *) LOGICAL(ret_);
   Rboolean hasna=FALSE;
     if (asLogical(na_rm_)){
         for(i=0; i<n; i++){
@@ -547,7 +547,7 @@ SEXP any_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
 SEXP all_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
   long long i, n = LENGTH(e1_);
   long long * e1 = (long long *) REAL(e1_);
-  Rboolean * ret = (Rboolean *) LOGICAL(ret_);
+  int * ret = (int *) LOGICAL(ret_);
   Rboolean hasna=FALSE;
     if (asLogical(na_rm_)){
         for(i=0; i<n; i++){
@@ -856,7 +856,7 @@ SEXP seq_integer64(SEXP from_, SEXP by_, SEXP ret_){
 SEXP isna_integer64(SEXP e1_, SEXP ret_){
   long long i, n = XLENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
-  Rboolean * ret = (Rboolean *) LOGICAL(ret_);
+  int * ret = (int *) LOGICAL(ret_);
     for(i=0; i<n; i++) {
         ret[i] = (e1[i]==NA_INTEGER64) ? TRUE : FALSE;
     }
@@ -869,7 +869,7 @@ SEXP EQ_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i2, n2 = LENGTH(e2_);
   long long * e1 = (long long *) REAL(e1_);
   long long * e2 = (long long *) REAL(e2_);
-  Rboolean * ret = (Rboolean *) LOGICAL(ret_);
+  int * ret = (int *) LOGICAL(ret_);
     mod_iterate(n1, n2, i1, i2) {
         EQ64(e1[i1],e2[i2],ret[i])
     }
@@ -882,7 +882,7 @@ SEXP NE_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i2, n2 = LENGTH(e2_);
   long long * e1 = (long long *) REAL(e1_);
   long long * e2 = (long long *) REAL(e2_);
-  Rboolean * ret = (Rboolean *) LOGICAL(ret_);
+  int * ret = (int *) LOGICAL(ret_);
     mod_iterate(n1, n2, i1, i2) {
         NE64(e1[i1],e2[i2],ret[i])
     }
@@ -895,7 +895,7 @@ SEXP LT_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i2, n2 = LENGTH(e2_);
   long long * e1 = (long long *) REAL(e1_);
   long long * e2 = (long long *) REAL(e2_);
-  Rboolean * ret = (Rboolean *) LOGICAL(ret_);
+  int * ret = (int *) LOGICAL(ret_);
     mod_iterate(n1, n2, i1, i2) {
         LT64(e1[i1],e2[i2],ret[i])
     }
@@ -908,7 +908,7 @@ SEXP LE_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i2, n2 = LENGTH(e2_);
   long long * e1 = (long long *) REAL(e1_);
   long long * e2 = (long long *) REAL(e2_);
-  Rboolean * ret = (Rboolean *) LOGICAL(ret_);
+  int * ret = (int *) LOGICAL(ret_);
     mod_iterate(n1, n2, i1, i2) {
         LE64(e1[i1],e2[i2],ret[i])
     }
@@ -921,7 +921,7 @@ SEXP GT_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i2, n2 = LENGTH(e2_);
   long long * e1 = (long long *) REAL(e1_);
   long long * e2 = (long long *) REAL(e2_);
-  Rboolean * ret = (Rboolean *) LOGICAL(ret_);
+  int * ret = (int *) LOGICAL(ret_);
     mod_iterate(n1, n2, i1, i2) {
         GT64(e1[i1],e2[i2],ret[i])
     }
@@ -934,7 +934,7 @@ SEXP GE_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i2, n2 = LENGTH(e2_);
   long long * e1 = (long long *) REAL(e1_);
   long long * e2 = (long long *) REAL(e2_);
-  Rboolean * ret = (Rboolean *) LOGICAL(ret_);
+  int * ret = (int *) LOGICAL(ret_);
     mod_iterate(n1, n2, i1, i2) {
         GE64(e1[i1],e2[i2],ret[i])
     }

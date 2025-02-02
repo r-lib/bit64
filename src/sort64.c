@@ -1533,9 +1533,9 @@ SEXP r_ram_integer64_shellsort(
   int ret;
 
   int n = LENGTH(x_);
-  Rboolean has_na     = asLogical(has_na_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int has_na     = asLogical(has_na_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
 
   R_Busy(1);
   DEBUG_INIT
@@ -1572,9 +1572,9 @@ SEXP r_ram_integer64_shellsortorder(
   int ret;
 
   int n = LENGTH(x_);
-  Rboolean has_na     = asLogical(has_na_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int has_na     = asLogical(has_na_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
 
     R_Busy(1);
     DEBUG_INIT
@@ -1614,9 +1614,9 @@ SEXP r_ram_integer64_shellorder(
   int ret;
 
   int i,n = LENGTH(x_);
-  Rboolean has_na     = asLogical(has_na_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int has_na     = asLogical(has_na_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
 
     R_Busy(1);
     DEBUG_INIT
@@ -1663,9 +1663,9 @@ SEXP r_ram_integer64_mergesort(
   int ret;
 
   int i,n = LENGTH(x_);
-  Rboolean has_na     = asLogical(has_na_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int has_na     = asLogical(has_na_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
 
   R_Busy(1);
   DEBUG_INIT
@@ -1707,9 +1707,9 @@ SEXP r_ram_integer64_mergesortorder(
   int ret;
 
   int i,n = LENGTH(x_);
-  Rboolean has_na     = asLogical(has_na_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int has_na     = asLogical(has_na_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
 
   R_Busy(1);
   DEBUG_INIT
@@ -1758,9 +1758,9 @@ SEXP r_ram_integer64_mergeorder(
   int ret;
 
   int i,n = LENGTH(x_);
-  Rboolean has_na     = asLogical(has_na_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int has_na     = asLogical(has_na_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
 
   R_Busy(1);
   DEBUG_INIT
@@ -1812,9 +1812,9 @@ SEXP r_ram_integer64_quicksort(
   int ret;
 
   int n = LENGTH(x_);
-  Rboolean has_na     = asLogical(has_na_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int has_na     = asLogical(has_na_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
   int restlevel = asInteger(restlevel_);
 
   R_Busy(1);
@@ -1853,9 +1853,9 @@ SEXP r_ram_integer64_quicksortorder(
   int ret;
 
   int n = LENGTH(x_);
-  Rboolean has_na     = asLogical(has_na_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int has_na     = asLogical(has_na_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
   int restlevel = asInteger(restlevel_);
 
     R_Busy(1);
@@ -1897,9 +1897,9 @@ SEXP r_ram_integer64_quickorder(
   int ret;
 
   int i,n = LENGTH(x_);
-  Rboolean has_na     = asLogical(has_na_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int has_na     = asLogical(has_na_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
   int restlevel = asInteger(restlevel_);
 
     R_Busy(1);
@@ -1949,9 +1949,9 @@ SEXP r_ram_integer64_radixsort(
   DEBUG_INIT
 
   IndexT n = LENGTH(x_);
-  Rboolean has_na     = asLogical(has_na_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int has_na     = asLogical(has_na_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
   int radixbits = asInteger(radixbits_);
   int nradixes = 64 / radixbits;
 
@@ -2002,9 +2002,9 @@ SEXP r_ram_integer64_radixsortorder(
   R_Busy(1);
   DEBUG_INIT
   IndexT n = LENGTH(x_);
-  Rboolean has_na     = asLogical(has_na_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int has_na     = asLogical(has_na_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
   int radixbits = asInteger(radixbits_);
   int nradixes = 64 / radixbits;
 
@@ -2061,9 +2061,9 @@ SEXP r_ram_integer64_radixorder(
   R_Busy(1);
   DEBUG_INIT
   IndexT i,n = LENGTH(x_);
-  Rboolean has_na     = asLogical(has_na_);
-  Rboolean na_last    = asLogical(na_last_);
-  Rboolean decreasing = asLogical(decreasing_);
+  int has_na     = asLogical(has_na_);
+  int na_last    = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
   int radixbits = asInteger(radixbits_);
   int nradixes = 64 / radixbits;
 
