@@ -30,7 +30,7 @@ Suggests:
     testthat (>= 3.0.3),
     withr
 Config/testthat/edition: 3
-Config/Needs/development: testthat
+Config/Needs/development: patrick, testthat
 Config/Needs/website: tidyverse/tidytemplate
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
