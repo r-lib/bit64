@@ -13,3 +13,26 @@ with_parameters_test_that("sortfin works", method=1:3, {
   # only 'x' need be sorted
   expect_identical(sortfin(x, as.integer64(1:0), method=method), c(TRUE, FALSE))
 })
+
+test_that("orderfin and orderpos work", {
+  x = as.integer64(1:10)
+  idx = seq_along(x)
+
+  expect_identical(orderfin(x, idx, 0:1), c(FALSE, TRUE))
+  expect_identical(orderfin(x, idx, as.integer64(0:1), method=2L), c(FALSE, TRUE))
+  expect_identical(orderfin(x, idx, as.integer64(0:1), method=3L), c(FALSE, TRUE))
+
+  expect_identical(orderpos(x, idx, 0:1), c(NA_integer_, 1L))
+  expect_identical(orderpos(x, idx, as.integer64(0:1), method=2L), c(NA_integer_, 1L))
+  expect_identical(orderpos(x, idx, as.integer64(0:1), method=3L), c(NA_integer_, 1L))
+})
+
+test_that("ordertab and orderdup work", {
+  x = as.integer64(1:10)
+  x = c(x, x[1:8], x[1:6])
+  idx = order(x)
+
+  expect_identical(ordertab(x, idx, 10L), rep(3:1, c(6L, 2L, 2L)))
+  expect_identical(orderdup(x, idx), rep(c(FALSE, TRUE), c(10L, 14L)))
+  expect_identical(orderdup(x, idx, method=2L), rep(c(FALSE, TRUE), c(10L, 14L)))
+})
