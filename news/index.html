@@ -38,7 +38,7 @@
 <h3 id="breaking-changes-4-7-99">BREAKING CHANGES<a class="anchor" aria-label="anchor" href="#breaking-changes-4-7-99"></a></h3>
 <ol style="list-style-type: decimal"><li>{bit64} no longer <code>Depends</code> on {bit}; instead it <code>Imports</code> it. Please file an issue if this affects you before release; I plan to have {bit64} temporarily re-export some objects from {bit} to minimize the number of downstream packages/scripts adversely affected.</li>
 </ol><p>Here I copy the advice from 4.6.0-1 about how to adapt to this as a user depending on {bit64} if it affects you:</p>
-<p>Users relying on this in scripts can (1) write <code><a href="https://github.com/truecluster/bit" class="external-link">library(bit)</a></code> to attach {bit} explicitly or (2) namespace-qualify all {bit} calls with <code>bit::</code>.</p>
+<p>Users relying on this in scripts can (1) write <code><a href="https://github.com/r-lib/bit" class="external-link">library(bit)</a></code> to attach {bit} explicitly or (2) namespace-qualify all {bit} calls with <code>bit::</code>.</p>
 <p>Package authors relying on this can (1) add <code>import(bit)</code> to make the full {bit} namespace available or (2) namespace-qualify all {bit} calls with <code>bit::</code>; adding {bit} to <code>Imports:</code> or <code>Suggests:</code> will also be necessary.</p>
 <ol style="list-style-type: decimal"><li>
 <p>The following S3 methods now generate a warning if called directly (but not if called properly, i.e. <em>via</em> S3 dispatch on the generic):</p>
@@ -74,7 +74,7 @@
 <p>Please reach out (e.g., the GitHub log for <a href="https://github.com/r-lib/bit64/issues/76" class="external-link">#76</a>) if you have any concerns about this plan.</p>
 <ol style="list-style-type: decimal"><li>{bit64} lists {bit} as <code>Depends:</code>. IMO this form of dependency should be deprecated by R now that <code>Imports:</code> is widely available and well-supported for many years.</li>
 </ol><p>In the next release (provisionally, 4.7.0), I will move bit to Imports. The practical implication is that currently, <code><a href="https://github.com/r-lib/bit64" class="external-link">library(bit64)</a></code> will make {bit} objects like <code><a href="https://rdrr.io/pkg/bit/man/is.booltype.html" class="external-link">is.bit()</a></code> available for use without namespace-qualification. This practice makes code harder to read and maintain.</p>
-<p>Users relying on this in scripts can (1) write <code><a href="https://github.com/truecluster/bit" class="external-link">library(bit)</a></code> to attach {bit} explicitly or (2) namespace-qualify all {bit} calls with <code>bit::</code>.</p>
+<p>Users relying on this in scripts can (1) write <code><a href="https://github.com/r-lib/bit" class="external-link">library(bit)</a></code> to attach {bit} explicitly or (2) namespace-qualify all {bit} calls with <code>bit::</code>.</p>
 <p>Package authors relying on this can (1) add <code>import(bit)</code> to make the full {bit} namespace available or (2) namespace-qualify all {bit} calls with <code>bit::</code>; adding {bit} to <code>Imports:</code> or <code>Suggests:</code> will also be necessary.</p>
 <p>I will reach out to CRAN authors with any required changes. Depending on the impact size, I might make this transition more gradual (e.g. starting by re-exporting some or all {bit} functions from {bit64}, with warning, before un-exporting them in a subsequent release).</p>
 </div>
