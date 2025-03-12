@@ -426,7 +426,7 @@ NULL
 #' @name all.equal.integer64
 NULL
 
-setOldClass("integer64")
+methods::setOldClass("integer64")
 
 # contributed by Leonardo Silvestri with modifications of JO
 #' @rdname all.equal.integer64
