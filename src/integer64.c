@@ -157,11 +157,16 @@ SEXP as_integer64_character(SEXP x_, SEXP ret_){
   for(i=0; i<n; i++){
     str = CHAR(STRING_ELT(x_, i)); endpointer = (char *)str; // thanks to Murray Stokely 28.1.2012
     int base = 10; // default
+    int sign = 1;  // default 
+    if (str[0]=='-'){
+      sign = -1;
+      str++;
+    }
     if (str[0]=='0' && (str[1] == 'x' || str[1] == 'X')){
         base = 16;
         str += 2;
     }
-    ret[i] = strtoll(str, &endpointer, base);
+    ret[i] = strtoll(str, &endpointer, base) * sign;
     if (*endpointer)
       ret[i] = NA_INTEGER64;
   }
