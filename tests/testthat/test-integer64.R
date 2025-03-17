@@ -44,6 +44,24 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(as.integer64(NA_character_), NA_integer64_)
 })
 
+test_that("hex string --> integer64 coercion works (as it does for integer)", {
+  expect_identical(as.integer64(c("0x1", "0xF")), as.integer64(c(1L, 15L)))
+  # Test the first value too large to store in a 32-bit signed integer.
+  expect_identical(as.integer64("0x100000000"), as.integer64(2L^32L))
+  # Test some negative values.
+  expect_identical(as.integer64(c("-0x0", "-0x1", "-0xF")), as.integer64(c(0L, -1L, -15L)))
+  # Test mixed positive and negatives
+  expect_identical(as.integer64(c("-0xA", "0xF")), as.integer64(c(-10L, 15L)))
+  # Test the smallest and largest values different from the extreme values of the representation.
+  expect_identical(as.integer64(c("-0x7FFFFFFFFFFFFFFE", "0x7FFFFFFFFFFFFFFE")), lim.integer64() + c(1L, -1L))
+  # Test smallest and largest representable values.
+  expect_identical(as.integer64(c("-0x7FFFFFFFFFFFFFFF", "0x7FFFFFFFFFFFFFFF")), lim.integer64())
+  # not representable in 64 bits --> lim.integer64(), same as non-hex string input
+  expect_identical(as.integer64(c("-0x8000000000000000", "0x8000000000000000")), lim.integer64())
+  # case insensitive
+  expect_identical(as.integer64(c("0xa", "0Xa", "0xA", "0xa")), as.integer64(rep(10L, 4L)))
+})
+
 test_that("S3 class basics work", {
   x = as.integer64(1:10)
   expect_s3_class(x, "integer64")
