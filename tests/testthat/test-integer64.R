@@ -8,7 +8,7 @@ test_that("integer64 coercion to/from other types work", {
 
   # to integer64
   expect_identical(as.integer64(TRUE), as.integer64(1L))
-  expect_identical(as.integer64(as.character(1:10)), as.integer64(1:10))
+  expect_identical(as.integer64(as.character(-10:10)), as.integer64(-10:10))
   expect_identical(as.integer64(c("0x1", "0xF")), as.integer64(c(1, 15)))
   # Test the first value too large to store in a 32-bit signed integer.
   expect_identical(as.integer64(c("0x100000000")), as.integer64(2^32))
