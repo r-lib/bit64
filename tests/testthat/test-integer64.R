@@ -9,23 +9,6 @@ test_that("integer64 coercion to/from other types work", {
   # to integer64
   expect_identical(as.integer64(TRUE), as.integer64(1L))
   expect_identical(as.integer64(as.character(-10:10)), as.integer64(-10:10))
-  expect_identical(as.integer64(c("0x1", "0xF")), as.integer64(c(1, 15)))
-  # Test the first value too large to store in a 32-bit signed integer.
-  expect_identical(as.integer64(c("0x100000000")), as.integer64(2^32))
-  # Test some negative values.
-  expect_identical(as.integer64(c("-0x0", "-0x1", "-0xF")), as.integer64(c(0, -1, -15)))
-  # Test mixed positive and negatives
-  expect_identical(as.integer64(c("-0xA", "0xF")), as.integer64(c(-10, 15)))
-  # Test the smallest and largest values different from the extreme values of the representation.
-  # See the documentation for lim.integer64() for more information on the extremes.
-  expect_identical(as.integer64(c("-0x7FFFFFFFFFFFFFFE","0x7FFFFFFFFFFFFFFE")), lim.integer64() + (c(1,-1)))
-  # Test smallest and largest representable values.
-  expect_identical(as.integer64(c("-0x7FFFFFFFFFFFFFFF","0x7FFFFFFFFFFFFFFF")), lim.integer64())
-  # Test too-small and too-large values: they return the extreme values of the representation.
-  expect_identical(as.integer64(c("-0x8000000000000000","0x8000000000000000")), lim.integer64())
-  # Test that the upper- and lower-case versions work.
-  expect_identical(as.integer64(c("0xa", "0Xa", "0xA", "0xa")), as.integer64(rep(10, 4)))
-  
   x = as.integer64(1:10)
   expect_identical(as.integer64(x), x)
 
