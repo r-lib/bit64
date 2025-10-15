@@ -1389,34 +1389,38 @@ prod.integer64 <- function(..., na.rm=FALSE) {
 
 #' @rdname sum.integer64
 #' @export
-min.integer64 = function(..., na.rm=FALSE) {
-  l = list(...)
+min.integer64 <- function(..., na.rm=FALSE) {
+  l <- list(...)
+  na.rm <- isTRUE(na.rm)
   if (length(l) == 1L) {
-    ret = .Call(C_min_integer64, l[[1L]], na.rm, double(1L))
-    oldClass(ret) = "integer64"
+    ret <- .Call(C_min_integer64, l[[1L]], na.rm, double(1L))
+    oldClass(ret) <- "integer64"
   } else {
-    ret = vapply(l, FUN.VALUE=integer64(1L), function(e) {
+    ret <- vapply(l, FUN.VALUE=integer64(1L), function(e) {
       if (is.integer64(e)) {
         .Call(C_min_integer64, e, na.rm, double(1L))
       } else {
         as.integer64(min(e, na.rm=na.rm))
       }
     })
-    oldClass(ret) = "integer64"
-    ret = min(ret, na.rm=na.rm)
+    oldClass(ret) <- "integer64"
+    ret <- min(ret, na.rm=na.rm)
   }
-  if (!any(lengths(l)))
+  if (na.rm && is.na(ret)) {
+    ret <- lim.integer64()[2L]
     warning("no non-NA value, returning the highest possible integer64 value +", lim.integer64()[2L])
+  }
   ret
 }
 
 #' @rdname sum.integer64
 #' @export
-max.integer64 = function(..., na.rm=FALSE) {
-  l = list(...)
+max.integer64 <- function(..., na.rm=FALSE) {
+  l <- list(...)
+  na.rm <- isTRUE(na.rm)
   if (length(l) == 1L) {
-    ret = .Call(C_max_integer64, l[[1L]], na.rm, double(1L))
-    oldClass(ret) = "integer64"
+    ret <- .Call(C_max_integer64, l[[1L]], na.rm, double(1L))
+    oldClass(ret) <- "integer64"
   } else {
     ret <- vapply(l, FUN.VALUE=integer64(1L), function(e) {
       if (is.integer64(e)) {
@@ -1425,23 +1429,28 @@ max.integer64 = function(..., na.rm=FALSE) {
         as.integer64(max(e, na.rm=na.rm))
       }
     })
-    oldClass(ret) = "integer64"
-    ret = max(ret, na.rm=na.rm)
+    oldClass(ret) <- "integer64"
+    ret <- max(ret, na.rm=na.rm)
   }
-  if (!any(lengths(l)))
+  if (na.rm && is.na(ret)) {
+    ret <- lim.integer64()[1L]
     warning("no non-NA value, returning the lowest possible integer64 value ", lim.integer64()[1L])
+  }
   ret
 }
 
 #' @rdname sum.integer64
 #' @export
-range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
-  if (finite)
-    na.rm = TRUE
+range.integer64 <- function(..., na.rm=FALSE, finite=FALSE) {
+  if (isTRUE(finite)) {
+    na.rm <- TRUE
+  } else {
+    na.rm <- isTRUE(na.rm)
+  }
   l <- list(...)
   if (length(l) == 1L) {
-    ret = .Call(C_range_integer64, l[[1L]], na.rm, double(2L))
-    oldClass(ret) = "integer64"
+    ret <- .Call(C_range_integer64, l[[1L]], na.rm, double(2L))
+    oldClass(ret) <- "integer64"
   } else {
     ret <- vapply(l, FUN.VALUE=integer64(2L), function(e) {
       if (is.integer64(e)) {
@@ -1450,11 +1459,13 @@ range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
         as.integer64(range(e, na.rm=na.rm))
       }
     })
-    oldClass(ret) = "integer64"
-    ret = range(ret, na.rm=na.rm)
+    oldClass(ret) <- "integer64"
+    ret <- range(ret, na.rm=na.rm)
   }
-  if (!any(lengths(l)))
+  if (na.rm && any(is.na(ret))) {
+    ret <- c(lim.integer64()[2L], lim.integer64()[1L])
     warning("no non-NA value, returning c(+", lim.integer64()[2L], ", ", lim.integer64()[1L], ")")
+  }
   ret
 }
 
