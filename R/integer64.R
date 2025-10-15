@@ -277,8 +277,8 @@ NULL
 #'
 #' @examples
 #'   c(as.integer64(1), 2:6)
-#'   cbind(1:6, as.integer(1:6))
-#'   rbind(1:6, as.integer(1:6))
+#'   cbind(1:6, as.integer64(1:6))
+#'   rbind(1:6, as.integer64(1:6))
 #' @name c.integer64
 NULL
 
@@ -305,7 +305,7 @@ NULL
 #'
 #' Generating sequence of integer64 values
 #'
-#' @param from integer64 scalar (in order to dispatch the integer64 method of [seq()]
+#' @param from integer64 scalar (in order to dispatch the integer64 method of [seq()])
 #' @param to scalar
 #' @param by scalar
 #' @param length.out scalar
