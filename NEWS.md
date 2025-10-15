@@ -42,6 +42,7 @@
 ## NOTES
 
 1. {bit64} no longer prints any start-up messages through an `.onAttach()` hook (#106). Thanks @hadley for the request.
+2. `min.integer64`, `max.integer64` and `range.integer64` now support `na.rm=TRUE` correctly (#142).
 
 # bit64 4.6.0-1 (2025-01-16)
 
