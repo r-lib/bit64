@@ -684,10 +684,12 @@ SEXP min_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
   ret[0] = MAX_INTEGER64;
     if (asLogical(na_rm_)){
         for(i=0; i<n; i++){
-            if (e1[i]!=NA_INTEGER64 && e1[i]<ret[0]){
-                onlyNas = false;       
+            if (e1[i]!=NA_INTEGER64){
+              onlyNas = false;
+              if (e1[i]<ret[0]){
                 ret[0] = e1[i];
-            }
+              }
+            } 
         }
     }else{
         for(i=0; i<n; i++){
@@ -715,10 +717,12 @@ SEXP max_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
   ret[0] = MIN_INTEGER64;
     if (asLogical(na_rm_)){
         for(i=0; i<n; i++){
-            if (e1[i]!=NA_INTEGER64 && e1[i]>ret[0]){
-                onlyNas = false;       
+            if (e1[i]!=NA_INTEGER64){
+              onlyNas = false;
+              if (e1[i]>ret[0]){
                 ret[0] = e1[i];
-            }
+              }
+            } 
         }
     }else{
         for(i=0; i<n; i++){
