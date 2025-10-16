@@ -20,6 +20,7 @@
 #include <math.h> // floor
 #include <stdint.h>
 #include <stdlib.h> // strtoll
+#include <stdbool.h> // for boolean
 
 #include <R.h>
 #include <Rdefines.h>
