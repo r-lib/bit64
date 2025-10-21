@@ -1387,6 +1387,12 @@ prod.integer64 <- function(..., na.rm=FALSE) {
   }
 }
 
+all_na_values = function(x, na.rm) {
+  if (length(x) == 0L) return(TRUE)
+  if (!na.rm) return(FALSE)
+  return(all(is.na(x)))
+}
+
 #' @rdname sum.integer64
 #' @export
 min.integer64 = function(..., na.rm=FALSE) {
@@ -1408,10 +1414,10 @@ min.integer64 = function(..., na.rm=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    if (length(ret) > 0L && !(na.rm && all(is.na(ret))))
+    if (!all_na_values(ret, na.rm))
       ret = min(ret, na.rm=na.rm)
   }
-  if (length(ret) == 0L || (na.rm && all(is.na(ret)))) {
+  if (all_na_values(ret)) {
     ret = lim.integer64()[2L]
     warning("no non-NA value, returning the highest possible integer64 value +", ret)
   }
@@ -1439,10 +1445,10 @@ max.integer64 = function(..., na.rm=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    if (length(ret) > 0L && !(na.rm && all(is.na(ret))))
+    if (!all_na_values(ret))
       ret = max(ret, na.rm=na.rm)
   }
-  if (length(ret) == 0L || (na.rm && all(is.na(ret)))) {
+  if (all_na_values(ret)) {
     ret = lim.integer64()[1L]
     warning("no non-NA value, returning the lowest possible integer64 value ", ret)
   }
@@ -1474,10 +1480,10 @@ range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    if (length(ret) > 0L && !(na.rm && all(is.na(ret))))
+    if (!all_na_values(ret))
       ret = range(ret, na.rm=na.rm)
   }
-  if (length(ret) == 0L || (na.rm && all(is.na(ret)))) {
+  if (all_na_values(ret)) {
     ret = c(lim.integer64()[2L], lim.integer64()[1L])
     warning("no non-NA value, returning c(+", ret[1L], ", ", ret[2L], ")")
   }
