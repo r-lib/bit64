@@ -1417,7 +1417,7 @@ min.integer64 = function(..., na.rm=FALSE) {
     if (!all_na_values(ret, na.rm))
       ret = min(ret, na.rm=na.rm)
   }
-  if (all_na_values(ret)) {
+  if (all_na_values(ret, na.rm)) {
     ret = lim.integer64()[2L]
     warning("no non-NA value, returning the highest possible integer64 value +", ret)
   }
@@ -1445,10 +1445,10 @@ max.integer64 = function(..., na.rm=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    if (!all_na_values(ret))
+    if (!all_na_values(ret, na.rm))
       ret = max(ret, na.rm=na.rm)
   }
-  if (all_na_values(ret)) {
+  if (all_na_values(ret, na.rm)) {
     ret = lim.integer64()[1L]
     warning("no non-NA value, returning the lowest possible integer64 value ", ret)
   }
@@ -1480,10 +1480,10 @@ range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    if (!all_na_values(ret))
+    if (!all_na_values(ret, na.rm))
       ret = range(ret, na.rm=na.rm)
   }
-  if (all_na_values(ret)) {
+  if (all_na_values(ret, na.rm)) {
     ret = c(lim.integer64()[2L], lim.integer64()[1L])
     warning("no non-NA value, returning c(+", ret[1L], ", ", ret[2L], ")")
   }
