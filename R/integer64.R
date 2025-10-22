@@ -1387,10 +1387,9 @@ prod.integer64 <- function(..., na.rm=FALSE) {
   }
 }
 
-all_na_values = function(x, na.rm) {
+empty_or_all_na_values_with_naRm = function(x, na.rm) {
   if (length(x) == 0L) return(TRUE)
-  if (!na.rm) return(FALSE)
-  return(all(is.na(x)))
+  na.rm && all(is.na(x))
 }
 
 #' @rdname sum.integer64
@@ -1399,6 +1398,7 @@ min.integer64 = function(..., na.rm=FALSE) {
   l = list(...)
   na.rm = isTRUE(na.rm)
   ret = NULL
+  resEmptyOrAllNa = NULL
   
   if (length(l) == 1L) {
     if (length(l[[1]]) > 0L) {
@@ -1414,10 +1414,15 @@ min.integer64 = function(..., na.rm=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    if (!all_na_values(ret, na.rm))
+    resEmptyOrAllNa = empty_or_all_na_values_with_naRm(ret, na.rm)
+    if (!resEmptyOrAllNa) {
       ret = min(ret, na.rm=na.rm)
+      resEmptyOrAllNa = NULL
+    }
   }
-  if (all_na_values(ret, na.rm)) {
+  if (is.null(resEmptyOrAllNa))
+    resEmptyOrAllNa = empty_or_all_na_values_with_naRm(ret, na.rm)
+  if (resEmptyOrAllNa) {
     ret = lim.integer64()[2L]
     warning("no non-NA value, returning the highest possible integer64 value +", ret)
   }
@@ -1430,7 +1435,8 @@ max.integer64 = function(..., na.rm=FALSE) {
   l = list(...)
   na.rm = isTRUE(na.rm)
   ret = NULL
-  
+  resEmptyOrAllNa = NULL
+
   if (length(l) == 1L) {
     if (length(l[[1]]) > 0L) {
       ret = .Call(C_max_integer64, l[[1L]], na.rm, double(1L))
@@ -1445,10 +1451,15 @@ max.integer64 = function(..., na.rm=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    if (!all_na_values(ret, na.rm))
+    resEmptyOrAllNa = empty_or_all_na_values_with_naRm(ret, na.rm)
+    if (!resEmptyOrAllNa) {
       ret = max(ret, na.rm=na.rm)
+      resEmptyOrAllNa = NULL
+    }
   }
-  if (all_na_values(ret, na.rm)) {
+  if (is.null(resEmptyOrAllNa))
+    resEmptyOrAllNa = empty_or_all_na_values_with_naRm(ret, na.rm)
+  if (resEmptyOrAllNa) {
     ret = lim.integer64()[1L]
     warning("no non-NA value, returning the lowest possible integer64 value ", ret)
   }
@@ -1465,6 +1476,7 @@ range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
     na.rm = isTRUE(na.rm)
   }
   ret = NULL
+  resEmptyOrAllNa = NULL
   
   if (length(l) == 1L) {
     if (length(l[[1]]) > 0L) {
@@ -1480,10 +1492,15 @@ range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    if (!all_na_values(ret, na.rm))
+    resEmptyOrAllNa = empty_or_all_na_values_with_naRm(ret, na.rm)
+    if (!resEmptyOrAllNa) {
       ret = range(ret, na.rm=na.rm)
+      resEmptyOrAllNa = NULL
+    }
   }
-  if (all_na_values(ret, na.rm)) {
+  if (is.null(resEmptyOrAllNa))
+    resEmptyOrAllNa = empty_or_all_na_values_with_naRm(ret, na.rm)
+  if (resEmptyOrAllNa) {
     ret = c(lim.integer64()[2L], lim.integer64()[1L])
     warning("no non-NA value, returning c(+", ret[1L], ", ", ret[2L], ")")
   }
