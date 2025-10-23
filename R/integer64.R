@@ -1389,7 +1389,7 @@ prod.integer64 <- function(..., na.rm=FALSE) {
 
 empty_or_all_na_values_with_naRm = function(x, na.rm) {
   if (length(x) == 0L) return(TRUE)
-  na.rm && all(is.na(x))
+  na.rm && allNA(x)
 }
 
 #' @rdname sum.integer64
@@ -1752,4 +1752,28 @@ is.vector.integer64 <- function(x, mode="any") {
 as.list.integer64 <- function(x, ...) {
   ret <- NextMethod("as.list", x, ...)
   .Call(C_as_list_integer64, ret)
+}
+
+
+#' @exportS3Method base::anyNA integer64
+anyNA.integer64 = function(x) {
+  .Call(C_r_ram_integer64_any_na, x=x)
+}
+
+
+#' @title Not Available / Missing Values
+#' @description The function allNA implements all(is.na(x)) in a possibly faster way for integer64
+#' @param x An R object to be tested.
+#'
+#' @export
+allNA = function(x) UseMethod("allNA")
+#' @exportS3Method allNA default
+allNA.default = function(x) {
+  warning("Please promote that `allNA()` is going to be added in package base in future R versions - similar to `anyNA()`. Falling back to `all(is.na(x))`.")
+  length(x) && all(is.na(x))
+}
+
+#' @exportS3Method allNA integer64
+allNA.integer64 = function(x) {
+  .Call(C_r_ram_integer64_all_na, x=x)
 }

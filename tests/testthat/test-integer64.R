@@ -372,3 +372,23 @@ test_that("all.equal works", {
   expect_match(all.equal(x, x+100L), "Mean relative difference", fixed=TRUE)
   expect_match(all.equal(x, x+1L, scale=1.0), "Mean absolute difference", fixed=TRUE)
 })
+
+
+test_that("allNA and anyNA", {
+
+  # Hopefully allNA is added to the base package like anyNA is.
+  expect_warning(expect_identical(allNA(c(1L, 1L)), FALSE), "Please promote that `allNA[(])`")
+  expect_warning(expect_identical(allNA(c(1L, NA)), FALSE), "Please promote that `allNA[(])`")
+  expect_warning(expect_identical(allNA(c(NA, NA)), TRUE), "Please promote that `allNA[(])`")
+  expect_warning(expect_identical(allNA(integer()), FALSE), "Please promote that `allNA[(])`")
+  expect_no_warning(expect_identical(allNA(as.integer64(c(1L, 1L))), FALSE))
+  expect_no_warning(expect_identical(allNA(as.integer64(c(1L, NA))), FALSE))
+  expect_no_warning(expect_identical(allNA(as.integer64(c(NA, NA))), TRUE))
+  expect_no_warning(expect_identical(allNA(integer64()), FALSE))
+
+  expect_identical(anyNA(as.integer64(c(1L, 1L))), anyNA(c(1L, 1L)))
+  expect_identical(anyNA(as.integer64(c(1L, NA))), anyNA(c(1L, NA)))
+  expect_identical(anyNA(as.integer64(c(NA, NA))), anyNA(c(NA, NA)))
+  expect_identical(anyNA(integer64()), anyNA(integer()))
+
+})
