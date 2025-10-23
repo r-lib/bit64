@@ -1756,7 +1756,7 @@ as.list.integer64 <- function(x, ...) {
 
 
 #' @exportS3Method base::anyNA integer64
-anyNA.integer64 = function(x) {
+anyNA.integer64 = function(x, recursive) {
   .Call(C_r_ram_integer64_any_na, x=x)
 }
 
