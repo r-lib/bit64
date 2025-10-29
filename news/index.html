@@ -57,6 +57,11 @@
 <h3 id="notes-4-7-99">NOTES<a class="anchor" aria-label="anchor" href="#notes-4-7-99"></a></h3>
 <ol style="list-style-type: decimal"><li>{bit64} no longer prints any start-up messages through an <code>.onAttach()</code> hook (<a href="https://github.com/r-lib/bit64/issues/106" class="external-link">#106</a>). Thanks <a href="https://github.com/hadley" class="external-link">@hadley</a> for the request.</li>
 </ol></div>
+<div class="section level3">
+<h3 id="bug-fixes-4-7-99">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-7-99"></a></h3>
+<ol style="list-style-type: decimal"><li>
+<code>median(NA_integer64_, na.rm=FALSE)</code> and <code>median(integer64())</code> now return <code>NA_integer64_</code>, aligning its behavior with <code>median(NA_integer_)</code>, <a href="https://github.com/r-lib/bit64/issues/185" class="external-link">#185</a>. Previously the former threw an error while the latter gave an incorrect result. Thanks <a href="https://github.com/ben-schwen" class="external-link">@ben-schwen</a> for the report and the PR.</li>
+</ol></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="4.6.0-1" id="bit64-460-1-2025-01-16">bit64 4.6.0-1 (2025-01-16)<a class="anchor" aria-label="anchor" href="#bit64-460-1-2025-01-16"></a></h2><p class="text-muted">CRAN release: 2025-01-16</p>
