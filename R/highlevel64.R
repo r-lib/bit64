@@ -2651,7 +2651,7 @@ quantile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), na.rm = FALSE, na
 #' @rdname qtile
 #' @export
 median.integer64 <- function(x, na.rm=FALSE, ...) {
-  if (!na.rm && na.count(x)>0L) return(NA_integer64_)
+    if ((!na.rm && na.count(x)>0L) || !length(x)) return(NA_integer64_)
   qtile.integer64(x, probs = 0.5, na.rm = na.rm, names = FALSE)
 }
 
