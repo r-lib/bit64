@@ -2648,38 +2648,13 @@ quantile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), na.rm = FALSE, na
     qtile.integer64(x, probs = probs, na.rm = na.rm, names = names, ...)
 }
 
-# TODO(R>=3.4.0): Drop this branch when median always gets '...'
-# adding ... (wish of Kurt Hornik 23.3.2017)
-if (is.na(match("...", names(formals(median))))) {
-    # nocov start. Only run on old R.
-    median_i64_impl_ <- function(x, na.rm=FALSE) {
-        if (!na.rm && na.count(x)>0L)
-            stop("missing values not allowed with 'na.rm='==FALSE")
-        qtile.integer64(x, probs = 0.5, na.rm = na.rm, names = FALSE)
-    }
-    # nocov end.
-} else {
-    median_i64_impl_ <- function(x, na.rm=FALSE, ...) {
-        if (!na.rm && na.count(x)>0L)
-            stop("missing values not allowed with 'na.rm='==FALSE")
-        qtile.integer64(x, probs = 0.5, na.rm = na.rm, names = FALSE)
-    }
-}
-
 #' @rdname qtile
 #' @export
-median.integer64 <- median_i64_impl_
+median.integer64 <- function(x, na.rm=FALSE, ...) {
+  if (!na.rm && na.count(x)>0L) return(NA_integer64_)
+  qtile.integer64(x, probs = 0.5, na.rm = na.rm, names = FALSE)
+}
 
-# mean.integer64 <- function(x, na.rm=FALSE) {
-    # s <- sum(x, na.rm=na.rm)
-    # if (!is.na(s)) {
-        # if (na.rm)
-            # s <- s%/%(length(x)-na.count(x))
-        # else
-            # s <- s%/%length(x)
-    # }
-    # s
-# }
 #' @rdname qtile
 #' @export
 mean.integer64 <- function(x, na.rm=FALSE, ...) {

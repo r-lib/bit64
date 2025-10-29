@@ -43,6 +43,10 @@
 
 1. {bit64} no longer prints any start-up messages through an `.onAttach()` hook (#106). Thanks @hadley for the request.
 
+## BUG FIXES
+
+1. `median(NA_integer64_, na.rm=FALSE)` now returns `NA_integer64_` instead of throwing an error, aligning its behavior with `median(NA_integer_)`, #185. Thanks @ben-schwen for the report and the PR.
+
 # bit64 4.6.0-1 (2025-01-16)
 
 ## NOTICE OF PLANNED BREAKING CHANGES

@@ -106,9 +106,9 @@ test_that("sorting methods work", {
   names(q) = c('0%', '25%', '50%', '75%', '100%')
   expect_identical(quantile(x), q)
   expect_identical(quantile(x, 0.2, names=FALSE), as.integer64(21L))
+  expect_identical(median(NA_integer64_, na.rm=FALSE), NA_integer64_)
 
   expect_error(quantile(x, type=7L), "only.*qtile.*supported")
-  expect_error(median(NA_integer64_), "missing values not allowed")
   expect_error(quantile(NA_integer64_), "missing values not allowed")
 
   x = as.integer64(1:100)
