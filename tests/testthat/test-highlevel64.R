@@ -106,8 +106,6 @@ test_that("sorting methods work", {
   names(q) = c('0%', '25%', '50%', '75%', '100%')
   expect_identical(quantile(x), q)
   expect_identical(quantile(x, 0.2, names=FALSE), as.integer64(21L))
-  expect_identical(median(NA_integer64_, na.rm=FALSE), NA_integer64_)
-  expect_identical(median(integer64()), NA_integer64_)
 
   expect_error(quantile(x, type=7L), "only.*qtile.*supported")
   expect_error(quantile(NA_integer64_), "missing values not allowed")
@@ -126,6 +124,20 @@ test_that("sorting methods work", {
   expect_error(rank(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
   expect_error(qtile(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
   expect_error(tiepos(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
+})
+
+test_that("missing and empty inputs to median() are handled correctly", {
+  expect_identical(median(NA_integer64_, na.rm=FALSE), NA_integer64_)
+  expect_identical(median(NA_integer64_, na.rm=TRUE), NA_integer64_)
+  expect_identical(median(integer64()), NA_integer64_)
+
+  x = as.integer64(c(NA, 1L))
+  expect_identical(median(x, na.rm=FALSE), NA_integer64_)
+  expect_identical(median(x, na.rm=TRUE), as.integer64(1L))
+
+  x = as.integer64(c(NA, NA))
+  expect_identical(median(x, na.rm=FALSE), NA_integer64_)
+  expect_identical(median(x, na.rm=TRUE), NA_integer64_)
 })
 
 # These tests were previously kept as tests under \examples{\dontshow{...}}.
