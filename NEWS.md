@@ -45,7 +45,7 @@
 
 ## BUG FIXES
 
-1. `median(NA_integer64_, na.rm=FALSE)` now returns `NA_integer64_` instead of throwing an error, aligning its behavior with `median(NA_integer_)`, #185. Thanks @ben-schwen for the report and the PR.
+1. `median(NA_integer64_, na.rm=FALSE)` and `median(integer64())` now return `NA_integer64_`, aligning its behavior with `median(NA_integer_)`, #185. Previously the former threw an error while the latter gave an incorrect result. Thanks @ben-schwen for the report and the PR.
 
 # bit64 4.6.0-1 (2025-01-16)
 
