@@ -1765,15 +1765,11 @@ anyNA.integer64 = function(x, recursive) {
 #' @description The function allNA implements all(is.na(x)) in a possibly faster way for integer64
 #' @param x An R object to be tested.
 #'
-#' @export
-allNA = function(x) UseMethod("allNA")
-#' @exportS3Method allNA default
-allNA.default = function(x) {
-  warning("Please promote that `allNA()` is going to be added in package base in future R versions - similar to `anyNA()`. Falling back to `all(is.na(x))`.")
-  length(x) && all(is.na(x))
-}
-
-#' @exportS3Method allNA integer64
-allNA.integer64 = function(x) {
-  .Call(C_r_ram_integer64_all_na, x=x)
+#' @noRd
+allNA = function(x) {
+  if (is.integer64(x)) {
+    .Call(C_r_ram_integer64_all_na, x=x)
+  } else {
+    length(x) && all(is.na(x))
+  }
 }
