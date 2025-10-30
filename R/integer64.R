@@ -1387,10 +1387,6 @@ prod.integer64 <- function(..., na.rm=FALSE) {
   }
 }
 
-empty_or_all_na_values_with_naRm = function(x, na.rm) {
-  if (length(x) == 0L) return(TRUE)
-  na.rm && allNA(x)
-}
 
 #' @rdname sum.integer64
 #' @export
@@ -1414,14 +1410,14 @@ min.integer64 = function(..., na.rm=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    resEmptyOrAllNa = empty_or_all_na_values_with_naRm(ret, na.rm)
+    resEmptyOrAllNa = (length(ret) == 0L || na.rm && allNA(ret))
     if (!resEmptyOrAllNa) {
       ret = min(ret, na.rm=na.rm)
       resEmptyOrAllNa = NULL
     }
   }
   if (is.null(resEmptyOrAllNa))
-    resEmptyOrAllNa = empty_or_all_na_values_with_naRm(ret, na.rm)
+    resEmptyOrAllNa = (length(ret) == 0L || na.rm && allNA(ret))
   if (resEmptyOrAllNa) {
     ret = lim.integer64()[2L]
     warning("no non-NA value, returning the highest possible integer64 value +", ret)
@@ -1451,14 +1447,14 @@ max.integer64 = function(..., na.rm=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    resEmptyOrAllNa = empty_or_all_na_values_with_naRm(ret, na.rm)
+    resEmptyOrAllNa = (length(ret) == 0L || na.rm && allNA(ret))
     if (!resEmptyOrAllNa) {
       ret = max(ret, na.rm=na.rm)
       resEmptyOrAllNa = NULL
     }
   }
   if (is.null(resEmptyOrAllNa))
-    resEmptyOrAllNa = empty_or_all_na_values_with_naRm(ret, na.rm)
+    resEmptyOrAllNa = (length(ret) == 0L || na.rm && allNA(ret))
   if (resEmptyOrAllNa) {
     ret = lim.integer64()[1L]
     warning("no non-NA value, returning the lowest possible integer64 value ", ret)
@@ -1492,14 +1488,14 @@ range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    resEmptyOrAllNa = empty_or_all_na_values_with_naRm(ret, na.rm)
+    resEmptyOrAllNa = (length(ret) == 0L || na.rm && allNA(ret))
     if (!resEmptyOrAllNa) {
       ret = range(ret, na.rm=na.rm)
       resEmptyOrAllNa = NULL
     }
   }
   if (is.null(resEmptyOrAllNa))
-    resEmptyOrAllNa = empty_or_all_na_values_with_naRm(ret, na.rm)
+    resEmptyOrAllNa = (length(ret) == 0L || na.rm && allNA(ret))
   if (resEmptyOrAllNa) {
     ret = c(lim.integer64()[2L], lim.integer64()[1L])
     warning("no non-NA value, returning c(+", ret[1L], ", ", ret[2L], ")")
