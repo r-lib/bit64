@@ -1388,13 +1388,21 @@ prod.integer64 <- function(..., na.rm=FALSE) {
 }
 
 
+empty_or_all_na_with_naRm = function(x, na.rm) {
+  if (is.integer64(x)) {
+    length(x) == 0L || na.rm && .Call(C_r_ram_integer64_all_na, x=x)
+  } else {
+    length(x) == 0L || na.rm && all(is.na(x))
+  }
+}
+
 #' @rdname sum.integer64
 #' @export
 min.integer64 = function(..., na.rm=FALSE) {
   l = list(...)
   na.rm = isTRUE(na.rm)
   ret = NULL
-  resEmptyOrAllNa = NULL
+  no_values = NULL
   
   if (length(l) == 1L) {
     if (length(l[[1]]) > 0L) {
@@ -1410,15 +1418,15 @@ min.integer64 = function(..., na.rm=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    resEmptyOrAllNa = (length(ret) == 0L || na.rm && allNA(ret))
-    if (!resEmptyOrAllNa) {
+    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+    if (!no_values) {
       ret = min(ret, na.rm=na.rm)
-      resEmptyOrAllNa = NULL
+      no_values = NULL
     }
   }
-  if (is.null(resEmptyOrAllNa))
-    resEmptyOrAllNa = (length(ret) == 0L || na.rm && allNA(ret))
-  if (resEmptyOrAllNa) {
+  if (is.null(no_values))
+    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+  if (no_values) {
     ret = lim.integer64()[2L]
     warning("no non-NA value, returning the highest possible integer64 value +", ret)
   }
@@ -1431,7 +1439,7 @@ max.integer64 = function(..., na.rm=FALSE) {
   l = list(...)
   na.rm = isTRUE(na.rm)
   ret = NULL
-  resEmptyOrAllNa = NULL
+  no_values = NULL
 
   if (length(l) == 1L) {
     if (length(l[[1]]) > 0L) {
@@ -1447,15 +1455,15 @@ max.integer64 = function(..., na.rm=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    resEmptyOrAllNa = (length(ret) == 0L || na.rm && allNA(ret))
-    if (!resEmptyOrAllNa) {
+    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+    if (!no_values) {
       ret = max(ret, na.rm=na.rm)
-      resEmptyOrAllNa = NULL
+      no_values = NULL
     }
   }
-  if (is.null(resEmptyOrAllNa))
-    resEmptyOrAllNa = (length(ret) == 0L || na.rm && allNA(ret))
-  if (resEmptyOrAllNa) {
+  if (is.null(no_values))
+    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+  if (no_values) {
     ret = lim.integer64()[1L]
     warning("no non-NA value, returning the lowest possible integer64 value ", ret)
   }
@@ -1472,7 +1480,7 @@ range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
     na.rm = isTRUE(na.rm)
   }
   ret = NULL
-  resEmptyOrAllNa = NULL
+  no_values = NULL
   
   if (length(l) == 1L) {
     if (length(l[[1]]) > 0L) {
@@ -1488,15 +1496,15 @@ range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    resEmptyOrAllNa = (length(ret) == 0L || na.rm && allNA(ret))
-    if (!resEmptyOrAllNa) {
+    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+    if (!no_values) {
       ret = range(ret, na.rm=na.rm)
-      resEmptyOrAllNa = NULL
+      no_values = NULL
     }
   }
-  if (is.null(resEmptyOrAllNa))
-    resEmptyOrAllNa = (length(ret) == 0L || na.rm && allNA(ret))
-  if (resEmptyOrAllNa) {
+  if (is.null(no_values))
+    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+  if (no_values) {
     ret = c(lim.integer64()[2L], lim.integer64()[1L])
     warning("no non-NA value, returning c(+", ret[1L], ", ", ret[2L], ")")
   }
@@ -1754,18 +1762,4 @@ as.list.integer64 <- function(x, ...) {
 #' @exportS3Method base::anyNA integer64
 anyNA.integer64 = function(x, recursive) {
   .Call(C_r_ram_integer64_any_na, x=x)
-}
-
-
-#' @title Not Available / Missing Values
-#' @description The function allNA implements all(is.na(x)) in a possibly faster way for integer64
-#' @param x An R object to be tested.
-#'
-#' @noRd
-allNA = function(x) {
-  if (is.integer64(x)) {
-    .Call(C_r_ram_integer64_all_na, x=x)
-  } else {
-    length(x) && all(is.na(x))
-  }
 }
