@@ -386,7 +386,7 @@ test_that("allNA and anyNA", {
   expect_no_warning(expect_identical(allNA(as.integer64(c(1L, 1L))), FALSE))
   expect_no_warning(expect_identical(allNA(as.integer64(c(1L, NA))), FALSE))
   expect_no_warning(expect_identical(allNA(as.integer64(c(NA, NA))), TRUE))
-  expect_no_warning(expect_identical(allNA(integer64()), FALSE))
+  expect_no_warning(expect_identical(allNA(integer64()), TRUE))
 
   expect_identical(anyNA(as.integer64(c(1L, 1L))), anyNA(c(1L, 1L)))
   expect_identical(anyNA(as.integer64(c(1L, NA))), anyNA(c(1L, NA)))

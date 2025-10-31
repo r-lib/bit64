@@ -49,9 +49,8 @@ SEXP r_ram_integer64_all_na(
   ValueT *x = (ValueT *) REAL(x_);
   SEXP ret_;
   PROTECT( ret_ = allocVector(LGLSXP, 1) );
-  Rboolean ret = FALSE;
+  Rboolean ret = TRUE;
   if (n){
-    ret = TRUE;
     R_Busy(1);
     for(i=0;i<n;i++)
         if (x[i]!=NA_INTEGER64) {
