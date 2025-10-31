@@ -277,8 +277,8 @@ NULL
 #'
 #' @examples
 #'   c(as.integer64(1), 2:6)
-#'   cbind(1:6, as.integer(1:6))
-#'   rbind(1:6, as.integer(1:6))
+#'   cbind(1:6, as.integer64(1:6))
+#'   rbind(1:6, as.integer64(1:6))
 #' @name c.integer64
 NULL
 
@@ -305,7 +305,7 @@ NULL
 #'
 #' Generating sequence of integer64 values
 #'
-#' @param from integer64 scalar (in order to dispatch the integer64 method of [seq()]
+#' @param from integer64 scalar (in order to dispatch the integer64 method of [seq()])
 #' @param to scalar
 #' @param by scalar
 #' @param length.out scalar
@@ -1387,26 +1387,49 @@ prod.integer64 <- function(..., na.rm=FALSE) {
   }
 }
 
+
+empty_or_all_na_with_naRm = function(x, na.rm) {
+  if (is.integer64(x)) {
+    length(x) == 0L || na.rm && .Call(C_r_ram_integer64_all_na, x=x)
+  } else {
+    length(x) == 0L || na.rm && all(is.na(x))
+  }
+}
+
 #' @rdname sum.integer64
 #' @export
 min.integer64 = function(..., na.rm=FALSE) {
   l = list(...)
+  na.rm = isTRUE(na.rm)
+  ret = NULL
+  no_values = NULL
+  
   if (length(l) == 1L) {
-    ret = .Call(C_min_integer64, l[[1L]], na.rm, double(1L))
-    oldClass(ret) = "integer64"
+    if (length(l[[1]]) > 0L) {
+      ret = .Call(C_min_integer64, l[[1L]], na.rm, double(1L))
+      oldClass(ret) = "integer64"
+    }
   } else {
-    ret = vapply(l, FUN.VALUE=integer64(1L), function(e) {
+    ret = vapply(Filter(length, l), FUN.VALUE=integer64(1L), function(e) {
       if (is.integer64(e)) {
         .Call(C_min_integer64, e, na.rm, double(1L))
       } else {
-        as.integer64(min(e, na.rm=na.rm))
+        suppressWarnings(as.integer64(min(e, na.rm=na.rm)))
       }
     })
     oldClass(ret) = "integer64"
-    ret = min(ret, na.rm=na.rm)
+    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+    if (!no_values) {
+      ret = min(ret, na.rm=na.rm)
+      no_values = NULL
+    }
   }
-  if (!any(lengths(l)))
-    warning("no non-NA value, returning the highest possible integer64 value +", lim.integer64()[2L])
+  if (is.null(no_values))
+    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+  if (no_values) {
+    ret = lim.integer64()[2L]
+    warning("no non-NA value, returning the highest possible integer64 value +", ret)
+  }
   ret
 }
 
@@ -1414,47 +1437,77 @@ min.integer64 = function(..., na.rm=FALSE) {
 #' @export
 max.integer64 = function(..., na.rm=FALSE) {
   l = list(...)
+  na.rm = isTRUE(na.rm)
+  ret = NULL
+  no_values = NULL
+
   if (length(l) == 1L) {
-    ret = .Call(C_max_integer64, l[[1L]], na.rm, double(1L))
-    oldClass(ret) = "integer64"
+    if (length(l[[1]]) > 0L) {
+      ret = .Call(C_max_integer64, l[[1L]], na.rm, double(1L))
+      oldClass(ret) = "integer64"
+    }
   } else {
-    ret <- vapply(l, FUN.VALUE=integer64(1L), function(e) {
+    ret = vapply(Filter(length, l), FUN.VALUE=integer64(1L), function(e) {
       if (is.integer64(e)) {
         .Call(C_max_integer64, e, na.rm, double(1L))
       } else {
-        as.integer64(max(e, na.rm=na.rm))
+        suppressWarnings(as.integer64(max(e, na.rm=na.rm)))
       }
     })
     oldClass(ret) = "integer64"
-    ret = max(ret, na.rm=na.rm)
+    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+    if (!no_values) {
+      ret = max(ret, na.rm=na.rm)
+      no_values = NULL
+    }
   }
-  if (!any(lengths(l)))
-    warning("no non-NA value, returning the lowest possible integer64 value ", lim.integer64()[1L])
+  if (is.null(no_values))
+    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+  if (no_values) {
+    ret = lim.integer64()[1L]
+    warning("no non-NA value, returning the lowest possible integer64 value ", ret)
+  }
   ret
 }
 
 #' @rdname sum.integer64
 #' @export
 range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
-  if (finite)
+  l = list(...)
+  if (isTRUE(finite)) {
     na.rm = TRUE
-  l <- list(...)
-  if (length(l) == 1L) {
-    ret = .Call(C_range_integer64, l[[1L]], na.rm, double(2L))
-    oldClass(ret) = "integer64"
   } else {
-    ret <- vapply(l, FUN.VALUE=integer64(2L), function(e) {
+    na.rm = isTRUE(na.rm)
+  }
+  ret = NULL
+  no_values = NULL
+  
+  if (length(l) == 1L) {
+    if (length(l[[1]]) > 0L) {
+      ret = .Call(C_range_integer64, l[[1L]], na.rm, double(2L))
+      oldClass(ret) = "integer64"
+    }
+  } else {
+    ret = vapply(Filter(length, l), FUN.VALUE=integer64(2L), function(e) {
       if (is.integer64(e)) {
         .Call(C_range_integer64, e, na.rm, double(2L))
       } else {
-        as.integer64(range(e, na.rm=na.rm))
+        suppressWarnings(as.integer64(range(e, na.rm=na.rm)))
       }
     })
     oldClass(ret) = "integer64"
-    ret = range(ret, na.rm=na.rm)
+    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+    if (!no_values) {
+      ret = range(ret, na.rm=na.rm)
+      no_values = NULL
+    }
   }
-  if (!any(lengths(l)))
-    warning("no non-NA value, returning c(+", lim.integer64()[2L], ", ", lim.integer64()[1L], ")")
+  if (is.null(no_values))
+    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+  if (no_values) {
+    ret = c(lim.integer64()[2L], lim.integer64()[1L])
+    warning("no non-NA value, returning c(+", ret[1L], ", ", ret[2L], ")")
+  }
   ret
 }
 
@@ -1703,4 +1756,10 @@ is.vector.integer64 <- function(x, mode="any") {
 as.list.integer64 <- function(x, ...) {
   ret <- NextMethod("as.list", x, ...)
   .Call(C_as_list_integer64, ret)
+}
+
+
+#' @exportS3Method base::anyNA integer64
+anyNA.integer64 = function(x, recursive) {
+  .Call(C_r_ram_integer64_any_na, x=x)
 }

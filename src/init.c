@@ -67,6 +67,8 @@ extern SEXP r_ram_integer64_issorted_asc(SEXP);
 extern SEXP r_ram_integer64_mergeorder(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP r_ram_integer64_mergesort(SEXP, SEXP, SEXP, SEXP);
 extern SEXP r_ram_integer64_mergesortorder(SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP r_ram_integer64_all_na(SEXP);
+extern SEXP r_ram_integer64_any_na(SEXP);
 extern SEXP r_ram_integer64_nacount(SEXP);
 extern SEXP r_ram_integer64_orderdup_asc(SEXP, SEXP, SEXP, SEXP);
 extern SEXP r_ram_integer64_orderfin_asc(SEXP, SEXP, SEXP, SEXP, SEXP);
@@ -180,6 +182,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"r_ram_integer64_mergeorder",       (DL_FUNC) &r_ram_integer64_mergeorder,       5},
     {"r_ram_integer64_mergesort",        (DL_FUNC) &r_ram_integer64_mergesort,        4},
     {"r_ram_integer64_mergesortorder",   (DL_FUNC) &r_ram_integer64_mergesortorder,   5},
+    {"r_ram_integer64_all_na",           (DL_FUNC) &r_ram_integer64_all_na,           1},
+    {"r_ram_integer64_any_na",           (DL_FUNC) &r_ram_integer64_any_na,           1},
     {"r_ram_integer64_nacount",          (DL_FUNC) &r_ram_integer64_nacount,          1},
     {"r_ram_integer64_orderdup_asc",     (DL_FUNC) &r_ram_integer64_orderdup_asc,     4},
     {"r_ram_integer64_orderfin_asc",     (DL_FUNC) &r_ram_integer64_orderfin_asc,     5},

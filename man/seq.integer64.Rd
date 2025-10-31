@@ -4,7 +4,7 @@
 \alias{seq.integer64}
 \title{integer64: Sequence Generation}
 \arguments{
-\item{from}{integer64 scalar (in order to dispatch the integer64 method of \code{\link[=seq]{seq()}}}
+\item{from}{integer64 scalar (in order to dispatch the integer64 method of \code{\link[=seq]{seq()}})}
 
 \item{to}{scalar}
 

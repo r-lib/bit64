@@ -372,34 +372,18 @@ test_that("Summary functions", {
     as.integer64(min(2.0, 3.0, NA)),
     min(as.integer64(2L), 3.0, NA)
   ))
-  expect_warning(
-    expect_warning(
-      expect_true(identical.integer64(
-        as.integer64(min(2.0, 3.0, NA, na.rm=TRUE)),
-        min(as.integer64(2L), 3.0, NA, na.rm=TRUE)
-      )),
-      "no non-missing arguments to min; returning Inf",
-      fixed = TRUE
-    ),
-    "NAs produced by integer64 overflow",
-    fixed = TRUE
-  )
+  expect_true(identical.integer64(
+    as.integer64(min(2.0, 3.0, NA, na.rm=TRUE)),
+    min(as.integer64(2L), 3.0, NA, na.rm=TRUE)
+  ))
   expect_true(identical.integer64(
     as.integer64(min(2.0, 3.0, NA)),
     min(as.integer64(2L), 3.0, NA)
   ))
-  expect_warning(
-    expect_warning(
-      expect_true(identical.integer64(
-        as.integer64(min(2.0, 3.0, NA, na.rm=TRUE)),
-        min(as.integer64(2L), 3.0, NA, na.rm=TRUE)
-      )),
-      "no non-missing arguments to min; returning Inf",
-      fixed = TRUE
-    ),
-    "NAs produced by integer64 overflow",
-    fixed = TRUE
-  )
+  expect_true(identical.integer64(
+    as.integer64(min(2.0, 3.0, NA, na.rm=TRUE)),
+    min(as.integer64(2L), 3.0, NA, na.rm=TRUE)
+  ))
 
   expect_true(identical.integer64(
     as.integer64(max(xd)),
@@ -421,34 +405,18 @@ test_that("Summary functions", {
     as.integer64(max(2.0, 3.0, NA)),
     max(as.integer64(2L), 3.0, NA)
   ))
-  expect_warning(
-    expect_warning(
-      expect_true(identical.integer64(
-        as.integer64(max(2.0, 3.0, NA, na.rm=TRUE)),
-        max(as.integer64(2L), 3.0, NA, na.rm=TRUE)
-      )),
-      "no non-missing arguments to max; returning -Inf",
-      fixed = TRUE
-    ),
-    "NAs produced by integer64 overflow",
-    fixed = TRUE
-  )
+  expect_true(identical.integer64(
+    as.integer64(max(2.0, 3.0, NA, na.rm=TRUE)),
+    max(as.integer64(2L), 3.0, NA, na.rm=TRUE)
+  ))
   expect_true(identical.integer64(
     as.integer64(max(2.0, 3.0, NA)),
     max(as.integer64(2L), 3.0, NA)
   ))
-  expect_warning(
-    expect_warning(
-      expect_true(identical.integer64(
-        as.integer64(max(2.0, 3.0, NA, na.rm=TRUE)),
-        max(as.integer64(2L), 3.0, NA, na.rm=TRUE)
-      )),
-      "no non-missing arguments to max; returning -Inf",
-      fixed = TRUE
-    ),
-    "NAs produced by integer64 overflow",
-    fixed = TRUE
-  )
+  expect_true(identical.integer64(
+    as.integer64(max(2.0, 3.0, NA, na.rm=TRUE)),
+    max(as.integer64(2L), 3.0, NA, na.rm=TRUE)
+  ))
 
   expect_true(identical.integer64(
     as.integer64(range(xd)),
@@ -470,22 +438,10 @@ test_that("Summary functions", {
     as.integer64(range(2.0, 3.0, NA)),
     range(as.integer64(2L), 3.0, NA)
   ))
-  expect_warning(
-    expect_warning(
-      expect_warning(
-        expect_true(identical.integer64(
-          as.integer64(range(2.0, 3.0, NA, na.rm=TRUE)),
-          range(as.integer64(2L), 3.0, NA, na.rm=TRUE)
-        )),
-        "no non-missing arguments to max; returning -Inf",
-        fixed = TRUE
-      ),
-      "no non-missing arguments to min; returning Inf",
-      fixed = TRUE
-    ),
-    "NAs produced by integer64 overflow",
-    fixed = TRUE
-  )
+  expect_true(identical.integer64(
+    as.integer64(range(2.0, 3.0, NA, na.rm=TRUE)),
+    range(as.integer64(2L), 3.0, NA, na.rm=TRUE)
+  ))
 })
 
 test_that("Cumulative functions", {
