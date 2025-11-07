@@ -41,6 +41,51 @@ SEXP r_ram_integer64_nacount(
   return ret_;
 }
 
+SEXP r_ram_integer64_all_na(
+  SEXP x_
+)
+{
+  int i,n = LENGTH(x_);
+  ValueT *x = (ValueT *) REAL(x_);
+  SEXP ret_;
+  PROTECT( ret_ = allocVector(LGLSXP, 1) );
+  Rboolean ret = TRUE;
+  if (n){
+    R_Busy(1);
+    for(i=0;i<n;i++)
+        if (x[i]!=NA_INTEGER64) {
+            ret = FALSE;
+            break;
+        }
+  }
+  LOGICAL(ret_)[0]=ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
+
+SEXP r_ram_integer64_any_na(
+  SEXP x_
+)
+{
+  int i,n = LENGTH(x_);
+  ValueT *x = (ValueT *) REAL(x_);
+  SEXP ret_;
+  PROTECT( ret_ = allocVector(LGLSXP, 1) );
+  Rboolean ret = FALSE;
+  if (n){
+    R_Busy(1);
+    for(i=0;i<n;i++)
+        if (x[i]==NA_INTEGER64) {
+            ret = TRUE;
+            break;
+        }
+  }
+  LOGICAL(ret_)[0]=ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
 
 SEXP r_ram_integer64_issorted_asc(SEXP x_) {
   int i, n = LENGTH(x_);
