@@ -54,11 +54,21 @@
 </li>
 </ol></div>
 <div class="section level3">
+<h3 id="new-features-4-7-99">NEW FEATURES<a class="anchor" aria-label="anchor" href="#new-features-4-7-99"></a></h3>
+<ol style="list-style-type: decimal"><li>
+<code>anyNA</code> gets an <code>integer64</code> method. Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
+</ol></div>
+<div class="section level3">
+<h3 id="bug-fixes-4-7-99">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-7-99"></a></h3>
+<ol style="list-style-type: decimal"><li>
+<code>min.integer64</code>, <code>max.integer64</code> and <code>range.integer64</code> now support <code>na.rm=TRUE</code> correctly when combining across mutliple inputs like <code>min(x, NA_integer64_, na.rm=TRUE)</code> (<a href="https://github.com/r-lib/bit64/issues/142" class="external-link">#142</a>).</li>
+</ol></div>
+<div class="section level3">
 <h3 id="notes-4-7-99">NOTES<a class="anchor" aria-label="anchor" href="#notes-4-7-99"></a></h3>
 <ol style="list-style-type: decimal"><li>{bit64} no longer prints any start-up messages through an <code>.onAttach()</code> hook (<a href="https://github.com/r-lib/bit64/issues/106" class="external-link">#106</a>). Thanks <a href="https://github.com/hadley" class="external-link">@hadley</a> for the request.</li>
 </ol></div>
 <div class="section level3">
-<h3 id="bug-fixes-4-7-99">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-7-99"></a></h3>
+<h3 id="bug-fixes-4-7-99-1">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-7-99-1"></a></h3>
 <ol style="list-style-type: decimal"><li>
 <code>median(NA_integer64_, na.rm=FALSE)</code> and <code>median(integer64())</code> now return <code>NA_integer64_</code>, aligning its behavior with <code>median(NA_integer_)</code>, <a href="https://github.com/r-lib/bit64/issues/185" class="external-link">#185</a>. Previously the former threw an error while the latter gave an incorrect result. Thanks <a href="https://github.com/ben-schwen" class="external-link">@ben-schwen</a> for the report and the PR.</li>
 </ol></div>
