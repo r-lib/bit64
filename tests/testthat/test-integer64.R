@@ -467,23 +467,9 @@ test_that("all.equal works", {
 })
 
 
-test_that("allNA and anyNA", {
-
-  # Hopefully allNA is added to the base package like anyNA is.
-  # expect_no_warning(expect_identical(allNA(as.integer64(c(1L, 1L))), FALSE))
-  # expect_no_warning(expect_identical(allNA(as.integer64(c(1L, NA))), FALSE))
-  # expect_no_warning(expect_identical(allNA(as.integer64(c(NA, NA))), TRUE))
-  # expect_no_warning(expect_identical(allNA(integer64()), FALSE))
-  # test the `allNA` function replacement
-  allNA = function(x) .Call(bit64:::C_r_ram_integer64_all_na, x=x)
-  expect_no_warning(expect_identical(allNA(as.integer64(c(1L, 1L))), FALSE))
-  expect_no_warning(expect_identical(allNA(as.integer64(c(1L, NA))), FALSE))
-  expect_no_warning(expect_identical(allNA(as.integer64(c(NA, NA))), TRUE))
-  expect_no_warning(expect_identical(allNA(integer64()), TRUE))
-
+test_that("anyNA method", {
   expect_identical(anyNA(as.integer64(c(1L, 1L))), anyNA(c(1L, 1L)))
   expect_identical(anyNA(as.integer64(c(1L, NA))), anyNA(c(1L, NA)))
   expect_identical(anyNA(as.integer64(c(NA, NA))), anyNA(c(NA, NA)))
   expect_identical(anyNA(integer64()), anyNA(integer()))
-
 })
