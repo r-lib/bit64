@@ -1387,12 +1387,14 @@ prod.integer64 <- function(..., na.rm=FALSE) {
   }
 }
 
-
-empty_or_all_na_with_naRm = function(x, na.rm) {
+# not exactly analogous to anyNA, but convenient for min/max/range
+.all_na = function(x, na.rm) {
+  if (!length(x)) return(TRUE)
+  if (!na.rm) return(FALSE)
   if (is.integer64(x)) {
-    length(x) == 0L || na.rm && .Call(C_r_ram_integer64_all_na, x=x)
+    .Call(C_r_ram_integer64_all_na, x=x)
   } else {
-    length(x) == 0L || na.rm && all(is.na(x))
+    all(is.na(x))
   }
 }
 
@@ -1418,14 +1420,14 @@ min.integer64 = function(..., na.rm=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+    no_values = .all_na(ret, na.rm)
     if (!no_values) {
       ret = min(ret, na.rm=na.rm)
       no_values = NULL
     }
   }
   if (is.null(no_values))
-    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+    no_values = .all_na(ret, na.rm)
   if (no_values) {
     ret = lim.integer64()[2L]
     warning("no non-NA value, returning the highest possible integer64 value +", ret)
@@ -1455,14 +1457,14 @@ max.integer64 = function(..., na.rm=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+    no_values = .all_na(ret, na.rm)
     if (!no_values) {
       ret = max(ret, na.rm=na.rm)
       no_values = NULL
     }
   }
   if (is.null(no_values))
-    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+    no_values = .all_na(ret, na.rm)
   if (no_values) {
     ret = lim.integer64()[1L]
     warning("no non-NA value, returning the lowest possible integer64 value ", ret)
@@ -1496,14 +1498,14 @@ range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
       }
     })
     oldClass(ret) = "integer64"
-    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+    no_values = .all_na(ret, na.rm)
     if (!no_values) {
       ret = range(ret, na.rm=na.rm)
       no_values = NULL
     }
   }
   if (is.null(no_values))
-    no_values = empty_or_all_na_with_naRm(ret, na.rm)
+    no_values = .all_na(ret, na.rm)
   if (no_values) {
     ret = c(lim.integer64()[2L], lim.integer64()[1L])
     warning("no non-NA value, returning c(+", ret[1L], ", ", ret[2L], ")")
