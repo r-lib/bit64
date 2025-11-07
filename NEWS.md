@@ -39,6 +39,10 @@
    Because there was no recorded direct usage for any of these, I am opting to just rip the band-aid
    off and un-export them in this release as opposed to waiting a full cycle more to do so.
 
+## NEW FEATURES
+
+1. `anyNA` gets an `integer64` method. Thanks @hcirellu.
+
 ## BUG FIXES
 
 1. `min.integer64`, `max.integer64` and `range.integer64` now support `na.rm=TRUE` correctly when combining across mutliple inputs like `min(x, NA_integer64_, na.rm=TRUE)` (#142).
@@ -46,7 +50,6 @@
 ## NOTES
 
 1. {bit64} no longer prints any start-up messages through an `.onAttach()` hook (#106). Thanks @hadley for the request.
-2. `anyNA` is supported for `integer64`.
 
 # bit64 4.6.0-1 (2025-01-16)
 
