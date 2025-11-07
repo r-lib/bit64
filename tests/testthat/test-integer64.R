@@ -103,6 +103,17 @@ test_that("basic statistics work", {
   expect_identical(sum(x, x), as.integer64(110L))
   expect_identical(prod(x), as.integer64(factorial(10L)))
   expect_identical(prod(x[1:5], x[6:10]), as.integer64(factorial(10L)))
+  expect_identical(diff(x), as.integer64(rep(1L, 9L)))
+
+  expect_identical(cummin(x), as.integer64(rep(1L, 10L)))
+  expect_identical(cummax(x), x)
+  expect_identical(cumsum(x), as.integer64(choose(2:11, 2L)))
+  expect_identical(cumprod(x), as.integer64(factorial(1:10)))
+})
+
+test_that("min, max, and range work", {
+  x = as.integer64(1:10)
+
   expect_identical(min(x), x[1L])
   expect_identical(min(x, as.integer64(0L)), as.integer64(0L))
   expect_warning(
@@ -246,13 +257,6 @@ test_that("basic statistics work", {
   expect_no_warning(
     expect_identical(range(integer64(1), integer64(), na.rm=TRUE), rep(as.integer64(0L), 2L))
   )
-
-  expect_identical(diff(x), as.integer64(rep(1L, 9L)))
-
-  expect_identical(cummin(x), as.integer64(rep(1L, 10L)))
-  expect_identical(cummax(x), x)
-  expect_identical(cumsum(x), as.integer64(choose(2:11, 2L)))
-  expect_identical(cumprod(x), as.integer64(factorial(1:10)))
 })
 
 test_that("display methods work", {
