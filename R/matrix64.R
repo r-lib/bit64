@@ -20,8 +20,7 @@
 #' @param na.rm,dims Same interpretation as in [colSums()].
 #' @param ... Passed on to subsequent methods.
 #' @examples
-#' A = as.integer64(1:6)
-#' dim(A) = 3:2
+#' A = matrix(as.integer64(1:6), 3)
 #'
 #' colSums(A)
 #' rowSums(A)
@@ -31,42 +30,116 @@ NULL
 
 #' @rdname matrix64
 #' @export
-colSums <- function(x, na.rm=FALSE, dims=1L) UseMethod("colSums")
-#' @rdname matrix64
-#' @export
-colSums.default <- function(x, na.rm=FALSE, dims=1L) base::colSums(x, na.rm, dims)
+matrix = function(data=NA, nrow=1, ncol=1, byrow=FALSE, dimnames=NULL) UseMethod("matrix")
+#' @exportS3Method matrix default
+matrix.default = base::matrix
+
+#' @exportS3Method matrix integer64
+matrix.integer64 = function(data=NA_integer64_, nrow=1, ncol=1, byrow=FALSE, dimnames=NULL) {
+  # input validation
+  nrowVal = as.integer(nrow)[1L]
+  ncolVal = as.integer(ncol)[1L]
+  if (!is.finite(nrowVal) || nrowVal <= 0L) stop(gettextf("invalid '%s' value", "nrow", domain="R"))
+  if (!is.finite(ncolVal) || ncolVal <= 0L) stop(gettextf("invalid '%s' value", "ncol", domain="R"))
+  if (!length(data)) data = NA_integer64_
+
+  # determine nrow or ncol if one or both are missing
+  if (missing(nrow) && missing(ncol)) {
+    nrowVal = length(data)
+  } else if (missing(nrow)) {
+    nrowVal = ceiling(length(data) / ncolVal)
+  } else if (missing(ncol)) {
+    ncolVal = ceiling(length(data) / nrowVal)
+  }
+
+  # shorten or extend to correct size
+  if (length(data) %% nrowVal != 0L && nrowVal %% length(data) != 0L) {
+    warning(gettextf("data length [%d] is not a sub-multiple or multiple of the number of rows [%d]", length(data), nrowVal, domain="R"))
+
+  } else if (length(data) %% ncolVal != 0L && ncolVal %% length(data) != 0L) {
+    warning(gettextf("data length [%d] is not a sub-multiple or multiple of the number of columns [%d]", length(data), ncolVal, domain="R"))
+  }
+  data = rep_len(data, nrowVal * ncolVal)
+
+  if (isTRUE(byrow)) {
+    dim(data) = c(ncolVal, nrowVal)
+    ret = t(data)
+  } else {
+    dim(data) = c(nrowVal, ncolVal)
+    ret = data
+  }
+  if (!is.null(dimnames)) dimnames(ret) = dimnames
+  ret
+}
+
 
 #' @rdname matrix64
 #' @export
-colSums.integer64 <- function(x, na.rm=FALSE, dims=1L) {
-  n_dim <- length(dim(x))
+array = function(data=NA, dim=length(data), dimnames=NULL) UseMethod("array")
+#' @exportS3Method array default
+array.default = base::array
+
+#' @exportS3Method array integer64
+array.integer64 = function(data=NA_integer64_, dim=length(data), dimnames=NULL) {
+  # input validation
+  dim = as.integer(dim)
+  if (!length(data)) data = NA_integer64_
+
+  if (!length(dim)) 
+      stop(gettext("'dim' cannot be of length 0", domain="R-base"))
+  vl = prod(dim)
+  if (vl < 0)
+    stop(gettext("negative length vectors are not allowed", domain="R"))
+  if (length(data) != vl) {
+      data = rep_len(data, vl)
+  }
+  if (length(dim)) 
+      dim(data) = dim
+  if (is.list(dimnames) && length(dimnames)) 
+      dimnames(data) = dimnames
+  data
+}
+
+
+#' @rdname matrix64
+#' @export
+colSums = function(x, na.rm=FALSE, dims=1L) UseMethod("colSums")
+#' @rdname matrix64
+#' @export
+colSums.default = function(x, na.rm=FALSE, dims=1L) base::colSums(x, na.rm, dims)
+
+#' @rdname matrix64
+#' @export
+colSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
+  n_dim = length(dim(x))
   stopifnot(
     `dims= should be a length-1 integer between 1 and length(dim(x))-1L` =
       length(dims) == 1L && dims > 0L && dims < n_dim
   )
   MARGIN = tail(seq_len(n_dim), -dims)
-  ret = apply(x, MARGIN, sum, na.rm = na.rm)
+  ret = apply(x, MARGIN, sum, na.rm=na.rm)
   class(ret) = "integer64"
   ret
 }
 
-#' @rdname matrix64
-#' @export
-rowSums <- function(x, na.rm=FALSE, dims=1L) UseMethod("rowSums")
-#' @rdname matrix64
-#' @export
-rowSums.default <- function(x, na.rm=FALSE, dims=1L) base::rowSums(x, na.rm, dims)
 
 #' @rdname matrix64
 #' @export
-rowSums.integer64 <- function(x, na.rm=FALSE, dims=1L) {
-  n_dim <- length(dim(x))
+rowSums = function(x, na.rm=FALSE, dims=1L) UseMethod("rowSums")
+#' @rdname matrix64
+#' @export
+rowSums.default = function(x, na.rm=FALSE, dims=1L) base::rowSums(x, na.rm, dims)
+
+#' @rdname matrix64
+#' @export
+rowSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
+  n_dim = length(dim(x))
   stopifnot(
     `dims= should be a length-1 integer between 1 and length(dim(x))-1L` =
       length(dims) == 1L && dims > 0L && dims < n_dim
   )
   MARGIN = seq_len(dims)
-  ret = apply(x, MARGIN, sum, na.rm = na.rm)
+  ret = apply(x, MARGIN, sum, na.rm=na.rm)
   class(ret) = "integer64"
   ret
 }
@@ -74,9 +147,74 @@ rowSums.integer64 <- function(x, na.rm=FALSE, dims=1L) {
 #' @rdname matrix64
 #' @param a,perm Passed on to [aperm()].
 #' @export
-aperm.integer64 <- function(a, perm, ...) {
+aperm.integer64 = function(a, perm, ...) {
   class(a) = minusclass(class(a), "integer64")
-  ret <- aperm(a, perm, ...)
+  ret = aperm(a, perm, ...)
   class(ret) = plusclass(class(a), "integer64")
   ret
+}
+
+
+#' @rdname matrix64
+#' @exportS3Method base::`%*%` integer64
+`%*%.integer64` <- function(x, y) {
+  if (!is.integer64(x) && !is.integer64(y)) 
+    return(x%*%y)
+
+  target_class = target_class_for_Ops(x, y)
+  if (target_class != "integer64") {
+    if (is.integer64(x)) {
+      for (cc in class(y)) {
+        f = getS3method("%*%", cc, optional=TRUE)
+        if (!is.null(f))
+          return(f(.as_double_integer64(x, keep.attributes=TRUE), y))
+      }
+      x = .as_double_integer64(x, keep.attributes=TRUE)
+    } else {
+      y = .as_double_integer64(y, keep.attributes=TRUE)
+    }
+    return(x%*%y)
+  }
+
+  dx = dim(x)
+  dy = dim(y)
+  if (length(dx) > 2L || length(dy) > 2L)
+    stop(gettext("non-conformable arguments", domain="R")) 
+  if (length(dx) <= 1L && length(dy) <= 1L) {
+    dx = c(1L, length(x))
+    if (length(x) == length(y)) {
+      dy = c(length(y), 1L)
+    } else {
+      dy = c(1L, length(y))
+    }
+  }
+  if (length(dx) <= 1L)
+    dx = c(1L, dy[1L])
+  if (length(dy) <= 1L)
+    dy = c(dx[2L], 1L)
+  if (dx[2L] != dy[1L])
+    stop(gettext("non-conformable arguments", domain="R")) 
+  dim(x) = dx
+  dim(y) = dy
+
+  if (is.double(x)) {
+    ret = .Call(C_matmult_double_integer64, x, structure(as.integer64(y), dim=dy), double(dx[1L]*dy[2L]))
+  } else if (is.double(y)) {
+    ret = .Call(C_matmult_integer64_double, structure(as.integer64(x), dim=dx), y, double(dx[1L]*dy[2L]))
+  } else {
+    ret = .Call(C_matmult_integer64_integer64, structure(as.integer64(x), dim=dx), structure(as.integer64(y), dim=dy), double(dx[1L]*dy[2L]))
+  }
+  dim(ret) = c(dx[1L], dy[2L])
+  oldClass(ret) = "integer64"
+  ret
+}
+
+
+#' @exportS3Method base::as.matrix integer64
+as.matrix.integer64 = function(x, ...) {
+  if (is.matrix(x)) {
+    x
+  } else {
+    array(x, c(length(x), 1L), {if (!is.null(names(x))) list(names(x), NULL) else NULL})
+  } 
 }
