@@ -1,3 +1,24 @@
+matrix64 = function(x, nrow=1L, ncol=1L, byrow=FALSE) {
+  if (getRversion() >= "4.0.0") return(matrix(as.integer64(x), nrow, ncol, byrow))
+  warning("using matrix64() with R version < 4.0.0")
+  x = as.integer64(x)
+  if (byrow) {
+    dim(x) = c(ncol, nrow)
+    t(x)
+  } else {
+    dim(x) = c(nrow, ncol)
+    x
+  }
+}
+
+array64 = function(x, dim) {
+  if (getRversion() >= "4.0.0") return(array(as.integer64(x), dim))
+  warning("using array64() with R version < 4.0.0")
+  x = as.integer64(x)
+  dim(x) = dim
+  x
+}
+
 # Test that 'expr' gives the same result whether
 #   the input is integer or integer64, in the sense
 #   of equivalence after casting between the types.

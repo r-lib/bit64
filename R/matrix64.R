@@ -30,12 +30,12 @@
 NULL
 
 #' @rdname matrix64
-#' @export
+#' @rawNamespace if (getRversion() >= "4.0.0") export(matrix)
 matrix = function(data=NA, nrow=1, ncol=1, byrow=FALSE, dimnames=NULL) UseMethod("matrix")
-#' @exportS3Method matrix default
+#' @rawNamespace if (getRversion() >= "4.0.0") S3method(matrix,default)
 matrix.default = function(...) base::matrix(...)
 
-#' @exportS3Method matrix integer64
+#' @rawNamespace if (getRversion() >= "4.0.0") S3method(matrix,integer64)
 matrix.integer64 = function(data=NA_integer64_, nrow=1, ncol=1, byrow=FALSE, dimnames=NULL) {
   # input validation
   nrowVal = as.integer(nrow)[1L]
@@ -75,12 +75,12 @@ matrix.integer64 = function(data=NA_integer64_, nrow=1, ncol=1, byrow=FALSE, dim
 
 
 #' @rdname matrix64
-#' @export
+#' @rawNamespace if (getRversion() >= "4.0.0") export(array)
 array = function(data=NA, dim=length(data), dimnames=NULL) UseMethod("array")
-#' @exportS3Method array default
+#' @rawNamespace if (getRversion() >= "4.0.0") S3method(array,default)
 array.default = function(...) base::array(...)
 
-#' @exportS3Method array integer64
+#' @rawNamespace if (getRversion() >= "4.0.0") S3method(array,integer64)
 array.integer64 = function(data=NA_integer64_, dim=length(data), dimnames=NULL) {
   # input validation
   dim = as.integer(dim)
@@ -156,7 +156,7 @@ aperm.integer64 = function(a, perm, ...) {
 }
 
 
-#' @exportS3Method base::`%*%` integer64
+#' @rawNamespace if (getRversion() >= "4.0.0") S3method(base::`%*%`,integer64)
 `%*%.integer64` <- function(x, y) {
   if (!is.integer64(x) && !is.integer64(y)) 
     return(x%*%y)

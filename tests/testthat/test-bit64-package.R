@@ -178,10 +178,12 @@ test_that("Coercion", {
     as.double(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
     as.double(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
   )
-  expect_identical(
-    as.complex(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
-    as.complex(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
-  )
+  if (getRversion() >= "4.0.0") {
+    expect_identical(
+      as.complex(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
+      as.complex(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
+    )
+  }
   expect_identical(
     as.character(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
     as.character(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
@@ -264,10 +266,12 @@ test_that("Coercion", {
     as(as.ordered(111), "integer64"),
     as.integer64(1L)
   )
-  expect_identical(
-    as(as.integer64(1L), "raw"),
-    as.raw(1L)
-  )
+  if (getRversion() >= "4.0.0") {
+    expect_identical(
+      as(as.integer64(1L), "raw"),
+      as.raw(1L)
+    )
+  }
   expect_identical(
     as(as.integer64(1L), "logical"),
     TRUE

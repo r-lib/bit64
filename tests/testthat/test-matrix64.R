@@ -1,6 +1,7 @@
 test_that("matrix works still on simple integer input", {
   x = as.integer(1:10)
 
+  skip_if_not_r_version("4.0.0")
   expect_identical(class(matrix(x)), c("matrix", "array"))
   expect_no_warning(expect_identical(matrix(x)[seq_along(x)], x))
   expect_no_warning(expect_identical(dim(matrix(x)), c(10L, 1L)))
@@ -31,6 +32,7 @@ test_that("matrix works still on simple integer input", {
 test_that("matrix works on simple integer64 input", {
   x = as.integer64(1:10)
 
+  skip_if_not_r_version("4.0.0")
   expect_s3_class(matrix(x), "integer64")
   expect_no_warning(expect_identical(matrix(x)[seq_along(x)], x))
   expect_no_warning(expect_identical(dim(matrix(x)), c(10L, 1L)))
@@ -62,6 +64,7 @@ test_that("matrix works on simple integer64 input", {
 test_that("array works still on simple integer input", {
   x = as.integer(1:10)
 
+  skip_if_not_r_version("4.0.0")
   expect_identical(class(array(x)), "array")
   expect_no_warning(expect_identical(array(x)[seq_along(x)], structure(x, dim = length(x))))
   expect_no_warning(expect_identical(dim(array(x)), c(10L)))
@@ -84,6 +87,7 @@ test_that("array works still on simple integer input", {
 test_that("array works on simple integer64 input", {
   x = as.integer64(1:10)
 
+  skip_if_not_r_version("4.0.0")
   expect_s3_class(array(x), "integer64")
   expect_no_warning(expect_identical(array(x)[seq_along(x)], structure(x)))
   expect_no_warning(expect_identical(dim(array(x)), c(10L)))
@@ -106,7 +110,7 @@ test_that("array works on simple integer64 input", {
 
 test_that("colSums and rowSums work on simple integer64 input", {
   A = array(seq_len(120L), dim = 2:5)
-  A64 = array(as.integer64(A), dim=dim(A))
+  A64 = array64(A, dim=dim(A))
 
   # matches the behavior of sum.integer64 to not become numeric
   expect_s3_class(rowSums(A64), "integer64")
@@ -155,14 +159,14 @@ test_that("colSums and rowSums work in presence of missing", {
 })
 
 test_that("All-missing inputs are handled correctly by colSums and rowSums", {
-  A64 = matrix(NA_integer64_, nrow=3L, ncol=2L)
+  A64 = matrix64(rep(NA_integer64_, 6L), nrow=3L, ncol=2L)
 
   expect_identical(rowSums(A64), rep(NA_integer64_, 3L))
   expect_identical(colSums(A64), rep(NA_integer64_, 2L))
 })
 
 test_that("out-of-integer-range inputs are handled correctly", {
-  A64 = matrix(as.integer64(2.0^(30:35)), nrow=3L, ncol=2L)
+  A64 = matrix64(2.0^(30:35), nrow=3L, ncol=2L)
 
   expect_identical(rowSums(A64), as.integer64(2L^30L*c(1L+8L, 2L+16L, 4L+32L)))
   expect_identical(colSums(A64), as.integer64(2L^30L*c(1L+2L+4L, 8L+16L+32L)))
@@ -170,7 +174,7 @@ test_that("out-of-integer-range inputs are handled correctly", {
 
 test_that("aperm works in simple cases", {
   # example from ?aperm
-  A = array(as.integer64(1:24), 2:4)
+  A = array64(1:24, 2:4)
   B = aperm(A, c(2L, 1L, 3L))
   # ignore class: t() gives 'array', not easy to delete it/add it to A[...]
   expect_identical(t(B[, , 2L]), A[, , 2L], ignore_attr="class")
@@ -180,6 +184,7 @@ test_that("aperm works in simple cases", {
 
 
 test_that("matrix multiplication", {
+  skip_if_not_r_version("4.0.0")
   m32 = matrix(1:10, 2)
   m64 = matrix(as.integer64(m32), nrow(m32))
   mDo = matrix(as.numeric(m32), nrow(m32))
@@ -203,8 +208,8 @@ test_that("matrix multiplication", {
   expect_identical(mCo%*%t(m64), matrix(as.complex(m32%*%t(m32)), nrow=nrow(m32)))
 
   # warning in multiplication part: it appears on some systems and on ubuntu-latest (3.6) not 
-  # x = as.integer64(2^61)
-  # expect_warning(expect_identical(matrix(x, 1)%*%matrix(x, ncol=1), matrix(NA_integer64_, 1, 1)), "NAs produced by integer64 overflow")
+  x = as.integer64(2^61)
+  expect_warning(expect_identical(matrix(x, 1)%*%matrix(x, ncol=1), matrix(NA_integer64_, 1, 1)), "NAs produced by integer64 overflow")
   # warning in summation part: it appears on some systems and on some others not 
   # x = rep_len(as.integer64(2^31), 2)
   # expect_warning(expect_identical(matrix(x, 1)%*%matrix(x, ncol=1), matrix(NA_integer64_, 1, 1)), "NAs produced by integer64 overflow")
