@@ -76,12 +76,16 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(methods::as(as.integer64(1:10), "complex"), as.complex(1:10))
   expect_identical(methods::as(as.integer64(1:10), "numeric"), as.numeric(1:10))
   expect_identical(methods::as(as.integer64(1:10), "integer"), as.integer(1:10))
-  expect_identical(methods::as(as.integer64(1:10), "raw"), as.raw(1:10))
+  if (getRversion() >= "4.0.0") {
+    expect_identical(methods::as(as.integer64(1:10), "raw"), as.raw(1:10))
+  }
   expect_identical(methods::as(as.integer64(1:10), "logical"), as.logical(1:10))
-  expect_identical(methods::as(as.integer64(1:10), "difftime"), as.difftime(1:10, units="secs"))
-  expect_identical(methods::as(as.integer64(1:10), "POSIXct"), as.POSIXct(as.numeric(1:10)))
-  expect_identical(methods::as(as.integer64(1:10), "POSIXlt"), as.POSIXlt(1:10))
-  expect_identical(methods::as(as.integer64(1:10), "Date"), as.Date(as.numeric(1:10)))
+  if (getRversion() >= "4.0.0") {
+    expect_identical(methods::as(as.integer64(1:10), "difftime"), as.difftime(1:10, units="secs"))
+    expect_identical(methods::as(as.integer64(1:10), "POSIXct"), as.POSIXct(as.numeric(1:10)))
+    expect_identical(methods::as(as.integer64(1:10), "POSIXlt"), as.POSIXlt(1:10))
+    expect_identical(methods::as(as.integer64(1:10), "Date"), as.Date(as.numeric(1:10)))
+  }
   
   # now for NA
   expect_identical(as.logical(NA_integer64_), NA)
