@@ -893,6 +893,7 @@ methods::setAs("integer64", "difftime", function(from) as.difftime(from, units="
 methods::setAs("integer64", "POSIXct", function(from) as.POSIXct(from))
 methods::setAs("integer64", "POSIXlt", function(from) as.POSIXlt(from))
 methods::setAs("integer64", "Date", function(from) as.Date(from))
+methods::setAs("integer64", "raw", function(from) as.raw(from))
 
 # this is a trick to generate NA_integer64_ for namespace export before
 # as.integer64() is available because dll is not loaded
