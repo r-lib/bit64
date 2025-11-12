@@ -62,14 +62,6 @@ NA_integer64_
 
 \item{keep.names}{FALSE, set to TRUE to keep a names vector}
 
-\item{origin}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
-
-\item{tz}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
-
-\item{tim}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
-
-\item{format}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
-
 \item{units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 }
 \value{

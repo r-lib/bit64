@@ -20,7 +20,7 @@
 \usage{
 as.bitstring(x, ...)
 
-\method{as.double}{integer64}(x, ...)
+\method{as.double}{integer64}(x, keep.names = FALSE, ...)
 
 \method{as.complex}{integer64}(x, ...)
 
@@ -60,6 +60,14 @@ as.difftime(tim, format = "\%X", units = "auto", tz = "UTC", ...)
 \item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 
 \item{keep.names}{FALSE, set to TRUE to keep a names vector}
+
+\item{origin}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{tz}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{tim}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{format}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 
 \item{units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 }

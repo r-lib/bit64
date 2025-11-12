@@ -33,7 +33,7 @@ NULL
 #' @export
 matrix = function(data=NA, nrow=1, ncol=1, byrow=FALSE, dimnames=NULL) UseMethod("matrix")
 #' @exportS3Method matrix default
-matrix.default = base::matrix
+matrix.default = function(...) base::matrix(...)
 
 #' @exportS3Method matrix integer64
 matrix.integer64 = function(data=NA_integer64_, nrow=1, ncol=1, byrow=FALSE, dimnames=NULL) {
@@ -78,7 +78,7 @@ matrix.integer64 = function(data=NA_integer64_, nrow=1, ncol=1, byrow=FALSE, dim
 #' @export
 array = function(data=NA, dim=length(data), dimnames=NULL) UseMethod("array")
 #' @exportS3Method array default
-array.default = base::array
+array.default = function(...) base::array(...)
 
 #' @exportS3Method array integer64
 array.integer64 = function(data=NA_integer64_, dim=length(data), dimnames=NULL) {
