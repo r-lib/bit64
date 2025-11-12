@@ -966,7 +966,7 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
             if (length(dimO) == 1L) {
               paste0("[", n, "(1d)] ")
             } else {
-              paste0("[", paste(vapply(dimO, \(el) {if (el < 2L) as.character(el) else paste0("1:", el)}, ""), collapse = ", "), "] ")
+              paste0("[", paste(vapply(dimO, function(el) {if (el < 2L) as.character(el) else paste0("1:", el)}, ""), collapse = ", "), "] ")
             }
           }
         )
@@ -983,7 +983,7 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
 #' @rdname extract.replace.integer64
 #' @export
 `[.integer64` = function(x, i, j, ..., drop=TRUE) {
-  args = lapply(as.list(sys.call())[-(1:2)], {\(el) {
+  args = lapply(as.list(sys.call())[-(1:2)], {function(el) {
     if(is.symbol(el) && el == substitute()) return(el)
     el = eval(el, parent.frame(3L))   
     if (is.integer64(el))
@@ -1046,7 +1046,7 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
 #' @export
 `[<-.integer64` = function(x, ..., value) {
   sc = as.list(sys.call())
-  args = lapply(sc[-c(1:2, length(sc))], {\(el) {
+  args = lapply(sc[-c(1:2, length(sc))], {function(el) {
     if(is.symbol(el) && el == substitute()) return(el)
     el = eval(el, parent.frame(3L))   
     if (is.integer64(el))
@@ -1069,7 +1069,7 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
 #' @rdname extract.replace.integer64
 #' @export
 `[[.integer64` = function(x, ...) {
-  args = lapply(list(...), {\(el) {
+  args = lapply(list(...), {function(el) {
     if (is.integer64(el))
       el = as.integer(el)
     el
@@ -1083,7 +1083,7 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
 #' @rdname extract.replace.integer64
 #' @export
 `[[<-.integer64` = function(x, ..., value) {
-  args = lapply(list(...), {\(el) {
+  args = lapply(list(...), {function(el) {
     if (is.integer64(el))
       el = as.integer(el)
     el
