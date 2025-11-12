@@ -19,6 +19,7 @@
 #' @param x An array of integer64 numbers.
 #' @param na.rm,dims Same interpretation as in [colSums()].
 #' @param ... Passed on to subsequent methods.
+#' @param data,nrow,ncol,byrow,dimnames,dim Arguments for `matrix()` and `array()`.
 #' @examples
 #' A = matrix(as.integer64(1:6), 3)
 #'
@@ -155,7 +156,6 @@ aperm.integer64 = function(a, perm, ...) {
 }
 
 
-#' @rdname matrix64
 #' @exportS3Method base::`%*%` integer64
 `%*%.integer64` <- function(x, y) {
   if (!is.integer64(x) && !is.integer64(y)) 

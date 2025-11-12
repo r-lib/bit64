@@ -19,7 +19,9 @@
 \arguments{
 \item{x}{an atomic vector}
 
-\item{i}{indices specifying elements to extract}
+\item{i, j}{indices specifying elements to extract}
+
+\item{drop}{relevant for matrices and arrays. If TRUE the result is coerced to the lowest possible dimension.}
 
 \item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 

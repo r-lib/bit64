@@ -11,7 +11,6 @@
 \alias{rowSums.default}
 \alias{rowSums.integer64}
 \alias{aperm.integer64}
-\alias{\%*\%.integer64}
 \title{Working with integer64 arrays and matrices}
 \usage{
 matrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL)
@@ -31,8 +30,6 @@ rowSums(x, na.rm = FALSE, dims = 1L)
 \method{rowSums}{integer64}(x, na.rm = FALSE, dims = 1L)
 
 \method{aperm}{integer64}(a, perm, ...)
-
-\method{\%*\%}{integer64}(x, y)
 }
 \arguments{
 \item{x}{An array of integer64 numbers.}
@@ -42,6 +39,8 @@ rowSums(x, na.rm = FALSE, dims = 1L)
 \item{a, perm}{Passed on to \code{\link[=aperm]{aperm()}}.}
 
 \item{...}{Passed on to subsequent methods.}
+
+\item{data, nrow, ncol, byrow, dimnames, dim}{Arguments for \code{matrix()} and \code{array()}.}
 }
 \description{
 These functions and methods facilitate working with integer64

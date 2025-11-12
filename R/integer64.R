@@ -42,6 +42,7 @@ NULL
 #' @param x an integer64 vector
 #' @param keep.names FALSE, set to TRUE to keep a names vector
 #' @param ... further arguments to the [NextMethod()]
+#' @param units further arguments to the [NextMethod()]
 #'
 #' @return `as.bitstring` returns a string of class 'bitstring'.
 #'
@@ -63,6 +64,11 @@ NULL
 #' @param x an atomic vector
 #' @param keep.names FALSE, set to TRUE to keep a names vector
 #' @param ... further arguments to the [NextMethod()]
+#' @param origin further arguments to the [NextMethod()]
+#' @param tz further arguments to the [NextMethod()]
+#' @param tim further arguments to the [NextMethod()]
+#' @param format further arguments to the [NextMethod()]
+#' @param units further arguments to the [NextMethod()]
 #'
 #' @details
 #' `as.integer64.character` is realized using C function `strtoll` which
@@ -104,7 +110,8 @@ NULL
 #' Methods to extract and replace parts of an integer64 vector.
 #'
 #' @param x an atomic vector
-#' @param i indices specifying elements to extract
+#' @param i,j indices specifying elements to extract
+#' @param drop relevant for matrices and arrays. If TRUE the result is coerced to the lowest possible dimension.
 #' @param value an atomic vector with values to be assigned
 #' @param ... further arguments to the [NextMethod()]
 #'

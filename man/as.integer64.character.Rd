@@ -33,15 +33,15 @@ as.integer64(x, ...)
 
 \method{as.integer64}{complex}(x, keep.names = FALSE, ...)
 
-\method{as.integer64}{integer}(x, ...)
+\method{as.integer64}{integer}(x, keep.names = FALSE, ...)
 
 \method{as.integer64}{raw}(x, keep.names = FALSE, ...)
 
-\method{as.integer64}{logical}(x, ...)
+\method{as.integer64}{logical}(x, keep.names = FALSE, ...)
 
-\method{as.integer64}{character}(x, ...)
+\method{as.integer64}{character}(x, keep.names = FALSE, ...)
 
-\method{as.integer64}{factor}(x, ...)
+\method{as.integer64}{factor}(x, keep.names = FALSE, ...)
 
 \method{as.integer64}{Date}(x, keep.names = FALSE, ...)
 
@@ -51,7 +51,7 @@ as.integer64(x, ...)
 
 \method{as.integer64}{difftime}(x, units = "auto", keep.names = FALSE, ...)
 
-\method{as.integer64}{bitstring}(x, ...)
+\method{as.integer64}{bitstring}(x, keep.names = FALSE, ...)
 
 NA_integer64_
 }
@@ -61,6 +61,16 @@ NA_integer64_
 \item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 
 \item{keep.names}{FALSE, set to TRUE to keep a names vector}
+
+\item{origin}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{tz}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{tim}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{format}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 }
 \value{
 The other methods return atomic vectors of the expected types

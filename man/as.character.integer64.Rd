@@ -20,13 +20,13 @@
 \usage{
 as.bitstring(x, ...)
 
-\method{as.double}{integer64}(x, keep.names = FALSE, ...)
+\method{as.double}{integer64}(x, ...)
 
-\method{as.complex}{integer64}(x, keep.names = FALSE, ...)
+\method{as.complex}{integer64}(x, ...)
 
 \method{as.integer}{integer64}(x, ...)
 
-\method{as.raw}{integer64}(x, keep.names = FALSE, ...)
+\method{as.raw}{integer64}(x, ...)
 
 \method{as.logical}{integer64}(x, ...)
 
@@ -34,11 +34,11 @@ as.bitstring(x, ...)
 
 \method{as.bitstring}{integer64}(x, ...)
 
-\method{as.Date}{integer64}(x, origin, keep.names = FALSE, ...)
+\method{as.Date}{integer64}(x, origin, ...)
 
-\method{as.POSIXct}{integer64}(x, tz = "", origin, keep.names = FALSE, ...)
+\method{as.POSIXct}{integer64}(x, tz = "", origin, ...)
 
-\method{as.POSIXlt}{integer64}(x, tz = "", origin, keep.names = FALSE, ...)
+\method{as.POSIXlt}{integer64}(x, tz = "", origin, ...)
 
 as.difftime(tim, format = "\%X", units = "auto", tz = "UTC", ...)
 
@@ -47,7 +47,6 @@ as.difftime(tim, format = "\%X", units = "auto", tz = "UTC", ...)
   format = "\%X",
   units = "auto",
   tz = "UTC",
-  keep.names = FALSE,
   ...
 )
 
@@ -61,6 +60,8 @@ as.difftime(tim, format = "\%X", units = "auto", tz = "UTC", ...)
 \item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 
 \item{keep.names}{FALSE, set to TRUE to keep a names vector}
+
+\item{units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 }
 \value{
 \code{as.bitstring} returns a string of class 'bitstring'.
