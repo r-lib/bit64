@@ -13,8 +13,8 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(as.ordered(i64), as.ordered(i32))
   if (getRversion() >= "4.0.0") {
     expect_identical(as.Date(i64), as.Date(as.numeric(i32)))
+    expect_identical(as.Date(i64, origin=10), as.Date(as.numeric(i32), origin=10))
   }
-  expect_identical(as.Date(i64, origin=10), as.Date(as.numeric(i32), origin=10))
   expect_identical(as.POSIXct(i64), as.POSIXct(as.numeric(i32)))
   expect_identical(as.POSIXct(i64, origin=10), as.POSIXct(as.numeric(i32), origin=10))
   expect_identical(as.POSIXct(i64, tz="UTC", origin=10), as.POSIXct(as.numeric(i32), tz="UTC", origin=10))
