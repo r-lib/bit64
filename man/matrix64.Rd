@@ -2,6 +2,8 @@
 % Please edit documentation in R/matrix64.R
 \name{matrix64}
 \alias{matrix64}
+\alias{matrix}
+\alias{array}
 \alias{colSums}
 \alias{colSums.default}
 \alias{colSums.integer64}
@@ -11,6 +13,10 @@
 \alias{aperm.integer64}
 \title{Working with integer64 arrays and matrices}
 \usage{
+matrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL)
+
+array(data = NA, dim = length(data), dimnames = NULL)
+
 colSums(x, na.rm = FALSE, dims = 1L)
 
 \method{colSums}{default}(x, na.rm = FALSE, dims = 1L)
@@ -33,6 +39,8 @@ rowSums(x, na.rm = FALSE, dims = 1L)
 \item{a, perm}{Passed on to \code{\link[=aperm]{aperm()}}.}
 
 \item{...}{Passed on to subsequent methods.}
+
+\item{data, nrow, ncol, byrow, dimnames, dim}{Arguments for \code{matrix()} and \code{array()}.}
 }
 \description{
 These functions and methods facilitate working with integer64
@@ -53,8 +61,7 @@ that of \code{colSums()} for integers; feature requests and PRs welcome.
 \code{FUN} gets applied to a class-stripped version of the input.
 }
 \examples{
-A = as.integer64(1:6)
-dim(A) = 3:2
+A = matrix(as.integer64(1:6), 3)
 
 colSums(A)
 rowSums(A)

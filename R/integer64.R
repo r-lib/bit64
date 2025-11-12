@@ -42,6 +42,11 @@ NULL
 #' @param x an integer64 vector
 #' @param keep.names FALSE, set to TRUE to keep a names vector
 #' @param ... further arguments to the [NextMethod()]
+#' @param origin further arguments to the [NextMethod()]
+#' @param tz further arguments to the [NextMethod()]
+#' @param tim further arguments to the [NextMethod()]
+#' @param format further arguments to the [NextMethod()]
+#' @param units further arguments to the [NextMethod()]
 #'
 #' @return `as.bitstring` returns a string of class 'bitstring'.
 #'
@@ -63,6 +68,7 @@ NULL
 #' @param x an atomic vector
 #' @param keep.names FALSE, set to TRUE to keep a names vector
 #' @param ... further arguments to the [NextMethod()]
+#' @param units further arguments to the [NextMethod()]
 #'
 #' @details
 #' `as.integer64.character` is realized using C function `strtoll` which
@@ -104,20 +110,17 @@ NULL
 #' Methods to extract and replace parts of an integer64 vector.
 #'
 #' @param x an atomic vector
-#' @param i indices specifying elements to extract
+#' @param i,j indices specifying elements to extract
+#' @param drop relevant for matrices and arrays. If TRUE the result is coerced to the lowest possible dimension.
 #' @param value an atomic vector with values to be assigned
 #' @param ... further arguments to the [NextMethod()]
 #'
-#' @note
-#'   You should not subscript non-existing elements and not use `NA`s as subscripts.
-#'   The current implementation returns `9218868437227407266` instead of `NA`.
-#' @returns A vector or scalar of class 'integer64'
+#' @returns A vector, matrix, array or scalar of class 'integer64'
 #' @keywords classes manip
 #' @seealso [`[`][base::Extract] [integer64()]
 #' @examples
 #'   as.integer64(1:12)[1:3]
-#'   x <- as.integer64(1:12)
-#'   dim(x) <- c(3, 4)
+#'   x <- matrix(as.integer64(1:12), nrow = 3L)
 #'   x
 #'   x[]
 #'   x[, 2:3]
@@ -593,7 +596,7 @@ binattr <- function(e1, e2) {
   if (length(d1)) {
     if (length(d2)) {
       if (!identical(dim(e1), dim(e2)))
-        stop("non-conformable arrays")
+        stop(gettext("non-conformable arrays", domain="R"))
     } else {
       if (n2 > n1 && n1)
         stop("length(e2) does not match dim(e1)")
@@ -651,99 +654,217 @@ binattr <- function(e1, e2) {
 #' @return `integer64` returns a vector of 'integer64', i.e.,
 #'   a vector of [double()] decorated with class 'integer64'.
 #' @export
-integer64 <- function(length=0L) {
-  ret <- double(length)
-  oldClass(ret) <- "integer64"
+integer64 = function(length=0L) {
+  ret = double(length)
+  oldClass(ret) = "integer64"
   ret
 }
 
 #' @rdname bit64-package
 #' @param x an integer64 vector
 #' @export
-is.integer64 <- function(x) inherits(x, "integer64")
+is.integer64 = function(x) inherits(x, "integer64")
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.NULL <- function(x, ...) {
-  ret <- double()
-  oldClass(ret) <- "integer64"
+as.integer64.NULL = function(x, ...) integer64()
+
+#' @rdname as.integer64.character
+#' @export
+as.integer64.integer64 = function(x, ...) x
+
+#' @rdname as.integer64.character
+#' @export
+as.integer64.double = function(x, keep.names=FALSE, ...) {
+  ret = .Call(C_as_integer64_double, x, double(length(x)))
+  if (isTRUE(keep.names))
+    names(ret) = names(x)
+  oldClass(ret) = "integer64"
+  ret
+}
+
+#' @rdname as.integer64.character
+#' @exportS3Method as.integer64 complex
+as.integer64.complex = function(x, keep.names=FALSE, ...) {
+  xd = withCallingHandlers(
+    as.double(x),
+    warning = function(w) {
+      warning(conditionMessage(w), call.=FALSE)
+      invokeRestart("muffleWarning")
+    }
+  )
+  ret = .Call(C_as_integer64_double, xd, double(length(xd)))
+  if (isTRUE(keep.names))
+    names(ret) = names(x)
+  oldClass(ret) = "integer64"
   ret
 }
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.integer64 <- function(x, ...) x
-
-#' @rdname as.integer64.character
-#' @export
-as.integer64.double <- function(x, keep.names=FALSE, ...) {
-  ret <- .Call(C_as_integer64_double, x, double(length(x)))
-  if (keep.names)
-    names(ret) <- names(x)
-  oldClass(ret) <- "integer64"
-  ret
-}
-
-#' @rdname as.integer64.character
-#' @export
-as.integer64.integer <- function(x, ...) {
+as.integer64.integer = function(x, keep.names=FALSE, ...) {
   ret <- .Call(C_as_integer64_integer, x, double(length(x)))
-  oldClass(ret) <- "integer64"
+  if (isTRUE(keep.names))
+    names(ret) = names(x)
+  oldClass(ret) = "integer64"
+  ret
+}
+
+#' @rdname as.integer64.character
+#' @exportS3Method as.integer64 raw
+as.integer64.raw = function(x, keep.names=FALSE, ...) {
+  ret = .Call(C_as_integer64_integer, as.integer(x), double(length(x)))
+  if (isTRUE(keep.names))
+    names(ret) = names(x)
+  oldClass(ret) = "integer64"
   ret
 }
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.logical <- as.integer64.integer
+as.integer64.logical = as.integer64.integer
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.character <- function(x, ...) {
-  n <- length(x)
-  ret <- .Call(C_as_integer64_character, x, rep(NA_real_, n))
-  oldClass(ret) <- "integer64"
+as.integer64.character = function(x, keep.names=FALSE, ...) {
+  n = length(x)
+  ret = .Call(C_as_integer64_character, x, rep(NA_real_, n))
+  if (isTRUE(keep.names))
+    names(ret) = names(x)
+  oldClass(ret) = "integer64"
   ret
 }
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.factor <- function(x, ...) as.integer64(unclass(x), ...)
+as.integer64.factor = function(x, keep.names=FALSE, ...) as.integer64(unclass(x), keep.names=keep.names, ...)
 
-#' @rdname as.character.integer64
-#' @export
-as.double.integer64 <- function(x, keep.names=FALSE, ...) {
-  ret <- .Call(C_as_double_integer64, x, double(length(x)))
-  if (keep.names)
-    names(ret) <- names(x)
+#' @rdname as.integer64.character
+#' @exportS3Method as.integer64 Date
+as.integer64.Date = function(x, keep.names=FALSE, ...) {
+  n = names(x)
+  x = as.double(x)
+  names(x) = n
+  callGeneric()
+}
+
+#' @rdname as.integer64.character
+#' @exportS3Method as.integer64 POSIXct
+as.integer64.POSIXct = function(x, keep.names=FALSE, ...) {
+  n = names(x)
+  x = as.double(x)
+  names(x) = n
+  callGeneric()
+}
+
+#' @rdname as.integer64.character
+#' @exportS3Method as.integer64 POSIXlt
+as.integer64.POSIXlt = function(x, keep.names=FALSE, ...) {
+  callGeneric(x=as.POSIXct(x), keep.names=keep.names, ...)
+}
+
+#' @rdname as.integer64.character
+#' @exportS3Method as.integer64 difftime
+as.integer64.difftime = function(x, units="auto", keep.names=FALSE, ...) {
+  n = names(x)
+  x = as.double(x, units=units, ...)
+  names(x) = n
+  callGeneric()
+}
+
+.as_double_integer64 = function(x, keep.names=FALSE, keep.attributes=FALSE, ...) {
+  ret = .Call(C_as_double_integer64, x, double(length(x)))
+  if (isTRUE(keep.attributes)) {
+      # like dimensions for matrix operations
+      a = attributes(x)
+      a$class = NULL
+      attributes(ret) = a
+      keep.names = FALSE # names are already included
+  }
+  if (isTRUE(keep.names))
+    names(ret) = names(x)
   ret
 }
 
 #' @rdname as.character.integer64
 #' @export
-as.integer.integer64 <- function(x, ...) {
-  .Call(C_as_integer_integer64, x, integer(length(x)))
+as.double.integer64 = function(x, keep.names=FALSE, ...) 
+  .as_double_integer64(x, keep.names, keep.attributes=FALSE, ...)
+
+#' @rdname as.character.integer64
+#' @exportS3Method base::as.numeric integer64
+as.numeric.integer64 = as.double.integer64
+
+#' @rdname as.character.integer64
+#' @exportS3Method base::as.complex integer64
+as.complex.integer64 = function(x, ...) as.complex(as.double(x), ...)
+
+#' @rdname as.character.integer64
+#' @export
+as.integer.integer64 = function(x, ...) .Call(C_as_integer_integer64, x, integer(length(x)))
+
+#' @rdname as.character.integer64
+#' @exportS3Method base::as.raw integer64
+as.raw.integer64 = function(x, ...) {
+  withCallingHandlers(
+    as.raw(.Call(C_as_integer_integer64, x, integer(length(x)))),
+    warning = function(w) {
+      warning(conditionMessage(w), call.=FALSE)
+      invokeRestart("muffleWarning")
+    }
+  )
 }
 
 #' @rdname as.character.integer64
 #' @export
-as.logical.integer64 <- function(x, ...) {
-  .Call(C_as_logical_integer64, x, logical(length(x)))
-}
+as.logical.integer64 <- function(x, ...) .Call(C_as_logical_integer64, x, logical(length(x)))
 
 #' @rdname as.character.integer64
 #' @export
-as.character.integer64 <- function(x, ...) {
-  n <- length(x)
-  .Call(C_as_character_integer64, x, rep(NA_character_, n))
-}
+as.character.integer64 <- function(x, ...) .Call(C_as_character_integer64, x, rep(NA_character_, length(x)))
 
 #' @rdname as.character.integer64
 #' @export
 as.bitstring.integer64 <- function(x, ...) {
-  n <- length(x)
-  ret <- .Call(C_as_bitstring_integer64, x, rep(NA_character_, n))
-  oldClass(ret) <- 'bitstring'
+  ret = .Call(C_as_bitstring_integer64, x, rep(NA_character_, length(x)))
+  oldClass(ret) = 'bitstring'
   ret
+}
+
+#' @rdname as.character.integer64
+#' @exportS3Method base::as.Date integer64
+as.Date.integer64 = function(x, origin, ...) {
+  x = as.double(x)
+  callGeneric()
+}
+
+#' @rdname as.character.integer64
+#' @exportS3Method base::as.POSIXct integer64
+as.POSIXct.integer64 = function(x, tz="", origin, ...) {
+  x = as.double(x)
+  callGeneric()
+}
+
+#' @rdname as.character.integer64
+#' @exportS3Method base::as.POSIXlt integer64
+as.POSIXlt.integer64 = function(x, tz="", origin, ...) {
+  x = as.double(x, ...)
+  callGeneric()
+}
+
+#' @rdname as.character.integer64
+#' @export
+as.difftime = function(tim, format="%X", units="auto", tz="UTC", ...) UseMethod("as.difftime")
+#' @exportS3Method as.difftime default
+as.difftime.default = function(tim, format="%X", units="auto", tz ="UTC", ...) {
+  base::as.difftime(tim, format=format, units=units, tz=tz)
+}
+
+#' @rdname as.character.integer64
+#' @exportS3Method as.difftime integer64
+as.difftime.integer64 = function(tim, format="%X", units="auto", tz="UTC", ...) {
+  tim = as.double(tim)
+  NextMethod()
 }
 
 #' @rdname as.character.integer64
@@ -755,16 +876,24 @@ print.bitstring <- function(x, ...) {
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.bitstring <- function(x, ...) {
-  ret <- .Call(C_as_integer64_bitstring, x, double(length(x)))
-  oldClass(ret) <- "integer64"
+as.integer64.bitstring <- function(x, keep.names=FALSE, ...) {
+  ret = .Call(C_as_integer64_bitstring, x, double(length(x)))
+  oldClass(ret) = "integer64"
+  if (isTRUE(keep.names))
+    names(ret) = names(x)
   ret
 }
 
 
 # read.table expects S4 as()
-methods::setAs("character", "integer64", function(from) as.integer64.character(from))
-methods::setAs("integer64", "character", function(from) as.character.integer64(from))
+methods::setAs("ANY", "integer64", function(from) as.integer64(from))
+methods::setAs("integer64", "factor", function(from) as.factor(from))
+methods::setAs("integer64", "ordered", function(from) as.ordered(from))
+methods::setAs("integer64", "difftime", function(from) as.difftime(from, units="secs"))
+methods::setAs("integer64", "POSIXct", function(from) as.POSIXct(from))
+methods::setAs("integer64", "POSIXlt", function(from) as.POSIXlt(from))
+methods::setAs("integer64", "Date", function(from) as.Date(from))
+methods::setAs("integer64", "raw", function(from) as.raw(from))
 
 # this is a trick to generate NA_integer64_ for namespace export before
 # as.integer64() is available because dll is not loaded
@@ -824,19 +953,34 @@ print.integer64 <- function(x, quote=FALSE, ...) {
 #' @param object an integer64 vector
 #' @param vec.len,give.head,give.length see [utils::str()]
 #' @export
-str.integer64 <- function(object,
-                          vec.len  = strO$vec.len,
-                          give.head = TRUE,
-                          give.length = give.head,
-                          ...) {
-  strO <- strOptions()
-  vec.len <- 2L*vec.len
-  n <- length(object)
-  if (n > vec.len)
-    object <- object[seq_len(vec.len)]
+str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.length=give.head, ...) {
+  strO = strOptions()
+  vec.len = 2L*vec.len
+  n = length(object)
+  displayObject = object[seq_len(min(vec.len, length(object)))]
   cat(
-    if (give.head) paste0("integer64 ", if (give.length && n>1L) paste0("[1:", n, "] ")),
-    paste(as.character(object), collapse=" "),
+    if (isTRUE(give.head)) {
+      if (length(object) == 0L && is.null(dim(object))) {
+        "integer64(0)"
+      } else {
+        paste0(
+          "integer64 ",
+          if (length(object) > 1L && is.null(dim(object))) {
+            if (isTRUE(give.length)) paste0("[1:", n, "] ") else " "
+          } else if (!is.null(dim(object))) {
+            dimO = dim(object)
+            if (prod(dimO) != n)
+              stop(gettextf("dims [product %d] do not match the length of object [%d]", prod(dimO), n, domain="R"))
+            if (length(dimO) == 1L) {
+              paste0("[", n, "(1d)] ")
+            } else {
+              paste0("[", paste(vapply(dimO, function(el) {if (el < 2L) as.character(el) else paste0("1:", el)}, ""), collapse = ", "), "] ")
+            }
+          }
+        )
+      }
+    },
+    paste(as.character(displayObject), collapse=" "),
     if (n > vec.len) " ...",
     " \n",
     sep=""
@@ -846,90 +990,122 @@ str.integer64 <- function(object,
 
 #' @rdname extract.replace.integer64
 #' @export
-`[.integer64` <- function(x, i, ...) {
-    cl <- oldClass(x)
-    ret <- NextMethod()
-    # Begin NA-handling from Leonardo Silvestri
-    if (!missing(i)) {
-        if (inherits(i, "character")) {
-          na_idx <- union(which(!(i %in% names(x))), which(is.na(i)))
-          if (length(na_idx))
-                ret[na_idx] <- NA_integer64_
-        } else {
-      ni <- length(i)
-      nx <- length(x)
-      if (inherits(i, "logical")) {
-            if (ni>nx) {
-              na_idx <- is.na(i) | (i & seq_along(i)>nx)
-              na_idx <- na_idx[is.na(i) | i]
-            } else {
-          i <- i[is.na(i) | i]
-          na_idx <- rep_len(is.na(i), length(ret))
-            }
-          } else if (ni && min(i, na.rm=TRUE)>=0L) {
-            i <- i[is.na(i) | i>0L]
-            na_idx <- is.na(i) | i>length(x)
-          } else {
-            na_idx <- FALSE
-          }
-          if (any(na_idx))
-                ret[na_idx] <- NA_integer64_
-        }
+`[.integer64` = function(x, i, j, ..., drop=TRUE) {
+  args = lapply(as.list(sys.call())[-(1:2)], {function(el) {
+    if(is.symbol(el) && el == substitute()) return(el)
+    el = eval(el, parent.frame(3L))   
+    if (is.integer64(el))
+      el = as.integer(el)
+    el
+  }})
+  args$drop = FALSE
+  if (length(args) == 1L) return(x)
+  oldClass(x) = NULL
+  ret = do.call("[", c(list(x=x), args))
+  NA_integer64_real = NA_integer64_
+  oldClass(NA_integer64_real) = NULL
+
+  # NA handling
+  if (length(dim(ret)) <= 1L) {
+    # vector mode
+    if (!is.symbol(args[[1L]]) || args[[1L]] != substitute()) {
+      arg1Value = args[[1L]]
+      if (is.logical(arg1Value)) {
+        ret[is.na(arg1Value[arg1Value])] = NA_integer64_real
+      } else if (is.character(arg1Value)) {
+        ret[is.na(arg1Value) | arg1Value == "" | !arg1Value %in% names(x)] = NA_integer64_real
+      } else if (anyNA(arg1Value) || suppressWarnings(max(arg1Value, na.rm=TRUE)) > length(x)) {
+        arg1Value = arg1Value[arg1Value != 0]
+        ret[which(is.na(arg1Value) | arg1Value > length(x))] = NA_integer64_real
+      }
     }
-    # End NA-handling from Leonardo Silvestri
-    oldClass(ret) <- cl
-    remcache(ret)
-    ret
-}
-
-
-`[.integer64` <- function(x, i, ...) {
-  cl <- oldClass(x)
-  ret <- NextMethod()
-  # Begin NA-handling from Leonardo Silvestri
-  if (!missing(i)) {
-    if (inherits(i, "character")) {
-      na_idx <- union(which(!(i %in% names(x))), which(is.na(i)))
-      if (length(na_idx))
-        ret[na_idx] <- NA_integer64_
-    } else {
-      na_idx <- is.na(rep(TRUE, length(x))[i])
-      if (any(na_idx))
-        ret[na_idx] <- NA_integer64_
+  } else {
+    # array/matrix mode
+    dimSelect = args[seq_along(dim(x))]
+    for (ii in seq_along(dimSelect)) {
+      if (is.symbol(dimSelect[[ii]]) && dimSelect[[ii]] == substitute()) next
+      dsValue = dimSelect[[ii]]
+      if (is.logical(dsValue) && anyNA(dsValue)) {
+        naIndex = which(is.na(seq_len(dim(x)[ii])[dsValue]))
+      } else {
+        naIndex = which(is.na(dsValue[dsValue != 0L]))
+      }
+      if (length(naIndex)) {
+        setArgs = rep(list(substitute()), length(dimSelect))
+        setArgs[[ii]] = naIndex
+        ret = do.call("[<-", c(list(x=ret), setArgs, list(value=NA_integer64_real)))
+      }
     }
   }
-  # End NA-handling from Leonardo Silvestri
-  oldClass(ret) <- cl
-  remcache(ret)
+  
+  # dimension handling
+  if (!isFALSE(drop) && !is.null(dim(ret))) {
+    newDim = dim(ret)[dim(ret) != 1L]
+    dim(ret) = {if (length(newDim)) newDim else NULL}
+    if(length(dim(ret)) <= 1L)
+      dim(ret) = NULL
+  }
+
+  oldClass(ret) = "integer64"
   ret
 }
 
 #' @rdname extract.replace.integer64
 #' @export
-`[<-.integer64` <- function(x, ..., value) {
-  cl <- oldClass(x)
-  value <- as.integer64(value)
-  ret <- NextMethod()
-  oldClass(ret) <- cl
+`[<-.integer64` = function(x, ..., value) {
+  sc = as.list(sys.call())
+  args = lapply(sc[-c(1:2, length(sc))], {function(el) {
+    if(is.symbol(el) && el == substitute()) return(el)
+    el = eval(el, parent.frame(3L))   
+    if (is.integer64(el))
+      el = as.integer(el)
+    el
+  }})
+  if (is.character(value) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
+    args$value = value
+    x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
+    ret = do.call("[<-", c(list(x=x), args))
+  } else {
+    args$value = as.integer64(value)
+    oldClass(x) = NULL
+    ret = do.call("[<-", c(list(x=x), args))
+    oldClass(ret) = "integer64"
+  }
   ret
 }
 
 #' @rdname extract.replace.integer64
 #' @export
-`[[.integer64` <- function(x, ...) {
-  cl <- oldClass(x)
-  ret <- NextMethod()
-  oldClass(ret) <- cl
+`[[.integer64` = function(x, ...) {
+  args = lapply(list(...), {function(el) {
+    if (is.integer64(el))
+      el = as.integer(el)
+    el
+  }})
+  oldClass(x) = NULL
+  ret = do.call("[[", c(list(x=x), args))
+  oldClass(ret) = "integer64"
   ret
 }
 
 #' @rdname extract.replace.integer64
 #' @export
-`[[<-.integer64` <- function(x, ..., value) {
-  cl <- oldClass(x)
-  value <- as.integer64(value)
-  ret <- NextMethod()
-  oldClass(ret) <- cl
+`[[<-.integer64` = function(x, ..., value) {
+  args = lapply(list(...), {function(el) {
+    if (is.integer64(el))
+      el = as.integer(el)
+    el
+  }})
+  if (is.character(value) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
+    args$value = value
+    x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
+    ret = do.call("[[<-", c(list(x=x), args))
+  } else {
+    value = as.integer64(value)
+    oldClass(x) = NULL
+    ret = do.call("[[<-", c(list(x=x), args, list(value=value)))
+    oldClass(ret) = "integer64"
+  }
   ret
 }
 
@@ -1065,6 +1241,19 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
   ret <- .Call(C_seq_integer64, from, by, double(as.integer(length.out)))
   oldClass(ret) <- "integer64"
   return(ret)
+}
+
+target_class_for_Ops = function(e1, e2) {
+  if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1))
+    stop(errorCondition(gettext("non-numeric argument to binary operator", domain = "R"), call=sys.calls()[[1]]))
+  if (!is.numeric(unclass(e2)) && !is.logical(e2) && !is.complex(e2))
+    stop(errorCondition(gettext("non-numeric argument to binary operator", domain = "R"), call=sys.calls()[[1]]))
+
+  if (is.complex(e1) || is.complex(e2)) {
+    "complex"
+  } else {
+    "integer64"
+  }
 }
 
 #' @rdname xor.integer64

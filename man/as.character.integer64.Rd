@@ -4,9 +4,16 @@
 \alias{as.character.integer64}
 \alias{as.bitstring}
 \alias{as.double.integer64}
+\alias{as.complex.integer64}
 \alias{as.integer.integer64}
+\alias{as.raw.integer64}
 \alias{as.logical.integer64}
 \alias{as.bitstring.integer64}
+\alias{as.Date.integer64}
+\alias{as.POSIXct.integer64}
+\alias{as.POSIXlt.integer64}
+\alias{as.difftime}
+\alias{as.difftime.integer64}
 \alias{print.bitstring}
 \alias{as.list.integer64}
 \title{Coerce from integer64}
@@ -15,13 +22,33 @@ as.bitstring(x, ...)
 
 \method{as.double}{integer64}(x, keep.names = FALSE, ...)
 
+\method{as.complex}{integer64}(x, ...)
+
 \method{as.integer}{integer64}(x, ...)
+
+\method{as.raw}{integer64}(x, ...)
 
 \method{as.logical}{integer64}(x, ...)
 
 \method{as.character}{integer64}(x, ...)
 
 \method{as.bitstring}{integer64}(x, ...)
+
+\method{as.Date}{integer64}(x, origin, ...)
+
+\method{as.POSIXct}{integer64}(x, tz = "", origin, ...)
+
+\method{as.POSIXlt}{integer64}(x, tz = "", origin, ...)
+
+as.difftime(tim, format = "\%X", units = "auto", tz = "UTC", ...)
+
+\method{as.difftime}{integer64}(
+  tim,
+  format = "\%X",
+  units = "auto",
+  tz = "UTC",
+  ...
+)
 
 \method{print}{bitstring}(x, ...)
 
@@ -33,6 +60,16 @@ as.bitstring(x, ...)
 \item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 
 \item{keep.names}{FALSE, set to TRUE to keep a names vector}
+
+\item{origin}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{tz}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{tim}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{format}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 }
 \value{
 \code{as.bitstring} returns a string of class 'bitstring'.

@@ -39,13 +39,20 @@
    Because there was no recorded direct usage for any of these, I am opting to just rip the band-aid
    off and un-export them in this release as opposed to waiting a full cycle more to do so.
 
+1. A replacement in an integer64 vector using `[<-` or `[[<-` with a character leads to an R consistent 
+   coercion of the integer64 object to a character object.
+
 ## NEW FEATURES
 
 1. `anyNA` gets an `integer64` method. Thanks @hcirellu.
+1. `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method. (#45)
+1. `as.Date`, `as.POSIXct`, `as.POSXlt`, `as.raw`, `as.difftime` get an `integer64` method.
+1. `as.integer64` gets `Date`, `POSIXct`, `POSXlt`, `raw`, `difftime` methods.
 
 ## BUG FIXES
 
 1. `min.integer64`, `max.integer64` and `range.integer64` now support `na.rm=TRUE` correctly when combining across mutliple inputs like `min(x, NA_integer64_, na.rm=TRUE)` (#142).
+1. `[.integer64` now runs faster and correctly regarding `NA` and arrays. (#176)
 
 ## NOTES
 

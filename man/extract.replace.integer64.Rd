@@ -8,7 +8,7 @@
 \alias{[[<-.integer64}
 \title{Extract or Replace Parts of an integer64 vector}
 \usage{
-\method{[}{integer64}(x, i, ...)
+\method{[}{integer64}(x, i, j, ..., drop = TRUE)
 
 \method{[}{integer64}(x, ...) <- value
 
@@ -19,26 +19,23 @@
 \arguments{
 \item{x}{an atomic vector}
 
-\item{i}{indices specifying elements to extract}
+\item{i, j}{indices specifying elements to extract}
+
+\item{drop}{relevant for matrices and arrays. If TRUE the result is coerced to the lowest possible dimension.}
 
 \item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 
 \item{value}{an atomic vector with values to be assigned}
 }
 \value{
-A vector or scalar of class 'integer64'
+A vector, matrix, array or scalar of class 'integer64'
 }
 \description{
 Methods to extract and replace parts of an integer64 vector.
 }
-\note{
-You should not subscript non-existing elements and not use \code{NA}s as subscripts.
-The current implementation returns \code{9218868437227407266} instead of \code{NA}.
-}
 \examples{
   as.integer64(1:12)[1:3]
-  x <- as.integer64(1:12)
-  dim(x) <- c(3,4)
+  x <- matrix(as.integer64(1:12), nrow = 3L)
   x
   x[]
   x[,2:3]
