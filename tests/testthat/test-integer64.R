@@ -1,23 +1,92 @@
 test_that("integer64 coercion to/from other types work", {
   # from integer64
+  i32 = 1:10
+  i64 = as.integer64(i32)
   expect_identical(as.logical(as.integer64(0:1)), c(FALSE, TRUE))
-  expect_identical(as.integer(as.integer64(1:10)), 1:10)
-  expect_identical(as.character(as.integer64(1:10)), as.character(1:10))
-  expect_identical(as.double(as.integer64(1:10)), as.double(1:10))
-  expect_identical(as.numeric(as.integer64(1:10)), as.numeric(1:10))
-
+  expect_identical(as.integer(i64), i32)
+  expect_identical(as.character(i64), as.character(i32))
+  expect_identical(as.double(i64), as.double(i32))
+  expect_identical(as.numeric(i64), as.numeric(i32))
+  expect_identical(as.complex(i64), as.complex(i32))
+  expect_identical(as.raw(i64), as.raw(i32))
+  expect_identical(as.factor(i64), as.factor(i32))
+  expect_identical(as.ordered(i64), as.ordered(i32))
+  if (getRversion() >= "4.0.0") {
+    expect_identical(as.Date(i64), as.Date(as.numeric(i32)))
+    expect_identical(as.Date(i64, origin=10), as.Date(as.numeric(i32), origin=10))
+    expect_identical(as.POSIXct(i64), as.POSIXct(as.numeric(i32)))
+    expect_identical(as.POSIXct(i64, origin=10), as.POSIXct(as.numeric(i32), origin=10))
+    expect_identical(as.POSIXct(i64, tz="UTC", origin=10), as.POSIXct(as.numeric(i32), tz="UTC", origin=10))
+    expect_identical(as.POSIXct(i64, tz="CET", origin=10), as.POSIXct(as.numeric(i32), tz="CET", origin=10))
+    expect_identical(as.POSIXlt(i64), as.POSIXlt(i32))
+    expect_identical(as.POSIXlt(i64, origin=10), as.POSIXlt(i32, origin=10))
+    expect_identical(as.POSIXlt(i64, tz="UTC", origin=10), as.POSIXlt(i32, tz="UTC", origin=10))
+    expect_identical(as.POSIXlt(i64, tz="CET", origin=10), as.POSIXlt(i32, tz="CET", origin=10))
+    expect_error(as.difftime(i32), "need explicit units for numeric conversion", fixed=TRUE)
+    expect_error(as.difftime(i64), "need explicit units for numeric conversion", fixed=TRUE)
+    expect_identical(as.difftime(i64, units="secs"), as.difftime(i32, units="secs"))
+  }
+  
   # to integer64
   expect_identical(as.integer64(TRUE), as.integer64(1L))
   expect_identical(as.integer64(as.character(1:10)), as.integer64(1:10))
   expect_identical(as.integer64(as.double(1:10)), as.integer64(1:10))
+  expect_identical(as.integer64(as.complex(1:10)), as.integer64(1:10))
+  expect_identical(as.integer64(as.raw(1:10)), as.integer64(1:10))
+  expect_identical(as.integer64(as.factor(11:20)), as.integer64(1:10))
+  expect_identical(as.integer64(as.ordered(11:20)), as.integer64(1:10))
   expect_identical(as.integer64(NULL), as.integer64())
   x = as.integer64(1:10)
   expect_identical(as.integer64(x), x)
-
+  p = c(Sys.time(), Sys.time())
+  expect_identical(
+    as.integer64(difftime(p+1000, p)), 
+    as.integer64(as.integer(difftime(p+1000, p)))
+  )
+  # as.integer.difftime does not work with `units`
+  expect_identical(
+    as.integer64(difftime(p+1000, p), units="secs"), 
+    as.integer64(as.numeric(difftime(p+1000, p), units="secs"))
+  )
+  expect_identical(
+    as.integer64(difftime(p+1000, p), units="mins"), 
+    as.integer64(as.numeric(difftime(p+1000, p), units="mins"))
+  )
+  expect_identical(as.integer64(p), as.integer64(as.integer(p)))
+  # as.integer.POSIXlt does not work properly
+  expect_identical(as.integer64(as.POSIXlt(p)), as.integer64(as.numeric(as.POSIXlt(p))))
+  expect_identical(as.integer64(as.Date(p)), as.integer64(as.integer(as.Date(p))))
+  
   # S4 version
   expect_identical(methods::as(as.character(1:10), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.factor(11:20), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.ordered(11:20), "integer64"), as.integer64(1:10))
+  expect_warning(expect_identical(methods::as(as.complex(1:10) + 0+1i, "integer64"), as.integer64(1:10)), "imaginary parts discarded in coercion")
+  expect_identical(methods::as(as.numeric(1:10), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.integer(1:10), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.raw(1:10), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.logical(0:2), "integer64"), as.integer64(c(0L, 1L, 1L)))
+  expect_identical(methods::as(difftime(p+1000, p), "integer64"), as.integer64(difftime(p+1000, p)))
+  expect_identical(methods::as(p, "integer64"), as.integer64(p))
+  expect_identical(methods::as(as.POSIXlt(p), "integer64"), as.integer64(as.POSIXlt(p)))
+  expect_identical(methods::as(as.Date(p), "integer64"), as.integer64(as.Date(p)))
   expect_identical(methods::as(as.integer64(1:10), "character"), as.character(1:10))
-
+  expect_identical(methods::as(as.integer64(1:10), "factor"), as.factor(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "ordered"), as.ordered(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "complex"), as.complex(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "numeric"), as.numeric(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "integer"), as.integer(1:10))
+  if (getRversion() >= "4.0.0") {
+    expect_identical(methods::as(as.integer64(1:10), "raw"), as.raw(1:10))
+  }
+  expect_identical(methods::as(as.integer64(1:10), "logical"), as.logical(1:10))
+  if (getRversion() >= "4.0.0") {
+    expect_identical(methods::as(as.integer64(1:10), "difftime"), as.difftime(1:10, units="secs"))
+    expect_identical(methods::as(as.integer64(1:10), "POSIXct"), as.POSIXct(as.numeric(1:10)))
+    expect_identical(methods::as(as.integer64(1:10), "POSIXlt"), as.POSIXlt(1:10))
+    expect_identical(methods::as(as.integer64(1:10), "Date"), as.Date(as.numeric(1:10)))
+  }
+  
   # now for NA
   expect_identical(as.logical(NA_integer64_), NA)
   expect_identical(as.integer(NA_integer64_), NA_integer_)

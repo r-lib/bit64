@@ -42,6 +42,8 @@
 ## NEW FEATURES
 
 1. `anyNA` gets an `integer64` method. Thanks @hcirellu.
+1. `as.Date`, `as.POSIXct`, `as.POSXlt`, `as.raw`, `as.difftime` get an `integer64` method.
+1. `as.integer64` gets `Date`, `POSIXct`, `POSXlt`, `raw`, `difftime` methods.
 
 ## BUG FIXES
 
