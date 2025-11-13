@@ -489,6 +489,7 @@ test_that("match works with zero length input", {
   x64 = as.integer64(1:10)
   expect_identical(match(x64, integer()), match(x32, integer()))
   expect_identical(match(x64, integer(), nomatch=NULL), match(x32, integer(), nomatch=NULL))
+  expect_identical(match(x64, integer(), nomatch=integer()), match(x32, integer(), nomatch=integer()))
   expect_identical(match(x64, integer(), nomatch=10L), match(x32, integer(), nomatch=10L))
   expect_identical(match(integer(), x64), match(integer(), x32))
 })
