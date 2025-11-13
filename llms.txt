@@ -1,0 +1,217 @@
+# bit64
+
+An R package with an S3 Class for Vectors of 64bit Integers
+
+# Package index
+
+## All functions
+
+- [`all.equal(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/all.equal.integer64.md)
+  : Test if two integer64 vectors are all.equal
+- [`as.bitstring()`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`as.double(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`as.integer(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`as.logical(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`as.character(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`print(`*`<bitstring>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`as.list(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  : Coerce from integer64
+- [`as.data.frame(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.data.frame.integer64.md)
+  : integer64: Coercing to data.frame column
+- [`as.integer64()`](https://bit64.r-lib.org/reference/as.integer64.character.md)
+  [`NA_integer64_`](https://bit64.r-lib.org/reference/as.integer64.character.md)
+  : Coerce to integer64
+- [`benchmark64()`](https://bit64.r-lib.org/reference/benchmark64.md)
+  [`optimizer64()`](https://bit64.r-lib.org/reference/benchmark64.md) :
+  Function for measuring algorithmic performance of high-level and
+  low-level integer64 functions
+- [`benchmark64.data`](https://bit64.r-lib.org/reference/benchmark64.data.md)
+  : Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM
+  under Windows 7 64bit
+- [`` `:`() ``](https://bit64.r-lib.org/reference/bit64S3.md)
+  [`is.double()`](https://bit64.r-lib.org/reference/bit64S3.md)
+  [`match()`](https://bit64.r-lib.org/reference/bit64S3.md)
+  [`` `%in%` ``](https://bit64.r-lib.org/reference/bit64S3.md)
+  [`rank()`](https://bit64.r-lib.org/reference/bit64S3.md)
+  [`order()`](https://bit64.r-lib.org/reference/bit64S3.md)
+  [`mtfrm(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/bit64S3.md)
+  : Turning base R functions into S3 generics for bit64
+- [`c(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/c.integer64.md)
+  [`cbind(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/c.integer64.md)
+  [`rbind(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/c.integer64.md)
+  : Concatenating integer64 vectors
+- [`newcache()`](https://bit64.r-lib.org/reference/cache.md)
+  [`jamcache()`](https://bit64.r-lib.org/reference/cache.md)
+  [`cache()`](https://bit64.r-lib.org/reference/cache.md)
+  [`setcache()`](https://bit64.r-lib.org/reference/cache.md)
+  [`getcache()`](https://bit64.r-lib.org/reference/cache.md)
+  [`remcache()`](https://bit64.r-lib.org/reference/cache.md)
+  [`print(`*`<cache>`*`)`](https://bit64.r-lib.org/reference/cache.md) :
+  Atomic Caching
+- [`diff(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/cumsum.integer64.md)
+  [`cummin(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/cumsum.integer64.md)
+  [`cummax(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/cumsum.integer64.md)
+  [`cumsum(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/cumsum.integer64.md)
+  [`cumprod(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/cumsum.integer64.md)
+  : Cumulative Sums, Products, Extremes and lagged differences
+- [`duplicated(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/duplicated.integer64.md)
+  : Determine Duplicate Elements of integer64
+- [`` `[`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/extract.replace.integer64.md)
+  [`` `[<-`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/extract.replace.integer64.md)
+  [`` `[[`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/extract.replace.integer64.md)
+  [`` `[[<-`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/extract.replace.integer64.md)
+  : Extract or Replace Parts of an integer64 vector
+- [`format(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`sign(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`abs(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`sqrt(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`log(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`log10(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`log2(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`trunc(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`floor(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`ceiling(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`signif(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`scale(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`round(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`is.na(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`is.finite(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`is.infinite(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`is.nan(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  [`` `!`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
+  : Unary operators and functions for integer64 vectors
+- [`hashcache()`](https://bit64.r-lib.org/reference/hashcache.md)
+  [`sortcache()`](https://bit64.r-lib.org/reference/hashcache.md)
+  [`sortordercache()`](https://bit64.r-lib.org/reference/hashcache.md)
+  [`ordercache()`](https://bit64.r-lib.org/reference/hashcache.md) : Big
+  caching of hashing, sorting, ordering
+- [`hashfun()`](https://bit64.r-lib.org/reference/hashmap.md)
+  [`hashmap()`](https://bit64.r-lib.org/reference/hashmap.md)
+  [`hashpos()`](https://bit64.r-lib.org/reference/hashmap.md)
+  [`hashrev()`](https://bit64.r-lib.org/reference/hashmap.md)
+  [`hashfin()`](https://bit64.r-lib.org/reference/hashmap.md)
+  [`hashrin()`](https://bit64.r-lib.org/reference/hashmap.md)
+  [`hashdup()`](https://bit64.r-lib.org/reference/hashmap.md)
+  [`hashuni()`](https://bit64.r-lib.org/reference/hashmap.md)
+  [`hashupo()`](https://bit64.r-lib.org/reference/hashmap.md)
+  [`hashtab()`](https://bit64.r-lib.org/reference/hashmap.md)
+  [`hashmaptab()`](https://bit64.r-lib.org/reference/hashmap.md)
+  [`hashmapuni()`](https://bit64.r-lib.org/reference/hashmap.md)
+  [`hashmapupo()`](https://bit64.r-lib.org/reference/hashmap.md) :
+  Hashing for 64bit integers
+- [`identical.integer64()`](https://bit64.r-lib.org/reference/identical.integer64.md)
+  : Identity function for class 'integer64'
+- [`na.count(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/is.sorted.integer64.md)
+  [`nvalid(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/is.sorted.integer64.md)
+  [`is.sorted(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/is.sorted.integer64.md)
+  [`nunique(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/is.sorted.integer64.md)
+  [`nties(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/is.sorted.integer64.md)
+  : Small cache access methods
+- [`keypos()`](https://bit64.r-lib.org/reference/keypos.md) : Extract
+  Positions in redundant dimension table
+- [`match(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/match.integer64.md)
+  [`` `%in%`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/match.integer64.md)
+  : 64-bit integer matching
+- [`colSums()`](https://bit64.r-lib.org/reference/matrix64.md)
+  [`rowSums()`](https://bit64.r-lib.org/reference/matrix64.md)
+  [`aperm(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/matrix64.md)
+  : Working with integer64 arrays and matrices
+- [`optimizer64.data`](https://bit64.r-lib.org/reference/optimizer64.data.md)
+  : Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM
+  under Windows 7 64bit
+- [`prank()`](https://bit64.r-lib.org/reference/prank.md) : (P)ercent
+  (Rank)s
+- [`qtile()`](https://bit64.r-lib.org/reference/qtile.md)
+  [`quantile(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/qtile.md)
+  [`median(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/qtile.md)
+  [`mean(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/qtile.md)
+  [`summary(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/qtile.md)
+  : (Q)uan(Tile)s
+- [`shellsort(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`shellsortorder(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`shellorder(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`mergesort(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`mergeorder(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`mergesortorder(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`quicksort(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`quicksortorder(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`quickorder(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`radixsort(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`radixsortorder(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`radixorder(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`ramsort(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`ramsortorder(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  [`ramorder(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ramsort.integer64.md)
+  : Low-level intger64 methods for in-RAM sorting and ordering
+- [`rank(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/rank.integer64.md)
+  : Sample Ranks from integer64
+- [`rep.integer64`](https://bit64.r-lib.org/reference/rep.integer64.md)
+  : Replicate elements of integer64 vectors
+- [`runif64()`](https://bit64.r-lib.org/reference/runif64.md) :
+  integer64: random numbers
+- [`seq.integer64`](https://bit64.r-lib.org/reference/seq.integer64.md)
+  : integer64: Sequence Generation
+- [`sort(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sort.integer64.md)
+  [`order(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sort.integer64.md)
+  : High-level intger64 methods for sorting and ordering
+- [`sortnut()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`ordernut()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`sortfin()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`orderfin()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`orderpos()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`sortorderpos()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`orderdup()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`sortorderdup()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`sortuni()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`orderuni()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`sortorderuni()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`orderupo()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`sortorderupo()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`ordertie()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`sortordertie()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`sorttab()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`ordertab()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`sortordertab()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`orderkey()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`sortorderkey()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`orderrnk()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`sortorderrnk()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`sortqtl()`](https://bit64.r-lib.org/reference/sortnut.md)
+  [`orderqtl()`](https://bit64.r-lib.org/reference/sortnut.md) :
+  Searching and other uses of sorting for 64bit integers
+- [`any(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sum.integer64.md)
+  [`all(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sum.integer64.md)
+  [`sum(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sum.integer64.md)
+  [`prod(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sum.integer64.md)
+  [`min(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sum.integer64.md)
+  [`max(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sum.integer64.md)
+  [`range(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sum.integer64.md)
+  [`lim.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md)
+  : Summary functions for integer64 vectors
+- [`table.integer64()`](https://bit64.r-lib.org/reference/table.integer64.md)
+  : Cross Tabulation and Table Creation for integer64
+- [`tiepos()`](https://bit64.r-lib.org/reference/tiepos.md) : Extract
+  Positions of Tied Elements
+- [`unipos()`](https://bit64.r-lib.org/reference/unipos.md) : Extract
+  Positions of Unique Elements
+- [`unique(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/unique.integer64.md)
+  : Extract Unique Elements from integer64
+- [`binattr()`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `+`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `-`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `%/%`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `%%`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `*`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `^`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `/`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `==`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `!=`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `<`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `<=`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `>`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `>=`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `&`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`` `|`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  [`xor(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
+  : Binary operators for integer64 vectors
+
