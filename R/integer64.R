@@ -41,12 +41,7 @@ NULL
 #'
 #' @param x an integer64 vector
 #' @param keep.names FALSE, set to TRUE to keep a names vector
-#' @param ... further arguments to the [NextMethod()]
-#' @param origin further arguments to the [NextMethod()]
-#' @param tz further arguments to the [NextMethod()]
-#' @param tim further arguments to the [NextMethod()]
-#' @param format further arguments to the [NextMethod()]
-#' @param units further arguments to the [NextMethod()]
+#' @param ...,origin,tz,tim,format,units further arguments to the [NextMethod()]
 #'
 #' @return `as.bitstring` returns a string of class 'bitstring'.
 #'
@@ -67,8 +62,7 @@ NULL
 #'
 #' @param x an atomic vector
 #' @param keep.names FALSE, set to TRUE to keep a names vector
-#' @param ... further arguments to the [NextMethod()]
-#' @param units further arguments to the [NextMethod()]
+#' @param ...,units further arguments to the [NextMethod()]
 #' 
 #' @details
 #' `as.integer64.character` is realized using C function `strtoll` which

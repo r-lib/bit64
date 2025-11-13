@@ -11,22 +11,7 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(as.raw(i64), as.raw(i32))
   expect_identical(as.factor(i64), as.factor(i32))
   expect_identical(as.ordered(i64), as.ordered(i32))
-  if (getRversion() >= "4.0.0") {
-    expect_identical(as.Date(i64), as.Date(as.numeric(i32)))
-    expect_identical(as.Date(i64, origin=10), as.Date(as.numeric(i32), origin=10))
-    expect_identical(as.POSIXct(i64), as.POSIXct(as.numeric(i32)))
-    expect_identical(as.POSIXct(i64, origin=10), as.POSIXct(as.numeric(i32), origin=10))
-    expect_identical(as.POSIXct(i64, tz="UTC", origin=10), as.POSIXct(as.numeric(i32), tz="UTC", origin=10))
-    expect_identical(as.POSIXct(i64, tz="CET", origin=10), as.POSIXct(as.numeric(i32), tz="CET", origin=10))
-    expect_identical(as.POSIXlt(i64), as.POSIXlt(i32))
-    expect_identical(as.POSIXlt(i64, origin=10), as.POSIXlt(i32, origin=10))
-    expect_identical(as.POSIXlt(i64, tz="UTC", origin=10), as.POSIXlt(i32, tz="UTC", origin=10))
-    expect_identical(as.POSIXlt(i64, tz="CET", origin=10), as.POSIXlt(i32, tz="CET", origin=10))
-    expect_error(as.difftime(i32), "need explicit units for numeric conversion", fixed=TRUE)
-    expect_error(as.difftime(i64), "need explicit units for numeric conversion", fixed=TRUE)
-    expect_identical(as.difftime(i64, units="secs"), as.difftime(i32, units="secs"))
-  }
-  
+
   # to integer64
   expect_identical(as.integer64(TRUE), as.integer64(1L))
   expect_identical(as.integer64(as.character(1:10)), as.integer64(1:10))
@@ -76,17 +61,8 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(methods::as(as.integer64(1:10), "complex"), as.complex(1:10))
   expect_identical(methods::as(as.integer64(1:10), "numeric"), as.numeric(1:10))
   expect_identical(methods::as(as.integer64(1:10), "integer"), as.integer(1:10))
-  if (getRversion() >= "4.0.0") {
-    expect_identical(methods::as(as.integer64(1:10), "raw"), as.raw(1:10))
-  }
   expect_identical(methods::as(as.integer64(1:10), "logical"), as.logical(1:10))
-  if (getRversion() >= "4.0.0") {
-    expect_identical(methods::as(as.integer64(1:10), "difftime"), as.difftime(1:10, units="secs"))
-    expect_identical(methods::as(as.integer64(1:10), "POSIXct"), as.POSIXct(as.numeric(1:10)))
-    expect_identical(methods::as(as.integer64(1:10), "POSIXlt"), as.POSIXlt(1:10))
-    expect_identical(methods::as(as.integer64(1:10), "Date"), as.Date(as.numeric(1:10)))
-  }
-  
+
   # now for NA
   expect_identical(as.logical(NA_integer64_), NA)
   expect_identical(as.integer(NA_integer64_), NA_integer_)
@@ -96,6 +72,34 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(as.integer64(NA_integer_), NA_integer64_)
   expect_identical(as.integer64(NA_real_), NA_integer64_)
   expect_identical(as.integer64(NA_character_), NA_integer64_)
+})
+
+test_that("integer64 coercion to/from other types work for R >=4.0.0", {
+  skip_if_not_r_version("4.0.0")
+  # from integer64
+  i32 = 1:10
+  i64 = as.integer64(i32)
+  expect_identical(as.Date(i64), as.Date(as.numeric(i32)))
+  expect_identical(as.Date(i64, origin=10), as.Date(as.numeric(i32), origin=10))
+  expect_identical(as.POSIXct(i64), as.POSIXct(as.numeric(i32)))
+  expect_identical(as.POSIXct(i64, origin=10), as.POSIXct(as.numeric(i32), origin=10))
+  expect_identical(as.POSIXct(i64, tz="UTC", origin=10), as.POSIXct(as.numeric(i32), tz="UTC", origin=10))
+  expect_identical(as.POSIXct(i64, tz="CET", origin=10), as.POSIXct(as.numeric(i32), tz="CET", origin=10))
+  expect_identical(as.POSIXlt(i64), as.POSIXlt(i32))
+  expect_identical(as.POSIXlt(i64, origin=10), as.POSIXlt(i32, origin=10))
+  expect_identical(as.POSIXlt(i64, tz="UTC", origin=10), as.POSIXlt(i32, tz="UTC", origin=10))
+  expect_identical(as.POSIXlt(i64, tz="CET", origin=10), as.POSIXlt(i32, tz="CET", origin=10))
+  expect_error(as.difftime(i32), "need explicit units for numeric conversion", fixed=TRUE)
+  expect_error(as.difftime(i64), "need explicit units for numeric conversion", fixed=TRUE)
+  expect_identical(as.difftime(i64, units="secs"), as.difftime(i32, units="secs"))
+
+  # S4 version
+  expect_identical(methods::as(as.integer64(1:10), "raw"), as.raw(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "difftime"), as.difftime(1:10, units="secs"))
+  expect_identical(methods::as(as.integer64(1:10), "POSIXct"), as.POSIXct(as.numeric(1:10)))
+  expect_identical(methods::as(as.integer64(1:10), "POSIXlt"), as.POSIXlt(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "Date"), as.Date(as.numeric(1:10)))
+
 })
 
 test_that("S3 class basics work", {

@@ -4,6 +4,7 @@
 \alias{as.character.integer64}
 \alias{as.bitstring}
 \alias{as.double.integer64}
+\alias{as.numeric.integer64}
 \alias{as.complex.integer64}
 \alias{as.integer.integer64}
 \alias{as.raw.integer64}
@@ -21,6 +22,8 @@
 as.bitstring(x, ...)
 
 \method{as.double}{integer64}(x, keep.names = FALSE, ...)
+
+\method{as.numeric}{integer64}(x, keep.names = FALSE, ...)
 
 \method{as.complex}{integer64}(x, ...)
 
@@ -42,13 +45,7 @@ as.bitstring(x, ...)
 
 as.difftime(tim, format = "\%X", units = "auto", tz = "UTC", ...)
 
-\method{as.difftime}{integer64}(
-  tim,
-  format = "\%X",
-  units = "auto",
-  tz = "UTC",
-  ...
-)
+\method{as.difftime}{integer64}(tim, format = "\%X", units = "auto", tz = "UTC", ...)
 
 \method{print}{bitstring}(x, ...)
 
@@ -57,19 +54,9 @@ as.difftime(tim, format = "\%X", units = "auto", tz = "UTC", ...)
 \arguments{
 \item{x}{an integer64 vector}
 
-\item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+\item{..., origin, tz, tim, format, units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 
 \item{keep.names}{FALSE, set to TRUE to keep a names vector}
-
-\item{origin}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
-
-\item{tz}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
-
-\item{tim}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
-
-\item{format}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
-
-\item{units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 }
 \value{
 \code{as.bitstring} returns a string of class 'bitstring'.
@@ -85,9 +72,7 @@ The methods \code{\link[=format]{format()}}, \code{\link[=as.character]{as.chara
 \examples{
   as.character(lim.integer64())
   as.bitstring(lim.integer64())
-  as.bitstring(as.integer64(c(
-   -2,-1,NA,0:2
-  )))
+  as.bitstring(as.integer64(c(-2, -1, NA, 0:2)))
 }
 \seealso{
 \code{\link[=as.integer64.character]{as.integer64.character()}} \code{\link[=integer64]{integer64()}}

@@ -60,9 +60,7 @@ NA_integer64_
 
 \item{keep.names}{FALSE, set to TRUE to keep a names vector}
 
-\item{units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
-
-\item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+\item{..., units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 }
 \value{
 The other methods return atomic vectors of the expected types
