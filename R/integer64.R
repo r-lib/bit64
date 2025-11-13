@@ -562,11 +562,11 @@ identical.integer64 <- function(x, y,
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64 <- function(x, keep.names=FALSE, ...) UseMethod("as.integer64")
+as.integer64 = function(x, keep.names=FALSE, ...) UseMethod("as.integer64")
 
 #' @rdname as.character.integer64
 #' @export
-as.bitstring <- function(x, ...) UseMethod("as.bitstring")
+as.bitstring = function(x, ...) UseMethod("as.bitstring")
 
 #' @rdname plusclass
 #' @export
@@ -739,7 +739,8 @@ as.integer64.character = function(x, keep.names=FALSE, ...) {
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.factor = function(x, keep.names=FALSE, ...) as.integer64(unclass(x), keep.names=keep.names, ...)
+as.integer64.factor = function(x, keep.names=FALSE, ...) 
+  as.integer64(unclass(x), keep.names=keep.names, ...)
 
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 Date
@@ -762,7 +763,8 @@ as.integer64.POSIXct = function(x, keep.names=FALSE, ...) {
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 POSIXlt
 as.integer64.POSIXlt = function(x, keep.names=FALSE, ...) {
-  callGeneric(x=as.POSIXct(x), keep.names=keep.names, ...)
+  x = as.POSIXct(x)
+  callGeneric()
 }
 
 #' @rdname as.integer64.character
