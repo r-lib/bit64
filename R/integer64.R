@@ -691,6 +691,7 @@ as.integer64.double = function(x, keep.names=FALSE, ...) {
 as.integer64.complex = function(x, keep.names=FALSE, ...) {
   xd = withCallingHandlers(
     as.double(x),
+    # call.=FALSE to avoid confusion about where the warning arises
     warning = function(w) {
       warning(conditionMessage(w), call.=FALSE)
       invokeRestart("muffleWarning")
