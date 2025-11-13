@@ -178,6 +178,12 @@ test_that("Coercion", {
     as.double(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
     as.double(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
   )
+  if (getRversion() >= "4.0.0") {
+    expect_identical(
+      as.complex(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
+      as.complex(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
+    )
+  }
   expect_identical(
     as.character(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
     as.character(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
@@ -185,6 +191,16 @@ test_that("Coercion", {
   expect_identical(
     as.integer(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
     as.integer(c(NA, seq(0.0, 9.0, 0.25)))
+  )
+  expect_warning(
+    expect_warning(
+      expect_identical(
+        as.raw(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
+        as.raw(c(NA, seq(0.0, 9.0, 0.25)))
+      ), fixed=TRUE,
+      "out-of-range values treated as 0 in coercion to raw"
+    ), fixed=TRUE,
+    "out-of-range values treated as 0 in coercion to raw"
   )
   expect_identical(
     as.logical(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
@@ -203,12 +219,94 @@ test_that("Coercion", {
     as.integer64(-9:9)
   )
   expect_identical(
+    as.integer64(as.complex(-9:9)),
+    as.integer64(-9:9)
+  )
+  expect_identical(
+    as.integer64(as.raw(0:9)),
+    as.integer64(0:9)
+  )
+  expect_identical(
     as.integer64(as.character(as.integer64(-9:9))),
     as.integer64(-9:9)
   )
   expect_identical(
     as.integer64(as.character(lim.integer64())),
     lim.integer64()
+  )
+  expect_identical(
+    as(as.raw(1L), "integer64"),
+    as.integer64(1L)
+  )
+  expect_identical(
+    as(TRUE, "integer64"),
+    as.integer64(1L)
+  )
+  expect_identical(
+    as(111L, "integer64"),
+    as.integer64(111L)
+  )
+  expect_identical(
+    as(111, "integer64"),
+    as.integer64(111L)
+  )
+  expect_identical(
+    as(111+0i, "integer64"),
+    as.integer64(111L)
+  )
+  expect_identical(
+    as("111", "integer64"),
+    as.integer64(111L)
+  )
+  expect_identical(
+    as(as.factor(111), "integer64"),
+    as.integer64(1L)
+  )
+  expect_identical(
+    as(as.ordered(111), "integer64"),
+    as.integer64(1L)
+  )
+  if (getRversion() >= "4.0.0") {
+    expect_identical(
+      as(as.integer64(1L), "raw"),
+      as.raw(1L)
+    )
+  }
+  expect_identical(
+    as(as.integer64(1L), "logical"),
+    TRUE
+  )
+  expect_identical(
+    as(as.integer64(111L), "integer"),
+    111L
+  )
+  expect_identical(
+    as(as.integer64(111L), "integer"),
+    111L
+  )
+  expect_identical(
+    as(as.integer64(111L), "numeric"),
+    111
+  )
+  expect_identical(
+    as(as.integer64(111L), "double"),
+    111
+  )
+  expect_identical(
+    as(as.integer64(111L), "complex"),
+    111+0i
+  )
+  expect_identical(
+    as(as.integer64(111L), "character"),
+    "111"
+  )
+  expect_identical(
+    as(as.integer64(111L), "factor"),
+    as.factor("111")
+  )
+  expect_identical(
+    as(as.integer64(111L), "ordered"),
+    as.ordered("111")
   )
 })
 

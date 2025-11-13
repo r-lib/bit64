@@ -7,9 +7,15 @@
 \alias{as.integer64.NULL}
 \alias{as.integer64.integer64}
 \alias{as.integer64.double}
+\alias{as.integer64.complex}
 \alias{as.integer64.integer}
+\alias{as.integer64.raw}
 \alias{as.integer64.logical}
 \alias{as.integer64.factor}
+\alias{as.integer64.Date}
+\alias{as.integer64.POSIXct}
+\alias{as.integer64.POSIXlt}
+\alias{as.integer64.difftime}
 \alias{as.integer64.bitstring}
 \alias{NA_integer64_}
 \title{Coerce to integer64}
@@ -17,32 +23,46 @@
 An object of class \code{integer64} of length 1.
 }
 \usage{
-as.integer64(x, ...)
+as.integer64(x, keep.names = FALSE, ...)
 
-\method{as.integer64}{`NULL`}(x, ...)
+\method{as.integer64}{`NULL`}(x, keep.names = FALSE, ...)
 
-\method{as.integer64}{integer64}(x, ...)
+\method{as.integer64}{integer64}(x, keep.names = FALSE, ...)
 
 \method{as.integer64}{double}(x, keep.names = FALSE, ...)
 
-\method{as.integer64}{integer}(x, ...)
+\method{as.integer64}{complex}(x, keep.names = FALSE, ...)
 
-\method{as.integer64}{logical}(x, ...)
+\method{as.integer64}{integer}(x, keep.names = FALSE, ...)
 
-\method{as.integer64}{character}(x, ...)
+\method{as.integer64}{raw}(x, keep.names = FALSE, ...)
 
-\method{as.integer64}{factor}(x, ...)
+\method{as.integer64}{logical}(x, keep.names = FALSE, ...)
 
-\method{as.integer64}{bitstring}(x, ...)
+\method{as.integer64}{character}(x, keep.names = FALSE, ...)
+
+\method{as.integer64}{factor}(x, keep.names = FALSE, ...)
+
+\method{as.integer64}{Date}(x, keep.names = FALSE, ...)
+
+\method{as.integer64}{POSIXct}(x, keep.names = FALSE, ...)
+
+\method{as.integer64}{POSIXlt}(x, keep.names = FALSE, ...)
+
+\method{as.integer64}{difftime}(x, keep.names = FALSE, units = "auto", ...)
+
+\method{as.integer64}{bitstring}(x, keep.names = FALSE, ...)
 
 NA_integer64_
 }
 \arguments{
 \item{x}{an atomic vector}
 
-\item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
-
 \item{keep.names}{FALSE, set to TRUE to keep a names vector}
+
+\item{units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{...}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 }
 \value{
 The other methods return atomic vectors of the expected types

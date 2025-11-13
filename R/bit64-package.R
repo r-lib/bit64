@@ -695,7 +695,7 @@
 #'   ramsort ramsortorder repeat.time setattr shellorder shellsort
 #'   shellsortorder still.identical xor
 #' @importFrom graphics barplot par title
-#' @importFrom methods as is
+#' @importFrom methods as is callGeneric
 #' @importFrom stats cor median quantile
 #' @importFrom utils head packageDescription strOptions tail
 #' @export : :.default :.integer64
