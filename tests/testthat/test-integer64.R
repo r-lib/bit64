@@ -485,7 +485,7 @@ test_that("anyNA method", {
 
 
 test_that("match works with zero length input", {
-  x32 = as.integer64(1:10)
+  x32 = 1:10
   x64 = as.integer64(1:10)
   expect_identical(match(x64, integer()), match(x32, integer()))
   expect_identical(match(x64, integer(), nomatch=NULL), match(x32, integer(), nomatch=NULL))
