@@ -593,7 +593,7 @@ binattr <- function(e1, e2) {
   if (length(d1)) {
     if (length(d2)) {
       if (!identical(dim(e1), dim(e2)))
-        stop("non-conformable arrays")
+        stop(gettext("non-conformable arrays", domain="R"))
     } else {
       if (n2 > n1 && n1)
         stop("length(e2) does not match dim(e1)")

@@ -482,3 +482,13 @@ test_that("anyNA method", {
   expect_identical(anyNA(as.integer64(c(NA, NA))), anyNA(c(NA, NA)))
   expect_identical(anyNA(integer64()), anyNA(integer()))
 })
+
+
+test_that("match works with zero length input", {
+  x32 = as.integer64(1:10)
+  x64 = as.integer64(1:10)
+  expect_identical(match(x64, integer()), match(x32, integer()))
+  expect_identical(match(x64, integer(), nomatch=NULL), match(x32, integer(), nomatch=NULL))
+  expect_identical(match(x64, integer(), nomatch=10L), match(x32, integer(), nomatch=10L))
+  expect_identical(match(integer(), x64), match(integer(), x32))
+})
