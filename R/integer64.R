@@ -672,7 +672,15 @@ as.integer64.NULL <- function(x, ...) {
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.integer64 <- function(x, ...) x
+as.integer64.integer64 = function(x, ...) {
+  ret = unclass(x)
+  attributes(ret) = NULL
+  # if keep.names is added as argument
+  # if (isTRUE(keep.names))
+  #   names(ret) = names(x)
+  oldClass(ret) = "integer64"
+  ret
+}
 
 #' @rdname as.integer64.character
 #' @export
