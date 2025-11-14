@@ -337,7 +337,7 @@ NULL
 #' Coercing integer64 vector to data.frame.
 #'
 #' @param x an integer64 vector
-#' @param ... passed to NextMethod [as.data.frame()] after removing the
+#' @param row.names,optional,... passed to NextMethod [as.data.frame()] after removing the
 #'   'integer64' class attribute
 #'
 #' @returns a one-column data.frame containing an integer64 vector
@@ -350,7 +350,7 @@ NULL
 #'   [cbind.integer64()] [integer64()]
 #    as.vector.integer64 removed as requested by the CRAN maintainer [as.vector.integer64()]
 #' @examples
-#'   as.data.frame.integer64(as.integer64(1:12))
+#'   as.data.frame(as.integer64(1:12))
 #'   data.frame(a=1:12, b=as.integer64(1:12))
 #' @name as.data.frame.integer64
 NULL
@@ -1138,15 +1138,14 @@ rbind.integer64 <- function(...) {
 
 #' @rdname as.data.frame.integer64
 #' @export
-as.data.frame.integer64 <- function(x, ...) {
-  cl <- oldClass(x)
+as.data.frame.integer64 <- function(x, row.names=NULL, optional=FALSE, ...) {
+  cl = oldClass(x)
   on.exit(setattr(x, "class", cl))
   # tenfold runtime if using attr() here instead of setattr()
   setattr(x, "class", minusclass(cl, "integer64"))
-  ret <- as.data.frame(x, ...)
-  k <- length(ret)
-  for (i in 1:k)
-   setattr(ret[[i]], "class", cl)
+  ret = callGeneric()
+  for (i in seq_along(ret))
+    setattr(ret[[i]], "class", cl)
   ret
 }
 
