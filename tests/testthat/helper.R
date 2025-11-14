@@ -1,13 +1,15 @@
 # TODO(#45): use matrix() directly
-matrix64 = function(x, nrow=1L, ncol=1L, byrow=FALSE) {
+matrix64 = function(x, nrow=1L, ncol=1L, byrow=FALSE, dimnames=NULL) {
   x = as.integer64(x)
   if (byrow) {
     dim(x) = c(ncol, nrow)
-    t(x)
+    x = t(x)
+    dimnames(x) = dimnames
   } else {
     dim(x) = c(nrow, ncol)
-    x
+    dimnames(x) = dimnames
   }
+  x
 }
 
 array64 = function(x, dim) {

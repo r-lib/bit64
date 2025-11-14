@@ -55,28 +55,28 @@ test_that("Minus and plus edge cases and 'rev'", {
 
 test_that("'range.integer64', multiplication, integer division, sqrt, power, and log", {
   i64 = integer64(63L)
-  i64[1L] = 1.0
+  i64[1L] = 1L
   for (i in 2:63)
-    i64[i] = 2.0 * i64[i-1L]
+    i64[i] = 2L * i64[i-1L]
   expect_true(identical.integer64(i64 * rev(i64), rep(i64[63L], 63L)))
   for (i in 63:2)
-    i64[i-1L] = i64[i] %/% 2.0
+    i64[i-1L] = i64[i] %/% 2L
   expect_true(identical.integer64(i64 * rev(i64), rep(i64[63L], 63L)))
   for (i in 63:2)
-    i64[i-1L] = i64[i] / 2.0
+    i64[i-1L] = as.integer64(i64[i] / 2L)
   expect_true(identical.integer64(i64 * rev(i64), rep(i64[63L], 63L)))
   expect_true(identical.integer64(
     c(
-      -i64[63L] - (i64[63L] - 1.0),
-      i64[63L] + (i64[63L] - 1.0)
+      -i64[63L] - (i64[63L] - 1L),
+      i64[63L] + (i64[63L] - 1L)
     ),
     lim.integer64()
   ))
 
-  expect_true(identical.integer64(i64[-1L] %/%2.0 * as.integer64(2L), i64[-1L]))
-  expect_true(identical.integer64(i64[-1L] %/%2L * as.integer64(2L), i64[-1L]))
+  expect_true(identical.integer64(i64[-1L] %/% 2.0 * as.integer64(2L), i64[-1L]))
+  expect_true(identical.integer64(i64[-1L] %/% 2L * as.integer64(2L), i64[-1L]))
   expect_true(identical.integer64(i64[-1L] / 2.0 * as.integer64(2L), i64[-1L]))
-  expect_true(identical.integer64(i64[-1L] / 2.0 * as.integer64(2L), i64[-1L]))
+  expect_true(identical.integer64(i64[-1L] / 2L * as.integer64(2L), i64[-1L]))
 
   expect_true(identical.integer64(i64[-63L] * 2.0 %/% 2.0, i64[-63L]))
   expect_true(identical.integer64(i64[-63L] * 2L %/% 2L, i64[-63L]))
