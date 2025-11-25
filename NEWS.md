@@ -42,6 +42,7 @@
 ## NEW FEATURES
 
 1. `anyNA` gets an `integer64` method. Thanks @hcirellu.
+1. `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method. (#45)
 
 ## BUG FIXES
 

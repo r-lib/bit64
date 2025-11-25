@@ -37,11 +37,10 @@ The current implementation returns \code{9218868437227407266} instead of \code{N
 }
 \examples{
   as.integer64(1:12)[1:3]
-  x <- as.integer64(1:12)
-  dim(x) <- c(3,4)
+  x <- matrix(as.integer64(1:12), nrow = 3L)
   x
   x[]
-  x[,2:3]
+  x[, 2:3]
 }
 \seealso{
 \code{\link[base:Extract]{[}} \code{\link[=integer64]{integer64()}}

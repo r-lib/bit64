@@ -1003,6 +1003,18 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
   UNPROTECT(1);
   return ret_;
 }
+/*
+require(bit64)
+require(microbenchmark)
+microbenchmark(runif64(1e6))
+
+sort(runif64(1e2))
+
+
+Unit: milliseconds
+           expr      min       lq     mean   median       uq      max neval
+ runif64(1e+06) 24.62306 25.60286 25.61903 25.61369 25.62032 26.40202   100
+*/
 
 SEXP as_list_integer64(SEXP x_){
   long long i, n = LENGTH(x_);
@@ -1018,15 +1030,127 @@ SEXP as_list_integer64(SEXP x_){
   return x_;
 }
 
-/*
-require(bit64)
-require(microbenchmark)
-microbenchmark(runif64(1e6))
+__attribute__((no_sanitize("signed-integer-overflow"))) SEXP matmult_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_){
+  long long i, j, k;
+  // get dimension of e1
+  SEXP dim1 = getAttrib(x_, R_DimSymbol);
+  long long nrow1 = INTEGER(dim1)[0];
+  long long ncol1 = INTEGER(dim1)[1];
+  // get dimension of e2
+  SEXP dim2 = getAttrib(y_, R_DimSymbol);
+  long long nrow2 = INTEGER(dim2)[0];
+  long long ncol2 = INTEGER(dim2)[1];
 
-sort(runif64(1e2))
+  long long * x = (long long *) REAL(x_);
+  long long * y = (long long *) REAL(y_);
+  long long * ret = (long long *) REAL(ret_);
+  Rboolean naflag = FALSE;
+  long long cumsum, tempsum, addValue;
 
+  for(i=0; i<nrow1; i++){
+    for(j=0; j<ncol2; j++){
+      cumsum = 0;
+      for(k=0; k<ncol1; k++){
+        PROD64(x[i + k*nrow1],y[k + j*nrow2],addValue,naflag)
+        if(addValue == NA_INTEGER64){
+          cumsum = NA_INTEGER64; 
+          break; 
+        }
+        tempsum = cumsum + addValue;
+        if(!GOODISUM64(cumsum, addValue, tempsum)){
+          naflag = TRUE;
+          cumsum = NA_INTEGER64;
+          break; 
+        }
+        cumsum = tempsum;
+      }
+      ret[i + j*nrow1] = cumsum;
+    }  
+  }
+  if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+  return ret_;
+}
 
-Unit: milliseconds
-           expr      min       lq     mean   median       uq      max neval
- runif64(1e+06) 24.62306 25.60286 25.61903 25.61369 25.62032 26.40202   100
-*/
+SEXP matmult_double_integer64(SEXP x_, SEXP y_, SEXP ret_){
+  long long i, j, k;
+  // get dimension of e1
+  SEXP dim1 = getAttrib(x_, R_DimSymbol);
+  long long nrow1 = INTEGER(dim1)[0];
+  long long ncol1 = INTEGER(dim1)[1];
+  // get dimension of e2
+  SEXP dim2 = getAttrib(y_, R_DimSymbol);
+  long long nrow2 = INTEGER(dim2)[0];
+  long long ncol2 = INTEGER(dim2)[1];
+
+  double * x = REAL(x_);
+  long long * y = (long long *) REAL(y_);
+  long long * ret = (long long *) REAL(ret_);
+  Rboolean naflag = FALSE;
+  long long cumsum, tempsum, addValue;
+  long double longret;
+
+  for(i=0; i<nrow1; i++){
+    for(j=0; j<ncol2; j++){
+      cumsum = 0;
+      for(k=0; k<ncol1; k++){
+        PROD64REAL(y[k + j*nrow2],x[i + k*nrow1],addValue,naflag,longret)
+        if(addValue == NA_INTEGER64){
+          cumsum = NA_INTEGER64; 
+          break; 
+        }
+        tempsum = cumsum + addValue;
+        if(!GOODISUM64(cumsum, addValue, tempsum)){
+          naflag = TRUE;
+          cumsum = NA_INTEGER64;
+          break;
+        }
+        cumsum = tempsum;
+      }
+      ret[i + j*nrow1] = cumsum;
+    }  
+  }
+  if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+  return ret_;
+}
+
+SEXP matmult_integer64_double(SEXP x_, SEXP y_, SEXP ret_){
+  long long i, j, k;
+  // get dimension of e1
+  SEXP dim1 = getAttrib(x_, R_DimSymbol);
+  long long nrow1 = INTEGER(dim1)[0];
+  long long ncol1 = INTEGER(dim1)[1];
+  // get dimension of e2
+  SEXP dim2 = getAttrib(y_, R_DimSymbol);
+  long long nrow2 = INTEGER(dim2)[0];
+  long long ncol2 = INTEGER(dim2)[1];
+
+  long long * x = (long long *) REAL(x_);
+  double * y = REAL(y_);
+  long long * ret = (long long *) REAL(ret_);
+  Rboolean naflag = FALSE;
+  long long cumsum, tempsum, addValue;
+  long double longret;
+
+  for(i=0; i<nrow1; i++){
+    for(j=0; j<ncol2; j++){
+      cumsum = 0;
+      for(k=0; k<ncol1; k++){
+        PROD64REAL(x[i + k*nrow1],y[k + j*nrow2],addValue,naflag,longret)
+        if(addValue == NA_INTEGER64){
+          cumsum = NA_INTEGER64; 
+          break; 
+        }
+        tempsum = cumsum + addValue;
+        if(!GOODISUM64(cumsum, addValue, tempsum)){
+          naflag = TRUE;
+          cumsum = NA_INTEGER64;
+          break;
+        }
+        cumsum = tempsum;
+      }
+      ret[i + j*nrow1] = cumsum;
+    }  
+  }
+  if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+  return ret_;
+}

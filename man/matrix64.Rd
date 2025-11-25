@@ -2,6 +2,8 @@
 % Please edit documentation in R/matrix64.R
 \name{matrix64}
 \alias{matrix64}
+\alias{matrix}
+\alias{array}
 \alias{colSums}
 \alias{colSums.default}
 \alias{colSums.integer64}
@@ -11,28 +13,34 @@
 \alias{aperm.integer64}
 \title{Working with integer64 arrays and matrices}
 \usage{
+matrix(data = NA, nrow = 1L, ncol = 1L, byrow = FALSE, dimnames = NULL)
+
+array(data = NA, dim = length(data), dimnames = NULL)
+
 colSums(x, na.rm = FALSE, dims = 1L)
 
-\method{colSums}{default}(x, na.rm = FALSE, dims = 1L)
+\method{colSums}{default}(...)
 
 \method{colSums}{integer64}(x, na.rm = FALSE, dims = 1L)
 
 rowSums(x, na.rm = FALSE, dims = 1L)
 
-\method{rowSums}{default}(x, na.rm = FALSE, dims = 1L)
+\method{rowSums}{default}(...)
 
 \method{rowSums}{integer64}(x, na.rm = FALSE, dims = 1L)
 
 \method{aperm}{integer64}(a, perm, ...)
 }
 \arguments{
+\item{data, nrow, ncol, byrow, dimnames, dim}{Arguments for \code{matrix()} and \code{array()}.}
+
 \item{x}{An array of integer64 numbers.}
 
 \item{na.rm, dims}{Same interpretation as in \code{\link[=colSums]{colSums()}}.}
 
-\item{a, perm}{Passed on to \code{\link[=aperm]{aperm()}}.}
-
 \item{...}{Passed on to subsequent methods.}
+
+\item{a, perm}{Passed on to \code{\link[=aperm]{aperm()}}.}
 }
 \description{
 These functions and methods facilitate working with integer64
@@ -53,8 +61,7 @@ that of \code{colSums()} for integers; feature requests and PRs welcome.
 \code{FUN} gets applied to a class-stripped version of the input.
 }
 \examples{
-A = as.integer64(1:6)
-dim(A) = 3:2
+A = matrix(as.integer64(1:6), 3)
 
 colSums(A)
 rowSums(A)

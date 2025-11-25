@@ -116,8 +116,7 @@ NULL
 #' @seealso [`[`][base::Extract] [integer64()]
 #' @examples
 #'   as.integer64(1:12)[1:3]
-#'   x <- as.integer64(1:12)
-#'   dim(x) <- c(3, 4)
+#'   x <- matrix(as.integer64(1:12), nrow = 3L)
 #'   x
 #'   x[]
 #'   x[, 2:3]
@@ -709,14 +708,24 @@ as.integer64.character <- function(x, ...) {
 #' @export
 as.integer64.factor <- function(x, ...) as.integer64(unclass(x), ...)
 
-#' @rdname as.character.integer64
-#' @export
-as.double.integer64 <- function(x, keep.names=FALSE, ...) {
-  ret <- .Call(C_as_double_integer64, x, double(length(x)))
-  if (keep.names)
-    names(ret) <- names(x)
+.as_double_integer64 = function(x, keep.names=FALSE, keep.attributes=FALSE, ...) {
+  ret = .Call(C_as_double_integer64, x, double(length(x)))
+  if (isTRUE(keep.attributes)) {
+      # like dimensions for matrix operations
+      a = attributes(x)
+      a$class = NULL
+      attributes(ret) = a
+      keep.names = FALSE # names are already included
+  }
+  if (isTRUE(keep.names))
+    names(ret) = names(x)
   ret
 }
+
+#' @rdname as.character.integer64
+#' @export
+as.double.integer64 = function(x, keep.names=FALSE, ...) 
+  .as_double_integer64(x, keep.names, keep.attributes=FALSE, ...)
 
 #' @rdname as.character.integer64
 #' @export
@@ -824,19 +833,35 @@ print.integer64 <- function(x, quote=FALSE, ...) {
 #' @param object an integer64 vector
 #' @param vec.len,give.head,give.length see [utils::str()]
 #' @export
-str.integer64 <- function(object,
-                          vec.len  = strO$vec.len,
-                          give.head = TRUE,
-                          give.length = give.head,
-                          ...) {
-  strO <- strOptions()
-  vec.len <- 2L*vec.len
-  n <- length(object)
-  if (n > vec.len)
-    object <- object[seq_len(vec.len)]
+str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.length=give.head, ...) {
+  strO = strOptions()
+  vec.len = 2L*vec.len
+  n = length(object)
+  displayObject = object[seq_len(min(vec.len, length(object)))]
+
   cat(
-    if (give.head) paste0("integer64 ", if (give.length && n>1L) paste0("[1:", n, "] ")),
-    paste(as.character(object), collapse=" "),
+    if (isTRUE(give.head)) {
+      if (length(object) == 0L && is.null(dim(object))) {
+        "integer64(0)"
+      } else {
+        paste0(
+          "integer64 ",
+          if (length(object) > 1L && is.null(dim(object))) {
+            if (isTRUE(give.length)) paste0("[1:", n, "] ") else " "
+          } else if (!is.null(dim(object))) {
+            dimO = dim(object)
+            if (prod(dimO) != n)
+              stop(gettextf("dims [product %d] do not match the length of object [%d]", prod(dimO), n, domain="R"))
+            if (length(dimO) == 1L) {
+              paste0("[", n, "(1d)] ")
+            } else {
+              paste0("[", paste(vapply(dimO, function(el) {if (el < 2L) as.character(el) else paste0("1:", el)}, ""), collapse = ", "), "] ")
+            }
+          }
+        )
+      }
+    },
+    paste(as.character(displayObject), collapse=" "),
     if (n > vec.len) " ...",
     " \n",
     sep=""
@@ -1065,6 +1090,32 @@ seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wi
   ret <- .Call(C_seq_integer64, from, by, double(as.integer(length.out)))
   oldClass(ret) <- "integer64"
   return(ret)
+}
+
+
+# helper for determining the target class for Ops methods
+target_class_for_Ops = function(e1, e2) {
+  if(missing(e2)) {
+    if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1))
+      stop(errorCondition(gettext("non-numeric argument to mathematical function", domain = "R"), call=sys.calls()[[1]]))
+
+    if (is.complex(e1)) {
+      "complex"
+    } else {
+      "integer64"
+    }
+  } else {
+    if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1))
+      stop(errorCondition(gettext("non-numeric argument to binary operator", domain = "R"), call=sys.calls()[[1]]))
+    if (!is.numeric(unclass(e2)) && !is.logical(e2) && !is.complex(e2))
+      stop(errorCondition(gettext("non-numeric argument to binary operator", domain = "R"), call=sys.calls()[[1]]))
+
+    if (is.complex(e1) || is.complex(e2)) {
+      "complex"
+    } else {
+      "integer64"
+    }
+  }
 }
 
 #' @rdname xor.integer64
