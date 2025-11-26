@@ -1062,8 +1062,12 @@ __attribute__((no_sanitize("signed-integer-overflow"))) SEXP matmult_integer64_i
         warning("third value is %lld - %d\n", tempsum,naflag);
         if(((cumsum) > 0) ? ((addValue) < (tempsum)) : ! ((addValue) < (tempsum))) warning("GOODISUM64 is true");
         if(((cumsum) > 0)) warning("(cumsum) > 0 is true");
-        if((((long double) (addValue)) < ((long double) (tempsum)))) warning("(addValue) < (tempsum) is true");
-        if(!GOODISUM64(cumsum, addValue, tempsum)){
+        if((((long long) (addValue)) < ((long long) (tempsum)))) warning("(addValue) < (tempsum) is true1");
+        if((((long double) (addValue)) < ((long double) (tempsum)))) warning("(addValue) < (tempsum) is true2");
+        // for some reason GOODISUM64(cumsum, addValue, tempsum) does not work properly on macos-latest, compared to the others
+        // therefore a workaround is tried here
+        // if(!GOODISUM64(cumsum, addValue, tempsum)){
+        if(!((cumsum > 0) ? (((long double) addValue) < ((long double) tempsum)) : ! (((long double) addValue) < ((long double) tempsum)))){
           warning("GOODISUM64 is false");
           naflag = TRUE;
           cumsum = NA_INTEGER64;
