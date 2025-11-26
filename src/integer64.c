@@ -1050,11 +1050,26 @@ __attribute__((no_sanitize("signed-integer-overflow"))) SEXP matmult_integer64_i
   for(i=0; i<nrow1; i++){
     for(j=0; j<ncol2; j++){
       cumsum = 0;
-      for(k=0; k<ncol1 && cumsum != NA_INTEGER64; k++){
+      for(k=0; k<ncol1; k++){
         PROD64(x[i + k*nrow1],y[k + j*nrow2],addValue,naflag)
-        PLUS64(cumsum,addValue,tempsum,naflag)
+        warning("first value is %lld - %d\n", addValue,naflag);
+        if(addValue == NA_INTEGER64){
+          cumsum = NA_INTEGER64; 
+          break; 
+        }
+        warning("second value is %lld - %d\n", cumsum,naflag);
+        tempsum = cumsum + addValue;
+        warning("third value is %lld - %d\n", tempsum,naflag);
+        if(!GOODISUM64(cumsum, addValue, tempsum)){
+          naflag = TRUE;
+          cumsum = NA_INTEGER64;
+          break; 
+        }
+        warning("fourth value is %lld - %d\n", tempsum,naflag);
         cumsum = tempsum;
+        warning("fifth value is %lld - %d\n", cumsum,naflag);
       }
+      warning("sixth value is %lld - %d\n", cumsum,naflag);
       ret[i + j*nrow1] = cumsum;
     }  
   }
