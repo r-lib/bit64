@@ -1032,11 +1032,11 @@ SEXP as_list_integer64(SEXP x_){
 
 __attribute__((no_sanitize("signed-integer-overflow"))) SEXP matmult_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_){
   long long i, j, k;
-  // get dimension of e1
+  // get dimension of x
   SEXP dim1 = getAttrib(x_, R_DimSymbol);
   long long nrow1 = INTEGER(dim1)[0];
   long long ncol1 = INTEGER(dim1)[1];
-  // get dimension of e2
+  // get dimension of y
   SEXP dim2 = getAttrib(y_, R_DimSymbol);
   long long nrow2 = INTEGER(dim2)[0];
   long long ncol2 = INTEGER(dim2)[1];
@@ -1050,18 +1050,9 @@ __attribute__((no_sanitize("signed-integer-overflow"))) SEXP matmult_integer64_i
   for(i=0; i<nrow1; i++){
     for(j=0; j<ncol2; j++){
       cumsum = 0;
-      for(k=0; k<ncol1; k++){
+      for(k=0; k<ncol1 && cumsum != NA_INTEGER64; k++){
         PROD64(x[i + k*nrow1],y[k + j*nrow2],addValue,naflag)
-        if(addValue == NA_INTEGER64){
-          cumsum = NA_INTEGER64; 
-          break; 
-        }
-        tempsum = cumsum + addValue;
-        if(!GOODISUM64(cumsum, addValue, tempsum)){
-          naflag = TRUE;
-          cumsum = NA_INTEGER64;
-          break; 
-        }
+        PLUS64(cumsum,addValue,tempsum,naflag)
         cumsum = tempsum;
       }
       ret[i + j*nrow1] = cumsum;
@@ -1071,13 +1062,14 @@ __attribute__((no_sanitize("signed-integer-overflow"))) SEXP matmult_integer64_i
   return ret_;
 }
 
+
 SEXP matmult_double_integer64(SEXP x_, SEXP y_, SEXP ret_){
   long long i, j, k;
-  // get dimension of e1
+  // get dimension of x
   SEXP dim1 = getAttrib(x_, R_DimSymbol);
   long long nrow1 = INTEGER(dim1)[0];
   long long ncol1 = INTEGER(dim1)[1];
-  // get dimension of e2
+  // get dimension of y
   SEXP dim2 = getAttrib(y_, R_DimSymbol);
   long long nrow2 = INTEGER(dim2)[0];
   long long ncol2 = INTEGER(dim2)[1];
@@ -1115,11 +1107,11 @@ SEXP matmult_double_integer64(SEXP x_, SEXP y_, SEXP ret_){
 
 SEXP matmult_integer64_double(SEXP x_, SEXP y_, SEXP ret_){
   long long i, j, k;
-  // get dimension of e1
+  // get dimension of x
   SEXP dim1 = getAttrib(x_, R_DimSymbol);
   long long nrow1 = INTEGER(dim1)[0];
   long long ncol1 = INTEGER(dim1)[1];
-  // get dimension of e2
+  // get dimension of y
   SEXP dim2 = getAttrib(y_, R_DimSymbol);
   long long nrow2 = INTEGER(dim2)[0];
   long long ncol2 = INTEGER(dim2)[1];

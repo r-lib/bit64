@@ -228,6 +228,7 @@ test_that("matrix multiplication", {
   expect_warning(expect_identical(matrix(x, 1)%*%matrix(x, ncol=1), matrix(NA_integer64_, 1, 1)), "NAs produced by integer64 overflow")
   
   expect_warning(expect_identical(as.integer64("9000000000000000000") + as.integer64("9000000000000000000"), NA_integer64_), "NAs produced by integer64 overflow")
+  expect_warning(expect_identical(sum(as.integer64(c("9000000000000000000", "9000000000000000000"))), NA_integer64_), "NAs produced by integer64 overflow")
   # warning in summation part
   x = rep_len(as.integer64("3000000000"), 2)
   expect_warning(expect_identical(matrix(x, 1)%*%matrix(x, ncol=1), matrix(NA_integer64_, 1, 1)), "NAs produced by integer64 overflow")
