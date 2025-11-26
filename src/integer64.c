@@ -1060,7 +1060,9 @@ __attribute__((no_sanitize("signed-integer-overflow"))) SEXP matmult_integer64_i
         warning("second value is %lld - %d\n", cumsum,naflag);
         tempsum = cumsum + addValue;
         warning("third value is %lld - %d\n", tempsum,naflag);
+        if(((cumsum) > 0) ? ((addValue) < (tempsum)) : ! ((addValue) < (tempsum))) warning("GOODISUM64 is true");
         if(!GOODISUM64(cumsum, addValue, tempsum)){
+          warning("GOODISUM64 is false");
           naflag = TRUE;
           cumsum = NA_INTEGER64;
           break; 
@@ -1145,7 +1147,7 @@ SEXP matmult_integer64_double(SEXP x_, SEXP y_, SEXP ret_){
         PROD64REAL(x[i + k*nrow1],y[k + j*nrow2],addValue,naflag,longret)
         if(addValue == NA_INTEGER64){
           cumsum = NA_INTEGER64; 
-          break; 
+          break;
         }
         tempsum = cumsum + addValue;
         if(!GOODISUM64(cumsum, addValue, tempsum)){
