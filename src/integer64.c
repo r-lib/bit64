@@ -1052,32 +1052,21 @@ __attribute__((no_sanitize("signed-integer-overflow"))) SEXP matmult_integer64_i
       cumsum = 0;
       for(k=0; k<ncol1; k++){
         PROD64(x[i + k*nrow1],y[k + j*nrow2],addValue,naflag)
-        warning("first value is %lld - %d\n", addValue,naflag);
         if(addValue == NA_INTEGER64){
           cumsum = NA_INTEGER64; 
           break;
         }
-        warning("second value is %lld - %d\n", cumsum,naflag);
         tempsum = cumsum + addValue;
-        warning("third value is %lld - %d\n", tempsum,naflag);
-        if(((cumsum) > 0) ? ((addValue) < (tempsum)) : ! ((addValue) < (tempsum))) warning("GOODISUM64 is true");
-        if(((cumsum) > 0)) warning("(cumsum) > 0 is true");
-        if((((long long) (addValue)) < ((long long) (tempsum)))) warning("(addValue) < (tempsum) is true1");
-        if((((long double) (addValue)) < ((long double) (tempsum)))) warning("(addValue) < (tempsum) is true2");
         // for some reason GOODISUM64(cumsum, addValue, tempsum) does not work properly on macos-latest, compared to the others
-        // therefore a workaround is tried here
-        // if(!GOODISUM64(cumsum, addValue, tempsum)){
-        if(!((cumsum > 0) ? (((long double) addValue) < ((long double) tempsum)) : ! (((long double) addValue) < ((long double) tempsum)))){
-          warning("GOODISUM64 is false");
+        // therefore a workaround is tried here by adding the GOODISUM64 logic with long double casting
+        if(!GOODISUM64(cumsum, addValue, tempsum) || 
+           !((cumsum > 0) ? (((long double) addValue) < ((long double) tempsum)) : ! (((long double) addValue) < ((long double) tempsum)))){
           naflag = TRUE;
           cumsum = NA_INTEGER64;
           break;
         }
-        warning("fourth value is %lld - %d\n", tempsum,naflag);
         cumsum = tempsum;
-        warning("fifth value is %lld - %d\n", cumsum,naflag);
       }
-      warning("sixth value is %lld - %d\n", cumsum,naflag);
       ret[i + j*nrow1] = cumsum;
     }  
   }
