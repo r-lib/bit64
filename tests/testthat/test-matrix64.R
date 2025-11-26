@@ -1,7 +1,7 @@
 test_that("matrix works still on simple integer input", {
   x = as.integer(1:10)
 
-  expect_identical(class(matrix(x)), c("matrix", "array"))
+  expect_identical(class(matrix(x))[1L], "matrix")
   expect_no_warning(expect_identical(matrix(x)[seq_along(x)], x))
   expect_no_warning(expect_identical(dim(matrix(x)), c(10L, 1L)))
   expect_no_warning(expect_identical(matrix(x, byrow=TRUE)[seq_along(x)], x))
@@ -89,9 +89,9 @@ test_that("array works on simple integer64 input", {
   expect_no_warning(expect_identical(dim(array(x)), c(10L)))
   expect_no_warning(expect_identical(array(x, c(2,5))[seq_along(x)], x))
   expect_no_warning(expect_identical(dim(array(x, c(2,5))), c(2L,5L)))
-  expect_no_warning(expect_identical(array(x, c(1,2,3))[seq_len(1*2*3)], rep_len(x, 1*2*3)))
+  expect_no_warning(expect_identical(array(x, c(1,2,3))[seq_len(1*2*3)], x[1:6]))
   expect_no_warning(expect_identical(dim(array(x, c(1,2,3))), c(1L,2L,3L)))
-  expect_no_warning(expect_identical(array(x, c(3,2,3))[seq_len(3*2*3)], rep_len(x, 3*2*3)))
+  expect_no_warning(expect_identical(array(x, c(3,2,3))[seq_len(3*2*3)], c(x, x[1:8])))
   expect_no_warning(expect_identical(array(NA_integer64_, c(2,1))[1:2], c(NA_integer64_, NA_integer64_)))
   expect_no_warning(expect_identical(array(integer64(), c(2,1))[1:2], c(NA_integer64_, NA_integer64_)))
   expect_no_warning(expect_identical(dimnames(array(x, c(2,5), dimnames=list(NULL, letters[1:5]))), list(NULL, letters[1:5])))
@@ -197,6 +197,7 @@ test_that("aperm works in simple cases", {
 })
 
 test_that("matrix multiplication", {
+  skip_if_not_r_version("4.0.0") # it does not work with ubuntu-latest (3.6), because a double vector is returned
   m32 = matrix(1:10, 2)
   m64 = matrix(as.integer64(m32), nrow(m32))
   mDo = matrix(as.numeric(m32), nrow(m32))
@@ -225,10 +226,12 @@ test_that("matrix multiplication", {
   # warning in multiplication part
   x = as.integer64("4000000000")
   expect_warning(expect_identical(matrix(x, 1)%*%matrix(x, ncol=1), matrix(NA_integer64_, 1, 1)), "NAs produced by integer64 overflow")
+  
+  expect_warning(expect_identical(as.integer64("9000000000000000000") + as.integer64("9000000000000000000"), NA_integer64_), "NAs produced by integer64 overflow")
   # warning in summation part
   x = rep_len(as.integer64("3000000000"), 2)
   expect_warning(expect_identical(matrix(x, 1)%*%matrix(x, ncol=1), matrix(NA_integer64_, 1, 1)), "NAs produced by integer64 overflow")
-
+  
 })
 
 
