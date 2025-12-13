@@ -851,7 +851,7 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
           } else if (!is.null(dim(object))) {
             dimO = dim(object)
             if (prod(dimO) != n)
-              stop(gettextf("dims [product %d] do not match the length of object [%d]", prod(dimO), n, domain="R"))
+              stop(gettextf("dims [product %d] do not match the length of object [%d]", prod(dimO), n, domain="R"), domain=NA)
             if (length(dimO) == 1L) {
               paste0("[", n, "(1d)] ")
             } else {
