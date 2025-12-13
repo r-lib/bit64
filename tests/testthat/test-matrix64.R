@@ -75,7 +75,7 @@ test_that("array works still on simple integer input", {
   expect_no_warning(expect_identical(dimnames(array(x, c(2,5), dimnames=list(NULL, letters[1:5]))), list(NULL, letters[1:5])))
   expect_no_warning(expect_identical(dimnames(array(x, c(2,5), dimnames=list(LETTERS[1:2]))), list(LETTERS[1:2], NULL)))
   expect_no_warning(expect_identical(dimnames(array(x, c(2,5), dimnames=list(LETTERS[1:2], letters[1:5]))), list(LETTERS[1:2], letters[1:5])))
-  expect_error(array(x, dim=NULL), "'dims' cannot be of length 0")
+  expect_error(array(x, dim=NULL), "'dims?' cannot be of length 0")
   expect_error(array(x, dim=-1), "negative length vectors are not allowed")
   expect_no_warning(expect_identical(array(x, dim=0),  structure(integer(), dim = 0L)))
 
@@ -97,7 +97,7 @@ test_that("array works on simple integer64 input", {
   expect_no_warning(expect_identical(dimnames(array(x, c(2,5), dimnames=list(NULL, letters[1:5]))), list(NULL, letters[1:5])))
   expect_no_warning(expect_identical(dimnames(array(x, c(2,5), dimnames=list(LETTERS[1:2]))), list(LETTERS[1:2], NULL)))
   expect_no_warning(expect_identical(dimnames(array(x, c(2,5), dimnames=list(LETTERS[1:2], letters[1:5]))), list(LETTERS[1:2], letters[1:5])))
-  expect_error(array(x, dim=NULL), "'dims' cannot be of length 0")
+  expect_error(array(x, dim=NULL), "'dims?' cannot be of length 0")
   expect_error(array(x, dim=-1), "negative length vectors are not allowed")
   expect_no_warning(expect_identical(array(x, dim=0),  structure(integer64(), dim = 0L)))
 
