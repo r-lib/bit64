@@ -849,13 +849,13 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
           if (length(object) > 1L && is.null(dim(object))) {
             if (isTRUE(give.length)) paste0("[1:", n, "] ") else " "
           } else if (!is.null(dim(object))) {
-            dimO = dim(object)
-            if (prod(dimO) != n)
-              stop(gettextf("dims [product %d] do not match the length of object [%d]", prod(dimO), n, domain="R"), domain=NA)
-            if (length(dimO) == 1L) {
+            obj_dim = dim(object)
+            if (prod(obj_dim) != n)
+              stop(gettextf("dims [product %d] do not match the length of object [%d]", prod(obj_dim), n, domain="R"), domain=NA)
+            if (length(obj_dim) == 1L) {
               paste0("[", n, "(1d)] ")
             } else {
-              paste0("[", toString(vapply(dimO, function(el) if (el < 2L) as.character(el) else paste0("1:", el), "")), "] ")
+              paste0("[", toString(vapply(obj_dim, function(el) if (el < 2L) as.character(el) else paste0("1:", el), "")), "] ")
             }
           }
         )
