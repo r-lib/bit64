@@ -855,7 +855,7 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
             if (length(dimO) == 1L) {
               paste0("[", n, "(1d)] ")
             } else {
-              paste0("[", paste(vapply(dimO, function(el) {if (el < 2L) as.character(el) else paste0("1:", el)}, ""), collapse = ", "), "] ")
+              paste0("[", toString(vapply(dimO, function(el) if (el < 2L) as.character(el) else paste0("1:", el), "")), "] ")
             }
           }
         )
