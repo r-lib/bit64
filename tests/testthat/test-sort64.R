@@ -12,28 +12,32 @@ test_that("order basics work", {
 
 # adapted from old if(FALSE) region which used 10000000L to benchmark
 local({
-  withr::local_seed(348594L)
+  set.seed(348594L)
 
   x <- as.integer64(c(sample.int(10L), NA))
   sortordercache(x)
-
-  with_parameters_test_that(
-    "ramorder and sortordercache work for na.last={na.last}, decreasing={decreasing}",
-    expect_identical(
-      order(x, na.last=na.last, decreasing=decreasing),
-      {
-        xo = seq_along(x)
-        ramorder(x, xo, na.last=na.last, decreasing=decreasing)
-        xo
-      }
-    ),
-    .cases = expand.grid(na.last = c(FALSE, TRUE), decreasing = c(FALSE, TRUE))
+  
+  test_with_cases({
+    test_that(sprintf("ramorder and sortordercache work for na.last=%s, decreasing=%s", na.last, decreasing), {
+      expect_identical(
+        order(x, na.last=na.last, decreasing=decreasing),
+        {
+          xo = seq_along(x)
+          ramorder(x, xo, na.last=na.last, decreasing=decreasing)
+          xo
+        }
+      )
+    })
+  }, 
+  cases=expand.grid(
+    na.last=c(FALSE, TRUE), 
+    decreasing=c(FALSE, TRUE)
+    )
   )
 })
 
-with_parameters_test_that(
-  "sorting methods for integer64 work",
-  {
+test_that("sorting methods for integer64 work", {
+  test_with_cases({
     withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
     x = as.integer64(1:10)
 
@@ -50,18 +54,18 @@ with_parameters_test_that(
     )
     expect_identical(y, expected_value)
   },
-  .cases = expand.grid(
-    sort_function = list(mergesort, quicksort, radixsort, ramsort, shellsort),
-    na.last = c(FALSE, TRUE),
-    decreasing = c(FALSE, TRUE),
-    duplicates = c(FALSE, TRUE),
-    n_missing = 0:2
+  cases=expand.grid(
+    sort_function=list(mergesort, quicksort, radixsort, ramsort, shellsort),
+    na.last=c(FALSE, TRUE),
+    decreasing=c(FALSE, TRUE),
+    duplicates=c(FALSE, TRUE),
+    n_missing=0:2
+    )
   )
-)
+})
 
-with_parameters_test_that(
-  "order methods for integer64 work",
-  {
+test_that("order methods for integer64 work", {
+  test_with_cases({
     withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
     x = as.integer64(1:10)
 
@@ -78,19 +82,19 @@ with_parameters_test_that(
       if (na.last) na_entries else integer64()
     )
     expect_identical(y[i], expected_value)
-  },
-  .cases = expand.grid(
-    order_function = list(mergeorder, quickorder, radixorder, ramorder, shellorder),
-    na.last = c(FALSE, TRUE),
-    decreasing = c(FALSE, TRUE),
-    duplicates = c(FALSE, TRUE),
-    n_missing = 0:2
+  }, 
+  cases=expand.grid(
+    order_function=list(mergeorder, quickorder, radixorder, ramorder, shellorder),
+    na.last=c(FALSE, TRUE),
+    decreasing=c(FALSE, TRUE),
+    duplicates=c(FALSE, TRUE),
+    n_missing=0:2
+    )
   )
-)
+})
 
-with_parameters_test_that(
-  "sortorder methods for integer64 work",
-  {
+test_that("sortorder methods for integer64 work", {
+  test_with_cases({
     withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
     x = as.integer64(1:10)
 
@@ -113,13 +117,14 @@ with_parameters_test_that(
         na.last, decreasing, duplicates, n_missing
       )
     )
-  },
-  .cases = expand.grid(
-    sortorder_function =
-      list(mergesortorder, quicksortorder, radixsortorder, ramsortorder, shellsortorder),
-    na.last = c(FALSE, TRUE),
-    decreasing = c(FALSE, TRUE),
-    duplicates = c(FALSE, TRUE),
-    n_missing = 0:2
+  }, 
+  cases=expand.grid(
+    sortorder_function=list(mergesortorder, quicksortorder, radixsortorder, ramsortorder, shellsortorder),
+    na.last=c(FALSE, TRUE),
+    decreasing=c(FALSE, TRUE),
+    duplicates=c(FALSE, TRUE),
+    n_missing=0:2
+    )
   )
-)
+})
+

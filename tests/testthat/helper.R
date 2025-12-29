@@ -47,3 +47,15 @@ expect_int_32_64_equivalent <- function(expr) {
 skip_if_not_r_version = function(ver) {
   skip_if(getRversion() < ver, paste("R version >=", ver, "required."))
 }
+
+test_with_cases = function(test_statement, cases=data.frame()) {
+  for (i in seq_len(nrow(cases))) {
+    e = new.env()
+    pf = parent.frame()
+    for (n in names(pf))
+      e[[n]] = pf[[n]]
+    for (n in names(cases))
+      e[[n]] = cases[[n]][[i]]
+    eval(substitute(test_statement), envir=e)
+  }
+}
