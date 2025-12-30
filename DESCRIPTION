@@ -7,7 +7,7 @@ Authors@R: c(
     person("Leonardo", "Silvestri", role = "ctb"),
     person("Ofek", "Shilon", role = "ctb")
   )
-Depends: R (>= 3.4.0)
+Depends: R (>= 3.5.0)
 Description:
   Package 'bit64' provides serializable S3 atomic 64bit (signed) integers.
   These are useful for handling database keys and exact counting in +-2^63.

@@ -50,6 +50,7 @@
 ## NOTES
 
 1. {bit64} no longer prints any start-up messages through an `.onAttach()` hook (#106). Thanks @hadley for the request.
+2. The R version dependency has been bumped from 3.4.0 (2017) to 3.5.0 (2018).
 
 ## BUG FIXES
 
