@@ -307,14 +307,17 @@ test_that("vector builders of integer64 work", {
 #   canonical within {testthat}, e.g. better capturing expected warnings,
 #   changing stopifnot(identical(...)) to expect_identical(...).
 local({
-  test_that("Old \\dontshow{} tests in ?format.integer64 continue working", {
-    i <- -999:999
-    for (s in -3:3) {
+  i <- -999:999
+  with_parameters_test_that(
+    "Old \\dontshow{} tests in ?format.integer64 continue working",
+    {
       r <- as.integer64(round(as.integer(i), s))
       r64 <- round(as.integer64(i), s)
       expect_identical(r, r64)
-    }
-  })
+    },
+    s = -3:3,
+    .interpret_glue = FALSE
+  )
 })
 
 test_that("Old \\dontshow{} tests in ?extract.replace.integer64 continue working", {
