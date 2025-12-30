@@ -2647,11 +2647,11 @@ qtile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), names = TRUE, method
 #'   `x` before the quantiles are computed.
 #' @export
 quantile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), na.rm = FALSE, names = TRUE, type=0L, ...) {
-    if (type[[1L]]!=0L)
-        stop("only type==0 ('qtile') supported")
-    if (!na.rm && na.count(x)>0L)
-        stop("missing values not allowed with 'na.rm='==FALSE")
-    qtile.integer64(x, probs = probs, na.rm = na.rm, names = names, ...)
+  if (type[[1L]]!=0L)
+    stop("only type==0 ('qtile') supported")
+  if (!na.rm && na.count(x)>0L)
+    stop("missing values not allowed with 'na.rm='==FALSE")
+  qtile(x, probs = probs, na.rm = na.rm, names = names, ...)
 }
 
 #' @rdname qtile
@@ -2659,7 +2659,7 @@ quantile.integer64 <- function(x, probs = seq(0.0, 1.0, 0.25), na.rm = FALSE, na
 median.integer64 <- function(x, na.rm=FALSE, ...) {
   if (!na.rm && na.count(x)>0L) return(NA_integer64_)
   if (!length(x)) return(NA_integer64_)
-  qtile.integer64(x, probs = 0.5, na.rm = na.rm, names = FALSE)
+  qtile(x, probs = 0.5, na.rm = na.rm, names = FALSE)
 }
 
 #' @rdname qtile
