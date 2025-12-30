@@ -64,10 +64,7 @@ jobs:
 
       - name: Install bit64 and dependencies
         run: |
-          Rscript -e '                                    \
-          options(repos = "https://cloud.r-project.org"); \
-          install.packages("bit");                        \
-          '
+          Rscript -e 'options(repos = "https://cloud.r-project.org");  install.packages("bit")'
           R CMD INSTALL .
           cp .devcontainer/r-340/.Rprofile .
 
