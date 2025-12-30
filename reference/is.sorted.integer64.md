@@ -81,16 +81,12 @@ functions creating big caches
  length(x)
 #> [1] 32
  bit::na.count(x)
-#> Warning: Detected that 'na.count.integer64' was called directly. Instead only call 'na.count' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> [1] 14
  bit::nvalid(x)
-#> Warning: Detected that 'nvalid.integer64' was called directly. Instead only call 'nvalid' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> [1] 18
  bit::nunique(x)
-#> Warning: Detected that 'nunique.integer64' was called directly. Instead only call 'nunique' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> [1] 9
  bit::nties(x)
-#> Warning: Detected that 'nties.integer64' was called directly. Instead only call 'nties' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> [1] 30
  table.integer64(x)
 #> Warning: Detected that 'table.integer64' was called directly. Instead only call 'table' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.

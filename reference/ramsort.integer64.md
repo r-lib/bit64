@@ -225,7 +225,6 @@ caching the work of sorting
 #> ramsort example
   s <- bit::clone(x)
   bit::ramsort(s)
-#> Warning: Detected that 'ramsort.integer64' was called directly. Instead only call 'ramsort' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> [1] 9
   message("s has been changed in-place - whether or not ramsort uses an in-place algorithm")
 #> s has been changed in-place - whether or not ramsort uses an in-place algorithm
@@ -239,7 +238,6 @@ caching the work of sorting
   s <- bit::clone(x)
   o <- seq_along(s)
   bit::ramorder(s, o)
-#> Warning: Detected that 'ramorder.integer64' was called directly. Instead only call 'ramorder' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> [1] 9
   message("o has been changed in-place - s remains unchanged")
 #> o has been changed in-place - s remains unchanged
@@ -260,7 +258,6 @@ caching the work of sorting
 #> ramsortorder example
   o <- seq_along(s)
   bit::ramsortorder(s, o)
-#> Warning: Detected that 'ramsortorder.integer64' was called directly. Instead only call 'ramsortorder' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> [1] 9
   message("s and o have both been changed in-place - this is much faster")
 #> s and o have both been changed in-place - this is much faster

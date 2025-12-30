@@ -120,16 +120,13 @@ qtile(x, probs=seq(0, 1, 0.25))
 #>   0%  25%  50%  75% 100% 
 #>    1    3    4    5    8 
 quantile(x, probs=seq(0, 1, 0.25), na.rm=TRUE)
-#> Warning: Detected that 'qtile.integer64' was called directly. Instead only call 'qtile' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> integer64
 #>   0%  25%  50%  75% 100% 
 #>    1    3    4    5    8 
 median(x, na.rm=TRUE)
-#> Warning: Detected that 'qtile.integer64' was called directly. Instead only call 'qtile' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> integer64
 #> [1] 4
 summary(x)
-#> Warning: Detected that 'qtile.integer64' was called directly. Instead only call 'qtile' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> integer64
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
 #>       1       3       4       4       5       8      16 
