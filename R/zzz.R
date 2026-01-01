@@ -17,6 +17,10 @@ generic_call_in_stack <- function(generic_name) {
   # we define `:.default` --> avoid infinite loop
   for (jj in base::`:`(length(calls), 1L)) {
     if (identical(calls[[jj]][[1L]], as.name(generic_name))) return(TRUE)
+    # namespaced equivalent, e.g. for bit:: generics
+    if (!is.call(calls[[jj]][[1L]])) next
+    if (calls[[jj]][[1L]][[1L]] != "::") next
+    if (identical(calls[[jj]][[1L]][[3L]], as.name(generic_name))) return(TRUE)
   }
   FALSE
 }
@@ -202,7 +206,7 @@ deprecate_exported_s3_methods(
   sorttab.integer64,
   sortuni.integer64,
   summary.integer64,
-  table.integer64,
+  # table.integer64,
   tiepos.integer64,
   unipos.integer64
 )
