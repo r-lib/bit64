@@ -27,7 +27,7 @@ Encoding: UTF-8
 Imports: bit (>= 4.0.0), graphics, methods, stats, utils
 Suggests:
     patrick (>= 0.3.0),
-    testthat (>= 3.0.3),
+    testthat (>= 3.3.0),
     withr
 Config/testthat/edition: 3
 Config/Needs/development: patrick, testthat
