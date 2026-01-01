@@ -155,17 +155,14 @@ x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 y <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 z <- sample(c(rep(NA, 9), letters), 32, TRUE)
 table.integer64(x)
-#> Warning: Detected that 'table.integer64' was called directly. Instead only call 'table' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> x
 #> <NA>    1    3    4    5    6    7    8    9 
 #>   16    2    1    1    2    2    2    1    5 
 table.integer64(x, order="counts")
-#> Warning: Detected that 'table.integer64' was called directly. Instead only call 'table' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> x
 #>    8    4    3    6    1    5    7    9 <NA> 
 #>    1    1    1    2    2    2    2    5   16 
 table.integer64(x, y)
-#> Warning: Detected that 'table.integer64' was called directly. Instead only call 'table' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #>       y
 #> x      <NA> 1 2 3 5 6 7 8 9
 #>   <NA>    7 0 3 1 1 0 2 1 1
@@ -178,7 +175,6 @@ table.integer64(x, y)
 #>   8       0 1 0 0 0 0 0 0 0
 #>   9       1 0 1 0 0 1 1 0 1
 table.integer64(x, y, return="data.frame")
-#> Warning: Detected that 'table.integer64' was called directly. Instead only call 'table' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #>       x    y Freq
 #> 1  <NA> <NA>    7
 #> 2     4 <NA>    1
@@ -207,7 +203,6 @@ table.integer64(x, y, return="data.frame")
 message("via as.integer64.factor we can use 'table.integer64' also for factors")
 #> via as.integer64.factor we can use 'table.integer64' also for factors
 table.integer64(x, as.integer64(as.factor(z)))
-#> Warning: Detected that 'table.integer64' was called directly. Instead only call 'table' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #>       
 #> x      <NA> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 #>   <NA>    4 1 1 2 0 0 1 0 1 1  1  1  1  0  1  1

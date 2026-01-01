@@ -89,7 +89,6 @@ functions creating big caches
  bit::nties(x)
 #> [1] 30
  table.integer64(x)
-#> Warning: Detected that 'table.integer64' was called directly. Instead only call 'table' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> x
 #> <NA>    1    2    3    4    5    7    8    9 
 #>   14    3    3    1    1    2    3    3    2 
