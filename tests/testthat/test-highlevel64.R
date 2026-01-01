@@ -45,8 +45,6 @@ test_that("Different method= for match() and %in% work", {
 
 # TODO(#59): Don't call table.integer64() directly.
 test_that("duplicated, unique, table methods work", {
-  withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
-
   x = as.integer64(1:3)
   expect_identical(duplicated(x), rep(FALSE, 3L))
   expect_identical(unique(x), x)
@@ -148,8 +146,6 @@ test_that("missing and empty inputs to median() are handled correctly", {
 #   changing stopifnot(identical(...)) to expect_identical(...).
 # TODO(#59): Don't call table.integer64() directly.
 test_that("Old \\dontshow{} tests continue working", {
-  withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
-
   xi = c(1L, 1L, 2L)
   xi64 = as.integer64(xi)
   yi = c(3L, 4L, 4L)
