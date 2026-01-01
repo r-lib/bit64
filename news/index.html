@@ -52,6 +52,7 @@
 <p>Owing to a quirk in R, it is not possible to pursue the same strategy for these methods as for those mentioned above because it is not possible to inspect the call stack to distinguish whether the corresponding generic was invoked or the method was invoked directly.</p>
 <p>Because there was no recorded direct usage for any of these, I am opting to just rip the band-aid off and un-export them in this release as opposed to waiting a full cycle more to do so.</p>
 </li>
+<li><p><code>as.integer64.integer64</code> returns a plain <code>integer64</code> vector stripped of any attributes. This is consistent with R like behavior, e.g. <code>as.integer.integer</code>.</p></li>
 </ol></div>
 <div class="section level3">
 <h3 id="new-features-4-7-99">NEW FEATURES<a class="anchor" aria-label="anchor" href="#new-features-4-7-99"></a></h3>
@@ -62,6 +63,8 @@
 <h3 id="bug-fixes-4-7-99">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-7-99"></a></h3>
 <ol style="list-style-type: decimal"><li>
 <code>min.integer64</code>, <code>max.integer64</code> and <code>range.integer64</code> now support <code>na.rm=TRUE</code> correctly when combining across mutliple inputs like <code>min(x, NA_integer64_, na.rm=TRUE)</code> (<a href="https://github.com/r-lib/bit64/issues/142" class="external-link">#142</a>).</li>
+<li>
+<code>as.integer64.integer64</code> is consistent with <code>as.integer.integer</code> in terms or returning a plain integer64 vector (i.e., stripped of attributes; <a href="https://github.com/r-lib/bit64/issues/188" class="external-link">#188</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
 </ol></div>
 <div class="section level3">
 <h3 id="notes-4-7-99">NOTES<a class="anchor" aria-label="anchor" href="#notes-4-7-99"></a></h3>

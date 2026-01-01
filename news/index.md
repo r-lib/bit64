@@ -97,6 +97,10 @@ necessary.
     opting to just rip the band-aid off and un-export them in this
     release as opposed to waiting a full cycle more to do so.
 
+3.  `as.integer64.integer64` returns a plain `integer64` vector stripped
+    of any attributes. This is consistent with R like behavior,
+    e.g. `as.integer.integer`.
+
 ### NEW FEATURES
 
 1.  `anyNA` gets an `integer64` method. Thanks
@@ -108,6 +112,10 @@ necessary.
     `na.rm=TRUE` correctly when combining across mutliple inputs like
     `min(x, NA_integer64_, na.rm=TRUE)`
     ([\#142](https://github.com/r-lib/bit64/issues/142)).
+2.  `as.integer64.integer64` is consistent with `as.integer.integer` in
+    terms or returning a plain integer64 vector (i.e., stripped of
+    attributes; [\#188](https://github.com/r-lib/bit64/issues/188)).
+    Thanks [@hcirellu](https://github.com/hcirellu).
 
 ### NOTES
 
