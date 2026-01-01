@@ -39,7 +39,7 @@
    Because there was no recorded direct usage for any of these, I am opting to just rip the band-aid
    off and un-export them in this release as opposed to waiting a full cycle more to do so.
 
-1. `as.integer64.integer64` returns a plain `integer64` vector stripped by any attributes. This is consistent with R like behavior e.g. `as.integer.integer`.
+1. `as.integer64.integer64` returns a plain `integer64` vector stripped of any attributes. This is consistent with R like behavior, e.g. `as.integer.integer`.
 
 ## NEW FEATURES
 
@@ -48,7 +48,7 @@
 ## BUG FIXES
 
 1. `min.integer64`, `max.integer64` and `range.integer64` now support `na.rm=TRUE` correctly when combining across mutliple inputs like `min(x, NA_integer64_, na.rm=TRUE)` (#142).
-1. `as.integer64.integer64` is consistent with R like behavior like `as.integer.integer` in terms or returning a plain integer64 vector (#188).
+1. `as.integer64.integer64` is consistent with `as.integer.integer` in terms or returning a plain integer64 vector (i.e., stripped of attributes; #188). Thanks @hcirellu.
 
 ## NOTES
 
