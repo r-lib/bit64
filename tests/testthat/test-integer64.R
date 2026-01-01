@@ -11,8 +11,8 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(as.integer64(as.character(1:10)), as.integer64(1:10))
   expect_identical(as.integer64(as.double(1:10)), as.integer64(1:10))
   expect_identical(as.integer64(NULL), as.integer64())
-  x = as.integer64(1:10)
-  expect_identical(as.integer64(x), x)
+  x = structure(as.integer64(1:10), class=c("otherClass", "integer64"), dim=c(2, 5), dimnames=list(LETTERS[1:2], letters[1:5]), otherAttr="some other attribute")
+  expect_identical(as.integer64(x), as.integer64(1:10))
 
   # S4 version
   expect_identical(methods::as(as.character(1:10), "integer64"), as.integer64(1:10))
