@@ -294,11 +294,28 @@ test_that("vector builders of integer64 work", {
 
   expect_identical(x[1L]:x[3L], x)
   expect_identical(x[3L]:x[1L], x[3:1]) # rev() a separate method
+})
 
+patrick::with_parameters_test_that(
+  "seq method works analogously to integer: 1 argument",
+  {
+    expect_identical(seq(as.integer64(n)), as.integer64(seq(n)))
+    expect_identical(seq(from=as.integer64(n)), as.integer64(seq(from=n)))
+    expect_identical(seq(to=as.integer64(n)), as.integer64(seq(to=n)))
+    expect_identical(seq(by=as.integer64(n)), as.integer64(seq(by=n)))
+    expect_identical(seq(length.out=as.integer64(n)), as.integer64(seq(length.out=n)))
+    expect_identical(seq(along.with=as.integer64(n)), as.integer64(seq(along.with=n)))
+  },
+  n = list(0L, 5L, -1L, 2:6)
+)
+
+test_that("seq method works analogously to integer: 2 arguments", {
   expect_identical(seq(x[1L], x[3L], by=1L), x)
   expect_identical(seq(x[1L], x[3L], by=x[1L]), x)
   expect_identical(seq(x[1L], to=10L, by=1L), as.integer64(1:10))
+})
 
+test_that("seq method works analogously to integer: 3 arguments", {
   odds = as.integer64(c(1L, 3L, 5L, 7L, 9L, 11L))
   expect_identical(seq(as.integer64(1L), to=11L, by=2L), odds)
   expect_identical(seq(as.integer64(1L), to=11L, length.out=6L), odds)
@@ -315,6 +332,9 @@ test_that("vector builders of integer64 work", {
 
   expect_identical(seq(as.integer64(1L), to=11L, by=3L), as.integer64(seq(1L, to=11L, by=3L)))
   expect_identical(seq(as.integer64(1L), to=11L, length.out=4L), as.integer64(seq(1L, to=11L, length.out=4L)))
+})
+
+test_that("seq method works analogously to integer: 4 arguments", {
 })
 
 # These tests were previously kept as tests under \examples{\dontshow{...}}.

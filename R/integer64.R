@@ -1031,10 +1031,12 @@ rep.integer64 <- function(x, ...) {
 
 #' @export
 seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
-  if (is.null(length.out))
-    length.out = length(along.with)
-  else
+  if (!is.null(along.with)) return(seq.integer64(from, to, length.out=length(along.with)))
+  if (is.null(length.out)) {
+    length.out = abs(to - from) + 1L
+  } else {
     length.out = as.integer(length.out)
+  }
 
   if (is.null(by)) {
     if (is.null(from) || is.null(to))
