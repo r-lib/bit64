@@ -116,8 +116,6 @@ necessary.
     terms or returning a plain integer64 vector (i.e., stripped of
     attributes; [\#188](https://github.com/r-lib/bit64/issues/188)).
     Thanks [@hcirellu](https://github.com/hcirellu).
-3.  `seq.integer64` calculates `by=` correctly when `length.out=` is
-    provided ([\#47](https://github.com/r-lib/bit64/issues/47)).
 
 ### NOTES
 

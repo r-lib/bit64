@@ -437,9 +437,11 @@ behaviour here would either destroy performance or require extensive C-coding.</
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1 2 1 2 1 2 1 2 0 0 0 0 0 1 2 1 2 1 2 1 2 0 0 0 0 0</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="as.integer64.character.html">as.integer64</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span>     <span class="co"># seq.integer64 is dispatched on first given argument</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> integer64(0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1  2  3  4  5  6  7  8  9  10</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>to<span class="op">=</span><span class="fu"><a href="as.integer64.character.html">as.integer64</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span>  <span class="co"># seq.integer64 is dispatched on first given argument</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> integer64(0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1  2  3  4  5  6  7  8  9  10</span>
 <span class="r-in"><span><span class="fu"><a href="seq.integer64.html">seq.integer64</a></span><span class="op">(</span>along.with<span class="op">=</span><span class="va">x</span><span class="op">)</span>  <span class="co"># or call seq.integer64 directly</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1  2  3  4  5  6  7  8  9  10 11 12 13</span>
