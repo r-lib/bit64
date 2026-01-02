@@ -1030,20 +1030,20 @@ rep.integer64 <- function(x, ...) {
 }
 
 #' @export
-seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
+seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
   if (is.null(length.out))
-    length.out = length(along.with)
+    length.out <- length(along.with)
   else
-    length.out = as.integer(length.out)
+    length.out <- as.integer(length.out)
 
   if (is.null(by)) {
     if (is.null(from) || is.null(to))
       by <- as.integer64(1L)
     else
-      by <- as.integer64((to - from) / (length.out - 1L))
+      by <- as.integer64(if (to < from) -1L else 1L)
   } else {
     by <- as.integer64(by)
-    if (!is.null(from) && !is.null(to) && (sign(by) != sign(to - from)))
+    if (!is.null(from) && !is.null(to) && (sign(by) != (if (to < from) -1L else 1L)))
       stop("wrong sign of 'by' argument")
   }
 

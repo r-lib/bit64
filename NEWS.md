@@ -49,7 +49,6 @@
 
 1. `min.integer64`, `max.integer64` and `range.integer64` now support `na.rm=TRUE` correctly when combining across mutliple inputs like `min(x, NA_integer64_, na.rm=TRUE)` (#142).
 1. `as.integer64.integer64` is consistent with `as.integer.integer` in terms or returning a plain integer64 vector (i.e., stripped of attributes; #188). Thanks @hcirellu.
-1. `seq.integer64` calculates `by=` correctly when `length.out=` is provided (#47).
 
 ## NOTES
 
