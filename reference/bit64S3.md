@@ -112,8 +112,7 @@ methods for
  is.double(as.integer64(1))
 #> [1] FALSE
     as.integer64(1):9
-#> integer64
-#> [1] 1 2 3 4 5 6 7 8 9
+#> integer64(0)
  match(as.integer64(2), as.integer64(0:3))
 #> [1] 3
  as.integer64(2) %in% as.integer64(0:3)

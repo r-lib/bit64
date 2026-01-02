@@ -65,6 +65,8 @@
 <code>min.integer64</code>, <code>max.integer64</code> and <code>range.integer64</code> now support <code>na.rm=TRUE</code> correctly when combining across mutliple inputs like <code>min(x, NA_integer64_, na.rm=TRUE)</code> (<a href="https://github.com/r-lib/bit64/issues/142" class="external-link">#142</a>).</li>
 <li>
 <code>as.integer64.integer64</code> is consistent with <code>as.integer.integer</code> in terms or returning a plain integer64 vector (i.e., stripped of attributes; <a href="https://github.com/r-lib/bit64/issues/188" class="external-link">#188</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
+<li>
+<code>seq.integer64</code> calculates <code>by=</code> correctly when <code>length.out=</code> is provided (<a href="https://github.com/r-lib/bit64/issues/47" class="external-link">#47</a>).</li>
 </ol></div>
 <div class="section level3">
 <h3 id="notes-4-7-99">NOTES<a class="anchor" aria-label="anchor" href="#notes-4-7-99"></a></h3>
