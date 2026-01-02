@@ -24,8 +24,16 @@ test_that("Old \\dontshow{} tests continue working", {
 
   expect_identical(table(x=xi64), table(x=xi))
   expect_identical(table(x=xi64, y=yi64), table(x=xi, y=yi))
-  expect_identical(table(x=xi64, y=yi), table(x=xi, y=yi))
-  expect_identical(table(x=xi, y=yi64), table(x=xi, y=yi))
+  expect_warning(
+    expect_identical(table(x=xi64, y=yi), table(x=xi, y=yi)),
+    "coercing argument 2 to integer64",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_identical(table(x=xi, y=yi64), table(x=xi, y=yi)),
+    "coercing argument 1 to integer64",
+    fixed = TRUE
+  )
 
   expect_identical(order(zi64), order(zi))
   expect_identical(order(zi64, decreasing=TRUE), order(zi, decreasing=TRUE))

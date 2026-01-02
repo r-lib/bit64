@@ -44,6 +44,7 @@
 ## NEW FEATURES
 
 1. `anyNA` gets an `integer64` method. Thanks @hcirellu.
+1. `table` now gets a generic function and `table.integer64` is extended by `base::table` parameters `exclude` and `useNA`. (#59)
 
 ## BUG FIXES
 

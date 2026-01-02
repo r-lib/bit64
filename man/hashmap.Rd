@@ -124,8 +124,8 @@ re-use hashmaps, which avoid re-building hashmaps again and again.
    \code{hashmapuni} \tab \code{\link[=unique.integer64]{unique()}} \tab return unique values of \code{x} \cr
    \code{hashupo} \tab \code{\link[=unique.integer64]{unique()}} \tab return positions of unique values in hashdat \cr
    \code{hashmapupo} \tab \code{\link[=unique.integer64]{unique()}} \tab return positions of unique values in \code{x} \cr
-   \code{hashtab} \tab \code{\link[=table.integer64]{table()}} \tab tabulate values of hashdat using hashmap in \code{keep.order=FALSE} \cr
-   \code{hashmaptab} \tab \code{\link[=table.integer64]{table()}} \tab tabulate values of \code{x} building hasmap on the fly in \code{keep.order=FALSE} \cr
+   \code{hashtab} \tab \code{\link[=table]{table()}} \tab tabulate values of hashdat using hashmap in \code{keep.order=FALSE} \cr
+   \code{hashmaptab} \tab \code{\link[=table]{table()}} \tab tabulate values of \code{x} building hasmap on the fly in \code{keep.order=FALSE} \cr
 }
 }
 \examples{
@@ -149,8 +149,8 @@ hashmapupo(y)
 hashtab(hy)
 hashmaptab(y)
 
-stopifnot(identical(match(as.integer(x),as.integer(y)),hashpos(hy, x)))
-stopifnot(identical(match(as.integer(x),as.integer(y)),hashrev(hx, y)))
+stopifnot(identical(match(as.integer(x), as.integer(y)), hashpos(hy, x)))
+stopifnot(identical(match(as.integer(x), as.integer(y)), hashrev(hx, y)))
 stopifnot(identical(as.integer(x) \%in\% as.integer(y), hashfin(hy, x)))
 stopifnot(identical(as.integer(x) \%in\% as.integer(y), hashrin(hx, y)))
 stopifnot(identical(duplicated(as.integer(y)), hashdup(hy)))
@@ -173,12 +173,12 @@ stopifnot(identical(hashtab(hy), hashmaptab(y)))
     message("i.e. more data means less random access and more collisions")
     bits <- 24
     b <- seq(-1, 0, 0.1)
-    tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits","bits+1")))
+    tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits", "bits+1")))
     for (i in 1:length(b)) {
       n <- as.integer(2^(bits+b[i]))
       x <- as.integer64(sample(n))
-      tim[i,1] <- repeat.time(hashmap(x, hashbits=bits))[3]
-      tim[i,2] <- repeat.time(hashmap(x, hashbits=bits+1))[3]
+      tim[i, 1] <- repeat.time(hashmap(x, hashbits=bits))[3]
+      tim[i, 2] <- repeat.time(hashmap(x, hashbits=bits+1))[3]
       print(tim)
       matplot(b, tim)
     }

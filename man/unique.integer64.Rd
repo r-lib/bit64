@@ -71,7 +71,7 @@ stopifnot(identical(unique(x, order="values")
 }
 \seealso{
 \code{\link[=unique]{unique()}} for the generic, \code{\link[=unipos]{unipos()}} which gives the indices
-of the unique elements and \code{\link[=table.integer64]{table.integer64()}} which gives frequencies
+of the unique elements and \code{\link[=table]{table()}} which gives frequencies
 of the unique elements.
 }
 \keyword{logic}

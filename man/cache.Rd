@@ -67,9 +67,9 @@ found to be outdated
 \examples{
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   y <- x
-  bit::still.identical(x,y)
+  bit::still.identical(x, y)
   y[1] <- NA
-  bit::still.identical(x,y)
+  bit::still.identical(x, y)
   mycache <- newcache(x)
   ls(mycache)
   mycache
@@ -95,7 +95,7 @@ Setting big caches with a relevant memory footprint requires a conscious decisio
 of the user: \code{\link{hashcache}}, \code{\link{sortcache}}, \code{\link{ordercache}}, \code{\link{sortordercache}}
 
 Functions that use big caches: \code{\link[=match.integer64]{match.integer64()}}, \code{\link{\%in\%.integer64}},
-\code{\link[=duplicated.integer64]{duplicated.integer64()}}, \code{\link[=unique.integer64]{unique.integer64()}}, \code{\link[=unipos]{unipos()}}, \code{\link[=table.integer64]{table.integer64()}},
+\code{\link[=duplicated.integer64]{duplicated.integer64()}}, \code{\link[=unique.integer64]{unique.integer64()}}, \code{\link[=unipos]{unipos()}}, \code{\link[=table]{table()}},
 \code{\link[=keypos]{keypos()}}, \code{\link[=tiepos]{tiepos()}}, \code{\link[=rank.integer64]{rank.integer64()}}, \code{\link[=prank]{prank()}}, \code{\link[=qtile]{qtile()}},
 \code{\link[=quantile.integer64]{quantile.integer64()}}, \code{\link[=median.integer64]{median.integer64()}}, and \code{\link[=summary.integer64]{summary.integer64()}}
 }
