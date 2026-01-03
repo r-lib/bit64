@@ -44,6 +44,17 @@ with_parameters_test_that("orderfin and orderpos work", method=1:3, {
   expect_identical(orderpos(as.integer64(10:1), 1:3, 8:11, method=method), rep(NA_integer_, 4L))
 })
 
+test_that("orderfin and orderpos with integer64 x input works for methods 2 and 3", {
+  x = as.integer64(1:10)
+  idx = seq_along(x)
+
+  expect_identical(orderfin(x, idx, as.integer64(0:1), method=2L), c(FALSE, TRUE))
+  expect_identical(orderfin(x, idx, as.integer64(0:1), method=3L), c(FALSE, TRUE))
+
+  expect_identical(orderpos(x, idx, as.integer64(0:1), method=2L), c(NA_integer_, 1L))
+  expect_identical(orderpos(x, idx, as.integer64(0:1), method=3L), c(NA_integer_, 1L))
+})
+
 test_that("ordertab and orderdup work", {
   x = as.integer64(1:10)
   x = c(x, x[1:8], x[1:6])
