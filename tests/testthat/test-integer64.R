@@ -63,7 +63,9 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(methods::as(as.integer64(1:10), "character"), as.character(1:10))
   expect_identical(methods::as(as.integer64(1:10), "factor"), as.factor(1:10))
   expect_identical(methods::as(as.integer64(1:10), "ordered"), as.ordered(1:10))
-  expect_identical(methods::as(as.integer64(1:10), "complex"), as.complex(1:10))
+  if (getRversion() >= "4.0.0") {
+    expect_identical(methods::as(as.integer64(1:10), "complex"), as.complex(1:10))
+  }
   expect_identical(methods::as(as.integer64(1:10), "numeric"), as.numeric(1:10))
   expect_identical(methods::as(as.integer64(1:10), "integer"), as.integer(1:10))
   expect_identical(methods::as(as.integer64(1:10), "logical"), as.logical(1:10))
