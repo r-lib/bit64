@@ -783,11 +783,8 @@ SEXP r_ram_integer64_ordertab_asc(
           for(i=1;i<n;i++){
             if (table[index[i]-1]!=table[pos]){
                 pos = index[i]-1;
-                if (j + 1 >= n_ret) {
-                  break;
-                }
-                j++;
-                ret[j] = 1;
+                if (j + 1 >= n_ret) break;
+                ret[++j] = 1;
             }else{
                 ret[j]++;
             }
