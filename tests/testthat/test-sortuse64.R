@@ -19,6 +19,7 @@ with_parameters_test_that("orderfin and orderpos work", method=1:3, {
 
   expect_identical(orderfin(x, idx, 0:1, method=method), c(FALSE, TRUE))
   expect_identical(orderfin(x, idx, as.integer64(0:1), method=method), c(FALSE, TRUE))
+
   expect_identical(orderpos(x, idx, 0:1, method=method), c(NA_integer_, 1L))
   expect_identical(orderpos(x, idx, as.integer64(0:1), method=method), c(NA_integer_, 1L))
 
