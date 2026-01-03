@@ -362,62 +362,65 @@ test_that("Old \\dontshow{} tests in ?extract.replace.integer64 continue working
 
 test_that("empty inputs give empty outputs for arithmetic", {
   x = integer64(1L)
-  y = integer64(0L)
+  empty = integer64(0L)
 
-  expect_identical(x+y, integer64())
-  expect_identical(y+x, integer64())
+  expect_identical(x+empty, integer64())
+  expect_identical(empty+x, integer64())
 
-  expect_identical(x-y, integer64())
-  expect_identical(y-x, integer64())
+  expect_identical(x-empty, integer64())
+  expect_identical(empty-x, integer64())
 
-  expect_identical(+y, integer64())
-  expect_identical(-y, integer64())
+  expect_identical(+empty, integer64())
+  expect_identical(-empty, integer64())
 
-  expect_identical(x*y, integer64())
-  expect_identical(y*x, integer64())
+  expect_identical(x*empty, integer64())
+  expect_identical(empty*x, integer64())
 
-  expect_identical(x/y, double())
-  expect_identical(y/x, double())
+  expect_identical(x/empty, double())
+  expect_identical(empty/x, double())
 
-  expect_identical(x^y, integer64())
-  expect_identical(y^x, integer64())
+  expect_identical(x^empty, integer64())
+  expect_identical(empty^x, integer64())
 
-  expect_identical(x %/% y, integer64())
-  expect_identical(y %/% x, integer64())
+  expect_identical(x %/% empty, integer64())
+  expect_identical(empty %/% x, integer64())
 
-  expect_identical(x%%y, integer64())
-  expect_identical(y%%x, integer64())
+  expect_identical(x%%empty, integer64())
+  expect_identical(empty%%x, integer64())
 
-  expect_identical(log(x, base=y), double())
-  # TODO(#93): don't suppress this warning which is inconsistent with integer()
-  expect_identical(suppressWarnings(log(y, base=x)), double())
+  expect_identical(log(x, base=empty), double())
+  expect_identical(log(empty, base=x), double())
+  expect_identical(
+    log(`attr<-`(empty, "asdf", "jkl")),
+    `attr<-`(double(), "asdf", "jkl")
+  )
 
-  expect_identical(x==y, logical())
-  expect_identical(y==x, logical())
+  expect_identical(x==empty, logical())
+  expect_identical(empty==x, logical())
 
-  expect_identical(x!=y, logical())
-  expect_identical(y!=x, logical())
+  expect_identical(x!=empty, logical())
+  expect_identical(empty!=x, logical())
 
-  expect_identical(x>=y, logical())
-  expect_identical(y>=x, logical())
+  expect_identical(x>=empty, logical())
+  expect_identical(empty>=x, logical())
 
-  expect_identical(x<=y, logical())
-  expect_identical(y<=x, logical())
+  expect_identical(x<=empty, logical())
+  expect_identical(empty<=x, logical())
 
-  expect_identical(x>y, logical())
-  expect_identical(y>x, logical())
+  expect_identical(x>empty, logical())
+  expect_identical(empty>x, logical())
 
-  expect_identical(x<y, logical())
-  expect_identical(y<x, logical())
+  expect_identical(x<empty, logical())
+  expect_identical(empty<x, logical())
 
-  expect_identical(x&y, logical())
-  expect_identical(y&x, logical())
+  expect_identical(x&empty, logical())
+  expect_identical(empty&x, logical())
 
-  expect_identical(x|y, logical())
-  expect_identical(y|x, logical())
+  expect_identical(x|empty, logical())
+  expect_identical(empty|x, logical())
 
-  expect_identical(xor(x, y), logical())
-  expect_identical(xor(y, x), logical())
+  expect_identical(xor(x, empty), logical())
+  expect_identical(xor(empty, x), logical())
 })
 
 test_that("semantics about mixed types for multiplication are respected", {
