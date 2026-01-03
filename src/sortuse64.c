@@ -197,6 +197,12 @@ SEXP r_ram_integer64_sortfin_asc(
   R_Busy(1);
   DEBUG_INIT
 
+  if (nt == 0) {
+    for(i=0; i<n; i++)
+      ret[i] = FALSE;
+    goto wrapup;
+  }
+
   switch (method){
     case 1:{
         for(i=0;i<n;i++)
