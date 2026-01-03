@@ -272,6 +272,12 @@ SEXP r_ram_integer64_orderfin_asc(
   R_Busy(1);
   DEBUG_INIT
 
+  for(i=1;i<nt;i++)
+    if (table[index[i]-1] < table[index[i-1]-1]) {
+      for(i=0; i<n; i++) ret[i] = FALSE;
+      goto wrapup_no_index_increment;
+    }
+
   for(i=0;i<nt;i++)
     index[i]--;
 
@@ -318,6 +324,7 @@ wrapup:
   for(i=0;i<nt;i++)
     index[i]++;
 
+wrapup_no_index_increment:
       R_Busy(0);
   if (method==0)
     error("unimplemented method");
@@ -351,6 +358,12 @@ SEXP r_ram_integer64_orderpos_asc(
 
   R_Busy(1);
   DEBUG_INIT
+
+  for(i=1;i<nt;i++)
+    if (table[index[i]-1] < table[index[i-1]-1]) {
+      for(i=0; i<n; i++) ret[i] = nomatch;
+      goto wrapup_no_index_increment;
+    }
 
   for(i=0;i<nt;i++)
     index[i]--;
@@ -399,6 +412,7 @@ wrapup:
   for(i=0;i<nt;i++)
     index[i]++;
 
+wrapup_no_index_increment:
       R_Busy(0);
   if (method==0)
     error("unimplemented method");
