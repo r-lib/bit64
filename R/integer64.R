@@ -1247,21 +1247,22 @@ sqrt.integer64 <- function(x) {
 
 #' @rdname format.integer64
 #' @export
-log.integer64 <- function(x, base=NULL) {
-  a <- attributes(x)
-  l.x <- length(x)
-  l.base <- length(base)
-  l <- if (l.x==0L || (!is.null(base) && l.base==0L)) 0L else max(l.base, l.x)
-  ret <- double(l)
-  if (is.null(base)) {
+log.integer64 = function(x, base=NULL) {
+  a = attributes(x)
+  l.x = length(x)
+  l.base = length(base)
+  l = if (l.x==0L || (!is.null(base) && l.base==0L)) 0L else max(l.base, l.x)
+  ret = double(l)
+  if (!l.x) {
+  } else if (is.null(base)) {
     .Call(C_log_integer64, x, ret)
   } else if (length(base)==1L) {
     .Call(C_logbase_integer64, x, as.double(base), ret)
   } else {
     .Call(C_logvect_integer64, x, as.double(base), ret)
   }
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
