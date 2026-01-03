@@ -790,14 +790,16 @@ as.integer.integer64 = function(x, ...)
 #' @rdname as.character.integer64
 #' @exportS3Method base::as.raw integer64
 as.raw.integer64 = function(x, ...) {
-  as.raw(.Call(C_as_integer_integer64, x, integer(length(x))))
-  # withCallingHandlers(
-  #   as.raw(.Call(C_as_integer_integer64, x, integer(length(x)))),
-  #   warning = function(w) {
-  #     warning(conditionMessage(w), call.=FALSE)
-  #     invokeRestart("muffleWarning")
-  #   }
-  # )
+  withCallingHandlers({
+      tmp = .Call(C_as_integer_integer64, x, integer(length(x)))
+      ret = as.raw(tmp)
+    },
+    warning = function(w) {
+      warning(conditionMessage(w), call.=FALSE)
+      invokeRestart("muffleWarning")
+    }
+  )
+  ret
 }
 
 #' @rdname as.character.integer64
