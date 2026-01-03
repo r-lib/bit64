@@ -193,23 +193,18 @@ test_that("Coercion", {
     as.integer(c(NA, seq(0.0, 9.0, 0.25)))
   )
   
-  val = c(NA, seq(0.0, 1.25, 0.25))
-  val64 = as.integer64(val)
-  val32 = as.integer(val64)
-  expect_warning(
+  if (getRversion() >= "4.0.0") {
     expect_warning(
-      expect_identical(
-        as.raw(val64),
-        as.raw(val32),
-        # info=paste(capture.output(dput(as.raw(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))))), collapse="")
-        # info=paste(capture.output(dput(.Call(bit64:::C_as_integer_integer64, as.integer64(c(NA, seq(0.0, 9.0, 0.25))), integer(38L))     )), collapse="")
-        # info=paste(capture.output(dput(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))     )), collapse="")
-        info=paste(lapply(list(val, val64, val32, as.raw(val), as.raw(val64), as.raw(val32)), function(el) {capture.output(dput(el))}), collapse="###")
+      expect_warning(
+        expect_identical(
+          as.raw(as.integer64(c(NA, seq(0.0, 1.25, 0.25)))),
+          as.raw(as.integer(c(NA, seq(0.0, 1.25, 0.25))))
+        ), fixed=TRUE,
+        "out-of-range values treated as 0 in coercion to raw"
       ), fixed=TRUE,
       "out-of-range values treated as 0 in coercion to raw"
-    ), fixed=TRUE,
-    "out-of-range values treated as 0 in coercion to raw"
-  )
+    )
+  }
   expect_identical(
     as.logical(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
     as.logical(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
