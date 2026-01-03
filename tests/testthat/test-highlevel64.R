@@ -43,27 +43,26 @@ test_that("Different method= for match() and %in% work", {
   expect_identical(x %in% table, rep(TRUE, 10L))
 })
 
-# TODO(#59): Don't call table.integer64() directly.
 test_that("duplicated, unique, table methods work", {
   x = as.integer64(1:3)
   expect_identical(duplicated(x), rep(FALSE, 3L))
   expect_identical(unique(x), x)
-  expect_identical(table.integer64(x), table(x = 1:3))
+  expect_identical(table(x), table(x = 1:3))
 
   x = as.integer64(rep(1L, 3L))
   expect_identical(duplicated(x), c(FALSE, TRUE, TRUE))
   expect_identical(unique(x), x[1L])
-  expect_identical(table.integer64(x), table(x = rep(1L, 3L)))
+  expect_identical(table(x), table(x = rep(1L, 3L)))
 
   x = as.integer64(c(1L, 2L, 1L))
   expect_identical(duplicated(x), c(FALSE, FALSE, TRUE))
   expect_identical(unique(x), x[1:2])
-  expect_identical(table.integer64(x), table(x = c(1L, 2L, 1L)))
+  expect_identical(table(x), table(x = c(1L, 2L, 1L)))
 
   x = as.integer64(c(1L, 1L, 2L))
   expect_identical(duplicated(x), c(FALSE, TRUE, FALSE))
   expect_identical(unique(x), x[c(1L, 3L)])
-  expect_identical(table.integer64(x), table(x = c(1L, 1L, 2L)))
+  expect_identical(table(x), table(x = c(1L, 1L, 2L)))
 
   x = c(132724613L, -2143220989L)
   expect_identical(table(x=as.integer64(x)), table(x))
