@@ -69,12 +69,13 @@ test_that("ordertab handles nunique smaller than actual", {
   x = as.integer64(1:10)
   x = c(x, x[1:8], x[1:6])
   o = order(x)
-  # this should not segfault, even though nunique is wrong
-  for (ii in 1:10) {
-    # with the fix, this will not crash, but return a truncated result
-    # without the fix, this is likely to crash
-    res <- ordertab(x, o, 4L)
-  }
-  # The result is truncated, but we can check it's not a crash and has the expected length
-  expect_length(res, 4L)
+
+  # makes operation quite slow, but in my test, this segfaulted on the first invocation every time.
+  #   do this inside 'local' because doing so inside 'expect_identical' causes gctorture to apply
+  #   to _every_ allocation induced by testthat as well as rep(). This isolated form is much faster.
+  res = local({
+    on.exit(gctorture(FALSE)); gctorture(TRUE)
+    ordertab(x, o, 4L)
+  })
+  expect_identical(res, rep(3L, 4L))
 })
