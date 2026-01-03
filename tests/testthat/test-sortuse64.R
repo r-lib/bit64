@@ -23,12 +23,12 @@ with_parameters_test_that("orderfin and orderpos work", method=1:3, {
   expect_identical(orderpos(x, idx, as.integer64(0:1), method=method), c(NA_integer_, 1L))
 
   # These were segfaulting due to length(order) < length(table)
-  table = as.integer64(c(10, 20, 30, 5, 15, 25))
-  order = c(4, 1, 5, 2, 6, 3) # order of table is 5, 10, 15, 20, 25, 30
+  table = as.integer64(c(10L, 20L, 30L, 5L, 15L, 25L))
+  order = c(4L, 1L, 5L, 2L, 6L, 3L) # order of table is 5, 10, 15, 20, 25, 30
 
-  partial_order = c(4, 1, 5, 2) # order of subset of table is 5, 10, 15, 20
+  partial_order = c(4L, 1L, 5L, 2L) # order of subset of table is 5, 10, 15, 20
 
-  x_search = as.integer64(c(5, 10, 15, 20, 25, 30, 99))
+  x_search = as.integer64(c(5L, 10L, 15L, 20L, 25L, 30L,L 99L))
 
   # reference with full order
   full_fin = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE)
