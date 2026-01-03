@@ -1031,7 +1031,19 @@ rep.integer64 <- function(x, ...) {
 
 #' @export
 seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
-  if (!is.null(along.with)) return(seq.integer64(from, to, length.out=length(along.with)))
+  if (!is.null(along.with)) return(seq.integer64(from, to, by=by, length.out=length(along.with)))
+
+  n_args = !is.null(from) + !is.null(to) + !is.null(by) + !is.null(length.out)
+
+  if (n_args == 1L) {
+    one = as.integer64(1L)
+    if (!is.null(from)) return(one:from)
+    if (!is.null(to)) return(one:to)
+    if (!is.null(length.out)) return(one:length.out)
+    # match seq(by=integer(1))
+    return(one)
+  }
+
   if (is.null(length.out)) {
     length.out = abs(to - from) + 1L
   } else {
