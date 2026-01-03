@@ -78,7 +78,7 @@ test_that("integer64 coercion to/from other types work", {
 })
 
 test_that("integer64 coercion to/from other types work for R >=4.0.0", {
-  skip_if_not_r_version("4.0.0")
+  skip_unless_r(">= 4.0.0")
   # from integer64
   i32 = 1:10
   i64 = as.integer64(i32)
