@@ -39,14 +39,19 @@ expect_identical = function(x, y, tolerance = NULL, ignore_attr = NULL, info = c
     attributes(x) = attributes(x)[!names(attributes(x)) %in% ignore_attr]
     attributes(y) = attributes(y)[!names(attributes(y)) %in% ignore_attr]
   }
-  if (is.null(tolerance)) tolerance = 0
-  if (!isTRUE(res <- all.equal(x, y, tolerance=tolerance))) {
-    if (length(info)) info <- paste0("\n", info)
-    stop(
-      "x and y are not identical (within tolerance)\n",
-      paste0("  ", res, collapse = "\n"),
-      info
-    )
+  if (is.null(tolerance)) {
+    # NB: some tests _do_ require identical() dispatch here.
+    if (!identical(x, y)) {
+      stop(
+        "x and y are not identical. all.equal(x, y, tolerance=0) result:\n",
+        paste0("  ", all.equal(x, y, tolerance=0), collapse = "\n"),
+        if (length(info)) "\n", info
+      )
+    }
+  } else {
+    if (!isTRUE(all.equal(x, y, tolerance=tolerance))) {
+      stop("x and y are not identical (within tolerance)", if (length(info)) "\n", info)
+    }
   }
   invisible(x)
 }
@@ -126,7 +131,7 @@ with_parameters_test_that <- function(desc, code, .cases = NULL, .interpret_glue
   for (i in seq_len(nrow(.cases))) {
     # Create env for this specific case
     case_env <- new.env(parent = parent.frame())
-    
+
     # Assign parameters into the environment
     row_vals <- .cases[i, , drop = FALSE]
     for (var_name in names(row_vals)) {
