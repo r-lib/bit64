@@ -71,6 +71,8 @@
 <code>sortfin(integer64(), 1:10)</code> no longer segfaults (<a href="https://github.com/r-lib/bit64/issues/164" class="external-link">#164</a>).</li>
 <li>
 <code>orderfin(as.integer64(10:1), 1:3, 8:11)</code> enforces that <code>table</code> be sorted by <code>order</code> instead of segfaulting (<a href="https://github.com/r-lib/bit64/issues/166" class="external-link">#166</a>).</li>
+<li>
+<code><a href="../reference/sortnut.html">ordertab()</a></code> no longer segfaults when <code>nunique</code> is smaller than the actual number of unique values (<a href="https://github.com/r-lib/bit64/issues/168" class="external-link">#168</a>).</li>
 </ol></div>
 <div class="section level3">
 <h3 id="notes-4-7-99">NOTES<a class="anchor" aria-label="anchor" href="#notes-4-7-99"></a></h3>

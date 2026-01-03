@@ -124,6 +124,9 @@ necessary.
 5.  `orderfin(as.integer64(10:1), 1:3, 8:11)` enforces that `table` be
     sorted by `order` instead of segfaulting
     ([\#166](https://github.com/r-lib/bit64/issues/166)).
+6.  [`ordertab()`](https://bit64.r-lib.org/reference/sortnut.md) no
+    longer segfaults when `nunique` is smaller than the actual number of
+    unique values ([\#168](https://github.com/r-lib/bit64/issues/168)).
 
 ### NOTES
 
