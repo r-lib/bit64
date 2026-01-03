@@ -775,7 +775,7 @@ SEXP r_ram_integer64_ordertab_asc(
               ret[pos++] = ret[i];
           SET_LENGTH(ret_, pos); /* re-allocates ret_ */
       }else{
-        int n_ret = LENGTH(ret_); // allow bailing if user mis-specified nunique
+        int n_ret = LENGTH(ret_); // allow bailing if user mis-specified nunique (#168)
         if (n_ret > 0) {
           j = 0;
           ret[j] = 1;
