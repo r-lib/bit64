@@ -7,6 +7,23 @@
 # Created: 2011-12-11
 # */
 
+.onLoad = function(libname, pkgname) {
+  
+  ns = parent.env(environment())
+
+  if (getRversion() < "3.6.0") {
+    # backport condition constructors from R 3.6.0
+    errorCondition = function(message, ..., class = NULL, call = NULL) 
+      structure(list(message = as.character(message), call = call, ...), class = c(class, "error", "condition"))
+    assign("errorCondition", errorCondition, envir = ns, inherits = FALSE)
+  
+    warningCondition = function(message, ..., class = NULL, call = NULL) 
+      structure(list(message = as.character(message), call = call, ...), class = c(class, "warning", "condition"))
+    assign("warningCondition", warningCondition, envir = ns, inherits = FALSE)
+  }
+  
+}
+
 # nocov start
 .onUnload <- function(libpath) {
   library.dynam.unload("bit64", libpath)
