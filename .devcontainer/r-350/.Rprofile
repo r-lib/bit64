@@ -39,14 +39,14 @@ expect_identical = function(x, y, tolerance = NULL, ignore_attr = NULL, info = c
     attributes(x) = attributes(x)[!names(attributes(x)) %in% ignore_attr]
     attributes(y) = attributes(y)[!names(attributes(y)) %in% ignore_attr]
   }
-  if (is.null(tolerance)) {
-    if (!identical(x, y)) {
-      stop("x and y are not identical", if (length(info)) "\n", info)
-    }
-  } else {
-    if (!isTRUE(all.equal(x, y, tolerance=tolerance))) {
-      stop("x and y are not identical (within tolerance)", if (length(info)) "\n", info)
-    }
+  if (is.null(tolerance)) tolerance = 0
+  if (!isTRUE(res <- all.equal(x, y, tolerance=tolerance))) {
+    if (length(info)) info <- paste0("\n", info)
+    stop(
+      "x and y are not identical (within tolerance)\n",
+      paste0("  ", res, collapse = "\n"),
+      info
+    )
   }
   invisible(x)
 }
