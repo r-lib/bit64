@@ -241,10 +241,13 @@ test_that("coercion to matrix and array", {
   i64 = as.integer64(i32)
   m64 = matrix(as.integer64(i32), 2L)
 
-  expect_identical(as.matrix(i64), structure(i64, dim = c(length(i64), 1L)))
+  expect_identical(as.matrix(i64), structure(i64, dim = c(length(i64), 1L)), ignore_attr="class")
   expect_identical(as.matrix(m64), m64)
 
-  expect_identical(as.array(i64), structure(i64, dim = c(length(i64))))
+  expect_identical(as.array(i64), structure(i64, dim = c(length(i64))), ignore_attr="class")
   expect_identical(as.array(m64), m64)
 
+  skip_unless_r(">= 4.0.0") # in earlier R versions class matrix dominates
+  expect_identical(as.matrix(i64), structure(i64, dim = c(length(i64), 1L)))
+  expect_identical(as.array(i64), structure(i64, dim = c(length(i64))))
 })
