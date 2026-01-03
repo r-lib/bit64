@@ -241,9 +241,7 @@ test_that("coercion to matrix and array", {
   i64 = as.integer64(i32)
   m64 = matrix(as.integer64(i32), 2L)
 
-  warning(capture.output(dput( as.matrix(i64) ))) # I hope this shows in the error log of test-ancient
-  warning(capture.output(dput( structure(i64, dim = c(length(i64), 1L)) ))) # I hope this shows in the error log of test-ancient
-  # expect_identical(as.matrix(i64), structure(i64, dim = c(length(i64), 1L)))
+  expect_identical(as.matrix(i64), structure(i64, dim = c(length(i64), 1L)))
   expect_identical(as.matrix(m64), m64)
 
   expect_identical(as.array(i64), structure(i64, dim = c(length(i64))))
