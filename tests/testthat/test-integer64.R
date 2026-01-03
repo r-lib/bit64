@@ -7,7 +7,9 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(as.character(i64), as.character(i32))
   expect_identical(as.double(i64), as.double(i32))
   expect_identical(as.numeric(i64), as.numeric(i32))
-  expect_identical(as.complex(i64), as.complex(i32))
+  if (getRversion() >= "4.0.0") {
+    expect_identical(as.complex(i64), as.complex(i32))
+  }
   expect_identical(as.raw(i64), as.raw(i32))
   expect_identical(as.factor(i64), as.factor(i32))
   expect_identical(as.ordered(i64), as.ordered(i32))
