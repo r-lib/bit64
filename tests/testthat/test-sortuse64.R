@@ -28,7 +28,7 @@ with_parameters_test_that("orderfin and orderpos work", method=1:3, {
 
   partial_order = c(4L, 1L, 5L, 2L) # order of subset of table is 5, 10, 15, 20
 
-  x_search = as.integer64(c(5L, 10L, 15L, 20L, 25L, 30L,L 99L))
+  x_search = as.integer64(c(5L, 10L, 15L, 20L, 25L, 30L, 99L))
 
   # reference with full order
   full_fin = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE)
