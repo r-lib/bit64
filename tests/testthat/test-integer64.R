@@ -299,42 +299,119 @@ test_that("vector builders of integer64 work", {
 patrick::with_parameters_test_that(
   "seq method works analogously to integer: 1 argument",
   {
-    expect_identical(seq(as.integer64(n)), as.integer64(seq(n)))
-    expect_identical(seq(from=as.integer64(n)), as.integer64(seq(from=n)))
-    expect_identical(seq(to=as.integer64(n)), as.integer64(seq(to=n)))
-    expect_identical(seq(by=as.integer64(n)), as.integer64(seq(by=n)))
-    expect_identical(seq(length.out=as.integer64(n)), as.integer64(seq(length.out=n)))
-    expect_identical(seq(along.with=as.integer64(n)), as.integer64(seq(along.with=n)))
+    n64 = as.integer64(n)
+    expect_identical(seq(n64), as.integer64(seq(n)))
+    expect_identical(seq(from=n64), as.integer64(seq(from=n)))
+    expect_identical(seq(to=n64), as.integer64(seq(to=n)))
+    expect_identical(seq(by=n64), as.integer64(seq(by=n)))
+    expect_identical(seq(length.out=n64), as.integer64(seq(length.out=n)))
+    expect_identical(seq(along.with=n64), as.integer64(seq(along.with=n)))
   },
   n = list(0L, 5L, -1L, 2:6)
 )
 
-test_that("seq method works analogously to integer: 2 arguments", {
-  expect_identical(seq(x[1L], x[3L], by=1L), x)
-  expect_identical(seq(x[1L], x[3L], by=x[1L]), x)
-  expect_identical(seq(x[1L], to=10L, by=1L), as.integer64(1:10))
-})
+patrick::with_parameters_test_that(
+  "seq method works analogously to integer: 2 arguments",
+  {
+    n1_64 = as.integer64(n1)
+    n2_64 = as.integer64(n2)
 
-test_that("seq method works analogously to integer: 3 arguments", {
-  odds = as.integer64(c(1L, 3L, 5L, 7L, 9L, 11L))
-  expect_identical(seq(as.integer64(1L), to=11L, by=2L), odds)
-  expect_identical(seq(as.integer64(1L), to=11L, length.out=6L), odds)
-  expect_identical(seq(as.integer64(1L), by=2L, length.out=6L), odds)
-  expect_identical(seq(as.integer64(1L), to=as.integer64(11L), by=2L), odds)
-  expect_identical(seq(as.integer64(1L), to=as.integer64(11L), length.out=6L), odds)
-  expect_identical(seq(as.integer64(1L), by=as.integer64(2L), length.out=6L), odds)
-  expect_identical(seq(as.integer64(1L), to=11L, by=as.integer64(2L)), odds)
-  expect_identical(seq(as.integer64(1L), to=11L, length.out=as.integer64(6L)), odds)
-  expect_identical(seq(as.integer64(1L), by=2L, length.out=as.integer64(6L)), odds)
-  expect_identical(seq(as.integer64(1L), to=as.integer64(11L), by=as.integer64(2L)), odds)
-  expect_identical(seq(as.integer64(1L), to=as.integer64(11L), length.out=as.integer64(6L)), odds)
-  expect_identical(seq(as.integer64(1L), by=as.integer64(2L), length.out=as.integer64(6L)), odds)
+    expect_identical(seq(n1_64, n2), as.integer64(seq(n1, n2)))
+    expect_identical(seq(n1_64, n2_64), as.integer64(seq(n1, n2)))
 
-  expect_identical(seq(as.integer64(1L), to=11L, by=3L), as.integer64(seq(1L, to=11L, by=3L)))
-  expect_identical(seq(as.integer64(1L), to=11L, length.out=4L), as.integer64(seq(1L, to=11L, length.out=4L)))
-})
+    expect_identical(seq(n1_64, by=n2), as.integer64(seq(n1, by=n2)))
+    expect_identical(seq(n1_64, by=n2_64), as.integer64(seq(n1, by=n2)))
+
+    expect_identical(seq(n1_64, length.out=n2), as.integer64(seq(n1, length.out=n2)))
+    expect_identical(seq(n1_64, length.out=n2_64), as.integer64(seq(n1, length.out=n2)))
+
+    expect_identical(seq(n1_64, along.with=n2), as.integer64(seq(n1, along.with=n2)))
+    expect_identical(seq(n1_64, along.with=n2_64), as.integer64(seq(n1, along.with=n2)))
+
+    expect_identical(seq(to=n1_64, by=n2), as.integer64(seq(to=n1, by=n2)))
+    expect_identical(seq(to=n1_64, by=n2_64), as.integer64(seq(to=n1, by=n2)))
+
+    expect_identical(seq(to=n1_64, length.out=n2), as.integer64(seq(to=n1, length.out=n2)))
+    expect_identical(seq(to=n1_64, length.out=n2_64), as.integer64(seq(to=n1, length.out=n2)))
+
+    expect_identical(seq(to=n1_64, along.with=n2), as.integer64(seq(to=n1, along.with=n2)))
+    expect_identical(seq(to=n1_64, along.with=n2_64), as.integer64(seq(to=n1, along.with=n2)))
+
+    expect_identical(seq(by=n1_64, length.out=n2), as.integer64(seq(by=n1, length.out=n2)))
+    expect_identical(seq(by=n1_64, length.out=n2_64), as.integer64(seq(by=n1, length.out=n2)))
+
+    expect_identical(seq(by=n1_64, along.with=n2), as.integer64(seq(by=n1, along.with=n2)))
+    expect_identical(seq(by=n1_64, along.with=n2_64), as.integer64(seq(by=n1, along.with=n2)))
+
+    expect_identical(seq(length.out=n1_64, along.with=n2), as.integer64(seq(length.out=n1, along.with=n2)))
+    expect_identical(seq(length.out=n1_64, along.with=n2_64), as.integer64(seq(length.out=n1, along.with=n2)))
+  },
+  .cases = expand.grid(n1=list(0L, 5L, -1L, 2:6), n2=list(0L, 5L, -1L, 2:6))
+)
+
+patrick::with_parameters_test_that(
+  "seq method works analogously to integer: 3 arguments",
+  {
+    n1_64 = as.integer64(n1)
+    n2_64 = as.integer64(n2)
+    n3_64 = as.integer64(n3)
+
+    expect_identical(seq(n1_64, n2, by=n3), as.integer64(seq(n1, n2, by=n3)))
+    expect_identical(seq(n1_64, n2_64, by=n3), as.integer64(seq(n1, n2, by=n3)))
+    expect_identical(seq(n1_64, n2, by=n3_64), as.integer64(seq(n1, n2, by=n3)))
+    expect_identical(seq(n1_64, n2_64, by=n3_64), as.integer64(seq(n1, n2, by=n3)))
+
+    expect_identical(seq(n1_64, n2, length.out=n3), as.integer64(seq(n1, n2, length.out=n3)))
+    expect_identical(seq(n1_64, n2_64, length.out=n3), as.integer64(seq(n1, n2, length.out=n3)))
+    expect_identical(seq(n1_64, n2, length.out=n3_64), as.integer64(seq(n1, n2, length.out=n3)))
+    expect_identical(seq(n1_64, n2_64, length.out=n3_64), as.integer64(seq(n1, n2, length.out=n3)))
+
+    expect_identical(seq(n1_64, n2, along.with=n3), as.integer64(seq(n1, n2, along.with=n3)))
+    expect_identical(seq(n1_64, n2_64, along.with=n3), as.integer64(seq(n1, n2, along.with=n3)))
+    expect_identical(seq(n1_64, n2, along.with=n3_64), as.integer64(seq(n1, n2, along.with=n3)))
+    expect_identical(seq(n1_64, n2_64, along.with=n3_64), as.integer64(seq(n1, n2, along.with=n3)))
+
+    expect_identical(seq(n1_64, by=n2, length.out=n3), as.integer64(seq(n1, by=n2, length.out=n3)))
+    expect_identical(seq(n1_64, by=n2_64, length.out=n3), as.integer64(seq(n1, by=n2, length.out=n3)))
+    expect_identical(seq(n1_64, by=n2, length.out=n3_64), as.integer64(seq(n1, by=n2, length.out=n3)))
+    expect_identical(seq(n1_64, by=n2_64, length.out=n3_64), as.integer64(seq(n1, by=n2, length.out=n3)))
+
+    expect_identical(seq(n1_64, by=n2, along.with=n3), as.integer64(seq(n1, by=n2, along.with=n3)))
+    expect_identical(seq(n1_64, by=n2_64, along.with=n3), as.integer64(seq(n1, by=n2, along.with=n3)))
+    expect_identical(seq(n1_64, by=n2, along.with=n3_64), as.integer64(seq(n1, by=n2, along.with=n3)))
+    expect_identical(seq(n1_64, by=n2_64, along.with=n3_64), as.integer64(seq(n1, by=n2, along.with=n3)))
+
+    expect_identical(seq(n1_64, length.out=n2, along.with=n3), as.integer64(seq(n1, length.out=n2, along.with=n3)))
+    expect_identical(seq(n1_64, length.out=n2_64, along.with=n3), as.integer64(seq(n1, length.out=n2, along.with=n3)))
+    expect_identical(seq(n1_64, length.out=n2, along.with=n3_64), as.integer64(seq(n1, length.out=n2, along.with=n3)))
+    expect_identical(seq(n1_64, length.out=n2_64, along.with=n3_64), as.integer64(seq(n1, length.out=n2, along.with=n3)))
+
+    expect_identical(seq(to=n1_64, by=n2, length.out=n3), as.integer64(seq(to=n1, by=n2, length.out=n3)))
+    expect_identical(seq(to=n1_64, by=n2_64, length.out=n3), as.integer64(seq(to=n1, by=n2, length.out=n3)))
+    expect_identical(seq(to=n1_64, by=n2, length.out=n3_64), as.integer64(seq(to=n1, by=n2, length.out=n3)))
+    expect_identical(seq(to=n1_64, by=n2_64, length.out=n3_64), as.integer64(seq(to=n1, by=n2, length.out=n3)))
+
+    expect_identical(seq(to=n1_64, by=n2, along.with=n3), as.integer64(seq(to=n1, by=n2, along.with=n3)))
+    expect_identical(seq(to=n1_64, by=n2_64, along.with=n3), as.integer64(seq(to=n1, by=n2, along.with=n3)))
+    expect_identical(seq(to=n1_64, by=n2, along.with=n3_64), as.integer64(seq(to=n1, by=n2, along.with=n3)))
+    expect_identical(seq(to=n1_64, by=n2_64, along.with=n3_64), as.integer64(seq(to=n1, by=n2, along.with=n3)))
+
+    expect_identical(seq(by=n1_64, length.out=n2, along.with=n3), as.integer64(seq(by=n1, length.out=n2, along.with=n3)))
+    expect_identical(seq(by=n1_64, length.out=n2_64, along.with=n3), as.integer64(seq(by=n1, length.out=n2, along.with=n3)))
+    expect_identical(seq(by=n1_64, length.out=n2, along.with=n3_64), as.integer64(seq(by=n1, length.out=n2, along.with=n3)))
+    expect_identical(seq(by=n1_64, length.out=n2_64, along.with=n3_64), as.integer64(seq(by=n1, length.out=n2, along.with=n3)))
+  },
+  .cases = expand.grid(n1=list(0L, 5L, -1L, 2:6), n2=list(0L, 5L, -1L, 2:6), n3=list(0L, 5L, -1L, 2:6))
+)
 
 test_that("seq method works analogously to integer: 4 arguments", {
+  n = as.integer64(5L)
+
+  expect_error(seq(n, n, by=n, length.out=n), "too many arguments")
+  expect_error(seq(n, n, by=n, along.with=n), "too many arguments")
+  expect_error(seq(n, n, length.out=n, along.with=n), "too many arguments")
+  expect_error(seq(n, by=n, length.out=n, along.with=n), "too many arguments")
+  expect_error(seq(to=n, by=n, length.out=n, along.with=n), "too many arguments")
 })
 
 # These tests were previously kept as tests under \examples{\dontshow{...}}.
