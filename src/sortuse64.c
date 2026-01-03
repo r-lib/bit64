@@ -257,7 +257,7 @@ SEXP r_ram_integer64_orderfin_asc(
 )
 {
   int i,n = LENGTH(x_);
-  int pos,nt = LENGTH(table_);
+  int pos,nt = LENGTH(order_);
   int n1 = nt-1;
   int method = asInteger(method_);
 
@@ -336,7 +336,7 @@ SEXP r_ram_integer64_orderpos_asc(
 )
 {
   int i,n = LENGTH(x_);
-  int pos,nt = LENGTH(table_);
+  int pos,nt = LENGTH(order_);
   int n1 = nt-1;
   int method = asInteger(method_);
   int nomatch = asInteger(nomatch_);
