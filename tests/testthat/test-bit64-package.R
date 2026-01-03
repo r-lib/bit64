@@ -295,10 +295,12 @@ test_that("Coercion", {
     as(as.integer64(111L), "double"),
     111
   )
-  expect_identical(
-    as(as.integer64(111L), "complex"),
-    111+0i
-  )
+  if (getRversion() >= "4.0.0") {
+    expect_identical(
+      as(as.integer64(111L), "complex"),
+      111+0i
+    )
+  }
   expect_identical(
     as(as.integer64(111L), "character"),
     "111"
