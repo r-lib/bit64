@@ -26,6 +26,14 @@ skip_if_not_installed = function(pkg) {
   skip_if(!requireNamespace(pkg), paste(pkg, "is not installed"))
 }
 
+skip_if_not = function(cond, info) skip_if(!cond, info)
+
+skip_unless_r = function(spec) {
+  msg = paste("R version requirement not satisfied:", spec)
+  spec = unlist(strsplit(trimws(spec), "\\s+"))
+  skip_if_not(eval(parse(text = sprintf("getRversion() %s '%s'", spec[1L], spec[2L]))), msg)
+}
+
 expect_identical = function(x, y, tolerance = NULL, ignore_attr = NULL, info = character()) {
   if (!is.null(ignore_attr)) {
     attributes(x) = attributes(x)[!names(attributes(x)) %in% ignore_attr]

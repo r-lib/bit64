@@ -11,8 +11,8 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(as.integer64(as.character(1:10)), as.integer64(1:10))
   expect_identical(as.integer64(as.double(1:10)), as.integer64(1:10))
   expect_identical(as.integer64(NULL), as.integer64())
-  x = as.integer64(1:10)
-  expect_identical(as.integer64(x), x)
+  x = structure(as.integer64(1:10), class=c("otherClass", "integer64"), dim=c(2, 5), dimnames=list(LETTERS[1:2], letters[1:5]), otherAttr="some other attribute")
+  expect_identical(as.integer64(x), as.integer64(1:10))
 
   # S4 version
   expect_identical(methods::as(as.character(1:10), "integer64"), as.integer64(1:10))
@@ -327,62 +327,65 @@ test_that("Old \\dontshow{} tests in ?extract.replace.integer64 continue working
 
 test_that("empty inputs give empty outputs for arithmetic", {
   x = integer64(1L)
-  y = integer64(0L)
+  empty = integer64(0L)
 
-  expect_identical(x+y, integer64())
-  expect_identical(y+x, integer64())
+  expect_identical(x+empty, integer64())
+  expect_identical(empty+x, integer64())
 
-  expect_identical(x-y, integer64())
-  expect_identical(y-x, integer64())
+  expect_identical(x-empty, integer64())
+  expect_identical(empty-x, integer64())
 
-  expect_identical(+y, integer64())
-  expect_identical(-y, integer64())
+  expect_identical(+empty, integer64())
+  expect_identical(-empty, integer64())
 
-  expect_identical(x*y, integer64())
-  expect_identical(y*x, integer64())
+  expect_identical(x*empty, integer64())
+  expect_identical(empty*x, integer64())
 
-  expect_identical(x/y, double())
-  expect_identical(y/x, double())
+  expect_identical(x/empty, double())
+  expect_identical(empty/x, double())
 
-  expect_identical(x^y, integer64())
-  expect_identical(y^x, integer64())
+  expect_identical(x^empty, integer64())
+  expect_identical(empty^x, integer64())
 
-  expect_identical(x %/% y, integer64())
-  expect_identical(y %/% x, integer64())
+  expect_identical(x %/% empty, integer64())
+  expect_identical(empty %/% x, integer64())
 
-  expect_identical(x%%y, integer64())
-  expect_identical(y%%x, integer64())
+  expect_identical(x%%empty, integer64())
+  expect_identical(empty%%x, integer64())
 
-  expect_identical(log(x, base=y), double())
-  # TODO(#93): don't suppress this warning which is inconsistent with integer()
-  expect_identical(suppressWarnings(log(y, base=x)), double())
+  expect_identical(log(x, base=empty), double())
+  expect_identical(log(empty, base=x), double())
+  expect_identical(
+    log(`attr<-`(empty, "asdf", "jkl")),
+    `attr<-`(double(), "asdf", "jkl")
+  )
 
-  expect_identical(x==y, logical())
-  expect_identical(y==x, logical())
+  expect_identical(x==empty, logical())
+  expect_identical(empty==x, logical())
 
-  expect_identical(x!=y, logical())
-  expect_identical(y!=x, logical())
+  expect_identical(x!=empty, logical())
+  expect_identical(empty!=x, logical())
 
-  expect_identical(x>=y, logical())
-  expect_identical(y>=x, logical())
+  expect_identical(x>=empty, logical())
+  expect_identical(empty>=x, logical())
 
-  expect_identical(x<=y, logical())
-  expect_identical(y<=x, logical())
+  expect_identical(x<=empty, logical())
+  expect_identical(empty<=x, logical())
 
-  expect_identical(x>y, logical())
-  expect_identical(y>x, logical())
+  expect_identical(x>empty, logical())
+  expect_identical(empty>x, logical())
 
-  expect_identical(x<y, logical())
-  expect_identical(y<x, logical())
+  expect_identical(x<empty, logical())
+  expect_identical(empty<x, logical())
 
-  expect_identical(x&y, logical())
-  expect_identical(y&x, logical())
+  expect_identical(x&empty, logical())
+  expect_identical(empty&x, logical())
 
-  expect_identical(x|y, logical())
-  expect_identical(y|x, logical())
+  expect_identical(x|empty, logical())
+  expect_identical(empty|x, logical())
 
-  expect_identical(xor(x, y), logical())
-  expect_identical(xor(y, x), logical())
+  expect_identical(xor(x, empty), logical())
+  expect_identical(xor(empty, x), logical())
 })
 
 test_that("semantics about mixed types for multiplication are respected", {

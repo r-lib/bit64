@@ -119,6 +119,7 @@ test_that("colSums and rowSums work on simple integer64 input", {
   expect_int_32_64_equivalent(colSums(A, dims=2L))
   expect_int_32_64_equivalent(colSums(A, dims=3L))
 
+  skip_unless_r(">= 4.0.0") # named args in stopifnot() unsupported -> different error
   expect_error(
     rowSums(A64, dims=4L),
     "invalid 'dims'",

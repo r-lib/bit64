@@ -43,7 +43,3 @@ expect_int_32_64_equivalent <- function(expr) {
 
   expect_identical(int64_result_as_int, int_result)
 }
-
-skip_if_not_r_version = function(ver) {
-  skip_if(getRversion() < ver, paste("R version >=", ver, "required."))
-}
