@@ -164,6 +164,7 @@ orderfin.integer64 <- function(table, order, x, method=NULL, ...) {
       , ret = logical(n)
       )
   } else {
+    x <- as.integer64(x)
     o <- seq_along(x); ramorder(x, o, na.last=FALSE, ...)
     ret <- logical(n)
     ret[o] <- .Call(C_r_ram_integer64_orderfin_asc
@@ -207,6 +208,7 @@ orderpos.integer64 <- function(table, order, x, nomatch=NA, method=NULL, ...) {
       , ret = integer(n)
       )
   } else {
+    x <- as.integer64(x)
     o <- seq_along(x); ramorder(x, o, na.last=FALSE, ...)
     ret <- integer(n)
     ret[o] <- .Call(C_r_ram_integer64_orderpos_asc

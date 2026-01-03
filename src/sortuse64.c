@@ -197,6 +197,12 @@ SEXP r_ram_integer64_sortfin_asc(
   R_Busy(1);
   DEBUG_INIT
 
+  if (nt == 0) {
+    for(i=0; i<n; i++)
+      ret[i] = FALSE;
+    goto wrapup;
+  }
+
   switch (method){
     case 1:{
         for(i=0;i<n;i++)
@@ -251,7 +257,7 @@ SEXP r_ram_integer64_orderfin_asc(
 )
 {
   int i,n = LENGTH(x_);
-  int pos,nt = LENGTH(table_);
+  int pos,nt = LENGTH(order_);
   int n1 = nt-1;
   int method = asInteger(method_);
 
@@ -265,6 +271,11 @@ SEXP r_ram_integer64_orderfin_asc(
 
   R_Busy(1);
   DEBUG_INIT
+
+  for(i=1;i<nt;i++)
+    if (table[index[i]-1] < table[index[i-1]-1]) {
+      error("Invalid input -- 'table' is not sorted by 'order'");
+    }
 
   for(i=0;i<nt;i++)
     index[i]--;
@@ -330,7 +341,7 @@ SEXP r_ram_integer64_orderpos_asc(
 )
 {
   int i,n = LENGTH(x_);
-  int pos,nt = LENGTH(table_);
+  int pos,nt = LENGTH(order_);
   int n1 = nt-1;
   int method = asInteger(method_);
   int nomatch = asInteger(nomatch_);
@@ -345,6 +356,11 @@ SEXP r_ram_integer64_orderpos_asc(
 
   R_Busy(1);
   DEBUG_INIT
+
+  for(i=1;i<nt;i++)
+    if (table[index[i]-1] < table[index[i-1]-1]) {
+      error("Invalid input -- 'table' is not sorted by 'order'");
+    }
 
   for(i=0;i<nt;i++)
     index[i]--;
@@ -759,17 +775,21 @@ SEXP r_ram_integer64_ordertab_asc(
               ret[pos++] = ret[i];
           SET_LENGTH(ret_, pos); /* re-allocates ret_ */
       }else{
+        int n_ret = LENGTH(ret_); // allow bailing if user mis-specified nunique (#168)
+        if (n_ret > 0) {
           j = 0;
           ret[j] = 1;
           pos = index[j]-1;
           for(i=1;i<n;i++){
             if (table[index[i]-1]!=table[pos]){
                 pos = index[i]-1;
+                if (j + 1 >= n_ret) break;
                 ret[++j] = 1;
             }else{
                 ret[j]++;
             }
           }
+        }
       }
       PROTECT(ret_); /* Thanks to Tomas Kalibera */
       R_Busy(0);
