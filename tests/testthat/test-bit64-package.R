@@ -192,14 +192,19 @@ test_that("Coercion", {
     as.integer(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
     as.integer(c(NA, seq(0.0, 9.0, 0.25)))
   )
+  
+  val = c(NA, seq(0.0, 1.25, 0.25))
+  val64 = as.integer64(val)
+  val32 = as.integer(val64)
   expect_warning(
     expect_warning(
       expect_identical(
-        as.raw(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
-        as.raw(c(NA, seq(0.0, 9.0, 0.25))),
+        as.raw(val64),
+        as.raw(val32),
         # info=paste(capture.output(dput(as.raw(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))))), collapse="")
         # info=paste(capture.output(dput(.Call(bit64:::C_as_integer_integer64, as.integer64(c(NA, seq(0.0, 9.0, 0.25))), integer(38L))     )), collapse="")
-        info=paste(capture.output(dput(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))     )), collapse="")
+        # info=paste(capture.output(dput(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))     )), collapse="")
+        info=paste(lapply(list(val, val64, val32, as.raw(val), as.raw(val64), as.raw(val32)), function(el) {capture.output(dput(el))}), collapse="###")
       ), fixed=TRUE,
       "out-of-range values treated as 0 in coercion to raw"
     ), fixed=TRUE,
