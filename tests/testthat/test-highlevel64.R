@@ -144,6 +144,7 @@ test_that("missing and empty inputs to median() are handled correctly", {
 #   Converted to "proper" unit tests for clarity, after making them more
 #   canonical within {testthat}, e.g. better capturing expected warnings,
 #   changing stopifnot(identical(...)) to expect_identical(...).
+# TODO(#59): Don't call table.integer64() directly.
 test_that("Old \\dontshow{} tests continue working", {
   xi = c(1L, 1L, 2L)
   xi64 = as.integer64(xi)

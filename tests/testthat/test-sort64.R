@@ -23,7 +23,7 @@ local({
       order(x, na.last=na.last, decreasing=decreasing),
       {
         xo = seq_along(x)
-        ramorder(x, xo, na.last=na.last, decreasing=decreasing)
+        bit::ramorder(x, xo, na.last=na.last, decreasing=decreasing)
         xo
       }
     ),
@@ -51,7 +51,13 @@ with_parameters_test_that(
     expect_identical(y, expected_value)
   },
   .cases = expand.grid(
-    sort_function = list(mergesort, quicksort, radixsort, ramsort, shellsort),
+    sort_function = list(
+      bit::mergesort,
+      bit::quicksort,
+      bit::radixsort,
+      bit::ramsort,
+      bit::shellsort
+    ),
     na.last = c(FALSE, TRUE),
     decreasing = c(FALSE, TRUE),
     duplicates = c(FALSE, TRUE),
@@ -80,7 +86,13 @@ with_parameters_test_that(
     expect_identical(y[i], expected_value)
   },
   .cases = expand.grid(
-    order_function = list(mergeorder, quickorder, radixorder, ramorder, shellorder),
+    order_function = list(
+      bit::mergeorder,
+      bit::quickorder,
+      bit::radixorder,
+      bit::ramorder,
+      bit::shellorder
+    ),
     na.last = c(FALSE, TRUE),
     decreasing = c(FALSE, TRUE),
     duplicates = c(FALSE, TRUE),
@@ -115,8 +127,13 @@ with_parameters_test_that(
     )
   },
   .cases = expand.grid(
-    sortorder_function =
-      list(mergesortorder, quicksortorder, radixsortorder, ramsortorder, shellsortorder),
+    sortorder_function = list(
+      bit::mergesortorder,
+      bit::quicksortorder,
+      bit::radixsortorder,
+      bit::ramsortorder,
+      bit::shellsortorder
+    ),
     na.last = c(FALSE, TRUE),
     decreasing = c(FALSE, TRUE),
     duplicates = c(FALSE, TRUE),
