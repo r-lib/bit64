@@ -121,6 +121,9 @@ necessary.
     ([\#93](https://github.com/r-lib/bit64/issues/93)).
 4.  `sortfin(integer64(), 1:10)` no longer segfaults
     ([\#164](https://github.com/r-lib/bit64/issues/164)).
+5.  `orderfin(as.integer64(10:1), 1:3, 8:11)` enforces that `table` be
+    sorted by `order` instead of segfaulting
+    ([\#166](https://github.com/r-lib/bit64/issues/166)).
 
 ### NOTES
 
