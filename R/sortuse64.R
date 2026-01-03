@@ -143,6 +143,9 @@ orderfin <- function(table, order, x, ...) UseMethod("orderfin")
 #' @rdname sortnut
 #' @export
 orderfin.integer64 <- function(table, order, x, method=NULL, ...) {
+  if (length(order) > 0 && !is.sorted(table[order])) {
+    return(rep(FALSE, length(x)))
+  }
   n <- length(x)
   if (is.null(method)) {
     if (n<4096L) {
@@ -186,6 +189,9 @@ orderpos <- function(table, order, x, ...) UseMethod("orderpos")
 #' @param nomatch the value to be returned if an element is not found in the hashmap
 #' @export
 orderpos.integer64 <- function(table, order, x, nomatch=NA, method=NULL, ...) {
+  if (length(order) > 0 && !is.sorted(table[order])) {
+    return(rep(NA_integer_, length(x)))
+  }
   n <- length(x)
   if (is.null(method)) {
     if (n<4096L) {
