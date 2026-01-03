@@ -51,7 +51,7 @@
 1. `as.integer64.integer64` is consistent with `as.integer.integer` in terms or returning a plain integer64 vector (i.e., stripped of attributes; #188). Thanks @hcirellu.
 1. `log(integer64(), base=integer64(1))` no longer warns, consistent with `log(integer(), base=integer())` (#93).
 1. `sortfin(integer64(), 1:10)` no longer segfaults (#164).
-1. `orderfin(as.integer64(10:1), 1:3, 8:11)` no longer segfaults (#166).
+1. `orderfin(as.integer64(10:1), 1:3, 8:11)` enforces that `table` be sorted by `order` instead of segfaulting (#166).
 
 ## NOTES
 

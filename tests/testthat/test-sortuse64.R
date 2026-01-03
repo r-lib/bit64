@@ -43,8 +43,16 @@ with_parameters_test_that("orderfin and orderpos work", method=1:3, {
   expect_identical(orderfin(table, partial_order, x_search, method=method), partial_fin)
   expect_identical(orderpos(table, partial_order, x_search, method=method), partial_pos)
 
-  expect_identical(orderfin(as.integer64(10:1), 1:3, 8:11, method=method), rep(FALSE, 4L))
-  expect_identical(orderpos(as.integer64(10:1), 1:3, 8:11, method=method), rep(NA_integer_, 4L))
+  expect_error(
+    orderfin(as.integer64(10:1), 1:3, 8:11, method=method),
+    "'table' is not sorted by 'order'",
+    fixed = TRUE
+  )
+  expect_error(
+    orderpos(as.integer64(10:1), 1:3, 8:11, method=method),
+    "'table' is not sorted by 'order'",
+    fixed = TRUE
+  )
 })
 
 test_that("ordertab and orderdup work", {
@@ -56,3 +64,4 @@ test_that("ordertab and orderdup work", {
   expect_identical(orderdup(x, idx), rep(c(FALSE, TRUE), c(10L, 14L)))
   expect_identical(orderdup(x, idx, method=2L), rep(c(FALSE, TRUE), c(10L, 14L)))
 })
+
