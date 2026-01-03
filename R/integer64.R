@@ -791,7 +791,8 @@ as.integer.integer64 = function(x, ...)
 #' @exportS3Method base::as.raw integer64
 as.raw.integer64 = function(x, ...) {
   withCallingHandlers({
-      tmp = .Call(C_as_integer_integer64, x, integer(length(x)))
+      tmp = integer(length(x))
+      .Call(C_as_integer_integer64, x, tmp)
       ret = as.raw(tmp)
     },
     warning = function(w) {
