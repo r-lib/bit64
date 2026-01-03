@@ -198,7 +198,8 @@ test_that("Coercion", {
         as.raw(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
         as.raw(c(NA, seq(0.0, 9.0, 0.25))),
         # info=paste(capture.output(dput(as.raw(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))))), collapse="")
-        info=paste(capture.output(dput(.Call(bit64:::C_as_integer_integer64, as.integer64(c(NA, seq(0.0, 9.0, 0.25))), integer(38L))     )), collapse="")
+        # info=paste(capture.output(dput(.Call(bit64:::C_as_integer_integer64, as.integer64(c(NA, seq(0.0, 9.0, 0.25))), integer(38L))     )), collapse="")
+        info=paste(capture.output(dput(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))     )), collapse="")
       ), fixed=TRUE,
       "out-of-range values treated as 0 in coercion to raw"
     ), fixed=TRUE,
