@@ -119,6 +119,8 @@ necessary.
 3.  `log(integer64(), base=integer64(1))` no longer warns, consistent
     with `log(integer(), base=integer())`
     ([\#93](https://github.com/r-lib/bit64/issues/93)).
+4.  `sortfin(integer64(), 1:10)` no longer segfaults
+    ([\#164](https://github.com/r-lib/bit64/issues/164)).
 
 ### NOTES
 
