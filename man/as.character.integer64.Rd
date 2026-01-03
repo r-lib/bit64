@@ -21,9 +21,9 @@
 \usage{
 as.bitstring(x, ...)
 
-\method{as.double}{integer64}(x, keep.names = FALSE, ...)
+\method{as.double}{integer64}(x, ...)
 
-\method{as.numeric}{integer64}(x, keep.names = FALSE, ...)
+\method{as.numeric}{integer64}(x, ...)
 
 \method{as.complex}{integer64}(x, ...)
 
@@ -55,8 +55,6 @@ as.difftime(tim, format = "\%X", units = "auto", tz = "UTC", ...)
 \item{x}{an integer64 vector}
 
 \item{..., origin, tz, tim, format, units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
-
-\item{keep.names}{FALSE, set to TRUE to keep a names vector}
 }
 \value{
 \code{as.bitstring} returns a string of class 'bitstring'.

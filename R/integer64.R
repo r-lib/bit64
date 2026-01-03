@@ -40,7 +40,6 @@ NULL
 #'   [as.logical()], [as.integer()] do what you would expect.
 #'
 #' @param x an integer64 vector
-#' @param keep.names FALSE, set to TRUE to keep a names vector
 #' @param ...,origin,tz,tim,format,units further arguments to the [NextMethod()]
 #'
 #' @return `as.bitstring` returns a string of class 'bitstring'.
@@ -61,7 +60,6 @@ NULL
 #' Methods to coerce from other atomic types to integer64.
 #'
 #' @param x an atomic vector
-#' @param keep.names FALSE, set to TRUE to keep a names vector
 #' @param ...,units further arguments to the [NextMethod()]
 #' 
 #' @details
@@ -671,19 +669,14 @@ as.integer64.NULL = function(x, ...) integer64()
 as.integer64.integer64 = function(x, ...) {
   ret = unclass(x)
   attributes(ret) = NULL
-  # if keep.names is added as argument
-  # if (isTRUE(keep.names))
-  #   names(ret) = names(x)
   oldClass(ret) = "integer64"
   ret
 }
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.double = function(x, keep.names=FALSE, ...) {
+as.integer64.double = function(x, ...) {
   ret = .Call(C_as_integer64_double, x, double(length(x)))
-  if (isTRUE(keep.names))
-    names(ret) = names(x)
   oldClass(ret) = "integer64"
   ret
 }
@@ -1429,7 +1422,7 @@ signif.integer64 <- function(x, digits=6L) x
 #' @rdname format.integer64
 #' @export
 scale.integer64 <- function(x, center = TRUE, scale = TRUE) {
-  scale(as.double(x, keep.names=TRUE), center=center, scale=scale)
+  scale(.as_double_integer64(x, keep.attributes=TRUE), center=center, scale=scale)
 }
 
 #' @rdname format.integer64

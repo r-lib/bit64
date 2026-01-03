@@ -23,42 +23,40 @@
 An object of class \code{integer64} of length 1.
 }
 \usage{
-as.integer64(x, keep.names = FALSE, ...)
+as.integer64(x, ...)
 
-\method{as.integer64}{`NULL`}(x, keep.names = FALSE, ...)
+\method{as.integer64}{`NULL`}(x, ...)
 
-\method{as.integer64}{integer64}(x, keep.names = FALSE, ...)
+\method{as.integer64}{integer64}(x,  ...)
 
-\method{as.integer64}{double}(x, keep.names = FALSE, ...)
+\method{as.integer64}{double}(x, ...)
 
-\method{as.integer64}{complex}(x, keep.names = FALSE, ...)
+\method{as.integer64}{complex}(x, ...)
 
-\method{as.integer64}{integer}(x, keep.names = FALSE, ...)
+\method{as.integer64}{integer}(x, ...)
 
-\method{as.integer64}{raw}(x, keep.names = FALSE, ...)
+\method{as.integer64}{raw}(x, ...)
 
-\method{as.integer64}{logical}(x, keep.names = FALSE, ...)
+\method{as.integer64}{logical}(x, ...)
 
-\method{as.integer64}{character}(x, keep.names = FALSE, ...)
+\method{as.integer64}{character}(x, ...)
 
-\method{as.integer64}{factor}(x, keep.names = FALSE, ...)
+\method{as.integer64}{factor}(x, ...)
 
-\method{as.integer64}{Date}(x, keep.names = FALSE, ...)
+\method{as.integer64}{Date}(x, ...)
 
-\method{as.integer64}{POSIXct}(x, keep.names = FALSE, ...)
+\method{as.integer64}{POSIXct}(x, ...)
 
-\method{as.integer64}{POSIXlt}(x, keep.names = FALSE, ...)
+\method{as.integer64}{POSIXlt}(x, ...)
 
-\method{as.integer64}{difftime}(x, keep.names = FALSE, units = "auto", ...)
+\method{as.integer64}{difftime}(x, units = "auto", ...)
 
-\method{as.integer64}{bitstring}(x, keep.names = FALSE, ...)
+\method{as.integer64}{bitstring}(x, ...)
 
 NA_integer64_
 }
 \arguments{
 \item{x}{an atomic vector}
-
-\item{keep.names}{FALSE, set to TRUE to keep a names vector}
 
 \item{..., units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 }
