@@ -116,6 +116,9 @@ necessary.
     terms or returning a plain integer64 vector (i.e., stripped of
     attributes; [\#188](https://github.com/r-lib/bit64/issues/188)).
     Thanks [@hcirellu](https://github.com/hcirellu).
+3.  `log(integer64(), base=integer64(1))` no longer warns, consistent
+    with `log(integer(), base=integer())`
+    ([\#93](https://github.com/r-lib/bit64/issues/93)).
 
 ### NOTES
 
