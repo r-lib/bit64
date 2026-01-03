@@ -198,7 +198,7 @@ test_that("aperm works in simple cases", {
 })
 
 test_that("matrix multiplication", {
-  skip_if_not_r_version("4.0.0") # it does not work with ubuntu-latest (3.6), because a double vector is returned
+  skip_unless_r(">= 4.0.0") # it does not work with ubuntu-latest (3.6), because a double vector is returned
   m32 = matrix(1:10, 2)
   m64 = matrix(as.integer64(m32), nrow(m32))
   mDo = matrix(as.numeric(m32), nrow(m32))
