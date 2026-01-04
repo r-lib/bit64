@@ -52,6 +52,7 @@
 1. `log(integer64(), base=integer64(1))` no longer warns, consistent with `log(integer(), base=integer())` (#93).
 1. `sortfin(integer64(), 1:10)` no longer segfaults (#164).
 1. `orderfin(as.integer64(10:1), 1:3, 8:11)` enforces that `table` be sorted by `order` instead of segfaulting (#166).
+1. `ordertab()` no longer segfaults when `nunique` is smaller than the actual number of unique values (#168).
 1. `seq.integer64` calculates `by=` correctly when `length.out=` is provided (#47).
 
 ## NOTES

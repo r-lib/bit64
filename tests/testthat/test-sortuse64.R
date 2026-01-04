@@ -65,3 +65,17 @@ test_that("ordertab and orderdup work", {
   expect_identical(orderdup(x, idx, method=2L), rep(c(FALSE, TRUE), c(10L, 14L)))
 })
 
+test_that("ordertab handles nunique smaller than actual", {
+  x = as.integer64(1:10)
+  x = c(x, x[1:8], x[1:6])
+  o = order(x)
+
+  # makes operation quite slow, but in my test, this segfaulted on the first invocation every time.
+  #   do this inside 'local' because doing so inside 'expect_identical' causes gctorture to apply
+  #   to _every_ allocation induced by testthat as well as rep(). This isolated form is much faster.
+  res = local({
+    on.exit(gctorture(FALSE)); gctorture(TRUE)
+    ordertab(x, o, 4L)
+  })
+  expect_identical(res, rep(3L, 4L))
+})
