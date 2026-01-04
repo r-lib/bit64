@@ -296,7 +296,7 @@ test_that("vector builders of integer64 work", {
   expect_identical(x[3L]:x[1L], x[3:1]) # rev() a separate method
 })
 
-patrick::with_parameters_test_that(
+with_parameters_test_that(
   "seq method works analogously to integer: 1 argument (except along.with);",
   {
     n64 = as.integer64(n)
@@ -313,7 +313,7 @@ patrick::with_parameters_test_that(
   n = c(0L, 5L, -1L)
 )
 
-patrick::with_parameters_test_that(
+with_parameters_test_that(
   "seq method works analogously to integer: 2 arguments (except along.with)",
   {
     n1_64 = as.integer64(n1)
@@ -358,7 +358,7 @@ patrick::with_parameters_test_that(
   .cases = expand.grid(n1=c(0L, 5L, -1L), n2=c(0L, 5L, -1L))
 )
 
-patrick::with_parameters_test_that(
+with_parameters_test_that(
   "seq method works analogously to integer: 3 arguments (except along.with)",
   {
     n1_64 = as.integer64(n1)
