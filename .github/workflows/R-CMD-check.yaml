@@ -77,7 +77,7 @@ jobs:
             echo "Running $FILE"
             
             sed "s/withr:://g" "$FILE" > "${FILE}_SHIMMED.R"
-            sed "s/patrick:://g" "$FILE" > "${FILE}_SHIMMED.R"
+            sed -i "s/patrick:://g" "${FILE}_SHIMMED"
             Rscript -e "library(methods); suppressWarnings(suppressMessages(library(bit64))); source('tests/testthat/helper.R'); source('${FILE}_SHIMMED.R')"
             rm "${FILE}_SHIMMED.R"
             
