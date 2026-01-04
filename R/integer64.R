@@ -1053,53 +1053,29 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
     return(one)
   }
 
-  if (is.null(length.out)) {
-    length.out = abs(to - from) + 1L
-  } else {
-    length.out = as.integer(length.out)
-    if (length(length.out) > 1L) {
-      warning("first element used of 'length.out' argument")
-      length.out = length.out[1L]
-    }
-  }
-
-  if (is.null(by)) {
-    if (is.null(from) || is.null(to) || length.out == 1L)
-      by <- as.integer64(1L)
-    else
-      by <- as.integer64((to - from) / (length.out - 1L))
-  } else {
-    by <- as.integer64(by)
-    if (!is.null(from) && !is.null(to) && (sign(by) != sign(to - from)))
-      stop("wrong sign of 'by' argument")
+  if (n_args == 2L) {
+    if (!is.null(from) && !is.null(to)) return(seq.integer64(from, to, by=1L))
+    if (!is.null(from) && !is.null(by)) return(seq.integer64(from, 1L, by=by))
+    if (!is.null(from) && !is.null(length.out)) return(seq.integer64(from, from+length.out-1L, by=1L))
+    if (!is.null(to) && !is.null(by)) return(seq.integer64(as.integer64(1L), to, by=by))
+    if (!is.null(to) && !is.null(length.out)) return(seq.integer64(to-length.out+1L, from, by=1L))
+    return(seq.integer64(as.integer64(1L), by=by, length.out=length.out))
   }
 
   if (is.null(from)) {
-    if (length.out && length(to))
-      from <- to - (length.out-1L)*by
-    else
-      from <- as.integer64(1L)
-  } else {
-    from <- as.integer64(from)
+    from = to - (length.out - 1L) * by
+  } else if (is.null(by)) {
+    by = (to - from) / (length.out - 1L)
+  } else if (is.null(length.out)) {
+    if (sign(to - from) != sign(by))
+      stop("wrong sign in 'by' argument'")
+    length.out = (to - from) / by + 1L
   }
-
-  if (!length(to)) {
-    if (length.out)
-      to <- from + (length.out-1L)*by
-    else
-      stop("not enough information provided")
-  }
-
-  if (!length.out) {
-    length.out <- (to-from) %/% by + 1L
-  }
-
-  if (!length.out) return(integer64())
-  if (length.out==1L) return(from)
-  #return(cumsum(c(from, rep(by, length.out-1L))))
-  ret <- .Call(C_seq_integer64, from, by, double(as.integer(length.out)))
+  if (length.out < 0L)
+    stop("'length.out' must be a non-negative number")
+  ret <- .Call(C_seq_integer64, as.integer64(from), as.integer64(by), double(as.integer(length.out)))
   oldClass(ret) <- "integer64"
-  return(ret)
+  ret
 }
 
 #' @rdname xor.integer64
