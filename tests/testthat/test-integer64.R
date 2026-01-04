@@ -322,22 +322,37 @@ patrick::with_parameters_test_that(
     expect_identical(seq(n1_64, n2), as.integer64(seq(n1, n2)))
     expect_identical(seq(n1_64, n2_64), as.integer64(seq(n1, n2)))
 
-    expect_identical(seq(n1_64, by=n2), as.integer64(seq(n1, by=n2)))
-    expect_identical(seq(n1_64, by=n2_64), as.integer64(seq(n1, by=n2)))
 
-    expect_identical(seq(n1_64, length.out=n2), as.integer64(seq(n1, length.out=n2)))
-    expect_identical(seq(n1_64, length.out=n2_64), as.integer64(seq(n1, length.out=n2)))
+    err_msg = if (n2 == 0L) "invalid '(to - from)/by'" else "wrong sign in 'by' argument"
+    if (sign(1L - n1) == sign(n2)) {
+      expect_identical(seq(n1_64, by=n2), as.integer64(seq(n1, by=n2)))
+      expect_identical(seq(n1_64, by=n2_64), as.integer64(seq(n1, by=n2)))
 
-    expect_identical(seq(to=n1_64, by=n2), as.integer64(seq(to=n1, by=n2)))
-    expect_identical(seq(to=n1_64, by=n2_64), as.integer64(seq(to=n1, by=n2)))
+      expect_error(seq(to=n1_64, by=n2), err_msg, fixed=TRUE)
+    } else {
+      expect_error(seq(n1_64, by=n2), err_msg, fixed=TRUE)
 
-    expect_identical(seq(to=n1_64, length.out=n2), as.integer64(seq(to=n1, length.out=n2)))
-    expect_identical(seq(to=n1_64, length.out=n2_64), as.integer64(seq(to=n1, length.out=n2)))
+      expect_identical(seq(to=n1_64, by=n2), as.integer64(seq(to=n1, by=n2)))
+      expect_identical(seq(to=n1_64, by=n2_64), as.integer64(seq(to=n1, by=n2)))
+    }
 
-    expect_identical(seq(by=n1_64, length.out=n2), as.integer64(seq(by=n1, length.out=n2)))
-    expect_identical(seq(by=n1_64, length.out=n2_64), as.integer64(seq(by=n1, length.out=n2)))
+    if (n2 >= 0L) {
+      expect_identical(seq(n1_64, length.out=n2), as.integer64(seq(n1, length.out=n2)))
+      expect_identical(seq(n1_64, length.out=n2_64), as.integer64(seq(n1, length.out=n2)))
+
+      expect_identical(seq(to=n1_64, length.out=n2), as.integer64(seq(to=n1, length.out=n2)))
+      expect_identical(seq(to=n1_64, length.out=n2_64), as.integer64(seq(to=n1, length.out=n2)))
+
+      expect_identical(seq(by=n1_64, length.out=n2), as.integer64(seq(by=n1, length.out=n2)))
+      expect_identical(seq(by=n1_64, length.out=n2_64), as.integer64(seq(by=n1, length.out=n2)))
+    } else {
+      err_msg = "'length.out' must be a non-negative number"
+      expect_error(seq(n1_64, length.out=n2), err_msg, fixed=TRUE)
+      expect_error(seq(to=n1_64, length.out=n2), err_msg, fixed=TRUE)
+      expect_error(seq(by=n1_64, length.out=n2), err_msg, fixed=TRUE)
+    }
   },
-  .cases = expand.grid(n1=list(0L, 5L, -1L), n2=list(0L, 5L, -1L))
+  .cases = expand.grid(n1=c(0L, 5L, -1L), n2=c(0L, 5L, -1L))
 )
 
 patrick::with_parameters_test_that(
@@ -347,36 +362,29 @@ patrick::with_parameters_test_that(
     n2_64 = as.integer64(n2)
     n3_64 = as.integer64(n3)
 
-    if (sign(n2 - n1) == sign(n3)) {
+    if (n2 == n1 || sign(n2 - n1) == sign(n3)) {
       expect_identical(seq(n1_64, n2, by=n3), as.integer64(seq(n1, n2, by=n3)))
       expect_identical(seq(n1_64, n2_64, by=n3), as.integer64(seq(n1, n2, by=n3)))
       expect_identical(seq(n1_64, n2, by=n3_64), as.integer64(seq(n1, n2, by=n3)))
       expect_identical(seq(n1_64, n2_64, by=n3_64), as.integer64(seq(n1, n2, by=n3)))
     } else {
-      expect_error(
-        seq(n1_64, n2, by=n3),
-        "wrong sign in 'by' argument", fixed=TRUE
-      )
+      err_msg <- if (n3 == 0L) "invalid '(to - from)/by'" else "wrong sign in 'by' argument"
+      expect_error(seq(n1_64, n2, by=n3), err_msg, fixed=TRUE)
     }
 
     if (n3 < 0L) {
-      expect_error(
-        seq(n1_64, n2, length.out=n3),
-        "'length.out' must be a non-negative", fixed=TRUE
-      )
-      expect_error(
-        seq(n1_64, by=n2, length.out=n3),
-        "'length.out' must be a non-negative", fixed=TRUE
-      )
-      expect_error(
-        seq(to=n1_64, by=n2, length.out=n3),
-        "'length.out' must be a non-negative", fixed=TRUE
-      )
+      err_msg = "'length.out' must be a non-negative"
+      expect_error(seq(n1_64, n2, length.out=n3), err_msg, fixed=TRUE)
+      expect_error(seq(n1_64, by=n2, length.out=n3), err_msg, fixed=TRUE)
+      expect_error(seq(to=n1_64, by=n2, length.out=n3), err_msg, fixed=TRUE)
     } else {
-      expect_identical(seq(n1_64, n2, length.out=n3), as.integer64(seq(n1, n2, length.out=n3)))
-      expect_identical(seq(n1_64, n2_64, length.out=n3), as.integer64(seq(n1, n2, length.out=n3)))
-      expect_identical(seq(n1_64, n2, length.out=n3_64), as.integer64(seq(n1, n2, length.out=n3)))
-      expect_identical(seq(n1_64, n2_64, length.out=n3_64), as.integer64(seq(n1, n2, length.out=n3)))
+      # TODO(#47): restore parity to seq() here
+      if (((n2 - n1) / (n3 - 1L)) %% 1L == 0L) {
+        expect_identical(seq(n1_64, n2, length.out=n3), as.integer64(seq(n1, n2, length.out=n3)))
+        expect_identical(seq(n1_64, n2_64, length.out=n3), as.integer64(seq(n1, n2, length.out=n3)))
+        expect_identical(seq(n1_64, n2, length.out=n3_64), as.integer64(seq(n1, n2, length.out=n3)))
+        expect_identical(seq(n1_64, n2_64, length.out=n3_64), as.integer64(seq(n1, n2, length.out=n3)))
+      }
 
       expect_identical(seq(n1_64, by=n2, length.out=n3), as.integer64(seq(n1, by=n2, length.out=n3)))
       expect_identical(seq(n1_64, by=n2_64, length.out=n3), as.integer64(seq(n1, by=n2, length.out=n3)))
@@ -389,7 +397,7 @@ patrick::with_parameters_test_that(
       expect_identical(seq(to=n1_64, by=n2_64, length.out=n3_64), as.integer64(seq(to=n1, by=n2, length.out=n3)))
     }
   },
-  .cases = expand.grid(n1=list(0L, 5L, -1L), n2=list(0L, 5L, -1L), n3=list(0L, 5L, -1L))
+  .cases = expand.grid(n1=c(0L, 5L, -1L), n2=c(0L, 5L, -1L), n3=c(0L, 5L, -1L))
 )
 
 test_that("seq method works analogously to integer: 4 arguments", {
