@@ -1054,14 +1054,21 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
   }
 
   if (n_args == 2L) {
-    if (!is.null(length.out) && length.out < 0L)
-      stop("'length.out' must be a non-negative number")
+    if (!is.null(length.out)) {
+      if (length.out == 0L)
+        return(integer64())
+      if (length.out < 0L)
+        stop("'length.out' must be a non-negative number")
+      if (!is.null(from))
+        return(seq.integer64(from, from+length.out-1L, by=1L))
+      if (!is.null(to))
+        return(seq.integer64(to-length.out+1L, to, by=1L))
+      if (!is.null(by))
+        return(seq.integer64(as.integer64(1L), by=by, length.out=length.out))
+    }
     if (!is.null(from) && !is.null(to)) return(seq.integer64(from, to, by=sign(to - from)))
     if (!is.null(from) && !is.null(by)) return(seq.integer64(from, 1L, by=by))
-    if (!is.null(from) && !is.null(length.out)) return(seq.integer64(from, from+length.out-1L, by=1L))
-    if (!is.null(to) && !is.null(by)) return(seq.integer64(as.integer64(1L), to, by=by))
-    if (!is.null(to) && !is.null(length.out)) return(seq.integer64(to-length.out+1L, from, by=1L))
-    return(seq.integer64(as.integer64(1L), by=by, length.out=length.out))
+    return(seq.integer64(as.integer64(1L), to, by=by))
   }
 
   if (is.null(from)) {

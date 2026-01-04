@@ -323,14 +323,17 @@ patrick::with_parameters_test_that(
     expect_identical(seq(n1_64, n2_64), as.integer64(seq(n1, n2)))
 
 
-    err_msg = if (n2 == 0L) "invalid '(to - from)/by'" else "wrong sign in 'by' argument"
-    if (sign(1L - n1) == sign(n2)) {
+    if (n2 == 0) {
+      err_msg = "invalid '(to - from)/by'"
+      expect_error(seq(n1_64, by=n2), err_msg, fixed=TRUE)
+      expect_error(seq(to=n1_64, by=n2), err_msg, fixed=TRUE)
+    } else if (sign(1L - n1) == sign(n2)) {
       expect_identical(seq(n1_64, by=n2), as.integer64(seq(n1, by=n2)))
       expect_identical(seq(n1_64, by=n2_64), as.integer64(seq(n1, by=n2)))
 
-      expect_error(seq(to=n1_64, by=n2), err_msg, fixed=TRUE)
+      expect_error(seq(to=n1_64, by=n2), "wrong sign in 'by' argument", fixed=TRUE)
     } else {
-      expect_error(seq(n1_64, by=n2), err_msg, fixed=TRUE)
+      expect_error(seq(n1_64, by=n2), "wrong sign in 'by' argument", fixed=TRUE)
 
       expect_identical(seq(to=n1_64, by=n2), as.integer64(seq(to=n1, by=n2)))
       expect_identical(seq(to=n1_64, by=n2_64), as.integer64(seq(to=n1, by=n2)))
