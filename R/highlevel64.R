@@ -2045,26 +2045,18 @@ table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifan
 #' @exportS3Method table default
 table.default = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifany", "always"), dnn=list.names(...), deparse.level=1L) {
   if (...length() && any(unlist(lapply(list(...), is.integer64)))) {
-    withCallingHandlers({
-      sys_call = sys.call()
-      sys_call[[1L]] = table.integer64
-      eval(sys_call, envir = parent.frame())},
-      error = function(e) {stop(errorCondition(e$message, call=choose_sys_call(c("table", "table.default"), "table.integer64")))}, 
-      warning = function(w) {
-        warning(warningCondition(w$message, call=choose_sys_call(c("table", "table.default"), "table.integer64")))
-        invokeRestart("muffleWarning")
-      }
+    withCallingHandlers_and_choose_call({
+        sys_call = sys.call()
+        sys_call[[1L]] = table.integer64
+        eval(sys_call, envir = parent.frame())
+      }, c("table", "table.default"), "table.integer64"
     )
   } else {
-    withCallingHandlers({
-      sys_call = sys.call()
-      sys_call[[1L]] = base::table
-      eval(sys_call, envir = parent.frame())},
-      error = function(e) {stop(errorCondition(e$message, call=choose_sys_call(c("table", "table.default"))))}, 
-      warning = function(w) {
-        warning(warningCondition(w$message, call=choose_sys_call(c("table", "table.default"))))
-        invokeRestart("muffleWarning")
-      }
+    withCallingHandlers_and_choose_call({
+        sys_call = sys.call()
+        sys_call[[1L]] = base::table
+        eval(sys_call, envir = parent.frame())
+      }, c("table", "table.default")
     )
   }
 }
@@ -2072,7 +2064,7 @@ choose_sys_call = function(function_names, name_to_display=NULL) {
   sc = sys.calls()
   sc_length = length(sc)
   if (sc_length == 1L || length(function_names) == 0L) return(sc[[1L]])
-  sc_char = gsub("^(.*::)?(.+)[(].*", "\\2", as.character(sc))
+  sc_char = vapply(sc, function(el) if (is.function(el[[1L]])) "" else rev(as.character(el[[1L]]))[1L], "")
   sel = rev(which(sc_char == function_names[length(function_names)]))[1L]
   if (is.na(sel)) 
     sel = 1L
@@ -2085,6 +2077,20 @@ choose_sys_call = function(function_names, name_to_display=NULL) {
   if (!is.null(name_to_display))
     sc[[1L]] = as.name(name_to_display)
   sc
+}
+withCallingHandlers_and_choose_call = function(expr, function_names, name_to_display=NULL) {
+  wch = str2lang("withCallingHandlers(expr, error=error, warning=warning)")
+  wch[[2L]] = sys.call()[[2L]] # expr
+  wch[[3L]] = {function(function_names, name_to_display) 
+    function(e) {stop(errorCondition(e$message, call=choose_sys_call(function_names, name_to_display)))}
+  }(function_names, name_to_display)
+  wch[[4L]] = {function(function_names, name_to_display) 
+    function(w) {
+      warning(warningCondition(w$message, call=choose_sys_call(function_names, name_to_display)))
+      invokeRestart("muffleWarning")
+    }
+  }(function_names, name_to_display)
+  eval(wch, envir=parent.frame())
 }
 
 #' @method table integer64
