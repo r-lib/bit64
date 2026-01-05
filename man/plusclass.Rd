@@ -19,8 +19,8 @@ NULL or a character vector of class attributes
 Maintaining integer64 S3 class attribute.
 }
 \examples{
-  plusclass("inheritingclass","integer64")
-  minusclass(c("inheritingclass","integer64"), "integer64")
+  plusclass("inheritingclass", "integer64")
+  minusclass(c("inheritingclass", "integer64"), "integer64")
 }
 \seealso{
 \code{\link[=oldClass]{oldClass()}} \code{\link[=integer64]{integer64()}}
