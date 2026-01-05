@@ -342,16 +342,16 @@ the examples.
 | [`[[.integer64`](https://bit64.r-lib.org/reference/extract.replace.integer64.md)   | [`[[`](https://rdrr.io/r/base/Extract.html)   | scalar extract           |
 | [`[[<-.integer64`](https://bit64.r-lib.org/reference/extract.replace.integer64.md) | [`[[<-`](https://rdrr.io/r/base/Extract.html) | scalar assign            |
 
-|                                                                       |                                                 |                   |
-|-----------------------------------------------------------------------|-------------------------------------------------|-------------------|
-| **binary operators**                                                  | **see also**                                    | **description**   |
-| [`+.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md)   | [`+`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
-| [`-.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md)   | [`-`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
-| [`*.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md)   | [`*`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
-| [`^.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md)   | [`^`](https://rdrr.io/r/base/Arithmetic.html)   | returns double    |
-| [`/.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md)   | [`/`](https://rdrr.io/r/base/Arithmetic.html)   | returns double    |
-| [`%/%.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`%/%`](https://rdrr.io/r/base/Arithmetic.html) | returns integer64 |
-| [`%%.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md)  | [`%%`](https://rdrr.io/r/base/Arithmetic.html)  | returns integer64 |
+|                                                                     |                                                 |                   |
+|---------------------------------------------------------------------|-------------------------------------------------|-------------------|
+| **binary operators**                                                | **see also**                                    | **description**   |
+| [`+.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`+`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
+| [`-.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`-`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
+| [`*.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`*`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
+| [`^.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`^`](https://rdrr.io/r/base/Arithmetic.html)   | returns double    |
+| [`/.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`/`](https://rdrr.io/r/base/Arithmetic.html)   | returns double    |
+| [`%/%`](https://bit64.r-lib.org/reference/xor.integer64.md)         | [`%/%`](https://rdrr.io/r/base/Arithmetic.html) | returns integer64 |
+| [`%%`](https://bit64.r-lib.org/reference/xor.integer64.md)          | [`%%`](https://rdrr.io/r/base/Arithmetic.html)  | returns integer64 |
 
 |                                                                      |                                                |                 |
 |----------------------------------------------------------------------|------------------------------------------------|-----------------|
