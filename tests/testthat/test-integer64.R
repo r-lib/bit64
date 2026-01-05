@@ -323,7 +323,7 @@ with_parameters_test_that(
     n1_64 = as.integer64(n1)
     n2_64 = as.integer64(n2)
 
-    # TODO(#47): restore parity to seq() here
+    # TODO(#211): restore parity to seq() here
     if (n2 %% 1L == 0L) expect_identical(seq(n1_64, n2), as.integer64(seq(n1_32, n2)))
     expect_identical(seq(n1_64, n2_64), as.integer64(seq(n1_32, n2_32)))
 
@@ -340,7 +340,7 @@ with_parameters_test_that(
     } else {
       expect_error(seq(n1_64, by=n2), "wrong sign in 'by' argument", fixed=TRUE)
 
-      # TODO(#47): restore parity to seq() here
+      # TODO(#211): restore parity to seq() here
       if (n2 %% 1L == 0L) expect_identical(seq(to=n1_64, by=n2), as.integer64(seq(to=n1, by=n2)))
       expect_identical(seq(to=n1_64, by=n2_64), as.integer64(seq(to=n1, by=n2_32)))
     }
@@ -376,9 +376,9 @@ with_parameters_test_that(
     n2_64 = as.integer64(n2)
     n3_64 = as.integer64(n3)
 
-    # TODO(#47): restore parity to seq() here
+    # TODO(#211): restore parity to seq() here
     if (n2 == n1 || sign(n2 - n1) == sign(n3)) {
-      # TODO(#47): restore parity to seq() here
+      # TODO(#211): restore parity to seq() here
       if (n2 %% 1L == 0L && n3 %% 1L == 0L) {
         expect_identical(seq(n1_64, n2, by=n3), as.integer64(seq(n1_32, n2, by=n3)))
         expect_identical(seq(n1_64, n2_64, by=n3), as.integer64(seq(n1_32, n2_32, by=n3)))
@@ -396,7 +396,7 @@ with_parameters_test_that(
       expect_error(seq(n1_64, by=n2, length.out=n3), err_msg, fixed=TRUE)
       expect_error(seq(to=n1_64, by=n2, length.out=n3), err_msg, fixed=TRUE)
     } else {
-      # TODO(#47): restore parity to seq() here
+      # TODO(#211): restore parity to seq() here
       if (((n2 - n1) / (n3 - 1L)) %% 1L == 0L) {
         expect_identical(seq(n1_64, n2, length.out=n3), as.integer64(seq(n1_32, n2, length.out=n3)))
         expect_identical(seq(n1_64, n2_64, length.out=n3), as.integer64(seq(n1_32, n2_32, length.out=n3)))
@@ -404,7 +404,7 @@ with_parameters_test_that(
         expect_identical(seq(n1_64, n2_64, length.out=n3_64), as.integer64(seq(n1_32, n2_32, length.out=n3_32)))
       }
 
-      # TODO(#47): restore parity to seq() here
+      # TODO(#211): restore parity to seq() here
       if (n2 %% 1L == 0L) {
         expect_identical(seq(n1_64, by=n2, length.out=n3), as.integer64(seq(n1_32, by=n2, length.out=n3)))
         expect_identical(seq(n1_64, by=n2_64, length.out=n3), as.integer64(seq(n1_32, by=n2_32, length.out=n3)))
