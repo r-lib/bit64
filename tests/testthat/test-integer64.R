@@ -428,6 +428,18 @@ test_that("seq method works analogously to integer: 4 arguments", {
   expect_error(seq(n, n, by=n, along.with=n), "too many arguments")
 })
 
+test_that("seq() works back-compatibly w.r.t. mixed integer+double inputs", {
+  one = as.integer64(1L)
+  expect_identical(seq(one, 10L, by=1.5), as.integer64(1:10))
+  expect_identical(seq(to=one, from=10L, by=-1.5), as.integer64(10:1))
+
+  expect_identical(seq(one, 10L, by=10.0/3.0), as.integer64(c(1L, 4L, 7L, 10L)))
+  expect_identical(seq(to=one, from=10L, by=-10.0/3.0), as.integer64(c(10L, 7L, 4L, 1L)))
+
+  expect_error(seq(one, 10L, by=0.1), "invalid '(to - from)/by'", fixed=TRUE)
+  expect_error(seq(to=one, from=10L, by=-0.1), "invalid '(to - from)/by'", fixed=TRUE)
+})
+
 # These tests were previously kept as tests under \examples{\dontshow{...}}.
 #   Converted to "proper" unit tests for clarity, after making them more
 #   canonical within {testthat}, e.g. better capturing expected warnings,

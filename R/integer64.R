@@ -1078,6 +1078,9 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
   if (!is.null(length.out) && is.double(length.out))
     length.out = ceiling(length.out)
 
+  if (!is.null(by) && !is.integer64(by))
+    by = as.integer64(by)
+
   if (is.null(from)) {
     from = to - (length.out - 1L) * by
   } else if (is.null(by)) {
@@ -1095,7 +1098,7 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
   }
   if (length.out < 0L)
     stop("'length.out' must be a non-negative number")
-  ret <- .Call(C_seq_integer64, as.integer64(from), as.integer64(by), double(as.integer(length.out)))
+  ret <- .Call(C_seq_integer64, as.integer64(from), by, double(as.integer(length.out)))
   oldClass(ret) <- "integer64"
   ret
 }
