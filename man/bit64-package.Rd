@@ -282,7 +282,7 @@ For all available methods on \code{integer64} vectors see the index below and th
    \code{\link{*.integer64}} \tab \code{\link{*}} \tab returns integer64 \cr
    \code{\link{^.integer64}} \tab \code{\link{^}} \tab returns double \cr
    \code{\link{/.integer64}} \tab \code{\link{/}} \tab returns double \cr
-   \code{\link{\%/\%.integer64}} \tab \code{\link{\%/\%}} \tab returns integer64 \cr
+   \code{\link{\%/\%.integer64}} \tab \code{\link[=Arithmetic]{\%/\%}} \tab returns integer64 \cr
    \code{\link{\%\%.integer64}} \tab \code{\link[=Arithmetic]{\%\%}} \tab returns integer64 \cr
 }
 \tabular{rrl}{

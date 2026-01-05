@@ -69,7 +69,7 @@ binattr(e1, e2)
 
 \code{\link{^}} and \code{\link{/}} return a double vector
 
-\code{\link{+}}, \code{\link{-}}, \code{\link{*}}, \code{\link{\%/\%}}, \code{\link[=Arithmetic]{\%\%}}
+\code{\link{+}}, \code{\link{-}}, \code{\link{*}}, \code{\link[=Arithmetic]{\%/\%}}, \code{\link[=Arithmetic]{\%\%}}
 return a vector of class 'integer64'
 }
 \description{

@@ -214,7 +214,7 @@
 #' |      [`*.integer64`] |        [`*`] | returns integer64 |
 #' |      [`^.integer64`] |        [`^`] | returns double    |
 #' |      [`/.integer64`] |        [`/`] | returns double    |
-#' |    [`%/%.integer64`] |      [`%/%`] | returns integer64 |
+#' |    [`%/%.integer64`] | \code{\link[=Arithmetic]{\%/\%}} | returns integer64 |
 #' |     [`%%.integer64`] | \code{\link[=Arithmetic]{\%\%}} | returns integer64 |
 #'
 #' | **comparison operators** | **see also** | **description** |
