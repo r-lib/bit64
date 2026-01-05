@@ -340,7 +340,7 @@ For all available methods on \code{integer64} vectors see the index below and th
 \tabular{rrl}{
    \strong{algorithmically complex functions} \tab \strong{see also} \tab \strong{description (caching)} \cr
    \code{\link[=match.integer64]{match.integer64()}} \tab \code{\link[=match]{match()}} \tab position of x in table (h//o/so) \cr
-   \code{\link{\%in\%.integer64}} \tab \code{\link[=match]{\%in\%}} \tab is x in table? (h//o/so) \cr
+   \code{\link[=match.integer64]{\%in\%.integer64}} \tab \code{\link[=match]{\%in\%}} \tab is x in table? (h//o/so) \cr
    \code{\link[=duplicated.integer64]{duplicated.integer64()}} \tab \code{\link[=duplicated]{duplicated()}} \tab is current element duplicate of previous one? (h//o/so) \cr
    \code{\link[=unique.integer64]{unique.integer64()}} \tab \code{\link[=unique]{unique()}} \tab (shorter) vector of unique values only (h/s/o/so) \cr
    \code{\link[=unipos.integer64]{unipos.integer64()}} \tab \code{\link[=unipos]{unipos()}} \tab positions corresponding to unique values (h/s/o/so) \cr
