@@ -38,9 +38,9 @@ Cumulative Sums, Products, Extremes and lagged differences
 }
 \examples{
   cumsum(rep(as.integer64(1), 12))
-  diff(as.integer64(c(0,1:12)))
+  diff(as.integer64(c(0, 1:12)))
   cumsum(as.integer64(c(0, 1:12)))
-  diff(cumsum(as.integer64(c(0,0,1:12))), differences=2)
+  diff(cumsum(as.integer64(c(0, 0, 1:12))), differences=2)
 }
 \seealso{
 \code{\link[=sum.integer64]{sum.integer64()}} \code{\link[=integer64]{integer64()}}
