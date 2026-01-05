@@ -94,7 +94,7 @@ Functions that get and set small cache-content automatically when a cache is pre
 Setting big caches with a relevant memory footprint requires a conscious decision
 of the user: \code{\link{hashcache}}, \code{\link{sortcache}}, \code{\link{ordercache}}, \code{\link{sortordercache}}
 
-Functions that use big caches: \code{\link[=match.integer64]{match.integer64()}}, \code{\link{\%in\%.integer64}},
+Functions that use big caches: \code{\link[=match.integer64]{match.integer64()}}, \code{\link[=match.integer64]{\%in\%.integer64}},
 \code{\link[=duplicated.integer64]{duplicated.integer64()}}, \code{\link[=unique.integer64]{unique.integer64()}}, \code{\link[=unipos]{unipos()}}, \code{\link[=table.integer64]{table.integer64()}},
 \code{\link[=keypos]{keypos()}}, \code{\link[=tiepos]{tiepos()}}, \code{\link[=rank.integer64]{rank.integer64()}}, \code{\link[=prank]{prank()}}, \code{\link[=qtile]{qtile()}},
 \code{\link[=quantile.integer64]{quantile.integer64()}}, \code{\link[=median.integer64]{median.integer64()}}, and \code{\link[=summary.integer64]{summary.integer64()}}
