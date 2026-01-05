@@ -174,7 +174,7 @@ NULL
 #'
 #'   [`^`] and [`/`] return a double vector
 #'
-#'   [`+`], [`-`], [`*`], [`%/%`], [`%%`]
+#'   [`+`], [`-`], [`*`], \code{\link[=Arithmetic]{\%/\%}}, \code{\link[=Arithmetic]{\%\%}}
 #'    return a vector of class 'integer64'
 #'
 #' @keywords classes manip
@@ -299,37 +299,6 @@ NULL
 #'   rep(as.integer64(1:2), c(6, 6))
 #'   rep(as.integer64(1:2), length.out=6)
 #' @name rep.integer64
-NULL
-
-#' integer64: Sequence Generation
-#'
-#' Generating sequence of integer64 values
-#'
-#' @param from integer64 scalar (in order to dispatch the integer64 method of [seq()])
-#' @param to scalar
-#' @param by scalar
-#' @param length.out scalar
-#' @param along.with scalar
-#' @param ... ignored
-#' @details
-#'   `seq.integer64` does coerce its arguments 'from', 'to' and 'by' to `integer64`.
-#'   If not provided, the argument 'by' is automatically determined as `+1` or `-1`,
-#'   but the size of 'by' is not calculated as in [seq()] (because this might result
-#'   in a non-integer value).
-#'
-#' @returns an integer64 vector with the generated sequence
-#' @note
-#'   In base R [`:`] currently is not generic and does not dispatch, see section
-#'   "Limitations inherited from Base R" in [integer64()]
-#'
-#' @keywords classes manip
-#' @seealso [c.integer64()] [rep.integer64()]
-#'   [as.data.frame.integer64()] [integer64()]
-#' @examples
-#'   # colon not activated: as.integer64(1):12
-#'   seq(as.integer64(1), 12, 2)
-#'   seq(as.integer64(1), by=2, length.out=6)
-#' @name seq.integer64
 NULL
 
 #' integer64: Coercing to data.frame column
@@ -1029,50 +998,105 @@ rep.integer64 <- function(x, ...) {
   ret
 }
 
+#' Generating sequence of integer64 values
+#'
+#' @param from integer64 scalar (in order to dispatch the integer64 method of [seq()])
+#' @param to scalar
+#' @param by scalar
+#' @param length.out scalar
+#' @param along.with scalar
+#' @param ... ignored
+#' @details
+#'   `seq.integer64` coerces its arguments `from`, `to`, and `by` to `integer64`. Consistency
+#'   with [seq()] is typically maintained, though results may differ when mixing `integer64` and
+#'   `double` inputs, for the same reason that any arithmetic with these mixed types can be
+#'   ambiguous. Whereas `seq(1L, 10L, length.out=8L)` can back up to double storage to give an
+#'   exact result, this not possible for generic inputs `seq(i64, dbl, length.out=n)`.
+#'
+#' @returns An integer64 vector with the generated sequence
+#'
+#' @keywords classes manip
+#' @seealso [c.integer64()] [rep.integer64()]
+#'   [as.data.frame.integer64()] [integer64()]
+#' @examples
+#' seq(as.integer64(1), 12, 2)
+#' seq(as.integer64(1), by=2, length.out=6)
+#'
+#' # truncation rules
+#' seq(as.integer64(1), 10, by=1.5)
+#' seq(as.integer64(1), 10, length.out=5)
 #' @export
-seq.integer64 <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
-  if (is.null(length.out))
-    length.out <- length(along.with)
-  else
-    length.out <- as.integer(length.out)
+seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
+  if (!is.null(along.with)) return(seq.integer64(from, to, by=by, length.out=length(along.with)))
 
-  if (is.null(by)) {
-    if (is.null(from) || is.null(to))
-      by <- as.integer64(1L)
-    else
-      by <- as.integer64(if (to < from) -1L else 1L)
-  } else {
-    by <- as.integer64(by)
-    if (!is.null(from) && !is.null(to) && (sign(by) != (if (to < from) -1L else 1L)))
-      stop("wrong sign of 'by' argument")
+  n_args = 4L - is.null(from) - is.null(to) - is.null(by) - is.null(length.out)
+
+  if (n_args == 4L)
+    stop("too many arguments")
+
+  if (n_args == 1L) {
+    one = as.integer64(1L)
+    if (!is.null(from)) return(one:from)
+    if (!is.null(to)) return(one:to)
+    if (!is.null(length.out)) {
+      if (length.out < 0L)
+        stop("'length.out' must be a non-negative number")
+      if (length.out == 0L)
+        return(integer64())
+      return(one:length.out)
+    }
+    # match seq(by=integer(1))
+    return(one)
   }
+
+  if (n_args == 2L) {
+    if (!is.null(length.out)) {
+      if (length.out == 0L)
+        return(integer64())
+      if (length.out < 0L)
+        stop("'length.out' must be a non-negative number")
+      # do before mixing with from/to to avoid integer64/double fraction arithmetic
+      if (is.double(length.out) && length.out %% 1L != 0L)
+        length.out = ceiling(length.out)
+      if (!is.null(from))
+        return(seq.integer64(from, from+length.out-1L, by=1L))
+      if (!is.null(to))
+        return(seq.integer64(to-length.out+1L, to, by=1L))
+      if (!is.null(by))
+        return(seq.integer64(as.integer64(1L), by=by, length.out=length.out))
+    }
+    if (!is.null(from) && !is.null(to)) return(seq.integer64(from, to, by=sign(to - from)))
+    if (!is.null(from) && !is.null(by)) return(seq.integer64(from, 1L, by=by))
+    return(seq.integer64(as.integer64(1L), to, by=by))
+  }
+
+  # match base behavior for seq(1, 2, length.out=1.5)
+  if (!is.null(length.out) && is.double(length.out))
+    length.out = ceiling(length.out)
+
+  if (!is.null(by) && !is.integer64(by))
+    by = as.integer64(by)
 
   if (is.null(from)) {
-    if (length.out && length(to))
-      from <- to - (length.out-1L)*by
-    else
-      from <- as.integer64(1L)
-  } else {
-    from <- as.integer64(from)
+    from = to - (length.out - 1L) * by
+  } else if (is.null(by)) {
+    if (length.out == 1L)
+      return(as.integer64(from))
+    by = as.integer64((to - from) / (length.out - 1L))
+  } else if (is.null(length.out)) {
+    if (to != from && by == 0L)
+      stop("invalid '(to - from)/by'")
+    if (to == from)
+      return(as.integer64(from))
+    if (sign(to - from) != sign(by))
+      stop("wrong sign in 'by' argument'")
+    length.out = (to - from) / by + 1L
   }
-
-  if (!length(to)) {
-    if (length.out)
-      to <- from + (length.out-1L)*by
-    else
-      stop("not enough information provided")
-  }
-
-  if (!length.out) {
-    length.out <- (to-from) %/% by + 1L
-  }
-
-  if (!length.out) return(integer64())
-  if (length.out==1L) return(from)
-  #return(cumsum(c(from, rep(by, length.out-1L))))
-  ret <- .Call(C_seq_integer64, from, by, double(as.integer(length.out)))
+  if (length.out < 0L)
+    stop("'length.out' must be a non-negative number")
+  ret <- .Call(C_seq_integer64, as.integer64(from), by, double(as.integer(length.out)))
   oldClass(ret) <- "integer64"
-  return(ret)
+  ret
 }
 
 #' @rdname xor.integer64

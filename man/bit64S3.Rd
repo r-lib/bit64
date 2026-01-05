@@ -66,7 +66,7 @@ methods for \code{\link[=integer64]{integer64()}}:
 \item \code{\link{:}}
 \item \code{\link[=is.double]{is.double()}}
 \item \code{\link[=match]{match()}}
-\item \code{\link{\%in\%}}
+\item \code{\link[=match]{\%in\%}}
 \item \code{\link[=rank]{rank()}}
 \item \code{\link[=order]{order()}}
 }
@@ -79,7 +79,7 @@ methods for \code{\link[=integer64]{integer64()}}:
 \item \code{\link[=match]{match()}} currently only dispatches at its first argument and expects
 its second argument also to be integer64, otherwise throws an error.
 Beware of something like \code{match(2, as.integer64(0:3))}
-\item \code{\link{\%in\%}} currently only dispatches at its first argument and expects
+\item \code{\link[=match]{\%in\%}} currently only dispatches at its first argument and expects
 its second argument also to be integer64, otherwise throws an error.
 Beware of something like \code{2 \%in\% as.integer64(0:3)}
 \item \code{\link[=order]{order()}} currently only orders a single argument, trying more than

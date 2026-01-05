@@ -32,7 +32,7 @@
 #' Setting big caches with a relevant memory footprint requires a conscious decision
 #'   of the user: [`hashcache`], [`sortcache`], [`ordercache`], [`sortordercache`]
 #'
-#' Functions that use big caches: [match.integer64()], [`%in%.integer64`],
+#' Functions that use big caches: [match.integer64()], \code{\link[=match.integer64]{\%in\%.integer64}},
 #'   [duplicated.integer64()], [unique.integer64()], [unipos()], [table()],
 #'   [keypos()], [tiepos()], [rank.integer64()], [prank()], [qtile()],
 #'   [quantile.integer64()], [median.integer64()], and [summary.integer64()]

@@ -194,7 +194,7 @@ can do some more interesting things.
 \tabular{rrrrl}{
    \strong{sortfun} \tab \strong{orderfun} \tab \strong{sortorderfun} \tab \strong{see also} \tab \strong{description} \cr
    \code{sortnut} \tab \code{ordernut} \tab  \tab  \tab return number of tied and of unique values \cr
-   \code{sortfin} \tab \code{orderfin} \tab  \tab \code{\link{\%in\%.integer64}} \tab return logical whether \code{x} is in \code{table} \cr
+   \code{sortfin} \tab \code{orderfin} \tab  \tab \code{\link[=match.integer64]{\%in\%.integer64}} \tab return logical whether \code{x} is in \code{table} \cr
     \tab \code{orderpos} \tab \code{sortorderpos} \tab \code{\link[=match.integer64]{match()}} \tab return positions of \code{x} in \code{table} \cr
     \tab \code{orderdup} \tab \code{sortorderdup} \tab \code{\link[=duplicated.integer64]{duplicated()}} \tab return logical whether values are duplicated \cr
    \code{sortuni} \tab \code{orderuni} \tab \code{sortorderuni} \tab \code{\link[=unique.integer64]{unique()}} \tab return unique values (=dimensiontable) \cr

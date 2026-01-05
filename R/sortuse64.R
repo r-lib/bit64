@@ -24,7 +24,7 @@
 #' | **sortfun** | **orderfun** | **sortorderfun** | **see also**       | **description** |
 #' |------------:|-------------:|-----------------:|-------------------:|:----------------|
 #' |   `sortnut` |   `ordernut` |                  |                    | return number of tied and of unique values |
-#' |   `sortfin` |   `orderfin` |                  | [`%in%.integer64`] | return logical whether `x` is in `table` |
+#' |   `sortfin` |   `orderfin` |                  | \code{\link[=match.integer64]{\%in\%.integer64}} | return logical whether `x` is in `table` |
 #' |             |   `orderpos` |   `sortorderpos` | [`match()`][match.integer64] | return positions of `x` in `table` |
 #' |             |   `orderdup` |   `sortorderdup` | [`duplicated()`][duplicated.integer64] | return logical whether values are duplicated |
 #' |   `sortuni` |   `orderuni` |   `sortorderuni` | [`unique()`][unique.integer64] | return unique values (=dimensiontable) |
