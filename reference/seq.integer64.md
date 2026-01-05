@@ -1,6 +1,20 @@
-# integer64: Sequence Generation
+# Generating sequence of integer64 values
 
 Generating sequence of integer64 values
+
+## Usage
+
+``` r
+# S3 method for class 'integer64'
+seq(
+  from = NULL,
+  to = NULL,
+  by = NULL,
+  length.out = NULL,
+  along.with = NULL,
+  ...
+)
+```
 
 ## Arguments
 
@@ -31,22 +45,18 @@ Generating sequence of integer64 values
 
 ## Value
 
-an integer64 vector with the generated sequence
+An integer64 vector with the generated sequence
 
 ## Details
 
-`seq.integer64` does coerce its arguments 'from', 'to' and 'by' to
-`integer64`. If not provided, the argument 'by' is automatically
-determined as `+1` or `-1`, but the size of 'by' is not calculated as in
-[`seq()`](https://rdrr.io/r/base/seq.html) (because this might result in
-a non-integer value).
-
-## Note
-
-In base R [`:`](https://bit64.r-lib.org/reference/bit64S3.md) currently
-is not generic and does not dispatch, see section "Limitations inherited
-from Base R" in
-[`integer64()`](https://bit64.r-lib.org/reference/bit64-package.md)
+`seq.integer64` coerces its arguments `from`, `to`, and `by` to
+`integer64`. Consistency with [`seq()`](https://rdrr.io/r/base/seq.html)
+is typically maintained, though results may differ when mixing
+`integer64` and `double` inputs, for the same reason that any arithmetic
+with these mixed types can be ambiguous. Whereas
+`seq(1L, 10L, length.out=8L)` can back up to double storage to give an
+exact result, this not possible for generic inputs
+`seq(i64, dbl, length.out=n)`.
 
 ## See also
 
@@ -58,11 +68,18 @@ from Base R" in
 ## Examples
 
 ``` r
-  # colon not activated: as.integer64(1):12
-  seq(as.integer64(1), 12, 2)
+seq(as.integer64(1), 12, 2)
 #> integer64
 #> [1] 1  3  5  7  9  11
-  seq(as.integer64(1), by=2, length.out=6)
+seq(as.integer64(1), by=2, length.out=6)
 #> integer64
 #> [1] 1  3  5  7  9  11
+
+# truncation rules
+seq(as.integer64(1), 10, by=1.5)
+#> integer64
+#>  [1] 1  2  3  4  5  6  7  8  9  10
+seq(as.integer64(1), 10, length.out=5)
+#> integer64
+#> [1] 1 3 5 7 9
 ```

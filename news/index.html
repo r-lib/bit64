@@ -58,6 +58,16 @@
 <h3 id="new-features-4-7-99">NEW FEATURES<a class="anchor" aria-label="anchor" href="#new-features-4-7-99"></a></h3>
 <ol style="list-style-type: decimal"><li>
 <code>anyNA</code> gets an <code>integer64</code> method. Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
+<li>The <code><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq()</a></code> method for <code>integer64</code> has been overhauled to better match features from the default method.
+<ul><li>The motivation is <a href="https://github.com/r-lib/bit64/issues/47" class="external-link">#47</a>, where <code>seq(as.integer64(1L), 11L, length.out=6L)</code> calculated <code>by=</code> incorrectly to give <code>1:6</code> instead of <code>c(1L, 3L, ..., 9L, 11L)</code>.</li>
+<li>
+<code>length.out=</code> was also sometimes ignored, for example <code>seq(to=as.integer64(5L), length.out=0L)</code> will now always just give <code><a href="../reference/bit64-package.html">integer64()</a></code>.</li>
+<li>
+<code>seq(a, a, by=by)</code> is no longer an error.</li>
+<li>We match the default method behavior of assuming <code>from=1</code> and <code>to=1</code> if needed in order to support usage like <code>seq(as.integer64(10L), by=-1L)</code> and <code>seq(by=as.integer64(3L), length.out=8L)</code>.</li>
+<li>
+<code>seq(a, a, length.out=n)</code> will give <code>rep(a, n)</code>, not <code>seq(a, by=1, length.out=n)</code>.</li>
+</ul></li>
 </ol></div>
 <div class="section level3">
 <h3 id="bug-fixes-4-7-99">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-7-99"></a></h3>

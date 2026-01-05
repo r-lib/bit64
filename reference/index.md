@@ -145,8 +145,8 @@
   : Replicate elements of integer64 vectors
 - [`runif64()`](https://bit64.r-lib.org/reference/runif64.md) :
   integer64: random numbers
-- [`seq.integer64`](https://bit64.r-lib.org/reference/seq.integer64.md)
-  : integer64: Sequence Generation
+- [`seq(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/seq.integer64.md)
+  : Generating sequence of integer64 values
 - [`sort(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sort.integer64.md)
   [`order(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sort.integer64.md)
   : High-level intger64 methods for sorting and ordering
