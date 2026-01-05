@@ -279,7 +279,7 @@
 #' | **algorithmically complex functions** | **see also** | **description (caching)**  |
 #' |--------------------------------------:|-------------:|:---------------------------|
 #' |      [match.integer64()] |      [match()] | position of x in table (h//o/so) |
-#' |       [`%in%.integer64`] |       [`%in%`] | is x in table? (h//o/so) |
+#' |       [`%in%.integer64`] | \code{\link[=match]{\%in\%}} | is x in table? (h//o/so) |
 #' | [duplicated.integer64()] | [duplicated()] | is current element duplicate of previous one? (h//o/so) |
 #' |     [unique.integer64()] |     [unique()] | (shorter) vector of unique values only (h/s/o/so) |
 #' |     [unipos.integer64()] |     [unipos()] | positions corresponding to unique values (h/s/o/so) |
