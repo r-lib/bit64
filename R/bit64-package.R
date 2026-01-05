@@ -86,7 +86,7 @@
 #' [`rbind()`][rbind.integer64]
 #'
 #' Different from Base R, our operators [`+`][+.integer64], [`-`][-.integer64],
-#' [`%/%`][%/%.integer64], and [`%%`][%%.integer64] coerce their arguments to
+#' \code{\link[=xor.integer64]{\%/\%}}, and \code{\link[=xor.integer64]{\%\%}} coerce their arguments to
 #' `integer64` and always return `integer64`.
 #'
 #' The multiplication operator [`*`][*.integer64] coerces its first argument to
@@ -214,8 +214,8 @@
 #' |      [`*.integer64`] |        [`*`] | returns integer64 |
 #' |      [`^.integer64`] |        [`^`] | returns double    |
 #' |      [`/.integer64`] |        [`/`] | returns double    |
-#' |    [`%/%.integer64`] | \code{\link[=Arithmetic]{\%/\%}} | returns integer64 |
-#' |     [`%%.integer64`] | \code{\link[=Arithmetic]{\%\%}} | returns integer64 |
+#' | \code{\link[=xor.integer64]{\%/\%}} | \code{\link[=Arithmetic]{\%/\%}} | returns integer64 |
+#' | \code{\link[=xor.integer64]{\%\%}} | \code{\link[=Arithmetic]{\%\%}} | returns integer64 |
 #'
 #' | **comparison operators** | **see also** | **description** |
 #' |-------------------------:|-------------:|:----------------|
