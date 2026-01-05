@@ -1059,6 +1059,9 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
         return(integer64())
       if (length.out < 0L)
         stop("'length.out' must be a non-negative number")
+      # do before mixing with from/to to avoid integer64/double fraction arithmetic
+      if (is.double(length.out) && length.out %% 1L != 0L)
+        length.out = ceiling(length.out)
       if (!is.null(from))
         return(seq.integer64(from, from+length.out-1L, by=1L))
       if (!is.null(to))
@@ -1071,9 +1074,15 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
     return(seq.integer64(as.integer64(1L), to, by=by))
   }
 
+  # match base behavior for seq(1, 2, length.out=1.5)
+  if (!is.null(length.out) && is.double(length.out))
+    length.out = ceiling(length.out)
+
   if (is.null(from)) {
     from = to - (length.out - 1L) * by
   } else if (is.null(by)) {
+    if (length.out == 1L)
+      return(as.integer64(from))
     by = (to - from) / (length.out - 1L)
   } else if (is.null(length.out)) {
     if (to != from && by == 0L)

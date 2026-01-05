@@ -316,38 +316,44 @@ with_parameters_test_that(
 with_parameters_test_that(
   "seq method works analogously to integer: 2 arguments (except along.with)",
   {
+    # be sure to coerce (truncate) consistently across actual/expected
+    n1_32 = as.integer(n1)
+    n2_32 = as.integer(n2)
+
     n1_64 = as.integer64(n1)
     n2_64 = as.integer64(n2)
 
-    expect_identical(seq(n1_64, n2), as.integer64(seq(n1, n2)))
-    expect_identical(seq(n1_64, n2_64), as.integer64(seq(n1, n2)))
+    # TODO(#47): restore parity to seq() here
+    if (n2 %% 1L == 0L) expect_identical(seq(n1_64, n2), as.integer64(seq(n1_32, n2)))
+    expect_identical(seq(n1_64, n2_64), as.integer64(seq(n1_32, n2_32)))
 
 
-    if (n2 == 0) {
+    if (n2 == 0L) {
       err_msg = "invalid '(to - from)/by'"
       expect_error(seq(n1_64, by=n2), err_msg, fixed=TRUE)
       expect_error(seq(to=n1_64, by=n2), err_msg, fixed=TRUE)
     } else if (sign(1L - n1) == sign(n2)) {
       expect_identical(seq(n1_64, by=n2), as.integer64(seq(n1, by=n2)))
-      expect_identical(seq(n1_64, by=n2_64), as.integer64(seq(n1, by=n2)))
+      expect_identical(seq(n1_64, by=n2_64), as.integer64(seq(n1, by=n2_32)))
 
       expect_error(seq(to=n1_64, by=n2), "wrong sign in 'by' argument", fixed=TRUE)
     } else {
       expect_error(seq(n1_64, by=n2), "wrong sign in 'by' argument", fixed=TRUE)
 
-      expect_identical(seq(to=n1_64, by=n2), as.integer64(seq(to=n1, by=n2)))
-      expect_identical(seq(to=n1_64, by=n2_64), as.integer64(seq(to=n1, by=n2)))
+      # TODO(#47): restore parity to seq() here
+      if (n2 %% 1L == 0L) expect_identical(seq(to=n1_64, by=n2), as.integer64(seq(to=n1, by=n2)))
+      expect_identical(seq(to=n1_64, by=n2_64), as.integer64(seq(to=n1, by=n2_32)))
     }
 
     if (n2 >= 0L) {
-      expect_identical(seq(n1_64, length.out=n2), as.integer64(seq(n1, length.out=n2)))
-      expect_identical(seq(n1_64, length.out=n2_64), as.integer64(seq(n1, length.out=n2)))
+      expect_identical(seq(n1_64, length.out=n2), as.integer64(seq(n1_32, length.out=n2)))
+      expect_identical(seq(n1_64, length.out=n2_64), as.integer64(seq(n1_32, length.out=n2_32)))
 
-      expect_identical(seq(to=n1_64, length.out=n2), as.integer64(seq(to=n1, length.out=n2)))
-      expect_identical(seq(to=n1_64, length.out=n2_64), as.integer64(seq(to=n1, length.out=n2)))
+      expect_identical(seq(to=n1_64, length.out=n2), as.integer64(seq(to=n1_32, length.out=n2)))
+      expect_identical(seq(to=n1_64, length.out=n2_64), as.integer64(seq(to=n1_32, length.out=n2_32)))
 
-      expect_identical(seq(by=n1_64, length.out=n2), as.integer64(seq(by=n1, length.out=n2)))
-      expect_identical(seq(by=n1_64, length.out=n2_64), as.integer64(seq(by=n1, length.out=n2)))
+      expect_identical(seq(by=n1_64, length.out=n2), as.integer64(seq(by=n1_32, length.out=n2)))
+      expect_identical(seq(by=n1_64, length.out=n2_64), as.integer64(seq(by=n1_32, length.out=n2_32)))
     } else {
       err_msg = "'length.out' must be a non-negative number"
       expect_error(seq(n1_64, length.out=n2), err_msg, fixed=TRUE)
@@ -355,21 +361,30 @@ with_parameters_test_that(
       expect_error(seq(by=n1_64, length.out=n2), err_msg, fixed=TRUE)
     }
   },
-  .cases = expand.grid(n1=c(0L, 5L, -1L), n2=c(0L, 5L, -1L))
+  .cases = expand.grid(n1=c(0L, 5L, -1L), n2=c(0.0, 5.0, -1.0, 1.5))
 )
 
 with_parameters_test_that(
   "seq method works analogously to integer: 3 arguments (except along.with)",
   {
+    # be sure to coerce (truncate) consistently across actual/expected
+    n1_32 = as.integer(n1)
+    n2_32 = as.integer(n2)
+    n3_32 = as.integer(n3)
+
     n1_64 = as.integer64(n1)
     n2_64 = as.integer64(n2)
     n3_64 = as.integer64(n3)
 
+    # TODO(#47): restore parity to seq() here
     if (n2 == n1 || sign(n2 - n1) == sign(n3)) {
-      expect_identical(seq(n1_64, n2, by=n3), as.integer64(seq(n1, n2, by=n3)))
-      expect_identical(seq(n1_64, n2_64, by=n3), as.integer64(seq(n1, n2, by=n3)))
-      expect_identical(seq(n1_64, n2, by=n3_64), as.integer64(seq(n1, n2, by=n3)))
-      expect_identical(seq(n1_64, n2_64, by=n3_64), as.integer64(seq(n1, n2, by=n3)))
+      # TODO(#47): restore parity to seq() here
+      if (n2 %% 1L == 0L && n3 %% 1L == 0L) {
+        expect_identical(seq(n1_64, n2, by=n3), as.integer64(seq(n1_32, n2, by=n3)))
+        expect_identical(seq(n1_64, n2_64, by=n3), as.integer64(seq(n1_32, n2_32, by=n3)))
+        expect_identical(seq(n1_64, n2, by=n3_64), as.integer64(seq(n1_32, n2, by=n3_32)))
+        expect_identical(seq(n1_64, n2_64, by=n3_64), as.integer64(seq(n1_32, n2_32, by=n3_32)))
+      }
     } else {
       err_msg <- if (n3 == 0L) "invalid '(to - from)/by'" else "wrong sign in 'by' argument"
       expect_error(seq(n1_64, n2, by=n3), err_msg, fixed=TRUE)
@@ -383,24 +398,27 @@ with_parameters_test_that(
     } else {
       # TODO(#47): restore parity to seq() here
       if (((n2 - n1) / (n3 - 1L)) %% 1L == 0L) {
-        expect_identical(seq(n1_64, n2, length.out=n3), as.integer64(seq(n1, n2, length.out=n3)))
-        expect_identical(seq(n1_64, n2_64, length.out=n3), as.integer64(seq(n1, n2, length.out=n3)))
-        expect_identical(seq(n1_64, n2, length.out=n3_64), as.integer64(seq(n1, n2, length.out=n3)))
-        expect_identical(seq(n1_64, n2_64, length.out=n3_64), as.integer64(seq(n1, n2, length.out=n3)))
+        expect_identical(seq(n1_64, n2, length.out=n3), as.integer64(seq(n1_32, n2, length.out=n3)))
+        expect_identical(seq(n1_64, n2_64, length.out=n3), as.integer64(seq(n1_32, n2_32, length.out=n3)))
+        expect_identical(seq(n1_64, n2, length.out=n3_64), as.integer64(seq(n1_32, n2, length.out=n3_32)))
+        expect_identical(seq(n1_64, n2_64, length.out=n3_64), as.integer64(seq(n1_32, n2_32, length.out=n3_32)))
       }
 
-      expect_identical(seq(n1_64, by=n2, length.out=n3), as.integer64(seq(n1, by=n2, length.out=n3)))
-      expect_identical(seq(n1_64, by=n2_64, length.out=n3), as.integer64(seq(n1, by=n2, length.out=n3)))
-      expect_identical(seq(n1_64, by=n2, length.out=n3_64), as.integer64(seq(n1, by=n2, length.out=n3)))
-      expect_identical(seq(n1_64, by=n2_64, length.out=n3_64), as.integer64(seq(n1, by=n2, length.out=n3)))
+      # TODO(#47): restore parity to seq() here
+      if (n2 %% 1L == 0L) {
+        expect_identical(seq(n1_64, by=n2, length.out=n3), as.integer64(seq(n1_32, by=n2, length.out=n3)))
+        expect_identical(seq(n1_64, by=n2_64, length.out=n3), as.integer64(seq(n1_32, by=n2_32, length.out=n3)))
+        expect_identical(seq(n1_64, by=n2, length.out=n3_64), as.integer64(seq(n1_32, by=n2, length.out=n3_32)))
+        expect_identical(seq(n1_64, by=n2_64, length.out=n3_64), as.integer64(seq(n1_32, by=n2_32, length.out=n3_32)))
 
-      expect_identical(seq(to=n1_64, by=n2, length.out=n3), as.integer64(seq(to=n1, by=n2, length.out=n3)))
-      expect_identical(seq(to=n1_64, by=n2_64, length.out=n3), as.integer64(seq(to=n1, by=n2, length.out=n3)))
-      expect_identical(seq(to=n1_64, by=n2, length.out=n3_64), as.integer64(seq(to=n1, by=n2, length.out=n3)))
-      expect_identical(seq(to=n1_64, by=n2_64, length.out=n3_64), as.integer64(seq(to=n1, by=n2, length.out=n3)))
+        expect_identical(seq(to=n1_64, by=n2, length.out=n3), as.integer64(seq(to=n1_32, by=n2, length.out=n3)))
+        expect_identical(seq(to=n1_64, by=n2_64, length.out=n3), as.integer64(seq(to=n1_32, by=n2_32, length.out=n3)))
+        expect_identical(seq(to=n1_64, by=n2, length.out=n3_64), as.integer64(seq(to=n1_32, by=n2, length.out=n3_32)))
+        expect_identical(seq(to=n1_64, by=n2_64, length.out=n3_64), as.integer64(seq(to=n1_32, by=n2_32, length.out=n3_32)))
+      }
     }
   },
-  .cases = expand.grid(n1=c(0L, 5L, -1L), n2=c(0L, 5L, -1L), n3=c(0L, 5L, -1L))
+  .cases = expand.grid(n1=c(0L, 5L, -1L), n2=c(0.0, 5.0, -1.0, 1.5), n3=c(0.0, 5.0, -1.0, 1.5))
 )
 
 test_that("seq method works analogously to integer: 4 arguments", {
