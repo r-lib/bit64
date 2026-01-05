@@ -856,8 +856,7 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
           "integer64 ",
           if (length(object) > 1L && is.null(dim(object))) {
             if (isTRUE(give.length)) paste0("[1:", n, "] ") else " "
-          } else if (!is.null(dim(object))) {
-            obj_dim = dim(object)
+          } else if (!is.null(obj_dim <- dim(object))) {
             if (prod(obj_dim) != n)
               stop(gettextf("dims [product %d] do not match the length of object [%d]", prod(obj_dim), n, domain="R"), domain=NA)
             if (length(obj_dim) == 1L) {
