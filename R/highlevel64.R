@@ -2072,7 +2072,7 @@ choose_sys_call = function(function_names, name_to_display=NULL) {
   sc = sys.calls()
   sc_length = length(sc)
   if (sc_length == 1L || length(function_names) == 0L) return(sc[[1L]])
-  sc_char = gsub("^(.*::)?(.+)[(].*", "\\2", as.character(sc))
+  sc_char = vapply(sc, function(el) if (is.function(el[[1L]])) "" else rev(as.character(el[[1L]]))[1L], "")
   sel = rev(which(sc_char == function_names[length(function_names)]))[1L]
   if (is.na(sel)) 
     sel = 1L
