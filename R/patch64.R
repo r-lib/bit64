@@ -38,7 +38,7 @@
 #'  - [`:`]
 #'  - [is.double()]
 #'  - [match()]
-#'  - [`%in%`]
+#'  - \code{\link[=match]{\%in\%}}
 #   - [table()]
 #'  - [rank()]
 #'  - [order()]
@@ -51,7 +51,7 @@
 #'  - [match()] currently only dispatches at its first argument and expects
 #'    its second argument also to be integer64, otherwise throws an error.
 #'    Beware of something like `match(2, as.integer64(0:3))`
-#'  - [`%in%`] currently only dispatches at its first argument and expects
+#'  - \code{\link[=match]{\%in\%}} currently only dispatches at its first argument and expects
 #'    its second argument also to be integer64, otherwise throws an error.
 #'    Beware of something like `2 %in% as.integer64(0:3)`
 #'  - [order()] currently only orders a single argument, trying more than

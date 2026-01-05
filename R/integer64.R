@@ -174,7 +174,7 @@ NULL
 #'
 #'   [`^`] and [`/`] return a double vector
 #'
-#'   [`+`], [`-`], [`*`], [`%/%`], [`%%`]
+#'   [`+`], [`-`], [`*`], \code{\link[=Arithmetic]{\%/\%}}, \code{\link[=Arithmetic]{\%\%}}
 #'    return a vector of class 'integer64'
 #'
 #' @keywords classes manip
