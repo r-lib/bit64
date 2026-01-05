@@ -333,7 +333,7 @@ with_parameters_test_that(
       expect_error(seq(n1_64, by=n2), err_msg, fixed=TRUE)
       expect_error(seq(to=n1_64, by=n2), err_msg, fixed=TRUE)
     } else if (sign(1L - n1) == sign(n2)) {
-      expect_identical(seq(n1_64, by=n2), as.integer64(seq(n1, by=n2)))
+      if (n2 %% 1L == 0L) expect_identical(seq(n1_64, by=n2), as.integer64(seq(n1, by=n2)))
       expect_identical(seq(n1_64, by=n2_64), as.integer64(seq(n1, by=n2_32)))
 
       expect_error(seq(to=n1_64, by=n2), "wrong sign in 'by' argument", fixed=TRUE)

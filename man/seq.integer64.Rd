@@ -2,7 +2,7 @@
 % Please edit documentation in R/integer64.R
 \name{seq.integer64}
 \alias{seq.integer64}
-\title{integer64: Sequence Generation}
+\title{Generating sequence of integer64 values}
 \usage{
 \method{seq}{integer64}(
   from = NULL,
@@ -27,25 +27,25 @@
 \item{...}{ignored}
 }
 \value{
-an integer64 vector with the generated sequence
+An integer64 vector with the generated sequence
 }
 \description{
 Generating sequence of integer64 values
 }
 \details{
-\code{seq.integer64} does coerce its arguments 'from', 'to' and 'by' to \code{integer64}.
-If not provided, the argument 'by' is automatically determined as \code{+1} or \code{-1},
-but the size of 'by' is not calculated as in \code{\link[=seq]{seq()}} (because this might result
-in a non-integer value).
-}
-\note{
-In base R \code{\link{:}} currently is not generic and does not dispatch, see section
-"Limitations inherited from Base R" in \code{\link[=integer64]{integer64()}}
+\code{seq.integer64} coerces its arguments \code{from}, \code{to}, and \code{by} to \code{integer64}. Consistency
+with \code{\link[=seq]{seq()}} is typically maintained, though results may differ when mixing \code{integer64} and
+\code{double} inputs, for the same reason that any arithmetic with these mixed types can be
+ambiguous. Whereas \code{seq(1L, 10L, length.out=8L)} can back up to double storage to give an
+exact result, this not possible for generic inputs \code{seq(i64, dbl, length.out=n)}.
 }
 \examples{
-  # colon not activated: as.integer64(1):12
-  seq(as.integer64(1), 12, 2)
-  seq(as.integer64(1), by=2, length.out=6)
+seq(as.integer64(1), 12, 2)
+seq(as.integer64(1), by=2, length.out=6)
+
+# truncation rules
+seq(as.integer64(1), 10, by=1.5)
+seq(as.integer64(1), 10, length.out=5)
 }
 \seealso{
 \code{\link[=c.integer64]{c.integer64()}} \code{\link[=rep.integer64]{rep.integer64()}}

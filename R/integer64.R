@@ -998,8 +998,6 @@ rep.integer64 <- function(x, ...) {
   ret
 }
 
-#' integer64: Sequence Generation
-#'
 #' Generating sequence of integer64 values
 #'
 #' @param from integer64 scalar (in order to dispatch the integer64 method of [seq()])
@@ -1009,23 +1007,24 @@ rep.integer64 <- function(x, ...) {
 #' @param along.with scalar
 #' @param ... ignored
 #' @details
-#'   `seq.integer64` does coerce its arguments 'from', 'to' and 'by' to `integer64`.
-#'   If not provided, the argument 'by' is automatically determined as `+1` or `-1`,
-#'   but the size of 'by' is not calculated as in [seq()] (because this might result
-#'   in a non-integer value).
+#'   `seq.integer64` coerces its arguments `from`, `to`, and `by` to `integer64`. Consistency
+#'   with [seq()] is typically maintained, though results may differ when mixing `integer64` and
+#'   `double` inputs, for the same reason that any arithmetic with these mixed types can be
+#'   ambiguous. Whereas `seq(1L, 10L, length.out=8L)` can back up to double storage to give an
+#'   exact result, this not possible for generic inputs `seq(i64, dbl, length.out=n)`.
 #'
-#' @returns an integer64 vector with the generated sequence
-#' @note
-#'   In base R [`:`] currently is not generic and does not dispatch, see section
-#'   "Limitations inherited from Base R" in [integer64()]
+#' @returns An integer64 vector with the generated sequence
 #'
 #' @keywords classes manip
 #' @seealso [c.integer64()] [rep.integer64()]
 #'   [as.data.frame.integer64()] [integer64()]
 #' @examples
-#'   # colon not activated: as.integer64(1):12
-#'   seq(as.integer64(1), 12, 2)
-#'   seq(as.integer64(1), by=2, length.out=6)
+#' seq(as.integer64(1), 12, 2)
+#' seq(as.integer64(1), by=2, length.out=6)
+#'
+#' # truncation rules
+#' seq(as.integer64(1), 10, by=1.5)
+#' seq(as.integer64(1), 10, length.out=5)
 #' @export
 seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
   if (!is.null(along.with)) return(seq.integer64(from, to, by=by, length.out=length(along.with)))
@@ -1083,7 +1082,7 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
   } else if (is.null(by)) {
     if (length.out == 1L)
       return(as.integer64(from))
-    by = (to - from) / (length.out - 1L)
+    by = as.integer64((to - from) / (length.out - 1L))
   } else if (is.null(length.out)) {
     if (to != from && by == 0L)
       stop("invalid '(to - from)/by'")
