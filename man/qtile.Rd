@@ -31,7 +31,7 @@ qtile(x, probs = seq(0, 1, 0.25), ...)
 \arguments{
 \item{x}{a integer64 vector}
 
-\item{probs}{numeric vector of probabilities with values in \verb{[0,1]} - possibly containing \code{NA}s}
+\item{probs}{numeric vector of probabilities with values in \verb{[0, 1]} - possibly containing \code{NA}s}
 
 \item{...}{ignored}
 
