@@ -301,37 +301,6 @@ NULL
 #' @name rep.integer64
 NULL
 
-#' integer64: Sequence Generation
-#'
-#' Generating sequence of integer64 values
-#'
-#' @param from integer64 scalar (in order to dispatch the integer64 method of [seq()])
-#' @param to scalar
-#' @param by scalar
-#' @param length.out scalar
-#' @param along.with scalar
-#' @param ... ignored
-#' @details
-#'   `seq.integer64` does coerce its arguments 'from', 'to' and 'by' to `integer64`.
-#'   If not provided, the argument 'by' is automatically determined as `+1` or `-1`,
-#'   but the size of 'by' is not calculated as in [seq()] (because this might result
-#'   in a non-integer value).
-#'
-#' @returns an integer64 vector with the generated sequence
-#' @note
-#'   In base R [`:`] currently is not generic and does not dispatch, see section
-#'   "Limitations inherited from Base R" in [integer64()]
-#'
-#' @keywords classes manip
-#' @seealso [c.integer64()] [rep.integer64()]
-#'   [as.data.frame.integer64()] [integer64()]
-#' @examples
-#'   # colon not activated: as.integer64(1):12
-#'   seq(as.integer64(1), 12, 2)
-#'   seq(as.integer64(1), by=2, length.out=6)
-#' @name seq.integer64
-NULL
-
 #' integer64: Coercing to data.frame column
 #'
 #' Coercing integer64 vector to data.frame.
@@ -1029,6 +998,34 @@ rep.integer64 <- function(x, ...) {
   ret
 }
 
+#' integer64: Sequence Generation
+#'
+#' Generating sequence of integer64 values
+#'
+#' @param from integer64 scalar (in order to dispatch the integer64 method of [seq()])
+#' @param to scalar
+#' @param by scalar
+#' @param length.out scalar
+#' @param along.with scalar
+#' @param ... ignored
+#' @details
+#'   `seq.integer64` does coerce its arguments 'from', 'to' and 'by' to `integer64`.
+#'   If not provided, the argument 'by' is automatically determined as `+1` or `-1`,
+#'   but the size of 'by' is not calculated as in [seq()] (because this might result
+#'   in a non-integer value).
+#'
+#' @returns an integer64 vector with the generated sequence
+#' @note
+#'   In base R [`:`] currently is not generic and does not dispatch, see section
+#'   "Limitations inherited from Base R" in [integer64()]
+#'
+#' @keywords classes manip
+#' @seealso [c.integer64()] [rep.integer64()]
+#'   [as.data.frame.integer64()] [integer64()]
+#' @examples
+#'   # colon not activated: as.integer64(1):12
+#'   seq(as.integer64(1), 12, 2)
+#'   seq(as.integer64(1), by=2, length.out=6)
 #' @export
 seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
   if (!is.null(along.with)) return(seq.integer64(from, to, by=by, length.out=length(along.with)))

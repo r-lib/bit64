@@ -3,6 +3,16 @@
 \name{seq.integer64}
 \alias{seq.integer64}
 \title{integer64: Sequence Generation}
+\usage{
+\method{seq}{integer64}(
+  from = NULL,
+  to = NULL,
+  by = NULL,
+  length.out = NULL,
+  along.with = NULL,
+  ...
+)
+}
 \arguments{
 \item{from}{integer64 scalar (in order to dispatch the integer64 method of \code{\link[=seq]{seq()}})}
 
