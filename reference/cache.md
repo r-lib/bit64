@@ -114,10 +114,10 @@ Functions that use big caches:
 ``` r
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   y <- x
-  bit::still.identical(x,y)
+  bit::still.identical(x, y)
 #> [1] TRUE
   y[1] <- NA
-  bit::still.identical(x,y)
+  bit::still.identical(x, y)
 #> [1] FALSE
   mycache <- newcache(x)
   ls(mycache)

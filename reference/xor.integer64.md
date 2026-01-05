@@ -77,7 +77,7 @@ xor(x, y)
 ## Value
 
 `&`, [`|`](https://rdrr.io/r/base/Logic.html),
-[`xor()`](https://rdrr.io/pkg/bit/man/xor.html),
+[`bit::xor()`](https://rdrr.io/pkg/bit/man/xor.html),
 [`!=`](https://rdrr.io/r/base/Comparison.html),
 [`==`](https://rdrr.io/r/base/Comparison.html), `<`, `<=`, `>`, `>=`
 return a logical vector

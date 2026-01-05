@@ -40,7 +40,7 @@ summary(object, ...)
 
 - probs:
 
-  numeric vector of probabilities with values in `[0,1]` - possibly
+  numeric vector of probabilities with values in `[0, 1]` - possibly
   containing `NA`s
 
 - ...:

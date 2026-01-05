@@ -124,7 +124,7 @@ if (FALSE) { # \dontrun{
     library(bit)
     message("check when reverse hash-lookup beats standard hash-lookup")
     e <- 4:24
-    timx <- timy <- matrix(NA, length(e), length(e), dimnames=list(e,e))
+    timx <- timy <- matrix(NA, length(e), length(e), dimnames=list(e, e))
     for (iy in seq_along(e))
     for (ix in 1:iy) {
         nx <- 2^e[ix]
@@ -132,23 +132,23 @@ if (FALSE) { # \dontrun{
         x <- as.integer64(sample(ny, nx, FALSE))
         y <- as.integer64(sample(ny, ny, FALSE))
         #hashfun(x, bits=as.integer(5))
-        timx[ix,iy] <- repeat.time({
+        timx[ix, iy] <- repeat.time({
         hx <- hashmap(x)
         py <- hashrev(hx, y)
         })[3]
-        timy[ix,iy] <- repeat.time({
+        timy[ix, iy] <- repeat.time({
         hy <- hashmap(y)
         px <- hashpos(hy, x)
         })[3]
         #identical(px, py)
-        print(round(timx[1:iy,1:iy]/timy[1:iy,1:iy], 2), na.print="")
+        print(round(timx[1:iy, 1:iy]/timy[1:iy, 1:iy], 2), na.print="")
     }
 
     message("explore best low-level method given size of x and table")
     B1 <- 1:27
     B2 <- 1:27
     tim <- array(NA, dim=c(length(B1), length(B2), 5)
- , dimnames=list(B1, B2, c("hashpos","hashrev","sortpos1","sortpos2","sortpos3")))
+ , dimnames=list(B1, B2, c("hashpos", "hashrev", "sortpos1", "sortpos2", "sortpos3")))
     for (i1 in B1)
     for (i2 in B2)
     {
@@ -158,13 +158,13 @@ if (FALSE) { # \dontrun{
       n2 <- 2^b2
       x1 <- as.integer64(c(sample(n2, n1-1, TRUE), NA))
       x2 <- as.integer64(c(sample(n2, n2-1, TRUE), NA))
-      tim[i1,i2,1] <- repeat.time({h <- hashmap(x2);hashpos(h, x1);rm(h)})[3]
-      tim[i1,i2,2] <- repeat.time({h <- hashmap(x1);hashrev(h, x2);rm(h)})[3]
+      tim[i1, i2, 1] <- repeat.time({h <- hashmap(x2);hashpos(h, x1);rm(h)})[3]
+      tim[i1, i2, 2] <- repeat.time({h <- hashmap(x1);hashrev(h, x2);rm(h)})[3]
       s <- clone(x2); o <- seq_along(s); ramsortorder(s, o)
-      tim[i1,i2,3] <- repeat.time(sortorderpos(s, o, x1, method=1))[3]
-      tim[i1,i2,4] <- repeat.time(sortorderpos(s, o, x1, method=2))[3]
-      tim[i1,i2,5] <- repeat.time(sortorderpos(s, o, x1, method=3))[3]
-      rm(s,o)
+      tim[i1, i2, 3] <- repeat.time(sortorderpos(s, o, x1, method=1))[3]
+      tim[i1, i2, 4] <- repeat.time(sortorderpos(s, o, x1, method=2))[3]
+      tim[i1, i2, 5] <- repeat.time(sortorderpos(s, o, x1, method=3))[3]
+      rm(s, o)
       print(apply(tim, 1:2, function(ti)if(any(is.na(ti)))NA else which.min(ti)))
     }
 } # }

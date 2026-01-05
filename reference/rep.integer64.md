@@ -30,7 +30,7 @@ Replicate elements of integer64 vectors
   rep(as.integer64(1:2), 6)
 #> integer64
 #>  [1] 1 2 1 2 1 2 1 2 1 2 1 2
-  rep(as.integer64(1:2), c(6,6))
+  rep(as.integer64(1:2), c(6, 6))
 #> integer64
 #>  [1] 1 1 1 1 1 1 2 2 2 2 2 2
   rep(as.integer64(1:2), length.out=6)

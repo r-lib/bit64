@@ -61,13 +61,13 @@ shorter by `lag*differences` elements
   cumsum(rep(as.integer64(1), 12))
 #> integer64
 #>  [1] 1  2  3  4  5  6  7  8  9  10 11 12
-  diff(as.integer64(c(0,1:12)))
+  diff(as.integer64(c(0, 1:12)))
 #> integer64
 #>  [1] 1 1 1 1 1 1 1 1 1 1 1 1
   cumsum(as.integer64(c(0, 1:12)))
 #> integer64
 #>  [1] 0  1  3  6  10 15 21 28 36 45 55 66 78
-  diff(cumsum(as.integer64(c(0,0,1:12))), differences=2)
+  diff(cumsum(as.integer64(c(0, 0, 1:12))), differences=2)
 #> integer64
 #>  [1] 1 1 1 1 1 1 1 1 1 1 1 1
 ```

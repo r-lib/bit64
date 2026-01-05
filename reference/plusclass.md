@@ -30,8 +30,8 @@ NULL or a character vector of class attributes
 ## Examples
 
 ``` r
-  plusclass("inheritingclass","integer64")
+  plusclass("inheritingclass", "integer64")
 #> [1] "inheritingclass" "integer64"      
-  minusclass(c("inheritingclass","integer64"), "integer64")
+  minusclass(c("inheritingclass", "integer64"), "integer64")
 #> [1] "inheritingclass"
 ```
