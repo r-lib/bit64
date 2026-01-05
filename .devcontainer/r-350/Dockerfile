@@ -1,7 +1,9 @@
-FROM ghcr.io/r-hub/evercran/3.4.0
+FROM ghcr.io/r-hub/evercran/3.5.0
 
-RUN apt-get -qq update && \
- apt-get install -y --no-install-recommends git
+RUN apt-get -qq update \
+ && apt-get install -y --no-install-recommends git locales \
+ && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
+ && locale-gen
 
 COPY DESCRIPTION .
 
@@ -19,4 +21,4 @@ install.packages(deps);                                              \
 
 # Needed for testthat equivalency on pre-testthat R
 WORKDIR /root
-COPY .devcontainer/r-340/.Rprofile .
+COPY .devcontainer/r-350/.Rprofile .

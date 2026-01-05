@@ -64,12 +64,12 @@ binattr(e1, e2)
 \item{y}{an atomic vector of class 'integer64'}
 }
 \value{
-\code{\link{&}}, \code{\link{|}}, \code{\link[=xor]{xor()}}, \code{\link{!=}}, \code{\link{==}},
+\code{\link{&}}, \code{\link{|}}, \code{\link[bit:xor]{bit::xor()}}, \code{\link{!=}}, \code{\link{==}},
 \code{\link{<}}, \code{\link{<=}}, \code{\link{>}}, \code{\link{>=}} return a logical vector
 
 \code{\link{^}} and \code{\link{/}} return a double vector
 
-\code{\link{+}}, \code{\link{-}}, \code{\link{*}}, \code{\link{\%/\%}}, \code{\link{\%\%}}
+\code{\link{+}}, \code{\link{-}}, \code{\link{*}}, \code{\link[=Arithmetic]{\%/\%}}, \code{\link[=Arithmetic]{\%\%}}
 return a vector of class 'integer64'
 }
 \description{

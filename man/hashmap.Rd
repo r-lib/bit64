@@ -117,8 +117,8 @@ re-use hashmaps, which avoid re-building hashmaps again and again.
    \code{hashmap} \tab \code{\link[=match.integer64]{match()}} \tab return hashmap \cr
    \code{hashpos} \tab \code{\link[=match.integer64]{match()}} \tab return positions of \code{x} in \code{hashmap} \cr
    \code{hashrev} \tab \code{\link[=match.integer64]{match()}} \tab return positions of \code{hashmap} in \code{x} \cr
-   \code{hashfin} \tab \code{\link{\%in\%.integer64}} \tab return logical whether \code{x} is in \code{hashmap} \cr
-   \code{hashrin} \tab \code{\link{\%in\%.integer64}} \tab return logical whether \code{hashmap} is in \code{x} \cr
+   \code{hashfin} \tab \code{\link[=match.integer64]{\%in\%.integer64}} \tab return logical whether \code{x} is in \code{hashmap} \cr
+   \code{hashrin} \tab \code{\link[=match.integer64]{\%in\%.integer64}} \tab return logical whether \code{hashmap} is in \code{x} \cr
    \code{hashdup} \tab \code{\link[=duplicated.integer64]{duplicated()}} \tab return logical whether hashdat is duplicated using hashmap \cr
    \code{hashuni} \tab \code{\link[=unique.integer64]{unique()}} \tab return unique values of hashmap \cr
    \code{hashmapuni} \tab \code{\link[=unique.integer64]{unique()}} \tab return unique values of \code{x} \cr
@@ -149,8 +149,8 @@ hashmapupo(y)
 hashtab(hy)
 hashmaptab(y)
 
-stopifnot(identical(match(as.integer(x),as.integer(y)),hashpos(hy, x)))
-stopifnot(identical(match(as.integer(x),as.integer(y)),hashrev(hx, y)))
+stopifnot(identical(match(as.integer(x), as.integer(y)), hashpos(hy, x)))
+stopifnot(identical(match(as.integer(x), as.integer(y)), hashrev(hx, y)))
 stopifnot(identical(as.integer(x) \%in\% as.integer(y), hashfin(hy, x)))
 stopifnot(identical(as.integer(x) \%in\% as.integer(y), hashrin(hx, y)))
 stopifnot(identical(duplicated(as.integer(y)), hashdup(hy)))
@@ -173,12 +173,12 @@ stopifnot(identical(hashtab(hy), hashmaptab(y)))
     message("i.e. more data means less random access and more collisions")
     bits <- 24
     b <- seq(-1, 0, 0.1)
-    tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits","bits+1")))
+    tim <- matrix(NA, length(b), 2, dimnames=list(b, c("bits", "bits+1")))
     for (i in 1:length(b)) {
       n <- as.integer(2^(bits+b[i]))
       x <- as.integer64(sample(n))
-      tim[i,1] <- repeat.time(hashmap(x, hashbits=bits))[3]
-      tim[i,2] <- repeat.time(hashmap(x, hashbits=bits+1))[3]
+      tim[i, 1] <- repeat.time(hashmap(x, hashbits=bits))[3]
+      tim[i, 2] <- repeat.time(hashmap(x, hashbits=bits+1))[3]
       print(tim)
       matplot(b, tim)
     }

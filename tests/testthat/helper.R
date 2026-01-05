@@ -47,15 +47,11 @@ expect_int_32_64_equivalent <- function(expr) {
 
   int_result = eval(expr, parent_)
   int64_result = eval(expr, int64_env)
-  int64_result_as_int = as(int64_result, typeof(int_result))
+  int64_result_as_int = methods::as(int64_result, typeof(int_result))
   # ignore class (which includes integer64)
   a64 = attributes(int64_result)
   for (a in setdiff(names(a64), "class"))
     attr(int64_result_as_int, a) = a64[[a]]
 
   expect_identical(int64_result_as_int, int_result)
-}
-
-skip_if_not_r_version = function(ver) {
-  skip_if(getRversion() < ver, paste("R version >=", ver, "required."))
 }
