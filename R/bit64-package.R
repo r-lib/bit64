@@ -86,7 +86,7 @@
 #' [`rbind()`][rbind.integer64]
 #'
 #' Different from Base R, our operators [`+`][+.integer64], [`-`][-.integer64],
-#' [`%/%`][%/%.integer64], and [`%%`][%%.integer64] coerce their arguments to
+#' \code{\link[=xor.integer64]{\%/\%}}, and \code{\link[=xor.integer64]{\%\%}} coerce their arguments to
 #' `integer64` and always return `integer64`.
 #'
 #' The multiplication operator [`*`][*.integer64] coerces its first argument to
@@ -214,8 +214,8 @@
 #' |      [`*.integer64`] |        [`*`] | returns integer64 |
 #' |      [`^.integer64`] |        [`^`] | returns double    |
 #' |      [`/.integer64`] |        [`/`] | returns double    |
-#' |    [`%/%.integer64`] |      [`%/%`] | returns integer64 |
-#' |     [`%%.integer64`] |       [`%%`] | returns integer64 |
+#' | \code{\link[=xor.integer64]{\%/\%}} | \code{\link[=Arithmetic]{\%/\%}} | returns integer64 |
+#' | \code{\link[=xor.integer64]{\%\%}} | \code{\link[=Arithmetic]{\%\%}} | returns integer64 |
 #'
 #' | **comparison operators** | **see also** | **description** |
 #' |-------------------------:|-------------:|:----------------|
@@ -279,7 +279,7 @@
 #' | **algorithmically complex functions** | **see also** | **description (caching)**  |
 #' |--------------------------------------:|-------------:|:---------------------------|
 #' |      [match.integer64()] |      [match()] | position of x in table (h//o/so) |
-#' |       [`%in%.integer64`] |       [`%in%`] | is x in table? (h//o/so) |
+#' | \code{\link[=match.integer64]{\%in\%.integer64}} | \code{\link[=match]{\%in\%}} | is x in table? (h//o/so) |
 #' | [duplicated.integer64()] | [duplicated()] | is current element duplicate of previous one? (h//o/so) |
 #' |     [unique.integer64()] |     [unique()] | (shorter) vector of unique values only (h/s/o/so) |
 #' |     [unipos.integer64()] |     [unipos()] | positions corresponding to unique values (h/s/o/so) |
