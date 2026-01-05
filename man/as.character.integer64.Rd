@@ -48,9 +48,7 @@ The methods \code{\link[=format]{format()}}, \code{\link[=as.character]{as.chara
 \examples{
   as.character(lim.integer64())
   as.bitstring(lim.integer64())
-  as.bitstring(as.integer64(c(
-   -2,-1,NA,0:2
-  )))
+  as.bitstring(as.integer64(c(-2, -1, NA, 0:2)))
 }
 \seealso{
 \code{\link[=as.integer64.character]{as.integer64.character()}} \code{\link[=integer64]{integer64()}}
