@@ -44,6 +44,12 @@
 ## NEW FEATURES
 
 1. `anyNA` gets an `integer64` method. Thanks @hcirellu.
+1. The `seq()` method for `integer64` has been overhauled to better match features from the default method.
+   - The motivation is #47, where `seq(as.integer64(1L), 11L, length.out=6L)` calculated `by=` incorrectly to give `1:6` instead of `c(1L, 3L, ..., 9L, 11L)`.
+   - `length.out=` was also sometimes ignored, for example `seq(to=as.integer64(5L), length.out=0L)` will now always just give `integer64()`.
+   - `seq(a, a, by=by)` is no longer an error.
+   - We match the default method behavior of assuming `from=1` and `to=1` if needed in order to support usage like `seq(as.integer64(10L), by=-1L)` and `seq(by=as.integer64(3L), length.out=8L)`.
+   - `seq(a, a, length.out=n)` will give `rep(a, n)`, not `seq(a, by=1, length.out=n)`.
 
 ## BUG FIXES
 
@@ -53,7 +59,6 @@
 1. `sortfin(integer64(), 1:10)` no longer segfaults (#164).
 1. `orderfin(as.integer64(10:1), 1:3, 8:11)` enforces that `table` be sorted by `order` instead of segfaulting (#166).
 1. `ordertab()` no longer segfaults when `nunique` is smaller than the actual number of unique values (#168).
-1. `seq.integer64` calculates `by=` correctly when `length.out=` is provided (#47).
 
 ## NOTES
 
