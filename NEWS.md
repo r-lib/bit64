@@ -39,21 +39,35 @@
    Because there was no recorded direct usage for any of these, I am opting to just rip the band-aid
    off and un-export them in this release as opposed to waiting a full cycle more to do so.
 
+1. `as.integer64.integer64` returns a plain `integer64` vector stripped of any attributes. This is consistent with R like behavior, e.g. `as.integer.integer`.
+
 1. A replacement in an integer64 vector using `[<-` or `[[<-` with a character leads to an R consistent 
    coercion of the integer64 object to a character object.
    
 ## NEW FEATURES
 
 1. `anyNA` gets an `integer64` method. Thanks @hcirellu.
+1. The `seq()` method for `integer64` has been overhauled to better match features from the default method.
+   - The motivation is #47, where `seq(as.integer64(1L), 11L, length.out=6L)` calculated `by=` incorrectly to give `1:6` instead of `c(1L, 3L, ..., 9L, 11L)`.
+   - `length.out=` was also sometimes ignored, for example `seq(to=as.integer64(5L), length.out=0L)` will now always just give `integer64()`.
+   - `seq(a, a, by=by)` is no longer an error.
+   - We match the default method behavior of assuming `from=1` and `to=1` if needed in order to support usage like `seq(as.integer64(10L), by=-1L)` and `seq(by=as.integer64(3L), length.out=8L)`.
+   - `seq(a, a, length.out=n)` will give `rep(a, n)`, not `seq(a, by=1, length.out=n)`.
 
 ## BUG FIXES
 
 1. `min.integer64`, `max.integer64` and `range.integer64` now support `na.rm=TRUE` correctly when combining across mutliple inputs like `min(x, NA_integer64_, na.rm=TRUE)` (#142).
+1. `as.integer64.integer64` is consistent with `as.integer.integer` in terms or returning a plain integer64 vector (i.e., stripped of attributes; #188). Thanks @hcirellu.
+1. `log(integer64(), base=integer64(1))` no longer warns, consistent with `log(integer(), base=integer())` (#93).
+1. `sortfin(integer64(), 1:10)` no longer segfaults (#164).
+1. `orderfin(as.integer64(10:1), 1:3, 8:11)` enforces that `table` be sorted by `order` instead of segfaulting (#166).
+1. `ordertab()` no longer segfaults when `nunique` is smaller than the actual number of unique values (#168).
 1. `[.integer64` now runs faster and correctly regarding `NA` and arrays. (#176)
 
 ## NOTES
 
 1. {bit64} no longer prints any start-up messages through an `.onAttach()` hook (#106). Thanks @hadley for the request.
+2. The R version dependency has been bumped from 3.4.0 (2017) to 3.5.0 (2018).
 
 ## BUG FIXES
 

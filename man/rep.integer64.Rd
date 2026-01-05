@@ -16,7 +16,7 @@ Replicate elements of integer64 vectors
 }
 \examples{
   rep(as.integer64(1:2), 6)
-  rep(as.integer64(1:2), c(6,6))
+  rep(as.integer64(1:2), c(6, 6))
   rep(as.integer64(1:2), length.out=6)
 }
 \seealso{

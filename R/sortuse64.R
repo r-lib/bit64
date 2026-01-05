@@ -24,7 +24,7 @@
 #' | **sortfun** | **orderfun** | **sortorderfun** | **see also**       | **description** |
 #' |------------:|-------------:|-----------------:|-------------------:|:----------------|
 #' |   `sortnut` |   `ordernut` |                  |                    | return number of tied and of unique values |
-#' |   `sortfin` |   `orderfin` |                  | [`%in%.integer64`] | return logical whether `x` is in `table` |
+#' |   `sortfin` |   `orderfin` |                  | \code{\link[=match.integer64]{\%in\%.integer64}} | return logical whether `x` is in `table` |
 #' |             |   `orderpos` |   `sortorderpos` | [`match()`][match.integer64] | return positions of `x` in `table` |
 #' |             |   `orderdup` |   `sortorderdup` | [`duplicated()`][duplicated.integer64] | return logical whether values are duplicated |
 #' |   `sortuni` |   `orderuni` |   `sortorderuni` | [`unique()`][unique.integer64] | return unique values (=dimensiontable) |
@@ -164,6 +164,7 @@ orderfin.integer64 <- function(table, order, x, method=NULL, ...) {
       , ret = logical(n)
       )
   } else {
+    x <- as.integer64(x)
     o <- seq_along(x); ramorder(x, o, na.last=FALSE, ...)
     ret <- logical(n)
     ret[o] <- .Call(C_r_ram_integer64_orderfin_asc
@@ -207,6 +208,7 @@ orderpos.integer64 <- function(table, order, x, nomatch=NA, method=NULL, ...) {
       , ret = integer(n)
       )
   } else {
+    x <- as.integer64(x)
     o <- seq_along(x); ramorder(x, o, na.last=FALSE, ...)
     ret <- integer(n)
     ret[o] <- .Call(C_r_ram_integer64_orderpos_asc

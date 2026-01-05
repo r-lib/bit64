@@ -11,8 +11,8 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(as.integer64(as.character(1:10)), as.integer64(1:10))
   expect_identical(as.integer64(as.double(1:10)), as.integer64(1:10))
   expect_identical(as.integer64(NULL), as.integer64())
-  x = as.integer64(1:10)
-  expect_identical(as.integer64(x), x)
+  x = structure(as.integer64(1:10), class=c("otherClass", "integer64"), dim=c(2, 5), dimnames=list(LETTERS[1:2], letters[1:5]), otherAttr="some other attribute")
+  expect_identical(as.integer64(x), as.integer64(1:10))
 
   # S4 version
   expect_identical(methods::as(as.character(1:10), "integer64"), as.integer64(1:10))
@@ -334,12 +334,156 @@ test_that("vector builders of integer64 work", {
 
   expect_identical(x[1L]:x[3L], x)
   expect_identical(x[3L]:x[1L], x[3:1]) # rev() a separate method
+})
 
-  expect_identical(seq(x[1L], x[3L], by=1L), x)
-  expect_identical(seq(x[1L], x[3L], by=x[1L]), x)
-  expect_identical(seq(x[1L], to=10L, by=1L), as.integer64(1:10))
-  expect_identical(seq(x[1L], to=11L, by=2L), as.integer64(c(1L, 3L, 5L, 7L, 9L, 11L)))
-  # TODO(#47): More tests when the behavior is corrected.
+with_parameters_test_that(
+  "seq method works analogously to integer: 1 argument (except along.with);",
+  {
+    n64 = as.integer64(n)
+    expect_identical(seq(n64), as.integer64(seq(n)))
+    expect_identical(seq(from=n64), as.integer64(seq(from=n)))
+    expect_identical(seq(to=n64), as.integer64(seq(to=n)))
+    expect_identical(seq(by=n64), as.integer64(seq(by=n)))
+    if (n < 0L) {
+      expect_error(seq(length.out=n64), "'length.out' must be a non-negative number")
+    } else {
+      expect_identical(seq(length.out=n64), as.integer64(seq(length.out=n)))
+    }
+  },
+  n = c(0L, 5L, -1L)
+)
+
+with_parameters_test_that(
+  "seq method works analogously to integer: 2 arguments (except along.with)",
+  {
+    # be sure to coerce (truncate) consistently across actual/expected
+    n1_32 = as.integer(n1)
+    n2_32 = as.integer(n2)
+
+    n1_64 = as.integer64(n1)
+    n2_64 = as.integer64(n2)
+
+    # TODO(#211): restore parity to seq() here
+    if (n2 %% 1L == 0L) expect_identical(seq(n1_64, n2), as.integer64(seq(n1_32, n2)))
+    expect_identical(seq(n1_64, n2_64), as.integer64(seq(n1_32, n2_32)))
+
+
+    if (n2 == 0L) {
+      err_msg = "invalid '(to - from)/by'"
+      expect_error(seq(n1_64, by=n2), err_msg, fixed=TRUE)
+      expect_error(seq(to=n1_64, by=n2), err_msg, fixed=TRUE)
+    } else if (sign(1L - n1) == sign(n2)) {
+      if (n2 %% 1L == 0L) expect_identical(seq(n1_64, by=n2), as.integer64(seq(n1, by=n2)))
+      expect_identical(seq(n1_64, by=n2_64), as.integer64(seq(n1, by=n2_32)))
+
+      expect_error(seq(to=n1_64, by=n2), "wrong sign in 'by' argument", fixed=TRUE)
+    } else {
+      expect_error(seq(n1_64, by=n2), "wrong sign in 'by' argument", fixed=TRUE)
+
+      # TODO(#211): restore parity to seq() here
+      if (n2 %% 1L == 0L) expect_identical(seq(to=n1_64, by=n2), as.integer64(seq(to=n1, by=n2)))
+      expect_identical(seq(to=n1_64, by=n2_64), as.integer64(seq(to=n1, by=n2_32)))
+    }
+
+    if (n2 >= 0L) {
+      expect_identical(seq(n1_64, length.out=n2), as.integer64(seq(n1_32, length.out=n2)))
+      expect_identical(seq(n1_64, length.out=n2_64), as.integer64(seq(n1_32, length.out=n2_32)))
+
+      expect_identical(seq(to=n1_64, length.out=n2), as.integer64(seq(to=n1_32, length.out=n2)))
+      expect_identical(seq(to=n1_64, length.out=n2_64), as.integer64(seq(to=n1_32, length.out=n2_32)))
+
+      expect_identical(seq(by=n1_64, length.out=n2), as.integer64(seq(by=n1_32, length.out=n2)))
+      expect_identical(seq(by=n1_64, length.out=n2_64), as.integer64(seq(by=n1_32, length.out=n2_32)))
+    } else {
+      err_msg = "'length.out' must be a non-negative number"
+      expect_error(seq(n1_64, length.out=n2), err_msg, fixed=TRUE)
+      expect_error(seq(to=n1_64, length.out=n2), err_msg, fixed=TRUE)
+      expect_error(seq(by=n1_64, length.out=n2), err_msg, fixed=TRUE)
+    }
+  },
+  .cases = expand.grid(n1=c(0L, 5L, -1L), n2=c(0.0, 5.0, -1.0, 1.5))
+)
+
+with_parameters_test_that(
+  "seq method works analogously to integer: 3 arguments (except along.with)",
+  {
+    # be sure to coerce (truncate) consistently across actual/expected
+    n1_32 = as.integer(n1)
+    n2_32 = as.integer(n2)
+    n3_32 = as.integer(n3)
+
+    n1_64 = as.integer64(n1)
+    n2_64 = as.integer64(n2)
+    n3_64 = as.integer64(n3)
+
+    # TODO(#211): restore parity to seq() here
+    if (n2 == n1 || sign(n2 - n1) == sign(n3)) {
+      # TODO(#211): restore parity to seq() here
+      if (n2 %% 1L == 0L && n3 %% 1L == 0L) {
+        expect_identical(seq(n1_64, n2, by=n3), as.integer64(seq(n1_32, n2, by=n3)))
+        expect_identical(seq(n1_64, n2_64, by=n3), as.integer64(seq(n1_32, n2_32, by=n3)))
+        expect_identical(seq(n1_64, n2, by=n3_64), as.integer64(seq(n1_32, n2, by=n3_32)))
+        expect_identical(seq(n1_64, n2_64, by=n3_64), as.integer64(seq(n1_32, n2_32, by=n3_32)))
+      }
+    } else {
+      err_msg <- if (n3 == 0L) "invalid '(to - from)/by'" else "wrong sign in 'by' argument"
+      expect_error(seq(n1_64, n2, by=n3), err_msg, fixed=TRUE)
+    }
+
+    if (n3 < 0L) {
+      err_msg = "'length.out' must be a non-negative"
+      expect_error(seq(n1_64, n2, length.out=n3), err_msg, fixed=TRUE)
+      expect_error(seq(n1_64, by=n2, length.out=n3), err_msg, fixed=TRUE)
+      expect_error(seq(to=n1_64, by=n2, length.out=n3), err_msg, fixed=TRUE)
+    } else {
+      # TODO(#211): restore parity to seq() here
+      if (((n2 - n1) / (n3 - 1L)) %% 1L == 0L) {
+        expect_identical(seq(n1_64, n2, length.out=n3), as.integer64(seq(n1_32, n2, length.out=n3)))
+        expect_identical(seq(n1_64, n2_64, length.out=n3), as.integer64(seq(n1_32, n2_32, length.out=n3)))
+        expect_identical(seq(n1_64, n2, length.out=n3_64), as.integer64(seq(n1_32, n2, length.out=n3_32)))
+        expect_identical(seq(n1_64, n2_64, length.out=n3_64), as.integer64(seq(n1_32, n2_32, length.out=n3_32)))
+      }
+
+      # TODO(#211): restore parity to seq() here
+      if (n2 %% 1L == 0L) {
+        expect_identical(seq(n1_64, by=n2, length.out=n3), as.integer64(seq(n1_32, by=n2, length.out=n3)))
+        expect_identical(seq(n1_64, by=n2_64, length.out=n3), as.integer64(seq(n1_32, by=n2_32, length.out=n3)))
+        expect_identical(seq(n1_64, by=n2, length.out=n3_64), as.integer64(seq(n1_32, by=n2, length.out=n3_32)))
+        expect_identical(seq(n1_64, by=n2_64, length.out=n3_64), as.integer64(seq(n1_32, by=n2_32, length.out=n3_32)))
+
+        expect_identical(seq(to=n1_64, by=n2, length.out=n3), as.integer64(seq(to=n1_32, by=n2, length.out=n3)))
+        expect_identical(seq(to=n1_64, by=n2_64, length.out=n3), as.integer64(seq(to=n1_32, by=n2_32, length.out=n3)))
+        expect_identical(seq(to=n1_64, by=n2, length.out=n3_64), as.integer64(seq(to=n1_32, by=n2, length.out=n3_32)))
+        expect_identical(seq(to=n1_64, by=n2_64, length.out=n3_64), as.integer64(seq(to=n1_32, by=n2_32, length.out=n3_32)))
+      }
+    }
+  },
+  .cases = expand.grid(n1=c(0L, 5L, -1L), n2=c(0.0, 5.0, -1.0, 1.5), n3=c(0.0, 5.0, -1.0, 1.5))
+)
+
+test_that("seq method works analogously to integer: 4 arguments", {
+  n = as.integer64(5L)
+
+  expect_error(seq(n, n, by=n, length.out=n), "too many arguments")
+  expect_error(seq(n, n, by=n, along.with=n), "too many arguments")
+})
+
+test_that("seq() works back-compatibly w.r.t. mixed integer+double inputs", {
+  one = as.integer64(1L)
+  expect_identical(seq(one, 10L, by=1.5), as.integer64(1:10))
+  expect_identical(seq(to=one, from=10L, by=-1.5), as.integer64(10:1))
+
+  expect_identical(seq(one, 10L, by=10.0/3.0), as.integer64(c(1L, 4L, 7L, 10L)))
+  expect_identical(seq(to=one, from=10L, by=-10.0/3.0), as.integer64(c(10L, 7L, 4L, 1L)))
+
+  expect_error(seq(one, 10L, by=0.1), "invalid '(to - from)/by'", fixed=TRUE)
+  expect_error(seq(to=one, from=10L, by=-0.1), "invalid '(to - from)/by'", fixed=TRUE)
+
+  expect_identical(seq(one, 2.5), as.integer64(1:2))
+  expect_identical(seq(to=one, from=2.5), as.integer64(2:1))
+
+  expect_identical(seq(one, 5.5, by=1.5), as.integer64(1:5))
+  expect_identical(seq(to=one, from=5.5, by=-1.5), as.integer64(5:1))
 })
 
 # These tests were previously kept as tests under \examples{\dontshow{...}}.
@@ -367,62 +511,65 @@ test_that("Old \\dontshow{} tests in ?extract.replace.integer64 continue working
 
 test_that("empty inputs give empty outputs for arithmetic", {
   x = integer64(1L)
-  y = integer64(0L)
+  empty = integer64(0L)
 
-  expect_identical(x+y, integer64())
-  expect_identical(y+x, integer64())
+  expect_identical(x+empty, integer64())
+  expect_identical(empty+x, integer64())
 
-  expect_identical(x-y, integer64())
-  expect_identical(y-x, integer64())
+  expect_identical(x-empty, integer64())
+  expect_identical(empty-x, integer64())
 
-  expect_identical(+y, integer64())
-  expect_identical(-y, integer64())
+  expect_identical(+empty, integer64())
+  expect_identical(-empty, integer64())
 
-  expect_identical(x*y, integer64())
-  expect_identical(y*x, integer64())
+  expect_identical(x*empty, integer64())
+  expect_identical(empty*x, integer64())
 
-  expect_identical(x/y, double())
-  expect_identical(y/x, double())
+  expect_identical(x/empty, double())
+  expect_identical(empty/x, double())
 
-  expect_identical(x^y, integer64())
-  expect_identical(y^x, integer64())
+  expect_identical(x^empty, integer64())
+  expect_identical(empty^x, integer64())
 
-  expect_identical(x %/% y, integer64())
-  expect_identical(y %/% x, integer64())
+  expect_identical(x %/% empty, integer64())
+  expect_identical(empty %/% x, integer64())
 
-  expect_identical(x%%y, integer64())
-  expect_identical(y%%x, integer64())
+  expect_identical(x%%empty, integer64())
+  expect_identical(empty%%x, integer64())
 
-  expect_identical(log(x, base=y), double())
-  # TODO(#93): don't suppress this warning which is inconsistent with integer()
-  expect_identical(suppressWarnings(log(y, base=x)), double())
+  expect_identical(log(x, base=empty), double())
+  expect_identical(log(empty, base=x), double())
+  expect_identical(
+    log(`attr<-`(empty, "asdf", "jkl")),
+    `attr<-`(double(), "asdf", "jkl")
+  )
 
-  expect_identical(x==y, logical())
-  expect_identical(y==x, logical())
+  expect_identical(x==empty, logical())
+  expect_identical(empty==x, logical())
 
-  expect_identical(x!=y, logical())
-  expect_identical(y!=x, logical())
+  expect_identical(x!=empty, logical())
+  expect_identical(empty!=x, logical())
 
-  expect_identical(x>=y, logical())
-  expect_identical(y>=x, logical())
+  expect_identical(x>=empty, logical())
+  expect_identical(empty>=x, logical())
 
-  expect_identical(x<=y, logical())
-  expect_identical(y<=x, logical())
+  expect_identical(x<=empty, logical())
+  expect_identical(empty<=x, logical())
 
-  expect_identical(x>y, logical())
-  expect_identical(y>x, logical())
+  expect_identical(x>empty, logical())
+  expect_identical(empty>x, logical())
 
-  expect_identical(x<y, logical())
-  expect_identical(y<x, logical())
+  expect_identical(x<empty, logical())
+  expect_identical(empty<x, logical())
 
-  expect_identical(x&y, logical())
-  expect_identical(y&x, logical())
+  expect_identical(x&empty, logical())
+  expect_identical(empty&x, logical())
 
-  expect_identical(x|y, logical())
-  expect_identical(y|x, logical())
+  expect_identical(x|empty, logical())
+  expect_identical(empty|x, logical())
 
-  expect_identical(xor(x, y), logical())
-  expect_identical(xor(y, x), logical())
+  expect_identical(xor(x, empty), logical())
+  expect_identical(xor(empty, x), logical())
 })
 
 test_that("semantics about mixed types for multiplication are respected", {
@@ -437,7 +584,6 @@ test_that("semantics about mixed types for multiplication are respected", {
   expect_identical(int * i64, as.integer64(10L))
   expect_identical(i64 * i64, as.integer64(4L))
 
-  skip_if_not_installed("withr") # only really for testing without testthat
   withr::with_options(list(integer64_semantics = "new"), {
     expect_identical(i64 * dbl, as.integer64(7L))
     expect_identical(dbl * i64, as.integer64(7L))
@@ -459,7 +605,6 @@ test_that("semantics about mixed types for division are respected", {
   expect_identical(int / i64, 2.0)
   expect_identical(i64 / i64, 1.0)
 
-  skip_if_not_installed("withr") # only really for testing without testthat
   withr::with_options(list(integer64_semantics = "new"), {
     expect_identical(i64 / dbl, 2.0)
     expect_identical(dbl / i64, 0.5)
