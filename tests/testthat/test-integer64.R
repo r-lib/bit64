@@ -438,6 +438,12 @@ test_that("seq() works back-compatibly w.r.t. mixed integer+double inputs", {
 
   expect_error(seq(one, 10L, by=0.1), "invalid '(to - from)/by'", fixed=TRUE)
   expect_error(seq(to=one, from=10L, by=-0.1), "invalid '(to - from)/by'", fixed=TRUE)
+
+  expect_identical(seq(one, 2.5), as.integer64(1:2))
+  expect_identical(seq(to=one, from=2.5), as.integer64(2:1))
+
+  expect_identical(seq(one, 5.5, by=1.5), as.integer64(1:5))
+  expect_identical(seq(to=one, from=5.5, by=-1.5), as.integer64(5:1))
 })
 
 # These tests were previously kept as tests under \examples{\dontshow{...}}.
