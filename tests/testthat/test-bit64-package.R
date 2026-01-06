@@ -173,7 +173,7 @@ test_that("cbind and rbind", {
   expect_true(identical.integer64(rbind(as.integer64(1:3), 1:3), t(x)))
 })
 
-test_that("Coercion", {
+test_that("Coercion with as.integer64 works as intended", {
   expect_identical(
     as.double(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
     as.double(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
@@ -218,6 +218,9 @@ test_that("Coercion", {
     as.integer64(as.character(lim.integer64())),
     lim.integer64()
   )
+})
+
+test_that("Coercion with as() works as intended", {
   expect_identical(
     as(as.raw(1L), "integer64"),
     as.integer64(1L)
