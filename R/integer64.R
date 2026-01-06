@@ -622,7 +622,7 @@ binattr = function(e1, e2) {
 #' @export
 integer64 = function(length=0L) {
   ret = double(length)
-  oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -635,7 +635,7 @@ is.integer64 = function(x) inherits(x, "integer64")
 #' @export
 as.integer64.NULL = function(x, ...) {
   ret = double()
-  oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -657,7 +657,7 @@ as.integer64.double = function(x, keep.names=FALSE, ...) {
   ret = .Call(C_as_integer64_double, x, double(length(x)))
   if (keep.names)
     names(ret) <- names(x)
-  oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -665,7 +665,7 @@ as.integer64.double = function(x, keep.names=FALSE, ...) {
 #' @export
 as.integer64.integer = function(x, ...) {
   ret = .Call(C_as_integer64_integer, x, double(length(x)))
-  oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -678,7 +678,7 @@ as.integer64.logical = as.integer64.integer
 as.integer64.character = function(x, ...) {
   n = length(x)
   ret = .Call(C_as_integer64_character, x, rep(NA_real_, n))
-  oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -719,14 +719,14 @@ as.character.integer64 = function(x, ...) {
 as.bitstring.integer64 = function(x, ...) {
   n = length(x)
   ret = .Call(C_as_bitstring_integer64, x, rep(NA_character_, n))
-  oldClass(ret) <- 'bitstring'
+  oldClass(ret) = 'bitstring'
   ret
 }
 
 #' @rdname as.character.integer64
 #' @export
 print.bitstring = function(x, ...) {
-  oldClass(x) <- minusclass(class(x), 'bitstring')
+  oldClass(x) = minusclass(class(x), 'bitstring')
   NextMethod(x)
 }
 
@@ -734,7 +734,7 @@ print.bitstring = function(x, ...) {
 #' @export
 as.integer64.bitstring = function(x, ...) {
   ret = .Call(C_as_integer64_bitstring, x, double(length(x)))
-  oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -762,7 +762,7 @@ NA_integer64_ = unserialize(as.raw(c(
   cl = oldClass(x)
   n = length(x)
   x = NextMethod()
-  oldClass(x) <- cl
+  oldClass(x) = cl
   if (value>n)
     x[(n+1L):value] <- 0L
   x
@@ -774,8 +774,8 @@ format.integer64 = function(x, justify="right", ...) {
   a = attributes(x)
   x = as.character(x)
   ret = format(x, justify=justify, ...)
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -876,7 +876,7 @@ str.integer64 = function(object,
     }
   }
   # End NA-handling from Leonardo Silvestri
-  oldClass(ret) <- cl
+  oldClass(ret) = cl
   remcache(ret)
   ret
 }
@@ -887,7 +887,7 @@ str.integer64 = function(object,
   cl = oldClass(x)
   value = as.integer64(value)
   ret = NextMethod()
-  oldClass(ret) <- cl
+  oldClass(ret) = cl
   ret
 }
 
@@ -896,7 +896,7 @@ str.integer64 = function(object,
 `[[.integer64` <- function(x, ...) {
   cl = oldClass(x)
   ret = NextMethod()
-  oldClass(ret) <- cl
+  oldClass(ret) = cl
   ret
 }
 
@@ -906,7 +906,7 @@ str.integer64 = function(object,
   cl = oldClass(x)
   value = as.integer64(value)
   ret = NextMethod()
-  oldClass(ret) <- cl
+  oldClass(ret) = cl
   ret
 }
 
@@ -927,7 +927,7 @@ c.integer64 = function(..., recursive = FALSE) {
     }
   }
   ret = do.call(c, l)
-  oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -994,7 +994,7 @@ rep.integer64 = function(x, ...) {
   from = as.integer64(from)
   to = as.integer64(to)
   ret = .Call(C_seq_integer64, from, as.integer64(1L), double(as.integer(to-from+1L)))
-  oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -1095,7 +1095,7 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
   if (length.out < 0L)
     stop("'length.out' must be a non-negative number")
   ret = .Call(C_seq_integer64, as.integer64(from), by, double(as.integer(length.out)))
-  oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -1112,8 +1112,8 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
   ret = double(l)
   ret = .Call(C_plus_integer64, e1, e2, ret)
-  a$class <- plusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = plusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1132,8 +1132,8 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
   ret = double(l)
   .Call(C_minus_integer64, e1, e2, ret)
-  a$class <- plusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = plusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1148,8 +1148,8 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
   ret = double(l)
   .Call(C_intdiv_integer64, e1, e2, ret)
-  a$class <- plusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = plusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1164,8 +1164,8 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
   ret = double(l)
   .Call(C_mod_integer64, e1, e2, ret)
-  a$class <- plusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = plusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1191,8 +1191,8 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
     else
       ret <- .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   }
-  a$class <- plusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = plusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1208,8 +1208,8 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
     ret <- .Call(C_power_integer64_double, as.integer64(e1), e2, ret)
   else
     ret <- .Call(C_power_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
-  a$class <- plusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = plusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1235,8 +1235,8 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
     else
       ret <- .Call(C_divide_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   }
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1246,7 +1246,7 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
 sign.integer64 = function(x) {
   a = attributes(x)
   ret = .Call(C_sign_integer64, x, double(length(x)))
-  attributes(ret) <- a
+  attributes(ret) = a
   ret
 }
 
@@ -1255,7 +1255,7 @@ sign.integer64 = function(x) {
 abs.integer64 = function(x) {
   a = attributes(x)
   ret = .Call(C_abs_integer64, x, double(length(x)))
-  attributes(ret) <- a
+  attributes(ret) = a
   ret
 }
 
@@ -1264,8 +1264,8 @@ abs.integer64 = function(x) {
 sqrt.integer64 = function(x) {
   a = attributes(x)
   ret = .Call(C_sqrt_integer64, x, double(length(x)))
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1295,8 +1295,8 @@ log.integer64 = function(x, base=NULL) {
 log10.integer64 = function(x) {
   a = attributes(x)
   ret = .Call(C_log10_integer64, x, double(length(x)))
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1305,8 +1305,8 @@ log10.integer64 = function(x) {
 log2.integer64 = function(x) {
   a = attributes(x)
   ret = .Call(C_log2_integer64, x, double(length(x)))
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1341,8 +1341,8 @@ round.integer64 = function(x, digits=0L) {
   db = d * b
   r = abs(x-db)
   ret = ifelse((r < b2) | (r == b2 & ((d %% 2L) == 0L)), db, db + sign(x)*b)
-  #a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  #a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1576,8 +1576,8 @@ diff.integer64 = function(x, lag=1L, differences=1L, ...) {
     d <- d - 1L
   }
   # length of ret is only change once here
-  length(ret) <- n
-  oldClass(ret) <- "integer64"
+  length(ret) = n
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -1585,14 +1585,14 @@ diff.integer64 = function(x, lag=1L, differences=1L, ...) {
 #' @export
 cummin.integer64 = function(x) {
   ret = .Call(C_cummin_integer64, x, double(length(x)))
-  oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 #' @rdname cumsum.integer64
 #' @export
 cummax.integer64 = function(x) {
   ret = .Call(C_cummax_integer64, x, double(length(x)))
-  oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -1600,7 +1600,7 @@ cummax.integer64 = function(x) {
 #' @export
 cumsum.integer64 = function(x) {
   ret = .Call(C_cumsum_integer64, x, double(length(x)))
-  oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -1608,7 +1608,7 @@ cumsum.integer64 = function(x) {
 #' @export
 cumprod.integer64 = function(x) {
   ret = .Call(C_cumprod_integer64, x, double(length(x)))
-  oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -1617,8 +1617,8 @@ cumprod.integer64 = function(x) {
 is.na.integer64 = function(x) {
   a = attributes(x)
   ret = .Call(C_isna_integer64, x, logical(length(x)))
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1644,8 +1644,8 @@ is.nan.integer64 = function(x) rep(FALSE, length(x))
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
   ret = logical(l)
   .Call(C_EQ_integer64, e1, e2, ret)
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1660,8 +1660,8 @@ is.nan.integer64 = function(x) rep(FALSE, length(x))
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
   ret = logical(l)
   .Call(C_NE_integer64, e1, e2, ret)
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1676,8 +1676,8 @@ is.nan.integer64 = function(x) rep(FALSE, length(x))
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
   ret = logical(l)
   .Call(C_LT_integer64, e1, e2, ret)
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1692,8 +1692,8 @@ is.nan.integer64 = function(x) rep(FALSE, length(x))
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
   ret = logical(l)
   .Call(C_LE_integer64, e1, e2, ret)
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1708,8 +1708,8 @@ is.nan.integer64 = function(x) rep(FALSE, length(x))
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
   ret = logical(l)
   .Call(C_GT_integer64, e1, e2, ret)
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1724,8 +1724,8 @@ is.nan.integer64 = function(x) rep(FALSE, length(x))
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
   ret = logical(l)
   .Call(C_GE_integer64, e1, e2, ret)
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1734,8 +1734,8 @@ is.nan.integer64 = function(x) rep(FALSE, length(x))
 `&.integer64` <- function(e1, e2) {
   a = binattr(e1, e2)
   ret = as.logical(e1) & as.logical(e2)
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1744,8 +1744,8 @@ is.nan.integer64 = function(x) rep(FALSE, length(x))
 `|.integer64` <- function(e1, e2) {
   a = binattr(e1, e2)
 ret = as.logical(e1) | as.logical(e2)
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1754,8 +1754,8 @@ ret = as.logical(e1) | as.logical(e2)
 xor.integer64 = function(x, y) {
   a = binattr(x, y)
   ret = as.logical(x) != as.logical(y)
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
@@ -1765,8 +1765,8 @@ xor.integer64 = function(x, y) {
 `!.integer64` <- function(x) {
   a = attributes(x)
   ret = !as.logical(x)
-  a$class <- minusclass(a$class, "integer64")
-  attributes(ret) <- a
+  a$class = minusclass(a$class, "integer64")
+  attributes(ret) = a
   ret
 }
 
