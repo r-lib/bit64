@@ -721,11 +721,11 @@ as.integer64.difftime = function(x, units="auto", ...)
 .as_double_integer64 = function(x, keep.attributes=FALSE, ...) {
   ret = .Call(C_as_double_integer64, x, double(length(x)))
   if (isTRUE(keep.attributes)) {
-      # like dimensions for matrix operations
-      a = attributes(x)
-      a$class = NULL
-      attributes(ret) = a
-      keep.names = FALSE # names are already included
+    # like dimensions for matrix operations
+    a = attributes(x)
+    a$class = NULL
+    attributes(ret) = a
+    keep.names = FALSE # names are already included
   }
   ret
 }
