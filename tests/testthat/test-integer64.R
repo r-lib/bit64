@@ -45,12 +45,25 @@ test_that("integer64 coercion to/from time types works", {
     as.integer64(posix_delta, units="mins"), 
     as.integer64(as.numeric(posix_delta, units="mins"))
   )
-  expect_identical(as.integer64(p), as.integer64(as.integer(p)))
+
+  expect_identical(as.integer64(posixct), as.integer64(as.integer(posixct)))
   # as.integer.POSIXlt does not work properly
-  expect_identical(as.integer64(as.POSIXlt(p)), as.integer64(as.numeric(as.POSIXlt(p))))
-  expect_identical(as.integer64(as.Date(p)), as.integer64(as.integer(as.Date(p))))
+  expect_identical(
+    as.integer64(as.POSIXlt(posixct)),
+    as.integer64(as.numeric(as.POSIXlt(posixct)))
+  )
+  expect_identical(
+    as.integer64(as.Date(posixct)),
+    as.integer64(as.integer(as.Date(posixct)))
+  )
   
-  x = structure(as.integer64(1:10), class=c("otherClass", "integer64"), dim=c(2, 5), dimnames=list(LETTERS[1:2], letters[1:5]), otherAttr="some other attribute")
+  x = structure(
+    as.integer64(1:10),
+    class=c("otherClass", "integer64"),
+    dim=c(2L, 5L),
+    dimnames=list(LETTERS[1:2], letters[1:5]),
+    otherAttr="some other attribute"
+  )
   expect_identical(as.integer64(x), as.integer64(1:10))
 })
 
