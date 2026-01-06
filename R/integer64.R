@@ -859,13 +859,13 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
 #' @rdname extract.replace.integer64
 #' @export
 `[.integer64` = function(x, i, j, ..., drop=TRUE) {
-  args = lapply(as.list(sys.call())[-(1:2)], {function(el) {
+  args = lapply(as.list(sys.call())[-(1:2)], function(el) {
     if(is.symbol(el) && el == substitute()) return(el)
     el = eval(el, parent.frame(3L))   
     if (is.integer64(el))
       el = as.integer(el)
     el
-  }})
+  })
   args$drop = FALSE
   if (length(args) == 1L) return(x)
   oldClass(x) = NULL
@@ -922,13 +922,13 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
 #' @export
 `[<-.integer64` = function(x, ..., value) {
   sc = as.list(sys.call())
-  args = lapply(sc[-c(1:2, length(sc))], {function(el) {
+  args = lapply(sc[-c(1:2, length(sc))], function(el) {
     if(is.symbol(el) && el == substitute()) return(el)
     el = eval(el, parent.frame(3L))   
     if (is.integer64(el))
       el = as.integer(el)
     el
-  }})
+  })
   if (is.character(value) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     args$value = value
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
@@ -945,11 +945,11 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
 #' @rdname extract.replace.integer64
 #' @export
 `[[.integer64` = function(x, ...) {
-  args = lapply(list(...), {function(el) {
+  args = lapply(list(...), function(el) {
     if (is.integer64(el))
       el = as.integer(el)
     el
-  }})
+  })
   oldClass(x) = NULL
   withCallingHandlers_and_choose_call({ret = do.call("[[", c(list(x=x), args))}, c("[[", "[[.integer64"))  
   oldClass(ret) = "integer64"
@@ -959,11 +959,11 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
 #' @rdname extract.replace.integer64
 #' @export
 `[[<-.integer64` = function(x, ..., value) {
-  args = lapply(list(...), {function(el) {
+  args = lapply(list(...), function(el) {
     if (is.integer64(el))
       el = as.integer(el)
     el
-  }})
+  })
   if (is.character(value) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     args$value = value
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
