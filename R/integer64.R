@@ -809,7 +809,7 @@ print.bitstring = function(x, ...) {
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.bitstring <- function(x, ...) {
+as.integer64.bitstring = function(x, ...) {
   ret = .Call(C_as_integer64_bitstring, x, double(length(x)))
   oldClass(ret) = "integer64"
   ret
@@ -1067,12 +1067,12 @@ rbind.integer64 = function(...) {
 
 #' @rdname as.data.frame.integer64
 #' @export
-as.data.frame.integer64 <- function(x, row.names=NULL, optional=FALSE, ...) {
+as.data.frame.integer64 = function(x, row.names=NULL, optional=FALSE, ...) {
   cl = oldClass(x)
   on.exit(setattr(x, "class", cl))
   # tenfold runtime if using attr() here instead of setattr()
   setattr(x, "class", minusclass(cl, "integer64"))
-  ret = as.data.frame(x, ...)
+  ret = as.data.frame(x, row.names=row.names, optional=optional, ...)
   for (i in seq_along(ret))
     setattr(ret[[i]], "class", cl)
   ret
