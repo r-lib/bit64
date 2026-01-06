@@ -29,7 +29,6 @@ test_that("Different method= for match() and %in% work", {
   x = as.integer64(2:5)
   y = as.integer64(3:6)
   expected = c(NA_integer_, 1:3)
-  expected_in = c(FALSE, TRUE, TRUE, TRUE)
 
   expect_identical(match(x, y, method="hashpos"), expected)
   expect_identical(match(x, y, method="hashrev"), expected)
@@ -47,9 +46,9 @@ test_that("Different method= for match() and %in% work", {
   #   around what exactly the following tests are covering, will show up in the PR.
 
   # method="hashrin" used when x is "short" but table is "long"
-  x <- as.integer64(seq_len(10L))
-  table_long_in <- as.integer64(seq_len(2.0**16.0 * 2.0/3.0 + 10.0)) # invert condition for bx>=16, 10.0 arbitrary buffer
-  expect_identical(x %in% table_long_in, rep(TRUE, 10L))
+  x = as.integer64(seq_len(10L))
+  table = as.integer64(seq_len(2.0**16.0 * 2.0/3.0 + 10.0)) # invert condition for bx>=16, 10.0 arbitrary buffer
+  expect_identical(x %in% table, rep(TRUE, 10L))
 })
 
 test_that("match.integer64: automatic method selection without cache", {
