@@ -318,3 +318,27 @@ test_that("prank() works as intended", {
   expect_identical(prank(x), (x-1.0)/99.0)
   expect_identical(prank(x[1L]), NA_integer64_)
 })
+
+test_that("match.integer64 with method='orderpos' fails due to bug", {
+  x <- as.integer64(1:5)
+  table <- as.integer64(3:7)
+  expect_error(match(x, table, method="orderpos"), "object 's' not found", fixed=TRUE)
+})
+
+test_that("match.integer64 with partial cache triggers fallback", {
+  x <- as.integer64(1:5)
+  table <- as.integer64(3:7)
+
+  sortcache(table) # creates 'sort' and 'nunique' in cache
+
+  # This should fallback to hashpos/hashrev logic.
+  # x is small, table is small.
+  # nx = 5, nunique from cache is 5
+  # btable = ceiling(log2(5*1.5)) = ceiling(log2(7.5)) = 3
+  # bx = ceiling(log2(5*1.5)) = 3
+  # bx<=17 (T) && btable>=16 (F) -> hashpos
+  # So this should still work and give correct result.
+  expect_identical(match(x, table), c(NA_integer_, NA_integer_, 1L, 2L, 3L))
+
+  remcache(table)
+})
