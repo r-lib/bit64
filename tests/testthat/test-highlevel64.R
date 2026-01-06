@@ -15,6 +15,14 @@ test_that("match & %in% basics work", {
   expect_identical(y %in% x, c(TRUE, TRUE, TRUE, FALSE))
   expect_identical(x %in% 3:6, c(FALSE, TRUE, TRUE, TRUE))
   expect_identical(x %in% c(3.0, 4.0, 5.0, 6.0), c(FALSE, TRUE, TRUE, TRUE))
+
+  expect_identical(match(integer64(), as.integer64(1L)), integer())
+  expect_identical(match(as.integer64(1L), integer64()), NA_integer_)
+  expect_identical(match(as.integer64(1L), integer64(), nomatch = 0L), 0L)
+
+  x_nm <- as.integer64(c(1L, 3L))
+  table_nm <- as.integer64(2:4)
+  expect_identical(match(x_nm, table_nm, nomatch = -1L), c(-1L, 2L))
 })
 
 test_that("Different method= for match() and %in% work", {
@@ -41,6 +49,99 @@ test_that("Different method= for match() and %in% work", {
   x = as.integer64(seq_len(10L))
   table = as.integer64(seq_len(2.0**16.0 * 2.0/3.0 + 10.0)) # invert condition for bx>=16, 10.0 arbitrary buffer
   expect_identical(x %in% table, rep(TRUE, 10L))
+})
+
+test_that("match.integer64: automatic method selection without cache", {
+  # hashrev path: short x, long table
+  nx <- 10L
+  ny <- 2L^16L
+  x <- as.integer64(1:nx)
+  table <- as.integer64(1:ny)
+  # As of this writing, this should invoke hashrev
+  expect_identical(match(x, table), 1:nx)
+
+  # hashpos path: long x, short table
+  x_long_match <- as.integer64(1:ny)
+  table_short_match <- as.integer64(1:nx)
+  # As of this writing, this should use hashpos
+  expect_identical(match(x_long_match[1:nx], table_short_match), 1:nx)
+  expect_identical(match(x_long_match[(nx+1L):(nx+10L)], table_short_match), rep(NA_integer_, 10L))
+})
+
+test_that("%in%.integer64: automatic method selection without cache", {
+  # hashrin path: short x, long table
+  nx <- 10L
+  ny <- 2L^16L
+  x <- as.integer64(1:nx)
+  table <- as.integer64(1:ny)
+  # As of this writing, this should use hashrin
+  expect_identical(x %in% table, rep(TRUE, nx))
+
+  # hashfin path: long x, short table
+  x_long_in <- as.integer64(1:ny)
+  table_short_in <- as.integer64(1:nx)
+  # As of this writing, this should use hashfin.
+  expect_identical(x_long_in[1:nx] %in% table_short_in, rep(TRUE, nx))
+  expect_identical(x_long_in[(nx+1L):(nx+10L)] %in% table_short_in, rep(FALSE, 10L))
+})
+
+test_that("match.integer64: cache-based method selection", {
+  x <- as.integer64(c(1L, 3L, 5L))
+  table <- as.integer64(c(2L, 4L, 3L, 1L))
+
+  # hashcache
+  hashcache(table)
+  expect_identical(match(x, table), c(4L, 3L, NA_integer_))
+  remcache(table)
+
+  # sortordercache
+  sortordercache(table)
+  expect_identical(match(x, table), c(4L, 3L, NA_integer_))
+  remcache(table)
+
+  # ordercache
+  ordercache(table)
+  expect_identical(match(x, table), c(4L, 3L, NA_integer_))
+  remcache(table)
+})
+
+test_that("%in%.integer64: cache-based method selection", {
+  x <- as.integer64(c(1L, 3L, 5L))
+  table <- as.integer64(c(2L, 4L, 3L, 1L))
+  expected_in <- c(TRUE, TRUE, FALSE)
+
+  # hashcache
+  hashcache(table)
+  expect_identical(x %in% table, expected_in)
+  remcache(table)
+
+  # sortcache
+  sortcache(table)
+  expect_identical(x %in% table, expected_in)
+  remcache(table)
+
+  # ordercache
+  ordercache(table)
+  expect_identical(x %in% table, expected_in)
+  remcache(table)
+})
+
+test_that("match.integer64: nunique argument", {
+  x <- as.integer64(c(1L, 3L, 5L))
+  table <- as.integer64(c(2L, 4L, 3L, 1L, 3L))
+  expect_identical(match(x, table, nunique = 4L), c(4L, 3L, NA_integer_))
+})
+
+test_that("%in%.integer64: nunique argument", {
+  x <- as.integer64(c(1L, 3L, 5L))
+  table <- as.integer64(c(2L, 4L, 3L, 1L, 3L))
+  expect_identical(x %in% table, c(TRUE, TRUE, FALSE))
+})
+
+test_that("%in%.integer64: with NA values", {
+  x <- as.integer64(c(1L, NA, 3L))
+  table <- as.integer64(c(NA, 2L, 1L))
+  expect_identical(x %in% table, c(TRUE, TRUE, FALSE))
 })
 
 # TODO(#59): Don't call table.integer64() directly.
@@ -210,4 +311,23 @@ test_that("prank() works as intended", {
   x = as.integer64(1:100)
   expect_identical(prank(x), (x-1.0)/99.0)
   expect_identical(prank(x[1L]), NA_integer64_)
+})
+
+test_that("match.integer64 with method='orderpos' fails due to bug", {
+  x <- as.integer64(1:5)
+  table <- as.integer64(3:7)
+  expect_error(match(x, table, method="orderpos"), "object 's' not found", fixed=TRUE)
+})
+
+test_that("match.integer64 with partial cache triggers fallback", {
+  x <- as.integer64(1:5)
+  table <- as.integer64(3:7)
+
+  sortcache(table) # creates 'sort' and 'nunique' in cache
+
+  # This should fallback to hashpos/hashrev logic.
+  # x is small, table is small.
+  expect_identical(match(x, table), c(NA_integer_, NA_integer_, 1L, 2L, 3L))
+
+  remcache(table)
 })
