@@ -216,7 +216,7 @@ test_that("Explicit algorithm dispatch hits C-level fallbacks and edge cases", {
   # Case: High duplicates with NAs (verify pivot selection with NAs present)
   x = bit::clone(x_dups)
   bit::quicksort(x, optimize="memory", has.na=TRUE)
-  expect_true(is.sorted(x)) # utilizing bit::is.sorted if available, or check manually
+  expect_true(bit::is.sorted(x))
 })
 
 test_that("Specific sortorder/order variants for Quicksort coverage", {
