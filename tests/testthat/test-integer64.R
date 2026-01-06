@@ -9,24 +9,25 @@ test_that("integer64 coercion to/from other types work for atomic vectors", {
   expect_identical(as.numeric(i64), as.numeric(i32))
 
   # to integer64
-  expect_identical(as.integer64(TRUE), as.integer64(1L))
-  expect_identical(as.integer64(as.character(1:10)), as.integer64(1:10))
-  expect_identical(as.integer64(as.double(1:10)), as.integer64(1:10))
-  expect_identical(as.integer64(as.complex(1:10)), as.integer64(1:10))
-  expect_identical(as.integer64(as.raw(1:10)), as.integer64(1:10))
+  expect_identical(as.integer64(TRUE), i64)
+  expect_identical(as.integer64(as.character(1:10)), i64)
+  expect_identical(as.integer64(as.double(1:10)), i64)
+  expect_identical(as.integer64(as.complex(1:10)), i64)
+  expect_identical(as.integer64(as.raw(1:10)), i64)
   expect_identical(as.integer64(NULL), as.integer64())
-  x = as.integer64(1:10)
-  expect_identical(as.integer64(x), x)
+  expect_identical(as.integer64(i64), i64)
 })
 
-test_that("integer64 coercion to/from other types work for simple objects", {
+test_that("integer64 coercion to/from factor tpes works, {
   i32 = 1:10
   i64 = as.integer64(i32)
   expect_identical(as.factor(i64), as.factor(i32))
   expect_identical(as.ordered(i64), as.ordered(i32))
   expect_identical(as.integer64(as.factor(11:20)), as.integer64(1:10))
   expect_identical(as.integer64(as.ordered(11:20)), as.integer64(1:10))
+})
 
+test_that("integer64 coercion to/from time types works", {
   p = c(Sys.time(), Sys.time())
   expect_identical(
     as.integer64(difftime(p+1000, p)), 
