@@ -52,7 +52,7 @@
    - `seq(a, a, length.out=n)` will give `rep(a, n)`, not `seq(a, by=1, length.out=n)`.
 1. Coercion to/from integer64 is expanded greatly (includes #199). Thanks @hcirellu.
    - `as.Date`, `as.POSIXct`, `as.POSXlt`, `as.complex`, and `as.raw` get an `integer64` method.
-   - `as.difftime()` is newly masked from {base} to allow S3 dispatch, to which we've added an `integer64` method.
+   - `as.difftime()` is newly made generic allow S3 dispatch, including an `integer64` method.
    - `as.integer64` gets `Date`, `POSIXct`, `POSXlt`, `complex`, `raw`, and `difftime` methods.
 
 ## BUG FIXES
