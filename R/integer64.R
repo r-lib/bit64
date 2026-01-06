@@ -725,7 +725,6 @@ as.integer64.difftime = function(x, units="auto", ...)
     a = attributes(x)
     a$class = NULL
     attributes(ret) = a
-    keep.names = FALSE # names are already included
   }
   ret
 }
