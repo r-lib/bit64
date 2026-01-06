@@ -331,3 +331,120 @@ test_that("match.integer64 with partial cache triggers fallback", {
 
   remcache(table)
 })
+
+test_that("unique.integer64 covers various cache states and order arguments", {
+  x = as.integer64(c(3L, 1L, 3L))
+
+  # order="original" + hashcache
+  hashcache(x)
+  expect_identical(unique(x, order="original"), x[1:2])
+  remcache(x)
+
+  # order="original" + ordercache
+  ordercache(x)
+  expect_identical(unique(x, order="original"), x[1:2])
+  remcache(x)
+
+  # order="original" + sortordercache
+  sortordercache(x)
+  expect_identical(unique(x, order="original"), x[1:2])
+  remcache(x)
+
+  # order="values" + sortcache (triggers sortuni from cache)
+  sortcache(x)
+  expect_identical(unique(x, order="values"), as.integer64(c(1L, 3L)))
+  remcache(x)
+
+  # order="values" + hashcache (triggers hashuni if nunique < length/2)
+  x2 = as.integer64(c(1, 1, 1, 1, 1))
+  hashcache(x2)
+  expect_identical(unique(x2, order="values"), as.integer64(1L))
+  remcache(x2)
+
+  # order="any" + hashcache
+  hashcache(x)
+  res = unique(x, order="any")
+  # Fix: Ensure comparison target is integer64, as setequal checks strict type equality
+  expect_true(setequal(res, as.integer64(c(1L, 3L))))
+  remcache(x)
+})
+
+test_that("unipos.integer64 covers various cache states", {
+  x = as.integer64(c(3L, 1L, 3L))
+  # positions: 1, 2
+
+  # order="original" + hashcache
+  hashcache(x)
+  expect_identical(unipos(x, order="original"), c(1L, 2L))
+  remcache(x)
+
+  # order="values" + sortcache (triggers sortorderupo)
+  sortcache(x)
+  expect_identical(unipos(x, order="values"), c(2L, 1L))
+  remcache(x)
+
+  # order="any" + sortordercache
+  sortordercache(x)
+  res = unipos(x, order="any")
+  expect_true(setequal(res, c(1L, 2L)))
+  remcache(x)
+})
+
+test_that("table.integer64 covers inputs, cache states, and return types", {
+  x = as.integer64(c(1L, 2L, 1L))
+
+  # List input handling
+  # Fix: Compare values/counts and dims directly to avoid dimname inference mismatches
+  # ("x" vs "list(x).1")
+  t_list = table.integer64(list(x))
+  t_vec = table.integer64(x)
+  expect_identical(as.vector(t_list), as.vector(t_vec))
+  expect_identical(dim(t_list), dim(t_vec))
+
+  # Error: length mismatch
+  expect_error(table.integer64(x, as.integer64(1:2)), "all input vectors must have the same length")
+
+  # return="data.frame"
+  df = table.integer64(x, return="data.frame")
+  # Fix: Column name is inferred as "x", Freq is standard integer
+  expect_identical(df, data.frame(x=as.integer64(c(1, 2)), Freq=as.integer(c(2, 1))))
+
+  # return="list"
+  lst = table.integer64(x, return="list")
+  expect_identical(lst$values, as.integer64(c(1, 2)))
+  # Fix: Counts are standard integer
+  expect_identical(lst$counts, as.integer(c(2, 1)))
+
+  # order="counts"
+  tbl_cnt = table.integer64(x, order="counts")
+  # 2 appears 1x, 1 appears 2x. Sorted by counts ascending: 2, 1.
+  expect_identical(as.vector(tbl_cnt), c(1L, 2L))
+
+  # Method selection: hashtab via cache
+  hashcache(x)
+  expect_identical(as.vector(table.integer64(x)), c(2L, 1L))
+  remcache(x)
+
+  # Method selection: sorttab via cache
+  sortcache(x)
+  expect_identical(as.vector(table.integer64(x)), c(2L, 1L))
+  remcache(x)
+
+  # Method selection: ordertab via cache
+  ordercache(x)
+  expect_identical(as.vector(table.integer64(x)), c(2L, 1L))
+  remcache(x)
+
+  # Cross-tabulation coverage
+  y = as.integer64(c(1L, 2L, 1L))
+  t2 = table.integer64(x, y, return="data.frame")
+  # Fix: Unique pairs are (1,1) and (2,2). 2 rows expected.
+  expect_equal(nrow(t2), 2L)
+
+  # Potential overflow check for combinations > 2^63
+  # We construct a list of many small vectors.
+  args = rep(list(as.integer64(1:2)), 65)
+  # Fix: Suppress warning about overflow ("NAs produced by integer64 overflow")
+  # to verify the explicit stop error cleanly.
+  expect_error(suppressWarnings(do.call(table.integer64, args)), "attempt to make a table from more than")
+})
