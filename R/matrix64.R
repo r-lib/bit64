@@ -31,15 +31,15 @@ NULL
 
 #' @rdname matrix64
 #' @export
-colSums <- function(x, na.rm=FALSE, dims=1L) UseMethod("colSums")
+colSums = function(x, na.rm=FALSE, dims=1L) UseMethod("colSums")
 #' @rdname matrix64
 #' @export
-colSums.default <- function(x, na.rm=FALSE, dims=1L) base::colSums(x, na.rm, dims)
+colSums.default = function(x, na.rm=FALSE, dims=1L) base::colSums(x, na.rm, dims)
 
 #' @rdname matrix64
 #' @export
-colSums.integer64 <- function(x, na.rm=FALSE, dims=1L) {
-  n_dim <- length(dim(x))
+colSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
+  n_dim = length(dim(x))
   stopifnot(
     `dims= should be a length-1 integer between 1 and length(dim(x))-1L` =
       length(dims) == 1L && dims > 0L && dims < n_dim
@@ -52,15 +52,15 @@ colSums.integer64 <- function(x, na.rm=FALSE, dims=1L) {
 
 #' @rdname matrix64
 #' @export
-rowSums <- function(x, na.rm=FALSE, dims=1L) UseMethod("rowSums")
+rowSums = function(x, na.rm=FALSE, dims=1L) UseMethod("rowSums")
 #' @rdname matrix64
 #' @export
-rowSums.default <- function(x, na.rm=FALSE, dims=1L) base::rowSums(x, na.rm, dims)
+rowSums.default = function(x, na.rm=FALSE, dims=1L) base::rowSums(x, na.rm, dims)
 
 #' @rdname matrix64
 #' @export
-rowSums.integer64 <- function(x, na.rm=FALSE, dims=1L) {
-  n_dim <- length(dim(x))
+rowSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
+  n_dim = length(dim(x))
   stopifnot(
     `dims= should be a length-1 integer between 1 and length(dim(x))-1L` =
       length(dims) == 1L && dims > 0L && dims < n_dim
@@ -74,9 +74,9 @@ rowSums.integer64 <- function(x, na.rm=FALSE, dims=1L) {
 #' @rdname matrix64
 #' @param a,perm Passed on to [aperm()].
 #' @export
-aperm.integer64 <- function(a, perm, ...) {
+aperm.integer64 = function(a, perm, ...) {
   class(a) = minusclass(class(a), "integer64")
-  ret <- aperm(a, perm, ...)
+  ret = aperm(a, perm, ...)
   class(ret) = plusclass(class(a), "integer64")
   ret
 }
