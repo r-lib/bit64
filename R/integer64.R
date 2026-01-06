@@ -701,31 +701,23 @@ as.integer64.factor = function(x, ...)
 
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 Date
-as.integer64.Date = function(x, ...) {
-  x = as.double(x)
-  callGeneric()
-}
+as.integer64.Date = function(x, ...)
+  as.integer64(as.double(x))
 
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 POSIXct
-as.integer64.POSIXct = function(x, ...) {
-  x = as.double(x)
-  callGeneric()
-}
+as.integer64.POSIXct = function(x, ...)
+  as.integer64(as.double(x))
 
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 POSIXlt
-as.integer64.POSIXlt = function(x, ...) {
-  x = as.POSIXct(x)
-  callGeneric()
-}
+as.integer64.POSIXlt = function(x, ...)
+  as.integer64(as.POSIXct(x))
 
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 difftime
-as.integer64.difftime = function(x, units="auto", ...) {
-  x = as.double(x, units=units, ...)
-  callGeneric()
-}
+as.integer64.difftime = function(x, units="auto", ...)
+  as.integer64(as.double(x, units=units, ...))
 
 .as_double_integer64 = function(x, keep.attributes=FALSE, ...) {
   ret = .Call(C_as_double_integer64, x, double(length(x)))
@@ -788,24 +780,18 @@ as.bitstring.integer64 = function(x, ...) {
 
 #' @rdname as.character.integer64
 #' @exportS3Method base::as.Date integer64
-as.Date.integer64 = function(x, origin, ...) {
-  x = as.double(x)
-  callGeneric()
-}
+as.Date.integer64 = function(x, origin, ...)
+  as.Date(as.double(x))
 
 #' @rdname as.character.integer64
 #' @exportS3Method base::as.POSIXct integer64
-as.POSIXct.integer64 = function(x, tz="", origin, ...) {
-  x = as.double(x)
-  callGeneric()
-}
+as.POSIXct.integer64 = function(x, tz="", origin, ...)
+  as.POSIXct(as.double(x))
 
 #' @rdname as.character.integer64
 #' @exportS3Method base::as.POSIXlt integer64
-as.POSIXlt.integer64 = function(x, tz="", origin, ...) {
-  x = as.double(x, ...)
-  callGeneric()
-}
+as.POSIXlt.integer64 = function(x, tz="", origin, ...)
+  as.POSIXlt(as.double(x, ...))
 
 #' @rdname as.character.integer64
 #' @export
@@ -1094,7 +1080,7 @@ as.data.frame.integer64 <- function(x, row.names=NULL, optional=FALSE, ...) {
   on.exit(setattr(x, "class", cl))
   # tenfold runtime if using attr() here instead of setattr()
   setattr(x, "class", minusclass(cl, "integer64"))
-  ret = callGeneric()
+  ret = as.data.frame(x, ...)
   for (i in seq_along(ret))
     setattr(ret[[i]], "class", cl)
   ret
