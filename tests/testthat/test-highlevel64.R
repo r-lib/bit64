@@ -16,12 +16,12 @@ test_that("match & %in% basics work", {
   expect_identical(x %in% 3:6, c(FALSE, TRUE, TRUE, TRUE))
   expect_identical(x %in% c(3.0, 4.0, 5.0, 6.0), c(FALSE, TRUE, TRUE, TRUE))
 
-  expect_identical(match(integer64(), as.integer64(1)), integer())
-  expect_identical(match(as.integer64(1), integer64()), NA_integer_)
-  expect_identical(match(as.integer64(1), integer64(), nomatch = 0L), 0L)
+  expect_identical(match(integer64(), as.integer64(1L)), integer())
+  expect_identical(match(as.integer64(1L), integer64()), NA_integer_)
+  expect_identical(match(as.integer64(1L), integer64(), nomatch = 0L), 0L)
 
-  x_nm <- as.integer64(c(1, 3))
-  table_nm <- as.integer64(c(2, 3, 4))
+  x_nm <- as.integer64(c(1L, 3L))
+  table_nm <- as.integer64(2:4)
   expect_identical(match(x_nm, table_nm, nomatch = -1L), c(-1L, 2L))
 })
 
@@ -53,8 +53,8 @@ test_that("Different method= for match() and %in% work", {
 
 test_that("match.integer64: automatic method selection without cache", {
   # hashrev path: short x, long table
-  nx <- 10
-  ny <- 2^16
+  nx <- 10L
+  ny <- 2L^16L
   x <- as.integer64(1:nx)
   table <- as.integer64(1:ny)
   # The conditions for "hashrev" are bx<=17L && btable>=16L
@@ -68,13 +68,13 @@ test_that("match.integer64: automatic method selection without cache", {
   table_short_match <- as.integer64(1:nx)
   # bx = 17, btable = 4. bx<=17 is TRUE, btable>=16 is FALSE. Should use hashpos.
   expect_identical(match(x_long_match[1:nx], table_short_match), 1:nx)
-  expect_identical(match(x_long_match[(nx+1):(nx+10)], table_short_match), rep(NA_integer_, 10))
+  expect_identical(match(x_long_match[(nx+1L):(nx+10L)], table_short_match), rep(NA_integer_, 10L))
 })
 
 test_that("%in%.integer64: automatic method selection without cache", {
   # hashrin path: short x, long table
-  nx <- 10
-  ny <- 2^16
+  nx <- 10L
+  ny <- 2L^16L
   x <- as.integer64(1:nx)
   table <- as.integer64(1:ny)
   # The conditions for "hashrin" are bx<=17L && btable>=16L
@@ -88,12 +88,12 @@ test_that("%in%.integer64: automatic method selection without cache", {
   table_short_in <- as.integer64(1:nx)
   # bx = 17, btable = 4. bx<=17 is TRUE, btable>=16 is FALSE. Should use hashfin.
   expect_identical(x_long_in[1:nx] %in% table_short_in, rep(TRUE, nx))
-  expect_identical(x_long_in[(nx+1):(nx+10)] %in% table_short_in, rep(FALSE, 10))
+  expect_identical(x_long_in[(nx+1L):(nx+10L)] %in% table_short_in, rep(FALSE, 10L))
 })
 
 test_that("match.integer64: cache-based method selection", {
-  x <- as.integer64(c(1, 3, 5))
-  table <- as.integer64(c(2, 4, 3, 1))
+  x <- as.integer64(c(1L, 3L, 5L))
+  table <- as.integer64(c(2L, 4L, 3L, 1L))
 
   # hashcache
   hashcache(table)
@@ -112,8 +112,8 @@ test_that("match.integer64: cache-based method selection", {
 })
 
 test_that("%in%.integer64: cache-based method selection", {
-  x <- as.integer64(c(1, 3, 5))
-  table <- as.integer64(c(2, 4, 3, 1))
+  x <- as.integer64(c(1L, 3L, 5L))
+  table <- as.integer64(c(2L, 4L, 3L, 1L))
   expected_in <- c(TRUE, TRUE, FALSE)
 
   # hashcache
@@ -133,20 +133,20 @@ test_that("%in%.integer64: cache-based method selection", {
 })
 
 test_that("match.integer64: nunique argument", {
-  x <- as.integer64(c(1, 3, 5))
-  table <- as.integer64(c(2, 4, 3, 1, 3))
-  expect_identical(match(x, table, nunique = 4), c(4L, 3L, NA_integer_))
+  x <- as.integer64(c(1L, 3L, 5L))
+  table <- as.integer64(c(2L, 4L, 3L, 1L, 3L))
+  expect_identical(match(x, table, nunique = 4L), c(4L, 3L, NA_integer_))
 })
 
 test_that("%in%.integer64: nunique argument", {
-  x <- as.integer64(c(1, 3, 5))
-  table <- as.integer64(c(2, 4, 3, 1, 3))
+  x <- as.integer64(c(1L, 3L, 5L))
+  table <- as.integer64(c(2L, 4L, 3L, 1L, 3L))
   expect_identical(x %in% table, c(TRUE, TRUE, FALSE))
 })
 
 test_that("%in%.integer64: with NA values", {
-  x <- as.integer64(c(1, NA, 3))
-  table <- as.integer64(c(NA, 2, 1))
+  x <- as.integer64(c(1L, NA, 3L))
+  table <- as.integer64(c(NA, 2L, 1L))
   expect_identical(x %in% table, c(TRUE, TRUE, FALSE))
 })
 
