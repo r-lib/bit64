@@ -18,6 +18,37 @@ test_that("integer64 coercion to/from other types work for atomic vectors", {
   expect_identical(as.integer64(i64), i64)
 })
 
+test_that("integer64 coercion to/from other types works via S4 coercion", {
+  expect_identical(methods::as(as.character(1:10), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.factor(11:20), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.ordered(11:20), "integer64"), as.integer64(1:10))
+  expect_warning(
+    expect_identical(methods::as(as.complex(1:10) + 1.0i, "integer64"), as.integer64(1:10)),
+    "imaginary parts discarded in coercion"
+  )
+  expect_identical(methods::as(as.numeric(1:10), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.integer(1:10), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.raw(1:10), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.logical(0:2), "integer64"), as.integer64(c(0L, 1L, 1L)))
+  expect_identical(methods::as(as.integer64(1:10), "character"), as.character(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "factor"), as.factor(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "ordered"), as.ordered(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "numeric"), as.numeric(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "integer"), as.integer(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "logical"), as.logical(1:10))
+})
+
+test_that("integer64 coercion to/from other types works for NA", {
+  expect_identical(as.logical(NA_integer64_), NA)
+  expect_identical(as.integer(NA_integer64_), NA_integer_)
+  expect_identical(as.double(NA_integer64_), NA_real_)
+  expect_identical(as.character(NA_integer64_), NA_character_)
+  expect_identical(as.integer64(NA), NA_integer64_)
+  expect_identical(as.integer64(NA_integer_), NA_integer64_)
+  expect_identical(as.integer64(NA_real_), NA_integer64_)
+  expect_identical(as.integer64(NA_character_), NA_integer64_)
+})
+
 test_that("integer64 coercion to/from factor types works", {
   i32 = 1:10
   i64 = as.integer64(i32)
@@ -56,7 +87,15 @@ test_that("integer64 coercion to/from time types works", {
     as.integer64(as.Date(posixct)),
     as.integer64(as.integer(as.Date(posixct)))
   )
-  
+
+  # S4 version
+  expect_identical(methods::as(posix_delta, "integer64"), as.integer64(posix_delta))
+  expect_identical(methods::as(posixct, "integer64"), as.integer64(posixct))
+  expect_identical(methods::as(as.POSIXlt(posixct), "integer64"), as.integer64(as.POSIXlt(posixct)))
+  expect_identical(methods::as(as.Date(posixct), "integer64"), as.integer64(as.Date(posixct)))
+})
+
+test_that("integer64 coercion from generic object works", {
   x = structure(
     as.integer64(1:10),
     class=c("otherClass", "integer64"),
@@ -65,41 +104,6 @@ test_that("integer64 coercion to/from time types works", {
     otherAttr="some other attribute"
   )
   expect_identical(as.integer64(x), as.integer64(1:10))
-})
-
-test_that("integer64 coercion to/from other types works via S4 coercion", {
-  expect_identical(methods::as(as.character(1:10), "integer64"), as.integer64(1:10))
-  expect_identical(methods::as(as.factor(11:20), "integer64"), as.integer64(1:10))
-  expect_identical(methods::as(as.ordered(11:20), "integer64"), as.integer64(1:10))
-  expect_warning(
-    expect_identical(methods::as(as.complex(1:10) + 1.0i, "integer64"), as.integer64(1:10)),
-    "imaginary parts discarded in coercion"
-  )
-  expect_identical(methods::as(as.numeric(1:10), "integer64"), as.integer64(1:10))
-  expect_identical(methods::as(as.integer(1:10), "integer64"), as.integer64(1:10))
-  expect_identical(methods::as(as.raw(1:10), "integer64"), as.integer64(1:10))
-  expect_identical(methods::as(as.logical(0:2), "integer64"), as.integer64(c(0L, 1L, 1L)))
-  expect_identical(methods::as(difftime(p+1000, p), "integer64"), as.integer64(difftime(p+1000, p)))
-  expect_identical(methods::as(p, "integer64"), as.integer64(p))
-  expect_identical(methods::as(as.POSIXlt(p), "integer64"), as.integer64(as.POSIXlt(p)))
-  expect_identical(methods::as(as.Date(p), "integer64"), as.integer64(as.Date(p)))
-  expect_identical(methods::as(as.integer64(1:10), "character"), as.character(1:10))
-  expect_identical(methods::as(as.integer64(1:10), "factor"), as.factor(1:10))
-  expect_identical(methods::as(as.integer64(1:10), "ordered"), as.ordered(1:10))
-  expect_identical(methods::as(as.integer64(1:10), "numeric"), as.numeric(1:10))
-  expect_identical(methods::as(as.integer64(1:10), "integer"), as.integer(1:10))
-  expect_identical(methods::as(as.integer64(1:10), "logical"), as.logical(1:10))
-})
-
-test_that("integer64 coercion to/from other types works for NA", {
-  expect_identical(as.logical(NA_integer64_), NA)
-  expect_identical(as.integer(NA_integer64_), NA_integer_)
-  expect_identical(as.double(NA_integer64_), NA_real_)
-  expect_identical(as.character(NA_integer64_), NA_character_)
-  expect_identical(as.integer64(NA), NA_integer64_)
-  expect_identical(as.integer64(NA_integer_), NA_integer64_)
-  expect_identical(as.integer64(NA_real_), NA_integer64_)
-  expect_identical(as.integer64(NA_character_), NA_integer64_)
 })
 
 test_that("integer64 coercion to/from other types work for R >=4.0.0", {
