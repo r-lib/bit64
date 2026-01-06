@@ -781,17 +781,17 @@ as.bitstring.integer64 = function(x, ...) {
 #' @rdname as.character.integer64
 #' @exportS3Method base::as.Date integer64
 as.Date.integer64 = function(x, origin, ...)
-  as.Date(as.double(x))
+  as.Date(as.double(x), origin=origin, ...)
 
 #' @rdname as.character.integer64
 #' @exportS3Method base::as.POSIXct integer64
 as.POSIXct.integer64 = function(x, tz="", origin, ...)
-  as.POSIXct(as.double(x))
+  as.POSIXct(as.double(x), tz=tz, origin=origin, ...)
 
 #' @rdname as.character.integer64
 #' @exportS3Method base::as.POSIXlt integer64
 as.POSIXlt.integer64 = function(x, tz="", origin, ...)
-  as.POSIXlt(as.double(x, ...))
+  as.POSIXlt(as.double(x, ...), tz=tz, origin=origin, ...)
 
 #' @rdname as.character.integer64
 #' @export
