@@ -157,7 +157,7 @@ test_that("Explicit algorithm dispatch hits C-level fallbacks and edge cases", {
   # These lines are only hit when mergesort is forced into descending mode.
   # ramsort only selects mergesort for small vectors (< 2048), but we force it here.
 
-  x = clone(x_base)
+  x = bit::clone(x_base)
   expect_identical(
     bit::mergesort(x, decreasing=TRUE),
     0L # No NAs
@@ -165,12 +165,12 @@ test_that("Explicit algorithm dispatch hits C-level fallbacks and edge cases", {
   expect_identical(x, as.integer64(sort(as.integer(x_base), decreasing=TRUE)))
 
   # Verify mergesortorder and mergeorder descending paths
-  x = clone(x_base)
+  x = bit::clone(x_base)
   i = seq_along(x)
   bit::mergesortorder(x, i, decreasing=TRUE)
   expect_identical(x, as.integer64(sort(as.integer(x_base), decreasing=TRUE)))
 
-  x = clone(x_base)
+  x = bit::clone(x_base)
   i = seq_along(x)
   bit::mergeorder(x, i, decreasing=TRUE)
   expect_identical(x[i], as.integer64(sort(as.integer(x_base), decreasing=TRUE)))
@@ -179,12 +179,12 @@ test_that("Explicit algorithm dispatch hits C-level fallbacks and edge cases", {
   # The C code switches from Quicksort to Shellsort if recursion depth (restlevel)
   # is exhausted. We force this by setting restlevel=0.
 
-  x = clone(x_base)
+  x = bit::clone(x_base)
   # restlevel=0 forces immediate switch to ram_integer64_shellsort_asc/desc
   bit::quicksort(x, restlevel=0L)
   expect_identical(x, as.integer64(sort(as.integer(x_base))))
 
-  x = clone(x_base)
+  x = bit::clone(x_base)
   bit::quicksort(x, decreasing=TRUE, restlevel=0L)
   expect_identical(x, as.integer64(sort(as.integer(x_base), decreasing=TRUE)))
 
@@ -197,24 +197,24 @@ test_that("Explicit algorithm dispatch hits C-level fallbacks and edge cases", {
 
   # Case: Sorted input
   x_sorted = as.integer64(1:100)
-  x = clone(x_sorted)
+  x = bit::clone(x_sorted)
   bit::quicksort(x, optimize="memory") # Force quicksort
   expect_identical(x, x_sorted)
 
   # Case: Reverse sorted input (Descending sort on Ascending data and vice versa)
   x_rev = as.integer64(100:1)
-  x = clone(x_rev)
+  x = bit::clone(x_rev)
   bit::quicksort(x, decreasing=FALSE, optimize="memory")
   expect_identical(x, x_sorted)
 
   # Case: All duplicates (High stress on partitioning equal values)
   x_all_dups = as.integer64(rep(10L, 50))
-  x = clone(x_all_dups)
+  x = bit::clone(x_all_dups)
   bit::quicksort(x, optimize="memory")
   expect_identical(x, x_all_dups)
 
   # Case: High duplicates with NAs (verify pivot selection with NAs present)
-  x = clone(x_dups)
+  x = bit::clone(x_dups)
   bit::quicksort(x, optimize="memory", has.na=TRUE)
   expect_true(is.sorted(x)) # utilizing bit::is.sorted if available, or check manually
 })
@@ -224,13 +224,13 @@ test_that("Specific sortorder/order variants for Quicksort coverage", {
   x_base = as.integer64(sample(100, 50))
 
   # quicksortorder descending
-  x = clone(x_base)
+  x = bit::clone(x_base)
   i = seq_along(x)
   bit::quicksortorder(x, i, decreasing=TRUE)
   expect_identical(x, as.integer64(sort(as.integer(x_base), decreasing=TRUE)))
 
   # quickorder descending (modifies i, not x)
-  x = clone(x_base)
+  x = bit::clone(x_base)
   i = seq_along(x)
   bit::quickorder(x, i, decreasing=TRUE)
   expect_identical(x[i], as.integer64(sort(as.integer(x_base), decreasing=TRUE)))
@@ -241,11 +241,11 @@ test_that("Shellsort direct invocation", {
   # to ensure the 'shellsort_desc' and 'shellsortorder' paths are clean.
   x_base = as.integer64(sample(100, 50))
 
-  x = clone(x_base)
+  x = bit::clone(x_base)
   bit::shellsort(x, decreasing=TRUE)
   expect_identical(x, as.integer64(sort(as.integer(x_base), decreasing=TRUE)))
 
-  x = clone(x_base)
+  x = bit::clone(x_base)
   i = seq_along(x)
   bit::shellorder(x, i, decreasing=FALSE)
   expect_identical(x[i], as.integer64(sort(as.integer(x_base))))
@@ -256,20 +256,20 @@ test_that("Corner cases for partitioning logic", {
 
   # Case 1: Empty
   x_empty = integer64()
-  x = clone(x_empty)
+  x = bit::clone(x_empty)
   # bit::quicksort returns the NA count (0L), and modifies 'x' in-place
   expect_identical(bit::quicksort(x), 0L) 
   expect_identical(x, x_empty)
 
   # Case 2: Single Element
   x_single = as.integer64(1L)
-  x = clone(x_single)
+  x = bit::clone(x_single)
   expect_identical(bit::quicksort(x), 0L)
   expect_identical(x, x_single)
 
   # Case 3: Pair (swap required)
   x_pair = as.integer64(c(2L, 1L))
-  x = clone(x_pair)
+  x = bit::clone(x_pair)
   expect_identical(bit::quicksort(x), 0L)
   expect_identical(x, as.integer64(c(1L, 2L)))
 })
