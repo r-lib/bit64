@@ -57,16 +57,13 @@ test_that("match.integer64: automatic method selection without cache", {
   ny <- 2L^16L
   x <- as.integer64(1:nx)
   table <- as.integer64(1:ny)
-  # The conditions for "hashrev" are bx<=17L && btable>=16L
-  # bx = ceiling(log2(10*1.5)) = 4 <= 17 (TRUE)
-  # btable = ceiling(log2(2^16*1.5)) = 17 >= 16 (TRUE)
-  # So, this should use hashrev.
+  # As of this writing, this should invoke hashrev
   expect_identical(match(x, table), 1:nx)
 
   # hashpos path: long x, short table
   x_long_match <- as.integer64(1:ny)
   table_short_match <- as.integer64(1:nx)
-  # bx = 17, btable = 4. bx<=17 is TRUE, btable>=16 is FALSE. Should use hashpos.
+  # As of this writing, this should use hashpos
   expect_identical(match(x_long_match[1:nx], table_short_match), 1:nx)
   expect_identical(match(x_long_match[(nx+1L):(nx+10L)], table_short_match), rep(NA_integer_, 10L))
 })
@@ -77,16 +74,13 @@ test_that("%in%.integer64: automatic method selection without cache", {
   ny <- 2L^16L
   x <- as.integer64(1:nx)
   table <- as.integer64(1:ny)
-  # The conditions for "hashrin" are bx<=17L && btable>=16L
-  # bx = ceiling(log2(10*1.5)) = 4 <= 17 (TRUE)
-  # btable = ceiling(log2(2^16*1.5)) = 17 >= 16 (TRUE)
-  # So, this should use hashrin.
+  # As of this writing, this should use hashrin
   expect_identical(x %in% table, rep(TRUE, nx))
 
   # hashfin path: long x, short table
   x_long_in <- as.integer64(1:ny)
   table_short_in <- as.integer64(1:nx)
-  # bx = 17, btable = 4. bx<=17 is TRUE, btable>=16 is FALSE. Should use hashfin.
+  # As of this writing, this should use hashfin.
   expect_identical(x_long_in[1:nx] %in% table_short_in, rep(TRUE, nx))
   expect_identical(x_long_in[(nx+1L):(nx+10L)] %in% table_short_in, rep(FALSE, 10L))
 })
@@ -333,11 +327,6 @@ test_that("match.integer64 with partial cache triggers fallback", {
 
   # This should fallback to hashpos/hashrev logic.
   # x is small, table is small.
-  # nx = 5, nunique from cache is 5
-  # btable = ceiling(log2(5*1.5)) = ceiling(log2(7.5)) = 3
-  # bx = ceiling(log2(5*1.5)) = 3
-  # bx<=17 (T) && btable>=16 (F) -> hashpos
-  # So this should still work and give correct result.
   expect_identical(match(x, table), c(NA_integer_, NA_integer_, 1L, 2L, 3L))
 
   remcache(table)
