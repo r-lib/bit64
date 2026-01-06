@@ -178,12 +178,6 @@ test_that("Coercion", {
     as.double(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
     as.double(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
   )
-  if (getRversion() >= "4.0.0") {
-    expect_identical(
-      as.complex(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
-      as.complex(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
-    )
-  }
   expect_identical(
     as.character(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
     as.character(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
@@ -192,19 +186,6 @@ test_that("Coercion", {
     as.integer(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
     as.integer(c(NA, seq(0.0, 9.0, 0.25)))
   )
-  
-  if (getRversion() >= "4.0.0") {
-    expect_warning(
-      expect_warning(
-        expect_identical(
-          as.raw(as.integer64(c(NA, seq(0.0, 1.25, 0.25)))),
-          as.raw(as.integer(c(NA, seq(0.0, 1.25, 0.25))))
-        ), fixed=TRUE,
-        "out-of-range values treated as 0 in coercion to raw"
-      ), fixed=TRUE,
-      "out-of-range values treated as 0 in coercion to raw"
-    )
-  }
   expect_identical(
     as.logical(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
     as.logical(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
@@ -269,12 +250,6 @@ test_that("Coercion", {
     as(as.ordered(111), "integer64"),
     as.integer64(1L)
   )
-  if (getRversion() >= "4.0.0") {
-    expect_identical(
-      as(as.integer64(1L), "raw"),
-      as.raw(1L)
-    )
-  }
   expect_identical(
     as(as.integer64(1L), "logical"),
     TRUE
@@ -295,12 +270,6 @@ test_that("Coercion", {
     as(as.integer64(111L), "double"),
     111
   )
-  if (getRversion() >= "4.0.0") {
-    expect_identical(
-      as(as.integer64(111L), "complex"),
-      111+0i
-    )
-  }
   expect_identical(
     as(as.integer64(111L), "character"),
     "111"
@@ -312,6 +281,36 @@ test_that("Coercion", {
   expect_identical(
     as(as.integer64(111L), "ordered"),
     as.ordered("111")
+  )
+})
+
+test_that("Coercion works for cases requiring recent R", {
+  skip_unless_r(">= 4.0.0")
+
+  expect_identical(
+    as.complex(as.integer64(c(NA, seq(0.0, 9.0, 0.25)))),
+    as.complex(as.integer(c(NA, seq(0.0, 9.0, 0.25))))
+  )
+
+  expect_warning(
+    expect_warning(
+      expect_identical(
+        as.raw(as.integer64(c(NA, seq(0.0, 1.25, 0.25)))),
+        as.raw(as.integer(c(NA, seq(0.0, 1.25, 0.25))))
+      ),
+      "out-of-range values treated as 0 in coercion to raw", fixed=TRUE
+    ),
+    "out-of-range values treated as 0 in coercion to raw", fixed=TRUE
+  )
+
+  expect_identical(
+    as(as.integer64(1L), "raw"),
+    as.raw(1L)
+  )
+
+  expect_identical(
+    as(as.integer64(111L), "complex"),
+    111+0i
   )
 })
 
