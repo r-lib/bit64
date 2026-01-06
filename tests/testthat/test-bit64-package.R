@@ -234,11 +234,11 @@ test_that("Coercion with as() works as intended", {
     as.integer64(111L)
   )
   expect_identical(
-    as(111, "integer64"),
+    as(111.0, "integer64"),
     as.integer64(111L)
   )
   expect_identical(
-    as(111+0i, "integer64"),
+    as(111.0 + 0.0i, "integer64"),
     as.integer64(111L)
   )
   expect_identical(
@@ -246,11 +246,11 @@ test_that("Coercion with as() works as intended", {
     as.integer64(111L)
   )
   expect_identical(
-    as(as.factor(111), "integer64"),
+    as(as.factor(111L), "integer64"),
     as.integer64(1L)
   )
   expect_identical(
-    as(as.ordered(111), "integer64"),
+    as(as.ordered(111L), "integer64"),
     as.integer64(1L)
   )
   expect_identical(
@@ -262,16 +262,8 @@ test_that("Coercion with as() works as intended", {
     111L
   )
   expect_identical(
-    as(as.integer64(111L), "integer"),
-    111L
-  )
-  expect_identical(
     as(as.integer64(111L), "numeric"),
-    111
-  )
-  expect_identical(
-    as(as.integer64(111L), "double"),
-    111
+    111.0
   )
   expect_identical(
     as(as.integer64(111L), "character"),
@@ -312,7 +304,7 @@ test_that("Coercion works for cases requiring recent R", {
 
   expect_identical(
     as(as.integer64(111L), "complex"),
-    111+0i
+    111.0 + 0.0i
   )
 })
 
