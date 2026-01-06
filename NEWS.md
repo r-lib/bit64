@@ -50,7 +50,7 @@
    - `seq(a, a, by=by)` is no longer an error.
    - We match the default method behavior of assuming `from=1` and `to=1` if needed in order to support usage like `seq(as.integer64(10L), by=-1L)` and `seq(by=as.integer64(3L), length.out=8L)`.
    - `seq(a, a, length.out=n)` will give `rep(a, n)`, not `seq(a, by=1, length.out=n)`.
-1. Coercion to/from integer64 is extended heftily (includes #199). Thanks @hcirellu.
+1. Coercion to/from integer64 is expanded greatly (includes #199). Thanks @hcirellu.
    - `as.Date`, `as.POSIXct`, `as.POSXlt`, `as.complex`, and `as.raw` get an `integer64` method.
    - `as.difftime()` is newly masked from {base} to allow S3 dispatch, to which we've added an `integer64` method.
    - `as.integer64` gets `Date`, `POSIXct`, `POSXlt`, `complex`, `raw`, and `difftime` methods.
