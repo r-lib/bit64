@@ -1,4 +1,4 @@
-test_that("integer64 coercion to/from other types work", {
+test_that("integer64 coercion to/from other types work for atomic vectors", {
   # from integer64
   i32 = 1:10
   i64 = as.integer64(i32)
@@ -7,8 +7,6 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(as.character(i64), as.character(i32))
   expect_identical(as.double(i64), as.double(i32))
   expect_identical(as.numeric(i64), as.numeric(i32))
-  expect_identical(as.factor(i64), as.factor(i32))
-  expect_identical(as.ordered(i64), as.ordered(i32))
 
   # to integer64
   expect_identical(as.integer64(TRUE), as.integer64(1L))
@@ -16,11 +14,19 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(as.integer64(as.double(1:10)), as.integer64(1:10))
   expect_identical(as.integer64(as.complex(1:10)), as.integer64(1:10))
   expect_identical(as.integer64(as.raw(1:10)), as.integer64(1:10))
-  expect_identical(as.integer64(as.factor(11:20)), as.integer64(1:10))
-  expect_identical(as.integer64(as.ordered(11:20)), as.integer64(1:10))
   expect_identical(as.integer64(NULL), as.integer64())
   x = as.integer64(1:10)
   expect_identical(as.integer64(x), x)
+})
+
+test_that("integer64 coercion to/from other types work for simple objects", {
+  i32 = 1:10
+  i64 = as.integer64(i32)
+  expect_identical(as.factor(i64), as.factor(i32))
+  expect_identical(as.ordered(i64), as.ordered(i32))
+  expect_identical(as.integer64(as.factor(11:20)), as.integer64(1:10))
+  expect_identical(as.integer64(as.ordered(11:20)), as.integer64(1:10))
+
   p = c(Sys.time(), Sys.time())
   expect_identical(
     as.integer64(difftime(p+1000, p)), 
@@ -42,8 +48,9 @@ test_that("integer64 coercion to/from other types work", {
   
   x = structure(as.integer64(1:10), class=c("otherClass", "integer64"), dim=c(2, 5), dimnames=list(LETTERS[1:2], letters[1:5]), otherAttr="some other attribute")
   expect_identical(as.integer64(x), as.integer64(1:10))
+})
 
-  # S4 version
+test_that("integer64 coercion to/from other types works via S4 coercion", {
   expect_identical(methods::as(as.character(1:10), "integer64"), as.integer64(1:10))
   expect_identical(methods::as(as.factor(11:20), "integer64"), as.integer64(1:10))
   expect_identical(methods::as(as.ordered(11:20), "integer64"), as.integer64(1:10))
@@ -62,8 +69,9 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(methods::as(as.integer64(1:10), "numeric"), as.numeric(1:10))
   expect_identical(methods::as(as.integer64(1:10), "integer"), as.integer(1:10))
   expect_identical(methods::as(as.integer64(1:10), "logical"), as.logical(1:10))
+})
 
-  # now for NA
+test_that("integer64 coercion to/from other types works for NA", {
   expect_identical(as.logical(NA_integer64_), NA)
   expect_identical(as.integer(NA_integer64_), NA_integer_)
   expect_identical(as.double(NA_integer64_), NA_real_)
