@@ -4,12 +4,12 @@
 \alias{as.data.frame.integer64}
 \title{integer64: Coercing to data.frame column}
 \usage{
-\method{as.data.frame}{integer64}(x, ...)
+\method{as.data.frame}{integer64}(x, row.names = NULL, optional = FALSE, ...)
 }
 \arguments{
 \item{x}{an integer64 vector}
 
-\item{...}{passed to NextMethod \code{\link[=as.data.frame]{as.data.frame()}} after removing the
+\item{row.names, optional, ...}{passed to NextMethod \code{\link[=as.data.frame]{as.data.frame()}} after removing the
 'integer64' class attribute}
 }
 \value{
@@ -26,7 +26,7 @@ but it is required to allow integer64 as data.frame columns.
 This is currently very slow -- any ideas for improvement?
 }
 \examples{
-  as.data.frame.integer64(as.integer64(1:12))
+  as.data.frame(as.integer64(1:12))
   data.frame(a=1:12, b=as.integer64(1:12))
 }
 \seealso{
