@@ -15,19 +15,28 @@ test_that("match & %in% basics work", {
   expect_identical(y %in% x, c(TRUE, TRUE, TRUE, FALSE))
   expect_identical(x %in% 3:6, c(FALSE, TRUE, TRUE, TRUE))
   expect_identical(x %in% c(3.0, 4.0, 5.0, 6.0), c(FALSE, TRUE, TRUE, TRUE))
+
+  expect_identical(match(integer64(), as.integer64(1)), integer())
+  expect_identical(match(as.integer64(1), integer64()), NA_integer_)
+  expect_identical(match(as.integer64(1), integer64(), nomatch = 0L), 0L)
+
+  x_nm <- as.integer64(c(1, 3))
+  table_nm <- as.integer64(c(2, 3, 4))
+  expect_identical(match(x_nm, table_nm, nomatch = -1L), c(-1L, 2L))
 })
 
 test_that("Different method= for match() and %in% work", {
   x = as.integer64(2:5)
   y = as.integer64(3:6)
-  expected = c(NA_integer_, 1:3)
+  expected_match = c(NA_integer_, 1:3)
+  expected_in = c(FALSE, TRUE, TRUE, TRUE)
 
-  expect_identical(match(x, y, method="hashpos"), expected)
-  expect_identical(match(x, y, method="hashrev"), expected)
-  expect_identical(match(x, y, method="sortorderpos"), expected)
-  expect_error(match(x, y, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
+  expect_identical(match(x, y, method="hashpos"), expected_match)
+  expect_identical(match(x, y, method="hashrev"), expected_match)
+  expect_identical(match(x, y, method="sortorderpos"), expected_match)
+  expect_error(match(x, y, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
   # TODO(#58): Fix this, currently fails.
-  # expect_identical(match(x, y, method="orderpos"), expected)
+  # expect_identical(match(x, y, method="orderpos"), expected_match)
 
   # NB: %in% is quite a bit different; while there's a public API to
   #   `%in%.integer64`, likely, there shouldn't be (it's strange to export
@@ -37,10 +46,109 @@ test_that("Different method= for match() and %in% work", {
   #   that's fine; now that we have coverage tests up, any refactor that bumps
   #   around what exactly the following tests are covering, will show up in the PR.
 
-  # method="hashrin" used when x is "short" but table is "long"
-  x = as.integer64(seq_len(10L))
-  table = as.integer64(seq_len(2.0**16.0 * 2.0/3.0 + 10.0)) # invert condition for bx>=16, 10.0 arbitrary buffer
-  expect_identical(x %in% table, rep(TRUE, 10L))
+  # method="hashrin" used when x is "short" but table is "long" (existing test)
+  x_long_in <- as.integer64(seq_len(10L))
+  table_long_in <- as.integer64(seq_len(2.0**16.0 * 2.0/3.0 + 10.0)) # invert condition for bx>=16, 10.0 arbitrary buffer
+  expect_identical(x_long_in %in% table_long_in, rep(TRUE, 10L))
+})
+
+test_that("match.integer64: automatic method selection without cache", {
+  # hashrev path: short x, long table
+  nx <- 10
+  ny <- 2^16
+  x <- as.integer64(1:nx)
+  table <- as.integer64(1:ny)
+  # The conditions for "hashrev" are bx<=17L && btable>=16L
+  # bx = ceiling(log2(10*1.5)) = 4 <= 17 (TRUE)
+  # btable = ceiling(log2(2^16*1.5)) = 17 >= 16 (TRUE)
+  # So, this should use hashrev.
+  expect_identical(match(x, table), 1:nx)
+
+  # hashpos path: long x, short table
+  x_long_match <- as.integer64(1:ny)
+  table_short_match <- as.integer64(1:nx)
+  # bx = 17, btable = 4. bx<=17 is TRUE, btable>=16 is FALSE. Should use hashpos.
+  expect_identical(match(x_long_match[1:nx], table_short_match), 1:nx)
+  expect_identical(match(x_long_match[(nx+1):(nx+10)], table_short_match), rep(NA_integer_, 10))
+})
+
+test_that("%in%.integer64: automatic method selection without cache", {
+  # hashrin path: short x, long table
+  nx <- 10
+  ny <- 2^16
+  x <- as.integer64(1:nx)
+  table <- as.integer64(1:ny)
+  # The conditions for "hashrin" are bx<=17L && btable>=16L
+  # bx = ceiling(log2(10*1.5)) = 4 <= 17 (TRUE)
+  # btable = ceiling(log2(2^16*1.5)) = 17 >= 16 (TRUE)
+  # So, this should use hashrin.
+  expect_identical(x %in% table, rep(TRUE, nx))
+
+  # hashfin path: long x, short table
+  x_long_in <- as.integer64(1:ny)
+  table_short_in <- as.integer64(1:nx)
+  # bx = 17, btable = 4. bx<=17 is TRUE, btable>=16 is FALSE. Should use hashfin.
+  expect_identical(x_long_in[1:nx] %in% table_short_in, rep(TRUE, nx))
+  expect_identical(x_long_in[(nx+1):(nx+10)] %in% table_short_in, rep(FALSE, 10))
+})
+
+test_that("match.integer64: cache-based method selection", {
+  x <- as.integer64(c(1, 3, 5))
+  table <- as.integer64(c(2, 4, 3, 1))
+
+  # hashcache
+  hashcache(table)
+  expect_identical(match(x, table), c(4L, 3L, NA_integer_))
+  remcache(table)
+
+  # sortordercache
+  sortordercache(table)
+  expect_identical(match(x, table), c(4L, 3L, NA_integer_))
+  remcache(table)
+
+  # ordercache
+  ordercache(table)
+  expect_identical(match(x, table), c(4L, 3L, NA_integer_))
+  remcache(table)
+})
+
+test_that("%in%.integer64: cache-based method selection", {
+  x <- as.integer64(c(1, 3, 5))
+  table <- as.integer64(c(2, 4, 3, 1))
+  expected_in <- c(TRUE, TRUE, FALSE)
+
+  # hashcache
+  hashcache(table)
+  expect_identical(x %in% table, expected_in)
+  remcache(table)
+
+  # sortcache
+  sortcache(table)
+  expect_identical(x %in% table, expected_in)
+  remcache(table)
+
+  # ordercache
+  ordercache(table)
+  expect_identical(x %in% table, expected_in)
+  remcache(table)
+})
+
+test_that("match.integer64: nunique argument", {
+  x <- as.integer64(c(1, 3, 5))
+  table <- as.integer64(c(2, 4, 3, 1, 3))
+  expect_identical(match(x, table, nunique = 4), c(4L, 3L, NA_integer_))
+})
+
+test_that("%in%.integer64: nunique argument", {
+  x <- as.integer64(c(1, 3, 5))
+  table <- as.integer64(c(2, 4, 3, 1, 3))
+  expect_identical(x %in% table, c(TRUE, TRUE, FALSE))
+})
+
+test_that("%in%.integer64: with NA values", {
+  x <- as.integer64(c(1, NA, 3))
+  table <- as.integer64(c(NA, 2, 1))
+  expect_identical(x %in% table, c(TRUE, TRUE, FALSE))
 })
 
 # TODO(#59): Don't call table.integer64() directly.
@@ -65,8 +173,8 @@ test_that("duplicated, unique, table methods work", {
   expect_identical(unique(x), x[c(1L, 3L)])
   expect_identical(table.integer64(x), table(x = c(1L, 1L, 2L)))
 
-  expect_error(duplicated(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
-  expect_error(unique(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
+  expect_error(duplicated(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
+  expect_error(unique(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
 })
 
 test_that("different method= for duplicated, unique work", {
@@ -121,9 +229,9 @@ test_that("sorting methods work", {
   expect_identical(tiepos(x), x_tiepos)
   expect_identical(tiepos(x, method="ordertie"), x_tiepos)
 
-  expect_error(rank(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
-  expect_error(qtile(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
-  expect_error(tiepos(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
+  expect_error(rank(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
+  expect_error(qtile(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
+  expect_error(tiepos(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
 })
 
 test_that("missing and empty inputs to median() are handled correctly", {
@@ -186,7 +294,7 @@ test_that("unipos() works as intended", {
   expect_identical(unipos(x, method="hashupo"), x_unipos)
   expect_identical(unipos(x, method="sortorderupo"), x_unipos)
   expect_identical(unipos(x, method="orderupo"), x_unipos)
-  expect_error(unipos(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
+  expect_error(unipos(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
 })
 
 test_that("keypos() works as intended", {
@@ -194,7 +302,7 @@ test_that("keypos() works as intended", {
   x_keypos = c(4L, 1L, 4L, 2L, 1L, 3L)
   expect_identical(keypos(x), x_keypos)
   expect_identical(keypos(x, method="orderkey"), x_keypos)
-  expect_error(keypos(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
+  expect_error(keypos(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
 })
 
 test_that("summary() works as intended", {
