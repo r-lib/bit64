@@ -28,19 +28,22 @@ test_that("integer64 coercion to/from factor types works", {
 })
 
 test_that("integer64 coercion to/from time types works", {
-  p = c(Sys.time(), Sys.time())
+  posixct = Sys.time()
+  posixct = c(posixct, posixct + 100)
+  posix_delta = difftime(posixct + 1000, posixct)
+
   expect_identical(
-    as.integer64(difftime(p+1000, p)), 
-    as.integer64(as.integer(difftime(p+1000, p)))
+    as.integer64(posix_delta), 
+    as.integer64(as.integer(posix_delta))
   )
   # as.integer.difftime does not work with `units`
   expect_identical(
-    as.integer64(difftime(p+1000, p), units="secs"), 
-    as.integer64(as.numeric(difftime(p+1000, p), units="secs"))
+    as.integer64(posix_delta, units="secs"), 
+    as.integer64(as.numeric(posix_delta, units="secs"))
   )
   expect_identical(
-    as.integer64(difftime(p+1000, p), units="mins"), 
-    as.integer64(as.numeric(difftime(p+1000, p), units="mins"))
+    as.integer64(posix_delta, units="mins"), 
+    as.integer64(as.numeric(posix_delta, units="mins"))
   )
   expect_identical(as.integer64(p), as.integer64(as.integer(p)))
   # as.integer.POSIXlt does not work properly
