@@ -71,7 +71,10 @@ test_that("integer64 coercion to/from other types works via S4 coercion", {
   expect_identical(methods::as(as.character(1:10), "integer64"), as.integer64(1:10))
   expect_identical(methods::as(as.factor(11:20), "integer64"), as.integer64(1:10))
   expect_identical(methods::as(as.ordered(11:20), "integer64"), as.integer64(1:10))
-  expect_warning(expect_identical(methods::as(as.complex(1:10) + 0+1i, "integer64"), as.integer64(1:10)), "imaginary parts discarded in coercion")
+  expect_warning(
+    expect_identical(methods::as(as.complex(1:10) + 1.0i, "integer64"), as.integer64(1:10)),
+    "imaginary parts discarded in coercion"
+  )
   expect_identical(methods::as(as.numeric(1:10), "integer64"), as.integer64(1:10))
   expect_identical(methods::as(as.integer(1:10), "integer64"), as.integer64(1:10))
   expect_identical(methods::as(as.raw(1:10), "integer64"), as.integer64(1:10))
