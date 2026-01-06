@@ -488,7 +488,7 @@ test_that("table.integer64 covers inputs, cache states, and return types", {
   y = as.integer64(c(1L, 2L, 1L))
   t2 = table.integer64(x, y, return="data.frame")
   # Unique pairs are (1,1) and (2,2) --> 2 rows
-  expect_equal(nrow(t2), 2L)
+  expect_identical(nrow(t2), 2L)
 
   # Potential overflow check for combinations > 2^63
   # We construct a list of many small vectors.
