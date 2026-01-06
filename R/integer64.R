@@ -722,10 +722,10 @@ as.integer64.difftime = function(x, units="auto", ...)
 .as_double_integer64 = function(x, keep.attributes=FALSE, ...) {
   ret = .Call(C_as_double_integer64, x, double(length(x)))
   if (isTRUE(keep.attributes)) {
-      # like dimensions for matrix operations
-      a = attributes(x)
-      a$class = NULL
-      attributes(ret) = a
+    # like dimensions for matrix operations
+    a = attributes(x)
+    a$class = NULL
+    attributes(ret) = a
   }
   ret
 }
@@ -792,14 +792,6 @@ as.POSIXct.integer64 = function(x, tz="", origin, ...)
 #' @exportS3Method base::as.POSIXlt integer64
 as.POSIXlt.integer64 = function(x, tz="", origin, ...)
   as.POSIXlt(as.double(x, ...), tz=tz, origin=origin, ...)
-
-#' @rdname as.character.integer64
-#' @export
-as.difftime = function(tim, format="%X", units="auto", tz="UTC", ...) UseMethod("as.difftime")
-#' @exportS3Method as.difftime default
-as.difftime.default = function(tim, format="%X", units="auto", tz ="UTC", ...) {
-  base::as.difftime(tim, format=format, units=units, tz=tz)
-}
 
 #' @rdname as.character.integer64
 #' @exportS3Method as.difftime integer64

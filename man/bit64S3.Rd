@@ -17,6 +17,7 @@
 \alias{order}
 \alias{order.default}
 \alias{mtfrm.integer64}
+\alias{as.difftime.default}
 \title{Turning base R functions into S3 generics for bit64}
 \usage{
 from:to
@@ -39,6 +40,8 @@ order(...)
 \method{rank}{default}(x, ...)
 
 \method{order}{default}(...)
+
+\method{as.difftime}{default}(tim, format = "\%X", units = "auto", tz = "UTC", ...)
 }
 \arguments{
 \item{x}{integer64 vector: the values to be matched, optionally carrying a
@@ -48,6 +51,8 @@ cache created with \code{\link[=hashcache]{hashcache()}}}
 carrying a cache created with \code{\link[=hashcache]{hashcache()}} or \code{\link[=sortordercache]{sortordercache()}}}
 
 \item{...}{ignored}
+
+\item{tim, format, units, tz}{Passed on to \code{\link[=as.difftime]{as.difftime()}}.}
 
 \item{from}{scalar denoting first element of sequence}
 
@@ -87,16 +92,18 @@ one raises an error
 }
 }
 \examples{
- is.double(as.integer64(1))
-    as.integer64(1):9
- match(as.integer64(2), as.integer64(0:3))
- as.integer64(2) \%in\% as.integer64(0:3)
+is.double(as.integer64(1))
+as.integer64(1):9
+match(as.integer64(2), as.integer64(0:3))
+as.integer64(2) \%in\% as.integer64(0:3)
 
- unique(as.integer64(c(1,1,2)))
- rank(as.integer64(c(1,1,2)))
+unique(as.integer64(c(1,1,2)))
+rank(as.integer64(c(1,1,2)))
 
 
- order(as.integer64(c(1,NA,2)))
+order(as.integer64(c(1,NA,2)))
+
+as.difftime(as.integer64(1L), units="secs")
 }
 \seealso{
 \code{\link[=bit64]{bit64()}}, \link{S3}

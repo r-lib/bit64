@@ -30,6 +30,7 @@
 #' @param from scalar denoting first element of sequence
 #' @param to scalar denoting last element of sequence
 #' @param ... ignored
+#' @param tim,format,units,tz Passed on to [as.difftime()].
 #'
 #' @details
 #' The following functions are turned into S3 generics in order to dispatch
@@ -60,20 +61,22 @@
 #' @seealso [bit64()], [S3]
 #'
 #' @examples
-#'  is.double(as.integer64(1))
-#'     as.integer64(1):9
-#'  match(as.integer64(2), as.integer64(0:3))
-#'  as.integer64(2) %in% as.integer64(0:3)
+#' is.double(as.integer64(1))
+#' as.integer64(1):9
+#' match(as.integer64(2), as.integer64(0:3))
+#' as.integer64(2) %in% as.integer64(0:3)
 #'
-#'  unique(as.integer64(c(1,1,2)))
-#'  rank(as.integer64(c(1,1,2)))
+#' unique(as.integer64(c(1,1,2)))
+#' rank(as.integer64(c(1,1,2)))
 #'
 #   %table(as.integer64(c(1,1,2)))
 #   %table(as.integer64(c(1,1,2)),as.integer64(c(3,4,4)))
 #   %table(as.integer64(c(1,1,2)),c(3,4,4))
 #   %table(c(1,1,2),as.integer64(c(3,4,4)))
 #'
-#'  order(as.integer64(c(1,NA,2)))
+#' order(as.integer64(c(1,NA,2)))
+#'
+#' as.difftime(as.integer64(1L), units="secs")
 #' @keywords methods
 #' @name bit64S3
 NULL
@@ -130,3 +133,10 @@ order <- function(...) UseMethod("order")
 #' @rdname bit64S3
 #' @export
 order.default <- function(...) base::order(...)
+
+as.difftime = function(tim, format="%X", units="auto", tz="UTC", ...) UseMethod("as.difftime")
+#' @rdname bit64S3
+#' @export
+as.difftime.default = function(tim, format="%X", units="auto", tz ="UTC", ...) {
+  base::as.difftime(tim, format=format, units=units, tz=tz)
+}

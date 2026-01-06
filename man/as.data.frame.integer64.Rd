@@ -4,12 +4,12 @@
 \alias{as.data.frame.integer64}
 \title{integer64: Coercing to data.frame column}
 \usage{
-\method{as.data.frame}{integer64}(x, row.names=NULL, optional=FALSE, ...)
+\method{as.data.frame}{integer64}(x, row.names = NULL, optional = FALSE, ...)
 }
 \arguments{
 \item{x}{an integer64 vector}
 
-\item{row.names,optional,...}{passed to NextMethod \code{\link[=as.data.frame]{as.data.frame()}} after removing the
+\item{row.names, optional, ...}{passed to NextMethod \code{\link[=as.data.frame]{as.data.frame()}} after removing the
 'integer64' class attribute}
 }
 \value{

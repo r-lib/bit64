@@ -13,7 +13,6 @@
 \alias{as.Date.integer64}
 \alias{as.POSIXct.integer64}
 \alias{as.POSIXlt.integer64}
-\alias{as.difftime}
 \alias{as.difftime.integer64}
 \alias{print.bitstring}
 \alias{as.list.integer64}
@@ -42,8 +41,6 @@ as.bitstring(x, ...)
 \method{as.POSIXct}{integer64}(x, tz = "", origin, ...)
 
 \method{as.POSIXlt}{integer64}(x, tz = "", origin, ...)
-
-as.difftime(tim, format = "\%X", units = "auto", tz = "UTC", ...)
 
 \method{as.difftime}{integer64}(tim, format = "\%X", units = "auto", tz = "UTC", ...)
 

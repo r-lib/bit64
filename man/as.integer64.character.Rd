@@ -27,7 +27,7 @@ as.integer64(x, ...)
 
 \method{as.integer64}{`NULL`}(x, ...)
 
-\method{as.integer64}{integer64}(x,  ...)
+\method{as.integer64}{integer64}(x, ...)
 
 \method{as.integer64}{double}(x, ...)
 
