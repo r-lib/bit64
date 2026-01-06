@@ -15,10 +15,19 @@ expect.
 as.bitstring(x, ...)
 
 # S3 method for class 'integer64'
-as.double(x, keep.names = FALSE, ...)
+as.double(x, ...)
+
+# S3 method for class 'integer64'
+as.numeric(x, ...)
+
+# S3 method for class 'integer64'
+as.complex(x, ...)
 
 # S3 method for class 'integer64'
 as.integer(x, ...)
+
+# S3 method for class 'integer64'
+as.raw(x, ...)
 
 # S3 method for class 'integer64'
 as.logical(x, ...)
@@ -28,6 +37,15 @@ as.character(x, ...)
 
 # S3 method for class 'integer64'
 as.bitstring(x, ...)
+
+# S3 method for class 'integer64'
+as.Date(x, origin, ...)
+
+# S3 method for class 'integer64'
+as.POSIXct(x, tz = "", origin, ...)
+
+# S3 method for class 'integer64'
+as.POSIXlt(x, tz = "", origin, ...)
 
 # S3 method for class 'bitstring'
 print(x, ...)
@@ -42,14 +60,10 @@ as.list(x, ...)
 
   an integer64 vector
 
-- ...:
+- ..., origin, tz:
 
   further arguments to the
   [`NextMethod()`](https://rdrr.io/r/base/UseMethod.html)
-
-- keep.names:
-
-  FALSE, set to TRUE to keep a names vector
 
 ## Value
 

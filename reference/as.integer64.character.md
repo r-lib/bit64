@@ -14,9 +14,15 @@ as.integer64(x, ...)
 as.integer64(x, ...)
 
 # S3 method for class 'double'
-as.integer64(x, keep.names = FALSE, ...)
+as.integer64(x, ...)
+
+# S3 method for class 'complex'
+as.integer64(x, ...)
 
 # S3 method for class 'integer'
+as.integer64(x, ...)
+
+# S3 method for class 'raw'
 as.integer64(x, ...)
 
 # S3 method for class 'logical'
@@ -27,6 +33,18 @@ as.integer64(x, ...)
 
 # S3 method for class 'factor'
 as.integer64(x, ...)
+
+# S3 method for class 'Date'
+as.integer64(x, ...)
+
+# S3 method for class 'POSIXct'
+as.integer64(x, ...)
+
+# S3 method for class 'POSIXlt'
+as.integer64(x, ...)
+
+# S3 method for class 'difftime'
+as.integer64(x, units = "auto", ...)
 
 # S3 method for class 'bitstring'
 as.integer64(x, ...)
@@ -44,14 +62,10 @@ An object of class `integer64` of length 1.
 
   an atomic vector
 
-- ...:
+- ..., units:
 
   further arguments to the
   [`NextMethod()`](https://rdrr.io/r/base/UseMethod.html)
-
-- keep.names:
-
-  FALSE, set to TRUE to keep a names vector
 
 ## Value
 

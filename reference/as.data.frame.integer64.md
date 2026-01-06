@@ -6,7 +6,7 @@ Coercing integer64 vector to data.frame.
 
 ``` r
 # S3 method for class 'integer64'
-as.data.frame(x, ...)
+as.data.frame(x, row.names = NULL, optional = FALSE, ...)
 ```
 
 ## Arguments
@@ -15,7 +15,7 @@ as.data.frame(x, ...)
 
   an integer64 vector
 
-- ...:
+- row.names, optional, ...:
 
   passed to NextMethod
   [`as.data.frame()`](https://rdrr.io/r/base/as.data.frame.html) after
@@ -42,7 +42,7 @@ This is currently very slow – any ideas for improvement?
 ## Examples
 
 ``` r
-  as.data.frame.integer64(as.integer64(1:12))
+  as.data.frame(as.integer64(1:12))
 #>     x
 #> 1   1
 #> 2   2

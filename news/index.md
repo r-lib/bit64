@@ -123,6 +123,13 @@ necessary.
       `seq(by=as.integer64(3L), length.out=8L)`.
     - `seq(a, a, length.out=n)` will give `rep(a, n)`, not
       `seq(a, by=1, length.out=n)`.
+3.  Coercion to/from integer64 is expanded greatly (includes
+    [\#199](https://github.com/r-lib/bit64/issues/199)). Thanks
+    [@hcirellu](https://github.com/hcirellu).
+    - `as.Date`, `as.POSIXct`, `as.POSXlt`, `as.complex`, and `as.raw`
+      get an `integer64` method.
+    - `as.integer64` gets `Date`, `POSIXct`, `POSXlt`, `complex`, `raw`,
+      and `difftime` methods.
 
 ### BUG FIXES
 

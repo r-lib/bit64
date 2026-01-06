@@ -109,23 +109,23 @@ methods for
 ## Examples
 
 ``` r
- is.double(as.integer64(1))
+is.double(as.integer64(1))
 #> [1] FALSE
-    as.integer64(1):9
+as.integer64(1):9
 #> integer64
 #> [1] 1 2 3 4 5 6 7 8 9
- match(as.integer64(2), as.integer64(0:3))
+match(as.integer64(2), as.integer64(0:3))
 #> [1] 3
- as.integer64(2) %in% as.integer64(0:3)
+as.integer64(2) %in% as.integer64(0:3)
 #> [1] TRUE
 
- unique(as.integer64(c(1,1,2)))
+unique(as.integer64(c(1,1,2)))
 #> integer64
 #> [1] 1 2
- rank(as.integer64(c(1,1,2)))
+rank(as.integer64(c(1,1,2)))
 #> [1] 1.5 1.5 3.0
 
 
- order(as.integer64(c(1,NA,2)))
+order(as.integer64(c(1,NA,2)))
 #> [1] 1 3 2
 ```

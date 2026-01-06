@@ -6,9 +6,15 @@
   : Test if two integer64 vectors are all.equal
 - [`as.bitstring()`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   [`as.double(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`as.numeric(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`as.complex(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   [`as.integer(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`as.raw(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   [`as.logical(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   [`as.character(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`as.Date(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`as.POSIXct(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`as.POSIXlt(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   [`print(`*`<bitstring>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   [`as.list(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   : Coerce from integer64

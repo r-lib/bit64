@@ -68,6 +68,12 @@
 <li>
 <code>seq(a, a, length.out=n)</code> will give <code>rep(a, n)</code>, not <code>seq(a, by=1, length.out=n)</code>.</li>
 </ul></li>
+<li>Coercion to/from integer64 is expanded greatly (includes <a href="https://github.com/r-lib/bit64/issues/199" class="external-link">#199</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.
+<ul><li>
+<code>as.Date</code>, <code>as.POSIXct</code>, <code>as.POSXlt</code>, <code>as.complex</code>, and <code>as.raw</code> get an <code>integer64</code> method.</li>
+<li>
+<code>as.integer64</code> gets <code>Date</code>, <code>POSIXct</code>, <code>POSXlt</code>, <code>complex</code>, <code>raw</code>, and <code>difftime</code> methods.</li>
+</ul></li>
 </ol></div>
 <div class="section level3">
 <h3 id="bug-fixes-4-7-99">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-7-99"></a></h3>

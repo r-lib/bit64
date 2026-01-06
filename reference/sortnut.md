@@ -1000,6 +1000,6 @@ fastest algorithm.
 #>     }
 #>     ret
 #> }
-#> <bytecode: 0x55f7fb2ba530>
+#> <bytecode: 0x561926a3c220>
 #> <environment: namespace:bit64>
 ```

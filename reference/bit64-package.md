@@ -670,22 +670,22 @@ message("Using integer64 in data.frame")
 #> Using integer64 in data.frame
 str(as.data.frame(x))
 #> 'data.frame':    26 obs. of  1 variable:
-#>  $ x:integer64 1 2 1 2 1 2 1 2 ... 
+#>  $ x:integer64  1 2 1 2 1 2 1 2 ... 
 str(as.data.frame(y))
 #> 'data.frame':    3 obs. of  4 variables:
-#>  $ A:integer64 1 NA NA 
-#>  $ B:integer64 2 NA NA 
-#>  $ C:integer64 1 NA NA 
-#>  $ D:integer64 2 NA NA 
+#>  $ A:integer64  1 NA NA 
+#>  $ B:integer64  2 NA NA 
+#>  $ C:integer64  1 NA NA 
+#>  $ D:integer64  2 NA NA 
 str(data.frame(y))
 #> 'data.frame':    3 obs. of  4 variables:
-#>  $ A:integer64 1 NA NA 
-#>  $ B:integer64 2 NA NA 
-#>  $ C:integer64 1 NA NA 
-#>  $ D:integer64 2 NA NA 
+#>  $ A:integer64  1 NA NA 
+#>  $ B:integer64  2 NA NA 
+#>  $ C:integer64  1 NA NA 
+#>  $ D:integer64  2 NA NA 
 str(data.frame(I(y)))
 #> 'data.frame':    3 obs. of  1 variable:
-#>  $ y:integer64 1 NA NA 2 NA NA 1 NA ... 
+#>  $ y:integer64 [1:3, 1:4] 1 NA NA 2 NA NA 1 NA ... 
 d <- data.frame(x=x, y=runif(length(x), 0, 100))
 d
 #>    x         y
@@ -728,7 +728,7 @@ e <- read.csv(fi64, colClasses=c("integer64", NA))
 unlink(fi64)
 str(e)
 #> 'data.frame':    26 obs. of  2 variables:
-#>  $ x:integer64 1 2 1 2 1 2 1 2 ... 
+#>  $ x:integer64  1 2 1 2 1 2 1 2 ... 
 #>  $ y: num  41.1 45.5 16.3 85.2 69.5 ...
 identical.integer64(d$x,e$x)
 #> [1] TRUE
