@@ -9,7 +9,7 @@ test_that("integer64 coercion to/from other types work for atomic vectors", {
   expect_identical(as.numeric(i64), as.numeric(i32))
 
   # to integer64
-  expect_identical(as.integer64(TRUE), i64)
+  expect_identical(as.integer64(TRUE), as.integer64(1L))
   expect_identical(as.integer64(as.character(1:10)), i64)
   expect_identical(as.integer64(as.double(1:10)), i64)
   expect_identical(as.integer64(as.complex(1:10)), i64)
