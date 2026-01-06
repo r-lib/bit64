@@ -87,16 +87,16 @@ one raises an error
 }
 }
 \examples{
- is.double(as.integer64(1))
-    as.integer64(1):9
- match(as.integer64(2), as.integer64(0:3))
- as.integer64(2) \%in\% as.integer64(0:3)
+is.double(as.integer64(1))
+as.integer64(1):9
+match(as.integer64(2), as.integer64(0:3))
+as.integer64(2) \%in\% as.integer64(0:3)
 
- unique(as.integer64(c(1,1,2)))
- rank(as.integer64(c(1,1,2)))
+unique(as.integer64(c(1,1,2)))
+rank(as.integer64(c(1,1,2)))
 
 
- order(as.integer64(c(1,NA,2)))
+order(as.integer64(c(1,NA,2)))
 }
 \seealso{
 \code{\link[=bit64]{bit64()}}, \link{S3}
