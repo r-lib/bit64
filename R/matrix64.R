@@ -72,7 +72,6 @@ matrix.integer64 = function(data=NA_integer64_, ...) {
   ret
 }
 
-
 #' @rdname matrix64
 #' @export array
 array = function(data=NA, dim=length(data), dimnames=NULL) UseMethod("array")
@@ -136,13 +135,12 @@ colSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
   ret
 }
 
-
 #' @rdname matrix64
 #' @export
 rowSums = function(x, na.rm=FALSE, dims=1L) UseMethod("rowSums")
 #' @rdname matrix64
 #' @export
-rowSums.default = function(...) base::rowSums(...)
+rowSums.default = function(x, na.rm=FALSE, dims=1L) base::rowSums(x, na.rm, dims)
 
 #' @rdname matrix64
 #' @export
@@ -167,7 +165,6 @@ aperm.integer64 = function(a, perm, ...) {
   class(ret) = class(a)
   ret
 }
-
 
 #' @exportS3Method base::`%*%` integer64
 `%*%.integer64` = function(x, y) {
