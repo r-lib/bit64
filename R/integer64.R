@@ -40,7 +40,7 @@ NULL
 #'   [as.logical()], [as.integer()] do what you would expect.
 #'
 #' @param x an integer64 vector
-#' @param ...,origin,tz,tim,format,units further arguments to the [NextMethod()]
+#' @param ...,origin,tz further arguments to the [NextMethod()]
 #'
 #' @return `as.bitstring` returns a string of class 'bitstring'.
 #'
@@ -792,13 +792,6 @@ as.POSIXct.integer64 = function(x, tz="", origin, ...)
 #' @exportS3Method base::as.POSIXlt integer64
 as.POSIXlt.integer64 = function(x, tz="", origin, ...)
   as.POSIXlt(as.double(x, ...), tz=tz, origin=origin, ...)
-
-#' @rdname as.character.integer64
-#' @exportS3Method as.difftime integer64
-as.difftime.integer64 = function(tim, format="%X", units="auto", tz="UTC", ...) {
-  tim = as.double(tim)
-  NextMethod()
-}
 
 #' @rdname as.character.integer64
 #' @export

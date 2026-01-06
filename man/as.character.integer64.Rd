@@ -13,7 +13,6 @@
 \alias{as.Date.integer64}
 \alias{as.POSIXct.integer64}
 \alias{as.POSIXlt.integer64}
-\alias{as.difftime.integer64}
 \alias{print.bitstring}
 \alias{as.list.integer64}
 \title{Coerce from integer64}
@@ -42,8 +41,6 @@ as.bitstring(x, ...)
 
 \method{as.POSIXlt}{integer64}(x, tz = "", origin, ...)
 
-\method{as.difftime}{integer64}(tim, format = "\%X", units = "auto", tz = "UTC", ...)
-
 \method{print}{bitstring}(x, ...)
 
 \method{as.list}{integer64}(x, ...)
@@ -51,7 +48,7 @@ as.bitstring(x, ...)
 \arguments{
 \item{x}{an integer64 vector}
 
-\item{..., origin, tz, tim, format, units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+\item{..., origin, tz}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 }
 \value{
 \code{as.bitstring} returns a string of class 'bitstring'.
