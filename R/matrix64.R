@@ -115,13 +115,12 @@ array.integer64 = function(data=NA_integer64_, ...) {
   ret
 }
 
-
 #' @rdname matrix64
 #' @export
 colSums = function(x, na.rm=FALSE, dims=1L) UseMethod("colSums")
 #' @rdname matrix64
 #' @export
-colSums.default = function(...) base::colSums(...)
+colSums.default = function(x, na.rm=FALSE, dims=1L) base::colSums(x, na.rm, dims)
 
 #' @rdname matrix64
 #' @export
