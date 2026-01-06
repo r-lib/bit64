@@ -18,7 +18,7 @@ test_that("integer64 coercion to/from other types work for atomic vectors", {
   expect_identical(as.integer64(i64), i64)
 })
 
-test_that("integer64 coercion to/from factor tpes works, {
+test_that("integer64 coercion to/from factor types works, {
   i32 = 1:10
   i64 = as.integer64(i32)
   expect_identical(as.factor(i64), as.factor(i32))
