@@ -28,15 +28,15 @@ test_that("match & %in% basics work", {
 test_that("Different method= for match() and %in% work", {
   x = as.integer64(2:5)
   y = as.integer64(3:6)
-  expected_match = c(NA_integer_, 1:3)
+  expected = c(NA_integer_, 1:3)
   expected_in = c(FALSE, TRUE, TRUE, TRUE)
 
-  expect_identical(match(x, y, method="hashpos"), expected_match)
-  expect_identical(match(x, y, method="hashrev"), expected_match)
-  expect_identical(match(x, y, method="sortorderpos"), expected_match)
-  expect_error(match(x, y, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
+  expect_identical(match(x, y, method="hashpos"), expected)
+  expect_identical(match(x, y, method="hashrev"), expected)
+  expect_identical(match(x, y, method="sortorderpos"), expected)
+  expect_error(match(x, y, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
   # TODO(#58): Fix this, currently fails.
-  # expect_identical(match(x, y, method="orderpos"), expected_match)
+  # expect_identical(match(x, y, method="orderpos"), expected)
 
   # NB: %in% is quite a bit different; while there's a public API to
   #   `%in%.integer64`, likely, there shouldn't be (it's strange to export
@@ -46,10 +46,10 @@ test_that("Different method= for match() and %in% work", {
   #   that's fine; now that we have coverage tests up, any refactor that bumps
   #   around what exactly the following tests are covering, will show up in the PR.
 
-  # method="hashrin" used when x is "short" but table is "long" (existing test)
-  x_long_in <- as.integer64(seq_len(10L))
+  # method="hashrin" used when x is "short" but table is "long"
+  x <- as.integer64(seq_len(10L))
   table_long_in <- as.integer64(seq_len(2.0**16.0 * 2.0/3.0 + 10.0)) # invert condition for bx>=16, 10.0 arbitrary buffer
-  expect_identical(x_long_in %in% table_long_in, rep(TRUE, 10L))
+  expect_identical(x %in% table_long_in, rep(TRUE, 10L))
 })
 
 test_that("match.integer64: automatic method selection without cache", {
@@ -173,8 +173,8 @@ test_that("duplicated, unique, table methods work", {
   expect_identical(unique(x), x[c(1L, 3L)])
   expect_identical(table.integer64(x), table(x = c(1L, 1L, 2L)))
 
-  expect_error(duplicated(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
-  expect_error(unique(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
+  expect_error(duplicated(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
+  expect_error(unique(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
 })
 
 test_that("different method= for duplicated, unique work", {
@@ -229,9 +229,9 @@ test_that("sorting methods work", {
   expect_identical(tiepos(x), x_tiepos)
   expect_identical(tiepos(x, method="ordertie"), x_tiepos)
 
-  expect_error(rank(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
-  expect_error(qtile(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
-  expect_error(tiepos(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
+  expect_error(rank(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
+  expect_error(qtile(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
+  expect_error(tiepos(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
 })
 
 test_that("missing and empty inputs to median() are handled correctly", {
@@ -294,7 +294,7 @@ test_that("unipos() works as intended", {
   expect_identical(unipos(x, method="hashupo"), x_unipos)
   expect_identical(unipos(x, method="sortorderupo"), x_unipos)
   expect_identical(unipos(x, method="orderupo"), x_unipos)
-  expect_error(unipos(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
+  expect_error(unipos(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
 })
 
 test_that("keypos() works as intended", {
@@ -302,7 +302,7 @@ test_that("keypos() works as intended", {
   x_keypos = c(4L, 1L, 4L, 2L, 1L, 3L)
   expect_identical(keypos(x), x_keypos)
   expect_identical(keypos(x, method="orderkey"), x_keypos)
-  expect_error(keypos(x, method="unknown_method"), "'arg' should be one of", fixed=TRUE)
+  expect_error(keypos(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
 })
 
 test_that("summary() works as intended", {
