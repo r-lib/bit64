@@ -7,10 +7,6 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(as.character(i64), as.character(i32))
   expect_identical(as.double(i64), as.double(i32))
   expect_identical(as.numeric(i64), as.numeric(i32))
-  if (getRversion() >= "4.0.0") {
-    expect_identical(as.complex(i64), as.complex(i32))
-    expect_identical(as.raw(i64), as.raw(i32))
-  }
   expect_identical(as.factor(i64), as.factor(i32))
   expect_identical(as.ordered(i64), as.ordered(i32))
 
@@ -63,9 +59,6 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(methods::as(as.integer64(1:10), "character"), as.character(1:10))
   expect_identical(methods::as(as.integer64(1:10), "factor"), as.factor(1:10))
   expect_identical(methods::as(as.integer64(1:10), "ordered"), as.ordered(1:10))
-  if (getRversion() >= "4.0.0") {
-    expect_identical(methods::as(as.integer64(1:10), "complex"), as.complex(1:10))
-  }
   expect_identical(methods::as(as.integer64(1:10), "numeric"), as.numeric(1:10))
   expect_identical(methods::as(as.integer64(1:10), "integer"), as.integer(1:10))
   expect_identical(methods::as(as.integer64(1:10), "logical"), as.logical(1:10))
@@ -86,6 +79,11 @@ test_that("integer64 coercion to/from other types work for R >=4.0.0", {
   # from integer64
   i32 = 1:10
   i64 = as.integer64(i32)
+
+  expect_identical(as.complex(i64), as.complex(i32))
+  expect_identical(as.raw(i64), as.raw(i32))
+  expect_identical(methods::as(as.integer64(1:10), "complex"), as.complex(1:10))
+
   expect_identical(as.Date(i64), as.Date(as.numeric(i32)))
   expect_identical(as.Date(i64, origin=10), as.Date(as.numeric(i32), origin=10))
   expect_identical(as.POSIXct(i64), as.POSIXct(as.numeric(i32)))
@@ -99,7 +97,7 @@ test_that("integer64 coercion to/from other types work for R >=4.0.0", {
   expect_error(as.difftime(i32), "need explicit units for numeric conversion", fixed=TRUE)
   expect_error(as.difftime(i64), "need explicit units for numeric conversion", fixed=TRUE)
   expect_identical(as.difftime(i64, units="secs"), as.difftime(i32, units="secs"))
-
+  
   # S4 version
   expect_identical(methods::as(as.integer64(1:10), "raw"), as.raw(1:10))
   expect_identical(methods::as(as.integer64(1:10), "difftime"), as.difftime(1:10, units="secs"))
