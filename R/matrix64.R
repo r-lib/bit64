@@ -79,7 +79,7 @@ array.integer64 = function(data=NA_integer64_, ...) {
 colSums = function(x, na.rm=FALSE, dims=1L) UseMethod("colSums")
 #' @rdname matrix64
 #' @export
-colSums.default = function(x, na.rm=FALSE, dims=1L) base::colSums(x, na.rm, dims)
+colSums.default = function(x, na.rm=FALSE, dims=1L) base::colSums(x=x, na.rm=na.rm, dims=dims)
 
 #' @rdname matrix64
 #' @export
@@ -100,7 +100,7 @@ colSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
 rowSums = function(x, na.rm=FALSE, dims=1L) UseMethod("rowSums")
 #' @rdname matrix64
 #' @export
-rowSums.default = function(x, na.rm=FALSE, dims=1L) base::rowSums(x, na.rm, dims)
+rowSums.default = function(x, na.rm=FALSE, dims=1L) base::rowSums(x=x, na.rm=na.rm, dims=dims)
 
 #' @rdname matrix64
 #' @export
