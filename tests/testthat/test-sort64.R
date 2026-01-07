@@ -282,7 +282,7 @@ local({
   with_parameters_test_that(
     "radixsort works with radixbits={radixbits}",
     {
-      x = clone(x_base)
+      x = bit::clone(x_base)
       bit::radixsort(x, radixbits = radixbits)
       expect_identical(x, as.integer64(sort(x_base)))
     },
@@ -293,7 +293,7 @@ local({
   with_parameters_test_that(
     "{fun_name} works with radixbits={radixbits}",
     {
-      x = clone(x_base)
+      x = bit::clone(x_base)
       i = seq_along(x)
       fun(x, i, radixbits = radixbits)
 
@@ -326,7 +326,7 @@ local({
     "quicksort handles restlevel={restlevel} and decreasing={decreasing}",
     {
       target_x = if (is.na(restlevel)) x_small else x_large
-      x = clone(target_x)
+      x = bit::clone(target_x)
 
       args = list(x = x, decreasing = decreasing)
       if (!is.na(restlevel)) args$restlevel = restlevel
@@ -348,7 +348,7 @@ local({
       target_x = if (is.na(restlevel)) x_small else x_large
       sorted_target = as.integer64(sort(target_x, decreasing = decreasing))
 
-      x = clone(target_x)
+      x = bit::clone(target_x)
       i = seq_along(x)
 
       args = list(x = x, i = i, decreasing = decreasing)
@@ -383,7 +383,7 @@ with_parameters_test_that(
   "quickorder correctly sorts permutation {toString(perm)}",
   {
     x_base = as.integer64(perm)
-    x = clone(x_base)
+    x = bit::clone(x_base)
     i = seq_along(x)
     bit::quickorder(x, i)
     expect_identical(x[i], as.integer64(1:3))
@@ -409,7 +409,7 @@ local({
     "{fun_name} handles {case_name} input (decreasing={decreasing})",
     {
       val = cases_list[[case_name]]
-      x = clone(val)
+      x = bit::clone(val)
 
       if (fun_name == "quicksort") {
         bit::quicksort(x, decreasing = decreasing)
