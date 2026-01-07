@@ -11,4 +11,6 @@
 apt-get update
 apt install cmake
 apt-get install -y --no-install-recommends \
-  libxml2-dev libcurl4-openssl-dev libssl-dev libv8-dev
+  libxml2-dev libcurl4-openssl-dev libssl-dev libv8-dev \
+  libfontconfig1-dev libharfbuzz-dev libfribidi-dev libcairo2-dev \
+  libudunits2-dev libgdal-dev libabsl-dev
