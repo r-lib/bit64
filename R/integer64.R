@@ -1079,11 +1079,18 @@ rep.integer64 = function(x, ...) {
     ret
 }
 
-# FIXME no method dispatch for :
+#' @export
 `:.integer64` <- function(from, to) {
-  from = as.integer64(from)
-  to = as.integer64(to)
-  ret = .Call(C_seq_integer64, from, as.integer64(1L), double(as.integer(to-from+1L)))
+  if (!length(from) || !length(to)) 
+    stop(" argument of length 0", domain="R")
+  from = as.integer64(from)[1L]
+  to = as.integer64(to)[1L]
+  if (is.na(from) || is.na(to))
+    stop("NA/NaN argument", domain="R")
+  delta = suppressWarnings(to - from)
+  if (!is.finite(delta) || abs(delta) >= .Machine$integer.max)
+    stop("sequence generation would be too long")
+  ret = .Call(C_seq_integer64, from, if (delta < 0) as.integer64(-1L) else as.integer64(1L), double(as.integer(abs(delta) + 1L)))
   oldClass(ret) = "integer64"
   ret
 }

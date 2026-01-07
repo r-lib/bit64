@@ -556,6 +556,48 @@ test_that("seq() works back-compatibly w.r.t. mixed integer+double inputs", {
   expect_identical(seq(to=one, from=5.5, by=-1.5), as.integer64(5:1))
 })
 
+test_that(":.integer64 works analogously to integer", {
+  i64_1 = as.integer64(1L)
+  i64_10 = as.integer64(10L)
+  
+  expect_identical(i64_1:i64_10, as.integer64(1:10))
+  expect_identical(i64_1:10, as.integer64(1:10))
+  expect_identical(i64_1:"10", as.integer64(1:10))
+  expect_identical(i64_10:i64_1, as.integer64(10:1))
+  expect_identical(i64_10:1, as.integer64(10:1))
+  expect_identical(i64_10:"1", as.integer64(10:1))
+  expect_identical(
+    tryCatch(i64_1:NA, error=conditionMessage),
+    tryCatch(1L:NA, error=conditionMessage)
+  )
+  expect_identical(
+    tryCatch(i64_1:NA_integer64_, error=conditionMessage),
+    tryCatch(1L:NA, error=conditionMessage)
+  )
+  expect_identical(
+    tryCatch(i64_1:"a", error=conditionMessage),
+    tryCatch(suppressWarnings(1L:"a"), error=conditionMessage)
+  )
+  expect_identical(
+    tryCatch(NA_integer64_:1L, error=conditionMessage),
+    tryCatch(NA:1L, error=conditionMessage)
+  )
+  expect_identical(
+    tryCatch(integer64():1L, error=conditionMessage),
+    tryCatch(integer():1L, error=conditionMessage)
+  )
+  expect_identical(
+    tryCatch(i64_1:integer(), error=conditionMessage),
+    tryCatch(1L:integer(), error=conditionMessage)
+  )
+})
+
+test_that(":.integer64 some integer64 specific behavior", {
+  
+  expect_error(lim.integer64()[1]:lim.integer64()[2], "sequence generation would be too long")
+
+})
+
 # These tests were previously kept as tests under \examples{\dontshow{...}}.
 #   Converted to "proper" unit tests for clarity, after making them more
 #   canonical within {testthat}, e.g. better capturing expected warnings,
