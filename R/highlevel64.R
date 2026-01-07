@@ -2138,7 +2138,7 @@ table.integer64 = function(...,
   A <- function(i) eval(argsymbols[[i]], argframe)
   N <- length(argsymbols)
   if (!N)
-      stop("nothing to tabulate", domain="R-base")
+    stop(errorCondition(gettext("nothing to tabulate", domain="R-base"), call=choose_sys_call(c("table", "table.integer64"))))
   if (N == 1L && is.list(A(1L))) {
     args <- A(1L) # nolint: object_overwrite_linter. This code should probably be refactored anyway.
     if (length(dnn) != length(args))
@@ -2152,7 +2152,7 @@ table.integer64 = function(...,
   if (N==1L) {
     x <- A(1L)
     if (!is.integer64(x)) {
-      warning("coercing first argument to integer64")
+      warning(warningCondition("coercing first argument to integer64", call=choose_sys_call(c("table", "table.integer64"))))
       x <- as.integer64(x)
     }
   } else {
@@ -2165,9 +2165,9 @@ table.integer64 = function(...,
     for (i in seq_len(N)) {
       a <- A(i)
       if (length(a) != n)
-        stop("all arguments must have the same length", domain="R-base")
+        stop(errorCondition(gettext("all arguments must have the same length", domain="R-base"), call=choose_sys_call(c("table", "table.integer64"))))
       if (!is.integer64(a)) {
-        warning("coercing argument ", i, " to integer64")
+        warning(warningCondition(paste0("coercing argument ", i, " to integer64"), call=choose_sys_call(c("table", "table.integer64"))))
         a <- as.integer64(a)
       }
       cache_env <- cache(a)
@@ -2187,7 +2187,7 @@ table.integer64 = function(...,
       }
       d[[i+1L]] <- d[[i]] * nu[[i]]
       if (is.na(d[[i+1L]]))
-        stop("attempt to make a table from more than >= 2^63 hypothetical combinations")
+        stop(errorCondition("attempt to make a table from more than >= 2^63 hypothetical combinations", call=choose_sys_call(c("table", "table.integer64"))))
       dims[[i]] <- sortuni(s, nu[[i]])
       if (i==1L)
         x <- sortorderkey(s, o) - 1L
