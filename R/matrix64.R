@@ -35,39 +35,19 @@ NULL
 matrix = function(data=NA, nrow=1L, ncol=1L, byrow=FALSE, dimnames=NULL) UseMethod("matrix")
 #' @exportS3Method matrix default
 matrix.default = function(...) {
-  withCallingHandlers({
-    base::matrix(...)
-  }, warning = function(w) {
-    sc = sys.call(sys.nframe() - 8L)
-    if (!is.symbol(sc[[1L]]) || sc[[1L]] != as.symbol("matrix"))
-      sc = sys.call(sys.nframe() - 7L)
-    warning(warningCondition(w$message, call=sc))
-    invokeRestart("muffleWarning")
-  }, error = function(e) {
-    sc = sys.call(sys.nframe() - 5L)
-    if (!is.symbol(sc[[1L]]) || sc[[1L]] != as.symbol("matrix"))
-      sc = sys.call(sys.nframe() - 4L)
-    stop(errorCondition(e$message, call=sc))
-  })
+  withCallingHandlers_and_choose_call(
+    base::matrix(...), 
+    c("matrix", "matrix.default")
+  )
 }
 
 #' @exportS3Method matrix integer64
 matrix.integer64 = function(data=NA_integer64_, ...) {
   if (!length(data)) data = NA_integer64_
-  ret = withCallingHandlers({
-    base::matrix(data, ...)
-  }, warning = function(w) {
-    sc = sys.call(sys.nframe() - 8L)
-    if (!is.symbol(sc[[1L]]) || sc[[1L]] != as.symbol("matrix"))
-      sc = sys.call(sys.nframe() - 7L)
-    warning(warningCondition(w$message, call=sc))
-    invokeRestart("muffleWarning")
-  }, error = function(e) {
-    sc = sys.call(sys.nframe() - 5L)
-    if (!is.symbol(sc[[1L]]) || sc[[1L]] != as.symbol("matrix"))
-      sc = sys.call(sys.nframe() - 4L)
-    stop(errorCondition(e$message, call=sc))
-  })
+  ret = withCallingHandlers_and_choose_call(
+      base::matrix(data=data, ...), 
+      c("matrix", "matrix.integer64")
+    )
   class(ret) = class(data)
   ret
 }
@@ -77,39 +57,19 @@ matrix.integer64 = function(data=NA_integer64_, ...) {
 array = function(data=NA, dim=length(data), dimnames=NULL) UseMethod("array")
 #' @exportS3Method array default
 array.default = function(...) {
-  withCallingHandlers({
-    base::array(...)
-  }, warning = function(w) {
-    sc = sys.call(sys.nframe() - 8L)
-    if (!is.symbol(sc[[1L]]) || sc[[1L]] != as.symbol("matrix"))
-      sc = sys.call(sys.nframe() - 7L)
-    warning(warningCondition(w$message, call=sc))
-    invokeRestart("muffleWarning")
-  }, error = function(e) {
-    sc = sys.call(sys.nframe() - 5L)
-    if (!is.symbol(sc[[1L]]) || sc[[1L]] != as.symbol("matrix"))
-      sc = sys.call(sys.nframe() - 4L)
-    stop(errorCondition(e$message, call=sc))
-  })
+  withCallingHandlers_and_choose_call(
+    base::array(...), 
+    c("array", "array.default")
+  )
 }
 
 #' @exportS3Method array integer64
 array.integer64 = function(data=NA_integer64_, ...) {
   if (!length(data)) data = NA_integer64_
-  ret = withCallingHandlers({
-    base::array(data, ...)
-  }, warning = function(w) {
-    sc = sys.call(sys.nframe() - 8L)
-    if (!is.symbol(sc[[1L]]) || sc[[1L]] != as.symbol("matrix"))
-      sc = sys.call(sys.nframe() - 7L)
-    warning(warningCondition(w$message, call=sc))
-    invokeRestart("muffleWarning")
-  }, error = function(e) {
-    sc = sys.call(sys.nframe() - 5L)
-    if (!is.symbol(sc[[1L]]) || sc[[1L]] != as.symbol("matrix"))
-      sc = sys.call(sys.nframe() - 4L)
-    stop(errorCondition(e$message, call=sc))
-  })
+  ret = withCallingHandlers_and_choose_call(
+      base::array(data=data, ...), 
+      c("array", "array.integer64")
+    )
   class(ret) = class(data)
   ret
 }

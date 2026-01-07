@@ -20,6 +20,10 @@
     warningCondition = function(message, ..., class = NULL, call = NULL) 
       structure(list(message = as.character(message), call = call, ...), class = c(class, "warning", "condition"))
     assign("warningCondition", warningCondition, envir = ns, inherits = FALSE)
+    
+    str2lang = function(s) 
+      parse(text = s, keep.source=FALSE)[[1L]]
+    assign("str2lang", str2lang, envir = ns, inherits = FALSE)
   }
   
 }
@@ -233,3 +237,41 @@ deprecate_exported_s3_methods(
   unipos.integer64
 )
 # nocov end
+
+
+choose_sys_call = function(function_names, name_to_display=NULL) {
+  calls = sys.calls()
+  if (length(calls) == 1L || length(function_names) == 0L) return(calls[[1L]])
+  # find last occurrence of last name in function_names
+  function_names_rev = rev(as.character(function_names))
+  for (sel in rev(seq_along(calls))) {
+    el = calls[[sel]]
+    if (!is.function(el[[1L]]) && rev(as.character(el[[1L]]))[1L] == function_names_rev[1L]) break
+  }
+  # now check further backwards to match as far as possible
+  for (fn in function_names_rev[-1L]) {
+    if (sel == 1L) break
+    el = calls[[sel - 1L]]
+    if (is.function(el[[1L]]) || rev(as.character(el[[1L]]))[[1L]] != fn) break
+    sel = sel - 1L
+  }
+  ret = calls[[sel]]
+  if (!is.null(name_to_display))
+    ret[[1L]] = as.name(name_to_display)
+  ret
+}
+
+withCallingHandlers_and_choose_call = function(expr, function_names, name_to_display=NULL) {
+  wch = str2lang("withCallingHandlers(expr, error=error, warning=warning)")
+  wch[[2L]] = sys.call()[[2L]] # expr
+  wch[[3L]] = {function(function_names, name_to_display) 
+    function(e) {stop(errorCondition(e$message, call=choose_sys_call(function_names, name_to_display)))}
+  }(function_names, name_to_display)
+  wch[[4L]] = {function(function_names, name_to_display) 
+    function(w) {
+      warning(warningCondition(w$message, call=choose_sys_call(function_names, name_to_display)))
+      invokeRestart("muffleWarning")
+    }
+  }(function_names, name_to_display)
+  eval(wch, envir=parent.frame())
+}
