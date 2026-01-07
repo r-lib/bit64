@@ -116,6 +116,10 @@
 #' | double        | /      | integer64     | ->     | integer64    | /      | long double  | ->     | double     |
 #' | integer64     | ^      | double        | ->     | integer64    | /      | long double  | ->     | double     |
 #' | double        | ^      | integer64     | ->     | integer64    | /      | long double  | ->     | double     |
+#' | integer64     | %*%    | double        | ->     | integer64    | %*%    | integer64    | ->     | integer64  |
+#' | double        | %*%    | integer64     | ->     | integer64    | %*%    | integer64    | ->     | integer64  |
+#' | integer64     | %*%    | complex       | ->     | double       | %*%    | complex      | ->     | complex    |
+#' | complex       | %*%    | integer64     | ->     | complex      | %*%    | double       | ->     | complex    |
 #'
 #' # Creating and testing S3 class 'integer64'
 #'
