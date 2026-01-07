@@ -7,28 +7,20 @@
 # Created: 2011-12-11
 # */
 
-# nocov start
-.onLoad = function(libname, pkgname) {
-  
-  ns = parent.env(environment())
+# backports
+# R < 3.6.0
+if (getRversion() < "3.6.0") {
+  errorCondition = function(message, ..., class = NULL, call = NULL) 
+    structure(list(message = as.character(message), call = call, ...), class = c(class, "error", "condition"))
 
-  if (getRversion() < "3.6.0") {
-    # backport condition constructors from R 3.6.0
-    errorCondition = function(message, ..., class = NULL, call = NULL) 
-      structure(list(message = as.character(message), call = call, ...), class = c(class, "error", "condition"))
-    assign("errorCondition", errorCondition, envir = ns, inherits = FALSE)
-  
-    warningCondition = function(message, ..., class = NULL, call = NULL) 
-      structure(list(message = as.character(message), call = call, ...), class = c(class, "warning", "condition"))
-    assign("warningCondition", warningCondition, envir = ns, inherits = FALSE)
-    
-    str2lang = function(s) 
-      parse(text = s, keep.source=FALSE)[[1L]]
-    assign("str2lang", str2lang, envir = ns, inherits = FALSE)
-  }
-  
+  warningCondition = function(message, ..., class = NULL, call = NULL) 
+    structure(list(message = as.character(message), call = call, ...), class = c(class, "warning", "condition"))
+
+  str2lang = function(s) 
+    parse(text = s, keep.source=FALSE)[[1L]]
 }
 
+# nocov start
 .onUnload = function(libpath) {
   library.dynam.unload("bit64", libpath)
 }
