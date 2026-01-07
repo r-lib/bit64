@@ -18,8 +18,13 @@
 # all_revdeps = union(bioc_revdeps, cran_revdeps)
 # cran_only_revdeps = setdiff(all_revdeps, bioc_only_revdeps)
 #
-# uninstallable = "prophet"
-# uninstallable_blast_radius = tools::dependsOnPkgs(uninstallable, installed=cran_db)
+# uninstallable = c(
+#   "prophet", # stan compilation blows out memory even under -O0
+#   "iClick",  # requires DISPLAY for Tk during installation
+#   "dowser",  # broken by Biostrings refactoring
+#   NULL
+# )
+# uninstallable_blast_radius = c(uninstallable, tools::dependsOnPkgs(uninstallable, installed=cran_db))
 # cran_revdeps = setdiff(cran_revdeps, uninstallable_blast_radius)
 
 # Also recommend adding -Wno-ignored-attributes to ~/.R/Makevars to reduce RcppEigen logs dump
