@@ -79,3 +79,97 @@ test_that("ordertab handles nunique smaller than actual", {
   })
   expect_identical(res, rep(3L, 4L))
 })
+
+test_that("sortorderdup works with both methods", {
+  # sortorderdup requires a sorted vector and an order vector
+  # Case 1: Simple duplicates
+  x = as.integer64(c(1, 1, 2, 3, 3, 3))
+  o = seq_along(x)
+
+  # FALSE for the first occurrence, TRUE for subsequent
+  expected = c(FALSE, TRUE, FALSE, FALSE, TRUE, TRUE)
+
+  # Method 1 (Direct set, default for small N)
+  expect_identical(sortorderdup(x, o, method=1L), expected)
+
+  # Method 2 (Bitflags, usually for large N, but we force it here for coverage)
+  expect_identical(sortorderdup(x, o, method=2L), expected)
+
+  # Case 2: All duplicates
+  x_all = as.integer64(c(1, 1, 1))
+  o_all = seq_along(x_all)
+  expect_identical(sortorderdup(x_all, o_all, method=2L), c(FALSE, TRUE, TRUE))
+
+  # Case 3: No duplicates
+  x_none = as.integer64(c(1, 2, 3))
+  o_none = seq_along(x_none)
+  expect_identical(sortorderdup(x_none, o_none, method=2L), c(FALSE, FALSE, FALSE))
+})
+
+test_that("sortordertab works with normalization options", {
+  # sortordertab calculates frequencies based on a sorted vector
+  x = as.integer64(c(1, 1, 2, 3, 3, 3))
+  o = seq_along(x)
+
+  # denormalize = FALSE: Returns counts for unique values
+  # Unique values are 1, 2, 3. Counts are 2, 1, 3.
+  expect_identical(sortordertab(x, o, denormalize=FALSE), c(2L, 1L, 3L))
+
+  # denormalize = TRUE: Returns counts expanded to the original vector positions
+  # Positions 1,2 (val 1) -> count 2
+  # Position 3 (val 2) -> count 1
+  # Positions 4,5,6 (val 3) -> count 3
+  expect_identical(sortordertab(x, o, denormalize=TRUE), c(2L, 2L, 1L, 3L, 3L, 3L))
+
+  # Edge case: Single element
+  x_single = as.integer64(1)
+  o_single = 1L
+  expect_identical(sortordertab(x_single, o_single, denormalize=FALSE), 1L)
+  expect_identical(sortordertab(x_single, o_single, denormalize=TRUE), 1L)
+})
+
+test_that("sortorderuni and sortorderupo work", {
+  # These functions allow retrieving unique values or their positions from sorted inputs
+  # They share similar bitflag logic in C that needs covering
+
+  # Data setup: 
+  # original: 3, 1, 2, 1, 3
+  # sorted:   1, 1, 2, 3, 3
+  # order:    2, 4, 3, 1, 5
+  val = as.integer64(c(3, 1, 2, 1, 3))
+  o = order(val)
+  s = val[o]
+
+  # sortorderuni: extract unique values using the table, sorted, and order
+  # It should return unique(val) but usually in the order of appearance or sorted depending on method
+  # The C implementation uses bitflags to filter duplicates.
+  # The R wrapper allocates 'nunique' size.
+
+  # We need 'nunique' for the call.
+  nu = 3L
+
+  # sortorderuni returns the unique values
+  expect_identical(sortorderuni(val, s, o, nunique=nu), as.integer64(c(3, 1, 2)))
+
+  # sortorderupo returns the positions (indices) of the unique values
+  # indices in 'val': 1 (3), 2 (1), 3 (2) -> c(1, 2, 3) 
+  # (Note: it picks the first occurrence in the original vector if keep.order=TRUE implicit logic matches)
+  expect_identical(sortorderupo(s, o, nunique=nu, keep.order=TRUE), 1:3)
+})
+
+test_that("sortorderkey works", {
+  # This targets r_ram_integer64_sortorderkey_asc
+  x = as.integer64(c(10, 10, 20, 30, 30))
+  o = seq_along(x)
+
+  # Keys should be assigned sequentially: 1, 1, 2, 3, 3
+  expect_identical(sortorderkey(x, o), c(1L, 1L, 2L, 3L, 3L))
+
+  # With NA skipping (na.skip.num)
+  x_na = as.integer64(c(NA, NA, 10, 20))
+  o_na = seq_along(x_na)
+
+  # If we skip 2 NAs: NA, NA, 1, 2
+  # Note: NA_integer_ is used for NAs in the key vector
+  expect_identical(sortorderkey(x_na, o_na, na.skip.num=2L), c(NA_integer_, NA_integer_, 1L, 2L))
+})
