@@ -31,16 +31,6 @@ NULL
 
 
 #' @rdname matrix64
-#' @export matrix
-matrix = function(data=NA, nrow=1L, ncol=1L, byrow=FALSE, dimnames=NULL) UseMethod("matrix")
-#' @exportS3Method matrix default
-matrix.default = function(...) {
-  withCallingHandlers_and_choose_call(
-    base::matrix(...), 
-    c("matrix", "matrix.default")
-  )
-}
-
 #' @exportS3Method matrix integer64
 matrix.integer64 = function(data=NA_integer64_, ...) {
   if (!length(data)) data = NA_integer64_
@@ -53,16 +43,6 @@ matrix.integer64 = function(data=NA_integer64_, ...) {
 }
 
 #' @rdname matrix64
-#' @export array
-array = function(data=NA, dim=length(data), dimnames=NULL) UseMethod("array")
-#' @exportS3Method array default
-array.default = function(...) {
-  withCallingHandlers_and_choose_call(
-    base::array(...), 
-    c("array", "array.default")
-  )
-}
-
 #' @exportS3Method array integer64
 array.integer64 = function(data=NA_integer64_, ...) {
   if (!length(data)) data = NA_integer64_
@@ -73,17 +53,6 @@ array.integer64 = function(data=NA_integer64_, ...) {
   class(ret) = class(data)
   ret
 }
-
-#' @rdname matrix64
-#' @export
-colSums = function(x, na.rm=FALSE, dims=1L) UseMethod("colSums")
-#' @rdname matrix64
-#' @export
-colSums.default = function(x, na.rm=FALSE, dims=1L) 
-  withCallingHandlers_and_choose_call(
-    base::colSums(x=x, na.rm=na.rm, dims=dims), 
-    c("colSums", "colSums.default")
-  )
 
 #' @rdname matrix64
 #' @export
@@ -101,17 +70,6 @@ colSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
 
 #' @rdname matrix64
 #' @export
-rowSums = function(x, na.rm=FALSE, dims=1L) UseMethod("rowSums")
-#' @rdname matrix64
-#' @export
-rowSums.default = function(x, na.rm=FALSE, dims=1L) 
-  withCallingHandlers_and_choose_call(
-    base::rowSums(x=x, na.rm=na.rm, dims=dims), 
-    c("rowSums", "rowSums.default")
-  )
-
-#' @rdname matrix64
-#' @export
 rowSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
   dn = dim(x)
   if (!is.array(x) || length(dn) < 2L) 
@@ -123,7 +81,6 @@ rowSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
   class(ret) = class(x)
   ret
 }
-
 
 #' @rdname matrix64
 #' @param a,perm Passed on to [aperm()].
@@ -186,7 +143,6 @@ aperm.integer64 = function(a, perm, ...) {
   oldClass(ret) = "integer64"
   ret
 }
-
 
 #' @exportS3Method base::as.matrix integer64
 as.matrix.integer64 = function(x, ...) {
