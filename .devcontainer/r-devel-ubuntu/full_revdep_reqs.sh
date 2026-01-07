@@ -15,16 +15,35 @@
 # )
 #
 # bioc_only_revdeps = bioc_revdeps[grep("bioconductor", bioc_db[bioc_revdeps, "Repository"])]
-# cran_only_revdeps = setdiff(cran_revdeps, bioc_revdeps)
+# all_revdeps = union(bioc_revdeps, cran_revdeps)
+# cran_only_revdeps = setdiff(all_revdeps, bioc_only_revdeps)
+#
+# uninstallable = "prophet"
+# uninstallable_blast_radius = tools::dependsOnPkgs(uninstallable, installed=cran_db)
+# cran_revdeps = setdiff(cran_revdeps, uninstallable_blast_radius)
 
 # Also recommend adding -Wno-ignored-attributes to ~/.R/Makevars to reduce RcppEigen logs dump
 
 # As of 2026-01-02, the following system requirements are needed, too:
 apt-get update
-apt install cmake
+apt install cmake jags
 apt-get install -y --no-install-recommends \
   libxml2-dev libcurl4-openssl-dev libssl-dev libv8-dev \
   libfontconfig1-dev libharfbuzz-dev libfribidi-dev libcairo2-dev \
   libudunits2-dev libgdal-dev libabsl-dev \
   libmpfr-dev libglpk-dev libssh-dev libmagick++-dev default-jdk \
-  libsasl2-dev tcl-dev tk-dev libgsl-dev
+  libsasl2-dev tcl-dev tk-dev libgsl-dev librsvg2-dev libprotobuf-dev \
+  libsodium-dev libjq-dev librdf0-dev libgrpc++-dev protobuf-compiler-grpc \
+  libgit2-dev
+
+# not currently on CRAN:
+# install.packages("remotes")
+# remotes::install_github("cran/TFMPvalue")
+#
+# only installs with '-O0' in limited memory environment
+# install.packages("withr")
+# withr::with_makevars(
+#   new = list(CXXFLAGS = "-O0", CXX17FLAGS = "-O0"),
+#   assignment = "+=", 
+#   code = install.packages("mmrm")
+# )
