@@ -274,3 +274,159 @@ test_that("Corner cases for partitioning logic", {
   expect_identical(bit::quicksort(x), 0L)
   expect_identical(x, as.integer64(c(1L, 2L)))
 })
+
+local({
+  x_base = as.integer64(sample(c(1:100, 2^30, 2^60), 200, replace = TRUE))
+
+  # Group 1: sort (takes x)
+  with_parameters_test_that(
+    "radixsort works with radixbits={radixbits}",
+    {
+      x = bit::clone(x_base)
+      bit::radixsort(x, radixbits = radixbits)
+      expect_identical(x, as.integer64(sort(x_base)))
+    },
+    .cases = expand.grid(radixbits = c(1L, 2L, 4L, 8L, 16L))
+  )
+
+  # Group 2: order/sortorder (takes x, i)
+  with_parameters_test_that(
+    "{fun_name} works with radixbits={radixbits}",
+    {
+      x = bit::clone(x_base)
+      i = seq_along(x)
+      fun(x, i, radixbits = radixbits)
+
+      # Check x (sortorder modifies x, order does not)
+      if (fun_name == "radixsortorder") {
+        expect_identical(x, as.integer64(sort(x_base)))
+      } else {
+        expect_identical(x, x_base)
+      }
+      # Check i
+      expect_identical(x_base[i], as.integer64(sort(x_base)))
+    },
+    .cases = within(
+      expand.grid(
+        radixbits = c(1L, 2L, 4L, 8L, 16L),
+        fun_name = c("radixorder", "radixsortorder"),
+        stringsAsFactors = FALSE
+      ),
+      fun <- lapply(fun_name, getExportedValue, ns="bit")
+    )
+  )
+})
+
+local({
+  x_small = as.integer64(sample(15))
+  x_large = as.integer64(sample(100))
+
+  # Group 1: quicksort (takes x)
+  with_parameters_test_that(
+    "quicksort handles restlevel={restlevel} and decreasing={decreasing}",
+    {
+      target_x = if (is.na(restlevel)) x_small else x_large
+      x = bit::clone(target_x)
+
+      args = list(x = x, decreasing = decreasing)
+      if (!is.na(restlevel)) args$restlevel = restlevel
+
+      do.call(bit::quicksort, args)
+
+      expect_identical(x, as.integer64(sort(target_x, decreasing = decreasing)))
+    },
+    .cases = expand.grid(
+      decreasing = c(TRUE, FALSE),
+      restlevel = c(NA_integer_, 0L)
+    )
+  )
+
+  # Group 2: quicksortorder/quickorder (takes x, i)
+  with_parameters_test_that(
+    "{fun_name} handles restlevel={restlevel} and decreasing={decreasing}",
+    {
+      target_x = if (is.na(restlevel)) x_small else x_large
+      sorted_target = as.integer64(sort(target_x, decreasing = decreasing))
+
+      x = bit::clone(target_x)
+      i = seq_along(x)
+
+      args = list(x = x, i = i, decreasing = decreasing)
+      if (!is.na(restlevel)) args$restlevel = restlevel
+
+      do.call(fun, args)
+
+      if (fun_name == "quicksortorder") {
+        # quicksortorder: x is modified in-place to be sorted
+        expect_identical(x, sorted_target)
+        # i is modified to represent the order of the *original* x
+        expect_identical(target_x[i], sorted_target)
+      } else {
+        # quickorder: x is NOT modified; x[i] yields the sorted sequence
+        expect_identical(x[i], sorted_target)
+      }
+    },
+    .cases = within(
+      expand.grid(
+        decreasing = c(TRUE, FALSE),
+        restlevel = c(NA_integer_, 0L),
+        fun_name = c("quicksortorder", "quickorder"),
+        stringsAsFactors = FALSE
+      ),
+      fun <- lapply(fun_name, getExportedValue, ns="bit")
+    )
+  )
+})
+
+# We test permutations of 1:3 to ensure every branch of the ternary median selector is hit
+with_parameters_test_that(
+  "quickorder correctly sorts permutation {toString(perm)}",
+  {
+    x_base = as.integer64(perm)
+    x = bit::clone(x_base)
+    i = seq_along(x)
+    bit::quickorder(x, i)
+    expect_identical(x[i], as.integer64(1:3))
+  },
+  .cases = data.frame(
+    # List columns are tricky in data.frame, constructing manually or via list wrapping
+    perm = I(list(
+      c(1, 2, 3), c(1, 3, 2), c(2, 1, 3),
+      c(2, 3, 1), c(3, 1, 2), c(3, 2, 1)
+    ))
+  )
+)
+
+local({
+  # Cases covering scanners running past bounds or extreme pivots
+  cases_list = list(
+    sorted = as.integer64(1:50),
+    rev_sorted = as.integer64(50:1),
+    all_equal = as.integer64(rep(10, 50))
+  )
+
+  with_parameters_test_that(
+    "{fun_name} handles {case_name} input (decreasing={decreasing})",
+    {
+      val = cases_list[[case_name]]
+      x = bit::clone(val)
+
+      if (fun_name == "quicksort") {
+        bit::quicksort(x, decreasing = decreasing)
+        expected = as.integer64(sort(val, decreasing = decreasing))
+        expect_identical(x, expected)
+      } else {
+        i = seq_along(x)
+        bit::quicksortorder(x, i, decreasing = decreasing)
+        expected = as.integer64(sort(val, decreasing = decreasing))
+        expect_identical(x, expected)
+      }
+    },
+    .cases = expand.grid(
+      case_name = c("sorted", "rev_sorted", "all_equal"),
+      decreasing = c(TRUE, FALSE),
+      fun_name = c("quicksort", "quicksortorder"),
+      stringsAsFactors = FALSE
+    )
+  )
+})
