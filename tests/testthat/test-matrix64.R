@@ -1,5 +1,5 @@
 test_that("matrix works still on simple integer input", {
-  x = as.integer(1:10)
+  x = 1:10
 
   expect_identical(class(matrix(x))[1L], "matrix")
   expect_no_warning(expect_identical(matrix(x)[seq_along(x)], x))
@@ -60,7 +60,7 @@ test_that("matrix works on simple integer64 input", {
 
 
 test_that("array works still on simple integer input", {
-  x = as.integer(1:10)
+  x = 1:10
 
   expect_identical(class(array(x)), "array")
   expect_no_warning(expect_identical(array(x)[seq_along(x)], structure(x, dim = length(x))))
@@ -168,8 +168,8 @@ test_that("out-of-integer-range inputs are handled correctly", {
 })
 
 test_that("dimnames with colSums and rowSums", {
-  M32 = matrix(as.integer(1:(3*2)), nrow=3L, ncol=2L, dimnames=list(LETTERS[1:3], letters[1:2]))
-  A32 = array(as.integer(1:(2*5*3)), dim=c(2, 5, 3), dimnames=list(LETTERS[1:2], letters[1:5], rev(LETTERS)[1:3]))
+  M32 = matrix(1:(3*2), nrow=3L, ncol=2L, dimnames=list(LETTERS[1:3], letters[1:2]))
+  A32 = array(1:(2*5*3), dim=c(2, 5, 3), dimnames=list(LETTERS[1:2], letters[1:5], rev(LETTERS)[1:3]))
   M64 = matrix(as.integer64(1:(3*2)), nrow=3L, ncol=2L, dimnames=list(LETTERS[1:3], letters[1:2]))
   A64 = array(as.integer64(1:(2*5*3)), dim=c(2, 5, 3), dimnames=list(LETTERS[1:2], letters[1:5], rev(LETTERS)[1:3]))
 
