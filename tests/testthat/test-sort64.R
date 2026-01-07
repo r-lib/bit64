@@ -325,8 +325,6 @@ test_that("Quicksort recursion limits and small-array fallbacks", {
   with_parameters_test_that(
     "quicksort handles restlevel={restlevel} and decreasing={decreasing}",
     {
-      # Use small vector if restlevel is missing (to test insertion sort fallback)
-      # Use large vector if restlevel=0 (to test shellsort fallback)
       target_x = if (is.na(restlevel)) x_small else x_large
       x = clone(target_x)
 
@@ -339,7 +337,7 @@ test_that("Quicksort recursion limits and small-array fallbacks", {
     },
     .cases = expand.grid(
       decreasing = c(TRUE, FALSE),
-      restlevel = c(NA_integer_, 0L) # NA implies default (test small N fallback), 0L tests Shell fallback
+      restlevel = c(NA_integer_, 0L)
     )
   )
 
@@ -348,6 +346,8 @@ test_that("Quicksort recursion limits and small-array fallbacks", {
     "{fun_name} handles restlevel={restlevel} and decreasing={decreasing}",
     {
       target_x = if (is.na(restlevel)) x_small else x_large
+      sorted_target = as.integer64(sort(target_x, decreasing = decreasing))
+
       x = clone(target_x)
       i = seq_along(x)
 
@@ -356,7 +356,15 @@ test_that("Quicksort recursion limits and small-array fallbacks", {
 
       do.call(fun, args)
 
-      expect_identical(x[i], as.integer64(sort(target_x, decreasing = decreasing)))
+      if (fun_name == "quicksortorder") {
+        # quicksortorder: x is modified in-place to be sorted
+        expect_identical(x, sorted_target)
+        # i is modified to represent the order of the *original* x
+        expect_identical(target_x[i], sorted_target)
+      } else {
+        # quickorder: x is NOT modified; x[i] yields the sorted sequence
+        expect_identical(x[i], sorted_target)
+      }
     },
     .cases = within(
       expand.grid(
