@@ -274,3 +274,140 @@ test_that("Corner cases for partitioning logic", {
   expect_identical(bit::quicksort(x), 0L)
   expect_identical(x, as.integer64(c(1L, 2L)))
 })
+
+test_that("Radix sort variations cover all byte-shuffling paths", {
+  set.seed(42)
+  # Radix sort implementation has specific loops for different pass counts (w).
+  # By varying radixbits, we force different numbers of passes (64/1 = 64 passes, 64/16 = 4 passes).
+  # This covers the loop logic for LSB (w=0), middle bytes, and MSB.
+
+  # Use a vector with enough bits set to matter
+  x_base = as.integer64(sample(c(1:100, 2^30, 2^60), 200, replace = TRUE))
+
+  for (rb in c(1L, 2L, 4L, 8L, 16L)) {
+    # 1. radixsort
+    x = clone(x_base)
+    bit::radixsort(x, radixbits = rb)
+    expect_identical(x, as.integer64(sort(x_base)), 
+                     info = paste("radixsort with bits:", rb))
+
+    # 2. radixorder
+    x = clone(x_base)
+    i = seq_along(x)
+    bit::radixorder(x, i, radixbits = rb)
+    expect_identical(x[i], as.integer64(sort(x_base)), 
+                     info = paste("radixorder with bits:", rb))
+
+    # 3. radixsortorder
+    x = clone(x_base)
+    i = seq_along(x)
+    bit::radixsortorder(x, i, radixbits = rb)
+    expect_identical(x, as.integer64(sort(x_base)), 
+                     info = paste("radixsortorder with bits:", rb))
+  }
+})
+
+test_that("Quicksort recursion limits and small-array fallbacks", {
+  # Targets the switch from Quicksort -> Shellsort (restlevel=0)
+  # and Quicksort -> Insertion Sort (small N) for all variants.
+
+  x_small = as.integer64(sample(15)) # Small enough to trigger insertion sort fallback
+  x_large = as.integer64(sample(100))
+
+  # --- Force Shellsort Fallback (restlevel=0) for Order/SortOrder variants ---
+
+  # quicksortorder (Ascending)
+  x = clone(x_large)
+  i = seq_along(x)
+  bit::quicksortorder(x, i, restlevel = 0L)
+  expect_identical(x, as.integer64(sort(x_large)))
+
+  # quicksortorder (Descending)
+  x = clone(x_large)
+  i = seq_along(x)
+  bit::quicksortorder(x, i, decreasing = TRUE, restlevel = 0L)
+  expect_identical(x, as.integer64(sort(x_large, decreasing = TRUE)))
+  
+  # quickorder (Ascending)
+  x = clone(x_large)
+  i = seq_along(x)
+  bit::quickorder(x, i, restlevel = 0L)
+  expect_identical(x[i], as.integer64(sort(x_large)))
+
+  # quickorder (Descending)
+  x = clone(x_large)
+  i = seq_along(x)
+  bit::quickorder(x, i, decreasing = TRUE, restlevel = 0L)
+  expect_identical(x[i], as.integer64(sort(x_large, decreasing = TRUE)))
+
+  # --- Force Insertion Sort Fallback (Small N) ---
+  # Standard ramsort might dispatch small arrays to mergesort, so we must 
+  # call quicksort* routines explicitly to hit the "quicksort -> insertion" fallback path.
+
+  # quicksort (Ascending/Descending)
+  x = clone(x_small)
+  bit::quicksort(x)
+  expect_identical(x, as.integer64(sort(x_small)))
+
+  x = clone(x_small)
+  bit::quicksort(x, decreasing = TRUE)
+  expect_identical(x, as.integer64(sort(x_small, decreasing = TRUE)))
+
+  # quicksortorder (Ascending/Descending)
+  x = clone(x_small)
+  i = seq_along(x)
+  bit::quicksortorder(x, i)
+  expect_identical(x, as.integer64(sort(x_small)))
+
+  x = clone(x_small)
+  i = seq_along(x)
+  bit::quicksortorder(x, i, decreasing = TRUE)
+  expect_identical(x, as.integer64(sort(x_small, decreasing = TRUE)))
+})
+
+test_that("Median-of-3 index selection logic", {
+  # The median selection for indices involves nested ternary operators.
+  # We test all permutations of a 3-element vector to ensure every branch is taken.
+
+  perms = list(
+    c(1, 2, 3), c(1, 3, 2), c(2, 1, 3), 
+    c(2, 3, 1), c(3, 1, 2), c(3, 2, 1)
+  )
+
+  for (p in perms) {
+    x_base = as.integer64(p)
+
+    # Test quickorder specifically as it relies heavily on index comparisons
+    x = clone(x_base)
+    i = seq_along(x)
+    bit::quickorder(x, i)
+    expect_identical(x[i], as.integer64(1:3))
+  }
+})
+
+test_that("Explicit stop conditions in partitioning scanners", {
+  # To hit the 'break' statements inside the partitioning loops, we need
+  # cases where scanners might run past bounds if not checked, or extreme pivot cases.
+  # Sorted, Reverse Sorted, and All-Equal vectors are the standard stressors here.
+
+  cases = list(
+    sorted = as.integer64(1:50),
+    rev_sorted = as.integer64(50:1),
+    all_equal = as.integer64(rep(10, 50))
+  )
+
+  for (nm in names(cases)) {
+    val = cases[[nm]]
+
+    # Test descending quicksort (explicit coverage gap from report)
+    x = clone(val)
+    bit::quicksort(x, decreasing = TRUE)
+    expect_identical(x, as.integer64(sort(val, decreasing = TRUE)), info = nm)
+
+    # Test quicksortorder descending
+    x = clone(val)
+    i = seq_along(x)
+    bit::quicksortorder(x, i, decreasing = TRUE)
+    expect_identical(x, as.integer64(sort(val, decreasing = TRUE)), info = nm)
+  }
+})
