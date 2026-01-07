@@ -1,24 +1,44 @@
-test_that("integer64 coercion to/from other types work", {
+test_that("integer64 coercion to/from other types work for atomic vectors", {
   # from integer64
+  i32 = 1:10
+  i64 = as.integer64(i32)
   expect_identical(as.logical(as.integer64(0:1)), c(FALSE, TRUE))
-  expect_identical(as.integer(as.integer64(1:10)), 1:10)
-  expect_identical(as.character(as.integer64(1:10)), as.character(1:10))
-  expect_identical(as.double(as.integer64(1:10)), as.double(1:10))
-  expect_identical(as.numeric(as.integer64(1:10)), as.numeric(1:10))
+  expect_identical(as.integer(i64), i32)
+  expect_identical(as.character(i64), as.character(i32))
+  expect_identical(as.double(i64), as.double(i32))
+  expect_identical(as.numeric(i64), as.numeric(i32))
 
   # to integer64
   expect_identical(as.integer64(TRUE), as.integer64(1L))
-  expect_identical(as.integer64(as.character(1:10)), as.integer64(1:10))
-  expect_identical(as.integer64(as.double(1:10)), as.integer64(1:10))
+  expect_identical(as.integer64(as.character(1:10)), i64)
+  expect_identical(as.integer64(as.double(1:10)), i64)
+  expect_identical(as.integer64(as.complex(1:10)), i64)
+  expect_identical(as.integer64(as.raw(1:10)), i64)
   expect_identical(as.integer64(NULL), as.integer64())
-  x = structure(as.integer64(1:10), class=c("otherClass", "integer64"), dim=c(2, 5), dimnames=list(LETTERS[1:2], letters[1:5]), otherAttr="some other attribute")
-  expect_identical(as.integer64(x), as.integer64(1:10))
+  expect_identical(as.integer64(i64), i64)
+})
 
-  # S4 version
+test_that("integer64 coercion to/from other types works via S4 coercion", {
   expect_identical(methods::as(as.character(1:10), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.factor(11:20), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.ordered(11:20), "integer64"), as.integer64(1:10))
+  expect_warning(
+    expect_identical(methods::as(as.complex(1:10) + 1.0i, "integer64"), as.integer64(1:10)),
+    "imaginary parts discarded in coercion"
+  )
+  expect_identical(methods::as(as.numeric(1:10), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.integer(1:10), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.raw(1:10), "integer64"), as.integer64(1:10))
+  expect_identical(methods::as(as.logical(0:2), "integer64"), as.integer64(c(0L, 1L, 1L)))
   expect_identical(methods::as(as.integer64(1:10), "character"), as.character(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "factor"), as.factor(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "ordered"), as.ordered(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "numeric"), as.numeric(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "integer"), as.integer(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "logical"), as.logical(1:10))
+})
 
-  # now for NA
+test_that("integer64 coercion to/from other types works for NA", {
   expect_identical(as.logical(NA_integer64_), NA)
   expect_identical(as.integer(NA_integer64_), NA_integer_)
   expect_identical(as.double(NA_integer64_), NA_real_)
@@ -27,6 +47,96 @@ test_that("integer64 coercion to/from other types work", {
   expect_identical(as.integer64(NA_integer_), NA_integer64_)
   expect_identical(as.integer64(NA_real_), NA_integer64_)
   expect_identical(as.integer64(NA_character_), NA_integer64_)
+})
+
+test_that("integer64 coercion to/from factor types works", {
+  i32 = 1:10
+  i64 = as.integer64(i32)
+  expect_identical(as.factor(i64), as.factor(i32))
+  expect_identical(as.ordered(i64), as.ordered(i32))
+  expect_identical(as.integer64(as.factor(11:20)), as.integer64(1:10))
+  expect_identical(as.integer64(as.ordered(11:20)), as.integer64(1:10))
+})
+
+test_that("integer64 coercion to/from time types works", {
+  posixct = Sys.time()
+  posixct = c(posixct, posixct + 100)
+  posix_delta = difftime(posixct + 1000, posixct)
+
+  expect_identical(
+    as.integer64(posix_delta), 
+    as.integer64(as.integer(posix_delta))
+  )
+  # as.integer.difftime does not work with `units`
+  expect_identical(
+    as.integer64(posix_delta, units="secs"), 
+    as.integer64(as.numeric(posix_delta, units="secs"))
+  )
+  expect_identical(
+    as.integer64(posix_delta, units="mins"), 
+    as.integer64(as.numeric(posix_delta, units="mins"))
+  )
+
+  expect_identical(as.integer64(posixct), as.integer64(as.integer(posixct)))
+  # as.integer.POSIXlt does not work properly
+  expect_identical(
+    as.integer64(as.POSIXlt(posixct)),
+    as.integer64(as.numeric(as.POSIXlt(posixct)))
+  )
+  expect_identical(
+    as.integer64(as.Date(posixct)),
+    as.integer64(as.integer(as.Date(posixct)))
+  )
+
+  # S4 version
+  expect_identical(methods::as(posix_delta, "integer64"), as.integer64(posix_delta))
+  expect_identical(methods::as(posixct, "integer64"), as.integer64(posixct))
+  expect_identical(methods::as(as.POSIXlt(posixct), "integer64"), as.integer64(as.POSIXlt(posixct)))
+  expect_identical(methods::as(as.Date(posixct), "integer64"), as.integer64(as.Date(posixct)))
+})
+
+test_that("integer64 coercion from generic object works", {
+  x = structure(
+    as.integer64(1:10),
+    class=c("otherClass", "integer64"),
+    dim=c(2L, 5L),
+    dimnames=list(LETTERS[1:2], letters[1:5]),
+    otherAttr="some other attribute"
+  )
+  expect_identical(as.integer64(x), as.integer64(1:10))
+})
+
+test_that("integer64 coercion to/from other types work for R >=4.0.0", {
+  skip_unless_r(">= 4.0.0")
+  # from integer64
+  i32 = 1:10
+  i64 = as.integer64(i32)
+
+  expect_identical(as.complex(i64), as.complex(i32))
+  expect_identical(as.raw(i64), as.raw(i32))
+  expect_identical(methods::as(as.integer64(1:10), "complex"), as.complex(1:10))
+
+  expect_identical(as.Date(i64), as.Date(as.numeric(i32)))
+  expect_identical(as.Date(i64, origin=10), as.Date(as.numeric(i32), origin=10))
+  expect_identical(as.POSIXct(i64), as.POSIXct(as.numeric(i32)))
+  expect_identical(as.POSIXct(i64, origin=10), as.POSIXct(as.numeric(i32), origin=10))
+  expect_identical(as.POSIXct(i64, tz="UTC", origin=10), as.POSIXct(as.numeric(i32), tz="UTC", origin=10))
+  expect_identical(as.POSIXct(i64, tz="CET", origin=10), as.POSIXct(as.numeric(i32), tz="CET", origin=10))
+  expect_identical(as.POSIXlt(i64), as.POSIXlt(i32))
+  expect_identical(as.POSIXlt(i64, origin=10), as.POSIXlt(i32, origin=10))
+  expect_identical(as.POSIXlt(i64, tz="UTC", origin=10), as.POSIXlt(i32, tz="UTC", origin=10))
+  expect_identical(as.POSIXlt(i64, tz="CET", origin=10), as.POSIXlt(i32, tz="CET", origin=10))
+  expect_error(as.difftime(i32), "need explicit units for numeric conversion", fixed=TRUE)
+  expect_error(as.difftime(i64), "need explicit units for numeric conversion", fixed=TRUE)
+  expect_identical(as.difftime(i64, units="secs"), as.difftime(i32, units="secs"))
+  
+  # S4 version
+  expect_identical(methods::as(as.integer64(1:10), "raw"), as.raw(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "difftime"), as.difftime(1:10, units="secs"))
+  expect_identical(methods::as(as.integer64(1:10), "POSIXct"), as.POSIXct(as.numeric(1:10)))
+  expect_identical(methods::as(as.integer64(1:10), "POSIXlt"), as.POSIXlt(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "Date"), as.Date(as.numeric(1:10)))
+
 })
 
 test_that("S3 class basics work", {

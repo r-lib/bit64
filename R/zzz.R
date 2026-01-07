@@ -29,11 +29,11 @@
   
 }
 
-.onUnload <- function(libpath) {
+.onUnload = function(libpath) {
   library.dynam.unload("bit64", libpath)
 }
 
-generic_call_in_stack <- function(generic_name) {
+generic_call_in_stack = function(generic_name) {
   calls = sys.calls()
   # we define `:.default` --> avoid infinite loop
   for (jj in base::`:`(length(calls), 1L)) {
@@ -75,11 +75,11 @@ primitive_generic_appears_in_stack  = function(generic_name) {
   }))
 }
 
-deprecate_exported_s3_methods <- function(..., verbose=FALSE) {
-  methods <- list(...)
-  method_names <- vapply(substitute(list(...))[-1L], deparse, character(1L))
+deprecate_exported_s3_methods = function(..., verbose=FALSE) {
+  methods = list(...)
+  method_names = vapply(substitute(list(...))[-1L], deparse, character(1L))
   # this happens to work here -- no affected classes use '.', so the class is the last part
-  generic_method <- vapply(
+  generic_method = vapply(
     strsplit(method_names, ".", fixed=TRUE),
     function(parts) c(paste(head(parts, -1L), collapse="."), tail(parts, 1L)),
     character(2L)
@@ -88,9 +88,9 @@ deprecate_exported_s3_methods <- function(..., verbose=FALSE) {
   if (verbose) primitives = character()
 
   for (ii in seq_along(methods)) {
-    method <- methods[[ii]]
-    method_name <- method_names[ii]
-    generic_name <- generic_method[1L, ii]
+    method = methods[[ii]]
+    method_name = method_names[ii]
+    generic_name = generic_method[1L, ii]
 
     # call stack may/may not work correctly for primitives. optionally report what's skipped.
     if (!primitive_generic_appears_in_stack(generic_name)) {
@@ -99,7 +99,7 @@ deprecate_exported_s3_methods <- function(..., verbose=FALSE) {
     }
 
     # Prepend the warning check to the function body
-    warning_expr <- bquote(
+    warning_expr = bquote(
       if (
         getOption("bit64.warn.exported.s3.method", TRUE) &&
           !generic_call_in_stack(.(generic_name))
@@ -118,11 +118,11 @@ deprecate_exported_s3_methods <- function(..., verbose=FALSE) {
     # in 'function(x) x', body() is a name --> subsetting breaks
     # if un-braced, as.list() will break up the first (and only) expression
     if (!is.name(body(method)) && identical(body(method)[[1L]], as.name("{"))) {
-      exprs <- as.list(body(method)[-1L])
+      exprs = as.list(body(method)[-1L])
     } else {
-      exprs <- body(method)
+      exprs = body(method)
     }
-    body(method) <- as.call(c(as.name("{"), warning_expr, exprs))
+    body(method) = as.call(c(as.name("{"), warning_expr, exprs))
 
     assign(method_name, method, envir = parent.frame())
   }

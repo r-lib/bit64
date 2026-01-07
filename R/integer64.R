@@ -40,8 +40,7 @@ NULL
 #'   [as.logical()], [as.integer()] do what you would expect.
 #'
 #' @param x an integer64 vector
-#' @param keep.names FALSE, set to TRUE to keep a names vector
-#' @param ... further arguments to the [NextMethod()]
+#' @param ...,origin,tz further arguments to the [NextMethod()]
 #'
 #' @return `as.bitstring` returns a string of class 'bitstring'.
 #'
@@ -61,9 +60,8 @@ NULL
 #' Methods to coerce from other atomic types to integer64.
 #'
 #' @param x an atomic vector
-#' @param keep.names FALSE, set to TRUE to keep a names vector
-#' @param ... further arguments to the [NextMethod()]
-#'
+#' @param ...,units further arguments to the [NextMethod()]
+#' 
 #' @details
 #' `as.integer64.character` is realized using C function `strtoll` which
 #'   does not support scientific notation. Instead of '1e6' use '1000000'.
@@ -307,7 +305,7 @@ NULL
 #' Coercing integer64 vector to data.frame.
 #'
 #' @param x an integer64 vector
-#' @param ... passed to NextMethod [as.data.frame()] after removing the
+#' @param row.names,optional,... passed to NextMethod [as.data.frame()] after removing the
 #'   'integer64' class attribute
 #'
 #' @returns a one-column data.frame containing an integer64 vector
@@ -320,7 +318,7 @@ NULL
 #'   [cbind.integer64()] [integer64()]
 #    as.vector.integer64 removed as requested by the CRAN maintainer [as.vector.integer64()]
 #' @examples
-#'   as.data.frame.integer64(as.integer64(1:12))
+#'   as.data.frame(as.integer64(1:12))
 #'   data.frame(a=1:12, b=as.integer64(1:12))
 #' @name as.data.frame.integer64
 NULL
@@ -634,30 +632,37 @@ is.integer64 = function(x) inherits(x, "integer64")
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.NULL = function(x, ...) {
-  ret = double()
-  oldClass(ret) = "integer64"
-  ret
-}
+as.integer64.NULL = function(x, ...) integer64()
 
 #' @rdname as.integer64.character
 #' @export
 as.integer64.integer64 = function(x, ...) {
   ret = unclass(x)
   attributes(ret) = NULL
-  # if keep.names is added as argument
-  # if (isTRUE(keep.names))
-  #   names(ret) = names(x)
   oldClass(ret) = "integer64"
   ret
 }
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.double = function(x, keep.names=FALSE, ...) {
+as.integer64.double = function(x, ...) {
   ret = .Call(C_as_integer64_double, x, double(length(x)))
-  if (keep.names)
-    names(ret) <- names(x)
+  oldClass(ret) = "integer64"
+  ret
+}
+
+#' @rdname as.integer64.character
+#' @exportS3Method as.integer64 complex
+as.integer64.complex = function(x, ...) {
+  xd = withCallingHandlers(
+    as.double(x),
+    # call.=FALSE to avoid confusion about where the warning arises
+    warning = function(w) {
+      warning(conditionMessage(w), call.=FALSE)
+      invokeRestart("muffleWarning")
+    }
+  )
+  ret = .Call(C_as_integer64_double, xd, double(length(xd)))
   oldClass(ret) = "integer64"
   ret
 }
@@ -671,58 +676,123 @@ as.integer64.integer = function(x, ...) {
 }
 
 #' @rdname as.integer64.character
-#' @export
-as.integer64.logical = as.integer64.integer
-
-#' @rdname as.integer64.character
-#' @export
-as.integer64.character = function(x, ...) {
-  n = length(x)
-  ret = .Call(C_as_integer64_character, x, rep(NA_real_, n))
+#' @exportS3Method as.integer64 raw
+as.integer64.raw = function(x, ...) {
+  ret = .Call(C_as_integer64_integer, as.integer(x), double(length(x)))
   oldClass(ret) = "integer64"
   ret
 }
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.factor = function(x, ...) as.integer64(unclass(x), ...)
+as.integer64.logical = as.integer64.integer
 
-#' @rdname as.character.integer64
+#' @rdname as.integer64.character
 #' @export
-as.double.integer64 = function(x, keep.names=FALSE, ...) {
+as.integer64.character = function(x, ...) {
+  ret = .Call(C_as_integer64_character, x, rep(NA_real_, length(x)))
+  oldClass(ret) = "integer64"
+  ret
+}
+
+#' @rdname as.integer64.character
+#' @export
+as.integer64.factor = function(x, ...) 
+  as.integer64(unclass(x), ...)
+
+#' @rdname as.integer64.character
+#' @exportS3Method as.integer64 Date
+as.integer64.Date = function(x, ...)
+  as.integer64(as.double(x))
+
+#' @rdname as.integer64.character
+#' @exportS3Method as.integer64 POSIXct
+as.integer64.POSIXct = function(x, ...)
+  as.integer64(as.double(x))
+
+#' @rdname as.integer64.character
+#' @exportS3Method as.integer64 POSIXlt
+as.integer64.POSIXlt = function(x, ...)
+  as.integer64(as.POSIXct(x))
+
+#' @rdname as.integer64.character
+#' @exportS3Method as.integer64 difftime
+as.integer64.difftime = function(x, units="auto", ...)
+  as.integer64(as.double(x, units=units, ...))
+
+.as_double_integer64 = function(x, keep.attributes=FALSE, ...) {
   ret = .Call(C_as_double_integer64, x, double(length(x)))
-  if (keep.names)
-    names(ret) <- names(x)
+  if (isTRUE(keep.attributes)) {
+    # like dimensions for matrix operations
+    a = attributes(x)
+    a$class = NULL
+    attributes(ret) = a
+  }
   ret
 }
 
 #' @rdname as.character.integer64
 #' @export
-as.integer.integer64 = function(x, ...) {
+as.double.integer64 = function(x, ...) 
+  .as_double_integer64(x, keep.attributes=FALSE, ...)
+
+#' @rdname as.character.integer64
+#' @exportS3Method base::as.numeric integer64
+as.numeric.integer64 = as.double.integer64
+
+#' @rdname as.character.integer64
+#' @exportS3Method base::as.complex integer64
+as.complex.integer64 = function(x, ...) as.complex(as.double(x), ...)
+
+#' @rdname as.character.integer64
+#' @export
+as.integer.integer64 = function(x, ...) 
   .Call(C_as_integer_integer64, x, integer(length(x)))
+
+#' @rdname as.character.integer64
+#' @exportS3Method base::as.raw integer64
+as.raw.integer64 = function(x, ...) {
+  withCallingHandlers(
+    as.raw(.Call(C_as_integer_integer64, x, integer(length(x)))),
+    warning = function(w) {
+      warning(conditionMessage(w), call.=FALSE)
+      invokeRestart("muffleWarning")
+    }
+  )
 }
 
 #' @rdname as.character.integer64
 #' @export
-as.logical.integer64 = function(x, ...) {
+as.logical.integer64 = function(x, ...)
   .Call(C_as_logical_integer64, x, logical(length(x)))
-}
 
 #' @rdname as.character.integer64
 #' @export
-as.character.integer64 = function(x, ...) {
-  n = length(x)
-  .Call(C_as_character_integer64, x, rep(NA_character_, n))
-}
+as.character.integer64 = function(x, ...)
+  .Call(C_as_character_integer64, x, rep(NA_character_, length(x)))
 
 #' @rdname as.character.integer64
 #' @export
 as.bitstring.integer64 = function(x, ...) {
-  n = length(x)
-  ret = .Call(C_as_bitstring_integer64, x, rep(NA_character_, n))
+  ret = .Call(C_as_bitstring_integer64, x, rep(NA_character_, length(x)))
   oldClass(ret) = 'bitstring'
   ret
 }
+
+#' @rdname as.character.integer64
+#' @exportS3Method base::as.Date integer64
+as.Date.integer64 = function(x, origin, ...)
+  as.Date(as.double(x), origin=origin, ...)
+
+#' @rdname as.character.integer64
+#' @exportS3Method base::as.POSIXct integer64
+as.POSIXct.integer64 = function(x, tz="", origin, ...)
+  as.POSIXct(as.double(x), tz=tz, origin=origin, ...)
+
+#' @rdname as.character.integer64
+#' @exportS3Method base::as.POSIXlt integer64
+as.POSIXlt.integer64 = function(x, tz="", origin, ...)
+  as.POSIXlt(as.double(x, ...), tz=tz, origin=origin, ...)
 
 #' @rdname as.character.integer64
 #' @export
@@ -739,10 +809,15 @@ as.integer64.bitstring = function(x, ...) {
   ret
 }
 
-
 # read.table expects S4 as()
-methods::setAs("character", "integer64", function(from) as.integer64.character(from))
-methods::setAs("integer64", "character", function(from) as.character.integer64(from))
+methods::setAs("ANY", "integer64", function(from) as.integer64(from))
+methods::setAs("integer64", "factor", function(from) as.factor(from))
+methods::setAs("integer64", "ordered", function(from) as.ordered(from))
+methods::setAs("integer64", "difftime", function(from) as.difftime(from, units="secs"))
+methods::setAs("integer64", "POSIXct", function(from) as.POSIXct(from))
+methods::setAs("integer64", "POSIXlt", function(from) as.POSIXlt(from))
+methods::setAs("integer64", "Date", function(from) as.Date(from))
+methods::setAs("integer64", "raw", function(from) as.raw(from))
 
 # this is a trick to generate NA_integer64_ for namespace export before
 # as.integer64() is available because dll is not loaded
@@ -802,19 +877,35 @@ print.integer64 = function(x, quote=FALSE, ...) {
 #' @param object an integer64 vector
 #' @param vec.len,give.head,give.length see [utils::str()]
 #' @export
-str.integer64 = function(object,
-                          vec.len  = strO$vec.len,
-                          give.head = TRUE,
-                          give.length = give.head,
-                          ...) {
+str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.length=give.head, ...) {
   strO = strOptions()
   vec.len = 2L*vec.len
   n = length(object)
-  if (n > vec.len)
-    object <- object[seq_len(vec.len)]
+  displayObject = object[seq_len(min(vec.len, length(object)))]
+  
   cat(
-    if (give.head) paste0("integer64 ", if (give.length && n>1L) paste0("[1:", n, "] ")),
-    paste(as.character(object), collapse=" "),
+    if (isTRUE(give.head)) {
+      if (length(object) == 0L && is.null(dim(object))) {
+        "integer64(0)"
+      } else {
+        paste0(
+          "integer64 ",
+          if (length(object) > 1L && is.null(dim(object))) {
+            if (isTRUE(give.length)) paste0("[1:", n, "] ") else " "
+          } else if (!is.null(dim(object))) {
+            dimO = dim(object)
+            if (prod(dimO) != n)
+              stop(gettextf("dims [product %d] do not match the length of object [%d]", prod(dimO), n, domain="R"))
+            if (length(dimO) == 1L) {
+              paste0("[", n, "(1d)] ")
+            } else {
+              paste0("[", paste(vapply(dimO, function(el) {if (el < 2L) as.character(el) else paste0("1:", el)}, ""), collapse = ", "), "] ")
+            }
+          }
+        )
+      }
+    },
+    paste(as.character(displayObject), collapse=" "),
     if (n > vec.len) " ...",
     " \n",
     sep=""
@@ -1036,15 +1127,14 @@ rbind.integer64 = function(...) {
 
 #' @rdname as.data.frame.integer64
 #' @export
-as.data.frame.integer64 = function(x, ...) {
+as.data.frame.integer64 = function(x, row.names=NULL, optional=FALSE, ...) {
   cl = oldClass(x)
   on.exit(setattr(x, "class", cl))
   # tenfold runtime if using attr() here instead of setattr()
   setattr(x, "class", minusclass(cl, "integer64"))
-  ret = as.data.frame(x, ...)
-  k = length(ret)
-  for (i in 1:k)
-   setattr(ret[[i]], "class", cl)
+  ret = as.data.frame(x, row.names=row.names, optional=optional, ...)
+  for (i in seq_along(ret))
+    setattr(ret[[i]], "class", cl)
   ret
 }
 
@@ -1394,7 +1484,7 @@ signif.integer64 = function(x, digits=6L) x
 #' @rdname format.integer64
 #' @export
 scale.integer64 = function(x, center = TRUE, scale = TRUE) {
-  scale(as.double(x, keep.names=TRUE), center=center, scale=scale)
+  scale(.as_double_integer64(x, keep.attributes=TRUE), center=center, scale=scale)
 }
 
 #' @rdname format.integer64
