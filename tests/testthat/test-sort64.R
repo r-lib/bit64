@@ -275,7 +275,7 @@ test_that("Corner cases for partitioning logic", {
   expect_identical(x, as.integer64(c(1L, 2L)))
 })
 
-test_that("Radix sort variations cover all byte-shuffling paths", {
+local({
   x_base = as.integer64(sample(c(1:100, 2^30, 2^60), 200, replace = TRUE))
 
   # Group 1: sort (takes x)
@@ -317,7 +317,7 @@ test_that("Radix sort variations cover all byte-shuffling paths", {
   )
 })
 
-test_that("Quicksort recursion limits and small-array fallbacks", {
+local({
   x_small = as.integer64(sample(15))
   x_large = as.integer64(sample(100))
 
@@ -378,28 +378,26 @@ test_that("Quicksort recursion limits and small-array fallbacks", {
   )
 })
 
-test_that("Median-of-3 index selection logic", {
-  # We test permutations of 1:3 to ensure every branch of the ternary median selector is hit
-  with_parameters_test_that(
-    "quickorder correctly sorts permutation {paste(perm, collapse=',')}",
-    {
-      x_base = as.integer64(perm)
-      x = clone(x_base)
-      i = seq_along(x)
-      bit::quickorder(x, i)
-      expect_identical(x[i], as.integer64(1:3))
-    },
-    .cases = data.frame(
-      # List columns are tricky in data.frame, constructing manually or via list wrapping
-      perm = I(list(
-        c(1, 2, 3), c(1, 3, 2), c(2, 1, 3),
-        c(2, 3, 1), c(3, 1, 2), c(3, 2, 1)
-      ))
-    )
+# We test permutations of 1:3 to ensure every branch of the ternary median selector is hit
+with_parameters_test_that(
+  "quickorder correctly sorts permutation {toString(perm)}",
+  {
+    x_base = as.integer64(perm)
+    x = clone(x_base)
+    i = seq_along(x)
+    bit::quickorder(x, i)
+    expect_identical(x[i], as.integer64(1:3))
+  },
+  .cases = data.frame(
+    # List columns are tricky in data.frame, constructing manually or via list wrapping
+    perm = I(list(
+      c(1, 2, 3), c(1, 3, 2), c(2, 1, 3),
+      c(2, 3, 1), c(3, 1, 2), c(3, 2, 1)
+    ))
   )
-})
+)
 
-test_that("Explicit stop conditions in partitioning scanners", {
+local({
   # Cases covering scanners running past bounds or extreme pivots
   cases_list = list(
     sorted = as.integer64(1:50),
