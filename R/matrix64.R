@@ -79,16 +79,20 @@ array.integer64 = function(data=NA_integer64_, ...) {
 colSums = function(x, na.rm=FALSE, dims=1L) UseMethod("colSums")
 #' @rdname matrix64
 #' @export
-colSums.default = function(x, na.rm=FALSE, dims=1L) base::colSums(x=x, na.rm=na.rm, dims=dims)
+colSums.default = function(x, na.rm=FALSE, dims=1L) 
+  withCallingHandlers_and_choose_call(
+    base::colSums(x=x, na.rm=na.rm, dims=dims), 
+    c("colSums", "colSums.default")
+  )
 
 #' @rdname matrix64
 #' @export
 colSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
   dn = dim(x)
   if (!is.array(x) || length(dn) < 2L) 
-    stop("'x' must be an array of at least two dimensions", domain="R-base")
+    stop(errorCondition(gettext("'x' must be an array of at least two dimensions", domain="R-base"), call=choose_sys_call(c("colSums", "colSums.integer64"))))
   if (length(dims) != 1L || dims < 1L || dims > length(dn) - 1L) 
-    stop("invalid 'dims'", domain="R-base")
+    stop(errorCondition(gettext("invalid 'dims'", domain="R-base"), call=choose_sys_call(c("colSums", "colSums.integer64"))))
   
   ret = apply(x, seq_along(dn)[-seq_len(dims)], sum, na.rm=na.rm)
   class(ret) = class(x)
@@ -100,16 +104,20 @@ colSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
 rowSums = function(x, na.rm=FALSE, dims=1L) UseMethod("rowSums")
 #' @rdname matrix64
 #' @export
-rowSums.default = function(x, na.rm=FALSE, dims=1L) base::rowSums(x=x, na.rm=na.rm, dims=dims)
+rowSums.default = function(x, na.rm=FALSE, dims=1L) 
+  withCallingHandlers_and_choose_call(
+    base::rowSums(x=x, na.rm=na.rm, dims=dims), 
+    c("rowSums", "rowSums.default")
+  )
 
 #' @rdname matrix64
 #' @export
 rowSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
   dn = dim(x)
   if (!is.array(x) || length(dn) < 2L) 
-    stop("'x' must be an array of at least two dimensions", domain="R-base")
+    stop(errorCondition(gettext("'x' must be an array of at least two dimensions", domain="R-base"), call=choose_sys_call(c("rowSums", "rowSums.integer64"))))
   if (length(dims) != 1L || dims < 1L || dims > length(dn) - 1L) 
-    stop("invalid 'dims'", domain="R-base")
+    stop(errorCondition(gettext("invalid 'dims'", domain="R-base"), call=choose_sys_call(c("rowSums", "rowSums.integer64"))))
   
   ret = apply(x, seq_len(dims), sum, na.rm=na.rm)
   class(ret) = class(x)
