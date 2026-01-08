@@ -589,7 +589,7 @@ with_parameters_test_that(
       } else {
         # coerce by and to
         if (getRversion() >= "4.0.0") {
-          # in R 3.6.0 not all warnings are emitted
+          # not all warnings are emitted in R < 4.0.0
           expect_warning(
             expect_warning(expect_identical(seq(n1_64, n2, by=n3), as.integer64(seq(n1_32, n2_32, by=n3_32))), "argument 'by' is coerced to integer64", fixed=TRUE),
             "argument 'to' is coerced to integer64", fixed=TRUE
@@ -663,6 +663,8 @@ with_parameters_test_that(
 )
 
 test_that("seq method works analogously to integer: 3 arguments with integer64 coercion and truncation of by", {
+  skip_unless_r(">= 4.0.0")
+  # not all warnings are emitted in R < 4.0.0
   expect_warning(
     expect_warning(
       expect_identical(seq(as.integer64(5L), 1.5, length.out=3.5), as.integer64(seq(5L, by=-1, length.out=3.5))),
