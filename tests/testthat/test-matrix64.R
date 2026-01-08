@@ -85,9 +85,9 @@ with_parameters_test_that(
     expect_identical(dim(A), c(10L))
     expect_identical(array(x, c(2,5))[seq_along(x)], x)
     expect_identical(dim(array(x, c(2,5))), c(2L,5L))
-    expect_identical(array(x, c(1,2,3))[seq_len(1*2*3)], rep_len(x, 1*2*3))
+    expect_identical(array(x, c(1,2,3))[seq_len(1*2*3)], x[seq_len(1*2*3)])
     expect_identical(dim(array(x, c(1,2,3))), c(1L,2L,3L))
-    expect_identical(array(x, c(3,2,3))[seq_len(3*2*3)], rep_len(x, 3*2*3))
+    expect_identical(array(x, c(3,2,3))[seq_len(3*2*3)], x[(seq_len(3*2*3)-1L) %% length(x) + 1L])
 
     if (type == "integer64") {
       missing = NA_integer64_
