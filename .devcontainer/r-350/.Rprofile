@@ -76,7 +76,7 @@ expect_warning <- function(object, regexp = NULL, ...) {
   }
 
   if (is.null(regexp)) return(invisible())
-  if (!any(grepl(regexp, warnings))) {
+  if (!any(grepl(regexp, warnings, ...))) {
     stop(sprintf("FAILURE: expect_warning() regex mismatch.\n  Expected: %s\n  Actual: %s", regexp, toString(warnings)))
   }
 }
