@@ -19,6 +19,8 @@
 # cran_only_revdeps = setdiff(all_revdeps, bioc_only_revdeps)
 #
 # uninstallable = c(
+#   "rstanarm",
+#   "rvinecopulib",
 #   "prophet", # stan compilation blows out memory even under -O0
 #   "iClick",  # requires DISPLAY for Tk during installation
 #   "dowser",  # broken by Biostrings refactoring
@@ -39,16 +41,16 @@ apt-get install -y --no-install-recommends \
   libmpfr-dev libglpk-dev libssh-dev libmagick++-dev default-jdk \
   libsasl2-dev tcl-dev tk-dev libgsl-dev librsvg2-dev libprotobuf-dev \
   libsodium-dev libjq-dev librdf0-dev libgrpc++-dev protobuf-compiler-grpc \
-  libgit2-dev
+  libgit2-dev libpoppler-cpp-dev
 
 # not currently on CRAN:
 # install.packages("remotes")
 # remotes::install_github("cran/TFMPvalue")
 #
-# only installs with '-O0' in limited memory environment
+# only installs with '-O0' in limited memory environment:
 # install.packages("withr")
 # withr::with_makevars(
 #   new = list(CXXFLAGS = "-O0", CXX17FLAGS = "-O0"),
 #   assignment = "+=", 
-#   code = install.packages("mmrm")
+#   code = install.packages(c("mmrm", "trialr", "parTimeROC"))
 # )
