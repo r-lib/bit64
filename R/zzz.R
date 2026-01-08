@@ -11,14 +11,19 @@
 # backports
 # R < 3.6.0
 if (getRversion() < "3.6.0") {
-  errorCondition = function(message, ..., class = NULL, call = NULL) 
-    structure(list(message = as.character(message), call = call, ...), class = c(class, "error", "condition"))
+  errorCondition = function(message, ..., class = NULL, call = NULL) {
+    obj <- list(message = as.character(message), call = call, ...)
+    class(obj) = c(class, "error", "condition")
+    obj
+  }
   
-  warningCondition = function(message, ..., class = NULL, call = NULL) 
-    structure(list(message = as.character(message), call = call, ...), class = c(class, "warning", "condition"))
+  warningCondition = function(message, ..., class = NULL, call = NULL) {
+    obj <- list(message = as.character(message), call = call, ...)
+    class(obj) = c(class, "warning", "condition")
+    obj
+  }
   
-  str2lang = function(s) 
-    parse(text = s, keep.source=FALSE)[[1L]]
+  str2lang = function(s) parse(text=s, keep.source=FALSE)[[1L]]
 }
   
 # nocov start
