@@ -262,14 +262,14 @@ choose_sys_call = function(function_names, name_to_display=NULL) {
 withCallingHandlers_and_choose_call = function(expr, function_names, name_to_display=NULL) {
   wch = str2lang("withCallingHandlers(expr, error=error, warning=warning)")
   wch[[2L]] = sys.call()[[2L]] # expr
-  wch[[3L]] = {function(function_names, name_to_display) 
-    function(e) {stop(errorCondition(e$message, call=choose_sys_call(function_names, name_to_display)))}
-  }(function_names, name_to_display)
-  wch[[4L]] = {function(function_names, name_to_display) 
+  wch[[3L]] = local({
+    function(e) stop(errorCondition(e$message, call=choose_sys_call(function_names, name_to_display)))
+  })
+  wch[[4L]] = local({
     function(w) {
       warning(warningCondition(w$message, call=choose_sys_call(function_names, name_to_display)))
       invokeRestart("muffleWarning")
     }
-  }(function_names, name_to_display)
+  })
   eval(wch, envir=parent.frame())
 }
