@@ -719,132 +719,97 @@ test_that("seq method works analogously to integer: further tests", {
   expect_identical(seq(to=n_64), as.integer64(seq(to=n_32)))
   expect_identical(seq(length.out=n_64), as.integer64(seq(length.out=n_32)))
   expect_identical(seq(along.with=n_64), as.integer64(seq(along.with=n_32)))
-  # seq(from=as.integer64(10L)) # int64 1:10
-  # seq(to=as.integer64(10L)) # int64 1:10
-  # seq(len=as.integer64(10L)) # int64 1:10   mit coerce warning
-  # seq(alon=as.integer64(10L)) # int64 1
-  
+
   expect_identical(seq(NA_integer64_), as.integer64(seq(NA)))
   expect_identical(seq(rep(NA_integer64_, 2)), as.integer64(seq(rep(NA, 2))))
-  # seq(NA_integer64_) # int64 1
-  # seq(rep(NA_integer64_, 2)) # int64 1 2
   expect_identical(
     tryCatch(seq(NA_integer64_, 2L), error=conditionMessage),
     tryCatch(seq(NA, 2L), error=conditionMessage)
   )
-  # seq(NA_integer64_, 2L) # ERROR "'from' must be a finite number"
   expect_identical(
     tryCatch(seq(to=NA_integer64_, 2L), error=conditionMessage),
     tryCatch(seq(to=NA, 2L), error=conditionMessage)
   )
-  # seq(to=NA_integer64_, 2L) # ERROR "'to' must be a finite number"
   expect_identical(
     tryCatch(seq(length.out=NA_integer64_, 2L), error=conditionMessage),
     tryCatch(seq(length.out=NA, 2L), error=conditionMessage)
   )
-  # seq(len=NA_integer64_, 2L) # ERROR "'length.out' must be a non-negative number"
   
   expect_identical(seq(as.integer64(0L)), as.integer64(seq(0L)))
-  # seq(as.integer64(0L)) # int64 1 0
 
   expect_identical(seq(integer64()), as.integer64(seq(integer())))
-  # seq(as.integer64()) # int64(0)
   
   expect_identical(
     tryCatch(seq(as.integer64(1:2), 10L), error=conditionMessage),
     tryCatch(seq(1:2, 10L), error=conditionMessage)
   )
-  # seq(as.integer64(1:2), 10L) # ERROR "'from' must be of length 1"  gettextf("'%s' must be of length 1", "from")
   
   expect_warning(
     # by = as.integer(((10 - 1) / (5 - 1)))
     expect_identical(seq(as.integer64(1L), 10L, along.with=1:5), as.integer64(seq(1L, by=2L, along.with=1:5))),
     "the resulting 'by' is truncated to integer64", fixed=TRUE
   )
-  # seq(as.integer64(1L), 10L, alon=1:5) # int64 1 3 5 7 9 with trancate warning
 
   expect_identical(seq(as.integer64(1L), 10L, along.with=1:10), as.integer64(seq(1L, 10L, along.with=1:10)))
-  # seq(as.integer64(1L), 10L, alon=1:10) # int64 1:10
   
   expect_identical(seq(as.integer64(1L), 10L, along.with=NULL), as.integer64(seq(1L, 10L, along.with=NULL))) 
-  # seq(as.integer64(1L), 10L, alon=NULL) # int64(0)
   
   expect_identical(
     tryCatch(seq(as.integer64(1L), 10L, by=NULL), error=conditionMessage),
     tryCatch(seq(1L, 10L, by=NULL), error=conditionMessage)
   )
-  # seq(as.integer64(1L), 10L, by=NULL) # ERROR "'by' must be of length 1"
   
   expect_identical(
     tryCatch(seq(as.integer64(1L), 10L, length.out=NULL), error=conditionMessage),
     tryCatch(seq(1L, 10L, length.out=NULL), error=conditionMessage)
   )
-  # seq(as.integer64(1L), 10L, len=NULL) # ERROR "'length.out' must be of length 1"
   
   expect_identical(seq(as.integer64(1L), 10L, length.out=0L), as.integer64(seq(1L, 10L, length.out=0L)))
-  # seq(as.integer64(1L), 10L, len=0L) # int64()
   
   expect_identical(seq(as.integer64(1L), 10L, length.out=10L), as.integer64(seq(1L, 10L, length.out=10L)))
-  # seq(as.integer64(1L), 10L, len=10L) # int64 1:10
 
   expect_warning(
     # by = as.integer(((10 - 1) / (3 - 1)))
     expect_identical(seq(as.integer64(1L), 10L, length.out=3L), as.integer64(seq(1L, by=4L, length.out=3L))),
     "the resulting 'by' is truncated to integer64", fixed=TRUE
   )
-  # seq(as.integer64(1L), 10L, len=3L) # int64 1 5 9 mit truncate warnung
 
   expect_identical(seq(as.integer64(1L), along.with=1:5), as.integer64(seq(1L, along.with=1:5)))
-  # seq(as.integer64(1L), alon=1:5) # int64 1:5
   
   expect_identical(seq(as.integer64(1L), length.out=2L), as.integer64(seq(1L, length.out=2L)))
-  # seq(as.integer64(1L), len=2L) # int64 1:2
 
   expect_warning(
     # by = as.integer(((10 - 1) / (5 - 1)))
     expect_identical(seq(as.integer64(1L), 10L, along.with=1:5, length.out=2), as.integer64(seq(1L, by=2L, along.with=1:5, length.out=2))),
     "the resulting 'by' is truncated to integer64", fixed=TRUE
   )
-  # seq(as.integer64(1L), 10L, alon=1:5, len=2) # int64 1 3 5 7 9    mit truncate warnung    alon dominates len
 
   expect_identical(seq(as.integer64(1L), along.with=1:5, by=2L), as.integer64(seq(1L, along.with=1:5, by=2L)))
-  # seq(as.integer64(1L), alon=1:5, by=2L) # int64 1,3,5,7,9
 
   expect_identical(seq(length.out=as.integer64(2L)), as.integer64(seq(length.out=2L)))
-  # seq(len = as.integer64(2L)) # int64 1:2   mit coerce waning
     
   expect_identical(seq(as.integer64(10L), 1L, along.with=1:10), as.integer64(seq(10L, 1L, along.with=1:10)))
-  # seq(as.integer64(10L), 1L, alon=1:10) # int64 10:1
 
   expect_identical(seq(as.integer64(10L), 10L, length.out=3L), as.integer64(seq(10L, 10L, length.out=3L)))
-  # seq(as.integer64(10L), as.integer64(10L), len=3L) # int64 10 10 10
   
   expect_warning(
     # by = as.integer(((20 - 10) / (4 - 1)))
     expect_identical(seq(as.integer64(10L), 20L, length.out=4L), as.integer64(seq(10L, by=3L, length.out=4L))),
     "the resulting 'by' is truncated to integer64", fixed=TRUE
   )
-  # seq(as.integer64(10L), as.integer64(20L), len=4L) # int64 10 13 16 19  mit truncate warning
   
   expect_identical(seq(as.integer64(10L), 20L, length.out=3L), as.integer64(seq(10L, 20L, length.out=3L)))
-  # seq(as.integer64(10L), as.integer64(20L), len=3L) # int64 10 15 20     ohne warning
   
   expect_identical(seq(to=as.integer64(20L), length.out=4L), as.integer64(seq(to=20L, length.out=4L)))
-  # seq(to=as.integer64(20L), len=4L) # int64 17 18 19 20
   
   expect_identical(seq(from=as.integer64(20L), length.out=4L), as.integer64(seq(from=20L, length.out=4L)))
-  # seq(from=as.integer64(20L), len=4L) # int64 20 21 22 23
 
   expect_identical(seq(from=as.integer64(1L), to=-1L), as.integer64(seq(from=1L, to=-1L)))
-  # seq(from=as.integer64(1L), to=-1L) # int64 1 0 -1
-  
 })
 
 test_that("seq error if result does not fit in integer64", {
-  
   expect_identical(seq(as.integer64(2^30), by=as.integer(2^30), length.out=2L), as.integer64(seq(as.integer(2^30), by=as.integer(2^30), length.out=2L)))
   expect_error(seq(as.integer64(2^62), by=as.integer64(2^62), length.out=2L), "resulting sequence does not fit in integer64")
-  # seq(as.integer64(2^62), by=as.integer64(2^62), length.out=2L) # ERROR that sequence does not fit in integer64.
 })
 
 test_that(":.integer64 works analogously to integer", {
