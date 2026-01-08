@@ -432,8 +432,9 @@ test_that("seq method works analogously to integer: 1 (length 0) argument", {
     tryCatch(seq(by=n32), error=conditionMessage)
   )
   expect_identical(
+    # for ubuntu-latest requires removing of "argument "
     tryCatch(seq(length.out=n64), error=conditionMessage),
-    tryCatch(seq(length.out=n32), error=conditionMessage)
+    gsub("^argument (.*)", "\\1", tryCatch(seq(length.out=n32), error=conditionMessage))
   )
   expect_identical(seq(along.with=n64), as.integer64(seq(along.with=n32)))
 })
@@ -760,10 +761,11 @@ test_that("seq method works analogously to integer: further tests", {
   )
   
   expect_identical(
+    # for ubuntu-latest requires removing of "argument "
     tryCatch(seq(as.integer64(1L), 10L, length.out=NULL), error=conditionMessage),
-    tryCatch(seq(1L, 10L, length.out=NULL), error=conditionMessage)
+    gsub("^argument (.*)", "\\1", tryCatch(seq(1L, 10L, length.out=NULL), error=conditionMessage))
   )
-  
+
   expect_identical(seq(as.integer64(1L), 10L, length.out=0L), as.integer64(seq(1L, 10L, length.out=0L)))
   
   expect_identical(seq(as.integer64(1L), 10L, length.out=10L), as.integer64(seq(1L, 10L, length.out=10L)))
