@@ -707,6 +707,8 @@ test_that("seq() works back-compatibly w.r.t. mixed integer+double inputs", {
   expect_warning(expect_identical(seq(one, 2.5), as.integer64(1:2)), "argument 'to' is coerced to integer64", fixed=TRUE)
   expect_warning(expect_identical(seq(to=one, from=2.5), as.integer64(2:1)), "argument 'from' is coerced to integer64", fixed=TRUE)
 
+  skip_unless_r(">= 4.0.0")
+  # not all warnings are emitted in R < 4.0.0  
   expect_warning(
     expect_warning(expect_identical(seq(one, 5.5, by=1.5), as.integer64(1:5)), "argument 'to' is coerced to integer64", fixed=TRUE),
     "argument 'by' is coerced to integer64", fixed=TRUE
