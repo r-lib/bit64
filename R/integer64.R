@@ -1165,8 +1165,6 @@ seq.integer64 = function(from=1L, to=1L, by=1L, length.out=NULL, along.with=NULL
       stop(gettextf("'%s' must be of length 1", "length.out", domain="R"), domain=NA)
     if (len > 1L)
       warning("first element used of 'length.out' argument", domain="R-base")
-    # if (!is.integer(length.out))
-    #   warning(gettextf("argument '%s' is coerced to integer", "length.out"))
     length.out = as.integer(ceiling(length.out[1L]))
     if (!is.finite(length.out) || length.out < 0L)
       stop("'length.out' must be a non-negative number", domain="R-base")
