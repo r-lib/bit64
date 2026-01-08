@@ -817,7 +817,7 @@ test_that("seq method works analogously to integer: further tests", {
 })
 
 test_that("seq error if result does not fit in integer64", {
-  expect_identical(seq(as.integer64(2^30), by=as.integer(2^30), length.out=2L), as.integer64(seq(as.integer(2^30), by=as.integer(2^30), length.out=2L)))
+  expect_identical(seq(as.integer64(2^30), by=as.integer(2^30), length.out=2L), as.integer64(seq(as.integer(2^30), by=2^30, length.out=2L)))
   expect_error(seq(as.integer64(2^62), by=as.integer64(2^62), length.out=2L), "resulting sequence does not fit in integer64")
 })
 
