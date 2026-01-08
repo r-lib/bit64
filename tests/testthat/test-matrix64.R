@@ -174,11 +174,11 @@ test_that("matrix multiplication", {
   expect_error(m64%*%as.raw(1:5), "non-numeric argument to binary operator", fixed=TRUE)
   
   # warning in multiplication part
-  x = as.integer64("4000000000")
+  x = as.integer64("4000000000") # x**2 > 2^63
   expect_warning(expect_identical(matrix(x, 1)%*%matrix(x, ncol=1), matrix(NA_integer64_, 1, 1)), "NAs produced by integer64 overflow")
   
   # warning in summation part
-  x = rep_len(as.integer64("3000000000"), 2)
+  x = rep_len(as.integer64("3000000000"), 2) # x**2 < 2^63, but 2 * x**2 > 2^63
   expect_warning(expect_identical(matrix(x, 1)%*%matrix(x, ncol=1), matrix(NA_integer64_, 1, 1)), "NAs produced by integer64 overflow")
   
 })
