@@ -254,13 +254,17 @@ test_that("Shellsort direct invocation", {
 test_that("Corner cases for partitioning logic", {
   # Single element and empty vectors often trip up "do { ... } while" or sentinel loops
 
-  # TODO(#220): restore this.
   # Case 1: Empty
-  # x_empty = integer64()
-  # x = bit::clone(x_empty)
-  # # bit::quicksort returns the NA count (0L), and modifies 'x' in-place
-  # expect_identical(bit::quicksort(x), 0L) 
-  # expect_identical(x, x_empty)
+  x_empty = integer64()
+  x = bit::clone(x_empty)
+  # bit::quicksort returns the NA count (0L), and modifies 'x' in-place
+  expect_identical(bit::quicksort(x), 0L)
+  expect_identical(x, x_empty)
+
+  # Add explicit tests for shellsort variants with empty vectors
+  expect_identical(bit::shellsort(x_empty), 0L)
+  expect_identical(bit::shellsortorder(x_empty, seq_along(x_empty)), 0L)
+  expect_identical(bit::shellorder(x_empty, seq_along(x_empty)), 0L)
 
   # Case 2: Single Element
   x_single = as.integer64(1L)
