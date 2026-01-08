@@ -2,6 +2,7 @@ with_parameters_test_that(
   "matrix() wrapper works for {type}",
   {
     M = matrix(x)
+  
     expect_true(is.matrix(M))
     if (type == "integer64") expect_s3_class(M, "integer64")
     expect_identical(M[seq_along(x)], x)
@@ -11,22 +12,64 @@ with_parameters_test_that(
   
     expect_identical(matrix(x, nrow=2)[seq_along(x)], x)
     expect_identical(dim(matrix(x, nrow=2)), c(2L, 5L))
-    expect_identical(matrix(x, nrow=2, byrow=TRUE)[seq_along(x)], x[c(1,6,2,7,3,8,4,9,5,10)])
+    expect_identical(matrix(x, nrow=2, byrow=TRUE)[seq_along(x)], x[c(1,6, 2,7, 3,8, 4,9, 5,10)])
     expect_identical(dim(matrix(x, nrow=2, byrow=TRUE)), c(2L, 5L))
-    expect_identical(matrix(NA_integer_, nrow=2, ncol=1)[1:2], c(NA_integer_, NA_integer_))
-    expect_identical(dim(matrix(NA_integer_, nrow=2, ncol=1)), c(2L, 1L))
-    expect_identical(matrix(integer(), nrow=2, ncol=1)[1:2], c(NA_integer_, NA_integer_))
-    expect_identical(dim(matrix(integer(), nrow=2, ncol=1)), c(2L, 1L))
-    expect_identical(dimnames(matrix(x, 2, dimnames=list(NULL, letters[1:5]))), list(NULL, letters[1:5]))
-    expect_identical(dimnames(matrix(x, 2, dimnames=list(LETTERS[1:2]))), list(LETTERS[1:2], NULL))
-    expect_identical(dimnames(matrix(x, 2, dimnames=list(LETTERS[1:2], letters[1:5]))), list(LETTERS[1:2], letters[1:5]))
-    expect_warning(expect_identical(matrix(x, nrow=2, ncol=6)[seq_len(2*6)], c(x, x[1:2])), "data length [[]10] is not a sub-multiple or multiple of the number of columns [[]6]")
-    expect_warning(expect_identical(dim(matrix(x, nrow=2, ncol=6)), c(2L, 6L)), "data length [[]10] is not a sub-multiple or multiple of the number of columns [[]6]")
-    expect_warning(expect_identical(matrix(x, nrow=2, ncol=3)[seq_len(2*3)], x[seq_len(2*3)]), "data length [[]10] is not a sub-multiple or multiple of the number of columns [[]3]")
-    expect_warning(expect_identical(dim(matrix(x, nrow=2, ncol=3)), c(2L, 3L)), "data length [[]10] is not a sub-multiple or multiple of the number of columns [[]3]")
-    expect_warning(expect_identical(matrix(x, nrow=3, ncol=2)[seq_len(3*2)], x[seq_len(3*2)]), "data length [[]10] is not a sub-multiple or multiple of the number of rows [[]3]")
-    expect_error(matrix(x, nrow=-1), "invalid 'nrow' value")
-    expect_error(matrix(x, ncol=-1), "invalid 'ncol' value")
+  
+    if (type == "integer64") {
+      missing = NA_integer64_
+      empty = integer64()
+    } else {
+      missing = NA_integer_
+      empty = integer()
+    }
+
+    expect_identical(matrix(missing, nrow=2, ncol=1)[1:2], c(missing, missing))
+    expect_identical(dim(matrix(missing, nrow=2, ncol=1)), c(2L, 1L))
+    expect_identical(matrix(empty, nrow=2, ncol=1)[1:2], c(missing, missing))
+    expect_identical(dim(matrix(empty, nrow=2, ncol=1)), c(2L, 1L))
+  
+    expect_identical(
+      dimnames(matrix(x, 2, dimnames=list(NULL, letters[1:5]))),
+      list(NULL, letters[1:5])
+    )
+    expect_identical(
+      dimnames(matrix(x, 2, dimnames=list(LETTERS[1:2]))),
+      list(LETTERS[1:2], NULL)
+    )
+    expect_identical(
+      dimnames(matrix(x, 2, dimnames=list(LETTERS[1:2], letters[1:5]))),
+      list(LETTERS[1:2], letters[1:5])
+    )
+
+    warning_stub = "data length [10] is not a sub-multiple or multiple of the number of"
+    expect_warning(
+      expect_identical(matrix(x, nrow=2, ncol=6)[seq_len(2*6)], c(x, x[1:2])),
+      paste(warning_stub, "columns [6]"), fixed=TRUE
+    )
+    expect_warning(
+      expect_identical(dim(matrix(x, nrow=2, ncol=6)), c(2L, 6L)),
+      paste(warning_stub, "columns [6]"), fixed=TRUE
+    )
+    expect_warning(
+      expect_identical(matrix(x, nrow=2, ncol=3)[seq_len(2*3)], x[seq_len(2*3)]),
+      paste(warning_stub, "columns [3]"), fixed=TRUE
+    )
+    expect_warning(
+      expect_identical(dim(matrix(x, nrow=2, ncol=3)), c(2L, 3L)),
+      paste(warning_stub, "columns [3]"), fixed=TRUE
+    )
+    expect_warning(
+      expect_identical(matrix(x, nrow=3, ncol=2)[seq_len(3*2)], x[seq_len(3*2)]),
+      paste(warning_stub, "rows [3]"), fixed=TRUE
+    )
+    expect_error(
+      matrix(x, nrow=-1),
+      "invalid 'nrow' value", fixed=TRUE
+    )
+    expect_error(
+      matrix(x, ncol=-1),
+      "invalid 'ncol' value", fixed=TRUE
+    )
   },
   .cases=data.frame(x=I(list(1:10, as.integer64(1:10))), type=c("integer", "integer64"))
 )
@@ -45,14 +88,41 @@ with_parameters_test_that(
     expect_identical(array(x, c(1,2,3))[seq_len(1*2*3)], rep_len(x, 1*2*3))
     expect_identical(dim(array(x, c(1,2,3))), c(1L,2L,3L))
     expect_identical(array(x, c(3,2,3))[seq_len(3*2*3)], rep_len(x, 3*2*3))
-    expect_identical(array(NA_integer_, c(2,1))[1:2], c(NA_integer_, NA_integer_))
-    expect_identical(array(integer(), c(2,1))[1:2], c(NA_integer_, NA_integer_))
-    expect_identical(dimnames(array(x, c(2,5), dimnames=list(NULL, letters[1:5]))), list(NULL, letters[1:5]))
-    expect_identical(dimnames(array(x, c(2,5), dimnames=list(LETTERS[1:2]))), list(LETTERS[1:2], NULL))
-    expect_identical(dimnames(array(x, c(2,5), dimnames=list(LETTERS[1:2], letters[1:5]))), list(LETTERS[1:2], letters[1:5]))
-    expect_error(array(x, dim=NULL), "'dims?' cannot be of length 0")
-    expect_error(array(x, dim=-1), "negative length vectors are not allowed")
-    expect_identical(array(x, dim=0),  structure(integer(), dim = 0L))
+
+    if (type == "integer64") {
+      missing = NA_integer64_
+      empty = integer64()
+    } else {
+      missing = NA_integer_
+      empty = integer()
+    }
+
+    expect_identical(array(missing, c(2,1))[1:2], c(missing, missing))
+    expect_identical(array(empty, c(2,1))[1:2], c(missing, missing))
+
+    expect_identical(
+      dimnames(array(x, c(2,5), dimnames=list(NULL, letters[1:5]))),
+      list(NULL, letters[1:5])
+    )
+    expect_identical(
+      dimnames(array(x, c(2,5), dimnames=list(LETTERS[1:2]))),
+      list(LETTERS[1:2], NULL)
+    )
+    expect_identical(
+      dimnames(array(x, c(2,5), dimnames=list(LETTERS[1:2], letters[1:5]))),
+      list(LETTERS[1:2], letters[1:5])
+    )
+  
+    expect_error(
+      array(x, dim=NULL), 
+      "'dims?' cannot be of length 0"
+    )
+    expect_error(
+      array(x, dim=-1),
+      "negative length vectors are not allowed"
+    )
+
+    expect_identical(array(x, dim=0),  structure(empty, dim = 0L))
   },
   .cases=data.frame(x=I(list(1:10, as.integer64(1:10))), type=c("integer", "integer64"))
 )
