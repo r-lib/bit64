@@ -80,7 +80,7 @@ with_parameters_test_that(
     A = array(x)
 
     expect_true(is.array(A))
-    if (type == "integer") expect_s3_class(A, "integer64")
+    if (type == "integer64") expect_s3_class(A, "integer64")
     expect_identical(A[seq_along(x)], structure(x, dim = length(x)))
     expect_identical(dim(A), c(10L))
     expect_identical(array(x, c(2,5))[seq_along(x)], x)
