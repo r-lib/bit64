@@ -22,8 +22,6 @@ if (getRversion() < "3.6.0") {
     class(obj) = c(class, "warning", "condition")
     obj
   }
-  
-  str2lang = function(s) parse(text=s, keep.source=FALSE)[[1L]]
 }
   
 # nocov start
@@ -269,6 +267,7 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
         warning(warningCondition(w$message, call=choose_sys_call(function_names, name_to_display)))
         invokeRestart("muffleWarning")
       }
+    )
   )
   eval(wch, envir=parent.frame())
 }
