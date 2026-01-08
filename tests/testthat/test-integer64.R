@@ -588,10 +588,13 @@ with_parameters_test_that(
         expect_identical(seq(n1_64, n2_64, by=n3_64), as.integer64(seq(n1_32, n2_32, by=n3_32)))
       } else {
         # coerce by and to
-        expect_warning(
-          expect_warning(expect_identical(seq(n1_64, n2, by=n3), as.integer64(seq(n1_32, n2_32, by=n3_32))), "argument 'by' is coerced to integer64", fixed=TRUE),
-          "argument 'to' is coerced to integer64", fixed=TRUE
-        )
+        if (getRversion() >= "4.0.0") {
+          # in R 3.6.0 not all warnings are emitted
+          expect_warning(
+            expect_warning(expect_identical(seq(n1_64, n2, by=n3), as.integer64(seq(n1_32, n2_32, by=n3_32))), "argument 'by' is coerced to integer64", fixed=TRUE),
+            "argument 'to' is coerced to integer64", fixed=TRUE
+          )
+        }
         expect_warning(expect_identical(seq(n1_64, n2_64, by=n3), as.integer64(seq(n1_32, n2_32, by=n3_32))), "argument 'by' is coerced to integer64", fixed=TRUE)
         expect_warning(expect_identical(seq(n1_64, n2, by=n3_64), as.integer64(seq(n1_32, n2_32, by=n3_32))), "argument 'to' is coerced to integer64", fixed=TRUE)
         expect_identical(seq(n1_64, n2_64, by=n3_64), as.integer64(seq(n1_32, n2_32, by=n3_32)))
