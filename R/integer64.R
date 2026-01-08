@@ -1082,7 +1082,7 @@ rep.integer64 = function(x, ...) {
 #' @export
 `:.integer64` <- function(from, to) {
   if (!length(from) || !length(to)) 
-    stop(" argument of length 0", domain="R")
+    stop("argument of length 0", domain="R")
   from = as.integer64(from)[1L]
   to = as.integer64(to)[1L]
   if (is.na(from) || is.na(to))
@@ -1097,11 +1097,11 @@ rep.integer64 = function(x, ...) {
 
 #' Generating sequence of integer64 values
 #'
-#' @param from integer64 scalar (in order to dispatch the integer64 method of [seq()])
+#' @param from integer64 (in order to dispatch the integer64 method of [seq()])
 #' @param to scalar
 #' @param by scalar
 #' @param length.out scalar
-#' @param along.with scalar
+#' @param along.with R object
 #' @param ... ignored
 #' @details
 #'   `seq.integer64` coerces its arguments `from`, `to`, and `by` to `integer64`. Consistency
@@ -1123,77 +1123,123 @@ rep.integer64 = function(x, ...) {
 #' seq(as.integer64(1), 10, by=1.5)
 #' seq(as.integer64(1), 10, length.out=5)
 #' @export
-seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.with=NULL, ...) {
-  if (!is.null(along.with)) return(seq.integer64(from, to, by=by, length.out=length(along.with)))
+seq.integer64 = function(from=1L, to=1L, by=1L, length.out=NULL, along.with=NULL, ...) {
 
-  n_args = 4L - is.null(from) - is.null(to) - is.null(by) - is.null(length.out)
-
+  return_value = function(from, by, len) {
+    ret = .Call(C_seq_integer64, as.integer64(from), as.integer64(by), double(as.integer(len)))
+    oldClass(ret) = "integer64"
+    ret
+  }
+  
+  n_args = 4L - missing(from) - missing(to) - missing(by) - (if (missing(length.out) && missing(along.with)) 1L else 0L)
+  
   if (n_args == 4L)
-    stop("too many arguments")
-
-  if (n_args == 1L) {
-    one = as.integer64(1L)
-    if (!is.null(from)) return(one:from)
-    if (!is.null(to)) return(one:to)
-    if (!is.null(length.out)) {
-      if (length.out < 0L)
-        stop("'length.out' must be a non-negative number")
-      if (length.out == 0L)
-        return(integer64())
-      return(one:length.out)
-    }
-    # match seq(by=integer(1))
-    return(one)
+    stop("too many arguments", domain="R-base")
+  
+  # warn only for explicitly provided arguments
+  specific_warn_check = function(arg) !(is.integer(arg) || is.integer64(arg) || is.double(arg) && (arg%%1 == 0) && arg <= .Machine$integer.max && arg >= -.Machine$integer.max)
+  if (!missing(from)) {
+    if (specific_warn_check(from))
+      warning(gettextf("argument '%s' is coerced to integer64", "from"))
+    from = as.integer64(from)
   }
-
-  if (n_args == 2L) {
-    if (!is.null(length.out)) {
-      if (length.out == 0L)
-        return(integer64())
-      if (length.out < 0L)
-        stop("'length.out' must be a non-negative number")
-      # do before mixing with from/to to avoid integer64/double fraction arithmetic
-      if (is.double(length.out) && length.out %% 1L != 0L)
-        length.out = ceiling(length.out)
-      if (!is.null(from))
-        return(seq.integer64(from, from+length.out-1L, by=1L))
-      if (!is.null(to))
-        return(seq.integer64(to-length.out+1L, to, by=1L))
-      if (!is.null(by))
-        return(seq.integer64(as.integer64(1L), by=by, length.out=length.out))
-    }
-    if (!is.null(from) && !is.null(to)) return(seq.integer64(from, to, by=sign(to - from)))
-    if (!is.null(from) && !is.null(by)) return(seq.integer64(from, 1L, by=by))
-    return(seq.integer64(as.integer64(1L), to, by=by))
+  if (!missing(to)) {
+    if (specific_warn_check(to))
+      warning(gettextf("argument '%s' is coerced to integer64", "to"))
+    to = as.integer64(to)
   }
-
-  # match base behavior for seq(1, 2, length.out=1.5)
-  if (!is.null(length.out) && is.double(length.out))
-    length.out = ceiling(length.out)
-
-  if (!is.null(by) && !is.integer64(by))
+  if (!missing(by)) {
+    if (length(by) != 1L) 
+      stop(gettextf("'%s' must be of length 1", "by", domain="R"), domain = NA)
+    if (specific_warn_check(by))
+      warning(gettextf("argument '%s' is coerced to integer64", "by"))
     by = as.integer64(by)
-
-  if (is.null(from)) {
-    from = to - (length.out - 1L) * by
-  } else if (is.null(by)) {
-    if (length.out == 1L)
-      return(as.integer64(from))
-    by = as.integer64((to - from) / (length.out - 1L))
-  } else if (is.null(length.out)) {
-    if (to != from && by == 0L)
-      stop("invalid '(to - from)/by'")
-    if (to == from)
-      return(as.integer64(from))
-    if (sign(to - from) != sign(by))
-      stop("wrong sign in 'by' argument'")
-    length.out = (to - from) / by + 1L
+    if (!is.numeric(by) && !is.finite(by)) 
+      stop("'by' must be a finite number", domain="R-base")
   }
-  if (length.out < 0L)
-    stop("'length.out' must be a non-negative number")
-  ret = .Call(C_seq_integer64, as.integer64(from), by, double(as.integer(length.out)))
-  oldClass(ret) = "integer64"
-  ret
+  if (!missing(along.with)) {
+    length.out = length(along.with)
+  } else if (!missing(length.out)) {
+    len = length(length.out)
+    if (!len) 
+      stop(gettextf("'%s' must be of length 1", "length.out", domain="R"), domain=NA)
+    if (len > 1L)
+      warning("first element used of 'length.out' argument", domain="R-base")
+    # if (!is.integer(length.out))
+    #   warning(gettextf("argument '%s' is coerced to integer", "length.out"))
+    length.out = as.integer(ceiling(length.out[1L]))
+    if (!is.finite(length.out) || length.out < 0L)
+      stop("'length.out' must be a non-negative number", domain="R-base")
+  }  
+  chkDots(...)
+  
+  if (n_args == 0L)
+    return(as.integer64(1L))
+  # special behavior if only from is given
+  if (n_args == 1L && !missing(from)) {
+    len_from = length(from)
+    if (!len_from)
+      return(integer64())
+    if (len_from == 1L && !is.na(from)) {
+      if (!is.finite(from))
+        stop("'from' must be a finite number", domain="R-base")
+      return(return_value(from=1L, by=if (from >= 1L) 1L else -1L, len=abs(from - 1L) + 1L))
+    } else {
+      return(return_value(from=1L, by=1L, len=len_from))
+    }
+  }
+  if (!missing(from)) {
+    if (length(from) != 1L) 
+      stop(gettextf("'%s' must be of length 1", "from", domain="R"), domain=NA)
+    if (!is.finite(from)) 
+      stop("'from' must be a finite number", domain="R-base")
+  } 
+  if (!missing(to)) {
+    if (length(to) != 1L) 
+      stop(gettextf("'%s' must be of length 1", "to", domain="R"), domain=NA)
+    if (!is.finite(to)) 
+      stop("'to' must be a finite number", domain="R-base")
+  } 
+
+  if (is.null(length.out)) {
+    if (from == to) {
+      return(as.integer64(from))
+    }
+    if (missing(by))
+      by = if (from <= to) as.integer64(1L) else as.integer64(-1L)
+    len_out = suppressWarnings(to/by - from/by)
+    if (!is.finite(len_out))
+      stop("invalid '(to - from)/by'", domain="R-base")
+    if (len_out < 0L) 
+      stop("wrong sign in 'by' argument", domain="R-base")
+    if (len_out >= .Machine$integer.max) 
+      stop("'by' argument is much too small", domain="R-base")
+    if (missing(from))
+      from = 1L
+    length.out = as.integer(len_out + 1L)
+  }
+  if (length.out == 0L)
+    return(integer64())
+  if (n_args == 3L && missing(by)) {
+    if (length.out > 1L) {
+      len_out = length.out - 1L
+      by = (to - from)%/%len_out
+      if (from%%len_out != to%%len_out)
+        warning("the resulting 'by' is truncated to integer64")
+    }
+  }
+  if (missing(to)) {
+    to = suppressWarnings(from + by*(length.out - 1L))
+    if (!is.finite(to))
+      stop("resulting sequence does not fit in integer64")
+  }
+  if (missing(from)) {
+    from = suppressWarnings(to - by*(length.out - 1L))
+    if (!is.finite(from))
+      stop("resulting sequence does not fit in integer64")
+  }
+  
+  return_value(from=from, by=by, len=length.out)
 }
 
 #' @rdname xor.integer64
