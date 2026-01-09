@@ -20,6 +20,8 @@
 #include <math.h> // floor
 #include <stdint.h>
 #include <stdlib.h> // strtoll
+#include <errno.h> // strtoll
+#include <limits.h> // strtoll
 #include <stdbool.h> // for boolean
 
 #include <R.h>
@@ -154,13 +156,34 @@ SEXP as_integer64_character(SEXP x_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long * ret = (long long *) REAL(ret_);
   const char * str;
+  SEXP x_el;
   char * endpointer;
+  Rboolean naflag = FALSE;
+  int base;
   for(i=0; i<n; i++){
-    str = CHAR(STRING_ELT(x_, i)); endpointer = (char *)str; // thanks to Murray Stokely 28.1.2012
-    ret[i] = strtoll(str, &endpointer, 10);
-    if (*endpointer)
+    x_el = STRING_ELT(x_, i);
+    if (x_el == NA_STRING){
       ret[i] = NA_INTEGER64;
+    } else {
+      base = 10; // default
+      str = CHAR(x_el);
+      if ((strlen(str)>3 && str[0]=='-' && str[1]=='0' && str[2]=='x') || (strlen(str)>2 && str[0]=='0' && str[1]=='x')){
+        base = 16; // "0x..."
+      }
+      endpointer = (char *)str; // thanks to Murray Stokely 28.1.2012
+      errno = 0;
+      ret[i] = strtoll(str, &endpointer, base);
+      if (errno==ERANGE || *endpointer){
+        ret[i] = NA_INTEGER64;
+        naflag = TRUE;
+      } else if (str==endpointer){
+        ret[i] = NA_INTEGER64; // "" -> NA without warning
+      } else if(ret[i]==NA_INTEGER64){
+        naflag = TRUE;
+      }
+    }
   }
+  if (naflag)warning(INTEGER64_NA_COERCION_WARNING);
   return ret_;
 }
 
