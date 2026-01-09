@@ -5,7 +5,7 @@
 # Licence: GPL2
 # Provided 'as is', use at your own risk
 # Created: 2011-12-11
-# Last changed:  2011-12-11
+# Last changed:  2026-01-09
 # */
 
 #' Atomic Caching
@@ -63,13 +63,13 @@ NULL
 #' @describeIn cache creates a new cache referencing  `x`
 #' @export
 newcache = function(x) {
-    env = new.env()
-    vmode = typeof(x)
-    if (vmode=="double" && is.integer64(x))
-      vmode = "integer64"
-    setattr(env, "class", c(paste("cache", vmode, sep="_"), "cache", "environment"))
-    assign("x", x, envir=env)
-    env
+  env = new.env()
+  vmode = typeof(x)
+  if (vmode=="double" && is.integer64(x))
+    vmode = "integer64"
+  setattr(env, "class", c(paste("cache", vmode, sep="_"), "cache", "environment"))
+  assign("x", x, envir=env)
+  env
 }
 
 #' @describeIn cache forces `x` to have a cache
@@ -106,41 +106,41 @@ cache = function(x) {
 #' @param value An object to be stored in the cache
 #' @export
 setcache = function(x, which, value) {
-      env = jamcache(x)
-      assign(which, value, envir=env)
-      env
+  env = jamcache(x)
+  assign(which, value, envir=env)
+  env
 }
 
 #' @describeIn cache gets cache value 'which' from `x`
 #' @export
 getcache = function(x, which) {
-    cache = attr(x, "cache")
-    if (is.null(cache))
-      return(NULL)
-    if (still.identical(x, get("x", envir=cache, inherits=FALSE))) {
-        if (exists(which, envir=cache, inherits=FALSE))
-            get(which, envir=cache, inherits=FALSE)
-        else
-            NULL
-    } else {
-        remcache(x)
-        warning("removed outdated cache")
+  cache = attr(x, "cache")
+  if (is.null(cache))
+    return(NULL)
+  if (still.identical(x, get("x", envir=cache, inherits=FALSE))) {
+    if (exists(which, envir=cache, inherits=FALSE))
+      get(which, envir=cache, inherits=FALSE)
+    else
         NULL
-    }
+  } else {
+    remcache(x)
+    warning("removed outdated cache")
+    NULL
+  }
 }
 
 #' @describeIn cache removes the cache from `x`
 #' @export
 remcache = function(x) {
-        setattr(x, "cache", NULL)
-    invisible()
+  setattr(x, "cache", NULL)
+  invisible()
 }
 
 #' @rdname cache
 #' @param all.names,pattern passed to [ls()] when listing the cache content
 #' @param ... ignored
 #' @export
-print.cache= function(x, all.names=FALSE, pattern, ...) {
+print.cache = function(x, all.names=FALSE, pattern, ...) {
   l = ls(x, all.names, pattern=pattern)
   cat(class(x)[1L], ": ", paste(l, collapse=" - "), "\n", sep="")
   invisible(l)
@@ -180,101 +180,100 @@ print.cache= function(x, all.names=FALSE, pattern, ...) {
 #'
 #' @keywords environment
 #' @export
-hashcache =function(x, nunique=NULL, ...) {
-    env = jamcache(x)
-    if (is.null(nunique))
-        nunique = env$nunique
-    env = hashmap(x, nunique=nunique, cache=env, ...)
-    if (is.null(nunique) && env$nunique<sqrt(length(x)))
-        env = hashmap(x, nunique=env$nunique, cache=env, ...)
-    na.count(x) # since x has cache, na.count() will update the cache, unless its already there
-    # different from sortcache, ordercache and sortordercache we do not set nties: hastab is too expensive
-    invisible(env)
+hashcache = function(x, nunique=NULL, ...) {
+  env = jamcache(x)
+  if (is.null(nunique))
+    nunique = env$nunique
+  env = hashmap(x, nunique=nunique, cache=env, ...)
+  if (is.null(nunique) && env$nunique<sqrt(length(x)))
+    env = hashmap(x, nunique=env$nunique, cache=env, ...)
+  na.count(x) # since x has cache, na.count() will update the cache, unless its already there
+  # different from sortcache, ordercache and sortordercache we do not set nties: hastab is too expensive
+  invisible(env)
 }
 
 #' @rdname hashcache
 #' @param has.na boolean scalar defining whether the input vector might contain
 #'    `NA`s. If we know we don't have `NA`s, this may speed-up. _Note_ that you
 #'    risk a crash if there are unexpected `NA`s with `has.na=FALSE`.
+#' @param na.last boolean scalar defining whether NA should be last.
 #' @export
-sortcache = function(x, has.na = NULL) {
-    if (is.null(has.na)) {
-        na.count = getcache(x, "na.count")
-        if (is.null(na.count))
-            has.na = TRUE
-        else
-            has.na = na.count > 0L
-    }
-    s = clone(x)
-    na.count = ramsort(s, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
-    nut = .Call(C_r_ram_integer64_sortnut, x = s)
-    setcache(x, "sort", s)
-    setcache(x, "na.count", na.count)
-    setcache(x, "nunique", nut[[1L]])
-    setcache(x, "nties", nut[[2L]])
-    invisible(x)
+sortcache = function(x, has.na=NULL, na.last=FALSE) {
+  if (is.null(has.na)) {
+    na.count = getcache(x, "na.count")
+    if (is.null(na.count))
+      has.na = TRUE
+    else
+      has.na = na.count > 0L
+  }
+  s = clone(x)
+  na.count = ramsort(s, has.na=has.na, na.last=na.last, decreasing=FALSE, stable=FALSE, optimize="time")
+  nut = .Call(C_r_ram_integer64_sortnut, x=s)
+  setcache(x, "sort", s)
+  setcache(x, "na.count", na.count)
+  setcache(x, "nunique", nut[[1L]])
+  setcache(x, "nties", nut[[2L]])
+  invisible(x)
 }
 
 #' @rdname hashcache
 #' @param stable boolean scalar defining whether stable sorting is needed. Allowing
 #'   non-stable may speed-up.
 #' @export
-sortordercache = function(x, has.na = NULL, stable = NULL) {
-    if (is.null(has.na)) {
-        na.count = getcache(x, "na.count")
-        if (is.null(na.count))
-            has.na = TRUE
-        else
-            has.na = na.count > 0L
-    }
-    if (is.null(stable)) {
-        nunique = getcache(x, "nunique")
-        if (is.null(nunique))
-          stable = TRUE
-        else
-          stable = nunique < length(x)
-    }
-    s = clone(x)
-    o = seq_along(x)
-    na.count =
-      ramsortorder(s, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = "time")
-    nut = .Call(C_r_ram_integer64_sortnut, x = s)
-    setcache(x, "sort", s)
-    setcache(x, "order", o)
-    setcache(x, "na.count", na.count)
-    setcache(x, "nunique", nut[[1L]])
-    setcache(x, "nties", nut[[2L]])
-    invisible(x)
+sortordercache = function(x, has.na=NULL, stable=NULL, na.last=FALSE) {
+  if (is.null(has.na)) {
+    na.count = getcache(x, "na.count")
+    if (is.null(na.count))
+      has.na = TRUE
+    else
+      has.na = na.count > 0L
+  }
+  if (is.null(stable)) {
+    nunique = getcache(x, "nunique")
+    if (is.null(nunique))
+      stable = TRUE
+    else
+      stable = nunique < length(x)
+  }
+  s = clone(x)
+  o = seq_along(x)
+  na.count = ramsortorder(s, o, has.na=has.na, na.last=na.last, decreasing=FALSE, stable=stable, optimize="time")
+  nut = .Call(C_r_ram_integer64_sortnut, x=s)
+  setcache(x, "sort", s)
+  setcache(x, "order", o)
+  setcache(x, "na.count", na.count)
+  setcache(x, "nunique", nut[[1L]])
+  setcache(x, "nties", nut[[2L]])
+  invisible(x)
 }
 
 #' @rdname hashcache
 #' @param optimize by default ramsort optimizes for 'time' which requires more RAM,
 #'   set to 'memory' to minimize RAM requirements and sacrifice speed.
 #' @export
-ordercache = function(x, has.na = NULL, stable = NULL, optimize = "time") {
-    if (is.null(has.na)) {
-        na.count = getcache(x, "na.count")
-        if (is.null(na.count))
-            has.na = TRUE
-        else
-            has.na = na.count > 0L
-    }
-    if (is.null(stable)) {
-        nunique = getcache(x, "nunique")
-        if (is.null(nunique))
-          stable = TRUE
-        else
-          stable = nunique < length(x)
-    }
-    o = seq_along(x)
-    na.count =
-      ramorder(x, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = optimize)
-    nut = .Call(C_r_ram_integer64_ordernut, table = x, order = o)
-    setcache(x, "order", o)
-    setcache(x, "na.count", na.count)
-    setcache(x, "nunique", nut[[1L]])
-    setcache(x, "nties", nut[[2L]])
-    invisible(x)
+ordercache = function(x, has.na=NULL, stable=NULL, optimize="time", na.last=FALSE) {
+  if (is.null(has.na)) {
+    na.count = getcache(x, "na.count")
+    if (is.null(na.count))
+      has.na = TRUE
+    else
+      has.na = na.count > 0L
+  }
+  if (is.null(stable)) {
+    nunique = getcache(x, "nunique")
+    if (is.null(nunique))
+      stable = TRUE
+    else
+      stable = nunique < length(x)
+  }
+  o = seq_along(x)
+  na.count = ramorder(x, o, has.na=has.na, na.last=na.last, decreasing=FALSE, stable=stable, optimize=optimize)
+  nut = .Call(C_r_ram_integer64_ordernut, table=x, order=o)
+  setcache(x, "order", o)
+  setcache(x, "na.count", na.count)
+  setcache(x, "nunique", nut[[1L]])
+  setcache(x, "nties", nut[[2L]])
+  invisible(x)
 }
 
 #' Small cache access methods
@@ -320,10 +319,10 @@ NULL
 na.count.integer64 = function(x, ...) {
   env = cache(x)
   if (is.null(env))
-    return(.Call(C_r_ram_integer64_nacount, x = x))
+    return(.Call(C_r_ram_integer64_nacount, x=x))
   if (exists("na.count", envir=env, inherits=FALSE))
     return(get("na.count", envir=env, inherits=FALSE))
-  ret = .Call(C_r_ram_integer64_nacount, x = x)
+  ret = .Call(C_r_ram_integer64_nacount, x=x)
   assign("na.count", ret, envir=env)
   ret
 }
@@ -332,7 +331,7 @@ na.count.integer64 = function(x, ...) {
 #'   usually [length()] minus `na.count`.
 #' @export
 nvalid.integer64 = function(x, ...) {
-    length(x) - na.count(x)
+  length(x) - na.count(x)
 }
 
 #' @describeIn is.sorted.integer64 checks for sortedness of `x` (NAs sorted first)
@@ -340,10 +339,10 @@ nvalid.integer64 = function(x, ...) {
 is.sorted.integer64 = function(x, ...) {
   env = cache(x)
   if (is.null(env))
-    return(.Call(C_r_ram_integer64_issorted_asc, x = x))
+    return(.Call(C_r_ram_integer64_issorted_asc, x=x))
   if (exists("is.sorted", envir=env, inherits=FALSE))
     return(get("is.sorted", envir=env, inherits=FALSE))
-  ret = .Call(C_r_ram_integer64_issorted_asc, x = x)
+  ret = .Call(C_r_ram_integer64_issorted_asc, x=x)
   assign("is.sorted", ret, envir=env)
   ret
 }
@@ -351,42 +350,41 @@ is.sorted.integer64 = function(x, ...) {
 #' @describeIn is.sorted.integer64 returns the number of unique values
 #' @export
 nunique.integer64 = function(x, ...) {
-    env = cache(x)
-    if (is.null(env))
-        has.cache = FALSE
-    else if (exists("nunique", envir=env, inherits=FALSE))
-        return(get("nunique", envir=env, inherits=FALSE))
-    else # nolint: unreachable_code_linter. TODO(r-lib/lintr#2710): Re-enable.
-        has.cache = TRUE
-    if (is.sorted(x)) {
-        ret = .Call(C_r_ram_integer64_sortnut, x = x)
-        if (has.cache) {
-            assign("nunique", ret[1L], envir=env)
-            assign("nties", ret[2L], envir=env)
-        }
-        ret[1L]
-    } else {
-        h = hashmap(x)
-        if (has.cache)
-          assign("nunique", h$nunique, envir=env)
-        h$nunique
+  env = cache(x)
+  if (is.null(env))
+    has.cache = FALSE
+  else if (exists("nunique", envir=env, inherits=FALSE))
+    return(get("nunique", envir=env, inherits=FALSE))
+  else # nolint: unreachable_code_linter. TODO(r-lib/lintr#2710): Re-enable.
+    has.cache = TRUE
+  if (is.sorted(x)) {
+    ret = .Call(C_r_ram_integer64_sortnut, x=x)
+    if (has.cache) {
+      assign("nunique", ret[1L], envir=env)
+      assign("nties", ret[2L], envir=env)
     }
+    ret[1L]
+  } else {
+    h = hashmap(x)
+    if (has.cache)
+      assign("nunique", h$nunique, envir=env)
+    h$nunique
+  }
 }
 
 #' @describeIn is.sorted.integer64 returns the number of tied values.
 #' @export
 nties.integer64 = function(x, ...) {
-    cv = getcache(x, "nties")
-    if (is.null(cv)) {
-        if (is.sorted(x)) {
-            cv = .Call(C_r_ram_integer64_sortnut, x = x)[2L]
-        } else {
-            s = clone(x)
-            # nolint next: object_usage_linter. Keep the output of in-place ramsort for debugging.
-            na.count =
-              ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
-            cv = .Call(C_r_ram_integer64_sortnut, x = s)[[2L]]
-        }
+  cv = getcache(x, "nties")
+  if (is.null(cv)) {
+    if (is.sorted(x)) {
+      cv = .Call(C_r_ram_integer64_sortnut, x=x)[2L]
+    } else {
+      s = clone(x)
+      # nolint next: object_usage_linter. Keep the output of in-place ramsort for debugging.
+      na.count = ramsort(s, has.na=TRUE, na.last=FALSE, decreasing=FALSE, stable=FALSE, optimize="time")
+      cv = .Call(C_r_ram_integer64_sortnut, x=s)[[2L]]
     }
-    cv
+  }
+  cv
 }

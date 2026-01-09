@@ -54,6 +54,7 @@
    - `as.Date`, `as.POSIXct`, `as.POSXlt`, `as.complex`, and `as.raw` get an `integer64` method.
    - `as.integer64` gets `Date`, `POSIXct`, `POSXlt`, `complex`, `raw`, and `difftime` methods.
 1. `as.integer64.character` now supports hexadecimal (base 16) input when prefixed with "0x" or "-0x", e.g. `as.integer64("0x7FFFFFFFFFFFFFFF")`. Thanks @hcirellu for a PR which completes work begun by @marcpaterno.
+1. `sortcache`, `sortordercache` and `ordercache` get a new argument `na.last`.
 
 ## BUG FIXES
 
