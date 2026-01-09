@@ -139,25 +139,10 @@ test_that("integer64 coercion to/from other types work for R >=4.0.0", {
 
 })
 
-test_that("integer64 coercion from character", {
-  coercion_warning = "NAs introduced by coercion to integer64 range"
-
-  expect_warning(
-    expect_identical(as.integer64(strrep("9", 63L), NA_integer64_)),
-    coercion_warning, fixed=TRUE
-  )
-  # round trip
+test_that("integer64 coercion from character works for numbers near +/- 2^63", {
   expect_identical(
     as.character(as.integer64(c("-9223372036854775807", "-9223372036854775806", "9223372036854775806", "9223372036854775807", ""))),
     c("-9223372036854775807", "-9223372036854775806", "9223372036854775806", "9223372036854775807", NA)
-  )
-  expect_warning(
-    expect_identical(as.integer64("9223372036854775808"), NA_integer64_),
-    coercion_warning, fixed=TRUE
-  )
-  expect_warning(
-    expect_identical(as.integer64("-9223372036854775808"), NA_integer64_),
-    coercion_warning, fixed=TRUE
   )
 })
 
@@ -169,10 +154,26 @@ test_that("Conversion from hex is supported", {
 })
 
 with_parameters_test_that(
+  "base-10 edge cases return missing",
+  expect_warning(
+    expect_identical(as.integer64(string), NA_integer64_),
+    "NAs introduced by coercion to integer64 range", fixed=TRUE
+  ),
+  string = c(
+    strrep("9", 63L),
+    "9223372036854775808",
+    "-9223372036854775808",
+    "999x",
+    "-999x",
+    "999 "
+  )
+)
+
+with_parameters_test_that(
   "hex edge cases return missing",
   expect_warning(
     expect_identical(as.integer64(string), NA_integer64_),
-    coercion_warning, fixed=TRUE
+    "NAs introduced by coercion to integer64 range", fixed=TRUE
   ),
   string = c(
     "-0x8000000000000000",
@@ -181,6 +182,7 @@ with_parameters_test_that(
     "-0x",
     "0xx",
     " 0x",
+    "0x ",
     "0x0Z"
   )
 )
