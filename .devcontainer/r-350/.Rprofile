@@ -128,7 +128,7 @@ with_parameters_test_that <- function(desc, code, .cases = NULL, .interpret_glue
   if (is.null(.cases)) {
     .cases = list(...)
     for (ii in seq_along(.cases)) if (is.list(.cases[[ii]])) .cases[[ii]] = I(.cases[[ii]])
-    .cases = data.frame(.cases)
+    .cases = data.frame(.cases, stringsAsFactors=FALSE)
   }
 
   # Iterate over cases
