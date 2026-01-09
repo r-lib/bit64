@@ -140,7 +140,7 @@ remcache = function(x) {
 #' @param all.names,pattern passed to [ls()] when listing the cache content
 #' @param ... ignored
 #' @export
-print.cache<- function(x, all.names=FALSE, pattern, ...) {
+print.cache = function(x, all.names=FALSE, pattern, ...) {
   l = ls(x, all.names, pattern=pattern)
   cat(class(x)[1L], ": ", paste(l, collapse=" - "), "\n", sep="")
   invisible(l)
@@ -229,7 +229,7 @@ sortordercache = function(x, has.na=NULL, stable=NULL, na.last=FALSE) {
       has.na = na.count > 0L
   }
   if (is.null(stable)) {
-    nunique <- getcache(x, "nunique")
+    nunique = getcache(x, "nunique")
     if (is.null(nunique))
       stable = TRUE
     else
