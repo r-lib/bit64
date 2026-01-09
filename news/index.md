@@ -160,6 +160,9 @@ necessary.
 7.  `as.integer64.character` now returns `NA` for out of range values,
     with warning, e.g. `as.integer64("22222222222222222222")`. Thanks
     [@hcirellu](https://github.com/hcirellu).
+8.  [`quicksort()`](https://rdrr.io/pkg/bit/man/Sorting.html) and others
+    no longer segfault on trivial cases (e.g. sorting 0 or 1 item,
+    [\#220](https://github.com/r-lib/bit64/issues/220)).
 
 ### NOTES
 
