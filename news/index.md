@@ -130,6 +130,11 @@ necessary.
       get an `integer64` method.
     - `as.integer64` gets `Date`, `POSIXct`, `POSXlt`, `complex`, `raw`,
       and `difftime` methods.
+4.  `as.integer64.character` now supports hexadecimal (base 16) input
+    when prefixed with “0x” or “-0x”,
+    e.g. `as.integer64("0x7FFFFFFFFFFFFFFF")`. Thanks
+    [@hcirellu](https://github.com/hcirellu) for a PR which completes
+    work begun by [@marcpaterno](https://github.com/marcpaterno).
 
 ### BUG FIXES
 
@@ -152,6 +157,9 @@ necessary.
 6.  [`ordertab()`](https://bit64.r-lib.org/reference/sortnut.md) no
     longer segfaults when `nunique` is smaller than the actual number of
     unique values ([\#168](https://github.com/r-lib/bit64/issues/168)).
+7.  `as.integer64.character` now returns `NA` for out of range values,
+    with warning, e.g. `as.integer64("22222222222222222222")`. Thanks
+    [@hcirellu](https://github.com/hcirellu).
 
 ### NOTES
 
