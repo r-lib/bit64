@@ -189,6 +189,10 @@ argument to 'long double', they return as \code{double}, like
    double \tab / \tab integer64 \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
    integer64 \tab ^ \tab double \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
    double \tab ^ \tab integer64 \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
+   integer64 \tab \%*\% \tab double \tab -> \tab integer64 \tab \%*\% \tab integer64 \tab -> \tab integer64 \cr
+   double \tab \%*\% \tab integer64 \tab -> \tab integer64 \tab \%*\% \tab integer64 \tab -> \tab integer64 \cr
+   integer64 \tab \%*\% \tab complex \tab -> \tab double \tab \%*\% \tab complex \tab -> \tab complex \cr
+   complex \tab \%*\% \tab integer64 \tab -> \tab complex \tab \%*\% \tab double \tab -> \tab complex \cr
 }
 }
 

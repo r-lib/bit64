@@ -115,8 +115,7 @@ NULL
 #' @seealso [`[`][base::Extract] [integer64()]
 #' @examples
 #'   as.integer64(1:12)[1:3]
-#'   x <- as.integer64(1:12)
-#'   dim(x) <- c(3, 4)
+#'   x <- matrix(as.integer64(1:12), nrow = 3L)
 #'   x
 #'   x[]
 #'   x[, 2:3]
@@ -882,7 +881,7 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
   vec.len = 2L*vec.len
   n = length(object)
   displayObject = object[seq_len(min(vec.len, length(object)))]
-  
+
   cat(
     if (isTRUE(give.head)) {
       if (length(object) == 0L && is.null(dim(object))) {
@@ -892,14 +891,13 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
           "integer64 ",
           if (length(object) > 1L && is.null(dim(object))) {
             if (isTRUE(give.length)) paste0("[1:", n, "] ") else " "
-          } else if (!is.null(dim(object))) {
-            dimO = dim(object)
-            if (prod(dimO) != n)
-              stop(gettextf("dims [product %d] do not match the length of object [%d]", prod(dimO), n, domain="R"))
-            if (length(dimO) == 1L) {
+          } else if (!is.null(obj_dim <- dim(object))) {
+            if (prod(obj_dim) != n)
+              stop(gettextf("dims [product %d] do not match the length of object [%d]", prod(obj_dim), n, domain="R"), domain=NA)
+            if (length(obj_dim) == 1L) {
               paste0("[", n, "(1d)] ")
             } else {
-              paste0("[", paste(vapply(dimO, function(el) {if (el < 2L) as.character(el) else paste0("1:", el)}, ""), collapse = ", "), "] ")
+              paste0("[", toString(vapply(obj_dim, function(el) if (el < 2L) as.character(el) else paste0("1:", el), "")), "] ")
             }
           }
         )
@@ -1254,6 +1252,32 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
   ret = .Call(C_seq_integer64, as.integer64(from), by, double(as.integer(length.out)))
   oldClass(ret) = "integer64"
   ret
+}
+
+
+# helper for determining the target class for Ops methods
+target_class_for_Ops = function(e1, e2) {
+  if(missing(e2)) {
+    if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1))
+      stop(errorCondition(gettext("non-numeric argument to mathematical function", domain = "R"), call=sys.call(sys.nframe() - 1L)))
+
+    if (is.complex(e1)) {
+      "complex"
+    } else {
+      "integer64"
+    }
+  } else {
+    if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1))
+      stop(errorCondition(gettext("non-numeric argument to binary operator", domain = "R"), call=sys.call(sys.nframe() - 1L)))
+    if (!is.numeric(unclass(e2)) && !is.logical(e2) && !is.complex(e2))
+      stop(errorCondition(gettext("non-numeric argument to binary operator", domain = "R"), call=sys.call(sys.nframe() - 1L)))
+
+    if (is.complex(e1) || is.complex(e2)) {
+      "complex"
+    } else {
+      "integer64"
+    }
+  }
 }
 
 #' @rdname xor.integer64
