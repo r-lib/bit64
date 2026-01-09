@@ -86,7 +86,7 @@ test_that("runif64 behaves as expected", {
   # cbind(as.bitstring(r),as.bitstring(as.integer64(as.bitstring(r))))
 
   # #sum(duplicated(r))
-  # #table.integer64(r)
+  # #table(r)
   # #range(r)
   # log2(abs(range(r)))
 

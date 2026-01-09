@@ -61,7 +61,7 @@ relevant memory footprint.
  bit::nvalid(x)
  bit::nunique(x)
  bit::nties(x)
- table.integer64(x)
+ table(x)
  x
 
 }

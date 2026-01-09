@@ -201,7 +201,7 @@ can do some more interesting things.
     \tab \code{orderupo} \tab \code{sortorderupo} \tab \code{\link[=unique.integer64]{unique()}} \tab return positions of unique values \cr
     \tab \code{ordertie} \tab \code{sortordertie} \tab  \tab return positions of tied values \cr
     \tab \code{orderkey} \tab \code{sortorderkey} \tab  \tab positions of values in vector of unique values (match in dimensiontable) \cr
-   \code{sorttab} \tab \code{ordertab} \tab \code{sortordertab} \tab \code{\link[=table.integer64]{table()}} \tab tabulate frequency of values \cr
+   \code{sorttab} \tab \code{ordertab} \tab \code{sortordertab} \tab \code{\link[=table]{table()}} \tab tabulate frequency of values \cr
     \tab \code{orderrnk} \tab \code{sortorderrnk} \tab  \tab rank averaging ties \cr
    \code{sortqtl} \tab \code{orderqtl} \tab  \tab  \tab return quantiles given probabilities \cr
 }

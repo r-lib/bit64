@@ -7,7 +7,6 @@
 # Created: 2011-12-11
 # */
 
-
 # backports
 # R < 3.6.0
 if (getRversion() < "3.6.0") {
@@ -228,7 +227,6 @@ deprecate_exported_s3_methods(
   sorttab.integer64,
   sortuni.integer64,
   summary.integer64,
-  # table.integer64,
   tiepos.integer64,
   unipos.integer64
 )

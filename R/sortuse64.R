@@ -31,7 +31,7 @@
 #' |             |   `orderupo` |   `sortorderupo` | [`unique()`][unique.integer64] | return positions of unique values |
 #' |             |   `ordertie` |   `sortordertie` |                    | return positions of tied values |
 #' |             |   `orderkey` |   `sortorderkey` |                    | positions of values in vector of unique values (match in dimensiontable) |
-#' |   `sorttab` |   `ordertab` |   `sortordertab` | [`table()`][table.integer64] | tabulate frequency of values  |
+#' |   `sorttab` |   `ordertab` |   `sortordertab` | [`table()`][table] | tabulate frequency of values  |
 #' |             |   `orderrnk` |   `sortorderrnk` |                    | rank averaging ties |
 #' |   `sortqtl` |   `orderqtl` |                  |                    | return quantiles given probabilities |
 # nolint end: line_length_linter.
