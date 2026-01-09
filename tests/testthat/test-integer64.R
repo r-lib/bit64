@@ -140,22 +140,23 @@ test_that("integer64 coercion to/from other types work for R >=4.0.0", {
 })
 
 test_that("integer64 coercion from character", {
+  coercion_warning = "NAs introduced by coercion to integer64 range"
   expect_warning(
-    expect_identical(as.integer64("12312312423432842390482390482348328992382930482093842384092842834238904823908423904230423908924300"), NA_integer64_),
-    "NAs introduced by coercion to integer64 range"
+    expect_identical(as.integer64(strrep("9", 63L), NA_integer64_),
+    coercion_warning, fixed=TRUE
   )
   expect_identical(
     as.character(as.integer64(c("-9223372036854775807", "-9223372036854775806", "9223372036854775806", "9223372036854775807", ""))),
     c("-9223372036854775807", "-9223372036854775806", "9223372036854775806", "9223372036854775807", NA)
   )
-  expect_warning(expect_identical(as.integer64("9223372036854775808"), NA_integer64_), "NAs introduced by coercion to integer64 range")
-  expect_warning(expect_identical(as.integer64("-9223372036854775808"), NA_integer64_), "NAs introduced by coercion to integer64 range")
+  expect_warning(expect_identical(as.integer64("9223372036854775808"), NA_integer64_), coercion_warning, fixed=TRUE)
+  expect_warning(expect_identical(as.integer64("-9223372036854775808"), NA_integer64_), coercion_warning, fixed=TRUE)
   
   expect_identical(as.character(as.integer64(c("0x1", "0xF", "0x7FFFFFFFFFFFFFFF", "-0x1", "-0xF", "-0x7FFFFFFFFFFFFFFF"))), c("1", "15", "9223372036854775807", "-1", "-15", "-9223372036854775807"))
-  expect_warning(expect_identical(as.integer64("0x8000000000000000"), NA_integer64_), "NAs introduced by coercion to integer64 range")
-  expect_warning(expect_identical(as.integer64("-0x8000000000000000"), NA_integer64_), "NAs introduced by coercion to integer64 range")
-  expect_warning(expect_identical(as.integer64("0x"), NA_integer64_), "NAs introduced by coercion to integer64 range")
-  expect_warning(expect_identical(as.integer64("-0x"), NA_integer64_), "NAs introduced by coercion to integer64 range")
+  expect_warning(expect_identical(as.integer64("0x8000000000000000"), NA_integer64_), coercion_warning, fixed=TRUE)
+  expect_warning(expect_identical(as.integer64("-0x8000000000000000"), NA_integer64_), coercion_warning, fixed=TRUE)
+  expect_warning(expect_identical(as.integer64("0x"), NA_integer64_), coercion_warning, fixed=TRUE)
+  expect_warning(expect_identical(as.integer64("-0x"), NA_integer64_), coercion_warning, fixed=TRUE)
 })
 
 test_that("S3 class basics work", {
