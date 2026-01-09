@@ -166,8 +166,8 @@ SEXP as_integer64_character(SEXP x_, SEXP ret_){
     } else {
       base = 10; // default
       str = CHAR(x_el);
-      if ((strlen(str)>3 && str[0]=='-' && str[1]=='0' && str[2]=='x') || (strlen(str)>2 && str[0]=='0' && str[1]=='x')){
-        base = 16; // "0x..."
+      if ((str[0]=='-' && str[1]=='0' && str[2]=='x') || (str[0]=='0' && str[1]=='x')) {
+        base = 16;
       }
       endpointer = (char *)str; // thanks to Murray Stokely 28.1.2012
       errno = 0;
