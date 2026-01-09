@@ -379,6 +379,7 @@ void ram_integer64_shellsort_asc(ValueT *data, IndexT l, IndexT r)
 {
     ValueT v;
     IndexT i, j, h, lh, t, n=r-l+1;
+    if (n < 2) return;
     for (t = 0; shellincs[t] > n; t++);
     for (h = shellincs[t]; t < SHELLARRAYSIZE; h = shellincs[++t]){
       lh = l+h;
@@ -397,6 +398,7 @@ void ram_integer64_shellsort_desc(ValueT *data, IndexT l, IndexT r)
 {
     ValueT v;
     IndexT i, j, h, lh, t, n=r-l+1;
+    if (n < 2) return;
     for (t = 0; shellincs[t] > n; t++);
     for (h = shellincs[t]; t < SHELLARRAYSIZE; h = shellincs[++t]){
       lh = l+h;
@@ -416,6 +418,7 @@ void ram_integer64_shellsortorder_asc(ValueT *data, IndexT *index, IndexT l, Ind
 {
     ValueT v;
     IndexT vi, i, j, h, lh, t, n=r-l+1;
+    if (n < 2) return;
     for (t = 0; shellincs[t] > n; t++);
     for (h = shellincs[t]; t < SHELLARRAYSIZE; h = shellincs[++t]){
       lh = l+h;
@@ -437,6 +440,7 @@ void ram_integer64_shellsortorder_desc(ValueT *data, IndexT *index, IndexT l, In
 {
     ValueT v;
     IndexT vi, i, j, h, lh, t, n=r-l+1;
+    if (n < 2) return;
     for (t = 0; shellincs[t] > n; t++);
     for (h = shellincs[t]; t < SHELLARRAYSIZE; h = shellincs[++t]){
       lh = l+h;
@@ -459,6 +463,7 @@ void ram_integer64_shellorder_asc(ValueT *data, IndexT *index, IndexT l, IndexT 
 {
     ValueT v;
     IndexT vi, i, j, h, lh, t, n=r-l+1;
+    if (n < 2) return;
     for (t = 0; shellincs[t] > n; t++);
     for (h = shellincs[t]; t < SHELLARRAYSIZE; h = shellincs[++t]){
       lh = l+h;
@@ -478,6 +483,7 @@ void ram_integer64_shellorder_desc(ValueT *data, IndexT *index, IndexT l, IndexT
 {
     ValueT v;
     IndexT vi, i, j, h, lh, t, n=r-l+1;
+    if (n < 2) return;
     for (t = 0; shellincs[t] > n; t++);
     for (h = shellincs[t]; t < SHELLARRAYSIZE; h = shellincs[++t]){
       lh = l+h;
