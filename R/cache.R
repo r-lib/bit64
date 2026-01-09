@@ -38,18 +38,18 @@
 #'   [quantile.integer64()], [median.integer64()], and [summary.integer64()]
 #'
 #' @examples
-#'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#'   y <- x
+#'   x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#'   y = x
 #'   bit::still.identical(x, y)
-#'   y[1] <- NA
+#'   y[1] = NA
 #'   bit::still.identical(x, y)
-#'   mycache <- newcache(x)
+#'   mycache = newcache(x)
 #'   ls(mycache)
 #'   mycache
 #'   rm(mycache)
 #'   jamcache(x)
 #'   cache(x)
-#'   x[1] <- NA
+#'   x[1] = NA
 #'   cache(x)
 #'   getcache(x, "abc")
 #'   setcache(x, "abc", 1)
@@ -175,7 +175,7 @@ print.cache<- function(x, all.names=FALSE, pattern, ...) {
 #'   from small caches
 #'
 #' @examples
-#'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#'   x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #'   sortordercache(x)
 #'
 #' @keywords environment
@@ -301,7 +301,7 @@ ordercache = function(x, has.na=NULL, stable=NULL, optimize="time", na.last=FALS
 #' [cache()] for caching functions and [sortordercache()] for functions creating big caches
 #'
 #' @examples
-#'  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#'  x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #'  length(x)
 #'  bit::na.count(x)
 #'  bit::nvalid(x)
