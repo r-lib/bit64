@@ -196,9 +196,8 @@ hashcache <-function(x, nunique=NULL, ...) {
 #' @param has.na boolean scalar defining whether the input vector might contain
 #'    `NA`s. If we know we don't have `NA`s, this may speed-up. _Note_ that you
 #'    risk a crash if there are unexpected `NA`s with `has.na=FALSE`.
-#' @param na.last boolean scalar defining whether NA should be last.
 #' @export
-sortcache <- function(x, has.na = NULL, na.last = FALSE) {
+sortcache <- function(x, has.na = NULL) {
     if (is.null(has.na)) {
         na.count <- getcache(x, "na.count")
         if (is.null(na.count))
@@ -207,7 +206,7 @@ sortcache <- function(x, has.na = NULL, na.last = FALSE) {
             has.na <- na.count > 0L
     }
     s <- clone(x)
-    na.count <- ramsort(s, has.na = has.na, na.last = isTRUE(na.last), decreasing = FALSE, stable = FALSE, optimize = "time")
+    na.count <- ramsort(s, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
     nut <- .Call(C_r_ram_integer64_sortnut, x = s)
     setcache(x, "sort", s)
     setcache(x, "na.count", na.count)
@@ -220,7 +219,7 @@ sortcache <- function(x, has.na = NULL, na.last = FALSE) {
 #' @param stable boolean scalar defining whether stable sorting is needed. Allowing
 #'   non-stable may speed-up.
 #' @export
-sortordercache <- function(x, has.na = NULL, stable = NULL, na.last = FALSE) {
+sortordercache <- function(x, has.na = NULL, stable = NULL) {
     if (is.null(has.na)) {
         na.count <- getcache(x, "na.count")
         if (is.null(na.count))
@@ -238,7 +237,7 @@ sortordercache <- function(x, has.na = NULL, stable = NULL, na.last = FALSE) {
     s <- clone(x)
     o <- seq_along(x)
     na.count <-
-      ramsortorder(s, o, has.na = has.na, na.last = isTRUE(na.last), decreasing = FALSE, stable = stable, optimize = "time")
+      ramsortorder(s, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = "time")
     nut <- .Call(C_r_ram_integer64_sortnut, x = s)
     setcache(x, "sort", s)
     setcache(x, "order", o)
@@ -252,7 +251,7 @@ sortordercache <- function(x, has.na = NULL, stable = NULL, na.last = FALSE) {
 #' @param optimize by default ramsort optimizes for 'time' which requires more RAM,
 #'   set to 'memory' to minimize RAM requirements and sacrifice speed.
 #' @export
-ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time", na.last = FALSE) {
+ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time") {
     if (is.null(has.na)) {
         na.count <- getcache(x, "na.count")
         if (is.null(na.count))
@@ -269,7 +268,7 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time", na.la
     }
     o <- seq_along(x)
     na.count <-
-      ramorder(x, o, has.na = has.na, na.last = isTRUE(na.last), decreasing = FALSE, stable = stable, optimize = optimize)
+      ramorder(x, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = optimize)
     nut <- .Call(C_r_ram_integer64_ordernut, table = x, order = o)
     setcache(x, "order", o)
     setcache(x, "na.count", na.count)
