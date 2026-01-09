@@ -149,6 +149,6 @@ as.matrix.integer64 = function(x, ...) {
   if (is.matrix(x)) {
     x
   } else {
-    array(as.integer64(x), c(length(x), 1L), {if (!is.null(names(x))) list(names(x), NULL) else NULL})
-  } 
+    array(x, c(length(x), 1L), if (!is.null(names(x))) list(names(x), NULL))
+  }
 }
