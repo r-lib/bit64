@@ -147,6 +147,8 @@ with_parameters_test_that <- function(desc, code, .cases = NULL, .interpret_glue
       cat(".") # print dot for progress
     }, error = function(e) {
       cat(sprintf("\nFAILED at case %d: %s\n", i, conditionMessage(e)))
+      cat("  Case parameters:\n")
+      print(row_vals)
       stop(e)
     })
   }
