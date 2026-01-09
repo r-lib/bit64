@@ -177,7 +177,7 @@ SEXP as_integer64_character(SEXP x_, SEXP ret_){
         naflag = TRUE;
       } else if (str==endpointer){
         ret[i] = NA_INTEGER64; // "" -> NA without warning
-      } else if(ret[i]==NA_INTEGER64){
+      } else if(ret[i]==NA_INTEGER64){ // i.e., received exact string value of NA_INTEGER64 sentinel
         naflag = TRUE;
       }
     }
