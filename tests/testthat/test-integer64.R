@@ -139,6 +139,54 @@ test_that("integer64 coercion to/from other types work for R >=4.0.0", {
 
 })
 
+test_that("integer64 coercion from character works for numbers near +/- 2^63", {
+  expect_identical(
+    as.character(as.integer64(c("-9223372036854775807", "-9223372036854775806", "9223372036854775806", "9223372036854775807", ""))),
+    c("-9223372036854775807", "-9223372036854775806", "9223372036854775806", "9223372036854775807", NA)
+  )
+})
+
+test_that("Conversion from hex is supported", {
+  expect_identical(
+    as.integer64(c("0x1", "0xF", "0x7FFFFFFFFFFFFFFF", "-0x1", "-0xF", "-0x7FFFFFFFFFFFFFFF", "0x0")),
+    as.integer64(c(1, 15, "9223372036854775807", -1, -15, "-9223372036854775807", 0))
+  )
+})
+
+with_parameters_test_that(
+  "base-10 edge cases return missing",
+  expect_warning(
+    expect_identical(as.integer64(string), NA_integer64_),
+    "NAs introduced by coercion to integer64 range", fixed=TRUE
+  ),
+  string = c(
+    strrep("9", 63L),
+    "9223372036854775808",
+    "-9223372036854775808",
+    "999x",
+    "-999x",
+    "999 "
+  )
+)
+
+with_parameters_test_that(
+  "hex edge cases return missing",
+  expect_warning(
+    expect_identical(as.integer64(string), NA_integer64_),
+    "NAs introduced by coercion to integer64 range", fixed=TRUE
+  ),
+  string = c(
+    "-0x8000000000000000",
+    "0x8000000000000000",
+    "0x",
+    "-0x",
+    "0xx",
+    " 0x",
+    "0x ",
+    "0x0Z"
+  )
+)
+
 test_that("S3 class basics work", {
   x = as.integer64(1:10)
   expect_s3_class(x, "integer64")
