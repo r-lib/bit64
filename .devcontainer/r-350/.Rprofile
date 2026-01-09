@@ -42,11 +42,13 @@ expect_identical = function(x, y, tolerance = NULL, ignore_attr = NULL, info = c
   if (is.null(tolerance)) {
     # NB: some tests _do_ require identical() dispatch here.
     if (!identical(x, y)) {
-      stop(
-        "x and y are not identical. all.equal(x, y, tolerance=0) result:\n",
-        paste0("  ", all.equal(x, y, tolerance=0), collapse = "\n"),
-        if (length(info)) "\n", info
-      )
+      cat("all.equal(x, y, tolerance=0) result:\n")
+      writeLines(paste0("  ", all.equal(x, y, tolerance=0)))
+      cat("----\nx:\n")
+      print(x)
+      cat("----\ny:\n")
+      print(y)
+      stop("x and y are not identical.", if (length(info)) "\n", info)
     }
   } else {
     if (!isTRUE(all.equal(x, y, tolerance=tolerance))) {
