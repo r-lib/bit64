@@ -96,7 +96,7 @@
 <li>
 <code><a href="../reference/sortnut.html">ordertab()</a></code> no longer segfaults when <code>nunique</code> is smaller than the actual number of unique values (<a href="https://github.com/r-lib/bit64/issues/168" class="external-link">#168</a>).</li>
 <li>
-<code>as.integer64.character</code> now returns <code>NA</code> for out of range values, with warning, e.g. <code>as.integer64("22222222222222222222")</code>. Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
+<code>as.integer64.character</code> now returns <code>NA</code> for out of range values, with warning, e.g. <code>as.integer64("22222222222222222222")</code> (<a href="https://github.com/r-lib/bit64/issues/175" class="external-link">#175</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
 <li>
 <code><a href="https://rdrr.io/pkg/bit/man/Sorting.html" class="external-link">quicksort()</a></code> and others no longer segfault on trivial cases (e.g. sorting 0 or 1 item, <a href="https://github.com/r-lib/bit64/issues/220" class="external-link">#220</a>).</li>
 </ol></div>
