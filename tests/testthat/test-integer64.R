@@ -198,22 +198,62 @@ test_that("S3 class basics work", {
 })
 
 test_that("indexing works", {
-  x = as.integer64(1:10)
 
-  x[1.0] = 2.0
+  x = as.integer64(1:10)
+  x[1.0] = 2L
   x[2L] = 3L
   expect_identical(x, as.integer64(c(2:3, 3:10)))
 
+  x = as.integer64(1:10)
+  x[1.0] = 2L
+  x[2L] = 3.0
+  expect_identical(x, as.integer64(c(2:3, 3:10)))
+
+  # TODO(#199): enable this test
+  # x = as.integer64(1:10)
+  # x[1.0] = 2L
+  # x[2L] = 3+0i
+  # expect_identical(x, as.complex(c(2:3, 3:10)))
+  
+  x = as.integer64(1:10)
+  x[1.0] = 2L
+  x[2L] = "3"
+  expect_identical(x, as.character(c(2:3, 3:10)))
+  
+  x = as.integer64(1:10)
   x[[1.0]] = 3.0
   x[[2L]] = 4L
   expect_identical(x, as.integer64(c(3:4, 3:10)))
 
+  x = as.integer64(1:10)
+  x[[1.0]] = 3L
+  x[[2L]] = 4.0
+  expect_identical(x, as.integer64(c(3:4, 3:10)))
+
+  # TODO(#199): enable this test
+  # x = as.integer64(1:10)
+  # x[[1.0]] = 3L
+  # x[[2L]] = 4+0i
+  # expect_identical(x, as.complex(c(3:4, 3:10)))
+  
+  x = as.integer64(1:10)
+  x[[1.0]] = 3L
+  x[[2L]] = "4"
+  expect_identical(x, as.character(c(3:4, 3:10)))
+  
+  x = as.integer64(1:10)
   expect_identical(x[3L], as.integer64(3L))
   expect_identical(x[[4L]], as.integer64(4L))
 
   names(x) = letters[1:10]
   expect_identical(x[c("b", "c")], x[2:3])
   expect_identical(x[["d"]], x[[4L]])
+  
+  expect_no_warning(expect_identical(integer64()[integer()], integer64()))
+  expect_no_warning(expect_identical(structure(as.integer64(1L), dim=1L)[1L], as.integer64(1L)))
+
+  expect_no_warning(expect_identical(as.integer64(1L)[NA_integer_], NA_integer64_))
+  expect_no_warning(expect_identical(as.integer64(1L)[NA_integer64_], NA_integer64_))
 })
 
 test_that("arithmetic & basic math works", {
@@ -795,4 +835,276 @@ test_that("match works with zero length input", {
   expect_identical(match(x64, integer(), nomatch=integer()), match(x32, integer(), nomatch=integer()))
   expect_identical(match(x64, integer(), nomatch=10L), match(x32, integer(), nomatch=10L))
   expect_identical(match(integer(), x64), match(integer(), x32))
+})
+
+
+test_that("extraction and replacement works consistent to integer (vectors; except for double)", {
+
+  skip_unless_r(">= 4.0.0")
+  # extraction with `[`
+  x = 1:10
+  names(x) = letters[seq_along(x)]
+  y = as.integer64(x)
+  names(y) = letters[seq_along(y)]
+  sel = c(TRUE, FALSE, NA, TRUE)
+  expect_identical(y[sel], structure(as.integer64(x[sel]), names=names(x)[sel]))
+  sel = c(1, NA, 3, 11)
+  expect_identical(y[sel], structure(as.integer64(x[sel]), names=names(x)[sel]))
+  expect_identical(y[as.integer64(sel)], structure(as.integer64(x[sel]), names=names(x)[sel]))
+  sel = c(-1, -3, 0, -11)
+  expect_identical(y[sel], structure(as.integer64(x[sel]), names=names(x)[sel]))
+  sel = c(-1, -3, 0, -11, NA)
+  # `only 0's may be mixed with negative subscripts`
+  expect_identical(
+    tryCatch(x[sel], error=conditionMessage),
+    tryCatch(y[sel], error=conditionMessage)
+  )
+
+  expect_identical(as.integer64(c("9218868437227407266", "1"))[c(1,NA,3,4)], structure(as.integer64(c("9218868437227407266", NA, NA, NA))))
+
+  sel = c("d", "", "b", NA_character_)
+  expect_identical(y[sel], structure(as.integer64(x[sel]), names=names(x)[match(sel, names(x))]))
+  
+  # replacement with `[<-`
+  x = as.integer(1:10)
+  names(x) = letters[seq_along(x)]
+  y = as.integer64(x)
+  names(y) = letters[seq_along(y)]
+
+  sel = c("d", "", "b", NA_character_)
+  x[sel] = 100L
+  y[sel] = 100L
+  expect_identical(y, structure(as.integer64(x), names = names(x)))
+
+  # extraction with `[[`  
+  x = as.integer(1:10)
+  names(x) = letters[seq_along(x)]
+  y = as.integer64(x)
+  names(y) = letters[seq_along(y)]
+  expect_identical(y[[3]], as.integer64(x[[3]]))
+  expect_identical(y[["d"]], as.integer64(x[["d"]]))
+
+  # replacement with `[[<-`
+  x[["e"]] = 100L
+  y[["e"]] = 100L
+  expect_identical(y, structure(as.integer64(x), names = names(x)))
+
+})
+
+test_that("extraction and replacement works consistent to integer (matrices; except for double)", {
+
+  skip_unless_r(">= 4.0.0")
+  # extraction with `[`
+  m32 = matrix(1:10, nrow=2L)
+  m64 = matrix64(as.integer64(m32), nrow=dim(m32)[1L], ncol=dim(m32)[2L])
+  expect_identical(m32[integer(), 1:2, drop=TRUE], structure(integer(), dim = c(0L, 2L)))
+  expect_identical(m64[integer(), 1:2, drop=TRUE], structure(integer64(), dim = c(0L, 2L)))
+
+  expect_identical(m32[1:2, integer(), drop=TRUE], structure(integer(), dim = c(2L, 0L)))
+  expect_identical(m64[1:2, integer(), drop=TRUE], structure(integer64(), dim = c(2L, 0L)))
+
+  expect_identical(m32[integer(), 1:2, drop=FALSE], structure(integer(), dim = c(0L, 2L)))
+  expect_identical(m64[integer(), 1:2, drop=FALSE], structure(integer64(), dim = c(0L, 2L)))
+
+  expect_identical(m32[1:2, integer(), drop=FALSE], structure(integer(), dim = c(2L, 0L)))
+  expect_identical(m64[1:2, integer(), drop=FALSE], structure(integer64(), dim = c(2L, 0L)))
+
+  expect_identical(m32[1:2, 1:3, drop=TRUE], structure(1:6, dim = c(2L, 3L)))
+  expect_identical(m64[1:2, 1:3, drop=TRUE], structure(as.integer64(1:6), dim = c(2L, 3L)))
+
+  expect_identical(m32[1:2], 1:2)
+  expect_identical(m64[1:2], as.integer64(1:2))
+
+  expect_identical(m32[1:2, drop=TRUE], 1:2)
+  expect_identical(m64[1:2, drop=TRUE], as.integer64(1:2))
+
+  expect_identical(m32[j = 1:3, drop=TRUE], 1:3)
+  expect_identical(m64[j = 1:3, drop=TRUE], as.integer64(1:3))
+
+  expect_identical(m32[1:2, , drop=TRUE], structure(as.integer(1:10), dim = c(2L, 5L)))
+  expect_identical(m64[1:2, , drop=TRUE], structure(as.integer64(1:10), dim = c(2L, 5L)))
+
+  expect_identical(m32[, 1:3, drop=TRUE], structure(as.integer(1:6), dim = c(2L, 3L)))
+  expect_identical(m64[, 1:3, drop=TRUE], structure(as.integer64(1:6), dim = c(2L, 3L)))
+
+  expect_identical(m32[1, , drop=TRUE], c(1L, 3L, 5L, 7L, 9L))
+  expect_identical(m64[1, , drop=TRUE], as.integer64(c(1L, 3L, 5L, 7L, 9L)))
+
+  expect_identical(m32[1, , drop=FALSE], structure(c(1L, 3L, 5L, 7L, 9L), dim = c(1L, 5L)))
+  expect_identical(m64[1, , drop=FALSE], structure(as.integer64(c(1L, 3L, 5L, 7L, 9L)), dim = c(1L, 5L)))
+
+  expect_identical(m32[, 1, drop=TRUE], 1:2)
+  expect_identical(m64[, 1, drop=TRUE], as.integer64(1:2))
+
+  expect_identical(m32[, 1, drop=FALSE], structure(1:2, dim = 2:1))
+  expect_identical(m64[, 1, drop=FALSE], structure(as.integer64(1:2), dim = 2:1))
+
+  expect_identical(m32[c(9, NA, 11, 12), drop=FALSE], c(9L, NA, NA, NA))
+  expect_identical(m64[c(9, NA, 11, 12), drop=FALSE], as.integer64(c(9L, NA, NA, NA)))
+
+  expect_identical(m32[integer(), c(1:2, 0, NA), drop=TRUE], structure(integer(), dim = c(0L, 3L)))
+  expect_identical(m64[integer(), c(1:2, 0, NA), drop=TRUE], structure(integer64(), dim = c(0L, 3L)))
+  expect_identical(m64[integer64(), c(1:2, 0, NA), drop=TRUE], structure(integer64(), dim = c(0L, 3L)))
+
+  expect_identical(m32[, c(1:2, 0, NA), drop=TRUE], structure(c(1:4, NA, NA), dim = c(2L, 3L)))
+  expect_identical(m64[, c(1:2, 0, NA), drop=TRUE], structure(as.integer64(c(1:4, NA, NA)), dim = c(2L, 3L)))
+
+  expect_identical(m32[c(1, NA, 2), 1:3, drop=TRUE], structure(c(1L, NA, 2L, 3L, NA, 4L, 5L, NA, 6L), dim = c(3L, 3L)))
+  expect_identical(m64[c(1, NA, 2), 1:3, drop=TRUE], structure(as.integer64(c(1L, NA, 2L, 3L, NA, 4L, 5L, NA, 6L)), dim = c(3L, 3L)))
+
+  m32 = matrix(1:10, 2L, dimnames = list(LETTERS[1:2], letters[1:5]))
+  m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames = list(LETTERS[1:2], letters[1:5]))
+
+    # `subscript out of bounds`
+  expect_identical(
+    tryCatch(m32[c("B", "D", "A"), c("d", "a")], error=conditionMessage),
+    tryCatch(m64[c("B", "D", "A"), c("d", "a")], error=conditionMessage)
+  )
+
+  expect_identical(m32[c("B", "D", "A")], rep(NA_integer_, 3L))
+  expect_identical(m64[c("B", "D", "A")], rep(NA_integer64_, 3L))
+  
+  # replacement with `[<-`
+  m32 = matrix(1:10, 2L, dimnames = list(LETTERS[1:2], letters[1:5]))
+  m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames = list(LETTERS[1:2], letters[1:5]))
+
+  m32[1, c(1, 3, NA)] = 100L
+  m64[1, c(1, 3, NA)] = as.integer64(100L)
+  expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+
+  m32[1, c(1, 4, NA)] = 101L
+  m64[1, c(1, 4, NA)] = 101L
+  expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+
+  m32[1, c(1, 5, NA)] = 102
+  m64[1, c(1, 5, NA)] = 102
+  expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+
+  # TODO(#199): enable this test
+  # m32[1, c(1, 5, NA)] = 102+0i
+  # m64[1, c(1, 5, NA)] = 102+0i
+  # expect_identical(m64, m32)
+
+  m32 = matrix(1:10, 2L, dimnames = list(LETTERS[1:2], letters[1:5]))
+  m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames = list(LETTERS[1:2], letters[1:5]))
+  m32[1, c(1, 3, NA)] = "103"
+  m64[1, c(1, 3, NA)] = "103"
+  expect_identical(m64, m32)
+
+  m32 = matrix(1:10, 2L, dimnames = list(LETTERS[1:2], letters[1:5]))
+  m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames = list(LETTERS[1:2], letters[1:5]))
+  m32[1, c(1, 3, NA)] = 101L
+  m64[1, as.integer64(c(1, 3, NA))] = 101L
+  expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+
+  m32[, -(1:3)] = 102L
+  m64[, -(1:3)] = 102L
+  expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+
+  # extraction with `[[`  
+  m32 = matrix(1:10, 2L, dimnames = list(LETTERS[1:2], letters[1:5]))
+  m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames = list(LETTERS[1:2], letters[1:5]))
+  expect_identical(m64[[1, 2]], as.integer64(m32[[1, 2]]))
+  expect_identical(m64[[as.integer64(1L), as.integer64(2L)]], as.integer64(m32[[1, 2]]))
+  expect_identical(m64[["A", "d"]], as.integer64(m32[["A", "d"]]))
+
+  expect_identical(m64[[1]], as.integer64(m32[[1]]))
+  expect_identical(m64[[as.integer64(1L)]], as.integer64(m32[[1]]))
+
+  # `subscript out of bounds`
+  expect_identical(
+    tryCatch(m32[[NA]], error=conditionMessage),
+    tryCatch(m64[[NA]], error=conditionMessage)
+  )
+  expect_identical(
+    tryCatch(m32[[NA]], error=conditionMessage),
+    tryCatch(m64[[as.integer64(NA)]], error=conditionMessage)
+  )
+
+  # `attempt to select less than one element in integerOneIndex`
+  expect_identical(
+    tryCatch(m32[[0L]], error=conditionMessage),
+    tryCatch(m64[[0L]], error=conditionMessage)
+  )
+  expect_identical(
+    tryCatch(m32[[0L]], error=conditionMessage),
+    tryCatch(m64[[as.integer64(0L)]], error=conditionMessage)
+  )
+
+  # `attempt to select less than one element in get1index`
+  expect_identical(
+    tryCatch(m32[[integer()]], error=conditionMessage),
+    tryCatch(m64[[integer()]], error=conditionMessage)
+  )
+  expect_identical(
+    tryCatch(m32[[integer()]], error=conditionMessage),
+    tryCatch(m64[[as.integer64()]], error=conditionMessage)
+  )
+
+  # replacement with `[[<-`
+  m32 = matrix(1:10, 2L, dimnames = list(LETTERS[1:2], letters[1:5]))
+  m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames = list(LETTERS[1:2], letters[1:5]))
+
+  m32[[1, 3]] = 110L
+  m64[[1, 3]] = 110L
+  expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+
+  m32[["A", "e"]] = 112L
+  m64[["A", "e"]] = 112L
+  expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+
+  m32[[1, 3]] = 111
+  m64[[1, 3]] = 111
+  expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+
+  # TODO(#199): enable this test
+  # m32[[1, 3]] = 111+0i
+  # m64[[1, 3]] = 111+0i
+  # expect_identical(m64, m32)
+
+  m32 = matrix(1:10, 2L, dimnames = list(LETTERS[1:2], letters[1:5]))
+  m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames = list(LETTERS[1:2], letters[1:5]))
+  m32[[1, 4]] = "112"
+  m64[[1, 4]] = "112"
+  expect_identical(m64, m32)
+
+})
+
+test_that("extraction and replacement works consistent to integer (arrays; except for double)", {
+
+  skip_unless_r(">= 4.0.0")
+  # extraction with `[`
+  a32 = array(1:27, c(3,3,3))
+  a64 = array64(as.integer64(1:27), c(3,3,3))
+
+  expect_identical(a32[2, , 3, drop=FALSE], structure(c(20L, 23L, 26L), dim = c(1L, 3L, 1L)))
+  expect_identical(a64[2, , 3, drop=FALSE], structure(as.integer64(c(20L, 23L, 26L)), dim = c(1L, 3L, 1L)))
+
+  expect_identical(a32[2, , 3, drop=TRUE], c(20L, 23L, 26L))
+  expect_identical(a64[2, , 3, drop=TRUE], as.integer64(c(20L, 23L, 26L)))
+
+  expect_identical(a32[1, c(1, 3, 2), 2:3, drop=TRUE], structure(c(10L, 16L, 13L, 19L, 25L, 22L), dim = 3:2))
+  expect_identical(a64[1, c(1, 3, 2), 2:3, drop=TRUE], structure(as.integer64(c(10L, 16L, 13L, 19L, 25L, 22L)), dim = 3:2))
+
+  expect_identical(a32[, c(1, 2, 0, 3, NA, 1), c(TRUE, FALSE, NA), drop=FALSE], structure(c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, NA, NA, NA, 1L, 2L, 3L, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), dim = c(3L, 5L, 2L)))
+  expect_identical(a64[, c(1, 2, 0, 3, NA, 1), c(TRUE, FALSE, NA), drop=FALSE], structure(as.integer64(c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, NA, NA, NA, 1L, 2L, 3L, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)), dim = c(3L, 5L, 2L)))
+
+  expect_identical(a32[, c(1, 2, 0, 3, NA, 1), c(TRUE, FALSE, NA), drop=TRUE], structure(c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, NA, NA, NA, 1L, 2L, 3L, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), dim = c(3L, 5L, 2L)))
+  expect_identical(a64[, c(1, 2, 0, 3, NA, 1), c(TRUE, FALSE, NA), drop=TRUE], structure(as.integer64(c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, NA, NA, NA, 1L, 2L, 3L, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)), dim = c(3L, 5L, 2L)))
+
+  expect_identical(a32[c(1, 0, 7, NA, 27, 28), drop=FALSE], c(1L, 7L, NA, 27L, NA))
+  expect_identical(a64[c(1, 0, 7, NA, 27, 28), drop=FALSE], as.integer64(c(1L, 7L, NA, 27L, NA)))
+
+  expect_identical(a32[c(TRUE, FALSE, NA, TRUE), drop=FALSE], c(1L, NA, 4L, 5L, NA, 8L, 9L, NA, 12L, 13L, NA, 16L, 17L, NA, 20L, 21L, NA, 24L, 25L, NA))
+  expect_identical(a64[c(TRUE, FALSE, NA, TRUE), drop=FALSE], as.integer64(c(1L, NA, 4L, 5L, NA, 8L, 9L, NA, 12L, 13L, NA, 16L, 17L, NA, 20L, 21L, NA, 24L, 25L, NA)))
+
+  expect_identical(a32[-1, , -c(0, 2:3), drop=FALSE], structure(c(2L, 3L, 5L, 6L, 8L, 9L), dim = c(2L, 3L, 1L)))
+  expect_identical(a64[-1, , -c(0, 2:3), drop=FALSE], structure(as.integer64(c(2L, 3L, 5L, 6L, 8L, 9L)), dim = c(2L, 3L, 1L)))
+
+  expect_identical(a32[-1, 2, -c(0, 2:3), drop=FALSE], structure(5:6, dim = c(2L, 1L, 1L)))
+  expect_identical(a64[-1, 2, -c(0, 2:3), drop=FALSE], structure(as.integer64(5:6), dim = c(2L, 1L, 1L)))
+
+  expect_identical(a32[-1, 2, -c(0, 2:3), drop=TRUE], 5:6)
+  expect_identical(a64[-1, 2, -c(0, 2:3), drop=TRUE], as.integer64(5:6))
+
 })

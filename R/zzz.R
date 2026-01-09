@@ -7,7 +7,6 @@
 # Created: 2011-12-11
 # */
 
-
 # backports
 # R < 3.6.0
 if (getRversion() < "3.6.0") {

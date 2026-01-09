@@ -41,6 +41,9 @@
 
 1. `as.integer64.integer64` returns a plain `integer64` vector stripped of any attributes. This is consistent with R like behavior, e.g. `as.integer.integer`.
 
+1. A replacement in an integer64 vector using `[<-` or `[[<-` with a character leads to an R consistent 
+   coercion of the integer64 object to a character object.
+   
 ## NEW FEATURES
 
 1. `anyNA` gets an `integer64` method. Thanks @hcirellu.
@@ -67,6 +70,7 @@
 1. `ordertab()` no longer segfaults when `nunique` is smaller than the actual number of unique values (#168).
 1. `as.integer64.character` now returns `NA` for out of range values, with warning, e.g. `as.integer64("22222222222222222222")`. Thanks @hcirellu.
 1. `quicksort()` and others no longer segfault on trivial cases (e.g. sorting 0 or 1 item, #220).
+1. `[.integer64` now runs faster and correctly regarding `NA` and arrays. (#176)
 
 ## NOTES
 
