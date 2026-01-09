@@ -38,18 +38,18 @@
 #'   [quantile.integer64()], [median.integer64()], and [summary.integer64()]
 #'
 #' @examples
-#'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#'   y <- x
+#'   x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#'   y = x
 #'   bit::still.identical(x, y)
-#'   y[1] <- NA
+#'   y[1] = NA
 #'   bit::still.identical(x, y)
-#'   mycache <- newcache(x)
+#'   mycache = newcache(x)
 #'   ls(mycache)
 #'   mycache
 #'   rm(mycache)
 #'   jamcache(x)
 #'   cache(x)
-#'   x[1] <- NA
+#'   x[1] = NA
 #'   cache(x)
 #'   getcache(x, "abc")
 #'   setcache(x, "abc", 1)
@@ -62,11 +62,11 @@ NULL
 
 #' @describeIn cache creates a new cache referencing  `x`
 #' @export
-newcache <- function(x) {
-    env <- new.env()
-    vmode <- typeof(x)
+newcache = function(x) {
+    env = new.env()
+    vmode = typeof(x)
     if (vmode=="double" && is.integer64(x))
-      vmode <- "integer64"
+      vmode = "integer64"
     setattr(env, "class", c(paste("cache", vmode, sep="_"), "cache", "environment"))
     assign("x", x, envir=env)
     env
@@ -74,13 +74,13 @@ newcache <- function(x) {
 
 #' @describeIn cache forces `x` to have a cache
 #' @export
-jamcache <- function(x) {
-  cache <- attr(x, "cache")
+jamcache = function(x) {
+  cache = attr(x, "cache")
   if (is.null(cache)) {
-    cache <- newcache(x)
+    cache = newcache(x)
     setattr(x, "cache", cache)
   } else if (!still.identical(x, get("x", envir=cache, inherits=FALSE))) {
-    cache <- newcache(x)
+    cache = newcache(x)
     setattr(x, "cache", cache)
     warning("replaced outdated cache with empty cache")
   }
@@ -90,8 +90,8 @@ jamcache <- function(x) {
 #' @describeIn cache returns the cache attached to `x` if it is not
 #'   found to be outdated
 #' @export
-cache <- function(x) {
-  cache <- attr(x, "cache")
+cache = function(x) {
+  cache = attr(x, "cache")
   if (is.null(cache) || still.identical(x, get("x", envir=cache, inherits=FALSE))) {
     cache
   } else {
@@ -105,16 +105,16 @@ cache <- function(x) {
 #' @param which A character naming the object to be retrieved from the cache or to be stored in the cache
 #' @param value An object to be stored in the cache
 #' @export
-setcache <- function(x, which, value) {
-      env <- jamcache(x)
+setcache = function(x, which, value) {
+      env = jamcache(x)
       assign(which, value, envir=env)
       env
 }
 
 #' @describeIn cache gets cache value 'which' from `x`
 #' @export
-getcache <- function(x, which) {
-    cache <- attr(x, "cache")
+getcache = function(x, which) {
+    cache = attr(x, "cache")
     if (is.null(cache))
       return(NULL)
     if (still.identical(x, get("x", envir=cache, inherits=FALSE))) {
@@ -131,7 +131,7 @@ getcache <- function(x, which) {
 
 #' @describeIn cache removes the cache from `x`
 #' @export
-remcache <- function(x) {
+remcache = function(x) {
         setattr(x, "cache", NULL)
     invisible()
 }
@@ -140,8 +140,8 @@ remcache <- function(x) {
 #' @param all.names,pattern passed to [ls()] when listing the cache content
 #' @param ... ignored
 #' @export
-print.cache<- function(x, all.names=FALSE, pattern, ...) {
-  l <- ls(x, all.names, pattern=pattern)
+print.cache= function(x, all.names=FALSE, pattern, ...) {
+  l = ls(x, all.names, pattern=pattern)
   cat(class(x)[1L], ": ", paste(l, collapse=" - "), "\n", sep="")
   invisible(l)
 }
@@ -175,18 +175,18 @@ print.cache<- function(x, all.names=FALSE, pattern, ...) {
 #'   from small caches
 #'
 #' @examples
-#'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#'   x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #'   sortordercache(x)
 #'
 #' @keywords environment
 #' @export
-hashcache <-function(x, nunique=NULL, ...) {
-    env <- jamcache(x)
+hashcache =function(x, nunique=NULL, ...) {
+    env = jamcache(x)
     if (is.null(nunique))
-        nunique <- env$nunique
-    env <- hashmap(x, nunique=nunique, cache=env, ...)
+        nunique = env$nunique
+    env = hashmap(x, nunique=nunique, cache=env, ...)
     if (is.null(nunique) && env$nunique<sqrt(length(x)))
-        env <- hashmap(x, nunique=env$nunique, cache=env, ...)
+        env = hashmap(x, nunique=env$nunique, cache=env, ...)
     na.count(x) # since x has cache, na.count() will update the cache, unless its already there
     # different from sortcache, ordercache and sortordercache we do not set nties: hastab is too expensive
     invisible(env)
@@ -197,17 +197,17 @@ hashcache <-function(x, nunique=NULL, ...) {
 #'    `NA`s. If we know we don't have `NA`s, this may speed-up. _Note_ that you
 #'    risk a crash if there are unexpected `NA`s with `has.na=FALSE`.
 #' @export
-sortcache <- function(x, has.na = NULL) {
+sortcache = function(x, has.na = NULL) {
     if (is.null(has.na)) {
-        na.count <- getcache(x, "na.count")
+        na.count = getcache(x, "na.count")
         if (is.null(na.count))
-            has.na <- TRUE
+            has.na = TRUE
         else
-            has.na <- na.count > 0L
+            has.na = na.count > 0L
     }
-    s <- clone(x)
-    na.count <- ramsort(s, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
-    nut <- .Call(C_r_ram_integer64_sortnut, x = s)
+    s = clone(x)
+    na.count = ramsort(s, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
+    nut = .Call(C_r_ram_integer64_sortnut, x = s)
     setcache(x, "sort", s)
     setcache(x, "na.count", na.count)
     setcache(x, "nunique", nut[[1L]])
@@ -219,26 +219,26 @@ sortcache <- function(x, has.na = NULL) {
 #' @param stable boolean scalar defining whether stable sorting is needed. Allowing
 #'   non-stable may speed-up.
 #' @export
-sortordercache <- function(x, has.na = NULL, stable = NULL) {
+sortordercache = function(x, has.na = NULL, stable = NULL) {
     if (is.null(has.na)) {
-        na.count <- getcache(x, "na.count")
+        na.count = getcache(x, "na.count")
         if (is.null(na.count))
-            has.na <- TRUE
+            has.na = TRUE
         else
-            has.na <- na.count > 0L
+            has.na = na.count > 0L
     }
     if (is.null(stable)) {
-        nunique <- getcache(x, "nunique")
+        nunique = getcache(x, "nunique")
         if (is.null(nunique))
-          stable <- TRUE
+          stable = TRUE
         else
-          stable <- nunique < length(x)
+          stable = nunique < length(x)
     }
-    s <- clone(x)
-    o <- seq_along(x)
-    na.count <-
+    s = clone(x)
+    o = seq_along(x)
+    na.count =
       ramsortorder(s, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = "time")
-    nut <- .Call(C_r_ram_integer64_sortnut, x = s)
+    nut = .Call(C_r_ram_integer64_sortnut, x = s)
     setcache(x, "sort", s)
     setcache(x, "order", o)
     setcache(x, "na.count", na.count)
@@ -251,25 +251,25 @@ sortordercache <- function(x, has.na = NULL, stable = NULL) {
 #' @param optimize by default ramsort optimizes for 'time' which requires more RAM,
 #'   set to 'memory' to minimize RAM requirements and sacrifice speed.
 #' @export
-ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time") {
+ordercache = function(x, has.na = NULL, stable = NULL, optimize = "time") {
     if (is.null(has.na)) {
-        na.count <- getcache(x, "na.count")
+        na.count = getcache(x, "na.count")
         if (is.null(na.count))
-            has.na <- TRUE
+            has.na = TRUE
         else
-            has.na <- na.count > 0L
+            has.na = na.count > 0L
     }
     if (is.null(stable)) {
-        nunique <- getcache(x, "nunique")
+        nunique = getcache(x, "nunique")
         if (is.null(nunique))
-          stable <- TRUE
+          stable = TRUE
         else
-          stable <- nunique < length(x)
+          stable = nunique < length(x)
     }
-    o <- seq_along(x)
-    na.count <-
+    o = seq_along(x)
+    na.count =
       ramorder(x, o, has.na = has.na, na.last = FALSE, decreasing = FALSE, stable = stable, optimize = optimize)
-    nut <- .Call(C_r_ram_integer64_ordernut, table = x, order = o)
+    nut = .Call(C_r_ram_integer64_ordernut, table = x, order = o)
     setcache(x, "order", o)
     setcache(x, "na.count", na.count)
     setcache(x, "nunique", nut[[1L]])
@@ -302,7 +302,7 @@ ordercache <- function(x, has.na = NULL, stable = NULL, optimize = "time") {
 #' [cache()] for caching functions and [sortordercache()] for functions creating big caches
 #'
 #' @examples
-#'  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+#'  x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #'  length(x)
 #'  bit::na.count(x)
 #'  bit::nvalid(x)
@@ -317,13 +317,13 @@ NULL
 
 #' @describeIn is.sorted.integer64 returns the number of `NA`s
 #' @export
-na.count.integer64 <- function(x, ...) {
-  env <- cache(x)
+na.count.integer64 = function(x, ...) {
+  env = cache(x)
   if (is.null(env))
     return(.Call(C_r_ram_integer64_nacount, x = x))
   if (exists("na.count", envir=env, inherits=FALSE))
     return(get("na.count", envir=env, inherits=FALSE))
-  ret <- .Call(C_r_ram_integer64_nacount, x = x)
+  ret = .Call(C_r_ram_integer64_nacount, x = x)
   assign("na.count", ret, envir=env)
   ret
 }
@@ -331,42 +331,42 @@ na.count.integer64 <- function(x, ...) {
 #' @describeIn is.sorted.integer64 returns the number of valid data points,
 #'   usually [length()] minus `na.count`.
 #' @export
-nvalid.integer64 <- function(x, ...) {
+nvalid.integer64 = function(x, ...) {
     length(x) - na.count(x)
 }
 
 #' @describeIn is.sorted.integer64 checks for sortedness of `x` (NAs sorted first)
 #' @export
-is.sorted.integer64 <- function(x, ...) {
-  env <- cache(x)
+is.sorted.integer64 = function(x, ...) {
+  env = cache(x)
   if (is.null(env))
     return(.Call(C_r_ram_integer64_issorted_asc, x = x))
   if (exists("is.sorted", envir=env, inherits=FALSE))
     return(get("is.sorted", envir=env, inherits=FALSE))
-  ret <- .Call(C_r_ram_integer64_issorted_asc, x = x)
+  ret = .Call(C_r_ram_integer64_issorted_asc, x = x)
   assign("is.sorted", ret, envir=env)
   ret
 }
 
 #' @describeIn is.sorted.integer64 returns the number of unique values
 #' @export
-nunique.integer64 <- function(x, ...) {
-    env <- cache(x)
+nunique.integer64 = function(x, ...) {
+    env = cache(x)
     if (is.null(env))
-        has.cache <- FALSE
+        has.cache = FALSE
     else if (exists("nunique", envir=env, inherits=FALSE))
         return(get("nunique", envir=env, inherits=FALSE))
     else # nolint: unreachable_code_linter. TODO(r-lib/lintr#2710): Re-enable.
-        has.cache <- TRUE
+        has.cache = TRUE
     if (is.sorted(x)) {
-        ret <- .Call(C_r_ram_integer64_sortnut, x = x)
+        ret = .Call(C_r_ram_integer64_sortnut, x = x)
         if (has.cache) {
             assign("nunique", ret[1L], envir=env)
             assign("nties", ret[2L], envir=env)
         }
         ret[1L]
     } else {
-        h <- hashmap(x)
+        h = hashmap(x)
         if (has.cache)
           assign("nunique", h$nunique, envir=env)
         h$nunique
@@ -375,17 +375,17 @@ nunique.integer64 <- function(x, ...) {
 
 #' @describeIn is.sorted.integer64 returns the number of tied values.
 #' @export
-nties.integer64 <- function(x, ...) {
-    cv <- getcache(x, "nties")
+nties.integer64 = function(x, ...) {
+    cv = getcache(x, "nties")
     if (is.null(cv)) {
         if (is.sorted(x)) {
-            cv <- .Call(C_r_ram_integer64_sortnut, x = x)[2L]
+            cv = .Call(C_r_ram_integer64_sortnut, x = x)[2L]
         } else {
-            s <- clone(x)
+            s = clone(x)
             # nolint next: object_usage_linter. Keep the output of in-place ramsort for debugging.
-            na.count <-
+            na.count =
               ramsort(s, has.na = TRUE, na.last = FALSE, decreasing = FALSE, stable = FALSE, optimize = "time")
-            cv <- .Call(C_r_ram_integer64_sortnut, x = s)[[2L]]
+            cv = .Call(C_r_ram_integer64_sortnut, x = s)[[2L]]
         }
     }
     cv
