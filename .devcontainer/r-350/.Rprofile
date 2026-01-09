@@ -124,9 +124,9 @@ with_parameters_test_that <- function(desc, code, .cases = NULL, .interpret_glue
   code_expr <- substitute(code)  
   # If .cases is not provided, build it from ... (grid expansion)
   if (is.null(.cases)) {
-    args = list(...)
-    args$stringsAsFactors = FALSE
-    .cases <- do.call(expand.grid, args)
+    .cases = list(...)
+    for (ii in seq_along(.cases)) if (is.list(.cases[[ii]])) .cases[[ii]] = I(.cases[[ii]])
+    .cases = data.frame(.cases)
   }
 
   # Iterate over cases
