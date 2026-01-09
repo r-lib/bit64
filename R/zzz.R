@@ -235,6 +235,15 @@ deprecate_exported_s3_methods(
 # nocov end
 
 
+# The call stack is searched for a given sequence of function names. If the last element of function_names is found, 
+# we try to match as many elements in function_names with the function names in the call stack. The sequence must be 
+# adhered to. The complete call of the function name of the last match is returned. If no match exists, the top call
+# is returned. It is also possible to change the function name of the matched return value by providing its new name
+# with name_to_display.
+# Examples: 
+# * call stack: [A, B, C, D, E]; function_names = c("C", "D") returns C
+# * call stack: [A, B, C, D, E]; function_names = c("E", "D") returns D
+# * call stack: [A, B, C, D, E]; function_names = c("E", "X") returns A
 choose_sys_call = function(function_names, name_to_display=NULL) {
   calls = sys.calls()
   if (length(calls) == 1L || length(function_names) == 0L) return(calls[[1L]])
