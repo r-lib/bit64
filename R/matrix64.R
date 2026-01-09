@@ -19,9 +19,9 @@
 #' @param x An array of integer64 numbers.
 #' @param na.rm,dims Same interpretation as in [colSums()].
 #' @param ... Passed on to subsequent methods.
+#' @param data,nrow,ncol,byrow,dimnames,dim Arguments for `matrix()` and `array()`.
 #' @examples
-#' A = as.integer64(1:6)
-#' dim(A) = 3:2
+#' A = matrix(as.integer64(1:6), 3)
 #'
 #' colSums(A)
 #' rowSums(A)
@@ -29,54 +29,126 @@
 #' @name matrix64
 NULL
 
-#' @rdname matrix64
-#' @export
-colSums = function(x, na.rm=FALSE, dims=1L) UseMethod("colSums")
-#' @rdname matrix64
-#' @export
-colSums.default = function(x, na.rm=FALSE, dims=1L) base::colSums(x, na.rm, dims)
 
 #' @rdname matrix64
-#' @export
-colSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
-  n_dim = length(dim(x))
-  stopifnot(
-    `dims= should be a length-1 integer between 1 and length(dim(x))-1L` =
-      length(dims) == 1L && dims > 0L && dims < n_dim
-  )
-  MARGIN = tail(seq_len(n_dim), -dims)
-  ret = apply(x, MARGIN, sum, na.rm = na.rm)
-  class(ret) = "integer64"
+#' @exportS3Method matrix integer64
+matrix.integer64 = function(data=NA_integer64_, ...) {
+  if (!length(data)) data = NA_integer64_
+  ret = withCallingHandlers_and_choose_call(
+      base::matrix(data=data, ...), 
+      c("matrix", "matrix.integer64")
+    )
+  class(ret) = class(data)
+  ret
+}
+
+#' @rdname matrix64
+#' @exportS3Method array integer64
+array.integer64 = function(data=NA_integer64_, ...) {
+  if (!length(data)) data = NA_integer64_
+  ret = withCallingHandlers_and_choose_call(
+      base::array(data=data, ...), 
+      c("array", "array.integer64")
+    )
+  class(ret) = class(data)
   ret
 }
 
 #' @rdname matrix64
 #' @export
-rowSums = function(x, na.rm=FALSE, dims=1L) UseMethod("rowSums")
-#' @rdname matrix64
-#' @export
-rowSums.default = function(x, na.rm=FALSE, dims=1L) base::rowSums(x, na.rm, dims)
+colSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
+  dn = dim(x)
+  if (!is.array(x) || length(dn) < 2L) 
+    stop(errorCondition(gettext("'x' must be an array of at least two dimensions", domain="R-base"), call=choose_sys_call(c("colSums", "colSums.integer64"))))
+  if (length(dims) != 1L || dims < 1L || dims > length(dn) - 1L) 
+    stop(errorCondition(gettext("invalid 'dims'", domain="R-base"), call=choose_sys_call(c("colSums", "colSums.integer64"))))
+  
+  ret = apply(x, seq_along(dn)[-seq_len(dims)], sum, na.rm=na.rm)
+  class(ret) = class(x)
+  ret
+}
 
 #' @rdname matrix64
 #' @export
 rowSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
-  n_dim = length(dim(x))
-  stopifnot(
-    `dims= should be a length-1 integer between 1 and length(dim(x))-1L` =
-      length(dims) == 1L && dims > 0L && dims < n_dim
-  )
-  MARGIN = seq_len(dims)
-  ret = apply(x, MARGIN, sum, na.rm = na.rm)
-  class(ret) = "integer64"
+  dn = dim(x)
+  if (!is.array(x) || length(dn) < 2L) 
+    stop(errorCondition(gettext("'x' must be an array of at least two dimensions", domain="R-base"), call=choose_sys_call(c("rowSums", "rowSums.integer64"))))
+  if (length(dims) != 1L || dims < 1L || dims > length(dn) - 1L) 
+    stop(errorCondition(gettext("invalid 'dims'", domain="R-base"), call=choose_sys_call(c("rowSums", "rowSums.integer64"))))
+  
+  ret = apply(x, seq_len(dims), sum, na.rm=na.rm)
+  class(ret) = class(x)
   ret
 }
 
 #' @rdname matrix64
 #' @param a,perm Passed on to [aperm()].
-#' @export
+#' @exportS3Method base::aperm integer64
 aperm.integer64 = function(a, perm, ...) {
-  class(a) = minusclass(class(a), "integer64")
-  ret = aperm(a, perm, ...)
-  class(ret) = plusclass(class(a), "integer64")
+  ret = NextMethod()
+  class(ret) = class(a)
   ret
+}
+
+#' @exportS3Method base::`%*%` integer64
+`%*%.integer64` = function(x, y) {
+  if (!is.integer64(x) && !is.integer64(y)) 
+    return(x%*%y)
+
+  target_class = target_class_for_Ops(x, y)
+  if (target_class != "integer64") {
+    if (is.integer64(x)) {
+      for (cc in class(y)) {
+        f = getS3method("%*%", cc, optional=TRUE)
+        if (!is.null(f))
+          return(f(.as_double_integer64(x, keep.attributes=TRUE), y))
+      }
+      x = .as_double_integer64(x, keep.attributes=TRUE)
+    } else {
+      y = .as_double_integer64(y, keep.attributes=TRUE)
+    }
+    return(x%*%y)
+  }
+
+  dx = dim(x)
+  dy = dim(y)
+  if (length(dx) > 2L || length(dy) > 2L)
+    stop("non-conformable arguments", domain="R")
+  if (length(dx) <= 1L && length(dy) <= 1L) {
+    dx = c(1L, length(x))
+    if (length(x) == length(y)) {
+      dy = c(length(y), 1L)
+    } else {
+      dy = c(1L, length(y))
+    }
+  }
+  if (length(dx) <= 1L)
+    dx = c(1L, dy[1L])
+  if (length(dy) <= 1L)
+    dy = c(dx[2L], 1L)
+  if (dx[2L] != dy[1L])
+    stop("non-conformable arguments", domain="R")
+  dim(x) = dx
+  dim(y) = dy
+
+  if (is.double(x)) {
+    ret = .Call(C_matmult_double_integer64, x, structure(as.integer64(y), dim=dy), double(dx[1L]*dy[2L]))
+  } else if (is.double(y)) {
+    ret = .Call(C_matmult_integer64_double, structure(as.integer64(x), dim=dx), y, double(dx[1L]*dy[2L]))
+  } else {
+    ret = .Call(C_matmult_integer64_integer64, structure(as.integer64(x), dim=dx), structure(as.integer64(y), dim=dy), double(dx[1L]*dy[2L]))
+  }
+  dim(ret) = c(dx[1L], dy[2L])
+  oldClass(ret) = "integer64"
+  ret
+}
+
+#' @exportS3Method base::as.matrix integer64
+as.matrix.integer64 = function(x, ...) {
+  if (is.matrix(x)) {
+    x
+  } else {
+    array(x, c(length(x), 1L), if (!is.null(names(x))) list(names(x), NULL))
+  }
 }

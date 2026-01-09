@@ -1,19 +1,9 @@
-# TODO(#45): use matrix() directly
 matrix64 = function(x, nrow=1L, ncol=1L, byrow=FALSE) {
-  x = as.integer64(x)
-  if (byrow) {
-    dim(x) = c(ncol, nrow)
-    t(x)
-  } else {
-    dim(x) = c(nrow, ncol)
-    x
-  }
+  matrix(as.integer64(x), nrow=nrow, ncol=ncol, byrow=byrow)
 }
 
 array64 = function(x, dim) {
-  x = as.integer64(x)
-  dim(x) = dim
-  x
+  array(as.integer64(x), dim=dim)
 }
 
 # Test that 'expr' gives the same result whether

@@ -116,6 +116,10 @@
 #' | double        | /      | integer64     | ->     | integer64    | /      | long double  | ->     | double     |
 #' | integer64     | ^      | double        | ->     | integer64    | /      | long double  | ->     | double     |
 #' | double        | ^      | integer64     | ->     | integer64    | /      | long double  | ->     | double     |
+#' | integer64     | %*%    | double        | ->     | integer64    | %*%    | integer64    | ->     | integer64  |
+#' | double        | %*%    | integer64     | ->     | integer64    | %*%    | integer64    | ->     | integer64  |
+#' | integer64     | %*%    | complex       | ->     | double       | %*%    | complex      | ->     | complex    |
+#' | complex       | %*%    | integer64     | ->     | complex      | %*%    | double       | ->     | complex    |
 #'
 #' # Creating and testing S3 class 'integer64'
 #'
@@ -697,7 +701,7 @@
 #' @importFrom graphics barplot par title
 #' @importFrom methods as is
 #' @importFrom stats cor median quantile
-#' @importFrom utils head packageDescription strOptions tail
+#' @importFrom utils head packageDescription strOptions tail getS3method
 #' @export : :.default :.integer64
 #' @export [.integer64 [[.integer64 [[<-.integer64 [<-.integer64
 #' @export %in% %in%.default
