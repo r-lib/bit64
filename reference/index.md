@@ -114,10 +114,12 @@
 - [`match(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/match.integer64.md)
   [`` `%in%`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/match.integer64.md)
   : 64-bit integer matching
-- [`colSums()`](https://bit64.r-lib.org/reference/matrix64.md)
-  [`rowSums()`](https://bit64.r-lib.org/reference/matrix64.md)
-  [`aperm(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/matrix64.md)
-  : Working with integer64 arrays and matrices
+- [`aperm(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/matrix64.md)
+  [`matrix()`](https://bit64.r-lib.org/reference/matrix64.md)
+  [`array()`](https://bit64.r-lib.org/reference/matrix64.md)
+  [`colSums()`](https://bit64.r-lib.org/reference/matrix64.md)
+  [`rowSums()`](https://bit64.r-lib.org/reference/matrix64.md) : Working
+  with integer64 arrays and matrices
 - [`optimizer64.data`](https://bit64.r-lib.org/reference/optimizer64.data.md)
   : Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM
   under Windows 7 64bit

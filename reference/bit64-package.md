@@ -240,6 +240,10 @@ internally their second argument to 'long double', they return as
 | double        | /      | integer64     | -\>     | integer64    | /      | long double  | -\>     | double     |
 | integer64     | ^      | double        | -\>     | integer64    | /      | long double  | -\>     | double     |
 | double        | ^      | integer64     | -\>     | integer64    | /      | long double  | -\>     | double     |
+| integer64     | %\*%   | double        | -\>     | integer64    | %\*%   | integer64    | -\>     | integer64  |
+| double        | %\*%   | integer64     | -\>     | integer64    | %\*%   | integer64    | -\>     | integer64  |
+| integer64     | %\*%   | complex       | -\>     | double       | %\*%   | complex      | -\>     | complex    |
+| complex       | %\*%   | integer64     | -\>     | complex      | %\*%   | double       | -\>     | complex    |
 
 ## Creating and testing S3 class 'integer64'
 
@@ -540,11 +544,11 @@ the examples.
 - **[`storage.mode<-()`](https://rdrr.io/r/base/mode.html)** does not
   support external data types such as `integer64`
 
-- **[`matrix()`](https://rdrr.io/r/base/matrix.html)** does drop the
-  'integer64' class attribute.
+- **[`matrix()`](https://bit64.r-lib.org/reference/matrix64.md)** does
+  drop the 'integer64' class attribute.
 
-- **[`array()`](https://rdrr.io/r/base/array.html)** does drop the
-  'integer64' class attribute.
+- **[`array()`](https://bit64.r-lib.org/reference/matrix64.md)** does
+  drop the 'integer64' class attribute.
 
   - In current R versions (1.15.1) this can be circumvented by
     activating the function `as.vector.integer64()`. However, the CRAN

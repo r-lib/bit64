@@ -137,6 +137,9 @@ necessary.
     work begun by [@marcpaterno](https://github.com/marcpaterno).
 5.  `sortcache`, `sortordercache` and `ordercache` get a new argument
     `na.last`.
+6.  `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method
+    ([\#45](https://github.com/r-lib/bit64/issues/45)). Thanks
+    [@hcirellu](https://github.com/hcirellu).
 
 ### BUG FIXES
 

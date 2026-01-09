@@ -58,8 +58,7 @@ instead of `NA`.
   as.integer64(1:12)[1:3]
 #> integer64
 #> [1] 1 2 3
-  x <- as.integer64(1:12)
-  dim(x) <- c(3, 4)
+  x <- matrix(as.integer64(1:12), nrow = 3L)
   x
 #> integer64
 #>      [,1] [,2] [,3] [,4]

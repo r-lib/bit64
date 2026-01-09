@@ -9,27 +9,45 @@ incorrect results.
 ## Usage
 
 ``` r
-colSums(x, na.rm = FALSE, dims = 1L)
+# S3 method for class 'integer64'
+matrix(data = NA_integer64_, ...)
 
-# Default S3 method
-colSums(x, na.rm = FALSE, dims = 1L)
+# S3 method for class 'integer64'
+array(data = NA_integer64_, ...)
 
 # S3 method for class 'integer64'
 colSums(x, na.rm = FALSE, dims = 1L)
-
-rowSums(x, na.rm = FALSE, dims = 1L)
-
-# Default S3 method
-rowSums(x, na.rm = FALSE, dims = 1L)
 
 # S3 method for class 'integer64'
 rowSums(x, na.rm = FALSE, dims = 1L)
 
 # S3 method for class 'integer64'
 aperm(a, perm, ...)
+
+matrix(data = NA, nrow = 1L, ncol = 1L, byrow = FALSE, dimnames = NULL)
+
+array(data = NA, dim = length(data), dimnames = NULL)
+
+colSums(x, na.rm = FALSE, dims = 1L)
+
+# Default S3 method
+colSums(x, na.rm = FALSE, dims = 1L)
+
+rowSums(x, na.rm = FALSE, dims = 1L)
+
+# Default S3 method
+rowSums(x, na.rm = FALSE, dims = 1L)
 ```
 
 ## Arguments
+
+- data, nrow, ncol, byrow, dimnames, dim:
+
+  Arguments for `matrix()` and `array()`.
+
+- ...:
+
+  Passed on to subsequent methods.
 
 - x:
 
@@ -42,10 +60,6 @@ aperm(a, perm, ...)
 - a, perm:
 
   Passed on to [`aperm()`](https://rdrr.io/r/base/aperm.html).
-
-- ...:
-
-  Passed on to subsequent methods.
 
 ## Details
 
@@ -64,8 +78,7 @@ otherwise `FUN` gets applied to a class-stripped version of the input.
 ## Examples
 
 ``` r
-A = as.integer64(1:6)
-dim(A) = 3:2
+A = matrix(as.integer64(1:6), 3)
 
 colSums(A)
 #> integer64
@@ -78,6 +91,4 @@ aperm(A, 2:1)
 #>      [,1] [,2] [,3]
 #> [1,] 1    2    3   
 #> [2,] 4    5    6   
-#> attr(,"class")
-#> [1] matrix array 
 ```
