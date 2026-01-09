@@ -7,11 +7,11 @@ Functions to create cache that accelerates many operations
 ``` r
 hashcache(x, nunique = NULL, ...)
 
-sortcache(x, has.na = NULL)
+sortcache(x, has.na = NULL, na.last = FALSE)
 
-sortordercache(x, has.na = NULL, stable = NULL)
+sortordercache(x, has.na = NULL, stable = NULL, na.last = FALSE)
 
-ordercache(x, has.na = NULL, stable = NULL, optimize = "time")
+ordercache(x, has.na = NULL, stable = NULL, optimize = "time", na.last = FALSE)
 ```
 
 ## Arguments
@@ -34,6 +34,10 @@ ordercache(x, has.na = NULL, stable = NULL, optimize = "time")
   boolean scalar defining whether the input vector might contain `NA`s.
   If we know we don't have `NA`s, this may speed-up. *Note* that you
   risk a crash if there are unexpected `NA`s with `has.na=FALSE`.
+
+- na.last:
+
+  boolean scalar defining whether NA should be last.
 
 - stable:
 

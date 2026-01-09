@@ -135,6 +135,8 @@ necessary.
     e.g. `as.integer64("0x7FFFFFFFFFFFFFFF")`. Thanks
     [@hcirellu](https://github.com/hcirellu) for a PR which completes
     work begun by [@marcpaterno](https://github.com/marcpaterno).
+5.  `sortcache`, `sortordercache` and `ordercache` get a new argument
+    `na.last`.
 
 ### BUG FIXES
 
