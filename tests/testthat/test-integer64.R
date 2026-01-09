@@ -159,28 +159,31 @@ test_that("integer64 coercion from character", {
     expect_identical(as.integer64("-9223372036854775808"), NA_integer64_),
     coercion_warning, fixed=TRUE
   )
-  
+})
+
+test_that("Conversion from hex is supported", {
   expect_identical(
     as.integer64(c("0x1", "0xF", "0x7FFFFFFFFFFFFFFF", "-0x1", "-0xF", "-0x7FFFFFFFFFFFFFFF", "0x0")),
     as.integer64(c(1, 15, "9223372036854775807", -1, -15, "-9223372036854775807", 0))
   )
-  expect_warning(
-    expect_identical(as.integer64("0x8000000000000000"), NA_integer64_),
-    coercion_warning, fixed=TRUE
-  )
-  expect_warning(
-    expect_identical(as.integer64("-0x8000000000000000"), NA_integer64_),
-    coercion_warning, fixed=TRUE
-  )
-  expect_warning(
-    expect_identical(as.integer64("0x"), NA_integer64_),
-    coercion_warning, fixed=TRUE
-  )
-  expect_warning(
-    expect_identical(as.integer64("-0x"), NA_integer64_),
-    coercion_warning, fixed=TRUE
-  )
 })
+
+with_parameters_test_that(
+  "hex edge cases return missing",
+  expect_warning(
+    expect_identical(as.integer64(string), NA_integer64_),
+    coercion_warning, fixed=TRUE
+  ),
+  string = c(
+    "-0x8000000000000000",
+    "0x8000000000000000",
+    "0x",
+    "-0x",
+    "0xx",
+    " 0x",
+    "0x0Z"
+  )
+)
 
 test_that("S3 class basics work", {
   x = as.integer64(1:10)
