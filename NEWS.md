@@ -53,7 +53,7 @@
 1. Coercion to/from integer64 is expanded greatly (includes #199). Thanks @hcirellu.
    - `as.Date`, `as.POSIXct`, `as.POSXlt`, `as.complex`, and `as.raw` get an `integer64` method.
    - `as.integer64` gets `Date`, `POSIXct`, `POSXlt`, `complex`, `raw`, and `difftime` methods.
-1. `as.integer64.character` now supports hexadecimal (base 16) input when prefixed with "0x" or "-0x", e.g. `as.integer64("0x7FFFFFFFFFFFFFFF")`
+1. `as.integer64.character` now supports hexadecimal (base 16) input when prefixed with "0x" or "-0x", e.g. `as.integer64("0x7FFFFFFFFFFFFFFF")`. Thanks @hcirellu for a PR which completes work begun by @marcpaterno.
 
 ## BUG FIXES
 
@@ -63,7 +63,7 @@
 1. `sortfin(integer64(), 1:10)` no longer segfaults (#164).
 1. `orderfin(as.integer64(10:1), 1:3, 8:11)` enforces that `table` be sorted by `order` instead of segfaulting (#166).
 1. `ordertab()` no longer segfaults when `nunique` is smaller than the actual number of unique values (#168).
-1. `as.integer64.character` now returns `NA` for out of range values.
+1. `as.integer64.character` now returns `NA` for out of range values, with warning, e.g. `as.integer64("22222222222222222222")`. Thanks @hcirellu.
 
 ## NOTES
 
