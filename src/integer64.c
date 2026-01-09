@@ -20,8 +20,7 @@
 #include <math.h> // floor
 #include <stdint.h>
 #include <stdlib.h> // strtoll
-#include <errno.h> // strtoll
-#include <limits.h> // strtoll
+#include <errno.h> // ERANGE
 #include <stdbool.h> // for boolean
 
 #include <R.h>
