@@ -143,7 +143,7 @@ test_that("integer64 coercion from character", {
   coercion_warning = "NAs introduced by coercion to integer64 range"
 
   expect_warning(
-    expect_identical(as.integer64(strrep("9", 63L), NA_integer64_),
+    expect_identical(as.integer64(strrep("9", 63L), NA_integer64_)),
     coercion_warning, fixed=TRUE
   )
   # round trip
