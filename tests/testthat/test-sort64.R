@@ -260,11 +260,16 @@ test_that("Corner cases for partitioning logic", {
   # bit::quicksort returns the NA count (0L), and modifies 'x' in-place
   expect_identical(bit::quicksort(x), 0L)
   expect_identical(x, x_empty)
+  expect_identical(bit::quicksort(x, decreasing = TRUE), 0L)
+  expect_identical(x, x_empty)
 
   # Add explicit tests for shellsort variants with empty vectors
   expect_identical(bit::shellsort(x_empty), 0L)
-  expect_identical(bit::shellsortorder(x_empty, seq_along(x_empty)), 0L)
-  expect_identical(bit::shellorder(x_empty, seq_along(x_empty)), 0L)
+  expect_identical(bit::shellsort(x_empty, decreasing = TRUE), 0L)
+  expect_identical(bit::shellsortorder(x_empty, integer(0)), 0L)
+  expect_identical(bit::shellsortorder(x_empty, integer(0), decreasing = TRUE), 0L)
+  expect_identical(bit::shellorder(x_empty, integer(0)), 0L)
+  expect_identical(bit::shellorder(x_empty, integer(0), decreasing = TRUE), 0L)
 
   # Case 2: Single Element
   x_single = as.integer64(1L)
