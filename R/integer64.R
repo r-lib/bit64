@@ -735,11 +735,11 @@ as.double.integer64 = function(x, ...)
   .as_double_integer64(x, keep.attributes=FALSE, ...)
 
 #' @rdname as.character.integer64
-#' @exportS3Method base::as.numeric integer64
+#' @exportS3Method as.numeric integer64
 as.numeric.integer64 = as.double.integer64
 
 #' @rdname as.character.integer64
-#' @exportS3Method base::as.complex integer64
+#' @exportS3Method as.complex integer64
 as.complex.integer64 = function(x, ...) as.complex(as.double(x), ...)
 
 #' @rdname as.character.integer64
@@ -748,7 +748,7 @@ as.integer.integer64 = function(x, ...)
   .Call(C_as_integer_integer64, x, integer(length(x)))
 
 #' @rdname as.character.integer64
-#' @exportS3Method base::as.raw integer64
+#' @exportS3Method as.raw integer64
 as.raw.integer64 = function(x, ...) {
   withCallingHandlers(
     as.raw(.Call(C_as_integer_integer64, x, integer(length(x)))),
@@ -778,17 +778,17 @@ as.bitstring.integer64 = function(x, ...) {
 }
 
 #' @rdname as.character.integer64
-#' @exportS3Method base::as.Date integer64
+#' @exportS3Method as.Date integer64
 as.Date.integer64 = function(x, origin, ...)
   as.Date(as.double(x), origin=origin, ...)
 
 #' @rdname as.character.integer64
-#' @exportS3Method base::as.POSIXct integer64
+#' @exportS3Method as.POSIXct integer64
 as.POSIXct.integer64 = function(x, tz="", origin, ...)
   as.POSIXct(as.double(x), tz=tz, origin=origin, ...)
 
 #' @rdname as.character.integer64
-#' @exportS3Method base::as.POSIXlt integer64
+#' @exportS3Method as.POSIXlt integer64
 as.POSIXlt.integer64 = function(x, tz="", origin, ...)
   as.POSIXlt(as.double(x, ...), tz=tz, origin=origin, ...)
 
@@ -1908,7 +1908,7 @@ as.list.integer64 = function(x, ...) {
 }
 
 
-#' @exportS3Method base::anyNA integer64
+#' @exportS3Method anyNA integer64
 anyNA.integer64 = function(x, recursive) {
   .Call(C_r_ram_integer64_any_na, x=x)
 }
