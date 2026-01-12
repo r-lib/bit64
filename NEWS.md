@@ -44,7 +44,7 @@
 ## NEW FEATURES
 
 1. `anyNA` gets an `integer64` method. Thanks @hcirellu.
-1. `table` now gets a generic function and `table.integer64` is extended by `base::table` parameters `exclude` and `useNA`. (#59)
+1. `table` now gets a generic function and `table.integer64` is extended by `base::table` parameters `exclude` and `useNA` (#59). Thanks @hcirellu.
 1. The `seq()` method for `integer64` has been overhauled to better match features from the default method.
    - The motivation is #47, where `seq(as.integer64(1L), 11L, length.out=6L)` calculated `by=` incorrectly to give `1:6` instead of `c(1L, 3L, ..., 9L, 11L)`.
    - `length.out=` was also sometimes ignored, for example `seq(to=as.integer64(5L), length.out=0L)` will now always just give `integer64()`.
