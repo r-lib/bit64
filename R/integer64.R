@@ -998,9 +998,9 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
   # dimension handling
   if (!isFALSE(drop) && !is.null(dim(ret))) {
     newDim = dim(ret)[dim(ret) != 1L]
-    dim(ret) = {if (length(newDim)) newDim else NULL}
-    if(length(dim(ret)) <= 1L)
-      dim(ret) = NULL
+    if(length(newDim) == 1L && !(length(dim(x)) == 1L && newDim != 1L))
+      newDim = NULL
+    dim(ret) = if (length(newDim)) newDim else NULL
   }
 
   oldClass(ret) = "integer64"
