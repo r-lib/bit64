@@ -2041,50 +2041,23 @@ unipos.integer64 <- function(x,
 #' @concept occurrences
 #' @concept contingency table
 #' @export
-table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifany", "always"), dnn=list.names(...), deparse.level=1L) UseMethod("table")
-#' @exportS3Method table default
-table.default = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifany", "always"), dnn=list.names(...), deparse.level=1L) {
-  if (...length() && any(unlist(lapply(list(...), is.integer64)))) {
-    withCallingHandlers({
-      sys_call = sys.call()
-      sys_call[[1L]] = table.integer64
-      eval(sys_call, envir = parent.frame())},
-      error = function(e) {stop(errorCondition(e$message, call=choose_sys_call(c("table", "table.default"), "table.integer64")))}, 
-      warning = function(w) {
-        warning(warningCondition(w$message, call=choose_sys_call(c("table", "table.default"), "table.integer64")))
-        invokeRestart("muffleWarning")
-      }
-    )
+table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifany", "always"), dnn=list.names(...), deparse.level=1L) {
+  if (...length() && any(vapply(list(...), is.integer64, logical(1L), USE.NAMES=FALSE))) {
+    sys_call = sys.call()
+    sys_call[[1L]] = table.integer64
+    pf = parent.frame()
+    withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"), "table.integer64")
   } else {
-    withCallingHandlers({
-      sys_call = sys.call()
-      sys_call[[1L]] = base::table
-      eval(sys_call, envir = parent.frame())},
-      error = function(e) {stop(errorCondition(e$message, call=choose_sys_call(c("table", "table.default"))))}, 
-      warning = function(w) {
-        warning(warningCondition(w$message, call=choose_sys_call(c("table", "table.default"))))
-        invokeRestart("muffleWarning")
-      }
-    )
+    UseMethod("table")
   }
 }
-choose_sys_call = function(function_names, name_to_display=NULL) {
-  sc = sys.calls()
-  sc_length = length(sc)
-  if (sc_length == 1L || length(function_names) == 0L) return(sc[[1L]])
-  sc_char = vapply(sc, function(el) if (is.function(el[[1L]])) "" else rev(as.character(el[[1L]]))[1L], "")
-  sel = rev(which(sc_char == function_names[length(function_names)]))[1L]
-  if (is.na(sel)) 
-    sel = 1L
-  for (i in rev(seq_along(function_names))[-1L]) {
-    if (sel == 1L || sc_char[sel - 1L] != function_names[i])
-      break
-    sel = sel - 1L
-  }
-  sc = sc[[sel]]
-  if (!is.null(name_to_display))
-    sc[[1L]] = as.name(name_to_display)
-  sc
+#' @exportS3Method table default
+table.default = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifany", "always"), dnn=list.names(...), deparse.level=1L) {
+  # avoid condition messages with `table.default`
+  sys_call = sys.call()
+  sys_call[[1L]] = base::table
+  pf = parent.frame()
+  withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"))
 }
 
 #' @method table integer64
@@ -2138,7 +2111,8 @@ table.integer64 = function(...,
   A <- function(i) eval(argsymbols[[i]], argframe)
   N <- length(argsymbols)
   if (!N)
-    stop(errorCondition(gettext("nothing to tabulate", domain="R-base"), call=choose_sys_call(c("table", "table.integer64"))))
+    stop("nothing to tabulate", domain="R-base")
+    # stop(errorCondition(gettext("nothing to tabulate", domain="R-base"), call=choose_sys_call(c("table", "table.integer64"))))
   if (N == 1L && is.list(A(1L))) {
     args <- A(1L) # nolint: object_overwrite_linter. This code should probably be refactored anyway.
     if (length(dnn) != length(args))
@@ -2152,7 +2126,8 @@ table.integer64 = function(...,
   if (N==1L) {
     x <- A(1L)
     if (!is.integer64(x)) {
-      warning(warningCondition("coercing first argument to integer64", call=choose_sys_call(c("table", "table.integer64"))))
+      warning("coercing first argument to integer64")
+      # warning(warningCondition("coercing first argument to integer64", call=choose_sys_call(c("table", "table.integer64"))))
       x <- as.integer64(x)
     }
   } else {
@@ -2165,9 +2140,11 @@ table.integer64 = function(...,
     for (i in seq_len(N)) {
       a <- A(i)
       if (length(a) != n)
-        stop(errorCondition(gettext("all arguments must have the same length", domain="R-base"), call=choose_sys_call(c("table", "table.integer64"))))
+        # stop(errorCondition(gettext("all arguments must have the same length", domain="R-base"), call=choose_sys_call(c("table", "table.integer64"))))
+        stop("all arguments must have the same length", domain="R-base")
       if (!is.integer64(a)) {
-        warning(warningCondition(paste0("coercing argument ", i, " to integer64"), call=choose_sys_call(c("table", "table.integer64"))))
+        warning("coercing argument ", i, " to integer64")
+        # warning(warningCondition(paste0("coercing argument ", i, " to integer64"), call=choose_sys_call(c("table", "table.integer64"))))
         a <- as.integer64(a)
       }
       cache_env <- cache(a)
@@ -2187,7 +2164,8 @@ table.integer64 = function(...,
       }
       d[[i+1L]] <- d[[i]] * nu[[i]]
       if (is.na(d[[i+1L]]))
-        stop(errorCondition("attempt to make a table from more than >= 2^63 hypothetical combinations", call=choose_sys_call(c("table", "table.integer64"))))
+        stop("attempt to make a table from more than >= 2^63 hypothetical combinations")
+        # stop(errorCondition("attempt to make a table from more than >= 2^63 hypothetical combinations", call=choose_sys_call(c("table", "table.integer64"))))
       dims[[i]] <- sortuni(s, nu[[i]])
       if (i==1L)
         x <- sortorderkey(s, o) - 1L
