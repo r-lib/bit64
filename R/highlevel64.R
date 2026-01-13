@@ -2083,16 +2083,16 @@ table.integer64 = function(...,
                             dnn = list.names(...),
                             deparse.level = 1L) {
 
-  order <- match.arg(order)
-  return <- match.arg(return)
+  order = match.arg(order)
+  return = match.arg(return)
   # this is taken from 'table'
-  list.names <- function(...) {
-    l <- as.list(substitute(list(...)))[-1L]
-    nm <- names(l)
-    fixup <- if (is.null(nm))
+  list.names = function(...) {
+    l = as.list(substitute(list(...)))[-1L]
+    nm = names(l)
+    fixup = if (is.null(nm))
       seq_along(l)
     else nm == ""
-    dep <- vapply(
+    dep = vapply(
       l[fixup],
       function(x) switch(deparse.level + 1L, "", if (is.symbol(x)) as.character(x) else "", deparse(x, nlines=1L)[1L]),
       ""
@@ -2100,7 +2100,7 @@ table.integer64 = function(...,
     if (is.null(nm)) {
       dep
     } else {
-      nm[fixup] <- dep
+      nm[fixup] = dep
       nm
     }
   }
@@ -2108,177 +2108,173 @@ table.integer64 = function(...,
   # COPY ON MODIFY is broken for reading from list(...)
   # because list(...) creates a copy of all ... and this invalidates our caches
   # therefore we go this sick workaround
-  argsymbols <- as.list(substitute(list(...)))[-1L]
-  argframe <- parent.frame()
-  A <- function(i) eval(argsymbols[[i]], argframe)
-  N <- length(argsymbols)
+  argsymbols = as.list(substitute(list(...)))[-1L]
+  argframe = parent.frame()
+  A = function(i) eval(argsymbols[[i]], argframe)
+  N = length(argsymbols)
   if (!N)
     stop("nothing to tabulate", domain="R-base")
-    # stop(errorCondition(gettext("nothing to tabulate", domain="R-base"), call=choose_sys_call(c("table", "table.integer64"))))
   if (N == 1L && is.list(A(1L))) {
-    args <- A(1L) # nolint: object_overwrite_linter. This code should probably be refactored anyway.
+    args = A(1L) # nolint: object_overwrite_linter. This code should probably be refactored anyway.
     if (length(dnn) != length(args))
       # TODO(R>=4.4.0): names(args) %||% paste(dnn[1L], seq_along(args), sep=".")
-      dnn <- if (!is.null(argn <- names(args))) argn else paste(dnn[1L], seq_along(args), sep=".")
-    N <- length(args)
-    A <- function(i) args[[i]]
+      dnn = if (!is.null(argn <- names(args))) argn else paste(dnn[1L], seq_along(args), sep=".")
+    N = length(args)
+    A = function(i) args[[i]]
   }
   force(dnn)
 
-  if (N==1L) {
-    x <- A(1L)
+  if (N == 1L) {
+    x = A(1L)
     if (!is.integer64(x)) {
       warning("coercing first argument to integer64")
-      # warning(warningCondition("coercing first argument to integer64", call=choose_sys_call(c("table", "table.integer64"))))
-      x <- as.integer64(x)
+      x = as.integer64(x)
     }
   } else {
-    a <- A(1L)
-    n <- length(a)
-    nu <- integer(N)
-    d <- integer64(N+1L); d[[1L]] <- 1L
-    dims <- vector("list", N)
-    names(dims) <- dnn
+    a = A(1L)
+    n = length(a)
+    nu = integer(N)
+    d = integer64(N + 1L)
+    d[[1L]] = 1L
+    dims = vector("list", N)
+    names(dims) = dnn
     for (i in seq_len(N)) {
-      a <- A(i)
+      a = A(i)
       if (length(a) != n)
-        # stop(errorCondition(gettext("all arguments must have the same length", domain="R-base"), call=choose_sys_call(c("table", "table.integer64"))))
         stop("all arguments must have the same length", domain="R-base")
       if (!is.integer64(a)) {
         warning("coercing argument ", i, " to integer64")
-        # warning(warningCondition(paste0("coercing argument ", i, " to integer64"), call=choose_sys_call(c("table", "table.integer64"))))
-        a <- as.integer64(a)
+        a = as.integer64(a)
       }
-      cache_env <- cache(a)
+      cache_env = cache(a)
       if (is.null(cache_env$order)) {
-        s <- clone(a)
-        o <- seq_along(s)
+        s = clone(a)
+        o = seq_along(s)
         ramsortorder(s, o, na.last=TRUE)
-        nu[[i]] <- sortnut(s)[["nunique"]]
+        nu[[i]] = sortnut(s)[["nunique"]]
       } else if (is.null(cache_env$sort)) {
-        o <- cache_env$order
-        s <- a[o]
-        nu[[i]] <- cache_env$nunique
+        o = cache_env$order
+        s = a[o]
+        nu[[i]] = cache_env$nunique
       } else {
-        o <- cache_env$order
-        s <- cache_env$sort
-        nu[[i]] <- cache_env$nunique
+        o = cache_env$order
+        s = cache_env$sort
+        nu[[i]] = cache_env$nunique
       }
-      d[[i+1L]] <- d[[i]] * nu[[i]]
-      if (is.na(d[[i+1L]]))
+      d[[i+1L]] = d[[i]]*nu[[i]]
+      if (is.na(d[[i + 1L]]))
         stop("attempt to make a table from more than >= 2^63 hypothetical combinations")
-        # stop(errorCondition("attempt to make a table from more than >= 2^63 hypothetical combinations", call=choose_sys_call(c("table", "table.integer64"))))
-      dims[[i]] <- sortuni(s, nu[[i]])
-      if (i==1L)
-        x <- sortorderkey(s, o) - 1L
+      dims[[i]] = sortuni(s, nu[[i]])
+      if (i == 1L)
+        x = sortorderkey(s, o) - 1L
       else
-        x <- x + d[[i]] * (sortorderkey(s, o) - 1L)
+        x = x + d[[i]]*(sortorderkey(s, o) - 1L)
     }
   }
-  cache_env <- cache(x)
+  cache_env = cache(x)
   if (is.null(nunique) && !is.null(cache_env))
-    nunique <- cache_env$nunique
+    nunique = cache_env$nunique
   if (is.null(method)) {
     if (is.null(cache_env)) {
-      if (order=="values" && (is.null(nunique) || nunique>65536L))
-        method <- "sorttab"
+      if (order == "values" && (is.null(nunique) || nunique > 65536L))
+        method = "sorttab"
       else
-        method <- "hashmaptab"
+        method = "hashmaptab"
     } else {
       # nolint next: unnecessary_nesting_linter. Good parallelism.
       if (order=="values") {
         if (!is.null(cache_env$sort))
-          method <- "sorttab"
-        else if (!is.null(cache_env$hashmap) && cache_env$nunique<sqrt(length(x)))
-          method <- "hashtab"
+          method = "sorttab"
+        else if (!is.null(cache_env$hashmap) && cache_env$nunique < sqrt(length(x)))
+          method = "hashtab"
         else if (!is.null(cache_env$order))
-          method <- "ordertab"
+          method = "ordertab"
         else
-          method <- "sorttab"
+          method = "sorttab"
       } else { # order = "counts"
         # nolint next: unnecessary_nesting_linter. Good parallelism.
         if (!is.null(cache_env$hashmap))
-          method <- "hashtab"
+          method = "hashtab"
         else if (!is.null(cache_env$sort))
-          method <- "sorttab"
+          method = "sorttab"
         else if (!is.null(cache_env$order))
-          method <- "ordertab"
+          method = "ordertab"
         else
-          method <- "hashmaptab"
+          method = "hashmaptab"
       }
     }
   }
-  method <- match.arg(method, c("hashmaptab", "hashtab", "sorttab", "ordertab"))
+  method = match.arg(method, c("hashmaptab", "hashtab", "sorttab", "ordertab"))
   switch(method,
     hashmaptab={
-      tmp <- hashmaptab(x, nunique=nunique)
-      cnt <- tmp$counts
-      val <- tmp$values
+      tmp = hashmaptab(x, nunique=nunique)
+      cnt = tmp$counts
+      val = tmp$values
       rm(tmp)
     },
     hashtab={
       if (is.null(cache_env) || is.null(cache_env$hashmap))
-        h <- hashmap(x, nunique=nunique)
+        h = hashmap(x, nunique=nunique)
       else
-        h <- cache_env
-      tmp <- hashtab(h, keep.order=FALSE)
-      cnt <- tmp$counts
-      val <- tmp$values
+        h = cache_env
+      tmp = hashtab(h, keep.order=FALSE)
+      cnt = tmp$counts
+      val = tmp$values
       rm(tmp)
     },
     sorttab={
       if (is.null(cache_env) || is.null(cache_env$sort)) {
-        s <- clone(x)
+        s = clone(x)
         ramsort(s, na.last=TRUE)
       } else {
-        s <- get("sort", cache_env, inherits=FALSE)
+        s = get("sort", cache_env, inherits=FALSE)
       }
       if (is.null(nunique))
-        nunique <- sortnut(s)[1L]
-      val <- sortuni(s, nunique)
-      cnt <- sorttab(s, nunique)
+        nunique = sortnut(s)[1L]
+      val = sortuni(s, nunique)
+      cnt = sorttab(s, nunique)
     },
     ordertab={
       if (is.null(cache_env) || is.null(cache_env$order)) {
-        o <- seq_along(x)
+        o = seq_along(x)
         ramorder(x, o, na.last=TRUE)
       } else {
-        o <- get("order", cache_env, inherits=FALSE)
+        o = get("order", cache_env, inherits=FALSE)
       }
       if (is.null(nunique))
-        nunique <- ordernut(x, o)[1L]
-      val <- orderuni(x, o, nunique, keep.order=FALSE)
-      cnt <- ordertab(x, o, nunique, keep.order=FALSE)
+        nunique = ordernut(x, o)[1L]
+      val = orderuni(x, o, nunique, keep.order=FALSE)
+      cnt = ordertab(x, o, nunique, keep.order=FALSE)
       rm(o)
     }
   )
-  if (order=="values") {
+  if (order == "values") {
     if (startsWith(method, "hash")) {
-      o <- seq_along(val)
+      o = seq_along(val)
       ramsortorder(val, o, na.last=TRUE)
-      cnt <- cnt[o]
+      cnt = cnt[o]
     }
   } else {
     # xx workaround until we have implemented ramsort.integer
-    o <- sort.list(cnt, na.last=NA, method="quick")
-    cnt <- cnt[o]
-    # o <- seq_along(cnt)
+    o = sort.list(cnt, na.last=NA, method="quick")
+    cnt = cnt[o]
+    # o = seq_along(cnt)
     # ramsortorder(cnt, o, na.last=FALSE)
-    val <- val[o]
+    val = val[o]
   }
 
   ## attaching names is extremely expensive with many unique values, doing this only for compatibility with 'table' here
   switch(return,
     table = {
       if (N == 1L) {
-        attr(cnt, "dim") <- length(cnt)
-        dn <- list(as.character(val))
-        names(dn) <- dnn[1L]
-        attr(cnt, "dimnames") <- dn
+        attr(cnt, "dim") = length(cnt)
+        dn = list(as.character(val))
+        names(dn) = dnn[1L]
+        attr(cnt, "dimnames") = dn
       } else {
-        a <- array(0L, dim=nu, dimnames=lapply(dims, as.character))
-        a[as.integer(val)+1L] <- as.integer(cnt)
-        cnt <- a
+        a = array(0L, dim=nu, dimnames=lapply(dims, as.character))
+        a[as.integer(val) + 1L] = as.integer(cnt)
+        cnt = a
       }
       useNA = match.arg(useNA, c("no", "ifany", "always"))
       if (length(exclude) > 0L) {
@@ -2291,26 +2287,26 @@ table.integer64 = function(...,
         dimnames(cnt_new) = dimnames_new
         cnt = do.call(`[<-`, c(list(x=cnt_new), lapply(dim(cnt), seq_len), list(value=cnt)))
       }
-      oldClass(cnt) <- "table"
+      oldClass(cnt) = "table"
     },
     data.frame = {
-      if (N==1L) {
-        cnt <- data.frame(values=val, Freq=cnt)
-        names(cnt)[[1L]] <- dnn[1L]
+      if (N == 1L) {
+        cnt = data.frame(values=val, Freq=cnt)
+        names(cnt)[[1L]] = dnn[1L]
       } else {
         for (i in N:1) {
-          w <- val %/% d[[i]]
-          val <- val - d[[i]]*w
-          dims[[i]] <- dims[[i]][as.integer(w)+1L]
+          w = val %/% d[[i]]
+          val = val - d[[i]]*w
+          dims[[i]] = dims[[i]][as.integer(w) + 1L]
         }
-        cnt <- data.frame(dims, Freq=cnt)
+        cnt = data.frame(dims, Freq=cnt)
       }
     },
     list = {
       if (N == 1L)
-        cnt <- list(values=val, counts=cnt)
+        cnt = list(values=val, counts=cnt)
       else
-        cnt <- list(values=val, counts=cnt, dims=dims)
+        cnt = list(values=val, counts=cnt, dims=dims)
     }
   )
   cnt
