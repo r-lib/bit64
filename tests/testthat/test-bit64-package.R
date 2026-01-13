@@ -57,18 +57,18 @@ test_that("'range.integer64', multiplication, integer division, sqrt, power, and
   i64 = integer64(63L)
   i64[1L] = 1.0
   for (i in 2:63)
-    i64[i] = 2L * i64[i-1L]
+    i64[i] = 2.0 * i64[i-1L]
   expect_true(identical.integer64(i64 * rev(i64), rep(i64[63L], 63L)))
   for (i in 63:2)
-    i64[i-1L] = i64[i] %/% 2L
+    i64[i-1L] = i64[i] %/% 2.0
   expect_true(identical.integer64(i64 * rev(i64), rep(i64[63L], 63L)))
   for (i in 63:2)
-    i64[i-1L] = as.integer64(i64[i] / 2L)
+    i64[i-1L] = i64[i] / 2.0
   expect_true(identical.integer64(i64 * rev(i64), rep(i64[63L], 63L)))
   expect_true(identical.integer64(
     c(
-      -i64[63L] - (i64[63L] - 1L),
-      i64[63L] + (i64[63L] - 1L)
+      -i64[63L] - (i64[63L] - 1.0),
+      i64[63L] + (i64[63L] - 1.0)
     ),
     lim.integer64()
   ))
