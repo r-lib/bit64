@@ -209,11 +209,10 @@ test_that("indexing works", {
   x[2L] = 3.0
   expect_identical(x, as.integer64(c(2:3, 3:10)))
 
-  # TODO(#199): enable this test
-  # x = as.integer64(1:10)
-  # x[1.0] = 2L
-  # x[2L] = 3+0i
-  # expect_identical(x, as.complex(c(2:3, 3:10)))
+  x = as.integer64(1:10)
+  x[1.0] = 2L
+  x[2L] = 3.0 + 0.0i
+  expect_identical(x, as.complex(c(2:3, 3:10)))
   
   x = as.integer64(1:10)
   x[1.0] = 2L
@@ -230,11 +229,10 @@ test_that("indexing works", {
   x[[2L]] = 4.0
   expect_identical(x, as.integer64(c(3:4, 3:10)))
 
-  # TODO(#199): enable this test
-  # x = as.integer64(1:10)
-  # x[[1.0]] = 3L
-  # x[[2L]] = 4+0i
-  # expect_identical(x, as.complex(c(3:4, 3:10)))
+  x = as.integer64(1:10)
+  x[[1.0]] = 3L
+  x[[2L]] = 4.0 + 0.0i
+  expect_identical(x, as.complex(c(3:4, 3:10)))
   
   x = as.integer64(1:10)
   x[[1.0]] = 3L
@@ -980,10 +978,9 @@ test_that("extraction and replacement works consistent to integer (matrices; exc
   m64[1, c(1, 5, NA)] = 102
   expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
 
-  # TODO(#199): enable this test
-  # m32[1, c(1, 5, NA)] = 102+0i
-  # m64[1, c(1, 5, NA)] = 102+0i
-  # expect_identical(m64, m32)
+  m32[1, c(1, 5, NA)] = 102.0 + 0.0i
+  m64[1, c(1, 5, NA)] = 102.0 + 0.0i
+  expect_identical(m64, m32)
 
   m32 = matrix(1:10, 2L, dimnames = list(LETTERS[1:2], letters[1:5]))
   m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames = list(LETTERS[1:2], letters[1:5]))
@@ -1057,10 +1054,9 @@ test_that("extraction and replacement works consistent to integer (matrices; exc
   m64[[1, 3]] = 111
   expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
 
-  # TODO(#199): enable this test
-  # m32[[1, 3]] = 111+0i
-  # m64[[1, 3]] = 111+0i
-  # expect_identical(m64, m32)
+  m32[[1, 3]] = 111.0 + 0.0i
+  m64[[1, 3]] = 111.0 + 0.0i
+  expect_identical(m64, m32)
 
   m32 = matrix(1:10, 2L, dimnames = list(LETTERS[1:2], letters[1:5]))
   m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames = list(LETTERS[1:2], letters[1:5]))
