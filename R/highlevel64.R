@@ -2127,7 +2127,8 @@ table.integer64 = function(...,
   if (N == 1L) {
     x = A(1L)
     if (!is.integer64(x)) {
-      warning("coercing first argument to integer64")
+      if (!is.integer(x))
+        warning("coercing first argument to integer64")
       x = as.integer64(x)
     }
   } else {
@@ -2143,7 +2144,8 @@ table.integer64 = function(...,
       if (length(a) != n)
         stop("all arguments must have the same length", domain="R-base")
       if (!is.integer64(a)) {
-        warning("coercing argument ", i, " to integer64")
+        if (!is.integer(a))
+          warning("coercing argument ", i, " to integer64")
         a = as.integer64(a)
       }
       cache_env = cache(a)

@@ -168,22 +168,22 @@ test_that("duplicated, unique, table methods work", {
   x = c(132724613L, -2143220989L)
   expect_identical(table(x=as.integer64(x)), table(x))
   
-  expect_warning(expect_identical(table(x, y=lim.integer64()), table(x=as.character(x), y=as.character(lim.integer64()))), "coercing argument 1 to integer64")
-  expect_warning(expect_identical(table(y=lim.integer64(), x), table(y=as.character(lim.integer64()), x=as.character(x))), "coercing argument 2 to integer64")
+  expect_identical(table(x, y=lim.integer64()), table(x=as.character(x), y=as.character(lim.integer64())))
+  expect_identical(table(y=lim.integer64(), x), table(y=as.character(lim.integer64()), x=as.character(x)))
   
   skip_unless_r(">= 4.0.0")
-  expect_warning(expect_warning(expect_identical(
+  expect_warning(expect_identical(
     table(a=as.integer64(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="no"), 
     table(a=as.integer(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="no")
-  ), "coercing argument 2 to integer64"), "coercing argument 3 to integer64")
-  expect_warning(expect_warning(expect_identical(
+  ), "coercing argument 3 to integer64")
+  expect_warning(expect_identical(
     table(a=as.integer64(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="ifany"), 
     table(a=as.integer(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="ifany")
-  ), "coercing argument 2 to integer64"), "coercing argument 3 to integer64")
-  expect_warning(expect_warning(expect_identical(
+  ), "coercing argument 3 to integer64")
+  expect_warning(expect_identical(
     table(a=as.integer64(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="always"), 
     table(a=as.integer(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="always")
-  ), "coercing argument 2 to integer64"), "coercing argument 3 to integer64")
+  ), "coercing argument 3 to integer64")
   
   x = as.integer64(c(1L, 1L, 2L))
   expect_error(duplicated(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
@@ -277,20 +277,9 @@ test_that("Old \\dontshow{} tests continue working", {
   expect_identical(table(x=xi64), t_xi)
   expect_identical(table(x=xi64, y=yi64), t_xi_yi)
 
-  expect_identical(table(x=xi64), t_xi)
-  expect_warning(
-    expect_identical(table(x=xi64, y=yi), t_xi_yi),
-    "coercing argument 2 to integer64",
-    fixed = TRUE
-  )
-  expect_warning(
-    expect_identical(table(x=xi, y=yi64), t_xi_yi),
-    "coercing argument 1 to integer64",
-    fixed = TRUE
-  )
+  expect_identical(table(x=xi64, y=yi), t_xi_yi)
+  expect_identical(table(x=xi, y=yi64), t_xi_yi)
 
-  expect_identical(table(x=xi64), t_xi)
-  expect_identical(table(x=xi64, y=yi64), t_xi_yi)
 })
 
 test_that("unipos() works as intended", {
