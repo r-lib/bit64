@@ -2042,7 +2042,9 @@ unipos.integer64 <- function(x,
 #' @concept contingency table
 #' @export
 table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifany", "always"), dnn=list.names(...), deparse.level=1L) {
-  if (...length() && any(vapply(list(...), is.integer64, logical(1L), USE.NAMES=FALSE))) {
+  is_int64 = vapply(list(...), is.integer64, logical(1L), USE.NAMES=FALSE)
+  is_int = vapply(list(...), is.integer, logical(1L), USE.NAMES=FALSE)
+  if (...length() && any(is_int64) && all(is_int64 | is_int)) {
     sys_call = sys.call()
     sys_call[[1L]] = table.integer64
     pf = parent.frame()
