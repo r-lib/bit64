@@ -166,13 +166,19 @@ SEXP as_integer64_character(SEXP x_, SEXP ret_){
     } else {
       base = 10; // default
       str = CHAR(x_el);
-      if ((str[0]=='-' && str[1]=='0' && str[2]=='x') || (str[0]=='0' && str[1]=='x')) {
+      const char *p = str;
+      while(isspace((unsigned char)*p)) p++;
+      if ((p[0]=='-' && p[1]=='0' && p[2]=='x') || (p[0]=='0' && p[1]=='x')) {
         base = 16;
       }
       endpointer = (char *)str; // thanks to Murray Stokely 28.1.2012
       errno = 0;
       ret[i] = strtoll(str, &endpointer, base);
-      if (errno==ERANGE || *endpointer){
+      char *trailing_check = endpointer;
+      while (isspace((unsigned char)*trailing_check)) {
+        trailing_check++;
+      }
+      if (errno==ERANGE || *trailing_check){
         ret[i] = NA_INTEGER64;
         naflag = TRUE;
       } else if (str==endpointer){
