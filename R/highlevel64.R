@@ -2286,7 +2286,7 @@ table.integer64 = function(...,
         cnt = do.call(`[`, c(list(x=cnt), sel, list(drop=FALSE)))
       }
       if (useNA == "always") {
-        dimnames_new = lapply(dimnames(cnt), function(el) if(any(is.na(el))) el else c(el, NA))
+        dimnames_new = lapply(dimnames(cnt), function(el) c(el, if (!anyNA(el)) NA))
         cnt_new = array(0L, as.integer(vapply(dimnames_new, length, 0L)))
         dimnames(cnt_new) = dimnames_new
         cnt = do.call(`[<-`, c(list(x=cnt_new), lapply(dim(cnt), seq_len), list(value=cnt)))
