@@ -800,6 +800,8 @@ test_that("match works with zero length input", {
 
 
 with_parameters_test_that("union works with basic R types (except double)", {
+    if (type_x %in% c("POSIXct"))
+      skip_unless_r(">= 4.0.0")
     y = 5:10
     if (!is.na(type_x))
       x = eval(parse(text=paste0("as.", type_x, "(x)")))
@@ -852,6 +854,8 @@ test_that("union works (additional cases)", {
 
 
 with_parameters_test_that("intersect works with basic R types (except double)", {
+    if (type_x %in% c("POSIXct"))
+      skip_unless_r(">= 4.0.0")
     y = 5:10
     if (!is.na(type_x))
       x = eval(parse(text=paste0("as.", type_x, "(x)")))
@@ -904,6 +908,8 @@ test_that("intersect works (additional cases)", {
 
 
 with_parameters_test_that("setdiff works with basic R types (except double)", {
+    if (type_x %in% c("POSIXct"))
+      skip_unless_r(">= 4.0.0")
     y = 5:10
     if (!is.na(type_x))
       x = eval(parse(text=paste0("as.", type_x, "(x)")))
@@ -949,6 +955,8 @@ test_that("setdiff works (additional cases)", {
 })
 
 with_parameters_test_that("setequal works with basic R types (except double)", {
+    if (type_x %in% c("POSIXct"))
+      skip_unless_r(">= 4.0.0")
     y = 5:10
     if (!is.na(type_x))
       x = eval(parse(text=paste0("as.", type_x, "(x)")))
@@ -990,6 +998,8 @@ test_that("setequal works (additional cases)", {
 })
 
 with_parameters_test_that("is.element works with basic R types (except double)", {
+    if (type_x %in% c("POSIXct"))
+      skip_unless_r(">= 4.0.0")
     y = 5:10
     if (!is.na(type_x))
       x = eval(parse(text=paste0("as.", type_x, "(x)")))
