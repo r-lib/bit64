@@ -2280,7 +2280,7 @@ table.integer64 = function(...,
         a[as.integer(val) + 1L] = as.integer(cnt)
         cnt = a
       }
-      useNA = match.arg(useNA, c("no", "ifany", "always"))
+      useNA = match.arg(useNA)
       if (length(exclude) > 0L) {
         sel = suppressWarnings(lapply(dimnames(cnt), Negate(`%in%`), table=exclude))
         cnt = do.call(`[`, c(list(x=cnt), sel, list(drop=FALSE)))
