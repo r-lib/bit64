@@ -108,6 +108,10 @@ test_that("integer64 coercion from generic object works", {
 
 test_that("integer64 coercion to/from other types work for R >=4.0.0", {
   skip_unless_r(">= 4.0.0")
+  skip_if(
+    "BST" %in% attr(as.POSIXlt(0), "tzone"),
+    "Strange behavior due to British Standard Time, as observed e.g. on r-universe runners (#233)"
+  )
   # from integer64
   i32 = 1:10
   i64 = as.integer64(i32)
