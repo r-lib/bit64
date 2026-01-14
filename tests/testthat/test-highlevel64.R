@@ -184,7 +184,7 @@ test_that("duplicated, unique, table methods work", {
   expect_warning(
     expect_identical(table(a=as.integer64(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="ifany"), expected),
     expected_warning, fixed=TRUE
-  ))
+  )
 
   expected = table(a=as.integer(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="always")
   expect_warning(
