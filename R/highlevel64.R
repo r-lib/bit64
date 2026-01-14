@@ -1000,7 +1000,7 @@ optimizer64 = function(nsmall=2L^16L,
    x = as.integer64(x)
 
    tim["table.64", "both"] <- timefun({
-    p2 <- table(x, exclude=NULL, order=taborder)
+    p2 = table(x, exclude=NULL, order=taborder)
    })[3L]
    stopifnot(identical(p2, p))
 
