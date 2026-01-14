@@ -172,6 +172,10 @@ necessary.
 8.  [`quicksort()`](https://rdrr.io/pkg/bit/man/Sorting.html) and others
     no longer segfault on trivial cases (e.g. sorting 0 or 1 item,
     [\#220](https://github.com/r-lib/bit64/issues/220)).
+9.  `as.integer64(2^63)` returns `NA_integer64_` more consistently
+    (e.g. on ARM), consistent with `as.integer(2^31)`
+    ([\#19](https://github.com/r-lib/bit64/issues/19)). Thanks
+    [@dipterix](https://github.com/dipterix).
 
 ### NOTES
 
