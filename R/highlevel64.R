@@ -2072,7 +2072,7 @@ table.integer64 = function(...,
     if (is.null(nm)) {
       dep
     } else {
-      nm[fixup] <- dep
+      nm[fixup] = dep
       nm
     }
   }
@@ -2108,38 +2108,38 @@ table.integer64 = function(...,
     nu = integer(N)
     d = integer64(N+1L); d[[1L]] <- 1L
     dims = vector("list", N)
-    names(dims) <- dnn
+    names(dims) = dnn
     for (i in 1:N) {
       a = A(i)
       if (length(a) != n)
         stop("all input vectors must have the same length")
       if (!is.integer64(a)) {
         warning("coercing argument ", i, " to integer64")
-        a <- as.integer64(a)
+        a = as.integer64(a)
       }
       cache_env = cache(a)
       if (is.null(cache_env$order)) {
-        s <- clone(a)
-        o <- seq_along(s)
+        s = clone(a)
+        o = seq_along(s)
         ramsortorder(s, o)
-        nu[[i]] <- sortnut(s)[["nunique"]]
+        nu[[i]] = sortnut(s)[["nunique"]]
       } else if (is.null(cache_env$sort)) {
-        o <- cache_env$order
-        s <- a[o]
-        nu[[i]] <- cache_env$nunique
+        o = cache_env$order
+        s = a[o]
+        nu[[i]] = cache_env$nunique
       } else {
-        o <- cache_env$order
-        s <- cache_env$sort
-        nu[[i]] <- cache_env$nunique
+        o = cache_env$order
+        s = cache_env$sort
+        nu[[i]] = cache_env$nunique
       }
-      d[[i+1L]] <- d[[i]] * nu[[i]]
+      d[[i+1L]] = d[[i]] * nu[[i]]
       if (is.na(d[[i+1L]]))
         stop("attempt to make a table from more than >= 2^63 hypothetical combinations")
-      dims[[i]] <- sortuni(s, nu[[i]])
+      dims[[i]] = sortuni(s, nu[[i]])
       if (i==1L)
-        x <- sortorderkey(s, o) - 1L
+        x = sortorderkey(s, o) - 1L
       else
-        x <- x + d[[i]] * (sortorderkey(s, o) - 1L)
+        x = x + d[[i]] * (sortorderkey(s, o) - 1L)
     }
   }
   cache_env = cache(x)
@@ -2148,30 +2148,30 @@ table.integer64 = function(...,
   if (is.null(method)) {
     if (is.null(cache_env)) {
       if (order=="values" && (is.null(nunique) || nunique>65536L))
-        method <- "sorttab"
+        method = "sorttab"
       else
-        method <- "hashmaptab"
+        method = "hashmaptab"
     } else {
       # nolint next: unnecessary_nesting_linter. Good parallelism.
       if (order=="values") {
         if (!is.null(cache_env$sort))
-          method <- "sorttab"
+          method = "sorttab"
         else if (!is.null(cache_env$hashmap) && cache_env$nunique<sqrt(length(x)))
-          method <- "hashtab"
+          method = "hashtab"
         else if (!is.null(cache_env$order))
-          method <- "ordertab"
+          method = "ordertab"
         else
-          method <- "sorttab"
+          method = "sorttab"
       } else { # order = "counts"
         # nolint next: unnecessary_nesting_linter. Good parallelism.
         if (!is.null(cache_env$hashmap))
-          method <- "hashtab"
+          method = "hashtab"
         else if (!is.null(cache_env$sort))
-          method <- "sorttab"
+          method = "sorttab"
         else if (!is.null(cache_env$order))
-          method <- "ordertab"
+          method = "ordertab"
         else
-          method <- "hashmaptab"
+          method = "hashmaptab"
       }
     }
   }
@@ -2185,9 +2185,9 @@ table.integer64 = function(...,
     },
     hashtab={
       if (is.null(cache_env) || is.null(cache_env$hashmap))
-        h <- hashmap(x, nunique=nunique)
+        h = hashmap(x, nunique=nunique)
       else
-        h <- cache_env
+        h = cache_env
       tmp = hashtab(h, keep.order=FALSE)
       cnt = tmp$counts
       val = tmp$values
@@ -2195,25 +2195,25 @@ table.integer64 = function(...,
     },
     sorttab={
       if (is.null(cache_env) || is.null(cache_env$sort)) {
-        s <- clone(x)
+        s = clone(x)
         ramsort(s, na.last=FALSE)
       } else {
-        s <- get("sort", cache_env, inherits=FALSE)
+        s = get("sort", cache_env, inherits=FALSE)
       }
       if (is.null(nunique))
-        nunique <- sortnut(s)[1L]
+        nunique = sortnut(s)[1L]
       val = sortuni(s, nunique)
       cnt = sorttab(s, nunique)
     },
     ordertab={
       if (is.null(cache_env) || is.null(cache_env$order)) {
-        o <- seq_along(x)
+        o = seq_along(x)
         ramorder(x, o, na.last=FALSE)
       } else {
-        o <- get("order", cache_env, inherits=FALSE)
+        o = get("order", cache_env, inherits=FALSE)
       }
       if (is.null(nunique))
-        nunique <- ordernut(x, o)[1L]
+        nunique = ordernut(x, o)[1L]
       val = orderuni(x, o, nunique, keep.order=FALSE)
       cnt = ordertab(x, o, nunique, keep.order=FALSE)
       rm(o)
@@ -2229,7 +2229,7 @@ table.integer64 = function(...,
     # xx workaround until we have implemented ramsort.integer
     o = sort.list(cnt, na.last=NA, method="quick")
     cnt = cnt[o]
-    # o <- seq_along(cnt)
+    # o = seq_along(cnt)
     # ramsortorder(cnt, o, na.last=FALSE)
     val = val[o]
   }
@@ -2238,35 +2238,35 @@ table.integer64 = function(...,
   switch(return,
     table = {
       if (N == 1L) {
-        attr(cnt, "dim") <- length(cnt)
-        dn <- list(as.character(val))
-        names(dn) <- dnn[1L]
-        attr(cnt, "dimnames") <- dn
+        attr(cnt, "dim") = length(cnt)
+        dn = list(as.character(val))
+        names(dn) = dnn[1L]
+        attr(cnt, "dimnames") = dn
       } else {
-        a <- array(0L, dim=nu, dimnames=lapply(dims, as.character))
-        a[as.integer(val)+1L] <- as.integer(cnt)
-        cnt <- a
+        a = array(0L, dim=nu, dimnames=lapply(dims, as.character))
+        a[as.integer(val)+1L] = as.integer(cnt)
+        cnt = a
       }
-      oldClass(cnt) <- "table"
+      oldClass(cnt) = "table"
     },
     data.frame = {
       if (N==1L) {
-        cnt <- data.frame(values=val, Freq=cnt)
-        names(cnt)[[1L]] <- dnn[1L]
+        cnt = data.frame(values=val, Freq=cnt)
+        names(cnt)[[1L]] = dnn[1L]
       } else {
         for (i in N:1) {
-          w <- val %/% d[[i]]
-          val <- val - d[[i]]*w
-          dims[[i]] <- dims[[i]][as.integer(w)+1L]
+          w = val %/% d[[i]]
+          val = val - d[[i]]*w
+          dims[[i]] = dims[[i]][as.integer(w)+1L]
         }
-        cnt <- data.frame(dims, Freq=cnt)
+        cnt = data.frame(dims, Freq=cnt)
       }
     },
     list = {
       if (N == 1L)
-        cnt <- list(values=val, counts=cnt)
+        cnt = list(values=val, counts=cnt)
       else
-        cnt <- list(values=val, counts=cnt, dims=dims)
+        cnt = list(values=val, counts=cnt, dims=dims)
     }
   )
   cnt
