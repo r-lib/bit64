@@ -56,6 +56,7 @@
 1. `as.integer64.character` now supports hexadecimal (base 16) input when prefixed with "0x" or "-0x", e.g. `as.integer64("0x7FFFFFFFFFFFFFFF")`. Thanks @hcirellu for a PR which completes work begun by @marcpaterno.
 1. `sortcache`, `sortordercache` and `ordercache` get a new argument `na.last`.
 1. `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method (#45). Thanks @hcirellu.
+1. `union`, `setdiff`, `intersect`, `setequal` and `is.element` get an overload to work correctly with `integer64` (#182).
 
 ## BUG FIXES
 
