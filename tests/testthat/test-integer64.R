@@ -869,6 +869,8 @@ with_parameters_test_that("intersect works with basic R types (except double)", 
         expected_result_y_x = base::intersect(y, x)
       } else {
         expected_result_x_y = base::intersect(x, y)
+        if (getRversion() <= "3.6.0" && identical(x, character()))
+          expected_result_x_y = character()
         expected_result_y_x = base::intersect(y, x)
       }
       y = as(y, type_y)
