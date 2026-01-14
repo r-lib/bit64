@@ -84,14 +84,14 @@ rowSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
 
 #' @rdname matrix64
 #' @param a,perm Passed on to [aperm()].
-#' @exportS3Method base::aperm integer64
+#' @exportS3Method aperm integer64
 aperm.integer64 = function(a, perm, ...) {
   ret = NextMethod()
   class(ret) = class(a)
   ret
 }
 
-#' @exportS3Method base::`%*%` integer64
+#' @exportS3Method `%*%` integer64
 `%*%.integer64` = function(x, y) {
   if (!is.integer64(x) && !is.integer64(y)) 
     return(x%*%y)
@@ -144,7 +144,7 @@ aperm.integer64 = function(a, perm, ...) {
   ret
 }
 
-#' @exportS3Method base::as.matrix integer64
+#' @exportS3Method as.matrix integer64
 as.matrix.integer64 = function(x, ...) {
   if (is.matrix(x)) {
     x

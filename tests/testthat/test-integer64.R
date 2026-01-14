@@ -167,15 +167,16 @@ test_that("as.integer64 can trim whitespace", {
 with_parameters_test_that(
   "base-10 edge cases return missing",
   expect_warning(
-    expect_identical(as.integer64(string), NA_integer64_),
+    expect_identical(as.integer64(string), rep(NA_integer64_, length(string))),
     "NAs introduced by coercion to integer64 range", fixed=TRUE
   ),
-  string = c(
+  string = list(
     strrep("9", 63L),
     "9223372036854775808",
     "-9223372036854775808",
     "999x",
-    "-999x"
+    "-999x",
+    c("9223372036854775809", "-9223372036854775809") # vector case from #175
   )
 )
 
