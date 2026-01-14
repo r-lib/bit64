@@ -290,11 +290,11 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         N1 = c(nsmall, nbig)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         N2 = c(nbig, nsmall)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         for (i in seq_along(N1)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             n1 &lt;- N1[i]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             n2 &lt;- N2[i]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x1 &lt;- c(sample(n2, n1 - 1L, TRUE), NA)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x2 &lt;- c(sample(n2, n2 - 1L, TRUE), NA)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             tim &lt;- matrix(0, 9L, 3L)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             n1 = N1[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             n2 = N2[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x1 = c(sample(n2, n1 - 1L, TRUE), NA)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x2 = c(sample(n2, n2 - 1L, TRUE), NA)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             tim = matrix(0, 9L, 3L)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             dimnames(tim) &lt;- list(c("match", "match.64", "hashpos", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "hashrev", "sortorderpos", "orderpos", "hashcache", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "sortorder.cache", "order.cache"), c("prep", </span>
@@ -302,8 +302,8 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["match", "both"] &lt;- timefun({</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 p &lt;- match(x1, x2)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x1 &lt;- as.integer64(x1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x2 &lt;- as.integer64(x2)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x1 = as.integer64(x1)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x2 = as.integer64(x2)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["match.64", "both"] &lt;- timefun({</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- match.integer64(x1, x2)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
@@ -370,11 +370,11 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         N1 = c(nsmall, nbig)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         N2 = c(nbig, nsmall)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         for (i in seq_along(N1)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             n1 &lt;- N1[i]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             n2 &lt;- N2[i]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x1 &lt;- c(sample(n2, n1 - 1L, TRUE), NA)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x2 &lt;- c(sample(n2, n2 - 1L, TRUE), NA)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             tim &lt;- matrix(0, 10L, 3L)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             n1 = N1[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             n2 = N2[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x1 = c(sample(n2, n1 - 1L, TRUE), NA)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x2 = c(sample(n2, n2 - 1L, TRUE), NA)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             tim = matrix(0, 10L, 3L)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             dimnames(tim) &lt;- list(c("%in%", "match.64", "%in%.64", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "hashfin", "hashrin", "sortfin", "orderfin", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "hash.cache", "sortorder.cache", "order.cache"), </span>
@@ -382,8 +382,8 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["%in%", "both"] &lt;- timefun({</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 p &lt;- x1 %in% x2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x1 &lt;- as.integer64(x1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x2 &lt;- as.integer64(x2)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x1 = as.integer64(x1)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x2 = as.integer64(x2)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["match.64", "both"] &lt;- timefun({</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- match.integer64(x1, x2, nomatch = 0L) &gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   0L</span>
@@ -453,9 +453,9 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         message("duplicated: timings of different methods")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         N = c(nsmall, nbig)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         for (i in seq_along(N)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             n &lt;- N[i]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x &lt;- c(sample(n, n - 1L, TRUE), NA)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             tim &lt;- matrix(0, 10L, 3L)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             n = N[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x = c(sample(n, n - 1L, TRUE), NA)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             tim = matrix(0, 10L, 3L)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             dimnames(tim) &lt;- list(c("duplicated", "duplicated.64", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "hashdup", "sortorderdup1", "sortorderdup2", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "orderdup1", "orderdup2", "hash.cache", "sortorder.cache", </span>
@@ -463,7 +463,7 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["duplicated", "both"] &lt;- timefun({</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 p &lt;- duplicated(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x &lt;- as.integer64(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x = as.integer64(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["duplicated.64", "both"] &lt;- timefun({</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- duplicated(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
@@ -534,123 +534,123 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         message("unique: timings of different methods")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         N = c(nsmall, nbig)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         for (i in seq_along(N)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             n &lt;- N[i]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x &lt;- c(sample(n, n - 1L, TRUE), NA)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             tim &lt;- matrix(0, 15L, 3L)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             n = N[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x = c(sample(n, n - 1L, TRUE), NA)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             tim = matrix(0, 15L, 3L)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             dimnames(tim) &lt;- list(c("unique", "unique.64", "hashmapuni", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "hashuni", "hashunikeep", "sortuni", "sortunikeep", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "orderuni", "orderunikeep", "hashdup", "sortorderdup", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "hash.cache", "sort.cache", "sortorder.cache", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "order.cache"), c("prep", "both", "use"))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["unique", "both"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p &lt;- unique(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p = unique(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x &lt;- as.integer64(x)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             p &lt;- as.integer64(p)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x = as.integer64(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             p = as.integer64(p)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "values") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 ramsort(p, na.last = FALSE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["unique.64", "both"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- unique(x, order = uniorder)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = unique(x, order = uniorder)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder != "any") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashmapuni", "both"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- hashmapuni(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = hashmapuni(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "original") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashuni", "prep"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 h &lt;- hashmap(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 h = hashmap(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashuni", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- hashuni(h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = hashuni(h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "values") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(sort(p2, na.last = FALSE), </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashunikeep", "prep"] &lt;- tim["hashuni", "prep"]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashunikeep", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- hashuni(h, keep.order = TRUE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = hashuni(h, keep.order = TRUE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "original") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortuni", "prep"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 s &lt;- clone(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 s = clone(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 ramsort(s, na.last = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique &lt;- sortnut(s)[1L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique = sortnut(s)[1L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortuni", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- sortuni(s, nunique)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = sortuni(s, nunique)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "values") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(sort(p2, na.last = FALSE), </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortunikeep", "prep"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 s &lt;- clone(x)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 o &lt;- seq_along(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 s = clone(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 o = seq_along(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 ramsortorder(s, o, na.last = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique &lt;- sortnut(s)[1L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique = sortnut(s)[1L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortunikeep", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- sortorderuni(x, s, o, nunique)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = sortorderuni(x, s, o, nunique)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "original") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["orderuni", "prep"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 o &lt;- seq_along(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 o = seq_along(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 ramorder(x, o, na.last = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique &lt;- ordernut(x, o)[1L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique = ordernut(x, o)[1L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["orderuni", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- orderuni(x, o, nunique)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = orderuni(x, o, nunique)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "values") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(sort(p2, na.last = FALSE), </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["orderunikeep", "prep"] &lt;- tim["orderuni", "prep"]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["orderunikeep", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- orderuni(x, o, nunique, keep.order = TRUE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique &lt;- ordernut(x, o)[1L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = orderuni(x, o, nunique, keep.order = TRUE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique = ordernut(x, o)[1L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "original") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashdup", "prep"] &lt;- tim["hashuni", "prep"]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashdup", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- x[!hashdup(h)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = x[!hashdup(h)]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "original") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortorderdup", "prep"] &lt;- tim["sortunikeep", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "prep"]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortorderdup", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- x[!sortorderdup(s, o)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = x[!sortorderdup(s, o)]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "original") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             hashcache(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hash.cache", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- unique(x, order = uniorder)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = unique(x, order = uniorder)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder != "any") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             remcache(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             sortcache(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sort.cache", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- unique(x, order = uniorder)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = unique(x, order = uniorder)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder != "any") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             remcache(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             sortordercache(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortorder.cache", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- unique(x, order = uniorder)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = unique(x, order = uniorder)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder != "any") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             remcache(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             ordercache(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["order.cache", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- unique(x, order = uniorder)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = unique(x, order = uniorder)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder != "any") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(p2, p))</span>
@@ -667,9 +667,9 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         message("unipos: timings of different methods")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         N = c(nsmall, nbig)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         for (i in seq_along(N)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             n &lt;- N[i]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x &lt;- c(sample(n, n - 1L, TRUE), NA)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             tim &lt;- matrix(0, 14L, 3L)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             n = N[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x = c(sample(n, n - 1L, TRUE), NA)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             tim = matrix(0, 14L, 3L)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             dimnames(tim) &lt;- list(c("unique", "unipos.64", "hashmapupo", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "hashupo", "hashupokeep", "sortorderupo", "sortorderupokeep", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "orderupo", "orderupokeep", "hashdup", "sortorderdup", </span>
@@ -678,99 +678,99 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["unique", "both"] &lt;- timefun({</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 unique(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x &lt;- as.integer64(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x = as.integer64(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["unipos.64", "both"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p &lt;- unipos(x, order = uniorder)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p = unipos(x, order = uniorder)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashmapupo", "both"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- hashmapupo(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = hashmapupo(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "original") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashupo", "prep"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 h &lt;- hashmap(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 h = hashmap(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashupo", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- hashupo(h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = hashupo(h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "values") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical(sort(p2, na.last = FALSE), </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   sort(p, na.last = FALSE)))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashupokeep", "prep"] &lt;- tim["hashupo", "prep"]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashupokeep", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- hashupo(h, keep.order = TRUE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = hashupo(h, keep.order = TRUE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "original") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortorderupo", "prep"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 s &lt;- clone(x)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 o &lt;- seq_along(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 s = clone(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 o = seq_along(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 ramsortorder(s, o, na.last = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique &lt;- sortnut(s)[1L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique = sortnut(s)[1L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortorderupo", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- sortorderupo(s, o, nunique)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = sortorderupo(s, o, nunique)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "values") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortorderupokeep", "prep"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 s &lt;- clone(x)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 o &lt;- seq_along(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 s = clone(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 o = seq_along(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 ramsortorder(s, o, na.last = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique &lt;- sortnut(s)[1L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique = sortnut(s)[1L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortorderupokeep", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- sortorderupo(s, o, nunique, keep.order = TRUE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = sortorderupo(s, o, nunique, keep.order = TRUE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "original") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["orderupo", "prep"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 o &lt;- seq_along(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 o = seq_along(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 ramorder(x, o, na.last = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique &lt;- ordernut(x, o)[1L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique = ordernut(x, o)[1L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["orderupo", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- orderupo(x, o, nunique)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = orderupo(x, o, nunique)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "values") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["orderupokeep", "prep"] &lt;- tim["orderupo", "prep"]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["orderupokeep", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- orderupo(x, o, nunique, keep.order = TRUE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique &lt;- ordernut(x, o)[1L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = orderupo(x, o, nunique, keep.order = TRUE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique = ordernut(x, o)[1L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "original") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashdup", "prep"] &lt;- tim["hashupo", "prep"]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashdup", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- (1:n)[!hashdup(h)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = (1:n)[!hashdup(h)]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "original") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortorderdup", "prep"] &lt;- tim["sortorderupokeep", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "prep"]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortorderdup", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- (1:n)[!sortorderdup(s, o)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = (1:n)[!sortorderdup(s, o)]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "original") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             hashcache(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hash.cache", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- unipos(x, order = uniorder)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = unipos(x, order = uniorder)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder != "any") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             remcache(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             sortordercache(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortorder.cache", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- unipos(x, order = uniorder)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = unipos(x, order = uniorder)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder != "any") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             remcache(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             ordercache(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["order.cache", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- unipos(x, order = uniorder)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = unipos(x, order = uniorder)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder != "any") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical(p2, p))</span>
@@ -787,10 +787,10 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         message("table: timings of different methods")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         N = c(nsmall, nbig)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         for (i in seq_along(N)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             n &lt;- N[i]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x &lt;- c(sample.int(1024L, n - 1L, replace = TRUE), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             n = N[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x = c(sample.int(1024L, n - 1L, replace = TRUE), </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 NA)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             tim &lt;- matrix(0, 13L, 3L)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             tim = matrix(0, 13L, 3L)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             dimnames(tim) &lt;- list(c("tabulate", "table", "table.64", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "hashmaptab", "hashtab", "hashtab2", "sorttab", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "sortordertab", "ordertab", "ordertabkeep", "hash.cache", </span>
@@ -800,56 +800,56 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 tabulate(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["table", "both"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p &lt;- table(x, exclude = NULL)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p = table(x, exclude = NULL)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             p &lt;- p[-length(p)]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x &lt;- as.integer64(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             p = p[-length(p)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x = as.integer64(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["table.64", "both"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- table.integer64(x, order = taborder)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = table.integer64(x, order = taborder)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             p2 &lt;- p2[-1L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             p2 = p2[-1L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashmaptab", "both"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p &lt;- hashmaptab(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p = hashmaptab(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashtab", "prep"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 h &lt;- hashmap(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 h = hashmap(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashtab", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- hashtab(h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = hashtab(h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashtab2", "prep"] &lt;- tim["hashtab", "prep"] + </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   h &lt;- hashmap(x, nunique = h$nunique)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   h = hashmap(x, nunique = h$nunique)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashtab2", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- hashtab(h)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = hashtab(h)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             sortp &lt;- function(p) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 s &lt;- p$values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 o &lt;- seq_along(s)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             sortp = function(p) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 s = p$values</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 o = seq_along(s)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 ramsortorder(s, o, na.last = FALSE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 list(values = s, counts = p$counts[o])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             p &lt;- sortp(p)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             p2 &lt;- sortp(p2)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             p = sortp(p)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             p2 = sortp(p2)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sorttab", "prep"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 s &lt;- clone(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 s = clone(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 ramsort(s, na.last = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique &lt;- sortnut(s)[1L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique = sortnut(s)[1L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sorttab", "use"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- list(values = sortuni(s, nunique), counts = sorttab(s, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = list(values = sortuni(s, nunique), counts = sorttab(s, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   nunique))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             stopifnot(identical(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortordertab", "prep"] &lt;- timefun({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 s &lt;- clone(x)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 o &lt;- seq_along(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 s = clone(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 o = seq_along(x)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 ramsortorder(s, o, na.last = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique &lt;- sortnut(s)[1L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique = sortnut(s)[1L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortordertab", "use"] &lt;- timefun({</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 &lt;- list(values = sortorderuni(x, s, o, nunique), </span>
@@ -1014,7 +1014,7 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ret</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55e0e0079128&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x559fdb333820&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:bit64&gt;</span>
 </code></pre></div>
     </div>
