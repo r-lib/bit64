@@ -158,6 +158,10 @@ test_that("as.integer64 can trim whitespace", {
   expect_identical(as.integer64("  123"), as.integer64("123"))
   expect_identical(as.integer64("123   "), as.integer64("123"))
   expect_identical(as.integer64(c("  1", "2  ", " 3 ")), as.integer64(1:3))
+  expect_identical(as.integer64("  0xAAA   "), as.integer64("0xAAA"))
+  expect_identical(as.integer64("  0xBBB"), as.integer64("0xBBB"))
+  expect_identical(as.integer64("0xCCC   "), as.integer64("0xCCC"))
+  expect_identical(as.integer64(c("  0x1", "0x2  ", " 0x3 ")), as.integer64(c("0x1", "0x2", "0x3")))
 })
 
 with_parameters_test_that(
@@ -171,8 +175,7 @@ with_parameters_test_that(
     "9223372036854775808",
     "-9223372036854775808",
     "999x",
-    "-999x",
-    "999 "
+    "-999x"
   )
 )
 
