@@ -1,3 +1,13 @@
-^.*\.Rproj$
+^\.github$
+^\.gitignore
+^\.lintr
+\.Rproj$
 ^\.Rproj\.user$
+^\.dev$
+^\.devcontainer$
 README.md
+^NEWS\.[0-9]+$
+^codecov\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

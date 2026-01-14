@@ -4,6 +4,7 @@
 #include <R_ext/Rdynload.h>
 
 /* .Call calls */
+extern SEXP as_list_integer64(SEXP);
 extern SEXP abs_integer64(SEXP, SEXP);
 extern SEXP all_integer64(SEXP, SEXP, SEXP);
 extern SEXP any_integer64(SEXP, SEXP, SEXP);
@@ -22,6 +23,7 @@ extern SEXP cumprod_integer64(SEXP, SEXP);
 extern SEXP cumsum_integer64(SEXP, SEXP);
 extern SEXP diff_integer64(SEXP, SEXP, SEXP, SEXP);
 extern SEXP divide_integer64_double(SEXP, SEXP, SEXP);
+extern SEXP divide_double_integer64(SEXP, SEXP, SEXP);     /* Ofek Shilon */
 extern SEXP divide_integer64_integer64(SEXP, SEXP, SEXP);
 extern SEXP EQ_integer64(SEXP, SEXP, SEXP);
 extern SEXP GE_integer64(SEXP, SEXP, SEXP);
@@ -49,6 +51,9 @@ extern SEXP logbase_integer64(SEXP, SEXP, SEXP);
 extern SEXP log_integer64(SEXP, SEXP);
 extern SEXP logvect_integer64(SEXP, SEXP, SEXP);
 extern SEXP LT_integer64(SEXP, SEXP, SEXP);
+extern SEXP matmult_double_integer64(SEXP, SEXP, SEXP);
+extern SEXP matmult_integer64_double(SEXP, SEXP, SEXP);
+extern SEXP matmult_integer64_integer64(SEXP, SEXP, SEXP);
 extern SEXP max_integer64(SEXP, SEXP, SEXP);
 extern SEXP mean_integer64(SEXP, SEXP, SEXP);
 extern SEXP min_integer64(SEXP, SEXP, SEXP);
@@ -65,6 +70,8 @@ extern SEXP r_ram_integer64_issorted_asc(SEXP);
 extern SEXP r_ram_integer64_mergeorder(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP r_ram_integer64_mergesort(SEXP, SEXP, SEXP, SEXP);
 extern SEXP r_ram_integer64_mergesortorder(SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP r_ram_integer64_all_na(SEXP);
+extern SEXP r_ram_integer64_any_na(SEXP);
 extern SEXP r_ram_integer64_nacount(SEXP);
 extern SEXP r_ram_integer64_orderdup_asc(SEXP, SEXP, SEXP, SEXP);
 extern SEXP r_ram_integer64_orderfin_asc(SEXP, SEXP, SEXP, SEXP, SEXP);
@@ -115,6 +122,7 @@ extern SEXP r_ram_integer64_onionorder(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP,
 */
 
 static const R_CallMethodDef CallEntries[] = {
+    {"as_list_integer64",                (DL_FUNC) &as_list_integer64,                1},
     {"abs_integer64",                    (DL_FUNC) &abs_integer64,                    2},
     {"all_integer64",                    (DL_FUNC) &all_integer64,                    3},
     {"any_integer64",                    (DL_FUNC) &any_integer64,                    3},
@@ -133,6 +141,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"cumsum_integer64",                 (DL_FUNC) &cumsum_integer64,                 2},
     {"diff_integer64",                   (DL_FUNC) &diff_integer64,                   4},
     {"divide_integer64_double",          (DL_FUNC) &divide_integer64_double,          3},
+    {"divide_double_integer64",          (DL_FUNC) &divide_double_integer64,          3}, /* Ofek Shilon */
     {"divide_integer64_integer64",       (DL_FUNC) &divide_integer64_integer64,       3},
     {"EQ_integer64",                     (DL_FUNC) &EQ_integer64,                     3},
     {"GE_integer64",                     (DL_FUNC) &GE_integer64,                     3},
@@ -160,6 +169,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"log_integer64",                    (DL_FUNC) &log_integer64,                    2},
     {"logvect_integer64",                (DL_FUNC) &logvect_integer64,                3},
     {"LT_integer64",                     (DL_FUNC) &LT_integer64,                     3},
+    {"matmult_double_integer64",         (DL_FUNC) &matmult_double_integer64,         3},
+    {"matmult_integer64_double",         (DL_FUNC) &matmult_integer64_double,         3},
+    {"matmult_integer64_integer64",      (DL_FUNC) &matmult_integer64_integer64,      3},
     {"max_integer64",                    (DL_FUNC) &max_integer64,                    3},
     {"mean_integer64",                   (DL_FUNC) &mean_integer64,                   3},
     {"min_integer64",                    (DL_FUNC) &min_integer64,                    3},
@@ -176,6 +188,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"r_ram_integer64_mergeorder",       (DL_FUNC) &r_ram_integer64_mergeorder,       5},
     {"r_ram_integer64_mergesort",        (DL_FUNC) &r_ram_integer64_mergesort,        4},
     {"r_ram_integer64_mergesortorder",   (DL_FUNC) &r_ram_integer64_mergesortorder,   5},
+    {"r_ram_integer64_all_na",           (DL_FUNC) &r_ram_integer64_all_na,           1},
+    {"r_ram_integer64_any_na",           (DL_FUNC) &r_ram_integer64_any_na,           1},
     {"r_ram_integer64_nacount",          (DL_FUNC) &r_ram_integer64_nacount,          1},
     {"r_ram_integer64_orderdup_asc",     (DL_FUNC) &r_ram_integer64_orderdup_asc,     4},
     {"r_ram_integer64_orderfin_asc",     (DL_FUNC) &r_ram_integer64_orderfin_asc,     5},

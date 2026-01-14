@@ -1,5 +1,5 @@
 # just for R CMD check
-#PKG_CFLAGS=-flto -fsanitize=undefined 
+#PKG_CFLAGS=-flto -fsanitize=undefined
 #PKG_LIBS=-lm -lubsan
 # Pull request: Link with math library on Linux. #4
 PKG_LIBS=-lm
