@@ -75,7 +75,10 @@
 <code>as.integer64</code> gets <code>Date</code>, <code>POSIXct</code>, <code>POSXlt</code>, <code>complex</code>, <code>raw</code>, and <code>difftime</code> methods.</li>
 </ul></li>
 <li>
-<code>as.integer64.character</code> now supports hexadecimal (base 16) input when prefixed with “0x” or “-0x”, e.g. <code>as.integer64("0x7FFFFFFFFFFFFFFF")</code>. Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a> for a PR which completes work begun by <a href="https://github.com/marcpaterno" class="external-link">@marcpaterno</a>.</li>
+<code>as.integer64.character</code>:
+<ul><li>Supports hexadecimal (base 16) input when prefixed with “0x” or “-0x”, e.g. <code>as.integer64("0x7FFFFFFFFFFFFFFF")</code>. Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a> for a PR which completes work begun by <a href="https://github.com/marcpaterno" class="external-link">@marcpaterno</a>.</li>
+<li>Ignores leading/trailing whitespace (as does <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code>; <a href="https://github.com/r-lib/bit64/issues/232" class="external-link">#232</a>).</li>
+</ul></li>
 <li>
 <code>sortcache</code>, <code>sortordercache</code> and <code>ordercache</code> get a new argument <code>na.last</code>.</li>
 <li>

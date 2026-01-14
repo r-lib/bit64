@@ -130,11 +130,14 @@ necessary.
       get an `integer64` method.
     - `as.integer64` gets `Date`, `POSIXct`, `POSXlt`, `complex`, `raw`,
       and `difftime` methods.
-4.  `as.integer64.character` now supports hexadecimal (base 16) input
-    when prefixed with “0x” or “-0x”,
-    e.g. `as.integer64("0x7FFFFFFFFFFFFFFF")`. Thanks
-    [@hcirellu](https://github.com/hcirellu) for a PR which completes
-    work begun by [@marcpaterno](https://github.com/marcpaterno).
+4.  `as.integer64.character`:
+    - Supports hexadecimal (base 16) input when prefixed with “0x” or
+      “-0x”, e.g. `as.integer64("0x7FFFFFFFFFFFFFFF")`. Thanks
+      [@hcirellu](https://github.com/hcirellu) for a PR which completes
+      work begun by [@marcpaterno](https://github.com/marcpaterno).
+    - Ignores leading/trailing whitespace (as does
+      [`as.integer()`](https://rdrr.io/r/base/integer.html);
+      [\#232](https://github.com/r-lib/bit64/issues/232)).
 5.  `sortcache`, `sortordercache` and `ordercache` get a new argument
     `na.last`.
 6.  `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method
