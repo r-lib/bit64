@@ -800,34 +800,34 @@ test_that("match works with zero length input", {
 
 
 with_parameters_test_that("union works with basic R types (except double)", {
-    if (type_x %in% c("POSIXct"))
-      skip_unless_r(">= 4.0.0")
-    y = 5:10
-    if (!is.na(type_x))
-      x = eval(parse(text=paste0("as.", type_x, "(x)")))
-    if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double")) {
-      expected_result_x_y = as.integer64(base::union(x, y))
-      expected_result_y_x = as.integer64(base::union(y, x))
-    } else if (type_y == "integer64" && type_x %in% c("POSIXct", "Date")) {
-      # as.POSIXct(1L) and as.Date(1L) stay internally integer
-      # as.POSIXct(1) and as.Date(1) stay internally double
-      y = as.double(y)
-      expected_result_x_y = base::union(x, y)
-      expected_result_y_x = base::union(y, x)
-    } else {
-      expected_result_x_y = base::union(x, y)
-      expected_result_y_x = base::union(y, x)
+    if (getRversion() > "3.6.0" || !(type_x %in% c("POSIXct"))) {
+      y = 5:10
+      if (!is.na(type_x))
+        x = eval(parse(text=paste0("as.", type_x, "(x)")))
+      if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double")) {
+        expected_result_x_y = as.integer64(base::union(x, y))
+        expected_result_y_x = as.integer64(base::union(y, x))
+      } else if (type_y == "integer64" && type_x %in% c("POSIXct", "Date")) {
+        # as.POSIXct(1L) and as.Date(1L) stay internally integer
+        # as.POSIXct(1) and as.Date(1) stay internally double
+        y = as.double(y)
+        expected_result_x_y = base::union(x, y)
+        expected_result_y_x = base::union(y, x)
+      } else {
+        expected_result_x_y = base::union(x, y)
+        expected_result_y_x = base::union(y, x)
+      }
+      y = as(y, type_y)
+  
+      expect_identical(
+        union(x, y),
+        expected_result_x_y
+      )
+      expect_identical(
+        union(y, x),
+        expected_result_y_x
+      )
     }
-    y = as(y, type_y)
-
-    expect_identical(
-      union(x, y),
-      expected_result_x_y
-    )
-    expect_identical(
-      union(y, x),
-      expected_result_y_x
-    )
   }, 
   .cases=expand.grid(x=I(list(NULL, c(1:7, 2L, 11L))), type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"), type_y=c("integer", "integer64"), stringsAsFactors=FALSE)
 )
