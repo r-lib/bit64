@@ -172,18 +172,25 @@ test_that("duplicated, unique, table methods work", {
   expect_identical(table(y=lim.integer64(), x), table(y=as.character(lim.integer64()), x=as.character(x)))
   
   skip_unless_r(">= 4.0.0")
-  expect_warning(expect_identical(
-    table(a=as.integer64(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="no"), 
-    table(a=as.integer(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="no")
-  ), "coercing argument 3 to integer64")
-  expect_warning(expect_identical(
-    table(a=as.integer64(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="ifany"), 
-    table(a=as.integer(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="ifany")
-  ), "coercing argument 3 to integer64")
-  expect_warning(expect_identical(
-    table(a=as.integer64(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="always"), 
-    table(a=as.integer(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="always")
-  ), "coercing argument 3 to integer64")
+  expected_warning = "coercing argument 3 to integer64"
+
+  expected = table(a=as.integer(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="no")
+  expect_warning(
+    expect_identical(table(a=as.integer64(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="no"),  expected),
+    expected_warning, fixed=TRUE
+  )
+
+  expected = table(a=as.integer(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="ifany")
+  expect_warning(
+    expect_identical(table(a=as.integer64(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="ifany"), expected),
+    expected_warning, fixed=TRUE
+  ))
+
+  expected = table(a=as.integer(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="always")
+  expect_warning(
+    expect_identical(table(a=as.integer64(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="always"), expected),
+    expected_warning, fixed=TRUE
+  )
   
   x = as.integer64(c(1L, 1L, 2L))
   expect_error(duplicated(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
