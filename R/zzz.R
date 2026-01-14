@@ -285,7 +285,7 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
 target_class_and_sample_value = function(x, recursive=FALSE, errorClasses="") {
   
   getClassesOfElements = function(x, recursive, errorClasses) {
-    classes = unlist(lapply(x, function(el) if (class(el)[1L] == "list" || "data.frame" %in% class(el)) "list" else class(el)[1]))
+    classes = vapply(x, function(el) if (class(el)[1L] == "list" || "data.frame" %in% class(el)) "list" else class(el)[1L], character(1L))
     if (recursive) {
       union(classes[classes != "list"], unlist(lapply(x[classes == "list"], function(el) getClassesOfElements(el, recursive=TRUE, errorClasses=errorClasses))))
     } else {
