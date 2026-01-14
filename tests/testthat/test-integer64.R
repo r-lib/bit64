@@ -802,7 +802,7 @@ test_that("match works with zero length input", {
 with_parameters_test_that("union works with basic R types (except double)", {
     y = 5:10
     if (!is.na(type_x))
-      x = eval(str2lang(paste0("as.", type_x, "(x)")))
+      x = eval(parse(text=paste0("as.", type_x, "(x)")))
     if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double")) {
       expected_result_x_y = as.integer64(base::union(x, y))
       expected_result_y_x = as.integer64(base::union(y, x))
@@ -854,7 +854,7 @@ test_that("union works (additional cases)", {
 with_parameters_test_that("intersect works with basic R types (except double)", {
     y = 5:10
     if (!is.na(type_x))
-      x = eval(str2lang(paste0("as.", type_x, "(x)")))
+      x = eval(parse(text=paste0("as.", type_x, "(x)")))
     if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double")) {
       expected_result_x_y = as.integer64(base::intersect(x, y))
       expected_result_y_x = as.integer64(base::intersect(y, x))
@@ -906,7 +906,7 @@ test_that("intersect works (additional cases)", {
 with_parameters_test_that("setdiff works with basic R types (except double)", {
     y = 5:10
     if (!is.na(type_x))
-      x = eval(str2lang(paste0("as.", type_x, "(x)")))
+      x = eval(parse(text=paste0("as.", type_x, "(x)")))
     if (type_y == "integer64") {
       expected_result_x_y = base::setdiff(x, y)
       expected_result_y_x = as.integer64(base::setdiff(y, x))
@@ -951,7 +951,7 @@ test_that("setdiff works (additional cases)", {
 with_parameters_test_that("setequal works with basic R types (except double)", {
     y = 5:10
     if (!is.na(type_x))
-      x = eval(str2lang(paste0("as.", type_x, "(x)")))
+      x = eval(parse(text=paste0("as.", type_x, "(x)")))
     expected_result_x_y = base::setequal(x, y)
     expected_result_y_x = base::setequal(y, x)
     y = as(y, type_y)
@@ -992,7 +992,7 @@ test_that("setequal works (additional cases)", {
 with_parameters_test_that("is.element works with basic R types (except double)", {
     y = 5:10
     if (!is.na(type_x))
-      x = eval(str2lang(paste0("as.", type_x, "(x)")))
+      x = eval(parse(text=paste0("as.", type_x, "(x)")))
     expected_result_x_y = base::is.element(x, y)
     expected_result_y_x = base::is.element(y, x)
     y = as(y, type_y)
