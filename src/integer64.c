@@ -172,7 +172,11 @@ SEXP as_integer64_character(SEXP x_, SEXP ret_){
       endpointer = (char *)str; // thanks to Murray Stokely 28.1.2012
       errno = 0;
       ret[i] = strtoll(str, &endpointer, base);
-      if (errno==ERANGE || *endpointer){
+      char *trailing_check = endpointer;
+      while (isspace((unsigned char)*trailing_check)) {
+        trailing_check++;
+      }
+      if (errno==ERANGE || *trailing_check){
         ret[i] = NA_INTEGER64;
         naflag = TRUE;
       } else if (str==endpointer){

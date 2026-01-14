@@ -153,6 +153,13 @@ test_that("Conversion from hex is supported", {
   )
 })
 
+test_that("as.integer64 can trim whitespace", {
+  expect_identical(as.integer64("  123   "), as.integer64("123"))
+  expect_identical(as.integer64("  123"), as.integer64("123"))
+  expect_identical(as.integer64("123   "), as.integer64("123"))
+  expect_identical(as.integer64(c("  1", "2  ", " 3 ")), as.integer64(1:3))
+})
+
 with_parameters_test_that(
   "base-10 edge cases return missing",
   expect_warning(
