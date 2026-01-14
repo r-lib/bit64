@@ -198,6 +198,13 @@ with_parameters_test_that(
   )
 )
 
+test_that("as.integer64.double handles 2^63", {
+  expect_warning(
+    expect_identical(as.integer64(2^63), NA_integer64_),
+    "NAs produced by integer64 overflow"
+  )
+})
+
 test_that("S3 class basics work", {
   x = as.integer64(1:10)
   expect_s3_class(x, "integer64")
