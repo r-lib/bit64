@@ -286,66 +286,66 @@ fastest algorithm.
 #>                 "sortorder.cache", "order.cache"), c("prep", 
 #>                 "both", "use"))
 #>             tim["match", "both"] <- timefun({
-#>                 p <- match(x1, x2)
+#>                 p = match(x1, x2)
 #>             })[3L]
 #>             x1 = as.integer64(x1)
 #>             x2 = as.integer64(x2)
 #>             tim["match.64", "both"] <- timefun({
-#>                 p2 <- match.integer64(x1, x2)
+#>                 p2 = match.integer64(x1, x2)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             tim["hashpos", "prep"] <- timefun({
-#>                 h2 <- hashmap(x2)
+#>                 h2 = hashmap(x2)
 #>             })[3L]
 #>             tim["hashpos", "use"] <- timefun({
-#>                 p2 <- hashpos(h2, x1)
+#>                 p2 = hashpos(h2, x1)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             tim["hashrev", "prep"] <- timefun({
-#>                 h1 <- hashmap(x1)
+#>                 h1 = hashmap(x1)
 #>             })[3L]
 #>             tim["hashrev", "use"] <- timefun({
-#>                 p1 <- hashrev(h1, x2)
+#>                 p1 = hashrev(h1, x2)
 #>             })[3L]
 #>             stopifnot(identical(p1, p))
 #>             tim["sortorderpos", "prep"] <- system.time({
-#>                 s2 <- clone(x2)
-#>                 o2 <- seq_along(x2)
+#>                 s2 = clone(x2)
+#>                 o2 = seq_along(x2)
 #>                 ramsortorder(s2, o2, na.last = FALSE)
 #>             })[3L]
 #>             tim["sortorderpos", "use"] <- timefun({
-#>                 p2 <- sortorderpos(s2, o2, x1)
+#>                 p2 = sortorderpos(s2, o2, x1)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             tim["orderpos", "prep"] <- timefun({
-#>                 o2 <- seq_along(x2)
+#>                 o2 = seq_along(x2)
 #>                 ramorder(x2, o2, na.last = FALSE)
 #>             })[3L]
 #>             tim["orderpos", "use"] <- timefun({
-#>                 p2 <- orderpos(x2, o2, x1, method = 2L)
+#>                 p2 = orderpos(x2, o2, x1, method = 2L)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             hashcache(x2)
 #>             tim["hashcache", "use"] <- timefun({
-#>                 p2 <- match.integer64(x1, x2)
+#>                 p2 = match.integer64(x1, x2)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             remcache(x2)
 #>             sortordercache(x2)
 #>             tim["sortorder.cache", "use"] <- timefun({
-#>                 p2 <- match.integer64(x1, x2)
+#>                 p2 = match.integer64(x1, x2)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             remcache(x2)
 #>             ordercache(x2)
 #>             tim["order.cache", "use"] <- timefun({
-#>                 p2 <- match.integer64(x1, x2)
+#>                 p2 = match.integer64(x1, x2)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             remcache(x2)
 #>             if (plot) {
 #>                 barplot(t(tim))
-#>                 n <- format(c(n1, n2))
+#>                 n = format(c(n1, n2))
 #>                 title(paste("match", n[1L], "in", n[2L]))
 #>             }
 #>             ret[["match", as.character(n1)]] <- tim
@@ -366,70 +366,70 @@ fastest algorithm.
 #>                 "hash.cache", "sortorder.cache", "order.cache"), 
 #>                 c("prep", "both", "use"))
 #>             tim["%in%", "both"] <- timefun({
-#>                 p <- x1 %in% x2
+#>                 p = x1 %in% x2
 #>             })[3L]
 #>             x1 = as.integer64(x1)
 #>             x2 = as.integer64(x2)
 #>             tim["match.64", "both"] <- timefun({
-#>                 p2 <- match.integer64(x1, x2, nomatch = 0L) > 
+#>                 p2 = match.integer64(x1, x2, nomatch = 0L) > 
 #>                   0L
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             tim["%in%.64", "both"] <- timefun({
-#>                 p2 <- `%in%.integer64`(x1, x2)
+#>                 p2 = `%in%.integer64`(x1, x2)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             tim["hashfin", "prep"] <- timefun({
-#>                 h2 <- hashmap(x2)
+#>                 h2 = hashmap(x2)
 #>             })[3L]
 #>             tim["hashfin", "use"] <- timefun({
-#>                 p2 <- hashfin(h2, x1)
+#>                 p2 = hashfin(h2, x1)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             tim["hashrin", "prep"] <- timefun({
-#>                 h1 <- hashmap(x1)
+#>                 h1 = hashmap(x1)
 #>             })[3L]
 #>             tim["hashrin", "use"] <- timefun({
-#>                 p1 <- hashrin(h1, x2)
+#>                 p1 = hashrin(h1, x2)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             tim["sortfin", "prep"] <- timefun({
-#>                 s2 <- clone(x2)
+#>                 s2 = clone(x2)
 #>                 ramsort(s2, na.last = FALSE)
 #>             })[3L]
 #>             tim["sortfin", "use"] <- timefun({
-#>                 p2 <- sortfin(s2, x1)
+#>                 p2 = sortfin(s2, x1)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             tim["orderfin", "prep"] <- timefun({
-#>                 o2 <- seq_along(x2)
+#>                 o2 = seq_along(x2)
 #>                 ramorder(x2, o2, na.last = FALSE)
 #>             })[3L]
 #>             tim["orderfin", "use"] <- timefun({
-#>                 p2 <- orderfin(x2, o2, x1)
+#>                 p2 = orderfin(x2, o2, x1)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             hashcache(x2)
 #>             tim["hash.cache", "use"] <- timefun({
-#>                 p2 <- `%in%.integer64`(x1, x2)
+#>                 p2 = `%in%.integer64`(x1, x2)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             remcache(x2)
 #>             sortordercache(x2)
 #>             tim["sortorder.cache", "use"] <- timefun({
-#>                 p2 <- `%in%.integer64`(x1, x2)
+#>                 p2 = `%in%.integer64`(x1, x2)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             remcache(x2)
 #>             ordercache(x2)
 #>             tim["order.cache", "use"] <- timefun({
-#>                 p2 <- `%in%.integer64`(x1, x2)
+#>                 p2 = `%in%.integer64`(x1, x2)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             remcache(x2)
 #>             if (plot) {
 #>                 barplot(t(tim))
-#>                 n <- format(c(n1, n2))
+#>                 n = format(c(n1, n2))
 #>                 title(paste(n[1L], "%in%", n[2L]))
 #>             }
 #>             ret[["%in%", as.character(n1)]] <- tim
@@ -447,65 +447,65 @@ fastest algorithm.
 #>                 "orderdup1", "orderdup2", "hash.cache", "sortorder.cache", 
 #>                 "order.cache"), c("prep", "both", "use"))
 #>             tim["duplicated", "both"] <- timefun({
-#>                 p <- duplicated(x)
+#>                 p = duplicated(x)
 #>             })[3L]
 #>             x = as.integer64(x)
 #>             tim["duplicated.64", "both"] <- timefun({
-#>                 p2 <- duplicated(x)
+#>                 p2 = duplicated(x)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             tim["hashdup", "prep"] <- timefun({
-#>                 h <- hashmap(x)
+#>                 h = hashmap(x)
 #>             })[3L]
 #>             tim["hashdup", "use"] <- timefun({
-#>                 p2 <- hashdup(h)
+#>                 p2 = hashdup(h)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             tim["sortorderdup1", "prep"] <- timefun({
-#>                 s <- clone(x)
-#>                 o <- seq_along(x)
+#>                 s = clone(x)
+#>                 o = seq_along(x)
 #>                 ramsortorder(s, o, na.last = FALSE)
-#>                 nunique <- sortnut(s)[1L]
+#>                 nunique = sortnut(s)[1L]
 #>             })[3L]
 #>             tim["sortorderdup1", "use"] <- timefun({
-#>                 p2 <- sortorderdup(s, o, method = 1L)
+#>                 p2 = sortorderdup(s, o, method = 1L)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             tim["sortorderdup2", "prep"] <- tim["sortorderdup1", 
 #>                 "prep"]
 #>             tim["sortorderdup2", "use"] <- timefun({
-#>                 p2 <- sortorderdup(s, o, method = 2L)
+#>                 p2 = sortorderdup(s, o, method = 2L)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             tim["orderdup1", "prep"] <- timefun({
-#>                 o <- seq_along(x)
+#>                 o = seq_along(x)
 #>                 ramorder(x, o, na.last = FALSE)
-#>                 nunique <- ordernut(x, o)[1L]
+#>                 nunique = ordernut(x, o)[1L]
 #>             })[3L]
 #>             tim["orderdup1", "use"] <- timefun({
-#>                 p2 <- orderdup(x, o, method = 1L)
+#>                 p2 = orderdup(x, o, method = 1L)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             tim["orderdup2", "prep"] <- tim["orderdup1", "prep"]
 #>             tim["orderdup2", "use"] <- timefun({
-#>                 p2 <- orderdup(x, o, method = 2L)
+#>                 p2 = orderdup(x, o, method = 2L)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             hashcache(x)
 #>             tim["hash.cache", "use"] <- timefun({
-#>                 p2 <- duplicated(x)
+#>                 p2 = duplicated(x)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             remcache(x)
 #>             sortordercache(x)
 #>             tim["sortorder.cache", "use"] <- timefun({
-#>                 p2 <- duplicated(x)
+#>                 p2 = duplicated(x)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             remcache(x)
 #>             ordercache(x)
 #>             tim["order.cache", "use"] <- timefun({
-#>                 p2 <- duplicated(x)
+#>                 p2 = duplicated(x)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             remcache(x)
@@ -1000,6 +1000,6 @@ fastest algorithm.
 #>     }
 #>     ret
 #> }
-#> <bytecode: 0x559fdb333820>
+#> <bytecode: 0x55bbe41d4b50>
 #> <environment: namespace:bit64>
 ```
