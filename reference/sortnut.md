@@ -261,20 +261,20 @@ fastest algorithm.
 #>         "table", "rank", "quantile"), uniorder = c("original", 
 #>         "values", "any"), taborder = c("values", "counts"), plot = TRUE) 
 #> {
-#>     uniorder <- match.arg(uniorder)
-#>     taborder <- match.arg(taborder)
-#>     ret <- vector("list", 2L * length(what))
+#>     uniorder = match.arg(uniorder)
+#>     taborder = match.arg(taborder)
+#>     ret = vector("list", 2L * length(what))
 #>     dim(ret) <- c(length(what), 2L)
 #>     dimnames(ret) <- list(what, c(nsmall, nbig))
 #>     if (plot) {
-#>         oldpar <- par(no.readonly = TRUE)
+#>         oldpar = par(no.readonly = TRUE)
 #>         on.exit(par(oldpar))
 #>         par(mfrow = c(2L, 1L))
 #>     }
 #>     if ("match" %in% what) {
 #>         message("match: timings of different methods")
-#>         N1 <- c(nsmall, nbig)
-#>         N2 <- c(nbig, nsmall)
+#>         N1 = c(nsmall, nbig)
+#>         N2 = c(nbig, nsmall)
 #>         for (i in seq_along(N1)) {
 #>             n1 <- N1[i]
 #>             n2 <- N2[i]
@@ -353,8 +353,8 @@ fastest algorithm.
 #>     }
 #>     if ("%in%" %in% what) {
 #>         message("%in%: timings of different methods")
-#>         N1 <- c(nsmall, nbig)
-#>         N2 <- c(nbig, nsmall)
+#>         N1 = c(nsmall, nbig)
+#>         N2 = c(nbig, nsmall)
 #>         for (i in seq_along(N1)) {
 #>             n1 <- N1[i]
 #>             n2 <- N2[i]
@@ -437,7 +437,7 @@ fastest algorithm.
 #>     }
 #>     if ("duplicated" %in% what) {
 #>         message("duplicated: timings of different methods")
-#>         N <- c(nsmall, nbig)
+#>         N = c(nsmall, nbig)
 #>         for (i in seq_along(N)) {
 #>             n <- N[i]
 #>             x <- c(sample(n, n - 1L, TRUE), NA)
@@ -518,7 +518,7 @@ fastest algorithm.
 #>     }
 #>     if ("unique" %in% what) {
 #>         message("unique: timings of different methods")
-#>         N <- c(nsmall, nbig)
+#>         N = c(nsmall, nbig)
 #>         for (i in seq_along(N)) {
 #>             n <- N[i]
 #>             x <- c(sample(n, n - 1L, TRUE), NA)
@@ -651,7 +651,7 @@ fastest algorithm.
 #>     }
 #>     if ("unipos" %in% what) {
 #>         message("unipos: timings of different methods")
-#>         N <- c(nsmall, nbig)
+#>         N = c(nsmall, nbig)
 #>         for (i in seq_along(N)) {
 #>             n <- N[i]
 #>             x <- c(sample(n, n - 1L, TRUE), NA)
@@ -771,7 +771,7 @@ fastest algorithm.
 #>     }
 #>     if ("table" %in% what) {
 #>         message("table: timings of different methods")
-#>         N <- c(nsmall, nbig)
+#>         N = c(nsmall, nbig)
 #>         for (i in seq_along(N)) {
 #>             n <- N[i]
 #>             x <- c(sample.int(1024L, n - 1L, replace = TRUE), 
@@ -1000,6 +1000,6 @@ fastest algorithm.
 #>     }
 #>     ret
 #> }
-#> <bytecode: 0x55abc9bc8378>
+#> <bytecode: 0x55e0e0079128>
 #> <environment: namespace:bit64>
 ```

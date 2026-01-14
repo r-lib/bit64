@@ -275,20 +275,20 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         "table", "rank", "quantile"), uniorder = c("original", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         "values", "any"), taborder = c("values", "counts"), plot = TRUE) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     uniorder &lt;- match.arg(uniorder)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     taborder &lt;- match.arg(taborder)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     ret &lt;- vector("list", 2L * length(what))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     uniorder = match.arg(uniorder)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     taborder = match.arg(taborder)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ret = vector("list", 2L * length(what))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     dim(ret) &lt;- c(length(what), 2L)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     dimnames(ret) &lt;- list(what, c(nsmall, nbig))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     if (plot) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         oldpar &lt;- par(no.readonly = TRUE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         oldpar = par(no.readonly = TRUE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         on.exit(par(oldpar))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         par(mfrow = c(2L, 1L))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     if ("match" %in% what) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         message("match: timings of different methods")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         N1 &lt;- c(nsmall, nbig)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         N2 &lt;- c(nbig, nsmall)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         N1 = c(nsmall, nbig)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         N2 = c(nbig, nsmall)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         for (i in seq_along(N1)) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             n1 &lt;- N1[i]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             n2 &lt;- N2[i]</span>
@@ -367,8 +367,8 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     if ("%in%" %in% what) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         message("%in%: timings of different methods")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         N1 &lt;- c(nsmall, nbig)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         N2 &lt;- c(nbig, nsmall)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         N1 = c(nsmall, nbig)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         N2 = c(nbig, nsmall)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         for (i in seq_along(N1)) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             n1 &lt;- N1[i]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             n2 &lt;- N2[i]</span>
@@ -451,7 +451,7 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     if ("duplicated" %in% what) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         message("duplicated: timings of different methods")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         N &lt;- c(nsmall, nbig)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         N = c(nsmall, nbig)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         for (i in seq_along(N)) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             n &lt;- N[i]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             x &lt;- c(sample(n, n - 1L, TRUE), NA)</span>
@@ -532,7 +532,7 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     if ("unique" %in% what) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         message("unique: timings of different methods")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         N &lt;- c(nsmall, nbig)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         N = c(nsmall, nbig)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         for (i in seq_along(N)) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             n &lt;- N[i]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             x &lt;- c(sample(n, n - 1L, TRUE), NA)</span>
@@ -665,7 +665,7 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     if ("unipos" %in% what) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         message("unipos: timings of different methods")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         N &lt;- c(nsmall, nbig)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         N = c(nsmall, nbig)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         for (i in seq_along(N)) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             n &lt;- N[i]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             x &lt;- c(sample(n, n - 1L, TRUE), NA)</span>
@@ -785,7 +785,7 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     if ("table" %in% what) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         message("table: timings of different methods")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         N &lt;- c(nsmall, nbig)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         N = c(nsmall, nbig)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         for (i in seq_along(N)) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             n &lt;- N[i]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             x &lt;- c(sample.int(1024L, n - 1L, replace = TRUE), </span>
@@ -1014,7 +1014,7 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ret</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55abc9bc8378&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55e0e0079128&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:bit64&gt;</span>
 </code></pre></div>
     </div>
