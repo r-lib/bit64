@@ -168,27 +168,33 @@ test_that("duplicated, unique, table methods work", {
   x = c(132724613L, -2143220989L)
   expect_identical(table(x=as.integer64(x)), table(x))
   
-  expect_identical(table(x, y=lim.integer64()), table(x=as.character(x), y=as.character(lim.integer64())))
-  expect_identical(table(y=lim.integer64(), x), table(y=as.character(lim.integer64()), x=as.character(x)))
-  
-  expect_identical(
-    table(a=as.integer64(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="no"),
-    table(a=as.integer(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="no")
-  )
-
-  expect_identical(
-    table(a=as.integer64(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="ifany"),
-    table(a=as.integer(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="ifany")
-  )
-
-  expect_identical(
-    table(a=as.integer64(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="always"),
-    table(a=as.integer(c(1,1,2)), b=1:3, c=c(2, NA, 4), exclude=1, useNA="always")
-  )
-
   x = as.integer64(c(1L, 1L, 2L))
   expect_error(duplicated(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
   expect_error(unique(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
+
+  expect_identical(table(x, y=lim.integer64()), table(x=as.character(x), y=as.character(lim.integer64())))
+  expect_identical(table(y=lim.integer64(), x), table(y=as.character(lim.integer64()), x=as.character(x)))
+})
+
+test_that("exclude, useNA arguments work for integer64 method of table", {
+  a32 = c(1L, 1L, 2L)
+  a64 = as.integer64(a32)
+  c = c(2, NA, 4)
+
+  expect_identical(
+    table(a=a64, b=1:3, c=c, exclude=1, useNA="no"),
+    table(a=a32, b=1:3, c=c, exclude=1, useNA="no")
+  )
+
+  expect_identical(
+    table(a=a64, b=1:3, c=c, exclude=1, useNA="ifany"),
+    table(a=a32, b=1:3, c=c, exclude=1, useNA="ifany")
+  )
+
+  expect_identical(
+    table(a=a64, b=1:3, c=c, exclude=1, useNA="always"),
+    table(a=a32, b=1:3, c=c, exclude=1, useNA="always")
+  )
 })
 
 test_that("different method= for duplicated, unique work", {
