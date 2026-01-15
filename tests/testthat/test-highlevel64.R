@@ -185,7 +185,7 @@ test_that("exclude, useNA arguments work for integer64 method of table", {
     table(a=a32, b=1:3, c=c, exclude=1, useNA="no")
   )
 
-  skip_unless_r(">= 3.5.0") # unclear what's going on
+  skip_unless_r("> 3.5.0") # unclear what's going on
   expect_identical(
     table(a=a64, b=1:3, c=c, exclude=1, useNA="ifany"),
     table(a=a32, b=1:3, c=c, exclude=1, useNA="ifany")
