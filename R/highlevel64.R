@@ -2043,11 +2043,12 @@ unipos.integer64 = function(x,
 #' @concept contingency table
 #' @export
 table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifany", "always"), dnn=list.names(...), deparse.level=1L) {
-  is_int64 = vapply(list(...), is.integer64, logical(1L), USE.NAMES=FALSE)
-  is_int = vapply(list(...), is.integer, logical(1L), USE.NAMES=FALSE)
+  dots = list(...)
+  is_int64 = vapply(dots, is.integer64, logical(1L), USE.NAMES=FALSE)
+  is_int = vapply(dots, is.integer, logical(1L), USE.NAMES=FALSE)
   # TODO(#236): avoid this workaround to hack S3 dispatch. For now,
   #   we only use table.integer64() when we are sure there is no information loss (coercion).
-  if (...length() && any(is_int64) && all(is_int64 | is_int)) {
+  if (length(dots) && any(is_int64) && all(is_int64 | is_int)) {
     sys_call = sys.call()
     sys_call[[1L]] = table.integer64
     pf = parent.frame()
