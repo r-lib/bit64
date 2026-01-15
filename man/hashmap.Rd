@@ -124,8 +124,8 @@ re-use hashmaps, which avoid re-building hashmaps again and again.
    \code{hashmapuni} \tab \code{\link[=unique.integer64]{unique()}} \tab return unique values of \code{x} \cr
    \code{hashupo} \tab \code{\link[=unique.integer64]{unique()}} \tab return positions of unique values in hashdat \cr
    \code{hashmapupo} \tab \code{\link[=unique.integer64]{unique()}} \tab return positions of unique values in \code{x} \cr
-   \code{hashtab} \tab \code{\link[=table.integer64]{table()}} \tab tabulate values of hashdat using hashmap in \code{keep.order=FALSE} \cr
-   \code{hashmaptab} \tab \code{\link[=table.integer64]{table()}} \tab tabulate values of \code{x} building hasmap on the fly in \code{keep.order=FALSE} \cr
+   \code{hashtab} \tab \code{\link[=table]{table()}} \tab tabulate values of hashdat using hashmap in \code{keep.order=FALSE} \cr
+   \code{hashmaptab} \tab \code{\link[=table]{table()}} \tab tabulate values of \code{x} building hasmap on the fly in \code{keep.order=FALSE} \cr
 }
 }
 \examples{
