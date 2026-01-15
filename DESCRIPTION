@@ -2,10 +2,11 @@ Package: bit64
 Title: A S3 Class for Vectors of 64bit Integers
 Version: 4.7.99
 Authors@R: c(
-    person("Michael", "Chirico", email = "michaelchirico4@gmail.com", role = c("aut", "cre")),
-    person("Jens", "Oehlschlägel", role = "aut"),
-    person("Leonardo", "Silvestri", role = "ctb"),
-    person("Ofek", "Shilon", role = "ctb")
+    person("Michael", "Chirico", email="michaelchirico4@gmail.com", role=c("aut", "cre")),
+    person("Jens", "Oehlschlägel", role="aut"),
+    person("Leonardo", "Silvestri", role="ctb"),
+    person("Ofek", "Shilon", role="ctb"),
+    person("Christian", given="@hcirellu", role="ctb", comment="GitHub user")
   )
 Depends: R (>= 3.5.0)
 Description:
