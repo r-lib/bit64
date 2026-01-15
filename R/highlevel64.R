@@ -2120,7 +2120,7 @@ table.integer64 = function(...,
     stop("nothing to tabulate", domain="R-base")
 
   # table(as.integer64(1L), "a") is dispatched to table.integer64, but should be handled by table.default
-  if (!all(vapply(seq_len(N), function(ii) {el = A(ii); is.integer64(el) || is.numeric(el)}, logical(1L))))
+  if (!all(vapply(seq_len(N), function(ii) {el = A(ii); is.integer64(el) || is.integer(el)}, logical(1L))))
     return(NextMethod())
   
   if (N == 1L && is.list(A(1L))) {
