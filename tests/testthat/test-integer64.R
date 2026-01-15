@@ -108,6 +108,11 @@ test_that("integer64 coercion from generic object works", {
 
 test_that("integer64 coercion to/from other types work for R >=4.0.0", {
   skip_unless_r(">= 4.0.0")
+  # Strange behavior due to British Standard Time, as observed e.g. on r-universe runners (#233)
+  #   Possibly an R bug: https://stat.ethz.ch/pipermail/r-devel/2026-January/084326.html
+  # See also https://github.com/r-lib/waldo/issues/230 to allow dropping 'else FALSE'
+  ignore_attr = if ("BST" %in% attr(as.POSIXlt(0), "tzone")) "tzone" else FALSE
+
   # from integer64
   i32 = 1:10
   i64 = as.integer64(i32)
@@ -122,7 +127,7 @@ test_that("integer64 coercion to/from other types work for R >=4.0.0", {
   expect_identical(as.POSIXct(i64, origin=10), as.POSIXct(as.numeric(i32), origin=10))
   expect_identical(as.POSIXct(i64, tz="UTC", origin=10), as.POSIXct(as.numeric(i32), tz="UTC", origin=10))
   expect_identical(as.POSIXct(i64, tz="CET", origin=10), as.POSIXct(as.numeric(i32), tz="CET", origin=10))
-  expect_identical(as.POSIXlt(i64), as.POSIXlt(i32))
+  expect_identical(as.POSIXlt(i64), as.POSIXlt(i32), ignore_attr=ignore_attr)
   expect_identical(as.POSIXlt(i64, origin=10), as.POSIXlt(i32, origin=10))
   expect_identical(as.POSIXlt(i64, tz="UTC", origin=10), as.POSIXlt(i32, tz="UTC", origin=10))
   expect_identical(as.POSIXlt(i64, tz="CET", origin=10), as.POSIXlt(i32, tz="CET", origin=10))
@@ -134,7 +139,7 @@ test_that("integer64 coercion to/from other types work for R >=4.0.0", {
   expect_identical(methods::as(as.integer64(1:10), "raw"), as.raw(1:10))
   expect_identical(methods::as(as.integer64(1:10), "difftime"), as.difftime(1:10, units="secs"))
   expect_identical(methods::as(as.integer64(1:10), "POSIXct"), as.POSIXct(as.numeric(1:10)))
-  expect_identical(methods::as(as.integer64(1:10), "POSIXlt"), as.POSIXlt(1:10))
+  expect_identical(methods::as(as.integer64(1:10), "POSIXlt"), as.POSIXlt(1:10), ignore_attr=ignore_attr)
   expect_identical(methods::as(as.integer64(1:10), "Date"), as.Date(as.numeric(1:10)))
 
 })
@@ -197,6 +202,13 @@ with_parameters_test_that(
     "0x0Z"
   )
 )
+
+test_that("as.integer64.double handles 2^63", {
+  expect_warning(
+    expect_identical(as.integer64(2^63), NA_integer64_),
+    "NAs produced by integer64 overflow"
+  )
+})
 
 test_that("S3 class basics work", {
   x = as.integer64(1:10)
@@ -286,7 +298,6 @@ test_that("arithmetic & basic math works", {
   expect_identical(log(x), log(as.numeric(x)))
   expect_identical(log(as.integer64(c(1L, 2L, 4L, 8L)), base=2L), as.numeric(0:3))
   expect_identical(log2(as.integer64(c(1L, 2L, 4L, 8L))), as.numeric(0:3))
-  # TODO(#48): Improve the numerical precision here.
   expect_identical(log10(as.integer64(c(1L, 10L, 100L, 1000L))), as.numeric(0:3), tolerance=1e-7)
 
   expect_identical(trunc(x), x)
