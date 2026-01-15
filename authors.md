@@ -10,6 +10,8 @@
 
 - **Ofek Shilon**. Contributor.
 
+- **Christian Ullerich**. Contributor.
+
 ## Citation
 
 Source:
