@@ -167,13 +167,12 @@ test_that("duplicated, unique, table methods work", {
 
   x = c(132724613L, -2143220989L)
   expect_identical(table(x=as.integer64(x)), table(x))
-  
+  expect_identical(table(x, y=lim.integer64()), table(x=as.character(x), y=as.character(lim.integer64())))
+  expect_identical(table(y=lim.integer64(), x), table(y=as.character(lim.integer64()), x=as.character(x)))
+
   x = as.integer64(c(1L, 1L, 2L))
   expect_error(duplicated(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
   expect_error(unique(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
-
-  expect_identical(table(x, y=lim.integer64()), table(x=as.character(x), y=as.character(lim.integer64())))
-  expect_identical(table(y=lim.integer64(), x), table(y=as.character(lim.integer64()), x=as.character(x)))
 })
 
 test_that("exclude, useNA arguments work for integer64 method of table", {
