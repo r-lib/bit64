@@ -506,7 +506,18 @@ test_that("table.integer64 covers inputs, cache states, and return types", {
   expect_error(suppressWarnings(do.call(table, args)), "attempt to make a table from more than")
 })
 
-test_that("table dispatch integer64 and character", {
-  expect_identical(table(as.integer64(1L), "a"), table(1L, "a")) 
-  expect_identical(table("a", as.integer64(1L)), table("a", 1L)) 
+test_that("table dispatch integer64 and 'higher' types and factors", {
+  expect_identical(table(as.integer64(1L), "a"), table(1L, "a"))
+  expect_identical(table("a", as.integer64(1L)), table("a", 1L))
+
+  expect_identical(table(as.integer64(1L), factor("a")), table(1L, factor("a")))
+  expect_identical(table(factor("a"), as.integer64(1L)), table(factor("a"), 1L))
+
+  expect_identical(table(as.integer64(1L), 1.0), table(1L, 1.0))
+  expect_identical(table(1.0, as.integer64(1L)), table(1.0, 1L))
+  expect_identical(table(as.integer64(1L), 1e100), table(1L, 1e100))
+  expect_identical(table(1e100, as.integer64(1L)), table(1e100, 1L))
+
+  expect_identical(table(as.integer64(1L), 1.0+1.0i), table(1L, 1.0+1.0i))
+  expect_identical(table(1.0+1.0i, as.integer64(1L)), table(1.0+1.0i, 1L))
 })
