@@ -99,7 +99,7 @@ Functions that use big caches:
 [`duplicated.integer64()`](https://bit64.r-lib.org/reference/duplicated.integer64.md),
 [`unique.integer64()`](https://bit64.r-lib.org/reference/unique.integer64.md),
 [`unipos()`](https://bit64.r-lib.org/reference/unipos.md),
-[`table.integer64()`](https://bit64.r-lib.org/reference/table.integer64.md),
+[`table()`](https://bit64.r-lib.org/reference/table.md),
 [`keypos()`](https://bit64.r-lib.org/reference/keypos.md),
 [`tiepos()`](https://bit64.r-lib.org/reference/tiepos.md),
 [`rank.integer64()`](https://bit64.r-lib.org/reference/rank.integer64.md),

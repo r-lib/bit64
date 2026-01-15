@@ -105,7 +105,22 @@ necessary.
 
 1.  `anyNA` gets an `integer64` method. Thanks
     [@hcirellu](https://github.com/hcirellu).
-2.  The [`seq()`](https://rdrr.io/r/base/seq.html) method for
+2.  `table` now gets a generic function and `table.integer64` is
+    extended by [`base::table`](https://rdrr.io/r/base/table.html)
+    parameters `exclude` and `useNA`
+    ([\#59](https://github.com/r-lib/bit64/issues/59)). Thanks
+    [@hcirellu](https://github.com/hcirellu). Note that as of now, for
+    multiple inputs like `table(x, y, z)`, the efficient
+    `table.integer64` implementation is only invoked if *all* of `x`,
+    `y`, and `z` can be losslessly coerced to `integer64`. If, say, `y`
+    is a character vector, the default method will be applied, leading
+    to `x` being coerced to `character` (and then `factor`), which can
+    result in unexpected ordering of the results when negative numbers
+    are included. To get around this, do coercion yourself first (either
+    coerce all inputs to `integer64` to get the fast implementation, or
+    coerce the `integer64` input(s) to `factor` with the desired
+    ordering).
+3.  The [`seq()`](https://rdrr.io/r/base/seq.html) method for
     `integer64` has been overhauled to better match features from the
     default method.
     - The motivation is
@@ -123,14 +138,14 @@ necessary.
       `seq(by=as.integer64(3L), length.out=8L)`.
     - `seq(a, a, length.out=n)` will give `rep(a, n)`, not
       `seq(a, by=1, length.out=n)`.
-3.  Coercion to/from integer64 is expanded greatly (includes
+4.  Coercion to/from integer64 is expanded greatly (includes
     [\#199](https://github.com/r-lib/bit64/issues/199)). Thanks
     [@hcirellu](https://github.com/hcirellu).
     - `as.Date`, `as.POSIXct`, `as.POSXlt`, `as.complex`, and `as.raw`
       get an `integer64` method.
     - `as.integer64` gets `Date`, `POSIXct`, `POSXlt`, `complex`, `raw`,
       and `difftime` methods.
-4.  `as.integer64.character`:
+5.  `as.integer64.character`:
     - Supports hexadecimal (base 16) input when prefixed with “0x” or
       “-0x”, e.g. `as.integer64("0x7FFFFFFFFFFFFFFF")`. Thanks
       [@hcirellu](https://github.com/hcirellu) for a PR which completes
@@ -138,9 +153,9 @@ necessary.
     - Ignores leading/trailing whitespace (as does
       [`as.integer()`](https://rdrr.io/r/base/integer.html);
       [\#232](https://github.com/r-lib/bit64/issues/232)).
-5.  `sortcache`, `sortordercache` and `ordercache` get a new argument
+6.  `sortcache`, `sortordercache` and `ordercache` get a new argument
     `na.last`.
-6.  `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method
+7.  `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method
     ([\#45](https://github.com/r-lib/bit64/issues/45)). Thanks
     [@hcirellu](https://github.com/hcirellu).
 

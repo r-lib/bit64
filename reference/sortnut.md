@@ -213,7 +213,7 @@ see details
 |             | `orderupo`   | `sortorderupo`   | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md)         | return positions of unique values                                        |
 |             | `ordertie`   | `sortordertie`   |                                                                             | return positions of tied values                                          |
 |             | `orderkey`   | `sortorderkey`   |                                                                             | positions of values in vector of unique values (match in dimensiontable) |
-| `sorttab`   | `ordertab`   | `sortordertab`   | [`table()`](https://bit64.r-lib.org/reference/table.integer64.md)           | tabulate frequency of values                                             |
+| `sorttab`   | `ordertab`   | `sortordertab`   | [`table()`](https://bit64.r-lib.org/reference/table.md)                     | tabulate frequency of values                                             |
 |             | `orderrnk`   | `sortorderrnk`   |                                                                             | rank averaging ties                                                      |
 | `sortqtl`   | `orderqtl`   |                  |                                                                             | return quantiles given probabilities                                     |
 
@@ -788,12 +788,10 @@ fastest algorithm.
 #>             tim["table", "both"] <- timefun({
 #>                 p = table(x, exclude = NULL)
 #>             })[3L]
-#>             p = p[-length(p)]
 #>             x = as.integer64(x)
 #>             tim["table.64", "both"] <- timefun({
-#>                 p2 = table.integer64(x, order = taborder)
+#>                 p2 = table(x, exclude = NULL, order = taborder)
 #>             })[3L]
-#>             p2 = p2[-1L]
 #>             stopifnot(identical(p2, p))
 #>             tim["hashmaptab", "both"] <- timefun({
 #>                 p = hashmaptab(x)
@@ -862,25 +860,25 @@ fastest algorithm.
 #>             stopifnot(identical(p2, p))
 #>             hashcache(x)
 #>             tim["hash.cache", "use"] <- timefun({
-#>                 p <- table.integer64(x, order = taborder)
+#>                 p <- table(x, exclude = NULL, order = taborder)
 #>             })[3L]
 #>             remcache(x)
-#>             sortordercache(x)
+#>             sortordercache(x, na.last = TRUE)
 #>             tim["sort.cache", "use"] <- timefun({
-#>                 p2 <- table.integer64(x, order = taborder)
+#>                 p2 <- table(x, exclude = NULL, order = taborder)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             remcache(x)
-#>             ordercache(x)
+#>             ordercache(x, na.last = TRUE)
 #>             tim["order.cache", "use"] <- timefun({
-#>                 p2 <- table.integer64(x, order = taborder)
+#>                 p2 <- table(x, exclude = NULL, order = taborder)
 #>             })[3L]
 #>             stopifnot(identical(p2, p))
 #>             remcache(x)
 #>             if (plot) {
 #>                 barplot(t(tim), cex.names = 0.7)
-#>                 title(paste0("table.integer64(", n, ", order=", 
-#>                   taborder, ")"))
+#>                 title(paste0("table(", n, ", order=", taborder, 
+#>                   ")"))
 #>             }
 #>             ret[["table", as.character(n)]] <- tim
 #>         }
@@ -1000,6 +998,6 @@ fastest algorithm.
 #>     }
 #>     ret
 #> }
-#> <bytecode: 0x55c59316b648>
+#> <bytecode: 0x561bd0a929e0>
 #> <environment: namespace:bit64>
 ```

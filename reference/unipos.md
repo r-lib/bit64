@@ -76,8 +76,8 @@ The default `order="original"` collects unique values in the order of
 the first appearance in `x` like in
 [`unique()`](https://rdrr.io/r/base/unique.html), this costs extra
 processing. `order="values"` collects unique values in sorted order like
-in [`table()`](https://rdrr.io/r/base/table.html), this costs extra
-processing with the hash methods but comes for free. `order="any"`
+in [`table()`](https://bit64.r-lib.org/reference/table.md), this costs
+extra processing with the hash methods but comes for free. `order="any"`
 collects unique values in undefined order, possibly faster. For hash
 methods this will be a quasi random order, for sort methods this will be
 sorted order.
@@ -94,9 +94,9 @@ for general matching.
 ``` r
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 unipos(x)
-#> [1]  1  2  4  5  9 18 23 26
+#> [1]  1  2  4  6  8 10 28 30
 unipos(x, order="values")
-#> [1]  1  4  5 23 26  9  2 18
+#> [1]  2  4  8 10 28  6 30  1
 
 stopifnot(identical(unipos(x),  (1:length(x))[!duplicated(x)]))
 stopifnot(identical(unipos(x),  match.integer64(unique(x), x)))

@@ -423,7 +423,7 @@ the examples.
 | [`unipos.integer64()`](https://bit64.r-lib.org/reference/unipos.md)                   | [`unipos()`](https://bit64.r-lib.org/reference/unipos.md) | positions corresponding to unique values (h/s/o/so)                |
 | [`tiepos.integer64()`](https://bit64.r-lib.org/reference/tiepos.md)                   | [`tiepos()`](https://bit64.r-lib.org/reference/tiepos.md) | positions of values that are tied (//o/so)                         |
 | [`keypos.integer64()`](https://bit64.r-lib.org/reference/keypos.md)                   | [`keypos()`](https://bit64.r-lib.org/reference/keypos.md) | position of current value in sorted list of unique values (//o/so) |
-| [`table.integer64()`](https://bit64.r-lib.org/reference/table.integer64.md)           | [`table()`](https://rdrr.io/r/base/table.html)            | unique values and their frequencies (h/s/o/so)                     |
+| [`table.integer64()`](https://bit64.r-lib.org/reference/table.md)                     | [`table()`](https://bit64.r-lib.org/reference/table.md)   | unique values and their frequencies (h/s/o/so)                     |
 | [`sort.integer64()`](https://bit64.r-lib.org/reference/sort.integer64.md)             | [`sort()`](https://rdrr.io/r/base/sort.html)              | sorted vector (/s/o/so)                                            |
 | [`order.integer64()`](https://bit64.r-lib.org/reference/sort.integer64.md)            | [`order()`](https://bit64.r-lib.org/reference/bit64S3.md) | positions of elements that would create sorted vector (//o/so)     |
 | [`rank.integer64()`](https://bit64.r-lib.org/reference/rank.integer64.md)             | [`rank()`](https://bit64.r-lib.org/reference/bit64S3.md)  | (average) ranks of non-NAs, NAs kept in place (/s/o/so)            |

@@ -88,10 +88,10 @@ functions creating big caches
 #> [1] 9
  bit::nties(x)
 #> [1] 30
- table.integer64(x)
+ table(x)
 #> x
-#> <NA>    1    2    3    4    5    7    8    9 
-#>   14    3    3    1    1    2    3    3    2 
+#> 1 2 3 4 5 7 8 9 
+#> 3 3 1 1 2 3 3 2 
  x
 #> integer64
 #>  [1] <NA> <NA> 2    3    1    9    2    8    8    <NA> <NA> 7    1   

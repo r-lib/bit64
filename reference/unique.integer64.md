@@ -78,8 +78,8 @@ The default `order="original"` returns unique values in the order of the
 first appearance in `x` like in
 [`unique()`](https://rdrr.io/r/base/unique.html), this costs extra
 processing. `order="values"` returns unique values in sorted order like
-in [`table()`](https://rdrr.io/r/base/table.html), this costs extra
-processing with the hash methods but comes for free. `order="any"`
+in [`table()`](https://bit64.r-lib.org/reference/table.md), this costs
+extra processing with the hash methods but comes for free. `order="any"`
 returns unique values in undefined order, possibly faster. For hash
 methods this will be a quasi random order, for sort methods this will be
 sorted order.
@@ -89,8 +89,8 @@ sorted order.
 [`unique()`](https://rdrr.io/r/base/unique.html) for the generic,
 [`unipos()`](https://bit64.r-lib.org/reference/unipos.md) which gives
 the indices of the unique elements and
-[`table.integer64()`](https://bit64.r-lib.org/reference/table.integer64.md)
-which gives frequencies of the unique elements.
+[`table()`](https://bit64.r-lib.org/reference/table.md) which gives
+frequencies of the unique elements.
 
 ## Examples
 
@@ -98,10 +98,10 @@ which gives frequencies of the unique elements.
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 unique(x)
 #> integer64
-#> [1] <NA> 8    7    9    2    3    1    4    6   
+#>  [1] 9    <NA> 6    5    7    3    1    2    8    4   
 unique(x, order="values")
 #> integer64
-#> [1] <NA> 1    2    3    4    6    7    8    9   
+#>  [1] <NA> 1    2    3    4    5    6    7    8    9   
 
 stopifnot(identical(unique(x),  x[!duplicated(x)]))
 stopifnot(identical(unique(x),  as.integer64(unique(as.integer(x)))))

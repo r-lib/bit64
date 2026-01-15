@@ -192,8 +192,8 @@
   [`range(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sum.integer64.md)
   [`lim.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md)
   : Summary functions for integer64 vectors
-- [`table.integer64()`](https://bit64.r-lib.org/reference/table.integer64.md)
-  : Cross Tabulation and Table Creation for integer64
+- [`table()`](https://bit64.r-lib.org/reference/table.md) : Cross
+  Tabulation and Table Creation for integer64
 - [`tiepos()`](https://bit64.r-lib.org/reference/tiepos.md) : Extract
   Positions of Tied Elements
 - [`unipos()`](https://bit64.r-lib.org/reference/unipos.md) : Extract

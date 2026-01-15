@@ -135,8 +135,8 @@ See Details
 | `hashmapuni` | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md)         | return unique values of `x`                                             |
 | `hashupo`    | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md)         | return positions of unique values in hashdat                            |
 | `hashmapupo` | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md)         | return positions of unique values in `x`                                |
-| `hashtab`    | [`table()`](https://bit64.r-lib.org/reference/table.integer64.md)           | tabulate values of hashdat using hashmap in `keep.order=FALSE`          |
-| `hashmaptab` | [`table()`](https://bit64.r-lib.org/reference/table.integer64.md)           | tabulate values of `x` building hasmap on the fly in `keep.order=FALSE` |
+| `hashtab`    | [`table()`](https://bit64.r-lib.org/reference/table.md)                     | tabulate values of hashdat using hashmap in `keep.order=FALSE`          |
+| `hashmaptab` | [`table()`](https://bit64.r-lib.org/reference/table.md)                     | tabulate values of `x` building hasmap on the fly in `keep.order=FALSE` |
 
 ## See also
 
