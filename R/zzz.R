@@ -298,16 +298,12 @@ target_class_and_sample_value = function(x, recursive=FALSE, errorClasses="") {
   
   if (any(c("character", "factor", "ordered") %in% classes)) {
     valueClass = "character"
-    funValue = character(1L)
   } else if ("complex" %in% classes) {
     valueClass = "complex"
-    funValue = complex(1L)
   } else if (any(c("Date", "POSIXct", "POSIXlt", "difftime") %in% classes)) {
     valueClass = "double"
-    funValue = numeric(1L)
   } else {
     valueClass = "integer64"
-    funValue = integer64(1L)
   }
-  list(class = valueClass, sampleValue = funValue)
+  valueClass
 }

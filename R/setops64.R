@@ -34,7 +34,7 @@ union = function(x, y) {
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::union(x, y))
   
-  target_class = target_class_and_sample_value(list(x, y))$class
+  target_class = target_class_and_sample_value(list(x, y))
   # try using the benefit of integer64 caching, if possible. I.e. call unique() before as().
   x = unique(x)
   if (class(x)[1L] != target_class)
@@ -52,7 +52,7 @@ intersect = function(x, y) {
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::intersect(x, y))
   
-  target_class = target_class_and_sample_value(list(x, y))$class
+  target_class = target_class_and_sample_value(list(x, y))
   x = unique(x)
   if (class(x)[1L] != target_class)
     x = as(x, target_class)
@@ -69,7 +69,7 @@ setequal = function(x, y) {
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::setequal(x, y))
   
-  target_class = target_class_and_sample_value(list(x, y))$class
+  target_class = target_class_and_sample_value(list(x, y))
   x = unique(x)
   if (class(x)[1L] != target_class)
     x = as(x, target_class)
@@ -90,7 +90,7 @@ setdiff = function(x, y) {
     x = unclass(x)
   if (class(x)[1L] %in% c("factor", "ordered"))
     x = as.character(x)
-  target_class = target_class_and_sample_value(list(x, y))$class
+  target_class = target_class_and_sample_value(list(x, y))
   x = unique(x)
   y = unique(y)
   if (class(x)[1L] != target_class)
@@ -109,7 +109,7 @@ is.element = function(el, set) {
   if (!(is.integer64(el) || is.integer64(set)))
     return(base::is.element(el, set))
   
-  target_class = target_class_and_sample_value(list(el, set))$class
+  target_class = target_class_and_sample_value(list(el, set))
   if (class(el)[1L] != target_class)
     el = as(el, target_class)
   set = unique(set)
