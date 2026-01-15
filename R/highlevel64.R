@@ -2118,6 +2118,11 @@ table.integer64 = function(...,
   N = length(argsymbols)
   if (!N)
     stop("nothing to tabulate", domain="R-base")
+
+  # table(as.integer64(1L), "a") is dispatched to table.integer64, but should be handled by table.default
+  if (!all(vapply(seq_len(N), function(ii) {el = A(ii); is.integer64(el) || is.numeric(el)}, logical(1L))))
+    return(NextMethod())
+  
   if (N == 1L && is.list(A(1L))) {
     args = A(1L) # nolint: object_overwrite_linter. This code should probably be refactored anyway.
     if (length(dnn) != length(args))

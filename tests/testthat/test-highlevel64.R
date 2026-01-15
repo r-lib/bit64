@@ -505,3 +505,8 @@ test_that("table.integer64 covers inputs, cache states, and return types", {
   #   to verify the explicit stop error cleanly.
   expect_error(suppressWarnings(do.call(table, args)), "attempt to make a table from more than")
 })
+
+test_that("table dispatch integer64 and character", {
+  expect_identical(table(as.integer64(1L), "a"), table(1L, "a")) 
+  expect_identical(table("a", as.integer64(1L)), table("a", 1L)) 
+})
