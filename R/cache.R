@@ -33,7 +33,7 @@
 #'   of the user: [`hashcache`], [`sortcache`], [`ordercache`], [`sortordercache`]
 #'
 #' Functions that use big caches: [match.integer64()], \code{\link[=match.integer64]{\%in\%.integer64}},
-#'   [duplicated.integer64()], [unique.integer64()], [unipos()], [table.integer64()],
+#'   [duplicated.integer64()], [unique.integer64()], [unipos()], [table()],
 #'   [keypos()], [tiepos()], [rank.integer64()], [prank()], [qtile()],
 #'   [quantile.integer64()], [median.integer64()], and [summary.integer64()]
 #'
@@ -307,7 +307,7 @@ ordercache = function(x, has.na=NULL, stable=NULL, optimize="time", na.last=FALS
 #'  bit::nvalid(x)
 #'  bit::nunique(x)
 #'  bit::nties(x)
-#'  table.integer64(x)
+#'  table(x)
 #'  x
 #'
 #' @keywords environment methods
