@@ -227,7 +227,6 @@ deprecate_exported_s3_methods(
   sorttab.integer64,
   sortuni.integer64,
   summary.integer64,
-  # table.integer64,
   tiepos.integer64,
   unipos.integer64
 )

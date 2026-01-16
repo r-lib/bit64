@@ -47,6 +47,7 @@
 ## NEW FEATURES
 
 1. `anyNA` gets an `integer64` method. Thanks @hcirellu.
+1. `table` now gets a generic function and `table.integer64` is extended by `base::table` parameters `exclude` and `useNA` (#59). Thanks @hcirellu. Note that as of now, for multiple inputs like `table(x, y, z)`, the efficient `table.integer64` implementation is only invoked if _all_ of `x`, `y`, and `z` can be losslessly coerced to `integer64`. If, say, `y` is a character vector, the default method will be applied, leading to `x` being coerced to `character` (and then `factor`), which can result in unexpected ordering of the results when negative numbers are included. To get around this, do coercion yourself first (either coerce all inputs to `integer64` to get the fast implementation, or coerce the `integer64` input(s) to `factor` with the desired ordering).
 1. The `seq()` method for `integer64` has been overhauled to better match features from the default method.
    - The motivation is #47, where `seq(as.integer64(1L), 11L, length.out=6L)` calculated `by=` incorrectly to give `1:6` instead of `c(1L, 3L, ..., 9L, 11L)`.
    - `length.out=` was also sometimes ignored, for example `seq(to=as.integer64(5L), length.out=0L)` will now always just give `integer64()`.

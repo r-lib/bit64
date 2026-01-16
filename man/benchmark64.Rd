@@ -29,7 +29,7 @@ optimizer64(
 
 \item{uniorder}{one of the order parameters that are allowed in \code{\link[=unique.integer64]{unique.integer64()}} and \code{\link[=unipos.integer64]{unipos.integer64()}}}
 
-\item{taborder}{one of the order parameters that are allowed in \code{\link[=table.integer64]{table.integer64()}}}
+\item{taborder}{one of the order parameters that are allowed in \code{\link[=table]{table()}}}
 
 \item{plot}{set to FALSE to suppress plotting}
 }

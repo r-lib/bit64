@@ -43,8 +43,8 @@
 #' | `hashmapuni` |          [`unique()`][unique.integer64] | return unique values of `x` |
 #' |    `hashupo` |          [`unique()`][unique.integer64] | return positions of unique values in hashdat |
 #' | `hashmapupo` |          [`unique()`][unique.integer64] | return positions of unique values in `x` |
-#' |    `hashtab` |            [`table()`][table.integer64] | tabulate values of hashdat using hashmap in `keep.order=FALSE` |
-#' | `hashmaptab` |            [`table()`][table.integer64] | tabulate values of `x` building hasmap on the fly in `keep.order=FALSE` |
+#' |    `hashtab` |            [`table()`][table] | tabulate values of hashdat using hashmap in `keep.order=FALSE` |
+#' | `hashmaptab` |            [`table()`][table] | tabulate values of `x` building hasmap on the fly in `keep.order=FALSE` |
 # nolint end: line_length_linter.
 #'
 #' @return See Details

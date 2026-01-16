@@ -15,7 +15,7 @@
 #' @param timefun a function for timing such as [bit::repeat.time()] or [system.time()]
 #' @param what a vector of names of high-level functions
 #' @param uniorder one of the order parameters that are allowed in [unique.integer64()] and [unipos.integer64()]
-#' @param taborder one of the order parameters that are allowed in [table.integer64()]
+#' @param taborder one of the order parameters that are allowed in [table()]
 #' @param plot set to FALSE to suppress plotting
 #'
 #' @details
@@ -186,7 +186,7 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
   })[3L]
   message('since not unique, then check distribution of frequencies')
   tim1[i] <- tim1[i] + timefun({
-   if (i==1L) tabulate(table(b, exclude=NULL)) else tabulate(table.integer64(b, return='list')$counts)
+   if (i==1L) tabulate(table(b, exclude=NULL)) else tabulate(table(b, return='list')$counts)
   })[3L]
   message("OK, let's plot the percentiles of unique values versus the percentiles allowing for duplicates")
   tim1[i] <- tim1[i] + timefun({
@@ -313,7 +313,7 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
 
   message(colnames(tim2)[i], " table(b)")
   tim2["table(b)", i] <- timefun({
-   if (i==1L) table(b) else table.integer64(b, return='list')
+   if (i==1L) table(b) else table(b, return='list')
   })[3L]
 
   message(colnames(tim2)[i], " sort(b)")
@@ -996,14 +996,12 @@ optimizer64 = function(nsmall=2L^16L,
    tim["table", "both"] <- timefun({
     p = table(x, exclude=NULL)
    })[3L]
-   p = p[-length(p)]
 
    x = as.integer64(x)
 
    tim["table.64", "both"] <- timefun({
-    p2 = table.integer64(x, order=taborder)
+    p2 = table(x, exclude=NULL, order=taborder)
    })[3L]
-   p2 = p2[-1L]
    stopifnot(identical(p2, p))
 
    tim["hashmaptab", "both"] <- timefun({
@@ -1076,27 +1074,27 @@ optimizer64 = function(nsmall=2L^16L,
 
             hashcache(x)
             tim["hash.cache", "use"] <- timefun({
-                p <- table.integer64(x, order=taborder)
+                p <- table(x, exclude=NULL, order=taborder)
             })[3L]
             remcache(x)
 
-            sortordercache(x)
+            sortordercache(x, na.last=TRUE)
             tim["sort.cache", "use"] <- timefun({
-                p2 <- table.integer64(x, order=taborder)
+                p2 <- table(x, exclude=NULL, order=taborder)
             })[3L]
             stopifnot(identical(p2, p))
             remcache(x)
 
-            ordercache(x)
+            ordercache(x, na.last=TRUE)
             tim["order.cache", "use"] <- timefun({
-                p2 <- table.integer64(x, order=taborder)
+                p2 <- table(x, exclude=NULL, order=taborder)
             })[3L]
             stopifnot(identical(p2, p))
             remcache(x)
 
             if (plot) {
                 barplot(t(tim), cex.names=0.7)
-                title(paste0("table.integer64(", n, ", order=", taborder, ")"))
+                title(paste0("table(", n, ", order=", taborder, ")"))
             }
 
             ret[["table", as.character(n)]] <- tim
@@ -1674,7 +1672,7 @@ duplicated.integer64 = function(x, incomparables = FALSE, nunique = NULL, method
 #'   the result has no names).
 #'
 #' @seealso [unique()] for the generic, [unipos()] which gives the indices
-#'   of the unique elements and [table.integer64()] which gives frequencies
+#'   of the unique elements and [table()] which gives frequencies
 #'   of the unique elements.
 #'
 #' @examples
@@ -1955,23 +1953,22 @@ unipos.integer64 = function(x,
 #'
 #' `table.integer64` uses the cross-classifying integer64 vectors to build a
 #'   contingency table of the counts at each combination of vector values.
-#'
+#'   
 #' @param ... one or more objects which can be interpreted as factors
 #'   (including character strings), or a list (or data frame) whose
 #'   components can be so interpreted.  (For `as.table` and `as.data.frame`,
 #'   arguments passed to specific methods.)
-#' @param nunique NULL or the number of unique values of table (including NA).
-#'   Providing `nunique` can speed-up matching when `table` has no cache. Note
-#'   that a wrong `nunique` can cause undefined behaviour up to a crash.
-#' @param order By default results are created sorted by "values", or by "counts"
-#' @param method NULL for automatic method selection or a suitable low-level
-#'   method, see details
-#' @param return choose the return format, see details
+#' @param exclude levels to remove for all factors in ....
+#' @param useNA whether to include NA values in the table.
 #' @param dnn the names to be given to the dimensions in the result
 #'   (the _dimnames names_).
 #' @param deparse.level controls how the default `dnn` is constructed. See Details.
 #'
 #' @details
+#' If at least one argument of `...` is integer64 and the remaining arguments of `...` 
+#' are integer64 or integer the `table.integer64` method is used. Only this method 
+#' supports the arguments `return`, `order`, `nunique`, and `method`.
+#' 
 #' This function automatically chooses from several low-level functions considering
 #'   the size of `x` and the availability of a cache.
 #'
@@ -1987,9 +1984,6 @@ unipos.integer64 = function(x,
 #'   remaining arguments, `deparse.level = 0` gives an empty name,
 #'   `deparse.level = 1` uses the supplied argument if it is a symbol,
 #'   and `deparse.level = 2` will deparse the argument.
-#'
-#' Arguments `exclude`, `useNA`, are not supported, i.e. `NA`s are always tabulated,
-#'   and, different from [table()] they are sorted first if `order="values"`.
 #'
 #' @return By default (with `return="table"`) [table()] returns a
 #'   _contingency table_, an object of class `"table"`, an array of integer values.
@@ -2035,26 +2029,64 @@ unipos.integer64 = function(x,
 #' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #' y <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #' z <- sample(c(rep(NA, 9), letters), 32, TRUE)
-#' table.integer64(x)
-#' table.integer64(x, order="counts")
-#' table.integer64(x, y)
-#' table.integer64(x, y, return="data.frame")
+#' table(x)
+#' table(x, order="counts")
+#' table(x, y)
+#' table(x, y, return="data.frame")
 #'
 #' message("via as.integer64.factor we can use 'table.integer64' also for factors")
-#' table.integer64(x, as.integer64(as.factor(z)))
+#' table(x, as.integer64(as.factor(z)))
 #' @keywords category
 #' @concept counts
 #' @concept frequencies
 #' @concept occurrences
 #' @concept contingency table
 #' @export
+table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifany", "always"), dnn=list.names(...), deparse.level=1L) {
+  dots = list(...)
+  is_int64 = vapply(dots, is.integer64, logical(1L), USE.NAMES=FALSE)
+  is_int = vapply(dots, is.integer, logical(1L), USE.NAMES=FALSE)
+  # TODO(#236): avoid this workaround to hack S3 dispatch. For now,
+  #   we only use table.integer64() when we are sure there is no information loss (coercion).
+  if (length(dots) && any(is_int64) && all(is_int64 | is_int)) {
+    sys_call = sys.call()
+    sys_call[[1L]] = table.integer64
+    pf = parent.frame()
+    withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"), "table.integer64")
+  } else {
+    UseMethod("table")
+  }
+}
+#' @exportS3Method table default
+table.default = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifany", "always"), dnn=list.names(...), deparse.level=1L) {
+  # avoid condition messages with `table.default`
+  sys_call = sys.call()
+  sys_call[[1L]] = base::table
+  pf = parent.frame()
+  withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"))
+}
+
+#' @method table integer64
+#' @param return choose the return format, see details
+#' @param order By default results are created sorted by "values", or by "counts"
+#' @param nunique NULL or the number of unique values of table (including NA).
+#'   Providing `nunique` can speed-up matching when `table` has no cache. Note
+#'   that a wrong `nunique` can cause undefined behaviour up to a crash.
+#' @param method NULL for automatic method selection or a suitable low-level
+#'   method, see details
+#' @aliases table.integer64
+#' @exportS3Method table integer64
+#' @rdname table
 table.integer64 = function(...,
                             return = c("table", "data.frame", "list"),
                             order = c("values", "counts"),
                             nunique = NULL,
                             method = NULL,
+                            exclude = if (useNA == "no") c(NA, NaN),
+                            useNA = c("no", "ifany", "always"),
                             dnn = list.names(...),
                             deparse.level = 1L) {
+
   order = match.arg(order)
   return = match.arg(return)
   # this is taken from 'table'
@@ -2085,7 +2117,12 @@ table.integer64 = function(...,
   A = function(i) eval(argsymbols[[i]], argframe)
   N = length(argsymbols)
   if (!N)
-      stop("nothing to tabulate")
+    stop("nothing to tabulate", domain="R-base")
+
+  # table(as.integer64(1L), "a") is dispatched to table.integer64, but should be handled by table.default
+  if (!all(vapply(seq_len(N), function(ii) {el = A(ii); is.integer64(el) || is.integer(el)}, logical(1L))))
+    return(NextMethod())
+  
   if (N == 1L && is.list(A(1L))) {
     args = A(1L) # nolint: object_overwrite_linter. This code should probably be refactored anyway.
     if (length(dnn) != length(args))
@@ -2096,32 +2133,35 @@ table.integer64 = function(...,
   }
   force(dnn)
 
-  if (N==1L) {
+  if (N == 1L) {
     x = A(1L)
     if (!is.integer64(x)) {
-      warning("coercing first argument to integer64")
+      if (!is.integer(x))
+        warning("coercing first argument to integer64")
       x = as.integer64(x)
     }
   } else {
     a = A(1L)
     n = length(a)
     nu = integer(N)
-    d = integer64(N+1L); d[[1L]] <- 1L
+    d = integer64(N + 1L)
+    d[[1L]] = 1L
     dims = vector("list", N)
     names(dims) = dnn
-    for (i in 1:N) {
+    for (i in seq_len(N)) {
       a = A(i)
       if (length(a) != n)
-        stop("all input vectors must have the same length")
+        stop("all arguments must have the same length", domain="R-base")
       if (!is.integer64(a)) {
-        warning("coercing argument ", i, " to integer64")
+        if (!is.integer(a))
+          warning("coercing argument ", i, " to integer64")
         a = as.integer64(a)
       }
       cache_env = cache(a)
       if (is.null(cache_env$order)) {
         s = clone(a)
         o = seq_along(s)
-        ramsortorder(s, o)
+        ramsortorder(s, o, na.last=TRUE)
         nu[[i]] = sortnut(s)[["nunique"]]
       } else if (is.null(cache_env$sort)) {
         o = cache_env$order
@@ -2132,14 +2172,14 @@ table.integer64 = function(...,
         s = cache_env$sort
         nu[[i]] = cache_env$nunique
       }
-      d[[i+1L]] = d[[i]] * nu[[i]]
-      if (is.na(d[[i+1L]]))
+      d[[i+1L]] = d[[i]]*nu[[i]]
+      if (is.na(d[[i + 1L]]))
         stop("attempt to make a table from more than >= 2^63 hypothetical combinations")
       dims[[i]] = sortuni(s, nu[[i]])
-      if (i==1L)
+      if (i == 1L)
         x = sortorderkey(s, o) - 1L
       else
-        x = x + d[[i]] * (sortorderkey(s, o) - 1L)
+        x = x + d[[i]]*(sortorderkey(s, o) - 1L)
     }
   }
   cache_env = cache(x)
@@ -2147,7 +2187,7 @@ table.integer64 = function(...,
     nunique = cache_env$nunique
   if (is.null(method)) {
     if (is.null(cache_env)) {
-      if (order=="values" && (is.null(nunique) || nunique>65536L))
+      if (order == "values" && (is.null(nunique) || nunique > 65536L))
         method = "sorttab"
       else
         method = "hashmaptab"
@@ -2156,7 +2196,7 @@ table.integer64 = function(...,
       if (order=="values") {
         if (!is.null(cache_env$sort))
           method = "sorttab"
-        else if (!is.null(cache_env$hashmap) && cache_env$nunique<sqrt(length(x)))
+        else if (!is.null(cache_env$hashmap) && cache_env$nunique < sqrt(length(x)))
           method = "hashtab"
         else if (!is.null(cache_env$order))
           method = "ordertab"
@@ -2196,7 +2236,7 @@ table.integer64 = function(...,
     sorttab={
       if (is.null(cache_env) || is.null(cache_env$sort)) {
         s = clone(x)
-        ramsort(s, na.last=FALSE)
+        ramsort(s, na.last=TRUE)
       } else {
         s = get("sort", cache_env, inherits=FALSE)
       }
@@ -2208,7 +2248,7 @@ table.integer64 = function(...,
     ordertab={
       if (is.null(cache_env) || is.null(cache_env$order)) {
         o = seq_along(x)
-        ramorder(x, o, na.last=FALSE)
+        ramorder(x, o, na.last=TRUE)
       } else {
         o = get("order", cache_env, inherits=FALSE)
       }
@@ -2219,10 +2259,10 @@ table.integer64 = function(...,
       rm(o)
     }
   )
-  if (order=="values") {
+  if (order == "values") {
     if (startsWith(method, "hash")) {
       o = seq_along(val)
-      ramsortorder(val, o, na.last=FALSE)
+      ramsortorder(val, o, na.last=TRUE)
       cnt = cnt[o]
     }
   } else {
@@ -2244,20 +2284,31 @@ table.integer64 = function(...,
         attr(cnt, "dimnames") = dn
       } else {
         a = array(0L, dim=nu, dimnames=lapply(dims, as.character))
-        a[as.integer(val)+1L] = as.integer(cnt)
+        a[as.integer(val) + 1L] = as.integer(cnt)
         cnt = a
+      }
+      useNA = match.arg(useNA)
+      if (length(exclude) > 0L) {
+        sel = suppressWarnings(lapply(dimnames(cnt), Negate(`%in%`), table=exclude))
+        cnt = do.call(`[`, c(list(x=cnt), sel, list(drop=FALSE)))
+      }
+      if (useNA == "always") {
+        dimnames_new = lapply(dimnames(cnt), function(el) c(el, if (!anyNA(el)) NA))
+        cnt_new = array(0L, as.integer(vapply(dimnames_new, length, 0L)))
+        dimnames(cnt_new) = dimnames_new
+        cnt = do.call(`[<-`, c(list(x=cnt_new), lapply(dim(cnt), seq_len), list(value=cnt)))
       }
       oldClass(cnt) = "table"
     },
     data.frame = {
-      if (N==1L) {
+      if (N == 1L) {
         cnt = data.frame(values=val, Freq=cnt)
         names(cnt)[[1L]] = dnn[1L]
       } else {
         for (i in N:1) {
           w = val %/% d[[i]]
           val = val - d[[i]]*w
-          dims[[i]] = dims[[i]][as.integer(w)+1L]
+          dims[[i]] = dims[[i]][as.integer(w) + 1L]
         }
         cnt = data.frame(dims, Freq=cnt)
       }

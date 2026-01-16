@@ -7,12 +7,13 @@ withr_shim_env <- new.env()
 with(testthat_shim_env, {
 
 test_that <- function(desc, code) {
-  cat(sprintf("\nTEST: %s\n", desc))
+  cat(sprintf("\nTEST: %s\n  ", desc))
   # Eval in a new environment to keep scope cleanish
   tryCatch(
     eval(substitute(code), envir = new.env(parent = parent.frame())),
     skip_error = identity
   )
+  cat("\n")
 }
 
 skip_if = function(cond, info) {
@@ -55,6 +56,7 @@ expect_identical = function(x, y, tolerance = NULL, ignore_attr = NULL, info = c
       stop("x and y are not identical (within tolerance)", if (length(info)) "\n", info)
     }
   }
+  cat(".")
   invisible(x)
 }
 
@@ -77,10 +79,11 @@ expect_warning <- function(object, regexp = NULL, ...) {
     stop("FAILURE: expect_warning() failed (no warning caught).")
   }
 
-  if (is.null(regexp)) return(invisible())
+  if (is.null(regexp)) { cat("."); return(invisible()) }
   if (!any(grepl(regexp, warnings, ...))) {
     stop(sprintf("FAILURE: expect_warning() regex mismatch.\n  Expected: %s\n  Actual: %s", regexp, toString(warnings)))
   }
+  cat(".")
 }
 
 expect_no_warning <- function(object, ...) {
@@ -89,30 +92,35 @@ expect_no_warning <- function(object, ...) {
   }, warning = function(w) {
     stop(sprintf("FAILURE: expect_no_warning() failed. Caught warning: %s", conditionMessage(w)))
   })
+  cat(".")
 }
 
 expect_error = function(expr, msg, ...) {
   val = tryCatch(expr, error = identity)
   stopifnot(inherits(val, "error") && grepl(msg, conditionMessage(val), ...))
+  cat(".")
 }
 
-expect_s3_class = function(x, kls) stopifnot(inherits(x, kls))
+expect_s3_class = function(x, kls) { stopifnot(inherits(x, kls)); cat(".") }
 expect_length = function(x, l) expect_identical(length(x), l)
 
 expect_output = function(expr, str, ...) {
   act = paste(capture.output(val <- expr), collapse="\n")
   stopifnot(grepl(str, act, ...))
+  cat(".")
   invisible(val)
 }
 
 expect_match = function(x, pattern, ..., all=TRUE) {
   agg = if (all) base::all else any
   stopifnot(agg(grepl(pattern, x, ...)))
+  cat(".")
   invisible(x)
 }
 
 expect_no_match = function(x, pattern, ...) {
   stopifnot(!any(grepl(pattern, x, ...)))
+  cat(".")
   invisible(x)
 }
 

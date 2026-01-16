@@ -144,30 +144,57 @@ test_that("%in%.integer64: with NA values", {
   expect_identical(x %in% table, c(TRUE, TRUE, FALSE))
 })
 
-# TODO(#59): Don't call table.integer64() directly.
 test_that("duplicated, unique, table methods work", {
   x = as.integer64(1:3)
   expect_identical(duplicated(x), rep(FALSE, 3L))
   expect_identical(unique(x), x)
-  expect_identical(table.integer64(x), table(x = 1:3))
+  expect_identical(table(x), table(x = 1:3))
 
   x = as.integer64(rep(1L, 3L))
   expect_identical(duplicated(x), c(FALSE, TRUE, TRUE))
   expect_identical(unique(x), x[1L])
-  expect_identical(table.integer64(x), table(x = rep(1L, 3L)))
+  expect_identical(table(x), table(x = rep(1L, 3L)))
 
   x = as.integer64(c(1L, 2L, 1L))
   expect_identical(duplicated(x), c(FALSE, FALSE, TRUE))
   expect_identical(unique(x), x[1:2])
-  expect_identical(table.integer64(x), table(x = c(1L, 2L, 1L)))
+  expect_identical(table(x), table(x = c(1L, 2L, 1L)))
 
   x = as.integer64(c(1L, 1L, 2L))
   expect_identical(duplicated(x), c(FALSE, TRUE, FALSE))
   expect_identical(unique(x), x[c(1L, 3L)])
-  expect_identical(table.integer64(x), table(x = c(1L, 1L, 2L)))
+  expect_identical(table(x), table(x = c(1L, 1L, 2L)))
 
+  x = c(132724613L, -2143220989L)
+  expect_identical(table(x=as.integer64(x)), table(x))
+  expect_identical(table(x, y=lim.integer64()), table(x=as.character(x), y=as.character(lim.integer64())))
+  expect_identical(table(y=lim.integer64(), x), table(y=as.character(lim.integer64()), x=as.character(x)))
+
+  x = as.integer64(c(1L, 1L, 2L))
   expect_error(duplicated(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
   expect_error(unique(x, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
+})
+
+test_that("exclude, useNA arguments work for integer64 method of table", {
+  a32 = c(1L, 1L, 2L)
+  a64 = as.integer64(a32)
+  c = c(2, NA, 4)
+
+  expect_identical(
+    table(a=a64, b=1:3, c=c, exclude=1, useNA="no"),
+    table(a=a32, b=1:3, c=c, exclude=1, useNA="no")
+  )
+
+  skip_unless_r("> 3.5.0") # unclear what's going on
+  expect_identical(
+    table(a=a64, b=1:3, c=c, exclude=1, useNA="ifany"),
+    table(a=a32, b=1:3, c=c, exclude=1, useNA="ifany")
+  )
+
+  expect_identical(
+    table(a=a64, b=1:3, c=c, exclude=1, useNA="always"),
+    table(a=a32, b=1:3, c=c, exclude=1, useNA="always")
+  )
 })
 
 test_that("different method= for duplicated, unique work", {
@@ -245,7 +272,6 @@ test_that("missing and empty inputs to median() are handled correctly", {
 #   Converted to "proper" unit tests for clarity, after making them more
 #   canonical within {testthat}, e.g. better capturing expected warnings,
 #   changing stopifnot(identical(...)) to expect_identical(...).
-# TODO(#59): Don't call table.integer64() directly.
 test_that("Old \\dontshow{} tests continue working", {
   xi = c(1L, 1L, 2L)
   xi64 = as.integer64(xi)
@@ -255,29 +281,12 @@ test_that("Old \\dontshow{} tests continue working", {
   t_xi = table(x=xi)
   t_xi_yi = table(x=xi, y=yi)
 
-  expect_identical(table.integer64(x=xi64), t_xi)
-  expect_identical(table.integer64(x=xi64, y=yi64), t_xi_yi)
-
-  expect_warning(
-    expect_identical(table.integer64(x=xi), t_xi),
-    "coercing first argument to integer64",
-    fixed = TRUE
-  )
-  expect_warning(
-    expect_identical(table.integer64(x=xi64, y=yi), t_xi_yi),
-    "coercing argument 2 to integer64",
-    fixed = TRUE
-  )
-  expect_warning(
-    expect_identical(table.integer64(x=xi, y=yi64), t_xi_yi),
-    "coercing argument 1 to integer64",
-    fixed = TRUE
-  )
-
   expect_identical(table(x=xi64), t_xi)
   expect_identical(table(x=xi64, y=yi64), t_xi_yi)
+
   expect_identical(table(x=xi64, y=yi), t_xi_yi)
   expect_identical(table(x=xi, y=yi64), t_xi_yi)
+
 })
 
 test_that("unipos() works as intended", {
@@ -446,47 +455,47 @@ test_that("table.integer64 covers inputs, cache states, and return types", {
   x = as.integer64(c(1L, 2L, 1L))
 
   # List input handling
-  t_list = table.integer64(list(x))
-  t_vec = table.integer64(x)
+  t_list = table(list(x))
+  t_vec = table(x)
   expect_identical(as.vector(t_list), as.vector(t_vec))
   expect_identical(dim(t_list), dim(t_vec))
 
   # Error: length mismatch
-  expect_error(table.integer64(x, as.integer64(1:2)), "all input vectors must have the same length")
+  expect_error(table(x, as.integer64(1:2)), "all arguments must have the same length")
 
   # return="data.frame"
-  df = table.integer64(x, return="data.frame")
+  df = table(x, return="data.frame")
   expect_identical(df, data.frame(x=as.integer64(c(1, 2)), Freq=as.integer(c(2, 1))))
 
   # return="list"
-  lst = table.integer64(x, return="list")
+  lst = table(x, return="list")
   expect_identical(lst$values, as.integer64(c(1, 2)))
   # Fix: Counts are standard integer
   expect_identical(lst$counts, as.integer(c(2, 1)))
 
   # order="counts"
-  tbl_cnt = table.integer64(x, order="counts")
+  tbl_cnt = table(x, order="counts")
   # 2 appears 1x, 1 appears 2x. Sorted by counts ascending: 2, 1.
   expect_identical(as.vector(tbl_cnt), c(1L, 2L))
 
   # Method selection: hashtab via cache
   hashcache(x)
-  expect_identical(as.vector(table.integer64(x)), c(2L, 1L))
+  expect_identical(as.vector(table(x)), c(2L, 1L))
   remcache(x)
 
   # Method selection: sorttab via cache
   sortcache(x)
-  expect_identical(as.vector(table.integer64(x)), c(2L, 1L))
+  expect_identical(as.vector(table(x)), c(2L, 1L))
   remcache(x)
 
   # Method selection: ordertab via cache
   ordercache(x)
-  expect_identical(as.vector(table.integer64(x)), c(2L, 1L))
+  expect_identical(as.vector(table(x)), c(2L, 1L))
   remcache(x)
 
   # Cross-tabulation coverage
   y = as.integer64(c(1L, 2L, 1L))
-  t2 = table.integer64(x, y, return="data.frame")
+  t2 = table(x, y, return="data.frame")
   # Unique pairs are (1,1) and (2,2) --> 2 rows
   expect_identical(nrow(t2), 2L)
 
@@ -495,5 +504,21 @@ test_that("table.integer64 covers inputs, cache states, and return types", {
   args = rep(list(as.integer64(1:2)), 65)
   # Suppress warning about overflow ("NAs produced by integer64 overflow")
   #   to verify the explicit stop error cleanly.
-  expect_error(suppressWarnings(do.call(table.integer64, args)), "attempt to make a table from more than")
+  expect_error(suppressWarnings(do.call(table, args)), "attempt to make a table from more than")
+})
+
+test_that("table dispatch integer64 and 'higher' types and factors", {
+  expect_identical(table(as.integer64(1L), "a"), table(1L, "a"))
+  expect_identical(table("a", as.integer64(1L)), table("a", 1L))
+
+  expect_identical(table(as.integer64(1L), factor("a")), table(1L, factor("a")))
+  expect_identical(table(factor("a"), as.integer64(1L)), table(factor("a"), 1L))
+
+  expect_identical(table(as.integer64(1L), 1.0), table(1L, 1.0))
+  expect_identical(table(1.0, as.integer64(1L)), table(1.0, 1L))
+  expect_identical(table(as.integer64(1L), 1e100), table(1L, 1e100))
+  expect_identical(table(1e100, as.integer64(1L)), table(1e100, 1L))
+
+  expect_identical(table(as.integer64(1L), 1.0+1.0i), table(1L, 1.0+1.0i))
+  expect_identical(table(1.0+1.0i, as.integer64(1L)), table(1.0+1.0i, 1L))
 })
