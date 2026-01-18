@@ -59,6 +59,7 @@
    - Ignores leading/trailing whitespace (as does `as.integer()`; #232).
 1. `sortcache`, `sortordercache` and `ordercache` get a new argument `na.last`.
 1. `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method (#45). Thanks @hcirellu.
+1. The methods of the 'Ops' group (e.g. `+`, `&`, `==`) as well as `xor` now support dispatch for both arguments so that e.g. `difftime * integer64` works consistent to R (>= 4.3.0) (#179). Thanks @hcirellu. 
 
 ## BUG FIXES
 

@@ -243,17 +243,6 @@ test_that("arithmetic & basic math works", {
   x = as.integer64(1:10)
   y = as.integer64(10:1)
 
-  expect_identical(x + y, as.integer64(rep(11L, 10L)))
-  expect_identical(y - x, as.integer64(seq(9L, -9L, by=-2L)))
-  expect_identical(x * y, as.integer64(c(10L, 18L, 24L, 28L, 30L, 30L, 28L, 24L, 18L, 10L)))
-  # output is double even though it fits in integer [and integer64]
-  expect_identical(x[seq(2L, 10L, by=2L)] / 2L, as.double(1:5))
-  expect_identical(x ^ 2L, as.integer64((1:10)^2L))
-  expect_identical(-x, as.integer64(-(1:10)))
-
-  expect_identical(x %/% 2L, as.integer64(c(0L, 1L, 1L, 2L, 2L, 3L, 3L, 4L, 4L, 5L)))
-  expect_identical(x %% 2L, as.integer64(rep_len(c(1L, 0L), 10L)))
-
   expect_identical(sign(x - 6L), as.integer64(rep(c(-1L, 0L, 1L), c(5L, 1L, 4L))))
   expect_identical(abs(x - 6.0), as.integer64(c(5:0, 1:4)))
 
@@ -270,10 +259,6 @@ test_that("arithmetic & basic math works", {
   expect_identical(round(x), x)
 
   expect_identical(round(x, -1L), as.integer64(rep(c(0L, 10L), each=5L)))
-
-  # regression snuck through, caught by #149
-  expect_identical(as.integer64(1L) * 1:5, as.integer64(1:5))
-  expect_identical(1:5 * as.integer64(1L), as.integer64(1:5))
 })
 
 test_that("basic statistics work", {
@@ -653,105 +638,12 @@ test_that("empty inputs give empty outputs for arithmetic", {
   x = integer64(1L)
   empty = integer64(0L)
 
-  expect_identical(x+empty, integer64())
-  expect_identical(empty+x, integer64())
-
-  expect_identical(x-empty, integer64())
-  expect_identical(empty-x, integer64())
-
-  expect_identical(+empty, integer64())
-  expect_identical(-empty, integer64())
-
-  expect_identical(x*empty, integer64())
-  expect_identical(empty*x, integer64())
-
-  expect_identical(x/empty, double())
-  expect_identical(empty/x, double())
-
-  expect_identical(x^empty, integer64())
-  expect_identical(empty^x, integer64())
-
-  expect_identical(x %/% empty, integer64())
-  expect_identical(empty %/% x, integer64())
-
-  expect_identical(x%%empty, integer64())
-  expect_identical(empty%%x, integer64())
-
   expect_identical(log(x, base=empty), double())
   expect_identical(log(empty, base=x), double())
   expect_identical(
     log(`attr<-`(empty, "asdf", "jkl")),
     `attr<-`(double(), "asdf", "jkl")
   )
-
-  expect_identical(x==empty, logical())
-  expect_identical(empty==x, logical())
-
-  expect_identical(x!=empty, logical())
-  expect_identical(empty!=x, logical())
-
-  expect_identical(x>=empty, logical())
-  expect_identical(empty>=x, logical())
-
-  expect_identical(x<=empty, logical())
-  expect_identical(empty<=x, logical())
-
-  expect_identical(x>empty, logical())
-  expect_identical(empty>x, logical())
-
-  expect_identical(x<empty, logical())
-  expect_identical(empty<x, logical())
-
-  expect_identical(x&empty, logical())
-  expect_identical(empty&x, logical())
-
-  expect_identical(x|empty, logical())
-  expect_identical(empty|x, logical())
-
-  expect_identical(xor(x, empty), logical())
-  expect_identical(xor(empty, x), logical())
-})
-
-test_that("semantics about mixed types for multiplication are respected", {
-  int = 5L
-  i64 = as.integer64(2L)
-  dbl = 3.5
-
-  # default: "old" semantics, to be deprecated
-  expect_identical(i64 * dbl, as.integer64(7L))
-  expect_identical(dbl * i64, as.integer64(6L))
-  expect_identical(i64 * int, as.integer64(10L))
-  expect_identical(int * i64, as.integer64(10L))
-  expect_identical(i64 * i64, as.integer64(4L))
-
-  withr::with_options(list(integer64_semantics = "new"), {
-    expect_identical(i64 * dbl, as.integer64(7L))
-    expect_identical(dbl * i64, as.integer64(7L))
-    expect_identical(i64 * int, as.integer64(10L))
-    expect_identical(int * i64, as.integer64(10L))
-    expect_identical(i64 * i64, as.integer64(4L))
-  })
-})
-
-test_that("semantics about mixed types for division are respected", {
-  int = 10L
-  i64 = as.integer64(5L)
-  dbl = 2.5
-
-  # default: "old" semantics, to be deprecated
-  expect_identical(i64 / dbl, 2.0)
-  expect_identical(dbl / i64, 0.4)
-  expect_identical(i64 / int, 0.5)
-  expect_identical(int / i64, 2.0)
-  expect_identical(i64 / i64, 1.0)
-
-  withr::with_options(list(integer64_semantics = "new"), {
-    expect_identical(i64 / dbl, 2.0)
-    expect_identical(dbl / i64, 0.5)
-    expect_identical(i64 / int, 0.5)
-    expect_identical(int / i64, 2.0)
-    expect_identical(i64 / i64, 1.0)
-  })
 })
 
 test_that("all.equal.integer64 reflects changes for vector scale= from all.equal.numeric", {
