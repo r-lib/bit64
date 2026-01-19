@@ -165,6 +165,7 @@ else {                                                   \
             naflag = TRUE; \
     }
 
+/* int division truncate to lower */
 #define INTDIV64(e1,e2,ret,naflag) \
     if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
         ret = NA_INTEGER64; \
@@ -175,8 +176,11 @@ else {                                                   \
             ret = e1 / e2; \
         if (ret == NA_INTEGER64) \
             naflag = TRUE; \
+        else if (ret < 0 && ret*e2 != e1) \
+            ret -= 1; \
     }
 
+/* int division truncate to lower */
 #define MOD64(e1,e2,ret,naflag) \
     if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
         ret = NA_INTEGER64; \
@@ -187,8 +191,11 @@ else {                                                   \
             ret = e1 / e2; \
         if (ret == NA_INTEGER64) \
             naflag = TRUE; \
-        else \
+        else { \
+            if (ret < 0 && ret*e2 != e1) \
+                ret -= 1; \
             ret = e1 - e2 * ret; \
+            } \
     }
 
 #define MIN64(e1,e2,ret) \
