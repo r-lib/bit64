@@ -133,7 +133,7 @@ target_class_for_Ops = function(e1, e2) {
   }
 }
 
-#' @exportS3Method chooseOpsMethod integer64
+#' @rawNamespace if (getRversion() >= "4.3.0") S3method(chooseOpsMethod,integer64)
 chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
   TRUE
 }
