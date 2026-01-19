@@ -911,40 +911,6 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
   invisible()
 }
 
-# TODO(#59): With the PR(#209) to add a generic for table() a similar function is used. This here is better so that it shall replace the other.
-choose_sys_call = function(function_names, name_to_display=NULL) {
-  sc = sys.calls()
-  sc_length = length(sc)
-  if (sc_length == 1L || length(function_names) == 0L) return(sc[[1L]])
-  sc_char = vapply(sc, function(el) if (is.function(el[[1L]])) "" else rev(as.character(el[[1L]]))[1L], "")
-  sel = rev(which(sc_char == function_names[length(function_names)]))[1L]
-  if (is.na(sel)) 
-    sel = 1L
-  for (i in rev(seq_along(function_names))[-1L]) {
-    if (sel == 1L || sc_char[sel - 1L] != function_names[i])
-      break
-    sel = sel - 1L
-  }
-  sc = sc[[sel]]
-  if (!is.null(name_to_display))
-    sc[[1L]] = as.name(name_to_display)
-  sc
-}
-withCallingHandlers_and_choose_call = function(expr, function_names, name_to_display=NULL) {
-  wch = str2lang("withCallingHandlers(expr, error=error, warning=warning)")
-  wch[[2L]] = sys.call()[[2L]] # expr
-  wch[[3L]] = {function(function_names, name_to_display) 
-    function(e) {stop(errorCondition(e$message, call=choose_sys_call(function_names, name_to_display)))}
-  }(function_names, name_to_display)
-  wch[[4L]] = {function(function_names, name_to_display) 
-    function(w) {
-      warning(warningCondition(w$message, call=choose_sys_call(function_names, name_to_display)))
-      invokeRestart("muffleWarning")
-    }
-  }(function_names, name_to_display)
-  eval(wch, envir=parent.frame())
-}
-
 #' @rdname extract.replace.integer64
 #' @export
 `[.integer64` = function(x, i, j, ..., drop=TRUE) {
