@@ -866,12 +866,12 @@ test_that("extraction and replacement works consistent to integer (vectors; exce
   y = as.integer64(x)
   names(y) = letters[seq_along(y)]
   sel = c(TRUE, FALSE, NA, TRUE)
-  expect_identical(y[sel], structure(as.integer64(x[sel]), names=names(x)[sel]))
+  expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
   sel = c(1, NA, 3, 11)
-  expect_identical(y[sel], structure(as.integer64(x[sel]), names=names(x)[sel]))
-  expect_identical(y[as.integer64(sel)], structure(as.integer64(x[sel]), names=names(x)[sel]))
+  expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
+  expect_identical(y[as.integer64(sel)], setNames(as.integer64(x[sel]), names(x)[sel]))
   sel = c(-1, -3, 0, -11)
-  expect_identical(y[sel], structure(as.integer64(x[sel]), names=names(x)[sel]))
+  expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
   sel = c(-1, -3, 0, -11, NA)
   # `only 0's may be mixed with negative subscripts`
   expect_identical(
@@ -879,10 +879,10 @@ test_that("extraction and replacement works consistent to integer (vectors; exce
     tryCatch(y[sel], error=conditionMessage)
   )
 
-  expect_identical(as.integer64(c("9218868437227407266", "1"))[c(1,NA,3,4)], structure(as.integer64(c("9218868437227407266", NA, NA, NA))))
+  expect_identical(as.integer64(c("9218868437227407266", "1"))[c(1,NA,3,4)], as.integer64(c("9218868437227407266", NA, NA, NA)))
 
   sel = c("d", "", "b", NA_character_)
-  expect_identical(y[sel], structure(as.integer64(x[sel]), names=names(x)[match(sel, names(x))]))
+  expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[match(sel, names(x))]))
   
   # replacement with `[<-`
   x = as.integer(1:10)
@@ -893,7 +893,7 @@ test_that("extraction and replacement works consistent to integer (vectors; exce
   sel = c("d", "", "b", NA_character_)
   x[sel] = 100L
   y[sel] = 100L
-  expect_identical(y, structure(as.integer64(x), names = names(x)))
+  expect_identical(y, setNames(as.integer64(x), names(x)))
 
   # extraction with `[[`  
   x = as.integer(1:10)
@@ -906,7 +906,7 @@ test_that("extraction and replacement works consistent to integer (vectors; exce
   # replacement with `[[<-`
   x[["e"]] = 100L
   y[["e"]] = 100L
-  expect_identical(y, structure(as.integer64(x), names = names(x)))
+  expect_identical(y, setNames(as.integer64(x), names(x)))
 
 })
 
