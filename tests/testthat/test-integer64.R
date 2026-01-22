@@ -879,7 +879,6 @@ test_that("match works with zero length input", {
 
 test_that("extraction and replacement works consistent to integer (vectors; except for double)", {
 
-#  skip_unless_r(">= 4.0.0")
   # extraction with `[`
   x = 1:10
   names(x) = letters[seq_along(x)]
@@ -936,7 +935,6 @@ test_that("extraction and replacement works consistent to integer (vectors; exce
 
 test_that("extraction and replacement works consistent to integer (matrices; except for double)", {
 
-#  skip_unless_r(">= 4.0.0")
   # extraction with `[`
   m32 = matrix(1:10, nrow=2L)
   m64 = matrix64(as.integer64(m32), nrow=dim(m32)[1L], ncol=dim(m32)[2L])
@@ -1133,7 +1131,6 @@ test_that("extraction and replacement works consistent to integer (matrices; exc
 
 test_that("extraction and replacement works consistent to integer (arrays; except for double)", {
 
-#  skip_unless_r(">= 4.0.0")
   # extraction with `[`
   a32 = array(1:27, c(3,3,3))
   a64 = array64(as.integer64(1:27), c(3,3,3))
