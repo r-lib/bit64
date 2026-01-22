@@ -924,7 +924,7 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
   args$drop = FALSE
   if (length(args) == 1L) return(x)
   oldClass(x) = NULL
-  withCallingHandlers_and_choose_call({ret = do.call("[", c(list(x=x), args))}, c("[", "[.integer64"))  
+  withCallingHandlers_and_choose_call({ret = do.call(`[`, c(list(x=x), args))}, c("[", "[.integer64"))  
   NA_integer64_real = NA_integer64_
   oldClass(NA_integer64_real) = NULL
 
@@ -956,7 +956,7 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
       if (length(naIndex)) {
         setArgs = rep(list(substitute()), length(dimSelect))
         setArgs[[ii]] = naIndex
-        ret = do.call("[<-", c(list(x=ret), setArgs, list(value=NA_integer64_real)))
+        ret = do.call(`[<-`, c(list(x=ret), setArgs, list(value=NA_integer64_real)))
       }
     }
   }
@@ -987,11 +987,11 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
   if (is.character(value) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     args$value = value
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
-    withCallingHandlers_and_choose_call({ret = do.call("[<-", c(list(x=x), args))}, c("[<-", "[<-.integer64"))  
+    withCallingHandlers_and_choose_call({ret = do.call(`[<-`, c(list(x=x), args))}, c("[<-", "[<-.integer64"))  
   } else {
     args$value = as.integer64(value)
     oldClass(x) = NULL
-    withCallingHandlers_and_choose_call({ret = do.call("[<-", c(list(x=x), args))}, c("[<-", "[<-.integer64"))  
+    withCallingHandlers_and_choose_call({ret = do.call(`[<-`, c(list(x=x), args))}, c("[<-", "[<-.integer64"))  
     oldClass(ret) = "integer64"
   }
   ret
@@ -1006,7 +1006,7 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
     el
   })
   oldClass(x) = NULL
-  withCallingHandlers_and_choose_call({ret = do.call("[[", c(list(x=x), args))}, c("[[", "[[.integer64"))  
+  withCallingHandlers_and_choose_call({ret = do.call(`[[`, c(list(x=x), args))}, c("[[", "[[.integer64"))  
   oldClass(ret) = "integer64"
   ret
 }
@@ -1022,11 +1022,11 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
   if (is.character(value) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     args$value = value
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
-    withCallingHandlers_and_choose_call({ret = do.call("[[<-", c(list(x=x), args))}, c("[[<-", "[[<-.integer64"))  
+    withCallingHandlers_and_choose_call({ret = do.call(`[[<-`, c(list(x=x), args))}, c("[[<-", "[[<-.integer64"))  
   } else {
     args$value = as.integer64(value)
     oldClass(x) = NULL
-    withCallingHandlers_and_choose_call({ret = do.call("[[<-", c(list(x=x), args))}, c("[[<-", "[[<-.integer64"))  
+    withCallingHandlers_and_choose_call({ret = do.call(`[[<-`, c(list(x=x), args))}, c("[[<-", "[[<-.integer64"))  
     oldClass(ret) = "integer64"
   }
   ret
