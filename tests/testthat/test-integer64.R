@@ -869,9 +869,13 @@ test_that("extraction and replacement works consistent to integer (vectors; exce
   names(y) = letters[seq_along(y)]
   sel = c(TRUE, FALSE, NA, TRUE)
   expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
+  sel = c(1L, NA, 3L, 11L)
+  expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
   sel = c(1, NA, 3, 11)
   expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
   expect_identical(y[as.integer64(sel)], setNames(as.integer64(x[sel]), names(x)[sel]))
+  sel = c(-1L, -3L, 0L, -11L)
+  expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
   sel = c(-1, -3, 0, -11)
   expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
   sel = c(-1, -3, 0, -11, NA)
