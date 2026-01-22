@@ -984,7 +984,12 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
       el = as.integer(el)
     el
   })
-  if (is.character(value) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
+  
+  # TODO(#44): remove promote_to_char here
+  if (is.character(value) && !(promote_to_char <- isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))))
+    .Deprecated(new="[.integer64<-", msg="The assignment of character values to integer64 vectors and matrices with automatic coercion to integer64 is deprecated and will be changed to a more R consistent behaviour of coercing to character in future versions of bit64. If you wish you can update your code to the new behaviour by setting the option 'bit64.promoteInteger64ToCharacter' to TRUE.")
+  
+  if (is.character(value) && promote_to_char || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     args$value = value
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
     withCallingHandlers_and_choose_call({ret = do.call(`[<-`, c(list(x=x), args))}, c("[<-", "[<-.integer64"))  
@@ -1019,7 +1024,11 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
       el = as.integer(el)
     el
   })
-  if (is.character(value) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
+  # TODO(#44): remove promote_to_char here
+  if (is.character(value) && !(promote_to_char <- isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))))
+    .Deprecated(new="[.integer64<-", msg="The assignment of character values to integer64 vectors and matrices with automatic coercion to integer64 is deprecated and will be changed to a more R consistent behaviour of coercing to character in future versions of bit64. If you wish you can update your code to the new behaviour by setting the option 'bit64.promoteInteger64ToCharacter' to TRUE.")
+  
+  if (is.character(value) && promote_to_char || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     args$value = value
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
     withCallingHandlers_and_choose_call({ret = do.call(`[[<-`, c(list(x=x), args))}, c("[[<-", "[[<-.integer64"))  
