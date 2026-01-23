@@ -240,7 +240,7 @@ test_that("indexing works", {
   # TODO(#44): remove this deprecated test
   local({
     x[1.0] = 2L
-    expect_warning({x[2L] = "3"}, "setting the option 'bit64.promoteInteger64ToCharacter' to TRUE")
+    x[2L] = "3"
     expect_identical(x, as.integer64(c(2:3, 3:10)))
   })
   local({
@@ -269,7 +269,7 @@ test_that("indexing works", {
   # TODO(#44): remove this deprecated test
   local({
     x[[1.0]] = 3L
-    expect_warning({x[[2L]] = "4"}, "setting the option 'bit64.promoteInteger64ToCharacter' to TRUE")
+    x[[2L]] = "4"
     expect_identical(x, as.integer64(c(3:4, 3:10)))
   })
   local({
@@ -1029,7 +1029,7 @@ test_that("extraction and replacement works consistent to integer (matrices; exc
   # TODO(#44): remove this deprecated test
   local({
     m32[1, c(1, 3, NA)] = 103L
-    expect_warning({m64[1, c(1, 3, NA)] = "103"}, "setting the option 'bit64.promoteInteger64ToCharacter' to TRUE")
+    m64[1, c(1, 3, NA)] = "103"
     expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
   })
   local({
@@ -1115,7 +1115,7 @@ test_that("extraction and replacement works consistent to integer (matrices; exc
   # TODO(#44): remove this deprecated test
   local({
     m32[[1, 4]] = 112L
-    expect_warning({m64[[1, 4]] = "112"}, "setting the option 'bit64.promoteInteger64ToCharacter' to TRUE")
+    m64[[1, 4]] = "112"
     expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
   })
   local({
