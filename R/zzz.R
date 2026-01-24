@@ -23,8 +23,10 @@ if (getRversion() < "3.6.0") {
   }
 }
 
+
+.bit64.suppressPromoteInteger64ToCharacterMessage = "The assignment of character values to integer64 vectors and matrices with automatic coercion to integer64 will change to a more R consistent behaviour of coercing to character in future versions of bit64. If you wish you can update your code to the new behaviour by setting the option 'bit64.promoteInteger64ToCharacter' to TRUE."
 .onAttach <- function(libname, pkgname)
-  packageStartupMessage("The assignment of character values to integer64 vectors and matrices with automatic coercion to integer64 will change to a more R consistent behaviour of coercing to character in future versions of bit64. If you wish you can update your code to the new behaviour by setting the option 'bit64.promoteInteger64ToCharacter' to TRUE.")
+  packageStartupMessage("\033[1m", .bit64.suppressPromoteInteger64ToCharacterMessage, "\033[22m")
 
 # nocov start
 .onUnload = function(libpath) {

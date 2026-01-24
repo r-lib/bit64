@@ -987,7 +987,10 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
   
   # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
   if (is.character(value) && !(promote_to_char <- isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))))
-    message("The assignment of character values to integer64 vectors and matrices with automatic coercion to integer64 will change to a more R consistent behaviour of coercing to character in future versions of bit64. If you wish you can update your code to the new behaviour by setting the option 'bit64.promoteInteger64ToCharacter' to TRUE.")
+    if (!isTRUE(getOption("bit64.suppressPromoteInteger64ToCharacterMessage", FALSE))) {
+      message(.bit64.suppressPromoteInteger64ToCharacterMessage, "\nBy setting the option 'bit64.suppressPromoteInteger64ToCharacterMessage' to TRUE the display of this message can be suppressed. (This message is only displayed once per session.)")
+      options(bit64.suppressPromoteInteger64ToCharacterMessage=TRUE)
+    }
   
   if (is.character(value) && promote_to_char || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     args$value = value
@@ -1026,7 +1029,10 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
   })
   # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
   if (is.character(value) && !(promote_to_char <- isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))))
-    message("The assignment of character values to integer64 vectors and matrices with automatic coercion to integer64 will change to a more R consistent behaviour of coercing to character in future versions of bit64. If you wish you can update your code to the new behaviour by setting the option 'bit64.promoteInteger64ToCharacter' to TRUE.")
+    if (!isTRUE(getOption("bit64.suppressPromoteInteger64ToCharacterMessage", FALSE))) {
+      message(.bit64.suppressPromoteInteger64ToCharacterMessage, "\nBy setting the option 'bit64.suppressPromoteInteger64ToCharacterMessage' to TRUE the display of this message can be suppressed. (This message is only displayed once per session.)")
+      options(bit64.suppressPromoteInteger64ToCharacterMessage=TRUE)
+    }
 
   if (is.character(value) && promote_to_char || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     args$value = value
