@@ -101,6 +101,15 @@ necessary.
     of any attributes. This is consistent with R like behavior,
     e.g. `as.integer.integer`.
 
+4.  `%/%` matches base R/Knuth behavior of taking the
+    [`floor()`](https://rdrr.io/r/base/Round.html) of a result, where
+    before truncation was towards zero. For example,
+    `as.integer64(-10L) %/% as.integer64(7L)` now gives `-2L`, not
+    `-1L`. This is consistent with `-10L %/% 7L` in base R.
+    Consequently, `%%` is also affected,
+    e.g. `as.integer64(-10L) %% as.integer64(7L)` now gives `4L`, not
+    `-3L`, consistent with `-10L %% 7L` in base R.
+
 ### NEW FEATURES
 
 1.  `anyNA` gets an `integer64` method. Thanks

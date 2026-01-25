@@ -53,6 +53,7 @@
 <p>Because there was no recorded direct usage for any of these, I am opting to just rip the band-aid off and un-export them in this release as opposed to waiting a full cycle more to do so.</p>
 </li>
 <li><p><code>as.integer64.integer64</code> returns a plain <code>integer64</code> vector stripped of any attributes. This is consistent with R like behavior, e.g. <code>as.integer.integer</code>.</p></li>
+<li><p><code>%/%</code> matches base R/Knuth behavior of taking the <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor()</a></code> of a result, where before truncation was towards zero. For example, <code>as.integer64(-10L) %/% as.integer64(7L)</code> now gives <code>-2L</code>, not <code>-1L</code>. This is consistent with <code>-10L %/% 7L</code> in base R. Consequently, <code>%%</code> is also affected, e.g. <code>as.integer64(-10L) %% as.integer64(7L)</code> now gives <code>4L</code>, not <code>-3L</code>, consistent with <code>-10L %% 7L</code> in base R.</p></li>
 </ol></div>
 <div class="section level3">
 <h3 id="new-features-4-7-99">NEW FEATURES<a class="anchor" aria-label="anchor" href="#new-features-4-7-99"></a></h3>
