@@ -21,7 +21,6 @@
 #include <stdint.h>
 #include <stdlib.h> // strtoll
 #include <errno.h> // ERANGE
-#include <stdbool.h> // for boolean
 
 #include <R.h>
 #include <Rdefines.h>
@@ -709,12 +708,12 @@ SEXP min_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
   long long i, n = LENGTH(e1_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
-  bool onlyNas = true;
+  Rboolean onlyNas = TRUE;
   ret[0] = MAX_INTEGER64;
     if (asLogical(na_rm_)){
         for(i=0; i<n; i++){
             if (e1[i]!=NA_INTEGER64){
-              onlyNas = false;
+              onlyNas = FALSE;
               if (e1[i]<ret[0]){
                 ret[0] = e1[i];
               }
@@ -726,7 +725,7 @@ SEXP min_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
                 ret[0] = NA_INTEGER64;
                 return ret_;
             }else{
-                onlyNas = false;       
+                onlyNas = FALSE;       
                 if (e1[i]<ret[0])
                     ret[0] = e1[i];
             }
@@ -742,12 +741,12 @@ SEXP max_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
   long long i, n = LENGTH(e1_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
-  bool onlyNas = true;
+  Rboolean onlyNas = TRUE;
   ret[0] = MIN_INTEGER64;
     if (asLogical(na_rm_)){
         for(i=0; i<n; i++){
             if (e1[i]!=NA_INTEGER64){
-              onlyNas = false;
+              onlyNas = FALSE;
               if (e1[i]>ret[0]){
                 ret[0] = e1[i];
               }
@@ -759,7 +758,7 @@ SEXP max_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
                 ret[0] = NA_INTEGER64;
                 return ret_;
             }else{
-                onlyNas = false;       
+                onlyNas = FALSE;       
                 if (e1[i]>ret[0])
                     ret[0] = e1[i];
             }
@@ -775,13 +774,13 @@ SEXP range_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
   long long i, n = LENGTH(e1_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
-  bool onlyNas = true;
+  Rboolean onlyNas = TRUE;
   ret[0] = MAX_INTEGER64;
   ret[1] = MIN_INTEGER64;
     if (asLogical(na_rm_)){
         for(i=0; i<n; i++){
             if (e1[i]!=NA_INTEGER64){
-                onlyNas = false;
+                onlyNas = FALSE;
                 if (e1[i]<ret[0])
                     ret[0] = e1[i];
                 if (e1[i]>ret[1])
@@ -794,7 +793,7 @@ SEXP range_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
                 ret[0] = ret[1] = NA_INTEGER64;
                 return ret_;
             }else{
-                onlyNas = false;
+                onlyNas = FALSE;
                 if (e1[i]<ret[0])
                     ret[0] = e1[i];
                 if (e1[i]>ret[1])
