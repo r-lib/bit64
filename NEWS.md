@@ -59,6 +59,7 @@
    - Ignores leading/trailing whitespace (as does `as.integer()`; #232).
 1. `sortcache`, `sortordercache` and `ordercache` get a new argument `na.last`.
 1. `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method (#45). Thanks @hcirellu.
+1. `c.integer64`, `cbind.integer64` and `rbind.integer64` now support combining with lists and recursion as `base::c`, `base::cbind` and `base::rbind` do (#252). Thanks @hcirellu.
 
 ## BUG FIXES
 

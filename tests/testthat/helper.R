@@ -1,5 +1,5 @@
-matrix64 = function(x, nrow=1L, ncol=1L, byrow=FALSE) {
-  matrix(as.integer64(x), nrow=nrow, ncol=ncol, byrow=byrow)
+matrix64 = function(x, nrow=1L, ncol=1L, byrow=FALSE, dimnames=NULL) {
+  matrix(as.integer64(x), nrow=nrow, ncol=ncol, byrow=byrow, dimnames=dimnames)
 }
 
 array64 = function(x, dim) {
