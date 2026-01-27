@@ -1179,10 +1179,15 @@ optimizer64 = function(nsmall=2L^16L,
             , c("prep", "both", "use"))
 
             tim["quantile", "both"] <- timefun({
-                p <- quantile(x, type=1L, na.rm=TRUE)
+                p <- quantile(x, type=7L, na.rm=TRUE)
             })[3L]
             p2 <- p
-            p <- as.integer64(p2)
+            roundToBigger = function(x) {
+              res = round(x)
+              res[x%%1 == 0.5] = ceiling(x[x%%1 == 0.5])
+              res
+            }
+            p <- as.integer64(roundToBigger(p2))
             names(p) <- names(p2)
 
             x <- as.integer64(x)
