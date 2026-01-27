@@ -258,11 +258,12 @@ NULL
 #' @param recursive logical. If `recursive = TRUE`, the function
 #'   recursively descends through lists (and pairlists) combining all
 #'   their elements into a vector.
+#' @param deparse.level integer controlling the construction of labels in the case of non-matrix-like arguments
 #'
 #' @returns
-#'   [c()] returns a integer64 vector of the total length of the input
+#'   [c()] returns a vector of the appropriate mode. This could be a integer64 vector or a list of objects  
 #'
-#'   [cbind()] and [rbind()] return a integer64 matrix
+#'   [cbind()] and [rbind()] return a matrix, data.frame or list with dimensions
 #'
 #' @note
 #' R currently only dispatches generic 'c' to method 'c.integer64' if the
@@ -1001,58 +1002,204 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
 
 #' @rdname c.integer64
 #' @export
-c.integer64 = function(..., recursive = FALSE) {
-  l = list(...)
-  for (k in seq_along(l)) {
-    if (recursive && is.list(l[[k]])) {
-      l[[k]] <- do.call(c.integer64, c(l[[k]], list(recursive = TRUE)))
-    } else {
-      if (!is.integer64(l[[k]])) {
-        nam <- names(l[[k]])
-        l[[k]] <- as.integer64(l[[k]])
-        names(l[[k]]) <- nam
+c.integer64 = function(..., recursive=FALSE) {
+  if (...length() == 0L) return(NULL)
+  dots = list(...)
+  
+  if (!isTRUE(recursive) && any(vapply(dots, function(el) is.list(el), FALSE))) {
+    return(unlist(lapply(dots, function(el) {if (class(el)[1L] == "POSIXlt") el else as.list(el)}), recursive=FALSE))
+  }
+  
+  value_class = target_class_and_sample_value(dots, recursive=recursive, POSIXltAsCharacter=TRUE)
+  # find positions of elements to be converted
+  if(value_class == "integer64") {
+    # integer64 doesn't have to be converted, but `oldClass(val) = NULL` has to be applied
+    checkFunc = Negate(is.null)
+  } else {
+    checkFunc = is.integer64
+  }
+  findPositionsOfItemsToConvert = function(x) {
+    res = list()
+    for (ii in seq_along(x)) {
+      if (class(x[[ii]])[1L] == "list" || "data.frame" %in% class(x[[ii]])) {
+        res = c(res, lapply(findPositionsOfItemsToConvert(x[[ii]]), function(el) c(ii, el)))
+      } else {
+        if (checkFunc(x[[ii]]))
+          res = c(res, list(ii))
       }
-      oldClass(l[[k]]) <- NULL
+    }
+    res
+  }
+  for (idx in findPositionsOfItemsToConvert(dots)) {
+    val = eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""))))
+    if (class(val)[1L] == "POSIXlt") {
+      val = lapply(unclass(val), function(el) as(el, value_class))
+    } else {
+      val = as(val, value_class)
+      if (value_class == "integer64")
+        oldClass(val) = NULL
+    }
+    eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""), " = val")))
+  }
+
+  ret = do.call("c", c(dots, list(recursive=recursive)))
+  if (value_class == "integer64")
+    oldClass(ret) = value_class
+  ret
+}
+
+#' @rdname c.integer64
+#' @export
+cbind.integer64 = function(..., deparse.level=1) {
+  dots = list(...)
+  value_class = target_class_and_sample_value(dots, recursive=FALSE)
+  
+  # find positions of elements to be converted
+  if(value_class == "integer64") {
+    # integer64 doesn't have to be converted, but `oldClass(val) = NULL` has to be applied
+    checkFunc = Negate(is.null)
+  } else {
+    checkFunc = is.integer64
+  }
+  positionsOfItemsToConvert = which(vapply(dots, function(el) !is.list(el) && checkFunc(el), FALSE, USE.NAMES=FALSE))
+
+  # set names if missing  
+  if (is.null(names(dots))) {
+    sys_call = choose_sys_call(c("cbind", "cbind"))
+    sel = vapply(sys_call, is.symbol, FALSE)
+    sel[1L] = FALSE
+    sel = sel & c(FALSE, !vapply(dots, function(el) length(el) == 1L && is.na(el), FALSE))
+    nd = character(length(sel))
+    nd[sel] = as.character(sys_call[sel])
+    names(dots) = nd[-1L]
+  }
+  # convert relevant items
+  for (idx in positionsOfItemsToConvert) {
+    val = eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""))))
+    val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
+    if (value_class == "integer64")
+      oldClass(val) = NULL
+    eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""), " = val")))
+  }
+  ret = withCallingHandlers_and_choose_call(
+    do.call("cbind", c(dots, list(deparse.level=deparse.level))), 
+    c("cbind", "cbind"),
+    callStack = sys.calls()
+  )
+  
+  # restore integer64 class
+  if (value_class == "integer64") {
+    if (is.list(ret)) {
+      estimatedColumnIndices = lapply(dots, function(el) {
+        res = ncol(el)
+        if (is.null(res)) 
+          res = as.integer(length(el) > 0L)
+        res
+      })
+      lastValue = 0L
+      for (ii in seq_along(estimatedColumnIndices)) {
+        estimatedColumnIndices[[ii]] = lastValue + seq_len(estimatedColumnIndices[[ii]])
+        lastValue = lastValue + length(estimatedColumnIndices[[ii]])
+      }
+      nrow_ret = nrow(ret)
+      for (idx in positionsOfItemsToConvert) {
+        for (ii in estimatedColumnIndices[[idx]]) {
+          if (is.data.frame(ret)) {
+            oldClass(ret[[ii]]) = value_class
+          } else {
+            for (jj in seq_len(nrow_ret))
+              oldClass(ret[[(ii - 1L)*nrow_ret + jj]]) = value_class
+          }
+        }
+      }
+    } else {
+      oldClass(ret) = value_class
     }
   }
-  ret = do.call(c, l)
-  oldClass(ret) = "integer64"
   ret
 }
 
 #' @rdname c.integer64
 #' @export
-cbind.integer64 = function(...) {
-  l = list(...)
-    K <- length(l)
-  for (k in 1:K) {
-        if (!is.integer64(l[[k]])) {
-            nam <- names(l[[k]])
-            l[[k]] <- as.integer64(l[[k]])
-            names(l[[k]]) <- nam
-        }
-        oldClass(l[[k]]) <- NULL
+rbind.integer64 = function(..., deparse.level=1) {
+  dots = list(...)
+  value_class = target_class_and_sample_value(dots, recursive=TRUE)
+  
+  # find positions of elements to be converted
+  if(value_class == "integer64") {
+    # integer64 doesn't have to be converted, but `oldClass(val) = NULL` has to be applied
+    checkFunc = Negate(is.null)
+  } else {
+    checkFunc = is.integer64
   }
-  ret = do.call(cbind, l)
-    oldClass(ret) <- "integer64"
-  ret
-}
+  findPositionsOfItemsToConvert = function(x) {
+    res = list()
+    for (ii in seq_along(x)) {
+      if ("data.frame" %in% class(x[[ii]])) {
+        res = c(res, lapply(findPositionsOfItemsToConvert(x[[ii]]), function(el) c(ii, el)))
+      } else {
+        if (checkFunc(x[[ii]]) && !is.list(x[[ii]]))
+          res = c(res, list(ii))
+      }
+    }
+    res
+  }
+  positionsOfItemsToConvert = findPositionsOfItemsToConvert(dots)
 
-#' @rdname c.integer64
-#' @export
-rbind.integer64 = function(...) {
-  l = list(...)
-    K <- length(l)
-  for (k in 1:K) {
-        if (!is.integer64(l[[k]])) {
-            nam <- names(l[[k]])
-            l[[k]] <- as.integer64(l[[k]])
-            names(l[[k]]) <- nam
-        }
-        oldClass(l[[k]]) <- NULL
+  # set names if missing  
+  if (is.null(names(dots))) {
+    sys_call = choose_sys_call(c("rbind", "rbind"))
+    sel = vapply(sys_call, is.symbol, FALSE)
+    sel[1L] = FALSE
+    sel = sel & c(FALSE, !vapply(dots, function(el) length(el) == 1L && is.na(el), FALSE))
+    nd = character(length(sel))
+    nd[sel] = as.character(sys_call[sel])
+    names(dots) = nd[-1L]
   }
-  ret = do.call(rbind, l)
-    oldClass(ret) <- "integer64"
+  # convert relevant items
+  for (idx in positionsOfItemsToConvert) {
+    val = eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""))))
+    val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
+    if (value_class == "integer64")
+      oldClass(val) = NULL
+    eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""), " = val")))
+  }
+  ret = withCallingHandlers_and_choose_call(
+    do.call("rbind", c(dots, list(deparse.level=deparse.level))), 
+    c("rbind", "rbind"),
+    callStack = sys.calls()
+  )
+  
+  # restore integer64 class
+  if (value_class == "integer64") {
+    if (is.list(ret)) {
+      if (is.data.frame(ret)) {
+        for (ii in seq_along(ret))
+          oldClass(ret[[ii]]) = value_class
+      } else {
+        estimatedRowIndices = lapply(dots, function(el) {
+          res = nrow(el)
+          if (is.null(res)) 
+            res = as.integer(length(el) > 0L)
+          res
+        })
+        lastValue = 0L
+        for (ii in seq_along(estimatedRowIndices)) {
+          estimatedRowIndices[[ii]] = lastValue + seq_len(estimatedRowIndices[[ii]])
+          lastValue = lastValue + length(estimatedRowIndices[[ii]])
+        }
+        col_offset = (seq_len(ncol(ret)) - 1L)*nrow(ret)
+        for (idx in positionsOfItemsToConvert) {
+          for (ii in estimatedRowIndices[[idx]]) {
+            for (jj in col_offset)
+              oldClass(ret[[ii + jj]]) = value_class
+          }
+        }
+      }
+    } else {
+      oldClass(ret) = value_class
+    }
+  }
   ret
 }
 

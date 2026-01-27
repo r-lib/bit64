@@ -21,8 +21,14 @@ if (getRversion() < "3.6.0") {
     class(obj) = c(class, "warning", "condition")
     obj
   }
-}
   
+  str2lang = function(x) parse(text=x)[[1L]]
+}
+
+.bit64.suppressPromoteInteger64ToCharacterMessage = "The assignment of character values to integer64 vectors and matrices with automatic coercion to integer64 will change to a more R consistent behaviour of coercing to character in future versions of bit64. If you wish you can update your code to the new behaviour by setting the option 'bit64.promoteInteger64ToCharacter' to TRUE."
+.onAttach <- function(libname, pkgname)
+  packageStartupMessage("\033[1m", .bit64.suppressPromoteInteger64ToCharacterMessage, "\033[22m")
+
 # nocov start
 .onUnload = function(libpath) {
   library.dynam.unload("bit64", libpath)
@@ -242,8 +248,8 @@ deprecate_exported_s3_methods(
 # * call stack: [A, B, C, D, E]; function_names = c("C", "D") returns C
 # * call stack: [A, B, C, D, E]; function_names = c("E", "D") returns D
 # * call stack: [A, B, C, D, E]; function_names = c("E", "X") returns A
-choose_sys_call = function(function_names, name_to_display=NULL) {
-  calls = sys.calls()
+choose_sys_call = function(function_names, name_to_display=NULL, callStack=NULL) {
+  calls = if (is.null(callStack)) sys.calls() else callStack
   if (length(calls) == 1L || length(function_names) == 0L) return(calls[[1L]])
   # find last occurrence of last name in function_names
   function_names_rev = rev(as.character(function_names))
@@ -264,17 +270,55 @@ choose_sys_call = function(function_names, name_to_display=NULL) {
   ret
 }
 
-withCallingHandlers_and_choose_call = function(expr, function_names, name_to_display=NULL) {
+withCallingHandlers_and_choose_call = function(expr, function_names, name_to_display=NULL, callStack=NULL) {
   wch = substitute(
     withCallingHandlers(expr, error=error, warning=warning),
     list(
       expr = sys.call()[[2L]],
-      error = function(e) stop(errorCondition(e$message, call=choose_sys_call(function_names, name_to_display))),
+      error = function(e) stop(errorCondition(e$message, call=choose_sys_call(function_names, name_to_display, callStack=callStack))),
       warning = function(w) {
-        warning(warningCondition(w$message, call=choose_sys_call(function_names, name_to_display)))
+        warning(warningCondition(w$message, call=choose_sys_call(function_names, name_to_display, callStack=callStack)))
         invokeRestart("muffleWarning")
       }
     )
   )
   eval(wch, envir=parent.frame())
+}
+
+# function to determine target class and sample value for union, intersect, setdiff, setequal, min, max, range, sum, prod, c, cbind and rbind functions
+# it could be that this function needs to have a differentiation for c, cbind, rbind and the setOps (union, intersect, setdiff, setequal).
+target_class_and_sample_value = function(x, recursive=FALSE, errorClasses="", POSIXltAsCharacter=FALSE) {
+  
+  getClassesOfElements = function(x, recursive, errorClasses) {
+    classes = vapply(x, function(el) if (class(el)[1L] == "list" || "data.frame" %in% class(el)) "list" else class(el)[1L], character(1L))
+    if (recursive) {
+      union(classes[classes != "list"], unlist(lapply(x[classes == "list"], function(el) getClassesOfElements(el, recursive=TRUE, errorClasses=errorClasses))))
+    } else {
+      unique(classes)
+    }
+  }
+  classes = getClassesOfElements(x, recursive=isTRUE(recursive), errorClasses=errorClasses)
+  if (length(sel <- intersect(errorClasses, classes)))
+    stop(errorCondition(sprintf(gettext("invalid 'type' (%s) of argument", domain="R"), sel[1L]), call=sys.call(max(sys.nframe() - 1L, 1L))))
+  if ("POSIXlt" %in% classes && isTRUE(POSIXltAsCharacter)) {
+    valueClass = "character"
+  } else if (any(c("character", "factor", "ordered") %in% classes)) {
+    # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option
+    if (!isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) {
+      if (!isTRUE(getOption("bit64.suppressPromoteInteger64ToCharacterMessage", FALSE))) {
+        message(.bit64.suppressPromoteInteger64ToCharacterMessage, "\nBy setting the option 'bit64.suppressPromoteInteger64ToCharacterMessage' to TRUE the display of this message can be suppressed. (This message is only displayed once per session.)")
+        options(bit64.suppressPromoteInteger64ToCharacterMessage=TRUE)
+      }
+      valueClass = "integer64"
+    } else {
+      valueClass = "character"
+    }
+  } else if ("complex" %in% classes) {
+    valueClass = "complex"
+  } else if (any(c("Date", "POSIXct", "POSIXlt", "difftime") %in% classes)) {
+    valueClass = "integer64"
+  } else {
+    valueClass = "integer64"
+  }
+  valueClass
 }
