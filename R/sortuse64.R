@@ -533,29 +533,34 @@ sortorderrnk.integer64 <- function(sorted, order, na.count, ...) {
 #' @rdname sortnut
 #' @param probs vector of probabilities in `[0..1]` for which we seek quantiles
 #' @export
-sortqtl <- function(sorted, na.count, probs, ...) UseMethod("sortqtl")
+sortqtl = function(sorted, na.count, probs, ...) UseMethod("sortqtl")
 
 #' @rdname sortnut
 #' @export
-sortqtl.integer64 <- function(sorted, na.count, probs, ...) {
-    n <- length(sorted) - na.count  # nvalid
-    ret <- sorted[na.count + round(1L + probs * (n-1L))]
-    # TODO(#31): Remove this once `[` can return NA for integer64 directly
-    ret[is.na(probs)] <- NA
-    ret
+sortqtl.integer64 = function(sorted, na.count, probs, ...) {
+  n = length(sorted) - na.count  # nvalid
+  sel = na.count + (1L + probs * (n-1L))
+  idx = matrix(c(floor(sel), ceiling(sel)), nrow=2L, byrow=TRUE)
+  neighbouring_values = matrix(sorted[idx], nrow=2L)
+  ret = neighbouring_values[1L,] + (neighbouring_values[2L,] - neighbouring_values[1L,])*(sel%%1)
+  # TODO(#31): Remove this once `[` can return NA for integer64 directly
+  ret[is.na(probs)] = NA
+  ret
 }
 
 #' @rdname sortnut
 #' @export
-orderqtl <- function(table, order, na.count, probs, ...) UseMethod("orderqtl")
+orderqtl = function(table, order, na.count, probs, ...) UseMethod("orderqtl")
 
 #' @rdname sortnut
 #' @export
-orderqtl.integer64 <- function(table, order, na.count, probs, ...) {
+orderqtl.integer64 = function(table, order, na.count, probs, ...) {
   n = length(table) - na.count  # nvalid
-  idx = na.count + round(1L + probs * (n-1L))
-  ret = table[order[idx]]
+  sel = na.count + (1L + probs * (n-1L))
+  idx = matrix(c(floor(sel), ceiling(sel)), nrow=2L, byrow=TRUE)
+  neighbouring_values = matrix(table[order[idx]], nrow=2L)
+  ret = neighbouring_values[1L,] + (neighbouring_values[2L,] - neighbouring_values[1L,])*(sel%%1)
   # TODO(#31): Remove this once `[` can return NA for integer64 directly
-  ret[is.na(probs)] <- NA
+  ret[is.na(probs)] = NA
   ret
 }

@@ -43,6 +43,8 @@
 
 1. `%/%` matches base R/Knuth behavior of taking the `floor()` of a result, where before truncation was towards zero. For example, `as.integer64(-10L) %/% as.integer64(7L)` now gives `-2L`, not `-1L`. This is consistent with `-10L %/% 7L` in base R. Consequently, `%%` is also affected, e.g. `as.integer64(-10L) %% as.integer64(7L)` now gives `4L`, not `-3L`, consistent with `-10L %% 7L` in base R.
 
+1. `quantile` and `median` have consistent behavior to base (#247). This is achieved by a change of `sortqtl` and `orderqtl`, which is used in `qtile` and thus also in `quantile` and `median`. This means that `median(as.integer64(1, 3))` new returns `2` (previously `3`), consistent with `median(c(1, 3))` in base R.
+
 ## NEW FEATURES
 
 1. `anyNA` gets an `integer64` method. Thanks @hcirellu.
@@ -73,6 +75,7 @@
 1. `as.integer64.character` now returns `NA` for out of range values, with warning, e.g. `as.integer64("22222222222222222222")` (#175). Thanks @hcirellu.
 1. `quicksort()` and others no longer segfault on trivial cases (e.g. sorting 0 or 1 item, #220).
 1. `as.integer64(2^63)` returns `NA_integer64_` more consistently (e.g. on ARM), consistent with `as.integer(2^31)` (#19). Thanks @dipterix.
+1. `quantile` and `median` have consistent behavior to base (#247). This is achieved by a change of `sortqtl` and `orderqtl`, which is used in `qtile` and thus also in `quantile` and `median`.
 
 ## NOTES
 
