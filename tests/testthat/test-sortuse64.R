@@ -190,5 +190,5 @@ with_parameters_test_that("quantile, median", {
 )
 
 test_that("special median", {
-    expect_identical(median(as.integer64(c(1152921504606846976, 1152921504606847232))), as.integer64("1152921504606847104"))
+    expect_identical(median(as.integer64(c("1152921504606846976", "1152921504606847232"))), as.integer64("1152921504606847104"))
 })
