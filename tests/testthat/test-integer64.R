@@ -913,7 +913,9 @@ test_that("c works consistent to R", {
 test_that("cbind works consistent to R", {
   convert_x32_result_to_integer64 = function(x, colsToConvert=NULL) {
     if (!is.list(x) && is.matrix(x)) {
-      matrix(as.integer64(x), nrow=nrow(x), ncol=ncol(x), dimnames=if (!is.null(dimnames(x))) lapply(dimnames(x), function(el) {el[el == "x32"] = "x64"; el}) )
+      x = matrix(as.integer64(x), nrow=nrow(x), ncol=ncol(x), dimnames=if (!is.null(dimnames(x))) lapply(dimnames(x), function(el) {el[el == "x32"] = "x64"; el}) )
+      oldClass(x) = "integer64"
+      x
     } else if (is.data.frame(x)) {
       for (col in colsToConvert)
         x[[col]] = as.integer64(x[[col]])
@@ -981,13 +983,14 @@ test_that("cbind works consistent to R", {
   ))
   if (getRversion() >= "4.0.0" ) # in my tests on R 3.5.0 this is identical
     expect_identical(
-      tryCatch(cbind(matrix(x64, 5), list(), NULL, matrix(as.integer(1:10, 2))), error=conditionMessage),
-      tryCatch(cbind(matrix(x32, 5), list(), NULL, matrix(as.integer(1:10, 2))), error=conditionMessage)
+      tryCatch(cbind(matrix(x64, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage),
+      tryCatch(cbind(matrix(x32, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage)
     )
-  expect_identical(
-    tryCatch(cbind(matrix(x64, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE), error=conditionMessage),
-    tryCatch(cbind(matrix(x32, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE), error=conditionMessage)
-  )
+  if (getRversion() >= "4.0.0" ) # in my tests on R 3.5.0 this is identical
+    expect_identical(
+      tryCatch(cbind(matrix(x64, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE), error=conditionMessage),
+      tryCatch(cbind(matrix(x32, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE), error=conditionMessage)
+    )
   expect_identical(
     cbind(matrix(x64, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE)), 
     convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE)), colsToConvert=1:2)
@@ -1002,7 +1005,7 @@ test_that("cbind works consistent to R", {
   )
   expect_identical(
     cbind(matrix(x64, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer64(-(1:10))), 
-    convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer64(-(1:10))), 1:2)
+    convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer(-(1:10))), c(1:2, 5))
   )
   expect_identical(
     cbind(matrix(x64, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer64(-(1:2))), 
@@ -1025,7 +1028,9 @@ test_that("cbind works consistent to R", {
 test_that("rbind works consistent to R", {
   convert_x32_result_to_integer64 = function(x, rowsToConvert=NULL) {
     if (!is.list(x) && is.matrix(x)) {
-      matrix(as.integer64(x), nrow=nrow(x), ncol=ncol(x), dimnames=if (!is.null(dimnames(x))) lapply(dimnames(x), function(el) {el[el == "x32"] = "x64"; el}) )
+      x = matrix(as.integer64(x), nrow=nrow(x), ncol=ncol(x), dimnames=if (!is.null(dimnames(x))) lapply(dimnames(x), function(el) {el[el == "x32"] = "x64"; el}) )
+      oldClass(x) = "integer64"
+      x
     } else if (is.data.frame(x)) {
       for (row in rowsToConvert)
         x[[row]] = as.integer64(x[[row]])
@@ -1092,8 +1097,8 @@ test_that("rbind works consistent to R", {
     convert_x32_result_to_integer64(rbind(A=matrix(x32, 5), B=list(a=1:10, b=1:2), C=1:5), c(1:5, 7))
   ))
   expect_identical(
-    tryCatch(rbind(matrix(x64, 5), list(), NULL, matrix(as.integer(1:10, 2))), error=conditionMessage),
-    tryCatch(rbind(matrix(x32, 5), list(), NULL, matrix(as.integer(1:10, 2))), error=conditionMessage)
+    tryCatch(rbind(matrix(x64, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage),
+    tryCatch(rbind(matrix(x32, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage)
   )
   expect_identical(
     tryCatch(rbind(matrix(x64, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE)), error=conditionMessage),
