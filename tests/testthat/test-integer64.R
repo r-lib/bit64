@@ -1095,6 +1095,7 @@ test_that("rbind works consistent to R", {
     rbind(A=matrix(x64, 5), B=list(a=1:10, b=1:2), C=1:5),
     convert_x32_result_to_integer64(rbind(A=matrix(x32, 5), B=list(a=1:10, b=1:2), C=1:5), c(1:5, 7))
   ))
+  skip_unless_r(">= 4.0.0") # in my tests on R 3.5.0 this is identical, except the one with as.complex() and "bit64.promoteInteger64ToCharacter=TRUE", because a factor instead of character is returned.
   expect_identical(
     tryCatch(rbind(matrix(x64, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage),
     tryCatch(rbind(matrix(x32, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage)
