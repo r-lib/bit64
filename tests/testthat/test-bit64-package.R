@@ -73,10 +73,10 @@ test_that("'range.integer64', multiplication, integer division, sqrt, power, and
     lim.integer64()
   ))
 
-  expect_true(identical.integer64(i64[-1L] %/%2.0 * as.integer64(2L), i64[-1L]))
-  expect_true(identical.integer64(i64[-1L] %/%2L * as.integer64(2L), i64[-1L]))
+  expect_true(identical.integer64(i64[-1L] %/% 2.0 * as.integer64(2L), i64[-1L]))
+  expect_true(identical.integer64(i64[-1L] %/% 2L * as.integer64(2L), i64[-1L]))
   expect_true(identical.integer64(i64[-1L] / 2.0 * as.integer64(2L), i64[-1L]))
-  expect_true(identical.integer64(i64[-1L] / 2.0 * as.integer64(2L), i64[-1L]))
+  expect_true(identical.integer64(i64[-1L] / 2L * as.integer64(2L), i64[-1L]))
 
   expect_true(identical.integer64(i64[-63L] * 2.0 %/% 2.0, i64[-63L]))
   expect_true(identical.integer64(i64[-63L] * 2L %/% 2L, i64[-63L]))
