@@ -981,16 +981,15 @@ test_that("cbind works consistent to R", {
     cbind(A=matrix(x64, 5), B=list(a=1:10, b=1:2), C=1:5),
     convert_x32_result_to_integer64(cbind(A=matrix(x32, 5), B=list(a=1:10, b=1:2), C=1:5), c(1, 2, 4))
   ))
-  if (getRversion() >= "4.0.0" ) # in my tests on R 3.5.0 this is identical
-    expect_identical(
-      tryCatch(cbind(matrix(x64, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage),
-      tryCatch(cbind(matrix(x32, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage)
-    )
-  if (getRversion() >= "4.0.0" ) # in my tests on R 3.5.0 this is identical
-    expect_identical(
-      tryCatch(cbind(matrix(x64, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE), error=conditionMessage),
-      tryCatch(cbind(matrix(x32, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE), error=conditionMessage)
-    )
+  skip_unless_r(">= 4.0.0") # in my tests on R 3.5.0 this is identical
+  expect_identical(
+    tryCatch(cbind(matrix(x64, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage),
+    tryCatch(cbind(matrix(x32, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage)
+  )
+  expect_identical(
+    tryCatch(cbind(matrix(x64, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE), error=conditionMessage),
+    tryCatch(cbind(matrix(x32, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE), error=conditionMessage)
+  )
   expect_identical(
     cbind(matrix(x64, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE)), 
     convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE)), colsToConvert=1:2)
