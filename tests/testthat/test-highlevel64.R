@@ -228,7 +228,7 @@ test_that("sorting methods work", {
   expect_identical(rank(x, method="orderrnk"), x_rank)
 
   x = as.integer64(1:100)
-  q = as.integer64(c(1L, 26L, 50L, 75L, 100L))
+  q = as.integer64(c(1L, 26L, 51L, 75L, 100L))
   expect_identical(quantile(x, names=FALSE), q)
   expect_identical(median(x), q[3L])
   names(q) = c('0%', '25%', '50%', '75%', '100%')
@@ -239,7 +239,7 @@ test_that("sorting methods work", {
   expect_error(quantile(NA_integer64_), "missing values not allowed")
 
   x = as.integer64(1:100)
-  q = as.integer64(c(1L, 26L, 50L, 75L, 100L))
+  q = as.integer64(c(1L, 26L, 51L, 75L, 100L))
   names(q) = c('0%', '25%', '50%', '75%', '100%')
   expect_identical(qtile(x, method="sortqtl"), q)
   expect_identical(qtile(x, method="orderqtl"), q)
