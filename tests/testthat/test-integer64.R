@@ -840,8 +840,8 @@ test_that("c works consistent to R", {
   x64 = as.integer64(x32) 
   
   expect_identical(c(A=integer64(), B=as.logical(x32)), convert_x32_result_to_integer64(c(A=integer(), B=as.logical(x32)), recursive=TRUE))
-  expect_identical(c(A=integer64(), B=as.POSIXct(x32, origin=0)), convert_x32_result_to_integer64(c(A=integer(), B=as.POSIXct(x32, origin=0)), recursive=TRUE))
-  expect_identical(c(A=integer64(), B=as.Date(x32)), convert_x32_result_to_integer64(c(A=integer(), B=as.Date(x32)), recursive=TRUE))
+  expect_identical(c(A=integer64(), B=as.POSIXct(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(A=integer(), B=as.POSIXct(x32, origin="2026-01-27")), recursive=TRUE))
+  expect_identical(c(A=integer64(), B=as.Date(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(A=integer(), B=as.Date(x32, origin="2026-01-27")), recursive=TRUE))
   expect_identical(c(A=integer64(), B=as.factor(x32)), convert_x32_result_to_integer64(c(A=integer(), B=as.factor(x32)), recursive=TRUE))
   expect_identical(c(A=integer64(), B=as.double(x32)), convert_x32_result_to_integer64(c(A=integer(), B=as.double(x32)), recursive=TRUE))
   expect_identical(c(A=integer64(), B=x32), convert_x32_result_to_integer64(c(A=integer(), B=x32), recursive=TRUE))
@@ -853,8 +853,8 @@ test_that("c works consistent to R", {
   })
   
   expect_identical(c(A=x64, B=as.logical(x32)), convert_x32_result_to_integer64(c(A=x32, B=as.logical(x32)), recursive=TRUE))
-  expect_identical(c(A=x64, B=as.POSIXct(x32, origin=0)), convert_x32_result_to_integer64(c(A=x32, B=as.POSIXct(x32, origin=0)), recursive=TRUE))
-  expect_identical(c(A=x64, B=as.Date(x32)), convert_x32_result_to_integer64(c(A=x32, B=as.Date(x32)), recursive=TRUE))
+  expect_identical(c(A=x64, B=as.POSIXct(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(A=x32, B=as.POSIXct(x32, origin="2026-01-27")), recursive=TRUE))
+  expect_identical(c(A=x64, B=as.Date(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(A=x32, B=as.Date(x32, origin="2026-01-27")), recursive=TRUE))
   expect_identical(c(A=x64, B=as.factor(x32)), convert_x32_result_to_integer64(c(A=x32, B=as.factor(x32)), recursive=TRUE))
   expect_identical(c(A=x64, B=as.ordered(x32)), convert_x32_result_to_integer64(c(A=x32, B=as.ordered(x32)), recursive=TRUE))
   expect_identical(c(A=x64, B=as.double(x32)), convert_x32_result_to_integer64(c(A=x32, B=as.double(x32)), recursive=TRUE))
@@ -888,8 +888,8 @@ test_that("c works consistent to R", {
   withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
     expect_identical(c(A=x64, B=data.frame(a=1:2, b=3, c="4"), recursive=TRUE), c(A=x32, B=data.frame(a=1:2, b=3, c="4"), recursive=TRUE))
   })
-  expect_identical(c(x64, as.POSIXlt(x32)), convert_x32_result_to_integer64(c(x32, as.POSIXlt(x32)), x32))
-  expect_identical(c(x64, as.POSIXlt(x32), recursive=TRUE), c(x32, as.POSIXlt(x32), recursive=TRUE))
+  expect_identical(c(x64, as.POSIXlt(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(x32, as.POSIXlt(x32, origin="2026-01-27")), x32))
+  expect_identical(c(x64, as.POSIXlt(x32, origin="2026-01-27"), recursive=TRUE), c(x32, as.POSIXlt(x32, origin="2026-01-27"), recursive=TRUE))
 
   expect_identical(
     c(A=x64, B=list(aa=x64, bb=list(bba=x64, bbb=x32, bbc=as.character(x32))), C=data.frame(a=x64, b=x32)),
@@ -936,9 +936,9 @@ test_that("cbind works consistent to R", {
   expect_identical(cbind(x64, 0.0), convert_x32_result_to_integer64(cbind(x32, 0.0)))
   expect_identical(cbind(x64, 0.0+0.0i), cbind(x32, 0.0+0.0i), ignore_attr="dimnames")
   expect_identical(cbind(x64, as.difftime(0.0, units="secs")), convert_x32_result_to_integer64(cbind(x32, as.difftime(0.0, units="secs"))))
-  expect_identical(cbind(x64, as.POSIXct(0.0, origin=0)), convert_x32_result_to_integer64(cbind(x32, as.POSIXct(0.0, origin=0))))
-  suppressWarnings(expect_identical(cbind(x64, as.POSIXlt(0.0)), convert_x32_result_to_integer64(cbind(x32, as.POSIXlt(0.0)), 1L)))
-  expect_identical(cbind(x64, as.Date(0.0)), convert_x32_result_to_integer64(cbind(x32, as.Date(0.0))))
+  expect_identical(cbind(x64, as.POSIXct(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(cbind(x32, as.POSIXct(0.0, origin="2026-01-27"))))
+  suppressWarnings(expect_identical(cbind(x64, as.POSIXlt(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(cbind(x32, as.POSIXlt(0.0, origin="2026-01-27")), 1L)))
+  expect_identical(cbind(x64, as.Date(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(cbind(x32, as.Date(0.0, origin="2026-01-27"))))
   expect_identical(cbind(x64, as.integer64(0L)), cbind(x32, as.integer64(0L)), ignore_attr="dimnames")
   expect_identical(cbind(integer64()), convert_x32_result_to_integer64(cbind(integer())))
   expect_identical(cbind(NA_integer64_), convert_x32_result_to_integer64(cbind(NA_integer_)))
@@ -1047,9 +1047,9 @@ test_that("rbind works consistent to R", {
   expect_identical(rbind(x64, 0.0), convert_x32_result_to_integer64(rbind(x32, 0.0)))
   expect_identical(rbind(x64, 0.0+0.0i), rbind(x32, 0.0+0.0i), ignore_attr="dimnames")
   expect_identical(rbind(x64, as.difftime(0.0, units="secs")), convert_x32_result_to_integer64(rbind(x32, as.difftime(0.0, units="secs"))))
-  expect_identical(rbind(x64, as.POSIXct(0.0, origin=0)), convert_x32_result_to_integer64(rbind(x32, as.POSIXct(0.0, origin=0))))
-  suppressWarnings(expect_identical(rbind(x64, as.POSIXlt(0.0)), convert_x32_result_to_integer64(rbind(x32, as.POSIXlt(0.0)), 1L)))
-  expect_identical(rbind(x64, as.Date(0.0)), convert_x32_result_to_integer64(rbind(x32, as.Date(0.0))))
+  expect_identical(rbind(x64, as.POSIXct(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(rbind(x32, as.POSIXct(0.0, origin="2026-01-27"))))
+  suppressWarnings(expect_identical(rbind(x64, as.POSIXlt(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(rbind(x32, as.POSIXlt(0.0, origin="2026-01-27")), 1L)))
+  expect_identical(rbind(x64, as.Date(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(rbind(x32, as.Date(0.0, origin="2026-01-27"))))
   expect_identical(rbind(x64, as.integer64(0L)), rbind(x32, as.integer64(0L)), ignore_attr="dimnames")
   expect_identical(rbind(integer64()), convert_x32_result_to_integer64(rbind(integer())))
   expect_identical(rbind(NA_integer64_), convert_x32_result_to_integer64(rbind(NA_integer_)))
