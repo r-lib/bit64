@@ -882,12 +882,13 @@ test_that("c works consistent to R", {
   withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
     expect_identical(c(A=x64, B=list(a=1:2, b=3, c="4"), recursive=TRUE), c(A=x32, B=list(a=1:2, b=3, c="4"), recursive=TRUE))
   })
-  expect_identical(c(A=x64, B=data.frame(a=1:2, b=3, c="4")), convert_x32_result_to_integer64(c(A=x32, B=data.frame(a=1:2, b=3, c="4")), x32))
+  expect_identical(c(A=x64, B=data.frame(a=1:2, b=3, c="4", stringsAsFactors=FALSE)), convert_x32_result_to_integer64(c(A=x32, B=data.frame(a=1:2, b=3, c="4", stringsAsFactors=FALSE)), x32))
   # TODO(#44): adjust tests accordingly
-  expect_identical(c(A=x64, B=data.frame(a=1:2, b=3, c="4"), recursive=TRUE), convert_x32_result_to_integer64(c(A=x32, B=data.frame(a=1:2, b=3, c="4"), recursive=TRUE), x32, recursive=TRUE))
+  expect_identical(c(A=x64, B=data.frame(a=1:2, b=3, c="4", stringsAsFactors=FALSE), recursive=TRUE), convert_x32_result_to_integer64(c(A=x32, B=data.frame(a=1:2, b=3, c="4", stringsAsFactors=FALSE), recursive=TRUE), x32, recursive=TRUE))
   withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
-    expect_identical(c(A=x64, B=data.frame(a=1:2, b=3, c="4"), recursive=TRUE), c(A=x32, B=data.frame(a=1:2, b=3, c="4"), recursive=TRUE))
+    expect_identical(c(A=x64, B=data.frame(a=1:2, b=3, c="4", stringsAsFactors=FALSE), recursive=TRUE), c(A=x32, B=data.frame(a=1:2, b=3, c="4", stringsAsFactors=FALSE), recursive=TRUE))
   })
+  
   expect_identical(c(x64, as.POSIXlt(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(x32, as.POSIXlt(x32, origin="2026-01-27")), x32))
   expect_identical(c(x64, as.POSIXlt(x32, origin="2026-01-27"), recursive=TRUE), c(x32, as.POSIXlt(x32, origin="2026-01-27"), recursive=TRUE))
 
@@ -982,32 +983,32 @@ test_that("cbind works consistent to R", {
     tryCatch(cbind(matrix(x32, 5), list(), NULL, matrix(as.integer(1:10, 2))), error=conditionMessage)
   )
   expect_identical(
-    tryCatch(cbind(matrix(x64, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10])), error=conditionMessage),
-    tryCatch(cbind(matrix(x32, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10])), error=conditionMessage)
+    tryCatch(cbind(matrix(x64, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE), error=conditionMessage),
+    tryCatch(cbind(matrix(x32, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE), error=conditionMessage)
   )
   expect_identical(
-    cbind(matrix(x64, 5), data.frame(a=5:1, b=LETTERS[1:5])), 
-    convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=5:1, b=LETTERS[1:5])), colsToConvert=1:2)
+    cbind(matrix(x64, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE)), 
+    convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE)), colsToConvert=1:2)
   )
   expect_identical(
-    tryCatch(cbind(matrix(x64, 5), data.frame(a=9:1, b=LETTERS[1:9])), error=conditionMessage),
-    tryCatch(cbind(matrix(x32, 5), data.frame(a=9:1, b=LETTERS[1:9])), error=conditionMessage)
+    tryCatch(cbind(matrix(x64, 5), data.frame(a=9:1, b=LETTERS[1:9], stringsAsFactors=FALSE)), error=conditionMessage),
+    tryCatch(cbind(matrix(x32, 5), data.frame(a=9:1, b=LETTERS[1:9], stringsAsFactors=FALSE)), error=conditionMessage)
   )
   expect_identical(
-    cbind(matrix(x64, 5), data.frame(a=10:1, b=LETTERS[1:10])), 
-    convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=10:1, b=LETTERS[1:10])), 1:2) 
+    cbind(matrix(x64, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE)), 
+    convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE)), 1:2) 
   )
   expect_identical(
-    cbind(matrix(x64, 5), data.frame(a=10:1, b=LETTERS[1:10]), yy=as.integer64(-(1:10))), 
-    convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=10:1, b=LETTERS[1:10]), yy=as.integer64(-(1:10))), 1:2)
+    cbind(matrix(x64, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer64(-(1:10))), 
+    convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer64(-(1:10))), 1:2)
   )
   expect_identical(
-    cbind(matrix(x64, 5), data.frame(a=10:1, b=LETTERS[1:10]), yy=as.integer64(-(1:2))), 
-    convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=10:1, b=LETTERS[1:10]), yy=-(1:2)), c(1:2, 5))
+    cbind(matrix(x64, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer64(-(1:2))), 
+    convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=-(1:2)), c(1:2, 5))
   )
   expect_identical(
-    cbind(matrix(x64, 5), data.frame(a=as.integer64(10:1), b=LETTERS[1:10]), yy=as.integer64(-(1:2))), 
-    convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=as.integer64(10:1), b=LETTERS[1:10]), yy=-(1:2)), c(1:2, 5))
+    cbind(matrix(x64, 5), data.frame(a=as.integer64(10:1), b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer64(-(1:2))), 
+    convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=as.integer64(10:1), b=LETTERS[1:10], stringsAsFactors=FALSE), yy=-(1:2)), c(1:2, 5))
   )
   expect_identical(
     tryCatch(cbind(as.integer64(1:2), matrix(x64, 5)), warning=conditionMessage),
@@ -1093,24 +1094,24 @@ test_that("rbind works consistent to R", {
     tryCatch(rbind(matrix(x32, 5), list(), NULL, matrix(as.integer(1:10, 2))), error=conditionMessage)
   )
   expect_identical(
-    tryCatch(rbind(matrix(x64, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10])), error=conditionMessage),
-    tryCatch(rbind(matrix(x32, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10])), error=conditionMessage)
+    tryCatch(rbind(matrix(x64, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE)), error=conditionMessage),
+    tryCatch(rbind(matrix(x32, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE)), error=conditionMessage)
   )
   expect_identical(
-    tryCatch(rbind(matrix(x64, 5), data.frame(a=5:1, b=LETTERS[1:5])), error=conditionMessage), 
-    tryCatch(rbind(matrix(x32, 5), data.frame(a=5:1, b=LETTERS[1:5])), error=conditionMessage)
+    tryCatch(rbind(matrix(x64, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE)), error=conditionMessage), 
+    tryCatch(rbind(matrix(x32, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE)), error=conditionMessage)
   )
   # TODO(#44): adjust tests accordingly
   expect_identical(
-    rbind(matrix(x64, 5, dimnames=list(NULL, c("a", "b"))), data.frame(a=5:1, b=as.character(1:5))), 
+    rbind(matrix(x64, 5, dimnames=list(NULL, c("a", "b"))), data.frame(a=5:1, b=as.character(1:5), stringsAsFactors=FALSE)), 
     convert_x32_result_to_integer64(rbind(matrix(x32, 5, dimnames=list(NULL, c("a", "b"))), data.frame(a=5:1, b=1:5)), 1:2)
   )
   withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
     expect_identical(
-      rbind(matrix(x64, 5, dimnames=list(NULL, c("a", "b"))), data.frame(a=5:1, b=as.character(1:5))),
-      rbind(matrix(x32, 5, dimnames=list(NULL, c("a", "b"))), data.frame(a=as.character(5:1), b=as.character(1:5)))
+      rbind(matrix(x64, 5, dimnames=list(NULL, c("a", "b"))), data.frame(a=5:1, b=as.character(1:5), stringsAsFactors=FALSE)),
+      rbind(matrix(x32, 5, dimnames=list(NULL, c("a", "b"))), data.frame(a=as.character(5:1), b=as.character(1:5), stringsAsFactors=FALSE))
       # This would be consistent with base R, but it requires additional logic to determine the columns to convert from the input in advance to have them coerced accordingly.
-      # convert_x32_result_to_integer64(rbind(matrix(x32, 5, dimnames=list(NULL, c("a", "b"))), data.frame(a=5:1, b=as.character(1:5))), 1L)
+      # convert_x32_result_to_integer64(rbind(matrix(x32, 5, dimnames=list(NULL, c("a", "b"))), data.frame(a=5:1, b=as.character(1:5), stringsAsFactors=FALSE)), 1L)
     )
   })
   expect_identical(
@@ -1120,8 +1121,8 @@ test_that("rbind works consistent to R", {
     # convert_x32_result_to_integer64(rbind(matrix(x32, 5, dimnames=list(NULL, c("a", "b"))), data.frame(a=5:1, b=as.complex(1:5))), 1L)
   )
   expect_identical(
-    tryCatch(rbind(matrix(x64, 5), data.frame(a=10:1, b=LETTERS[1:10]), yy=as.integer64(-(1:10))), error=conditionMessage), 
-    tryCatch(rbind(matrix(x32, 5), data.frame(a=10:1, b=LETTERS[1:10]), yy=as.integer64(-(1:10))), error=conditionMessage)
+    tryCatch(rbind(matrix(x64, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer64(-(1:10))), error=conditionMessage), 
+    tryCatch(rbind(matrix(x32, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer64(-(1:10))), error=conditionMessage)
   )
   expect_identical(
     tryCatch(rbind(as.integer64(1:5), matrix(x64, 5)), warning=conditionMessage),
