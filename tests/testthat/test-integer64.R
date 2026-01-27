@@ -243,6 +243,25 @@ test_that("arithmetic & basic math works", {
   x = as.integer64(1:10)
   y = as.integer64(10:1)
 
+  expect_identical(x + y, as.integer64(rep(11L, 10L)))
+  expect_identical(y - x, as.integer64(seq(9L, -9L, by=-2L)))
+  expect_identical(x * y, as.integer64(c(10L, 18L, 24L, 28L, 30L, 30L, 28L, 24L, 18L, 10L)))
+  # output is double even though it fits in integer [and integer64]
+  expect_identical(x[seq(2L, 10L, by=2L)] / 2L, as.double(1:5))
+  expect_identical(x ^ 2L, as.integer64((1:10)^2L))
+  expect_identical(-x, as.integer64(-(1:10)))
+
+  expect_identical(x %/% 2L, as.integer64(c(0L, 1L, 1L, 2L, 2L, 3L, 3L, 4L, 4L, 5L)))
+  expect_identical(x %% 2L, as.integer64(rep_len(c(1L, 0L), 10L)))
+  
+  x32 = c(10L, 10L, -10L, -10L, 10L, -10L)
+  y32 = c(3L, -3L, 3L, -3L, 0L, 0L)
+  x64 = as.integer64(x32)
+  y64 = as.integer64(y32)
+  expect_warning(expect_identical(as.integer64(x32) %/% as.integer64(y32), as.integer64(x32 %/% y32)), "NAs produced due to division by zero")
+  expect_warning(expect_identical(as.integer64(x32) %% as.integer64(y32), as.integer64(x32 %% y32)), "NAs produced due to division by zero")
+  expect_identical(suppressWarnings((x64%/%y64)*y64 + x64%%y64 == x64), c(rep(TRUE, 4L), rep(NA, 2L)))
+  
   expect_identical(sign(x - 6L), as.integer64(rep(c(-1L, 0L, 1L), c(5L, 1L, 4L))))
   expect_identical(abs(x - 6.0), as.integer64(c(5:0, 1:4)))
 
