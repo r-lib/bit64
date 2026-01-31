@@ -826,3 +826,37 @@ test_that("match works with zero length input", {
   expect_identical(match(x64, integer(), nomatch=10L), match(x32, integer(), nomatch=10L))
   expect_identical(match(integer(), x64), match(integer(), x32))
 })
+
+test_that("factor and order for integer64 are still necessary", {
+  # make sure that factor and order for integer64 are still necessary
+  x = c(132724613L, -2143220989L, -1L, NA, 1L)
+  expect_failure(expect_identical(base::factor(as.integer64(x)), base::factor(x)))
+  expect_failure(expect_identical(factor(as.integer64(x)), base::factor(as.integer64(x))))
+  expect_identical(factor(as.integer64(x)), base::factor(x))
+  expect_failure(expect_identical(base::ordered(as.integer64(x)), base::ordered(x)))
+  expect_failure(expect_identical(ordered(as.integer64(x)), base::ordered(as.integer64(x))))
+  expect_identical(ordered(as.integer64(x)), base::ordered(x))
+})
+
+with_parameters_test_that("factor and order work analogously to integer:", {
+    x = c(132724613L, -2143220989L, -1L, NA, 1L)
+
+    expect_identical(factor(as.integer64(x)), factor(x))
+
+    expect_identical(
+      tryCatch(factor(as.integer64(x), levels=levels, labels=labels, exclude=exclude, ordered=ordered), error=conditionMessage),
+      tryCatch(factor(x, levels=levels, labels=labels, exclude=exclude, ordered=ordered), error=conditionMessage)
+    )
+    if (isTRUE(ordered))
+      expect_identical(
+        tryCatch(ordered(as.integer64(x), levels=levels, labels=labels, exclude=exclude), error=conditionMessage),
+        tryCatch(ordered(x, levels=levels, labels=labels, exclude=exclude), error=conditionMessage)
+      )
+  },
+  .cases = expand.grid(
+      levels=I(list(NULL, NA, 1L, c(-1L, 1L), "1")),
+      labels=I(list(levels, NULL, letters[1L], letters[1:2])),
+      exclude=I(list(NULL, NA, 1L, c(-1L, 1L))),
+      ordered=c(TRUE, FALSE)
+    )
+)

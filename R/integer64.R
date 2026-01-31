@@ -2,7 +2,7 @@
 # R-Code
 # S3 atomic 64bit integers for R
 # (c) 2011-2024 Jens Oehlschägel
-# (c) 2025 Michael Chirico
+# (c) 2025-2026 Michael Chirico
 # Licence: GPL2
 # Provided 'as is', use at your own risk
 # Created: 2011-12-11
@@ -390,6 +390,27 @@ NULL
 #'   all.equal(as.integer64(1:10), as.double(1:10))
 #'   all.equal(as.integer64(1), as.double(1e300))
 #' @name all.equal.integer64
+NULL
+
+#' Factors
+#'
+#' The function [factor] is used to encode a vector as a factor.
+#'
+#' @param x a vector of data, usually taking a small number of distinct values.
+#' @param levels an optional vector of the unique values (as character strings) that x might have taken. The default is the unique set of values taken by as.character(x), sorted into increasing order of x. Note that this set can be specified as smaller than sort(unique(x)).
+#' @param labels either an optional character vector of labels for the levels (in the same order as levels after removing those in exclude), or a character string of length 1. Duplicated values in labels can be used to map different values of x to the same factor level.
+#' @param exclude a vector of values to be excluded when forming the set of levels. This may be factor with the same level set as x or should be a character.
+#' @param ordered logical flag to determine if the levels should be regarded as ordered (in the order given).
+#' @param nmax an upper bound on the number of levels.
+#' @param ... (in ordered(.)): any of the above, apart from ordered itself.
+#'
+#' @return An object of class "factor" or "ordered".
+#' @seealso [factor][base::factor]
+#' @examples
+#'   x <- as.integer64(c(132724613L, -2143220989L, -1L, NA, 1L))
+#'   factor(x)
+#'   ordered(x)
+#' @name factor
 NULL
 
 methods::setOldClass("integer64")
@@ -791,6 +812,60 @@ as.POSIXct.integer64 = function(x, tz="", origin, ...)
 #' @exportS3Method as.POSIXlt integer64
 as.POSIXlt.integer64 = function(x, tz="", origin, ...)
   as.POSIXlt(as.double(x, ...), tz=tz, origin=origin, ...)
+
+#' @rdname as.character.integer64
+#' @export as.factor
+as.factor = function(x) factor(x)
+
+#' @rdname as.character.integer64
+#' @export as.ordered
+as.ordered = function(x) ordered(x)
+
+#' @rdname factor
+#' @export factor
+factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.ordered(x), nmax=NA) {
+  if (!is.integer64(x)) {
+    sys_call = sys.call()
+    sys_call[[1L]] = base::factor
+    pf = parent.frame()
+    return(withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("factor")))
+  }
+  
+  nx = names(x)
+  if (missing(levels)) {
+    levels = sort(unique(x))
+  } else {
+    levels = as.integer64(levels)
+  }
+  # basically copied from base::factor
+  force(ordered)
+  levels = levels[is.na(match(levels, exclude))]
+  ret = match(x, levels)
+  if (!is.null(nx)) 
+    names(ret) = nx
+  if (missing(labels)) {
+    levels(ret) = as.character(levels)
+  } else {
+    nlab = length(labels)
+    if (nlab == length(levels)) {
+      nlevs = unique(xlevs <- as.character(labels))
+      at = attributes(ret)
+      at$levels = nlevs
+      ret = match(xlevs, nlevs)[ret]
+      attributes(ret) = at
+    } else if (nlab == 1L) {
+      levels(ret) = paste0(labels, seq_along(levels))
+    } else {
+      stop(gettextf("invalid 'labels'; length %d should be 1 or %d", nlab, length(levels), domain="R-base"), domain=NA)
+    }
+  }
+  class(ret) <- c(if (ordered) "ordered", "factor")
+  ret
+}
+
+#' @rdname factor
+#' @export ordered
+ordered = function(x=character(), ...) factor(x, ..., ordered=TRUE)
 
 #' @rdname as.character.integer64
 #' @export
