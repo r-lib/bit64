@@ -11,6 +11,7 @@
 ## NEW FEATURES
 
 1. `bitwNot`, `bitwAnd`, `bitwOr`, `bitwXor`, `bitwShiftL` and `bitwShiftR` get an overload to work correctly with `integer64` (#33).
+1. The result of `table` with multiple inputs including `integer64` is now ordered according to `integer64` values for the corresponding input (#236). Thanks @hcirellu.
 
 ## NOTES
 

@@ -2128,8 +2128,6 @@ table = function(
     sel = !names(dots) %in% c("return", "order", "nunique", "method")
   is_int64 = vapply(dots[sel], is.integer64, logical(1L), USE.NAMES=FALSE)
   is_int = vapply(dots[sel], is.integer, logical(1L), USE.NAMES=FALSE)
-  # TODO(#236): avoid this workaround to hack S3 dispatch. For now,
-  #   we only use table.integer64() when we are sure there is no information loss (coercion).
   sys_call = match.call()
   sel = which(vapply(sys_call[seq_along(dots) + 1L], is.symbol, FALSE)) + 1L
   if (length(sel)) {
@@ -2215,9 +2213,28 @@ table.integer64 = function(...,
   if (!N)
     stop("nothing to tabulate", domain="R-base")
 
-
-
-
+  # table(as.integer64(1L), "a") is dispatched to table.integer64,
+  #   but should be handled by table.default with integer64 already as factor
+  if (!all(vapply(seq_len(N), function(ii) {
+    elem = A(ii)
+    is.integer64(elem) || is.integer(elem)
+  }, logical(1L)))) {
+    useNA = match.arg(useNA)
+    ret = withCallingHandlers_and_choose_call(
+      do.call(
+        "table",
+        c(
+          lapply(seq_len(N), function(ii) {
+            val = A(ii)
+            if (is.integer64(val)) factor(val, exclude=NULL) else val
+          }),
+          list(exclude=exclude, useNA=useNA, dnn=dnn, deparse.level=deparse.level)
+        )
+      ),
+      c("table", "table.integer64")
+    )
+    return(ret)
+  }
   force(dnn)
 
   if (N == 1L) {
