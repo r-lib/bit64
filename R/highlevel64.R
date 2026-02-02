@@ -2046,8 +2046,6 @@ table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifan
   dots = list(...)
   is_int64 = vapply(dots, is.integer64, logical(1L), USE.NAMES=FALSE)
   is_int = vapply(dots, is.integer, logical(1L), USE.NAMES=FALSE)
-  # TODO(#236): avoid this workaround to hack S3 dispatch. For now,
-  #   we only use table.integer64() when we are sure there is no information loss (coercion).
   if (length(dots) && any(is_int64) && all(is_int64 | is_int)) {
     sys_call = sys.call()
     sys_call[[1L]] = table.integer64
@@ -2119,9 +2117,15 @@ table.integer64 = function(...,
   if (!N)
     stop("nothing to tabulate", domain="R-base")
 
-  # table(as.integer64(1L), "a") is dispatched to table.integer64, but should be handled by table.default
-  if (!all(vapply(seq_len(N), function(ii) {el = A(ii); is.integer64(el) || is.integer(el)}, logical(1L))))
-    return(NextMethod())
+  # table(as.integer64(1L), "a") is dispatched to table.integer64, but should be handled by table.default with integer64 already as factor
+  if (!all(vapply(seq_len(N), function(ii) {el = A(ii); is.integer64(el) || is.integer(el)}, logical(1L)))) {
+    useNA = match.arg(useNA)
+    ret = withCallingHandlers_and_choose_call(
+        do.call("table", c(lapply(seq_len(N), function(ii) {val = A(ii); if (is.integer64(val)) factor(val, exclude=NULL) else val}), list(exclude=exclude, useNA=useNA, dnn=dnn, deparse.level=deparse.level))), 
+        c("table", "table.integer64")
+      )
+    return(ret)
+  }
   
   if (N == 1L && is.list(A(1L))) {
     args = A(1L) # nolint: object_overwrite_linter. This code should probably be refactored anyway.
