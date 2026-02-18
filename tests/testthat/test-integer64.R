@@ -220,7 +220,7 @@ test_that("S3 class basics work", {
   expect_identical(x[11L], as.integer64(0L))
 })
 
-test_that("indexing works", {
+test_that("indexing works: [<-", {
   x = as.integer64(1:10)
   x_updated = as.integer64(c(2:3, 3:10))
 
@@ -252,15 +252,25 @@ test_that("indexing works", {
     x[2L] = "3"
     expect_identical(x, as.character(c(2:3, 3:10)))
   })
+
+  # local writes didn't edit 'x'
+  expect_identical(x[1L], as.integer64(1L))
+  expect_identical(x[[2L]], as.integer64(2L))
+})
+
+test_that("indexing works: [[<-", {
+  x = as.integer64(1:10)
+  x_updated = as.integer64(c(3:4, 3:10))
+
   local({
     x[[1.0]] = 3.0
     x[[2L]] = 4L
-    expect_identical(x, as.integer64(c(3:4, 3:10)))
+    expect_identical(x, x_updated)
   })
   local({
     x[[1.0]] = 3L
     x[[2L]] = 4.0
-    expect_identical(x, as.integer64(c(3:4, 3:10)))
+    expect_identical(x, x_updated)
   })
   local({
     x[[1.0]] = 3L
@@ -271,20 +281,23 @@ test_that("indexing works", {
   local({
     x[[1.0]] = 3L
     x[[2L]] = "4"
-    expect_identical(x, as.integer64(c(3:4, 3:10)))
+    expect_identical(x, x_updated)
   })
   local({
-    # TODO(#44): remove `withr::with_options`
-    withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
-      x[[1.0]] = 3L
-      x[[2L]] = "4"
-      expect_identical(x, as.character(c(3:4, 3:10)))
-    })
+    # TODO(#44): remove `withr::local_options`
+    withr::local_options(list(bit64.promoteInteger64ToCharacter=TRUE))
+    x[[1.0]] = 3L
+    x[[2L]] = "4"
+    expect_identical(x, as.character(c(3:4, 3:10)))
   })
-  local({
-    expect_identical(x[3L], as.integer64(3L))
-    expect_identical(x[[4L]], as.integer64(4L))
-  })
+
+  # local writes didn't edit 'x'
+  expect_identical(x[1L], as.integer64(1L))
+  expect_identical(x[[2L]], as.integer64(2L))
+})
+
+test_that("indexing works: get", {
+  x = as.integer64(1:10)
 
   names(x) = letters[1:10]
   expect_identical(x[c("b", "c")], x[2:3])
