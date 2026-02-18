@@ -920,10 +920,7 @@ test_that("extraction works consistent to integer: vector[", {
 
   # `only 0's may be mixed with negative subscripts`
   sel = c(-1, -3, 0, -11, NA)
-  expect_identical(
-    tryCatch(x[sel], error=conditionMessage),
-    tryCatch(y[sel], error=conditionMessage)
-  )
+  expect_same_error(x[sel], y[sel])
 
   expect_identical(
     as.integer64(c("9218868437227407266", "1"))[c(1,NA,3,4)],
@@ -1030,9 +1027,9 @@ test_that("extraction works consistent to integer: matrix[", {
   m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames = list(LETTERS[1:2], letters[1:5]))
 
   # `subscript out of bounds`
-  expect_identical(
-    tryCatch(m32[c("B", "D", "A"), c("d", "a")], error=conditionMessage),
-    tryCatch(m64[c("B", "D", "A"), c("d", "a")], error=conditionMessage)
+  expect_same_error(
+    m32[c("B", "D", "A"), c("d", "a")],
+    m64[c("B", "D", "A"), c("d", "a")]
   )
 
   expect_identical(m32[c("B", "D", "A")], rep(NA_integer_, 3L))
@@ -1100,34 +1097,16 @@ test_that("extraction works consistent to integer: matrix[[", {
   expect_identical(m64[[as.integer64(1L)]], as.integer64(m32[[1]]))
 
   # `subscript out of bounds`
-  expect_identical(
-    tryCatch(m32[[NA]], error=conditionMessage),
-    tryCatch(m64[[NA]], error=conditionMessage)
-  )
-  expect_identical(
-    tryCatch(m32[[NA]], error=conditionMessage),
-    tryCatch(m64[[as.integer64(NA)]], error=conditionMessage)
-  )
+  expect_same_error(m32[[NA]], m64[[NA]])
+  expect_same_error(m32[[NA]], m64[[NA_integer64_]])
 
   # `attempt to select less than one element in integerOneIndex`
-  expect_identical(
-    tryCatch(m32[[0L]], error=conditionMessage),
-    tryCatch(m64[[0L]], error=conditionMessage)
-  )
-  expect_identical(
-    tryCatch(m32[[0L]], error=conditionMessage),
-    tryCatch(m64[[as.integer64(0L)]], error=conditionMessage)
-  )
+  expect_same_error(m32[[0L]], m64[[0L]])
+  expect_same_error(m32[[0L]], m64[[as.integer64(0L)]])
 
   # `attempt to select less than one element in get1index`
-  expect_identical(
-    tryCatch(m32[[integer()]], error=conditionMessage),
-    tryCatch(m64[[integer()]], error=conditionMessage)
-  )
-  expect_identical(
-    tryCatch(m32[[integer()]], error=conditionMessage),
-    tryCatch(m64[[as.integer64()]], error=conditionMessage)
-  )
+  expect_same_error(m32[[integer()]], m64[[integer()]])
+  expect_same_error(m32[[integer()]], m64[[integer64()]])
 })
 
 test_that("replacement works consistent to integer: matrix[[<-", {
