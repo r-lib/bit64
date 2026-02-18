@@ -1070,12 +1070,11 @@ test_that("replacement works consistent to integer: matrix[<-", {
     expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
-    # TODO(#44): remove `withr::with_options`
-    withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
-      m32[1, c(1, 3, NA)] = "103"
-      m64[1, c(1, 3, NA)] = "103"
-      expect_identical(m64, m32)
-    })
+    # TODO(#44): remove `withr::local_options`
+    withr::local_options(list(bit64.promoteInteger64ToCharacter=TRUE))
+    m32[1, c(1, 3, NA)] = "103"
+    m64[1, c(1, 3, NA)] = "103"
+    expect_identical(m64, m32)
   })
   local({
     m32[1, c(1, 3, NA)] = 101L
@@ -1162,12 +1161,11 @@ test_that("replacement works consistent to integer: matrix[[<-", {
     expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
-    # TODO(#44): remove `withr::with_options`
-    withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
-      m32[[1, 4]] = "112"
-      m64[[1, 4]] = "112"
-      expect_identical(m64, m32)
-    })
+    # TODO(#44): remove `withr::local_options`
+    withr::local_options(list(bit64.promoteInteger64ToCharacter=TRUE))
+    m32[[1, 4]] = "112"
+    m64[[1, 4]] = "112"
+    expect_identical(m64, m32)
   })
 
 })
