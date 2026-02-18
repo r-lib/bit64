@@ -1,4 +1,4 @@
-rmatrix64 = function(x, nrow=1L, ncol=1L, byrow=FALSE, dimnames=NULL) {
+matrix64 = function(x, nrow=1L, ncol=1L, byrow=FALSE, dimnames=NULL) {
   matrix(as.integer64(x), nrow=nrow, ncol=ncol, byrow=byrow, dimnames=dimnames)
 }
 
