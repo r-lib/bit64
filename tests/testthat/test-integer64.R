@@ -899,37 +899,45 @@ test_that("match works with zero length input", {
 })
 
 
-test_that("extraction and replacement works consistent to integer (vectors; except for double)", {
-
-  # extraction with `[`
+test_that("extraction works consistent to integer: [", {
   x = 1:10
   names(x) = letters[seq_along(x)]
   y = as.integer64(x)
   names(y) = letters[seq_along(y)]
+
   sel = c(TRUE, FALSE, NA, TRUE)
   expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
+
   sel = c(1L, NA, 3L, 11L)
   expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
+
   sel = c(1, NA, 3, 11)
   expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
   expect_identical(y[as.integer64(sel)], setNames(as.integer64(x[sel]), names(x)[sel]))
+
   sel = c(-1L, -3L, 0L, -11L)
   expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
+
   sel = c(-1, -3, 0, -11)
   expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
-  sel = c(-1, -3, 0, -11, NA)
+
   # `only 0's may be mixed with negative subscripts`
+  sel = c(-1, -3, 0, -11, NA)
   expect_identical(
     tryCatch(x[sel], error=conditionMessage),
     tryCatch(y[sel], error=conditionMessage)
   )
 
-  expect_identical(as.integer64(c("9218868437227407266", "1"))[c(1,NA,3,4)], as.integer64(c("9218868437227407266", NA, NA, NA)))
+  expect_identical(
+    as.integer64(c("9218868437227407266", "1"))[c(1,NA,3,4)],
+    as.integer64(c("9218868437227407266", NA, NA, NA))
+  )
 
   sel = c("d", "", "b", NA_character_)
   expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[match(sel, names(x))]))
-  
-  # replacement with `[<-`
+})
+
+test_that("replacement works consistent to integer: [<-", {
   x = as.integer(1:10)
   names(x) = letters[seq_along(x)]
   y = as.integer64(x)
@@ -939,20 +947,27 @@ test_that("extraction and replacement works consistent to integer (vectors; exce
   x[sel] = 100L
   y[sel] = 100L
   expect_identical(y, setNames(as.integer64(x), names(x)))
+})
 
-  # extraction with `[[`  
+test_that("extraction works consistent to integer: [[", {
   x = as.integer(1:10)
   names(x) = letters[seq_along(x)]
   y = as.integer64(x)
   names(y) = letters[seq_along(y)]
+
   expect_identical(y[[3]], as.integer64(x[[3]]))
   expect_identical(y[["d"]], as.integer64(x[["d"]]))
+})
 
-  # replacement with `[[<-`
+test_that("replacement works consistent to integer: [[<-", {
+  x = as.integer(1:10)
+  names(x) = letters[seq_along(x)]
+  y = as.integer64(x)
+  names(y) = letters[seq_along(y)]
+
   x[["e"]] = 100L
   y[["e"]] = 100L
   expect_identical(y, setNames(as.integer64(x), names(x)))
-
 })
 
 test_that("extraction and replacement works consistent to integer (matrices; except for double)", {
