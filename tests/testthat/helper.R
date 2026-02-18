@@ -1,4 +1,4 @@
-matrix64 = function(x, nrow=1L, ncol=1L, byrow=FALSE, dimnames=NULL) {
+rmatrix64 = function(x, nrow=1L, ncol=1L, byrow=FALSE, dimnames=NULL) {
   matrix(as.integer64(x), nrow=nrow, ncol=ncol, byrow=byrow, dimnames=dimnames)
 }
 
@@ -55,5 +55,5 @@ expect_same_error = function(expr1, expr2) {
   msg2 = conditionMessage(err2)
 
   if (msg1 == msg2) return(pass())
-  fail(sprintf("'expr1' failed as %s\n'expr2' failed as %s", msg1, msg2))
+  fail(sprintf("Error messages differ.\n'expr1' failed as %s\n'expr2' failed as %s", msg1, msg2))
 }
