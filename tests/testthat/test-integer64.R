@@ -222,15 +222,17 @@ test_that("S3 class basics work", {
 
 test_that("indexing works", {
   x = as.integer64(1:10)
+  x_updated = as.integer64(c(2:3, 3:10))
+
   local({
     x[1.0] = 2.0
     x[2L] = 3L
-    expect_identical(x, as.integer64(c(2:3, 3:10)))
+    expect_identical(x, x_updated)
   })
   local({
     x[1.0] = 2L
     x[2L] = 3.0
-    expect_identical(x, as.integer64(c(2:3, 3:10)))
+    expect_identical(x, x_updated)
   })
   local({
     x[1.0] = 2L
@@ -241,15 +243,14 @@ test_that("indexing works", {
   local({
     x[1.0] = 2L
     x[2L] = "3"
-    expect_identical(x, as.integer64(c(2:3, 3:10)))
+    expect_identical(x, x_updated)
   })
   local({
-    # TODO(#44): remove `withr::with_options`
-    withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
-      x[1.0] = 2L
-      x[2L] = "3"
-      expect_identical(x, as.character(c(2:3, 3:10)))
-    })
+    # TODO(#44): remove the option
+    withr::local_options(list(bit64.promoteInteger64ToCharacter=TRUE))
+    x[1.0] = 2L
+    x[2L] = "3"
+    expect_identical(x, as.character(c(2:3, 3:10)))
   })
   local({
     x[[1.0]] = 3.0
