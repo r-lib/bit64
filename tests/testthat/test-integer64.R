@@ -879,14 +879,12 @@ test_that("all.equal works", {
   expect_match(all.equal(x, x+1L, scale=1.0), "Mean absolute difference", fixed=TRUE)
 })
 
-
 test_that("anyNA method", {
   expect_identical(anyNA(as.integer64(c(1L, 1L))), anyNA(c(1L, 1L)))
   expect_identical(anyNA(as.integer64(c(1L, NA))), anyNA(c(1L, NA)))
   expect_identical(anyNA(as.integer64(c(NA, NA))), anyNA(c(NA, NA)))
   expect_identical(anyNA(integer64()), anyNA(integer()))
 })
-
 
 test_that("match works with zero length input", {
   x32 = 1:10
@@ -898,8 +896,7 @@ test_that("match works with zero length input", {
   expect_identical(match(integer(), x64), match(integer(), x32))
 })
 
-
-test_that("extraction works consistent to integer: [", {
+test_that("extraction works consistent to integer: vector[", {
   x = 1:10
   names(x) = letters[seq_along(x)]
   y = as.integer64(x)
@@ -937,7 +934,7 @@ test_that("extraction works consistent to integer: [", {
   expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[match(sel, names(x))]))
 })
 
-test_that("replacement works consistent to integer: [<-", {
+test_that("replacement works consistent to integer: vector[<-", {
   x = as.integer(1:10)
   names(x) = letters[seq_along(x)]
   y = as.integer64(x)
@@ -949,7 +946,7 @@ test_that("replacement works consistent to integer: [<-", {
   expect_identical(y, setNames(as.integer64(x), names(x)))
 })
 
-test_that("extraction works consistent to integer: [[", {
+test_that("extraction works consistent to integer: vector[[", {
   x = as.integer(1:10)
   names(x) = letters[seq_along(x)]
   y = as.integer64(x)
@@ -959,7 +956,7 @@ test_that("extraction works consistent to integer: [[", {
   expect_identical(y[["d"]], as.integer64(x[["d"]]))
 })
 
-test_that("replacement works consistent to integer: [[<-", {
+test_that("replacement works consistent to integer: vector[[<-", {
   x = as.integer(1:10)
   names(x) = letters[seq_along(x)]
   y = as.integer64(x)
@@ -970,25 +967,24 @@ test_that("replacement works consistent to integer: [[<-", {
   expect_identical(y, setNames(as.integer64(x), names(x)))
 })
 
-test_that("extraction and replacement works consistent to integer (matrices; except for double)", {
-
-  # extraction with `[`
+test_that("extraction works consistent to integer: matrix[", {
   m32 = matrix(1:10, nrow=2L)
   m64 = matrix64(as.integer64(m32), nrow=dim(m32)[1L], ncol=dim(m32)[2L])
-  expect_identical(m32[integer(), 1:2, drop=TRUE], structure(integer(), dim = c(0L, 2L)))
-  expect_identical(m64[integer(), 1:2, drop=TRUE], structure(integer64(), dim = c(0L, 2L)))
 
-  expect_identical(m32[1:2, integer(), drop=TRUE], structure(integer(), dim = c(2L, 0L)))
-  expect_identical(m64[1:2, integer(), drop=TRUE], structure(integer64(), dim = c(2L, 0L)))
+  expect_identical(m32[integer(), 1:2, drop=TRUE], structure(integer(), dim=c(0L, 2L)))
+  expect_identical(m64[integer(), 1:2, drop=TRUE], structure(integer64(), dim=c(0L, 2L)))
 
-  expect_identical(m32[integer(), 1:2, drop=FALSE], structure(integer(), dim = c(0L, 2L)))
-  expect_identical(m64[integer(), 1:2, drop=FALSE], structure(integer64(), dim = c(0L, 2L)))
+  expect_identical(m32[1:2, integer(), drop=TRUE], structure(integer(), dim=c(2L, 0L)))
+  expect_identical(m64[1:2, integer(), drop=TRUE], structure(integer64(), dim=c(2L, 0L)))
 
-  expect_identical(m32[1:2, integer(), drop=FALSE], structure(integer(), dim = c(2L, 0L)))
-  expect_identical(m64[1:2, integer(), drop=FALSE], structure(integer64(), dim = c(2L, 0L)))
+  expect_identical(m32[integer(), 1:2, drop=FALSE], structure(integer(), dim=c(0L, 2L)))
+  expect_identical(m64[integer(), 1:2, drop=FALSE], structure(integer64(), dim=c(0L, 2L)))
 
-  expect_identical(m32[1:2, 1:3, drop=TRUE], structure(1:6, dim = c(2L, 3L)))
-  expect_identical(m64[1:2, 1:3, drop=TRUE], structure(as.integer64(1:6), dim = c(2L, 3L)))
+  expect_identical(m32[1:2, integer(), drop=FALSE], structure(integer(), dim=c(2L, 0L)))
+  expect_identical(m64[1:2, integer(), drop=FALSE], structure(integer64(), dim=c(2L, 0L)))
+
+  expect_identical(m32[1:2, 1:3, drop=TRUE], structure(1:6, dim=c(2L, 3L)))
+  expect_identical(m64[1:2, 1:3, drop=TRUE], structure(as.integer64(1:6), dim=c(2L, 3L)))
 
   expect_identical(m32[1:2], 1:2)
   expect_identical(m64[1:2], as.integer64(1:2))
@@ -999,36 +995,36 @@ test_that("extraction and replacement works consistent to integer (matrices; exc
   expect_identical(m32[j = 1:3, drop=TRUE], 1:3)
   expect_identical(m64[j = 1:3, drop=TRUE], as.integer64(1:3))
 
-  expect_identical(m32[1:2, , drop=TRUE], structure(as.integer(1:10), dim = c(2L, 5L)))
-  expect_identical(m64[1:2, , drop=TRUE], structure(as.integer64(1:10), dim = c(2L, 5L)))
+  expect_identical(m32[1:2, , drop=TRUE], structure(as.integer(1:10), dim=c(2L, 5L)))
+  expect_identical(m64[1:2, , drop=TRUE], structure(as.integer64(1:10), dim=c(2L, 5L)))
 
-  expect_identical(m32[, 1:3, drop=TRUE], structure(as.integer(1:6), dim = c(2L, 3L)))
-  expect_identical(m64[, 1:3, drop=TRUE], structure(as.integer64(1:6), dim = c(2L, 3L)))
+  expect_identical(m32[, 1:3, drop=TRUE], structure(as.integer(1:6), dim=c(2L, 3L)))
+  expect_identical(m64[, 1:3, drop=TRUE], structure(as.integer64(1:6), dim=c(2L, 3L)))
 
   expect_identical(m32[1, , drop=TRUE], c(1L, 3L, 5L, 7L, 9L))
   expect_identical(m64[1, , drop=TRUE], as.integer64(c(1L, 3L, 5L, 7L, 9L)))
 
-  expect_identical(m32[1, , drop=FALSE], structure(c(1L, 3L, 5L, 7L, 9L), dim = c(1L, 5L)))
-  expect_identical(m64[1, , drop=FALSE], structure(as.integer64(c(1L, 3L, 5L, 7L, 9L)), dim = c(1L, 5L)))
+  expect_identical(m32[1, , drop=FALSE], structure(c(1L, 3L, 5L, 7L, 9L), dim=c(1L, 5L)))
+  expect_identical(m64[1, , drop=FALSE], structure(as.integer64(c(1L, 3L, 5L, 7L, 9L)), dim=c(1L, 5L)))
 
   expect_identical(m32[, 1, drop=TRUE], 1:2)
   expect_identical(m64[, 1, drop=TRUE], as.integer64(1:2))
 
-  expect_identical(m32[, 1, drop=FALSE], structure(1:2, dim = 2:1))
-  expect_identical(m64[, 1, drop=FALSE], structure(as.integer64(1:2), dim = 2:1))
+  expect_identical(m32[, 1, drop=FALSE], structure(1:2, dim=2:1))
+  expect_identical(m64[, 1, drop=FALSE], structure(as.integer64(1:2), dim=2:1))
 
   expect_identical(m32[c(9, NA, 11, 12), drop=FALSE], c(9L, NA, NA, NA))
   expect_identical(m64[c(9, NA, 11, 12), drop=FALSE], as.integer64(c(9L, NA, NA, NA)))
 
-  expect_identical(m32[integer(), c(1:2, 0, NA), drop=TRUE], structure(integer(), dim = c(0L, 3L)))
-  expect_identical(m64[integer(), c(1:2, 0, NA), drop=TRUE], structure(integer64(), dim = c(0L, 3L)))
-  expect_identical(m64[integer64(), c(1:2, 0, NA), drop=TRUE], structure(integer64(), dim = c(0L, 3L)))
+  expect_identical(m32[integer(), c(1:2, 0, NA), drop=TRUE], structure(integer(), dim=c(0L, 3L)))
+  expect_identical(m64[integer(), c(1:2, 0, NA), drop=TRUE], structure(integer64(), dim=c(0L, 3L)))
+  expect_identical(m64[integer64(), c(1:2, 0, NA), drop=TRUE], structure(integer64(), dim=c(0L, 3L)))
 
-  expect_identical(m32[, c(1:2, 0, NA), drop=TRUE], structure(c(1:4, NA, NA), dim = c(2L, 3L)))
-  expect_identical(m64[, c(1:2, 0, NA), drop=TRUE], structure(as.integer64(c(1:4, NA, NA)), dim = c(2L, 3L)))
+  expect_identical(m32[, c(1:2, 0, NA), drop=TRUE], structure(c(1:4, NA, NA), dim=c(2L, 3L)))
+  expect_identical(m64[, c(1:2, 0, NA), drop=TRUE], structure(as.integer64(c(1:4, NA, NA)), dim=c(2L, 3L)))
 
-  expect_identical(m32[c(1, NA, 2), 1:3, drop=TRUE], structure(c(1L, NA, 2L, 3L, NA, 4L, 5L, NA, 6L), dim = c(3L, 3L)))
-  expect_identical(m64[c(1, NA, 2), 1:3, drop=TRUE], structure(as.integer64(c(1L, NA, 2L, 3L, NA, 4L, 5L, NA, 6L)), dim = c(3L, 3L)))
+  expect_identical(m32[c(1, NA, 2), 1:3, drop=TRUE], structure(c(1L, NA, 2L, 3L, NA, 4L, 5L, NA, 6L), dim=c(3L, 3L)))
+  expect_identical(m64[c(1, NA, 2), 1:3, drop=TRUE], structure(as.integer64(c(1L, NA, 2L, 3L, NA, 4L, 5L, NA, 6L)), dim=c(3L, 3L)))
 
   m32 = matrix(1:10, 2L, dimnames = list(LETTERS[1:2], letters[1:5]))
   m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames = list(LETTERS[1:2], letters[1:5]))
@@ -1041,22 +1037,26 @@ test_that("extraction and replacement works consistent to integer (matrices; exc
 
   expect_identical(m32[c("B", "D", "A")], rep(NA_integer_, 3L))
   expect_identical(m64[c("B", "D", "A")], rep(NA_integer64_, 3L))
-  
-  # replacement with `[<-`
+})
+
+test_that("replacement works consistent to integer: matrix[<-", {
+  m32 = matrix(1:10, nrow=2L)
+  m64 = matrix64(as.integer64(m32), nrow=dim(m32)[1L], ncol=dim(m32)[2L])
+
   local({
     m32[1, c(1, 3, NA)] = 100L
     m64[1, c(1, 3, NA)] = as.integer64(100L)
-    expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     m32[1, c(1, 4, NA)] = 101L
     m64[1, c(1, 4, NA)] = 101L
-    expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     m32[1, c(1, 5, NA)] = 102
     m64[1, c(1, 5, NA)] = 102
-    expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     m32[1, c(1, 5, NA)] = 102.0 + 0.0i
@@ -1067,7 +1067,7 @@ test_that("extraction and replacement works consistent to integer (matrices; exc
   local({
     m32[1, c(1, 3, NA)] = 103L
     m64[1, c(1, 3, NA)] = "103"
-    expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     # TODO(#44): remove `withr::with_options`
@@ -1080,17 +1080,19 @@ test_that("extraction and replacement works consistent to integer (matrices; exc
   local({
     m32[1, c(1, 3, NA)] = 101L
     m64[1, as.integer64(c(1, 3, NA))] = 101L
-    expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     m32[, -(1:3)] = 102L
     m64[, -(1:3)] = 102L
-    expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
+})
 
-  # extraction with `[[`  
+test_that("extraction works consistent to integer: matrix[[", {
   m32 = matrix(1:10, 2L, dimnames = list(LETTERS[1:2], letters[1:5]))
-  m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames = list(LETTERS[1:2], letters[1:5]))
+  m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames=list(LETTERS[1:2], letters[1:5]))
+
   expect_identical(m64[[1, 2]], as.integer64(m32[[1, 2]]))
   expect_identical(m64[[as.integer64(1L), as.integer64(2L)]], as.integer64(m32[[1, 2]]))
   expect_identical(m64[["A", "d"]], as.integer64(m32[["A", "d"]]))
@@ -1127,22 +1129,26 @@ test_that("extraction and replacement works consistent to integer (matrices; exc
     tryCatch(m32[[integer()]], error=conditionMessage),
     tryCatch(m64[[as.integer64()]], error=conditionMessage)
   )
+})
 
-  # replacement with `[[<-`
+test_that("replacement works consistent to integer: matrix[[<-", {
+  m32 = matrix(1:10, 2L, dimnames = list(LETTERS[1:2], letters[1:5]))
+  m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames=list(LETTERS[1:2], letters[1:5]))
+
   local({
     m32[[1, 3]] = 110L
     m64[[1, 3]] = 110L
-    expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     m32[["A", "e"]] = 112L
     m64[["A", "e"]] = 112L
-    expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     m32[[1, 3]] = 111
     m64[[1, 3]] = 111
-    expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
     local({
     m32[[1, 3]] = 111.0 + 0.0i
@@ -1153,7 +1159,7 @@ test_that("extraction and replacement works consistent to integer (matrices; exc
   local({
     m32[[1, 4]] = 112L
     m64[[1, 4]] = "112"
-    expect_identical(m64, structure(as.integer64(m32), dim = dim(m32), dimnames = dimnames(m32)))
+    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     # TODO(#44): remove `withr::with_options`
@@ -1166,9 +1172,7 @@ test_that("extraction and replacement works consistent to integer (matrices; exc
 
 })
 
-test_that("extraction and replacement works consistent to integer (arrays; except for double)", {
-
-  # extraction with `[`
+test_that("extraction consistent to integer: array[", {
   a32 = array(1:27, c(3,3,3))
   a64 = array64(as.integer64(1:27), c(3,3,3))
 
@@ -1201,5 +1205,4 @@ test_that("extraction and replacement works consistent to integer (arrays; excep
 
   expect_identical(a32[-1, 2, -c(0, 2:3), drop=TRUE], 5:6)
   expect_identical(a64[-1, 2, -c(0, 2:3), drop=TRUE], as.integer64(5:6))
-
 })
