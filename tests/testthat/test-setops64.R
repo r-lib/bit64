@@ -28,7 +28,12 @@ with_parameters_test_that("union works with basic R types (except double)", {
       )
     }
   }, 
-  .cases=expand.grid(x=I(list(NULL, c(1:7, 2L, 11L))), type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"), type_y=c("integer", "integer64"), stringsAsFactors=FALSE)
+  .cases=expand.grid(
+    x=I(list(NULL, c(1:7, 2L, 11L))),
+    type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"),
+    type_y=c("integer", "integer64"),
+    stringsAsFactors=FALSE
+  )
 )
 
 test_that("union works with special logic for double", {
@@ -86,7 +91,12 @@ with_parameters_test_that("intersect works with basic R types (except double)", 
       )
     }
   }, 
-  .cases=expand.grid(x=I(list(NULL, c(1:7, 2L, 11L))), type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"), type_y=c("integer", "integer64"), stringsAsFactors=FALSE)
+  .cases=expand.grid(
+    x=I(list(NULL, c(1:7, 2L, 11L))),
+    type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"),
+    type_y=c("integer", "integer64"),
+    stringsAsFactors=FALSE
+  )
 )
 
 test_that("intersect works with special logic for double", {
@@ -134,7 +144,12 @@ with_parameters_test_that("setdiff works with basic R types (except double)", {
       )
     }
   }, 
-  .cases=expand.grid(x=I(list(NULL, c(1:7, 2L, 11L))), type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"), type_y=c("integer", "integer64"), stringsAsFactors=FALSE)
+  .cases=expand.grid(
+    x=I(list(NULL, c(1:7, 2L, 11L))),
+    type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"),
+    type_y=c("integer", "integer64"),
+    stringsAsFactors=FALSE
+  )
 )
 
 test_that("setdiff works with special logic for double", {
@@ -176,27 +191,32 @@ with_parameters_test_that("setequal works with basic R types (except double)", {
       )
     }
   }, 
-  .cases=expand.grid(x=I(list(NULL, c(1:7, 2L, 11L))), type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"), type_y=c("integer", "integer64"), stringsAsFactors=FALSE)
+  .cases=expand.grid(
+    x=I(list(NULL, c(1:7, 2L, 11L))),
+    type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"),
+    type_y=c("integer", "integer64"),
+    stringsAsFactors=FALSE
+  )
 )
 
 test_that("setequal works with special logic for double", {
   
   expect_identical(setequal(1.5:7, 5:10), base::setequal(1.5:7, 5:10))
-  expect_identical(setequal(1.5:7, as.integer64(6:1)), TRUE)
-  expect_identical(setequal(as.integer64(6:1), 1.5:7), TRUE)
+  expect_true(setequal(1.5:7, as.integer64(6:1)))
+  expect_true(setequal(as.integer64(6:1), 1.5:7))
 
 })
 
 test_that("setequal works (additional cases)", {
   
   expect_identical(setequal(c(5, 3, 5), c(0, 2, 1, 3, 6)), base::setequal(c(5, 3, 5), c(0, 2, 1, 3, 6)))
-  expect_identical(setequal(as.integer64(c(5, 3, 5)), as.integer64(c(0, 2, 1, 3, 6))), FALSE)
-  expect_identical(setequal(as.integer64(c(5, 3, 5)), as.integer64(c(3, 3, 3, 3, 5))), TRUE)
+  expect_false(setequal(as.integer64(c(5, 3, 5)), as.integer64(c(0, 2, 1, 3, 6))))
+  expect_true(setequal(as.integer64(c(5, 3, 5)), as.integer64(c(3, 3, 3, 3, 5))))
   
-  expect_identical(setequal(NA, NA_integer_), TRUE)
-  expect_identical(setequal(NA_integer_, NA), TRUE)
-  expect_identical(setequal(NA, NA_integer64_), TRUE)
-  expect_identical(setequal(NA_integer64_, NA), TRUE)
+  expect_true(setequal(NA, NA_integer_)
+  expect_true(setequal(NA_integer_, NA))
+  expect_true(setequal(NA, NA_integer64_))
+  expect_true(setequal(NA_integer64_, NA))
   
 })
 
@@ -219,7 +239,12 @@ with_parameters_test_that("is.element works with basic R types (except double)",
       )
     }
   }, 
-  .cases=expand.grid(x=I(list(NULL, c(1:7, 2L, 11L))), type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"), type_y=c("integer", "integer64"), stringsAsFactors=FALSE)
+  .cases=expand.grid(
+    x=I(list(NULL, c(1:7, 2L, 11L))),
+    type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"),
+    type_y=c("integer", "integer64"),
+    stringsAsFactors=FALSE
+  )
 )
 
 test_that("is.element works with special logic for double", {
@@ -236,9 +261,9 @@ test_that("is.element works (additional cases)", {
   expect_identical(is.element(as.integer64(c(5, 3, 5)), as.integer64(c(0, 2, 1, 3, 6))), c(FALSE, TRUE, FALSE))
   expect_identical(is.element(as.integer64(c(5, 3, 5)), as.integer64(c(3, 3, 3, 3, 5))), rep(TRUE, 3))
   
-  expect_identical(is.element(NA, NA_integer_), TRUE)
-  expect_identical(is.element(NA_integer_, NA), TRUE)
-  expect_identical(is.element(NA, NA_integer64_), TRUE)
-  expect_identical(is.element(NA_integer64_, NA), TRUE)
+  expect_true(is.element(NA, NA_integer_))
+  expect_true(is.element(NA_integer_, NA))
+  expect_true(is.element(NA, NA_integer64_))
+  expect_true(is.element(NA_integer64_, NA))
   
 })
