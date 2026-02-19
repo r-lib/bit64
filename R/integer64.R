@@ -828,7 +828,7 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
     sys_call = sys.call()
     sys_call[[1L]] = base::factor
     pf = parent.frame()
-    return(withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("factor")))
+    return(withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), "factor"))
   }
   
   nx = names(x)
