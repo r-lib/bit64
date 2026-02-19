@@ -1,36 +1,39 @@
-with_parameters_test_that("union works with basic R types (except double)", {
-    if (getRversion() > "3.6.0" || !(type_x %in% c("POSIXct", "Date"))) {
-      y = 5:10
-      if (!is.na(type_x))
-        x = eval(parse(text=paste0("as.", type_x, "(x)")))
-      if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double")) {
-        expected_result_x_y = as.integer64(base::union(x, y))
-        expected_result_y_x = as.integer64(base::union(y, x))
-      } else if (type_y == "integer64" && type_x %in% c("POSIXct", "Date")) {
-        # as.POSIXct(1L) and as.Date(1L) stay internally integer
-        # as.POSIXct(1) and as.Date(1) stay internally double
-        y = as.double(y)
-        expected_result_x_y = base::union(x, y)
-        expected_result_y_x = base::union(y, x)
-      } else {
-        expected_result_x_y = base::union(x, y)
-        expected_result_y_x = base::union(y, x)
-      }
-      y = as(y, type_y)
-  
-      expect_identical(
-        union(x, y),
-        expected_result_x_y
-      )
-      expect_identical(
-        union(y, x),
-        expected_result_y_x
-      )
+with_parameters_test_that(
+  "union works with basic R types (except double)",
+  {
+    y = 5:10
+    if (!is.na(type_x))
+      x = eval(parse(text=paste0("as.", type_x, "(x)")))
+    if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double")) {
+      expected_result_x_y = as.integer64(base::union(x, y))
+      expected_result_y_x = as.integer64(base::union(y, x))
+    } else if (type_y == "integer64" && type_x %in% c("POSIXct", "Date")) {
+      # as.POSIXct(1L) and as.Date(1L) stay internally integer
+      # as.POSIXct(1) and as.Date(1) stay internally double
+      y = as.double(y)
+      expected_result_x_y = base::union(x, y)
+      expected_result_y_x = base::union(y, x)
+    } else {
+      expected_result_x_y = base::union(x, y)
+      expected_result_y_x = base::union(y, x)
     }
+    y = as(y, type_y)
+
+    expect_identical(
+      union(x, y),
+      expected_result_x_y
+    )
+    expect_identical(
+      union(y, x),
+      expected_result_y_x
+    )
   }, 
   .cases=expand.grid(
     x=I(list(NULL, c(1:7, 2L, 11L))),
-    type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"),
+    type_x=c(
+      NA, "double", "logical", "integer", "character", "complex", "factor", "ordered",
+      if (getRversion() > "3.6.0") c("POSIXct", "Date")
+    ),
     type_y=c("integer", "integer64"),
     stringsAsFactors=FALSE
   )
@@ -57,43 +60,46 @@ test_that("union works (additional cases)", {
 })
 
 
-with_parameters_test_that("intersect works with basic R types (except double)", {
-    if (getRversion() > "3.6.0" || !(type_x %in% c("POSIXct", "Date"))) {
-      y = 5:10
-      if (!is.na(type_x))
-        x = eval(parse(text=paste0("as.", type_x, "(x)")))
-      if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double")) {
-        expected_result_x_y = as.integer64(base::intersect(x, y))
-        expected_result_y_x = as.integer64(base::intersect(y, x))
-      } else if (type_y == "integer64" && type_x %in% c("POSIXct", "Date")) {
-        # as.POSIXct(1L) and as.Date(1L) stay internally integer
-        # as.POSIXct(1) and as.Date(1) stay internally double
-        y = as.double(y)
-        expected_result_x_y = base::intersect(x, y)
-        expected_result_y_x = base::intersect(y, x)
-      } else {
-        expected_result_x_y = base::intersect(x, y)
-        if (getRversion() <= "3.6.0" && type_x %in% c("character", "factor", "ordered") && type_y == "integer64")
-          expected_result_x_y = as.character(expected_result_x_y)
-        if (getRversion() <= "3.6.0" && type_x == "complex" && type_y == "integer64")
-          expected_result_x_y = as.complex(expected_result_x_y)
-        expected_result_y_x = base::intersect(y, x)
-      }
-      y = as(y, type_y)
-  
-      expect_identical(
-        intersect(x, y),
-        expected_result_x_y
-      )
-      expect_identical(
-        intersect(y, x),
-        expected_result_y_x
-      )
+with_parameters_test_that(
+  "intersect works with basic R types (except double)",
+  {
+    y = 5:10
+    if (!is.na(type_x))
+      x = eval(parse(text=paste0("as.", type_x, "(x)")))
+    if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double")) {
+      expected_result_x_y = as.integer64(base::intersect(x, y))
+      expected_result_y_x = as.integer64(base::intersect(y, x))
+    } else if (type_y == "integer64" && type_x %in% c("POSIXct", "Date")) {
+      # as.POSIXct(1L) and as.Date(1L) stay internally integer
+      # as.POSIXct(1) and as.Date(1) stay internally double
+      y = as.double(y)
+      expected_result_x_y = base::intersect(x, y)
+      expected_result_y_x = base::intersect(y, x)
+    } else {
+      expected_result_x_y = base::intersect(x, y)
+      if (getRversion() <= "3.6.0" && type_x %in% c("character", "factor", "ordered") && type_y == "integer64")
+        expected_result_x_y = as.character(expected_result_x_y)
+      if (getRversion() <= "3.6.0" && type_x == "complex" && type_y == "integer64")
+        expected_result_x_y = as.complex(expected_result_x_y)
+      expected_result_y_x = base::intersect(y, x)
     }
+    y = as(y, type_y)
+
+    expect_identical(
+      intersect(x, y),
+      expected_result_x_y
+    )
+    expect_identical(
+      intersect(y, x),
+      expected_result_y_x
+    )
   }, 
   .cases=expand.grid(
     x=I(list(NULL, c(1:7, 2L, 11L))),
-    type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"),
+    type_x=c(
+      NA, "double", "logical", "integer", "character", "complex", "factor", "ordered",
+      if (getRversion() > "3.6.0") c("POSIXct", "Date")
+    ),
     type_y=c("integer", "integer64"),
     stringsAsFactors=FALSE
   )
@@ -120,33 +126,36 @@ test_that("intersect works (additional cases)", {
 })
 
 
-with_parameters_test_that("setdiff works with basic R types (except double)", {
-    if (getRversion() > "3.6.0" || !(type_x %in% c("POSIXct", "Date"))) {
-      y = 5:10
-      if (!is.na(type_x))
-        x = eval(parse(text=paste0("as.", type_x, "(x)")))
-      if (type_y == "integer64") {
-        expected_result_x_y = base::setdiff(x, y)
-        expected_result_y_x = as.integer64(base::setdiff(y, x))
-      } else {
-        expected_result_x_y = base::setdiff(x, y)
-        expected_result_y_x = base::setdiff(y, x)
-      }
-      y = as(y, type_y)
-  
-      expect_identical(
-        setdiff(x, y),
-        expected_result_x_y
-      )
-      expect_identical(
-        setdiff(y, x),
-        expected_result_y_x
-      )
+with_parameters_test_that(
+  "setdiff works with basic R types (except double)",
+  {
+    y = 5:10
+    if (!is.na(type_x))
+      x = eval(parse(text=paste0("as.", type_x, "(x)")))
+    if (type_y == "integer64") {
+      expected_result_x_y = base::setdiff(x, y)
+      expected_result_y_x = as.integer64(base::setdiff(y, x))
+    } else {
+      expected_result_x_y = base::setdiff(x, y)
+      expected_result_y_x = base::setdiff(y, x)
     }
+    y = as(y, type_y)
+
+    expect_identical(
+      setdiff(x, y),
+      expected_result_x_y
+    )
+    expect_identical(
+      setdiff(y, x),
+      expected_result_y_x
+    )
   }, 
   .cases=expand.grid(
     x=I(list(NULL, c(1:7, 2L, 11L))),
-    type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"),
+    type_x=c(
+      NA, "double", "logical", "integer", "character", "complex", "factor", "ordered",
+      if (getRversion() > "3.6.0") c("POSIXct", "Date")
+    ),
     type_y=c("integer", "integer64"),
     stringsAsFactors=FALSE
   )
@@ -172,28 +181,31 @@ test_that("setdiff works (additional cases)", {
   
 })
 
-with_parameters_test_that("setequal works with basic R types (except double)", {
-    if (getRversion() > "3.6.0" || !(type_x %in% c("POSIXct", "Date"))) {
-      y = 5:10
-      if (!is.na(type_x))
-        x = eval(parse(text=paste0("as.", type_x, "(x)")))
-      expected_result_x_y = base::setequal(x, y)
-      expected_result_y_x = base::setequal(y, x)
-      y = as(y, type_y)
-  
-      expect_identical(
-        setequal(x, y),
-        expected_result_x_y
-      )
-      expect_identical(
-        setequal(y, x),
-        expected_result_y_x
-      )
-    }
+with_parameters_test_that(
+  "setequal works with basic R types (except double)",
+  {
+    y = 5:10
+    if (!is.na(type_x))
+      x = eval(parse(text=paste0("as.", type_x, "(x)")))
+    expected_result_x_y = base::setequal(x, y)
+    expected_result_y_x = base::setequal(y, x)
+    y = as(y, type_y)
+
+    expect_identical(
+      setequal(x, y),
+      expected_result_x_y
+    )
+    expect_identical(
+      setequal(y, x),
+      expected_result_y_x
+    )
   }, 
   .cases=expand.grid(
     x=I(list(NULL, c(1:7, 2L, 11L))),
-    type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"),
+    type_x=c(
+      NA, "double", "logical", "integer", "character", "complex", "factor", "ordered",
+      if (getRversion() > "3.6.0") c("POSIXct", "Date")
+    ),
     type_y=c("integer", "integer64"),
     stringsAsFactors=FALSE
   )
@@ -213,35 +225,38 @@ test_that("setequal works (additional cases)", {
   expect_false(setequal(as.integer64(c(5, 3, 5)), as.integer64(c(0, 2, 1, 3, 6))))
   expect_true(setequal(as.integer64(c(5, 3, 5)), as.integer64(c(3, 3, 3, 3, 5))))
   
-  expect_true(setequal(NA, NA_integer_)
+  expect_true(setequal(NA, NA_integer_))
   expect_true(setequal(NA_integer_, NA))
   expect_true(setequal(NA, NA_integer64_))
   expect_true(setequal(NA_integer64_, NA))
   
 })
 
-with_parameters_test_that("is.element works with basic R types (except double)", {
-    if (getRversion() > "3.6.0" || !(type_x %in% c("POSIXct", "Date"))) {
-      y = 5:10
-      if (!is.na(type_x))
-        x = eval(parse(text=paste0("as.", type_x, "(x)")))
-      expected_result_x_y = base::is.element(x, y)
-      expected_result_y_x = base::is.element(y, x)
-      y = as(y, type_y)
-  
-      expect_identical(
-        is.element(x, y),
-        expected_result_x_y
-      )
-      expect_identical(
-        is.element(y, x),
-        expected_result_y_x
-      )
-    }
+with_parameters_test_that(
+  "is.element works with basic R types (except double)",
+  {
+    y = 5:10
+    if (!is.na(type_x))
+      x = eval(parse(text=paste0("as.", type_x, "(x)")))
+    expected_result_x_y = base::is.element(x, y)
+    expected_result_y_x = base::is.element(y, x)
+    y = as(y, type_y)
+
+    expect_identical(
+      is.element(x, y),
+      expected_result_x_y
+    )
+    expect_identical(
+      is.element(y, x),
+      expected_result_y_x
+    )
   }, 
   .cases=expand.grid(
     x=I(list(NULL, c(1:7, 2L, 11L))),
-    type_x=c(NA, "double", "logical", "integer", "character", "POSIXct", "Date", "complex", "factor", "ordered"),
+    type_x=c(
+      NA, "double", "logical", "integer", "character", "complex", "factor", "ordered",
+      if (getRversion() > "3.6.0") c("POSIXct", "Date")
+    ),
     type_y=c("integer", "integer64"),
     stringsAsFactors=FALSE
   )
