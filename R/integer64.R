@@ -848,7 +848,8 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
   } else {
     nlab = length(labels)
     if (nlab == length(levels)) {
-      nlevs = unique(xlevs <- as.character(labels))
+      xlevs = as.character(labels)
+      nlevs = unique(xlevs)
       at = attributes(ret)
       at$levels = nlevs
       ret = match(xlevs, nlevs)[ret]
