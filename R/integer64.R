@@ -810,11 +810,11 @@ as.POSIXlt.integer64 = function(x, tz="", origin, ...)
 
 #' @rdname as.character.integer64
 #' @export as.factor
-as.factor = function(x) factor(x)
+as.factor = function(x) factor(x=x)
 
 #' @rdname as.character.integer64
 #' @export as.ordered
-as.ordered = function(x) ordered(x)
+as.ordered = function(x) ordered(x=x)
 
 #' @rdname factor
 #' @export
@@ -835,10 +835,11 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
   # use base::factor for short vectors because it is faster
   if (length(x) < 4000) {
     force(ordered)
+    x = as.character(x)
     if (missing(labels))
-      return(withCallingHandlers_and_choose_call(base::factor(as.character(x), levels=levels, exclude=exclude, ordered=ordered, nmax=nmax), "factor"))
+      return(withCallingHandlers_and_choose_call(base::factor(x=x, levels=levels, exclude=exclude, ordered=ordered, nmax=nmax), "factor"))
     else
-      return(withCallingHandlers_and_choose_call(base::factor(as.character(x), levels=levels, labels=labels, exclude=exclude, ordered=ordered, nmax=nmax), "factor"))
+      return(withCallingHandlers_and_choose_call(base::factor(x=x, levels=levels, labels=labels, exclude=exclude, ordered=ordered, nmax=nmax), "factor"))
   }
 
   # basically copied from base::factor, but using the benefit from caching
