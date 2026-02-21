@@ -829,11 +829,19 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
   nx = names(x)
   if (missing(levels)) {
     levels = sort(unique(x))
-  } else {
+  } else if (length(x) >= 4000) {
     levels = as.integer64(levels)
   }
-  # basically copied from base::factor
-  force(ordered)
+  # use base::factor for short vectors because it is faster
+  if (length(x) < 4000) {
+    force(ordered)
+    if (missing(labels))
+      return(withCallingHandlers_and_choose_call(base::factor(as.character(x), levels=levels, exclude=exclude, ordered=ordered, nmax=nmax), "factor"))
+    else
+      return(withCallingHandlers_and_choose_call(base::factor(as.character(x), levels=levels, labels=labels, exclude=exclude, ordered=ordered, nmax=nmax), "factor"))
+  }
+
+  # basically copied from base::factor, but using the benefit from caching
   levels = levels[is.na(match(levels, exclude))]
   ret = match(x, levels)
   if (!is.null(nx)) 
