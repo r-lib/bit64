@@ -836,6 +836,7 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
   if (length(x) < 4000) {
     force(ordered)
     x = as.character(x)
+    levels = as.character(levels)
     if (missing(labels))
       return(withCallingHandlers_and_choose_call(base::factor(x=x, levels=levels, exclude=exclude, ordered=ordered, nmax=nmax), "factor"))
     else
