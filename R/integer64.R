@@ -395,14 +395,9 @@ NULL
 #' Factors
 #'
 #' The function [factor] is used to encode a vector as a factor.
-#'
-#' @param x a vector of data, usually taking a small number of distinct values.
-#' @param levels an optional vector of the unique values (as character strings) that x might have taken. The default is the unique set of values taken by as.character(x), sorted into increasing order of x. Note that this set can be specified as smaller than sort(unique(x)).
-#' @param labels either an optional character vector of labels for the levels (in the same order as levels after removing those in exclude), or a character string of length 1. Duplicated values in labels can be used to map different values of x to the same factor level.
-#' @param exclude a vector of values to be excluded when forming the set of levels. This may be factor with the same level set as x or should be a character.
-#' @param ordered logical flag to determine if the levels should be regarded as ordered (in the order given).
+#' 
+#' @inheritParams base::factor
 #' @param nmax an upper bound on the number of levels.
-#' @param ... (in ordered(.)): any of the above, apart from ordered itself.
 #'
 #' @return An object of class "factor" or "ordered".
 #' @seealso [factor][base::factor]
@@ -822,7 +817,7 @@ as.factor = function(x) factor(x)
 as.ordered = function(x) ordered(x)
 
 #' @rdname factor
-#' @export factor
+#' @export
 factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.ordered(x), nmax=NA) {
   if (!is.integer64(x)) {
     sys_call = sys.call()
@@ -865,7 +860,7 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
 }
 
 #' @rdname factor
-#' @export ordered
+#' @export
 ordered = function(x=character(), ...) factor(x, ..., ordered=TRUE)
 
 #' @rdname as.character.integer64

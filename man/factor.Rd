@@ -17,19 +17,32 @@ factor(
 ordered(x = character(), ...)
 }
 \arguments{
-\item{x}{a vector of data, usually taking a small number of distinct values.}
+\item{x}{a vector of data, usually taking a small number of distinct
+    values.}
 
-\item{levels}{an optional vector of the unique values (as character strings) that x might have taken. The default is the unique set of values taken by as.character(x), sorted into increasing order of x. Note that this set can be specified as smaller than sort(unique(x)).}
+\item{levels}{an optional vector of the unique values (as character strings)
+    that \code{x} might have taken.  The default is the unique set of
+    values taken by \code{\link[base]{as.character}(x)}, sorted into
+    increasing order \emph{of \code{x}}.  Note that this set can be
+    specified as smaller than \code{sort(unique(x))}.}
 
-\item{labels}{either an optional character vector of labels for the levels (in the same order as levels after removing those in exclude), or a character string of length 1. Duplicated values in labels can be used to map different values of x to the same factor level.}
+\item{labels}{\emph{either} an optional character vector of
+    labels for the levels (in the same order as \code{levels} after
+    removing those in \code{exclude}), \emph{or} a character string of
+    length 1.  Duplicated values in \code{labels} can be used to map
+    different values of \code{x} to the same factor level.}
 
-\item{exclude}{a vector of values to be excluded when forming the set of levels. This may be factor with the same level set as x or should be a character.}
+\item{exclude}{a vector of values to be excluded when forming the
+    set of levels.  This may be factor with the same level set as \code{x}
+    or should be a \code{character}.}
 
-\item{ordered}{logical flag to determine if the levels should be regarded as ordered (in the order given).}
+\item{ordered}{logical flag to determine if the levels should be regarded
+    as ordered (in the order given).}
 
 \item{nmax}{an upper bound on the number of levels.}
 
-\item{...}{(in ordered(.)): any of the above, apart from ordered itself.}
+\item{...}{(in \code{ordered(.)}): any of the above, apart from
+    \code{ordered} itself.}
 }
 \value{
 An object of class "factor" or "ordered".
