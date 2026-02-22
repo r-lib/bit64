@@ -994,43 +994,6 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
 #' @rdname extract.replace.integer64
 #' @export
 `[.integer64` <- function(x, i, ...) {
-    cl <- oldClass(x)
-    ret <- NextMethod()
-    # Begin NA-handling from Leonardo Silvestri
-    if (!missing(i)) {
-        if (inherits(i, "character")) {
-          na_idx <- union(which(!(i %in% names(x))), which(is.na(i)))
-          if (length(na_idx))
-                ret[na_idx] <- NA_integer64_
-        } else {
-      ni <- length(i)
-      nx <- length(x)
-      if (inherits(i, "logical")) {
-            if (ni>nx) {
-              na_idx <- is.na(i) | (i & seq_along(i)>nx)
-              na_idx <- na_idx[is.na(i) | i]
-            } else {
-          i <- i[is.na(i) | i]
-          na_idx <- rep_len(is.na(i), length(ret))
-            }
-          } else if (ni && min(i, na.rm=TRUE)>=0L) {
-            i <- i[is.na(i) | i>0L]
-            na_idx <- is.na(i) | i>length(x)
-          } else {
-            na_idx <- FALSE
-          }
-          if (any(na_idx))
-                ret[na_idx] <- NA_integer64_
-        }
-    }
-    # End NA-handling from Leonardo Silvestri
-    oldClass(ret) <- cl
-    remcache(ret)
-    ret
-}
-
-
-`[.integer64` <- function(x, i, ...) {
   cl = oldClass(x)
   ret = NextMethod()
   # Begin NA-handling from Leonardo Silvestri
