@@ -221,7 +221,7 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
         else
           cor(rank.integer64(b), rank.integer64(b2), use="na.or.complete")
       })[3L]
-    message('convert to factor')
+    message('coerce to factor')
     tim1[i] = tim1[i] + timefun({
         factor(b)
       })[3L]
@@ -243,7 +243,7 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
   b = sample(nbig, nbig, TRUE)
   b2 = sample(nbig, nbig, TRUE)
 
-  tim2 = matrix(0.0, 15L, 6L)
+  tim2 = matrix(0.0, 16L, 6L)
   dimnames(tim2) = list(
     c("cache", "match(s, b)", "s %in% b", "match(b, s)", "b %in% s", "match(b, b)", "b %in% b", "duplicated(b)", "unique(b)", "table(b)", "sort(b)", "order(b)", "rank(b)", "quantile(b)", "summary(b)", "factor(b)"), # nolint: line_length_linter.
     c("32-bit", "64-bit", "hashcache", "sortordercache", "ordercache", "allcache")
@@ -363,7 +363,7 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
 
 
 
-  # 32-bit 64-bit hashcache sortordercache ordercache allcache
+  #                32-bit 64-bit hashcache sortordercache ordercache allcache
   # cache           0.000  0.000     0.775          1.330      6.500    2.660
   # match(s, b)     0.820  0.218     0.004          0.025      0.093    0.004
   # s %in% b        0.810  0.234     0.003          0.022      0.093    0.003
@@ -379,9 +379,9 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
   # rank(b)        13.480  0.860     0.915          0.240      0.545    0.246
   # quantile(b)     0.373  0.400     0.410          0.000      0.000    0.000
   # summary(b)      0.645  0.423     0.427          0.016      0.016    0.016
-  # factor(b)       0.645  0.423     0.427          0.016      0.016    0.016
+  # factor(b)       6.655  8.212     7.834          7.812      7.241    8.332
   # TOTAL         149.173  7.179     6.291          4.448     11.320    5.239
-  # 32-bit  64-bit hashcache sortordercache ordercache allcache
+  #               32-bit  64-bit hashcache sortordercache ordercache allcache
   # cache              1   1.062     0.000          0.000      0.000    0.000
   # match(s, b)        1   3.761   230.420         32.475      8.843  217.300
   # s %in% b           1   3.462   234.090         36.450      8.735  237.386
@@ -397,7 +397,7 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
   # rank(b)            1  15.674    14.732         56.167     24.734   54.797
   # quantile(b)        1   0.933     0.911        804.907    806.027  810.133
   # summary(b)         1   1.524     1.512         39.345     39.345   39.345
-# factor(b)          1   1.524     1.512         39.345     39.345   39.345
+  # factor(b)          1   0.812     0.851          0.848      0.920    0.767
   # TOTAL              1  20.778    23.712         33.534     13.177   28.476
 
   tim3
