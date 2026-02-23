@@ -830,6 +830,7 @@ test_that("match works with zero length input", {
 test_that("factor and order for integer64 are still necessary", {
   skip_unless_r(">= 4.1.0") # skip implementing "expect_failure" for ancient R
   skip_on_cran()
+  skip_on_covr() # covr edits the function bodies
 
   x = c(132724613L, -2143220989L, -1L, NA, 1L)
   expect_failure(expect_identical(base::factor(as.integer64(x)), base::factor(x)))
