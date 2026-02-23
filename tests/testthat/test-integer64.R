@@ -828,16 +828,16 @@ test_that("match works with zero length input", {
 })
 
 test_that("factor and order for integer64 are still necessary", {
-  skip_unless_r(">= 4.0.0") # could not find function "expect_failure" in test-ancient
+  skip_unless_r(">= 4.1.0") # skip implementing "expect_failure" for ancient R
   skip_on_cran()
-  # make sure that factor and order for integer64 are still necessary
+
   x = c(132724613L, -2143220989L, -1L, NA, 1L)
   expect_failure(expect_identical(base::factor(as.integer64(x)), base::factor(x)))
   expect_failure(expect_identical(factor(as.integer64(x)), base::factor(as.integer64(x))))
   expect_identical(factor(as.integer64(x)), base::factor(x))
-  expect_failure(expect_identical(base::ordered(as.integer64(x)), base::ordered(x)))
-  expect_failure(expect_identical(ordered(as.integer64(x)), base::ordered(as.integer64(x))))
-  expect_identical(ordered(as.integer64(x)), base::ordered(x))
+
+  expect_identical(formals(ordered), formals(base::ordered))
+  expect_identical(body(ordered), body(base::ordered))
 })
 
 with_parameters_test_that("factor and order work analogously to integer:", {
