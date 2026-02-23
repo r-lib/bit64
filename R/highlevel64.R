@@ -505,10 +505,7 @@ optimizer64 = function(nsmall=2L^16L,
 
       ret[["match", as.character(n1)]] = tim
     }
-
-    ret[["match", as.character(n1)]] <- tim
   }
- }
 
   if ("%in%" %in% what) {
     message("%in%: timings of different methods")
@@ -789,11 +786,6 @@ optimizer64 = function(nsmall=2L^16L,
         p2 = orderuni(x, o, nunique, keep.order=TRUE)
         nunique = ordernut(x, o)[1L]
       })[3L]
-            tim["sortordertab", "use"] <- timefun({
-                p2 <- list(values=sortorderuni(x, s, o, nunique), counts=sortordertab(s, o))
-            })[3L]
-            p2 <- sortp(p2)
-            stopifnot(identical(p2, p))
 
       tim["hashdup", "prep"] = tim["hashuni", "prep"]
       tim["hashdup", "use"] = timefun({
@@ -1003,11 +995,6 @@ optimizer64 = function(nsmall=2L^16L,
         p = table(x, exclude=NULL)
       })[3L]
 
-            tim["quantile.64", "both"] <- timefun({
-                p2 <- quantile(x, na.rm=TRUE)
-            })[3L]
-            stopifnot(identical(p2, p))
-
       tim["table.64", "both"] = timefun({
         p2 = table(x, exclude=NULL, order=taborder)
       })[3L]
@@ -1031,11 +1018,6 @@ optimizer64 = function(nsmall=2L^16L,
       tim["hashtab2", "use"] = timefun({
         p2 = hashtab(h)
       })[3L]
-
-            if (plot) {
-                barplot(t(tim), cex.names=0.7)
-                title(paste0("quantile(", n, ")"))
-            }
 
       tim["sorttab", "prep"] = timefun({
         s = clone(x)
