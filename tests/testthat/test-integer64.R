@@ -836,6 +836,7 @@ test_that("factor and order for integer64 are still necessary", {
   expect_failure(expect_identical(factor(as.integer64(x)), base::factor(as.integer64(x))))
   expect_identical(factor(as.integer64(x)), base::factor(x))
 
+  expect_identical(formals(factor), formals(base::factor))
   expect_identical(formals(ordered), formals(base::ordered))
   expect_identical(body(ordered), body(base::ordered))
 })
