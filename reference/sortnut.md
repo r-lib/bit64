@@ -258,7 +258,7 @@ fastest algorithm.
  print(optimizer64)
 #> function (nsmall = 2L^16L, nbig = 2L^25L, timefun = repeat.time, 
 #>     what = c("match", "%in%", "duplicated", "unique", "unipos", 
-#>         "table", "rank", "quantile"), uniorder = c("original", 
+#>         "table", "rank", "quantile", "factor"), uniorder = c("original", 
 #>         "values", "any"), taborder = c("values", "counts"), plot = TRUE) 
 #> {
 #>     what = match.arg(what, several.ok = TRUE)
@@ -435,7 +435,6 @@ fastest algorithm.
 #>             }
 #>             ret[["%in%", as.character(n1)]] = tim
 #>         }
-#>         ret[["%in%", as.character(n1)]] <- tim
 #>     }
 #>     if ("duplicated" %in% what) {
 #>         message("duplicated: timings of different methods")
@@ -517,7 +516,6 @@ fastest algorithm.
 #>             }
 #>             ret[["duplicated", as.character(n)]] = tim
 #>         }
-#>         ret[["duplicated", as.character(n)]] <- tim
 #>     }
 #>     if ("unique" %in% what) {
 #>         message("unique: timings of different methods")
@@ -601,6 +599,8 @@ fastest algorithm.
 #>                 p2 = orderuni(x, o, nunique, keep.order = TRUE)
 #>                 nunique = ordernut(x, o)[1L]
 #>             })[3L]
+#>             if (uniorder == "original") 
+#>                 stopifnot(identical.integer64(p2, p))
 #>             tim["hashdup", "prep"] = tim["hashuni", "prep"]
 #>             tim["hashdup", "use"] = timefun({
 #>                 p2 = x[!hashdup(h)]
@@ -997,8 +997,51 @@ fastest algorithm.
 #>             ret[["quantile", as.character(n)]] = tim
 #>         }
 #>     }
+#>     if ("factor" %in% what) {
+#>         message("factor: timings of different methods")
+#>         N = c(nsmall, nbig)
+#>         for (i in seq_along(N)) {
+#>             n = N[i]
+#>             x = c(sample(n, n - 1L, TRUE), NA)
+#>             tim = matrix(0, 5L, 3L)
+#>             dimnames(tim) = list(c("factor", "factor.64", "hashcache", 
+#>                 "sortorder.cache", "order.cache"), c("prep", 
+#>                 "both", "use"))
+#>             tim["factor", "both"] = timefun({
+#>                 p = base::factor(x)
+#>             })[3L]
+#>             x = as.integer64(x)
+#>             tim["factor.64", "both"] = timefun({
+#>                 p2 = factor(x)
+#>             })[3L]
+#>             stopifnot(identical(p2, p))
+#>             hashcache(x)
+#>             tim["hashcache", "use"] = timefun({
+#>                 p2 = factor(x)
+#>             })[3L]
+#>             stopifnot(identical(p2, p))
+#>             remcache(x)
+#>             sortordercache(x)
+#>             tim["sortorder.cache", "use"] = timefun({
+#>                 p2 = factor(x)
+#>             })[3L]
+#>             stopifnot(identical(p2, p))
+#>             remcache(x)
+#>             ordercache(x)
+#>             tim["order.cache", "use"] = timefun({
+#>                 p2 = factor(x)
+#>             })[3L]
+#>             stopifnot(identical(p2, p))
+#>             remcache(x)
+#>             if (plot) {
+#>                 barplot(t(tim), cex.names = 0.7)
+#>                 title(paste0("factor(", n, ")"))
+#>             }
+#>             ret[["factor", as.character(n)]] = tim
+#>         }
+#>     }
 #>     ret
 #> }
-#> <bytecode: 0x55e040ab0000>
+#> <bytecode: 0x55c31079be28>
 #> <environment: namespace:bit64>
 ```

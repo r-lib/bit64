@@ -629,15 +629,15 @@ x <- c(x,runif(length(x), max=100))
 # ... and coerces everything to integer64 - including double
 x
 #> integer64
-#>  [1] 1  2  1  2  1  2  1  2  0  0  0  0  0  71 96 54 82 36 78 85 86 68
-#> [23] 64 29 83 50
+#>  [1] 1  2  1  2  1  2  1  2  0  0  0  0  0  48 80 25 65 3  98 57 83 31
+#> [23] 49 43 65 58
 names(x) <- letters  # use names as usual
 x
 #> integer64
 #>  a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w 
-#>  1  2  1  2  1  2  1  2  0  0  0  0  0 71 96 54 82 36 78 85 86 68 64 
+#>  1  2  1  2  1  2  1  2  0  0  0  0  0 48 80 25 65  3 98 57 83 31 49 
 #>  x  y  z 
-#> 29 83 50 
+#> 43 65 58 
 
 message("Using integer64 in array - note that 'matrix' currently does not work")
 #> Using integer64 in array - note that 'matrix' currently does not work
@@ -666,9 +666,9 @@ y[1:2,-4]            # subscripting as usual
 cbind(E=1:3, F=runif(3, 0, 100), G=c("-1","0","1"), y)
 #> integer64
 #>   E F  G  A    B    C    D   
-#> a 1 0  -1 1    2    1    2   
-#> b 2 63 0  <NA> <NA> <NA> <NA>
-#> c 3 69 1  <NA> <NA> <NA> <NA>
+#> a 1 28 -1 1    2    1    2   
+#> b 2 43 0  <NA> <NA> <NA> <NA>
+#> c 3 88 1  <NA> <NA> <NA> <NA>
 
 message("Using integer64 in data.frame")
 #> Using integer64 in data.frame
@@ -693,36 +693,36 @@ str(data.frame(I(y)))
 d <- data.frame(x=x, y=runif(length(x), 0, 100))
 d
 #>    x         y
-#> a  1 41.060969
-#> b  2 45.479886
-#> c  1 16.279414
-#> d  2 85.159990
-#> e  1 69.509175
-#> f  2 10.917547
-#> g  1 22.804581
-#> h  2  4.892565
-#> i  0 14.129973
-#> j  0 80.466298
-#> k  0 70.560169
-#> l  0 33.727281
-#> m  0 81.314635
-#> n 71  7.392403
-#> o 96  1.944284
-#> p 54 53.010169
-#> q 82 56.881737
-#> r 36 90.087090
-#> s 78 64.025710
-#> t 85 15.976624
-#> u 86  5.497569
-#> v 68 90.314104
-#> w 64 21.879822
-#> x 29 73.448886
-#> y 83 62.495408
-#> z 50 26.323807
+#> a  1 40.209214
+#> b  2 72.937943
+#> c  1 82.372018
+#> d  2 42.105380
+#> e  1 58.657630
+#> f  2 37.348130
+#> g  1  4.057624
+#> h  2  8.671996
+#> i  0 60.015616
+#> j  0 75.417392
+#> k  0 83.511327
+#> l  0 87.916330
+#> m  0  9.763049
+#> n 48  1.792242
+#> o 80 96.647537
+#> p 25 95.348450
+#> q 65 30.463774
+#> r  3  7.708301
+#> s 98 45.650084
+#> t 57 62.120304
+#> u 83 32.384298
+#> v 31 58.292825
+#> w 49  1.506723
+#> x 43 38.195984
+#> y 65 50.755832
+#> z 58 23.737675
 d$x
 #> integer64
-#>  [1] 1  2  1  2  1  2  1  2  0  0  0  0  0  71 96 54 82 36 78 85 86 68
-#> [23] 64 29 83 50
+#>  [1] 1  2  1  2  1  2  1  2  0  0  0  0  0  48 80 25 65 3  98 57 83 31
+#> [23] 49 43 65 58
 
 message("Using integer64 with csv files")
 #> Using integer64 with csv files
@@ -733,7 +733,7 @@ unlink(fi64)
 str(e)
 #> 'data.frame':    26 obs. of  2 variables:
 #>  $ x:integer64  1 2 1 2 1 2 1 2 ... 
-#>  $ y: num  41.1 45.5 16.3 85.2 69.5 ...
+#>  $ y: num  40.2 72.9 82.4 42.1 58.7 ...
 identical.integer64(d$x,e$x)
 #> [1] TRUE
 

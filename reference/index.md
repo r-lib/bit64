@@ -15,6 +15,8 @@
   [`as.Date(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   [`as.POSIXct(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   [`as.POSIXlt(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`as.factor()`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+  [`as.ordered()`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   [`print(`*`<bitstring>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   [`as.list(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   : Coerce from integer64
@@ -63,6 +65,8 @@
   [`` `[[`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/extract.replace.integer64.md)
   [`` `[[<-`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/extract.replace.integer64.md)
   : Extract or Replace Parts of an integer64 vector
+- [`factor()`](https://bit64.r-lib.org/reference/factor.md)
+  [`ordered()`](https://bit64.r-lib.org/reference/factor.md) : Factors
 - [`format(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
   [`sign(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
   [`abs(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)

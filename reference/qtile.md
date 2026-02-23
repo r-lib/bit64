@@ -118,18 +118,18 @@ x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 qtile(x, probs=seq(0, 1, 0.25))
 #> integer64
 #>   0%  25%  50%  75% 100% 
-#>    1    3    4    5    8 
+#>    1    4    5    7    9 
 quantile(x, probs=seq(0, 1, 0.25), na.rm=TRUE)
 #> integer64
 #>   0%  25%  50%  75% 100% 
-#>    1    3    4    5    8 
+#>    1    4    5    7    9 
 median(x, na.rm=TRUE)
 #> integer64
-#> [1] 4
+#> [1] 5
 summary(x)
 #> integer64
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-#>       1       3       4       4       5       8      16 
+#>       1       4       5       4       7       9      15 
 
 x <- x[!is.na(x)]
 stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))

@@ -62,8 +62,8 @@ positions of unique values.
 ``` r
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 tiepos(x)
-#>  [1]  1  2  3  4  7 10 11 12 13 14 15 16 17 18 19 20 22 24 25 26 27 28
-#> [23] 29 30 31
+#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22
+#> [23] 24 25 26 27 28 29 30 31 32
 
 stopifnot(identical(tiepos(x),  (1:length(x))[duplicated(x) | rev(duplicated(rev(x)))]))
 ```

@@ -218,55 +218,55 @@ caching the work of sorting
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   x
 #> integer64
-#>  [1] <NA> 2    4    <NA> 9    8    6    3    1    2    <NA> <NA> <NA>
-#> [14] 8    8    7    6    1    3    <NA> 6    8    2    8    <NA> 9   
-#> [27] 7    6    <NA> <NA> 7    5   
+#>  [1] 5    <NA> 3    <NA> <NA> <NA> 1    <NA> <NA> 4    7    <NA> 6   
+#> [14] <NA> 9    8    4    2    3    2    <NA> <NA> <NA> 7    <NA> 7   
+#> [27] 4    3    1    5    3    <NA>
   message("ramsort example")
 #> ramsort example
   s <- bit::clone(x)
   bit::ramsort(s)
-#> [1] 9
+#> [1] 13
   message("s has been changed in-place - whether or not ramsort uses an in-place algorithm")
 #> s has been changed in-place - whether or not ramsort uses an in-place algorithm
   s
 #> integer64
-#>  [1] <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> 1    1    2    2   
-#> [14] 2    3    3    4    5    6    6    6    6    7    7    7    8   
-#> [27] 8    8    8    8    9    9   
+#>  [1] <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA>
+#> [14] 1    1    2    2    3    3    3    3    4    4    4    5    5   
+#> [27] 6    7    7    7    8    9   
   message("ramorder example")
 #> ramorder example
   s <- bit::clone(x)
   o <- seq_along(s)
   bit::ramorder(s, o)
-#> [1] 9
+#> [1] 13
   message("o has been changed in-place - s remains unchanged")
 #> o has been changed in-place - s remains unchanged
   s
 #> integer64
-#>  [1] <NA> 2    4    <NA> 9    8    6    3    1    2    <NA> <NA> <NA>
-#> [14] 8    8    7    6    1    3    <NA> 6    8    2    8    <NA> 9   
-#> [27] 7    6    <NA> <NA> 7    5   
+#>  [1] 5    <NA> 3    <NA> <NA> <NA> 1    <NA> <NA> 4    7    <NA> 6   
+#> [14] <NA> 9    8    4    2    3    2    <NA> <NA> <NA> 7    <NA> 7   
+#> [27] 4    3    1    5    3    <NA>
   o
-#>  [1]  1  4 11 12 13 20 25 29 30  9 18  2 10 23  8 19  3 32  7 17 21 28
-#> [23] 16 27 31  6 14 15 22 24  5 26
+#>  [1]  2  4  5  6  8  9 12 14 21 22 23 25 32  7 29 18 20  3 19 28 31 10
+#> [23] 17 27  1 30 13 11 24 26 16 15
   s[o]
 #> integer64
-#>  [1] <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> 1    1    2    2   
-#> [14] 2    3    3    4    5    6    6    6    6    7    7    7    8   
-#> [27] 8    8    8    8    9    9   
+#>  [1] <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA>
+#> [14] 1    1    2    2    3    3    3    3    4    4    4    5    5   
+#> [27] 6    7    7    7    8    9   
   message("ramsortorder example")
 #> ramsortorder example
   o <- seq_along(s)
   bit::ramsortorder(s, o)
-#> [1] 9
+#> [1] 13
   message("s and o have both been changed in-place - this is much faster")
 #> s and o have both been changed in-place - this is much faster
   s
 #> integer64
-#>  [1] <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> 1    1    2    2   
-#> [14] 2    3    3    4    5    6    6    6    6    7    7    7    8   
-#> [27] 8    8    8    8    9    9   
+#>  [1] <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA>
+#> [14] 1    1    2    2    3    3    3    3    4    4    4    5    5   
+#> [27] 6    7    7    7    8    9   
   o
-#>  [1]  1  4 11 12 13 20 25 29 30  9 18  2 10 23  8 19  3 32  7 17 21 28
-#> [23] 16 27 31  6 14 15 22 24  5 26
+#>  [1]  2  4  5  6  8  9 12 14 21 22 23 25 32  7 29 18 20  3 19 28 31 10
+#> [23] 17 27  1 30 13 11 24 26 16 15
 ```

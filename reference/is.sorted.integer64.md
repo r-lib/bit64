@@ -85,16 +85,16 @@ functions creating big caches
  bit::nvalid(x)
 #> [1] 18
  bit::nunique(x)
-#> [1] 9
+#> [1] 8
  bit::nties(x)
-#> [1] 30
+#> [1] 31
  table(x)
 #> x
-#> 1 2 3 4 5 7 8 9 
-#> 3 3 1 1 2 3 3 2 
+#> 1 3 4 5 6 7 8 
+#> 1 5 3 2 3 2 2 
  x
 #> integer64
-#>  [1] <NA> <NA> 2    3    1    9    2    8    8    <NA> <NA> 7    1   
-#> [14] 7    <NA> 5    4    <NA> 1    <NA> <NA> <NA> <NA> 9    5    7   
-#> [27] <NA> <NA> <NA> 2    8    <NA>
+#>  [1] 3    8    3    <NA> <NA> <NA> 4    <NA> 1    6    3    <NA> 3   
+#> [14] 6    7    4    <NA> <NA> 4    <NA> 5    8    <NA> <NA> <NA> <NA>
+#> [27] 3    <NA> 6    <NA> 5    7   
 ```

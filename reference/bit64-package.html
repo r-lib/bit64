@@ -450,15 +450,15 @@ behaviour here would either destroy performance or require extensive C-coding.</
 <span class="r-in"><span><span class="co"># ... and coerces everything to integer64 - including double</span></span></span>
 <span class="r-in"><span><span class="va">x</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1  2  1  2  1  2  1  2  0  0  0  0  0  71 96 54 82 36 78 85 86 68</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23] 64 29 83 50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1  2  1  2  1  2  1  2  0  0  0  0  0  48 80 25 65 3  98 57 83 31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23] 49 43 65 58</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">letters</span>  <span class="co"># use names as usual</span></span></span>
 <span class="r-in"><span><span class="va">x</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1  2  1  2  1  2  1  2  0  0  0  0  0 71 96 54 82 36 78 85 86 68 64 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1  2  1  2  1  2  1  2  0  0  0  0  0 48 80 25 65  3 98 57 83 31 49 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  x  y  z </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29 83 50 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43 65 58 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Using integer64 in array - note that 'matrix' currently does not work"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using integer64 in array - note that 'matrix' currently does not work</span>
@@ -487,9 +487,9 @@ behaviour here would either destroy performance or require extensive C-coding.</
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>E<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, F<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span>, G<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-1"</span>,<span class="st">"0"</span>,<span class="st">"1"</span><span class="op">)</span>, <span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   E F  G  A    B    C    D   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> a 1 0  -1 1    2    1    2   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b 2 63 0  &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c 3 69 1  &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> a 1 28 -1 1    2    1    2   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b 2 43 0  &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c 3 88 1  &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Using integer64 in data.frame"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using integer64 in data.frame</span>
@@ -514,36 +514,36 @@ behaviour here would either destroy performance or require extensive C-coding.</
 <span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x</span>, y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">d</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    x         y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> a  1 41.060969</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b  2 45.479886</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c  1 16.279414</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> d  2 85.159990</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> e  1 69.509175</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> f  2 10.917547</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g  1 22.804581</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> h  2  4.892565</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> i  0 14.129973</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> j  0 80.466298</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> k  0 70.560169</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> l  0 33.727281</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> m  0 81.314635</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> n 71  7.392403</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> o 96  1.944284</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> p 54 53.010169</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> q 82 56.881737</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> r 36 90.087090</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s 78 64.025710</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t 85 15.976624</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> u 86  5.497569</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> v 68 90.314104</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> w 64 21.879822</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x 29 73.448886</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> y 83 62.495408</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z 50 26.323807</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> a  1 40.209214</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b  2 72.937943</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c  1 82.372018</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> d  2 42.105380</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> e  1 58.657630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> f  2 37.348130</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g  1  4.057624</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> h  2  8.671996</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> i  0 60.015616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> j  0 75.417392</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> k  0 83.511327</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> l  0 87.916330</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> m  0  9.763049</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> n 48  1.792242</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> o 80 96.647537</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> p 25 95.348450</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> q 65 30.463774</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> r  3  7.708301</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s 98 45.650084</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t 57 62.120304</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> u 83 32.384298</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> v 31 58.292825</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> w 49  1.506723</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x 43 38.195984</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> y 65 50.755832</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z 58 23.737675</span>
 <span class="r-in"><span><span class="va">d</span><span class="op">$</span><span class="va">x</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1  2  1  2  1  2  1  2  0  0  0  0  0  71 96 54 82 36 78 85 86 68</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23] 64 29 83 50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1  2  1  2  1  2  1  2  0  0  0  0  0  48 80 25 65 3  98 57 83 31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23] 49 43 65 58</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Using integer64 with csv files"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using integer64 with csv files</span>
@@ -554,7 +554,7 @@ behaviour here would either destroy performance or require extensive C-coding.</
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 'data.frame':	26 obs. of  2 variables:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ x:integer64  1 2 1 2 1 2 1 2 ... </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ y: num  41.1 45.5 16.3 85.2 69.5 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ y: num  40.2 72.9 82.4 42.1 58.7 ...</span>
 <span class="r-in"><span><span class="fu"><a href="identical.integer64.html">identical.integer64</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">x</span>,<span class="va">e</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>

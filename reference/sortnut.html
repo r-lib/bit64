@@ -272,7 +272,7 @@ algorithm.</p>
 <span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">optimizer64</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (nsmall = 2L^16L, nbig = 2L^25L, timefun = repeat.time, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     what = c("match", "%in%", "duplicated", "unique", "unipos", </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         "table", "rank", "quantile"), uniorder = c("original", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         "table", "rank", "quantile", "factor"), uniorder = c("original", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         "values", "any"), taborder = c("values", "counts"), plot = TRUE) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     what = match.arg(what, several.ok = TRUE)</span>
@@ -449,7 +449,6 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             ret[["%in%", as.character(n1)]] = tim</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         ret[["%in%", as.character(n1)]] &lt;- tim</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     if ("duplicated" %in% what) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         message("duplicated: timings of different methods")</span>
@@ -531,7 +530,6 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             ret[["duplicated", as.character(n)]] = tim</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         ret[["duplicated", as.character(n)]] &lt;- tim</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     if ("unique" %in% what) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         message("unique: timings of different methods")</span>
@@ -615,6 +613,8 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = orderuni(x, o, nunique, keep.order = TRUE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 nunique = ordernut(x, o)[1L]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (uniorder == "original") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 stopifnot(identical.integer64(p2, p))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashdup", "prep"] = tim["hashuni", "prep"]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashdup", "use"] = timefun({</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = x[!hashdup(h)]</span>
@@ -1011,9 +1011,52 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             ret[["quantile", as.character(n)]] = tim</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if ("factor" %in% what) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         message("factor: timings of different methods")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         N = c(nsmall, nbig)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         for (i in seq_along(N)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             n = N[i]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x = c(sample(n, n - 1L, TRUE), NA)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             tim = matrix(0, 5L, 3L)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             dimnames(tim) = list(c("factor", "factor.64", "hashcache", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 "sortorder.cache", "order.cache"), c("prep", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 "both", "use"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             tim["factor", "both"] = timefun({</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p = base::factor(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             x = as.integer64(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             tim["factor.64", "both"] = timefun({</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = factor(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             stopifnot(identical(p2, p))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             hashcache(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             tim["hashcache", "use"] = timefun({</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = factor(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             stopifnot(identical(p2, p))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             remcache(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             sortordercache(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             tim["sortorder.cache", "use"] = timefun({</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = factor(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             stopifnot(identical(p2, p))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             remcache(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             ordercache(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             tim["order.cache", "use"] = timefun({</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 p2 = factor(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             })[3L]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             stopifnot(identical(p2, p))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             remcache(x)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             if (plot) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 barplot(t(tim), cex.names = 0.7)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 title(paste0("factor(", n, ")"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             ret[["factor", as.character(n)]] = tim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ret</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55e040ab0000&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55c31079be28&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:bit64&gt;</span>
 </code></pre></div>
     </div>

@@ -60,8 +60,8 @@ for finding positions in a different vector.
 ``` r
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 keypos(x)
-#>  [1]  1  1  1  6  1  1  1  9  1  1  1  9  8  8  1  1  1  1  7  1  6  3
-#> [23] 10  1  8  4  5  9  1  2  1  1
+#>  [1]  6  5  5  4 10  3  1  7  1  1  1  1  1  2  9  1  9  2  1  8  1  6
+#> [23]  1  1  1  2  1  1  1  6  1  2
 
 stopifnot(identical(keypos(x),  match.integer64(x, sort(unique(x), na.last=FALSE))))
 #> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.

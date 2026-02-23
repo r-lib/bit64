@@ -87,23 +87,23 @@ result is not a <code>NA_INTEGER64_</code>.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span>  <span class="fu">runif64</span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -4907153757530237863 2297215137837035766  4517639749818251378 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] -7774236924194376415 3157361672959160553  -2252541624473150823</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] -7920764405809697242 7231932327786254689  8966949907655518413 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10] 8869809578369324686  3266720816486347908  -419918909734750174 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 2919667377749220241  -9217633356078084536 1863243537759179232 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] -4147011132517925468 -4070908537411413742 4634345630669979668 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] -666895255421834316  -1261880457717640272 -7449551699424276001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] -5258832035619644162 -9069818429303395917 -2311743981375507974</span>
 <span class="r-in"><span>  <span class="fu">runif64</span><span class="op">(</span><span class="fl">12</span>, <span class="op">-</span><span class="fl">16</span>, <span class="fl">16</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -7  7   15  10  4   -10 16  -15 13  14  -3  6  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 7   -9  8   -3  3   -10 7   13  -10 -13 15  -7 </span>
 <span class="r-in"><span>  <span class="fu">runif64</span><span class="op">(</span><span class="fl">12</span>, <span class="fl">0</span>, <span class="fu"><a href="as.integer64.character.html">as.integer64</a></span><span class="op">(</span><span class="fl">2</span><span class="op">^</span><span class="fl">60</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>  <span class="co"># not 2^60-1 !</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 410321503976700422 952899565017148986 818491665556622412</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] 959297925008029157 743713501387121850 980510168028165491</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 461977244155803316 42986640335880427  269355488783127835</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10] 692414521219393114 297078351443348005 646555823237762071</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 487708710025063356 422511654302077704 383311022619956180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] 284967664771235424 537111568398072312 51120190511248319 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 392543978056304657 790898744552531979 697687579755620398</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] 878934225106669508 226876692854159875 606102669791587352</span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1e4</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.08436535</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.08336018</span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fu">runif64</span><span class="op">(</span><span class="fl">1e4</span>, <span class="fl">0</span>, <span class="fl">2</span><span class="op">^</span><span class="fl">40</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span><span class="op">^</span><span class="fl">40</span><span class="op">)</span>  <span class="co"># ~ = 1/12 = .08333</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.08380824</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.08290255</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">16</span>, replace<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -111,16 +111,16 @@ result is not a <code>NA_INTEGER64_</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 </span>
 <span class="r-in"><span>  <span class="fu"><a href="table.html">table</a></span><span class="op">(</span><span class="fu">runif64</span><span class="op">(</span><span class="fl">16</span>, <span class="fl">1</span>, <span class="fl">16</span>, replace<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1  2  5 11 12 13 14 15 16 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2  1  2  3  1  2  2  1  2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2  4  5  6  7  8 10 11 14 16 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2  1  2  1  2  1  2  1  1  3 </span>
 <span class="r-in"><span>  <span class="fu"><a href="table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">16</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3  6  7  8  9 11 12 15 16 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1  3  1  1  2  1  2  2  3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1  3  4  5  6  7  8  9 10 12 13 14 15 16 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1  1  1  1  1  1  1  1  2  1  1  1  2  1 </span>
 <span class="r-in"><span>  <span class="fu"><a href="table.html">table</a></span><span class="op">(</span><span class="fu">runif64</span><span class="op">(</span><span class="fl">16</span>, <span class="fl">1</span>, <span class="fl">16</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1  3  4  5  6  7  9 11 12 13 14 15 16 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1  1  1  1  1  1  2  1  1  1  3  1  1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1  2  3  5  6  7  8 11 13 15 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2  1  2  1  2  1  1  1  3  2 </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

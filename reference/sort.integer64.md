@@ -97,13 +97,13 @@ see [`sort()`](https://rdrr.io/r/base/sort.html) and
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   x
 #> integer64
-#>  [1] 9    <NA> 6    6    <NA> 9    5    3    3    <NA> 1    <NA> 5   
-#> [14] 9    7    3    5    8    5    <NA> 8    8    1    3    <NA> <NA>
-#> [27] <NA> 7    <NA> 7    <NA> <NA>
+#>  [1] <NA> 1    <NA> 7    <NA> <NA> <NA> <NA> 3    5    9    <NA> <NA>
+#> [14] <NA> <NA> <NA> <NA> 8    <NA> 9    <NA> 4    <NA> 6    5    <NA>
+#> [27] 8    <NA> 1    <NA> 7    4   
   sort(x)
 #> integer64
-#>  [1] 1    1    3    3    3    3    5    5    5    5    6    6    7   
-#> [14] 7    7    8    8    8    9    9    9    <NA> <NA> <NA> <NA> <NA>
+#>  [1] 1    1    3    4    4    5    5    6    7    7    8    8    9   
+#> [14] 9    <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA>
 #> [27] <NA> <NA> <NA> <NA> <NA> <NA>
   message("the following has default optimize='time' which is faster but requires more RAM
 , this calls 'ramorder'")
@@ -111,12 +111,12 @@ see [`sort()`](https://rdrr.io/r/base/sort.html) and
 #> , this calls 'ramorder'
   order.integer64(x)
 #> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#>  [1] 11 23  8  9 16 24  7 13 17 19  3  4 15 28 30 18 21 22  1  6 14  2
-#> [23]  5 10 12 20 25 26 27 29 31 32
+#>  [1]  2 29  9 22 32 10 25 24  4 31 18 27 11 20  1  3  5  6  7  8 12 13
+#> [23] 14 15 16 17 19 21 23 26 28 30
   message("slower with less RAM, this calls 'ramsortorder'")
 #> slower with less RAM, this calls 'ramsortorder'
   order.integer64(x, optimize="memory")
 #> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#>  [1] 11 23  8  9 16 24  7 13 17 19  3  4 15 28 30 18 21 22  1  6 14  2
-#> [23]  5 10 12 20 25 26 27 29 31 32
+#>  [1]  2 29  9 22 32 10 25 24  4 31 18 27 11 20  1  3  5  6  7  8 12 13
+#> [23] 14 15 16 17 19 21 23 26 28 30
 ```

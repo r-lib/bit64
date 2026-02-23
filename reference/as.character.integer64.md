@@ -47,6 +47,10 @@ as.POSIXct(x, tz = "", origin, ...)
 # S3 method for class 'integer64'
 as.POSIXlt(x, tz = "", origin, ...)
 
+as.factor(x)
+
+as.ordered(x)
+
 # S3 method for class 'bitstring'
 print(x, ...)
 

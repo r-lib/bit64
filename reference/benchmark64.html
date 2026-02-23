@@ -46,7 +46,7 @@
 <span>  nbig <span class="op">=</span> <span class="fl">2L</span><span class="op">^</span><span class="fl">25L</span>,</span>
 <span>  timefun <span class="op">=</span> <span class="va">repeat.time</span>,</span>
 <span>  what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"match"</span>, <span class="st">"%in%"</span>, <span class="st">"duplicated"</span>, <span class="st">"unique"</span>, <span class="st">"unipos"</span>, <span class="st">"table"</span>, <span class="st">"rank"</span>,</span>
-<span>    <span class="st">"quantile"</span><span class="op">)</span>,</span>
+<span>    <span class="st">"quantile"</span>, <span class="st">"factor"</span><span class="op">)</span>,</span>
 <span>  uniorder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"original"</span>, <span class="st">"values"</span>, <span class="st">"any"</span><span class="op">)</span>,</span>
 <span>  taborder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"values"</span>, <span class="st">"counts"</span><span class="op">)</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -101,7 +101,7 @@ preparation and use, the timing is in <code>both</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><code>benchmark64</code> compares the following scenarios for the following use cases:</p><table class="table table"><tr><td><strong>scenario name</strong></td><td><strong>explanation</strong></td></tr><tr><td>32-bit</td><td>applying Base R function to 32-bit integer data</td></tr><tr><td>64-bit</td><td>applying bit64 function to 64-bit integer data (with no cache)</td></tr><tr><td>hashcache</td><td>ditto when cache contains <code><a href="hashmap.html">hashmap()</a></code>, see <code><a href="hashcache.html">hashcache()</a></code></td></tr><tr><td>sortordercache</td><td>ditto when cache contains sorting and ordering, see <code><a href="hashcache.html">sortordercache()</a></code></td></tr><tr><td>ordercache</td><td>ditto when cache contains ordering only, see <code><a href="hashcache.html">ordercache()</a></code></td></tr><tr><td>allcache</td><td>ditto when cache contains sorting, ordering and hashing</td></tr></table><table class="table table"><tr><td><strong>use case name</strong></td><td><strong>explanation</strong></td></tr><tr><td>cache</td><td>filling the cache according to scenario</td></tr><tr><td>match(s, b)</td><td>match small in big vector</td></tr><tr><td>s %in% b</td><td>small %in% big vector</td></tr><tr><td>match(b, s)</td><td>match big in small vector</td></tr><tr><td>b %in% s</td><td>big %in% small vector</td></tr><tr><td>match(b, b)</td><td>match big in (different) big vector</td></tr><tr><td>b %in% b</td><td>big %in% (different) big vector</td></tr><tr><td>duplicated(b)</td><td>duplicated of big vector</td></tr><tr><td>unique(b)</td><td>unique of big vector</td></tr><tr><td>table(b)</td><td>table of big vector</td></tr><tr><td>sort(b)</td><td>sorting of big vector</td></tr><tr><td>order(b)</td><td>ordering of big vector</td></tr><tr><td>rank(b)</td><td>ranking of big vector</td></tr><tr><td>quantile(b)</td><td>quantiles of big vector</td></tr><tr><td>summary(b)</td><td>summary of of big vector</td></tr><tr><td>SESSION</td><td>exemplary session involving multiple calls (including cache filling costs)</td></tr></table><p>Note that the timings for the cached variants do <em>not</em> contain the
+    <p><code>benchmark64</code> compares the following scenarios for the following use cases:</p><table class="table table"><tr><td><strong>scenario name</strong></td><td><strong>explanation</strong></td></tr><tr><td>32-bit</td><td>applying Base R function to 32-bit integer data</td></tr><tr><td>64-bit</td><td>applying bit64 function to 64-bit integer data (with no cache)</td></tr><tr><td>hashcache</td><td>ditto when cache contains <code><a href="hashmap.html">hashmap()</a></code>, see <code><a href="hashcache.html">hashcache()</a></code></td></tr><tr><td>sortordercache</td><td>ditto when cache contains sorting and ordering, see <code><a href="hashcache.html">sortordercache()</a></code></td></tr><tr><td>ordercache</td><td>ditto when cache contains ordering only, see <code><a href="hashcache.html">ordercache()</a></code></td></tr><tr><td>allcache</td><td>ditto when cache contains sorting, ordering and hashing</td></tr></table><table class="table table"><tr><td><strong>use case name</strong></td><td><strong>explanation</strong></td></tr><tr><td>cache</td><td>filling the cache according to scenario</td></tr><tr><td>match(s, b)</td><td>match small in big vector</td></tr><tr><td>s %in% b</td><td>small %in% big vector</td></tr><tr><td>match(b, s)</td><td>match big in small vector</td></tr><tr><td>b %in% s</td><td>big %in% small vector</td></tr><tr><td>match(b, b)</td><td>match big in (different) big vector</td></tr><tr><td>b %in% b</td><td>big %in% (different) big vector</td></tr><tr><td>duplicated(b)</td><td>duplicated of big vector</td></tr><tr><td>unique(b)</td><td>unique of big vector</td></tr><tr><td>table(b)</td><td>table of big vector</td></tr><tr><td>sort(b)</td><td>sorting of big vector</td></tr><tr><td>order(b)</td><td>ordering of big vector</td></tr><tr><td>rank(b)</td><td>ranking of big vector</td></tr><tr><td>quantile(b)</td><td>quantiles of big vector</td></tr><tr><td>summary(b)</td><td>summary of of big vector</td></tr><tr><td>factor(b)</td><td>coercion to factor of big vector</td></tr><tr><td>SESSION</td><td>exemplary session involving multiple calls (including cache filling costs)</td></tr></table><p>Note that the timings for the cached variants do <em>not</em> contain the
 time costs of building the cache, except for the timing of the exemplary
 user session, where the cache costs are included in order to evaluate amortization.</p>
     </div>
@@ -144,8 +144,9 @@ without caching</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> find positions of facts in dimension table for joining</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> find positions of facts in parallel fact table for joining</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> out of curiosity: how well rank-correlated are fact and parallel fact table?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> coerce to factor</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         32-bit 64-bit hashcache sortordercache ordercache allcache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> seconds  0.015      0         0              0          0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> seconds  0.013      0         0              0          0        0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> factor   1.000    Inf       Inf            Inf        Inf      Inf</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> === 64-bit ===</span>
@@ -168,9 +169,10 @@ without caching</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> find positions of facts in parallel fact table for joining</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> out of curiosity: how well rank-correlated are fact and parallel fact table?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> coerce to factor</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         32-bit 64-bit hashcache sortordercache ordercache allcache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> seconds  0.015  0.012         0              0          0        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> factor   1.000  1.250       Inf            Inf        Inf      Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> seconds  0.013  0.015         0              0          0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor   1.000  0.867       Inf            Inf        Inf      Inf</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> === hashcache ===</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> check data range, mean etc.</span>
@@ -192,9 +194,10 @@ without caching</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> find positions of facts in parallel fact table for joining</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> out of curiosity: how well rank-correlated are fact and parallel fact table?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> coerce to factor</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         32-bit 64-bit hashcache sortordercache ordercache allcache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> seconds  0.015  0.012     0.008              0          0        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> factor   1.000  1.250     1.875            Inf        Inf      Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> seconds  0.013  0.015     0.014              0          0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor   1.000  0.867     0.929            Inf        Inf      Inf</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> === sortordercache ===</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> check data range, mean etc.</span>
@@ -216,9 +219,10 @@ without caching</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> find positions of facts in parallel fact table for joining</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> out of curiosity: how well rank-correlated are fact and parallel fact table?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> coerce to factor</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         32-bit 64-bit hashcache sortordercache ordercache allcache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> seconds  0.015  0.012     0.008          0.009          0        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> factor   1.000  1.250     1.875          1.667        Inf      Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> seconds  0.013  0.015     0.014          0.011          0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor   1.000  0.867     0.929          1.182        Inf      Inf</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> === ordercache ===</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> check data range, mean etc.</span>
@@ -240,9 +244,10 @@ without caching</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> find positions of facts in parallel fact table for joining</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> out of curiosity: how well rank-correlated are fact and parallel fact table?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> coerce to factor</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         32-bit 64-bit hashcache sortordercache ordercache allcache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> seconds  0.015  0.012     0.008          0.009      0.007        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> factor   1.000  1.250     1.875          1.667      2.143      Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> seconds  0.013  0.015     0.014          0.011      0.005        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor   1.000  0.867     0.929          1.182      2.600      Inf</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> === allcache ===</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> check data range, mean etc.</span>
@@ -264,9 +269,10 @@ without caching</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> find positions of facts in parallel fact table for joining</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> out of curiosity: how well rank-correlated are fact and parallel fact table?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> coerce to factor</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         32-bit 64-bit hashcache sortordercache ordercache allcache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> seconds  0.015  0.012     0.008          0.009      0.007    0.006</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> factor   1.000  1.250     1.875          1.667      2.143    2.500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> seconds  0.013  0.015     0.014          0.011      0.005    0.012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor   1.000  0.867     0.929          1.182      2.600    1.083</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> now let's look more systematically at the components involved</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 32-bit match(s, b)</span>
@@ -283,23 +289,25 @@ without caching</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 32-bit rank(b)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 32-bit quantile(b)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 32-bit summary(b)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 32-bit factor(b)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> seconds              32-bit 64-bit hashcache sortordercache ordercache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache          0.000  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.000  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.001  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.000  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.001  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.000  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.001  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.000  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.000  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.000  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.000  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.000  0.000     0.000          0.000      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> table(b)       0.002  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.000  0.000     0.000          0.000      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> order(b)       0.000  0.000     0.000          0.000      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)        0.001  0.000     0.000          0.000      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)    0.000  0.000     0.000          0.000      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)     0.001  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.015  0.012     0.008          0.009      0.007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)      0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.013  0.015     0.014          0.011      0.005</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               allcache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache            0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      0.000</span>
@@ -316,41 +324,44 @@ without caching</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)          0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)       0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)        0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.012</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> factor              32-bit 64-bit hashcache sortordercache ordercache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache            NaN    NaN       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      NaN    NaN       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           1    Inf       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)      NaN    NaN       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           1    Inf       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)      NaN    NaN       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           1    Inf       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)    NaN    NaN       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b         NaN    NaN       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s         NaN    NaN       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b         NaN    NaN       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)        NaN    NaN       NaN            NaN        NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           1    Inf       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)          NaN    NaN       NaN            NaN        NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> order(b)         NaN    NaN       NaN            NaN        NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            1    Inf       Inf            Inf        Inf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      NaN    NaN       NaN            NaN        NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         1    Inf       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            1   1.25     1.875          1.667      2.143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)          1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            1  0.867     0.929          1.182        2.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               allcache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache              NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> order(b)           NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            Inf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)        NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            2.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)          Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          1.083</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 64-bit match(s, b)</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 64-bit s %in% b</span>
@@ -372,23 +383,25 @@ without caching</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 64-bit rank(b)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 64-bit quantile(b)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 64-bit summary(b)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 64-bit factor(b)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> seconds              32-bit 64-bit hashcache sortordercache ordercache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache          0.000  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.000  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.001  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.000  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.001  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.000  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.001  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.000  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.001  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)       0.002  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.001  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)       0.000  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)        0.001  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)    0.000  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)     0.001  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.015  0.012     0.008          0.009      0.007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.001  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.000  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.001  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.000  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.000  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.000  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)       0.002  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.000  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)       0.000  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)        0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)    0.000  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)     0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)      0.001  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.013  0.015     0.014          0.011      0.005</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               allcache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache            0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      0.000</span>
@@ -405,41 +418,44 @@ without caching</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)          0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)       0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)        0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.012</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> factor              32-bit 64-bit hashcache sortordercache ordercache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache            NaN    NaN       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      NaN   0.00       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           1   1.00       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)      NaN   0.00       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           1   1.00       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)      NaN   0.00       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           1   1.00       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)    NaN    NaN       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          1    Inf       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           1   2.00       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            1    Inf       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)         NaN    NaN       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            1   1.00       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      NaN   0.00       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         1   1.00       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            1   1.25     1.875          1.667      2.143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        1  1.000       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b         NaN  0.000       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        1  1.000       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s         NaN  0.000       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b         NaN    NaN       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)        NaN  0.000       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)          NaN    NaN       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)         NaN  0.000       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      NaN    NaN       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)          1  1.000       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            1  0.867     0.929          1.182        2.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               allcache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache              NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> order(b)           NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            Inf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)        NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            2.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)          Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          1.083</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> hashcache cache</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> hashcache match(s, b)</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.</span>
@@ -462,23 +478,25 @@ without caching</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> hashcache rank(b)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> hashcache quantile(b)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> hashcache summary(b)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> hashcache factor(b)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> seconds              32-bit 64-bit hashcache sortordercache ordercache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cache          0.000  0.000     0.001          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.000  0.001     0.001          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.001  0.001     0.004          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.000  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.001  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.000  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.001  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.000  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.001  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)       0.002  0.001     0.001          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.001  0.000     0.001          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)       0.000  0.000     0.001          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)        0.001  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)    0.000  0.001     0.001          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)     0.001  0.001     0.001          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.015  0.012     0.008          0.009      0.007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cache          0.000  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.001  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.000  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.001  0.001     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.000  0.001     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.001  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.000  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.001  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.000  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)       0.002  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.000  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)       0.000  0.001     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)        0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)    0.000  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)     0.001  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)      0.001  0.001     0.002          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.013  0.015     0.014          0.011      0.005</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               allcache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache            0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      0.000</span>
@@ -495,41 +513,44 @@ without caching</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)          0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)       0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)        0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.012</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> factor              32-bit 64-bit hashcache sortordercache ordercache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cache            NaN    NaN     0.000            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      NaN   0.00     0.000            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           1   1.00     0.250            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)      NaN   0.00       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           1   1.00       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)      NaN   0.00       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           1   1.00       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)    NaN    NaN       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          1    Inf       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           1   2.00     2.000            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            1    Inf     1.000            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)         NaN    NaN     0.000            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            1   1.00       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      NaN   0.00     0.000            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         1   1.00     1.000            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            1   1.25     1.875          1.667      2.143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cache            NaN    NaN       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        1  1.000       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b         NaN  0.000       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        1  1.000     1.000            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s         NaN  0.000     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        1    Inf     1.000            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b         NaN    NaN     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      1    Inf     1.000            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)        NaN  0.000       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           1    Inf     2.000            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)          NaN    NaN     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)         NaN  0.000     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      NaN    NaN     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         1    Inf     1.000            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)          1  1.000     0.500            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            1  0.867     0.929          1.182        2.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               allcache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache              NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> order(b)           NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            Inf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)        NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            2.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)          Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          1.083</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> sortordercache cache</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> sortordercache match(s, b)</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.</span>
@@ -552,23 +573,25 @@ without caching</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> sortordercache rank(b)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> sortordercache quantile(b)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> sortordercache summary(b)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> sortordercache factor(b)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> seconds              32-bit 64-bit hashcache sortordercache ordercache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cache          0.000  0.000     0.001          0.001      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.000  0.001     0.001          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.001  0.001     0.004          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.000  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.001  0.001     0.000          0.001      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.000  0.001     0.000          0.001      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.001  0.001     0.000          0.001      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.000  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.001  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)       0.002  0.001     0.001          0.001      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.001  0.000     0.001          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)       0.000  0.000     0.001          0.001      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)        0.001  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)    0.000  0.001     0.001          0.001      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)     0.001  0.001     0.001          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.015  0.012     0.008          0.009      0.007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cache          0.000  0.000     0.000          0.001      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.001  0.001     0.000          0.001      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.000  0.001     0.000          0.001      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.001  0.001     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.000  0.001     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.001  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.000  0.000     0.001          0.001      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.001  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.000  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)       0.002  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.000  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)       0.000  0.001     0.001          0.001      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)        0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)    0.000  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)     0.001  0.000     0.001          0.001      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)      0.001  0.001     0.002          0.002      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.013  0.015     0.014          0.011      0.005</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               allcache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache            0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      0.000</span>
@@ -585,41 +608,44 @@ without caching</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)          0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)       0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)        0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.012</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> factor              32-bit 64-bit hashcache sortordercache ordercache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cache            NaN    NaN     0.000          0.000        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      NaN   0.00     0.000            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           1   1.00     0.250            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)      NaN   0.00       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           1   1.00       Inf          1.000        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)      NaN   0.00       NaN          0.000        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           1   1.00       Inf          1.000        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)    NaN    NaN       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          1    Inf       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           1   2.00     2.000          2.000        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            1    Inf     1.000            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)         NaN    NaN     0.000          0.000        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            1   1.00       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      NaN   0.00     0.000          0.000        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         1   1.00     1.000            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            1   1.25     1.875          1.667      2.143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cache            NaN    NaN       NaN          0.000        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        1  1.000       Inf          1.000        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b         NaN  0.000       NaN          0.000        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        1  1.000     1.000            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s         NaN  0.000     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        1    Inf     1.000            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b         NaN    NaN     0.000          0.000        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      1    Inf     1.000            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)        NaN  0.000       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           1    Inf     2.000            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)          NaN    NaN     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)         NaN  0.000     0.000          0.000        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      NaN    NaN     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         1    Inf     1.000          1.000        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)          1  1.000     0.500          0.500        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            1  0.867     0.929          1.182        2.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               allcache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache              NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> order(b)           NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            Inf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)        NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            2.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)          Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          1.083</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ordercache cache</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ordercache match(s, b)</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.</span>
@@ -642,23 +668,25 @@ without caching</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ordercache rank(b)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ordercache quantile(b)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ordercache summary(b)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ordercache factor(b)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> seconds              32-bit 64-bit hashcache sortordercache ordercache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cache          0.000  0.000     0.001          0.001      0.002</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.000  0.001     0.001          0.000      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.001  0.001     0.004          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.000  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.001  0.001     0.000          0.001      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.000  0.001     0.000          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.001  0.001     0.000          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.000  0.000     0.000          0.000      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.001  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)       0.002  0.001     0.001          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.001  0.000     0.001          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)       0.000  0.000     0.001          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)        0.001  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)    0.000  0.001     0.001          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)     0.001  0.001     0.001          0.000      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.015  0.012     0.008          0.009      0.007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cache          0.000  0.000     0.000          0.001      0.002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.001  0.001     0.000          0.001      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.000  0.001     0.000          0.001      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.001  0.001     0.001          0.000      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.000  0.001     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.001  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.000  0.000     0.001          0.001      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.001  0.000     0.001          0.000      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.000  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)       0.002  0.000     0.001          0.000      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.000  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)       0.000  0.001     0.001          0.001      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)        0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)    0.000  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)     0.001  0.000     0.001          0.001      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)      0.001  0.001     0.002          0.002      0.002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.013  0.015     0.014          0.011      0.005</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               allcache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache            0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      0.000</span>
@@ -675,41 +703,44 @@ without caching</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)          0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)       0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)        0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.012</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> factor              32-bit 64-bit hashcache sortordercache ordercache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cache            NaN    NaN     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      NaN   0.00     0.000            NaN      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           1   1.00     0.250            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)      NaN   0.00       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           1   1.00       Inf          1.000        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)      NaN   0.00       NaN          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           1   1.00       Inf          1.000      1.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)    NaN    NaN       NaN            NaN      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          1    Inf       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           1   2.00     2.000          2.000      2.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            1    Inf     1.000            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)         NaN    NaN     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            1   1.00       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      NaN   0.00     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         1   1.00     1.000            Inf      1.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            1   1.25     1.875          1.667      2.143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cache            NaN    NaN       NaN          0.000        0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        1  1.000       Inf          1.000        1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b         NaN  0.000       NaN          0.000        0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        1  1.000     1.000            Inf        1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s         NaN  0.000     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        1    Inf     1.000            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b         NaN    NaN     0.000          0.000        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      1    Inf     1.000            Inf        1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)        NaN  0.000       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           1    Inf     2.000            Inf        2.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)          NaN    NaN     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)         NaN  0.000     0.000          0.000        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      NaN    NaN     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         1    Inf     1.000          1.000        1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)          1  1.000     0.500          0.500        0.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            1  0.867     0.929          1.182        2.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               allcache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache              NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> order(b)           NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            Inf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)        NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            2.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)          Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          1.083</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> allcache cache</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> allcache match(s, b)</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.</span>
@@ -732,108 +763,115 @@ without caching</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> allcache rank(b)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> allcache quantile(b)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> allcache summary(b)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> allcache factor(b)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> seconds              32-bit 64-bit hashcache sortordercache ordercache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cache          0.000  0.000     0.001          0.001      0.002</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.000  0.001     0.001          0.000      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.001  0.001     0.004          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.000  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.001  0.001     0.000          0.001      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.000  0.001     0.000          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.001  0.001     0.000          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.000  0.000     0.000          0.000      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.001  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)       0.002  0.001     0.001          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.001  0.000     0.001          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)       0.000  0.000     0.001          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)        0.001  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)    0.000  0.001     0.001          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)     0.001  0.001     0.001          0.000      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.015  0.012     0.008          0.009      0.007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cache          0.000  0.000     0.000          0.001      0.002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.001  0.001     0.000          0.001      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.000  0.001     0.000          0.001      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.001  0.001     0.001          0.000      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.000  0.001     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.001  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.000  0.000     0.001          0.001      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.001  0.000     0.001          0.000      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.000  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)       0.002  0.000     0.001          0.000      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.000  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)       0.000  0.001     0.001          0.001      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)        0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)    0.000  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)     0.001  0.000     0.001          0.001      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)      0.001  0.001     0.002          0.002      0.002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.013  0.015     0.014          0.011      0.005</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               allcache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache            0.002</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b         0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s         0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)      0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b         0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)    0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)        0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)         0.004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)          0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)        0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)         0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)          0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> order(b)         0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)          0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)       0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)        0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.012</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> factor              32-bit 64-bit hashcache sortordercache ordercache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cache            NaN    NaN     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      NaN   0.00     0.000            NaN      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           1   1.00     0.250            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)      NaN   0.00       NaN            NaN        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           1   1.00       Inf          1.000        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)      NaN   0.00       NaN          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           1   1.00       Inf          1.000      1.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)    NaN    NaN       NaN            NaN      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          1    Inf       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           1   2.00     2.000          2.000      2.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            1    Inf     1.000            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)         NaN    NaN     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            1   1.00       Inf            Inf        Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      NaN   0.00     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         1   1.00     1.000            Inf      1.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            1   1.25     1.875          1.667      2.143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cache            NaN    NaN       NaN          0.000        0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        1  1.000       Inf          1.000        1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b         NaN  0.000       NaN          0.000        0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        1  1.000     1.000            Inf        1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s         NaN  0.000     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        1    Inf     1.000            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b         NaN    NaN     0.000          0.000        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      1    Inf     1.000            Inf        1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)        NaN  0.000       NaN            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           1    Inf     2.000            Inf        2.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)          NaN    NaN     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)         NaN  0.000     0.000          0.000        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            1    Inf       Inf            Inf        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      NaN    NaN     0.000            NaN        NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         1    Inf     1.000          1.000        1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)          1  1.000     0.500          0.500        0.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            1  0.867     0.929          1.182        2.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               allcache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cache              0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s           1.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)        0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b           1.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)          Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           0.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)            Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cache            0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      1.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b           NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)        Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s         0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)      1.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b         0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)      Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)        0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)           Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)          0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> order(b)           NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)            1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)          1.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)        NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION            2.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)        1.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          1.083</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               32-bit 64-bit hashcache sortordercache ordercache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cache          0.000  0.000     0.001          0.001      0.002</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.000  0.001     0.001          0.000      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.001  0.001     0.004          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.000  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.001  0.001     0.000          0.001      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.000  0.001     0.000          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.001  0.001     0.000          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.000  0.000     0.000          0.000      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.001  0.000     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)       0.002  0.001     0.001          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.001  0.000     0.001          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)       0.000  0.000     0.001          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)        0.001  0.001     0.000          0.000      0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)    0.000  0.001     0.001          0.001      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)     0.001  0.001     0.001          0.000      0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.015  0.012     0.008          0.009      0.007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cache          0.000  0.000     0.000          0.001      0.002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)    0.001  0.001     0.000          0.001      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b       0.000  0.001     0.000          0.001      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)    0.001  0.001     0.001          0.000      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s       0.000  0.001     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)    0.001  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b       0.000  0.000     0.001          0.001      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)  0.001  0.000     0.001          0.000      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)      0.000  0.001     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)       0.002  0.000     0.001          0.000      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)        0.000  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> order(b)       0.000  0.001     0.001          0.001      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)        0.001  0.000     0.000          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)    0.000  0.000     0.001          0.000      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)     0.001  0.000     0.001          0.001      0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)      0.001  0.001     0.002          0.002      0.002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION        0.013  0.015     0.014          0.011      0.005</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               allcache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cache            0.002</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> match(s, b)      0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> s %in% b         0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> match(b, s)      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b %in% s         0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> match(b, b)      0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b %in% b         0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> duplicated(b)    0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)        0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)         0.004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)          0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unique(b)        0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> table(b)         0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sort(b)          0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> order(b)         0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank(b)          0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile(b)      0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summary(b)       0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor(b)        0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SESSION          0.012</span>
 <span class="r-in"><span><span class="fu">optimizer64</span><span class="op">(</span>nsmall<span class="op">=</span><span class="fl">2</span><span class="op">^</span><span class="fl">7</span>, nbig<span class="op">=</span><span class="fl">2</span><span class="op">^</span><span class="fl">13</span>, timefun<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">expr</span><span class="op">)</span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">expr</span>, gcFirst<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>, plot<span class="op">=</span><span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -863,6 +901,7 @@ without caching</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> table: timings of different methods</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> rank: timings of different methods</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> quantile: timings of different methods</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> factor: timings of different methods</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            128        8192      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> match      numeric,27 numeric,27</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> %in%       numeric,30 numeric,30</span>
@@ -872,6 +911,7 @@ without caching</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> table      numeric,39 numeric,39</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rank       numeric,21 numeric,21</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> quantile   numeric,18 numeric,18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> factor     numeric,15 numeric,15</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"for real measurement of sufficiently large datasets run this on your machine"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">benchmark64</span><span class="op">(</span><span class="op">)</span></span></span>

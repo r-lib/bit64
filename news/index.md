@@ -167,6 +167,9 @@ necessary.
 7.  `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method
     ([\#45](https://github.com/r-lib/bit64/issues/45)). Thanks
     [@hcirellu](https://github.com/hcirellu).
+8.  `factor`, `as.factor`, `ordered`, and `as.ordered` support
+    `integer64` input correctly, i.e. the levels are sorted according to
+    `integer64` values. Thanks [@hcirellu](https://github.com/hcirellu).
 
 ### BUG FIXES
 
