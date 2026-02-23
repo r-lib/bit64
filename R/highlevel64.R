@@ -1019,6 +1019,13 @@ optimizer64 = function(nsmall=2L^16L,
         p2 = hashtab(h)
       })[3L]
 
+      sortp = function(p) {
+        s = p$values
+        o = seq_along(s)
+        ramsortorder(s, o, na.last=FALSE)
+        list(values=s, counts=p$counts[o])
+      }
+
       tim["sorttab", "prep"] = timefun({
         s = clone(x)
         ramsort(s, na.last=FALSE)
