@@ -47,6 +47,7 @@
 #' |           rank(b) | ranking of big vector                   |
 #' |       quantile(b) | quantiles of big vector                 |
 #' |        summary(b) | summary of of big vector                |
+#' |         factor(b) | coercion to factor of big vector        |
 #' |           SESSION | exemplary session involving multiple calls (including cache filling costs) |
 #'
 #' Note that the timings for the cached variants do _not_ contain the
@@ -220,6 +221,10 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
         else
           cor(rank.integer64(b), rank.integer64(b2), use="na.or.complete")
       })[3L]
+    message('coerce to factor')
+    tim1[i] = tim1[i] + timefun({
+        factor(b)
+      })[3L]
 
     remcache(s)
     remcache(b)
@@ -238,9 +243,9 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
   b = sample(nbig, nbig, TRUE)
   b2 = sample(nbig, nbig, TRUE)
 
-  tim2 = matrix(0.0, 15L, 6L)
+  tim2 = matrix(0.0, 16L, 6L)
   dimnames(tim2) = list(
-    c("cache", "match(s, b)", "s %in% b", "match(b, s)", "b %in% s", "match(b, b)", "b %in% b", "duplicated(b)", "unique(b)", "table(b)", "sort(b)", "order(b)", "rank(b)", "quantile(b)", "summary(b)"), # nolint: line_length_linter.
+    c("cache", "match(s, b)", "s %in% b", "match(b, s)", "b %in% s", "match(b, b)", "b %in% b", "duplicated(b)", "unique(b)", "table(b)", "sort(b)", "order(b)", "rank(b)", "quantile(b)", "summary(b)", "factor(b)"),
     c("32-bit", "64-bit", "hashcache", "sortordercache", "ordercache", "allcache")
   )
 
@@ -338,6 +343,11 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
       summary(b)
     })[3L]
 
+    message(colnames(tim2)[i], " factor(b)")
+    tim2["factor(b)", i] = timefun({
+      factor(b)
+    })[3L]
+
     remcache(s)
     remcache(b)
     remcache(b2)
@@ -369,6 +379,7 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
   # rank(b)        13.480  0.860     0.915          0.240      0.545    0.246
   # quantile(b)     0.373  0.400     0.410          0.000      0.000    0.000
   # summary(b)      0.645  0.423     0.427          0.016      0.016    0.016
+  # factor(b)       6.655  8.212     7.834          7.812      7.241    8.332
   # TOTAL         149.173  7.179     6.291          4.448     11.320    5.239
   #               32-bit  64-bit hashcache sortordercache ordercache allcache
   # cache              1   1.062     0.000          0.000      0.000    0.000
@@ -386,6 +397,7 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
   # rank(b)            1  15.674    14.732         56.167     24.734   54.797
   # quantile(b)        1   0.933     0.911        804.907    806.027  810.133
   # summary(b)         1   1.524     1.512         39.345     39.345   39.345
+  # factor(b)          1   0.812     0.851          0.848      0.920    0.767
   # TOTAL              1  20.778    23.712         33.534     13.177   28.476
 
   tim3
@@ -398,7 +410,7 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
 optimizer64 = function(nsmall=2L^16L,
                        nbig=2L^25L,
                        timefun=repeat.time,
-                       what=c("match", "%in%", "duplicated", "unique", "unipos", "table", "rank", "quantile"),
+                       what=c("match", "%in%", "duplicated", "unique", "unipos", "table", "rank", "quantile", "factor"),
                        uniorder=c("original", "values", "any"),
                        taborder=c("values", "counts"),
                        plot=TRUE) {
@@ -426,7 +438,7 @@ optimizer64 = function(nsmall=2L^16L,
       x2 = c(sample(n2, n2 - 1L, TRUE), NA)
       tim = matrix(0.0, 9L, 3L)
       dimnames(tim) = list(
-        c("match", "match.64", "hashpos", "hashrev", "sortorderpos", "orderpos", "hashcache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+        c("match", "match.64", "hashpos", "hashrev", "sortorderpos", "orderpos", "hashcache", "sortorder.cache", "order.cache"),
         c("prep", "both", "use")
       )
 
@@ -518,7 +530,7 @@ optimizer64 = function(nsmall=2L^16L,
       x2 = c(sample(n2, n2 - 1L, TRUE), NA)
       tim = matrix(0.0, 10L, 3L)
       dimnames(tim) = list(
-        c("%in%", "match.64", "%in%.64", "hashfin", "hashrin", "sortfin", "orderfin", "hash.cache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+        c("%in%", "match.64", "%in%.64", "hashfin", "hashrin", "sortfin", "orderfin", "hash.cache", "sortorder.cache", "order.cache"),
         c("prep", "both", "use")
       )
 
@@ -601,8 +613,6 @@ optimizer64 = function(nsmall=2L^16L,
 
       ret[["%in%", as.character(n1)]] = tim
     }
-
-    ret[["%in%", as.character(n1)]] <- tim
   }
   if ("duplicated" %in% what) {
     message("duplicated: timings of different methods")
@@ -612,7 +622,7 @@ optimizer64 = function(nsmall=2L^16L,
       x = c(sample(n, n - 1L, TRUE), NA)
       tim = matrix(0.0, 10L, 3L)
       dimnames(tim) = list(
-        c("duplicated", "duplicated.64", "hashdup", "sortorderdup1", "sortorderdup2", "orderdup1", "orderdup2", "hash.cache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+        c("duplicated", "duplicated.64", "hashdup", "sortorderdup1", "sortorderdup2", "orderdup1", "orderdup2", "hash.cache", "sortorder.cache", "order.cache"),
         c("prep", "both", "use")
       )
 
@@ -695,8 +705,6 @@ optimizer64 = function(nsmall=2L^16L,
 
       ret[["duplicated", as.character(n)]] = tim
     }
-
-    ret[["duplicated", as.character(n)]] <- tim
   }
   if ("unique" %in% what) {
     message("unique: timings of different methods")
@@ -706,7 +714,7 @@ optimizer64 = function(nsmall=2L^16L,
       x = c(sample(n, n - 1L, TRUE), NA)
       tim = matrix(0.0, 15L, 3L)
       dimnames(tim) = list(
-        c("unique", "unique.64", "hashmapuni", "hashuni", "hashunikeep", "sortuni", "sortunikeep", "orderuni", "orderunikeep", "hashdup", "sortorderdup", "hash.cache", "sort.cache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+        c("unique", "unique.64", "hashmapuni", "hashuni", "hashunikeep", "sortuni", "sortunikeep", "orderuni", "orderunikeep", "hashdup", "sortorderdup", "hash.cache", "sort.cache", "sortorder.cache", "order.cache"),
         c("prep", "both", "use")
       )
 
@@ -786,6 +794,8 @@ optimizer64 = function(nsmall=2L^16L,
         p2 = orderuni(x, o, nunique, keep.order=TRUE)
         nunique = ordernut(x, o)[1L]
       })[3L]
+      if (uniorder == "original")
+        stopifnot(identical.integer64(p2, p))
 
       tim["hashdup", "prep"] = tim["hashuni", "prep"]
       tim["hashdup", "use"] = timefun({
@@ -849,7 +859,7 @@ optimizer64 = function(nsmall=2L^16L,
       x = c(sample(n, n - 1L, TRUE), NA)
       tim = matrix(0.0, 14L, 3L)
       dimnames(tim) = list(
-        c("unique", "unipos.64", "hashmapupo", "hashupo", "hashupokeep", "sortorderupo", "sortorderupokeep", "orderupo", "orderupokeep", "hashdup", "sortorderdup", "hash.cache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+        c("unique", "unipos.64", "hashmapupo", "hashupo", "hashupokeep", "sortorderupo", "sortorderupokeep", "orderupo", "orderupokeep", "hashdup", "sortorderdup", "hash.cache", "sortorder.cache", "order.cache"),
         c("prep", "both", "use")
       )
 
@@ -1230,6 +1240,58 @@ optimizer64 = function(nsmall=2L^16L,
       }
 
       ret[["quantile", as.character(n)]] = tim
+    }
+  }
+
+  if ("factor" %in% what) {
+    message("factor: timings of different methods")
+    N = c(nsmall, nbig)
+    for (i in seq_along(N)) {
+      n = N[i]
+      x = c(sample(n, n - 1L, TRUE), NA)
+      tim = matrix(0.0, 5L, 3L)
+      dimnames(tim) = list(
+        c("factor", "factor.64", "hashcache", "sortorder.cache", "order.cache"),
+        c("prep", "both", "use")
+      )
+
+      tim["factor", "both"] = timefun({
+        p = base::factor(x)
+      })[3L]
+      x = as.integer64(x)
+
+      tim["factor.64", "both"] = timefun({
+        p2 = factor(x)
+      })[3L]
+      stopifnot(identical(p2, p))
+
+      hashcache(x)
+      tim["hashcache", "use"] = timefun({
+        p2 = factor(x)
+      })[3L]
+      stopifnot(identical(p2, p))
+      remcache(x)
+
+      sortordercache(x)
+      tim["sortorder.cache", "use"] = timefun({
+        p2 = factor(x)
+      })[3L]
+      stopifnot(identical(p2, p))
+      remcache(x)
+
+      ordercache(x)
+      tim["order.cache", "use"] = timefun({
+        p2 = factor(x)
+      })[3L]
+      stopifnot(identical(p2, p))
+      remcache(x)
+
+      if (plot) {
+        barplot(t(tim), cex.names=0.7)
+        title(paste0("factor(", n, ")"))
+      }
+
+      ret[["factor", as.character(n)]] = tim
     }
   }
 
