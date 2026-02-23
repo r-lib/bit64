@@ -12,7 +12,7 @@ optimizer64(
   nbig = 2L^25L,
   timefun = repeat.time,
   what = c("match", "\%in\%", "duplicated", "unique", "unipos", "table", "rank",
-    "quantile"),
+    "quantile", "factor"),
   uniorder = c("original", "values", "any"),
   taborder = c("values", "counts"),
   plot = TRUE
@@ -77,6 +77,7 @@ Function for measuring algorithmic performance of high-level and low-level integ
    rank(b) \tab ranking of big vector \cr
    quantile(b) \tab quantiles of big vector \cr
    summary(b) \tab summary of of big vector \cr
+   factor(b) \tab coercion to factor of big vector \cr
    SESSION \tab exemplary session involving multiple calls (including cache filling costs) \cr
 }
 

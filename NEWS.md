@@ -61,7 +61,11 @@
    - Ignores leading/trailing whitespace (as does `as.integer()`; #232).
 1. `sortcache`, `sortordercache` and `ordercache` get a new argument `na.last`.
 1. `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method (#45). Thanks @hcirellu.
+<<<<<<< table_with_factor
 1. The result of `table` with multiple inputs including `integer64` is now ordered according to `integer64` values for the corresponding input (#236). Thanks @hcirellu.
+=======
+1. `factor`, `as.factor`, `ordered`, and `as.ordered` support `integer64` input correctly, i.e. the levels are sorted according to `integer64` values. Thanks @hcirellu.
+>>>>>>> main
 
 ## BUG FIXES
 
