@@ -41,8 +41,6 @@
 
 1. `as.integer64.integer64` returns a plain `integer64` vector stripped of any attributes. This is consistent with R like behavior, e.g. `as.integer.integer`.
 1. `%/%` matches base R/Knuth behavior of taking the `floor()` of a result, where before truncation was towards zero. For example, `as.integer64(-10L) %/% as.integer64(7L)` now gives `-2L`, not `-1L`. This is consistent with `-10L %/% 7L` in base R. Consequently, `%%` is also affected, e.g. `as.integer64(-10L) %% as.integer64(7L)` now gives `4L`, not `-3L`, consistent with `-10L %% 7L` in base R.
-1. A replacement in an integer64 vector using `[<-` or `[[<-` with a character leads to an R consistent 
-   coercion of the integer64 object to a character object.
 
 ## NEW FEATURES
 
@@ -62,6 +60,8 @@
    - Ignores leading/trailing whitespace (as does `as.integer()`; #232).
 1. `sortcache`, `sortordercache` and `ordercache` get a new argument `na.last`.
 1. `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method (#45). Thanks @hcirellu.
+1. A replacement in an integer64 vector or array using `[<-` or `[[<-` with a complex or POSIXct leads to an R consistent coercion of the integer64 object to a complex or POSIXct object and not just an error.
+
 
 ## BUG FIXES
 
