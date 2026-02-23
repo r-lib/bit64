@@ -245,7 +245,7 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
 
   tim2 = matrix(0.0, 16L, 6L)
   dimnames(tim2) = list(
-    c("cache", "match(s, b)", "s %in% b", "match(b, s)", "b %in% s", "match(b, b)", "b %in% b", "duplicated(b)", "unique(b)", "table(b)", "sort(b)", "order(b)", "rank(b)", "quantile(b)", "summary(b)", "factor(b)"), # nolint: line_length_linter.
+    c("cache", "match(s, b)", "s %in% b", "match(b, s)", "b %in% s", "match(b, b)", "b %in% b", "duplicated(b)", "unique(b)", "table(b)", "sort(b)", "order(b)", "rank(b)", "quantile(b)", "summary(b)", "factor(b)"),
     c("32-bit", "64-bit", "hashcache", "sortordercache", "ordercache", "allcache")
   )
 
@@ -438,7 +438,7 @@ optimizer64 = function(nsmall=2L^16L,
       x2 = c(sample(n2, n2 - 1L, TRUE), NA)
       tim = matrix(0.0, 9L, 3L)
       dimnames(tim) = list(
-        c("match", "match.64", "hashpos", "hashrev", "sortorderpos", "orderpos", "hashcache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+        c("match", "match.64", "hashpos", "hashrev", "sortorderpos", "orderpos", "hashcache", "sortorder.cache", "order.cache"),
         c("prep", "both", "use")
       )
 
@@ -530,7 +530,7 @@ optimizer64 = function(nsmall=2L^16L,
       x2 = c(sample(n2, n2 - 1L, TRUE), NA)
       tim = matrix(0.0, 10L, 3L)
       dimnames(tim) = list(
-        c("%in%", "match.64", "%in%.64", "hashfin", "hashrin", "sortfin", "orderfin", "hash.cache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+        c("%in%", "match.64", "%in%.64", "hashfin", "hashrin", "sortfin", "orderfin", "hash.cache", "sortorder.cache", "order.cache"),
         c("prep", "both", "use")
       )
 
@@ -622,7 +622,7 @@ optimizer64 = function(nsmall=2L^16L,
       x = c(sample(n, n - 1L, TRUE), NA)
       tim = matrix(0.0, 10L, 3L)
       dimnames(tim) = list(
-        c("duplicated", "duplicated.64", "hashdup", "sortorderdup1", "sortorderdup2", "orderdup1", "orderdup2", "hash.cache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+        c("duplicated", "duplicated.64", "hashdup", "sortorderdup1", "sortorderdup2", "orderdup1", "orderdup2", "hash.cache", "sortorder.cache", "order.cache"),
         c("prep", "both", "use")
       )
 
@@ -714,7 +714,7 @@ optimizer64 = function(nsmall=2L^16L,
       x = c(sample(n, n - 1L, TRUE), NA)
       tim = matrix(0.0, 15L, 3L)
       dimnames(tim) = list(
-        c("unique", "unique.64", "hashmapuni", "hashuni", "hashunikeep", "sortuni", "sortunikeep", "orderuni", "orderunikeep", "hashdup", "sortorderdup", "hash.cache", "sort.cache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+        c("unique", "unique.64", "hashmapuni", "hashuni", "hashunikeep", "sortuni", "sortunikeep", "orderuni", "orderunikeep", "hashdup", "sortorderdup", "hash.cache", "sort.cache", "sortorder.cache", "order.cache"),
         c("prep", "both", "use")
       )
 
@@ -859,7 +859,7 @@ optimizer64 = function(nsmall=2L^16L,
       x = c(sample(n, n - 1L, TRUE), NA)
       tim = matrix(0.0, 14L, 3L)
       dimnames(tim) = list(
-        c("unique", "unipos.64", "hashmapupo", "hashupo", "hashupokeep", "sortorderupo", "sortorderupokeep", "orderupo", "orderupokeep", "hashdup", "sortorderdup", "hash.cache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+        c("unique", "unipos.64", "hashmapupo", "hashupo", "hashupokeep", "sortorderupo", "sortorderupokeep", "orderupo", "orderupokeep", "hashdup", "sortorderdup", "hash.cache", "sortorder.cache", "order.cache"),
         c("prep", "both", "use")
       )
 
@@ -1251,7 +1251,7 @@ optimizer64 = function(nsmall=2L^16L,
       x = c(sample(n, n - 1L, TRUE), NA)
       tim = matrix(0.0, 5L, 3L)
       dimnames(tim) = list(
-        c("factor", "factor.64", "hashcache", "sortorder.cache", "order.cache"), # nolint: line_length_linter.
+        c("factor", "factor.64", "hashcache", "sortorder.cache", "order.cache"),
         c("prep", "both", "use")
       )
 
