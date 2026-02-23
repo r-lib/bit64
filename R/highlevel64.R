@@ -995,6 +995,8 @@ optimizer64 = function(nsmall=2L^16L,
         p = table(x, exclude=NULL)
       })[3L]
 
+      x = as.integer64(x)
+
       tim["table.64", "both"] = timefun({
         p2 = table(x, exclude=NULL, order=taborder)
       })[3L]
@@ -1025,6 +1027,9 @@ optimizer64 = function(nsmall=2L^16L,
         ramsortorder(s, o, na.last=FALSE)
         list(values=s, counts=p$counts[o])
       }
+      p = sortp(p)
+      p2 = sortp(p2)
+      stopifnot(identical(p2, p))
 
       tim["sorttab", "prep"] = timefun({
         s = clone(x)
