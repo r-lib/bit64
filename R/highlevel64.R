@@ -2113,6 +2113,8 @@ table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifan
     sys_call = sys.call()
     sys_call[[1L]] = table.integer64
     pf = parent.frame()
+    # add unused function `list.names` to eliminate CMD check NOTE about missing function definition.
+    list.names = function(...) {}
     withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"), "table.integer64")
   } else {
     UseMethod("table")
@@ -2124,6 +2126,8 @@ table.default = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no
   sys_call = sys.call()
   sys_call[[1L]] = base::table
   pf = parent.frame()
+  # add unused function `list.names` to eliminate CMD check NOTE about missing function definition.
+  list.names = function(...) {}
   withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"))
 }
 
