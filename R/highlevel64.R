@@ -238,7 +238,7 @@ benchmark64 = function(nsmall=2L^16L, nbig=2L^25L, timefun=repeat.time) {
   b = sample(nbig, nbig, TRUE)
   b2 = sample(nbig, nbig, TRUE)
 
-  tim2 = matrix(0.0, 16L, 6L)
+  tim2 = matrix(0.0, 15L, 6L)
   dimnames(tim2) = list(
     c("cache", "match(s, b)", "s %in% b", "match(b, s)", "b %in% s", "match(b, b)", "b %in% b", "duplicated(b)", "unique(b)", "table(b)", "sort(b)", "order(b)", "rank(b)", "quantile(b)", "summary(b)"), # nolint: line_length_linter.
     c("32-bit", "64-bit", "hashcache", "sortordercache", "ordercache", "allcache")
