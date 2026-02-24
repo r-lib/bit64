@@ -896,6 +896,48 @@ test_that("match works with zero length input", {
   expect_identical(match(integer(), x64), match(integer(), x32))
 })
 
+test_that("factor and order for integer64 are still necessary", {
+  skip_unless_r(">= 4.1.0") # skip implementing "expect_failure" for ancient R
+  skip_on_cran()
+  skip_on_covr() # covr edits the function bodies
+
+  x = c(132724613L, -2143220989L, -1L, NA, 1L)
+  expect_failure(expect_identical(base::factor(as.integer64(x)), base::factor(x)))
+  expect_failure(expect_identical(factor(as.integer64(x)), base::factor(as.integer64(x))))
+  expect_identical(factor(as.integer64(x)), base::factor(x))
+
+  expect_identical(formals(factor), formals(base::factor))
+  expect_identical(formals(ordered), formals(base::ordered))
+  expect_identical(body(ordered), body(base::ordered))
+})
+
+with_parameters_test_that("factor and order work analogously to integer:", {
+    x = c(132724613L, -2143220989L, -1L, NA, 1L)
+    # test factor() for integer64 with short (< 4000) and long (>= 4000) vectors, because of the different code paths for the two cases
+    if (isTRUE(long_input))
+      x = rep_len(x, 5000L)
+
+    expect_identical(factor(as.integer64(x)), factor(x))
+
+    expect_identical(
+      tryCatch(factor(as.integer64(x), levels=levels, labels=labels, exclude=exclude, ordered=ordered), error=conditionMessage),
+      tryCatch(factor(x, levels=levels, labels=labels, exclude=exclude, ordered=ordered), error=conditionMessage)
+    )
+    if (isTRUE(ordered))
+      expect_identical(
+        tryCatch(ordered(as.integer64(x), levels=levels, labels=labels, exclude=exclude), error=conditionMessage),
+        tryCatch(ordered(x, levels=levels, labels=labels, exclude=exclude), error=conditionMessage)
+      )
+},
+  .cases = expand.grid(
+      levels=I(list(NULL, NA, 1L, c(-1L, 1L), "1")),
+      labels=I(list(levels, NULL, letters[1L], letters[1:2])),
+      exclude=I(list(NULL, NA, 1L, c(-1L, 1L))),
+      ordered=c(TRUE, FALSE),
+      long_input=c(FALSE, TRUE)
+    )
+)
+
 test_that("extraction works consistent to integer: vector[", {
   x = 1:10
   names(x) = letters[seq_along(x)]
