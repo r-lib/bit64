@@ -998,7 +998,8 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   if (isTRUE(skipLast))
     sc = sc[-length(sc)]
   lapply(sc, function(el) {
-    if(is.symbol(el) && el == substitute()) return(el)
+    # NB: proxy for missing(), which doesn't work here
+    if(identical(el, substitute())) return(el)
     el = eval(el, eval_frame)   
     if (is.integer64(el))
       el = as.integer(el)
@@ -1009,7 +1010,7 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
 #' @rdname extract.replace.integer64
 #' @export
 `[.integer64` = function(x, i, j, ..., drop=TRUE) {
-  sc = sys.call()
+  sc = sys.call() # NB: not match.call(), which eats a missing argument in x[1, , 3]
   pf = parent.frame()
   args = position_args_with_int64_to_int_coercion(sc, pf)
   args$drop = FALSE
