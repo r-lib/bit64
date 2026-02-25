@@ -970,7 +970,7 @@ test_that("extraction works consistent to integer: vector[", {
   )
 
   sel = c("d", "", "b", NA_character_)
-  expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[match(sel, names(x))]))
+  expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x[sel])))
 })
 
 test_that("replacement works consistent to integer: vector[<-", {
