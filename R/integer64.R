@@ -1075,13 +1075,7 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   args = position_args_with_int64_to_int_coercion(sc, pf, skipLast=TRUE)
   
   # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
-  if (is.character(value) && !(promote_to_char <- isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))))
-    if (!isTRUE(getOption("bit64.suppressPromoteInteger64ToCharacterMessage", FALSE))) {
-      message(.bit64.suppressPromoteInteger64ToCharacterMessage, "\nBy setting the option 'bit64.suppressPromoteInteger64ToCharacterMessage' to TRUE the display of this message can be suppressed. (This message is only displayed once per session.)")
-      options(bit64.suppressPromoteInteger64ToCharacterMessage=TRUE)
-    }
-  
-  if ((is.character(value) && promote_to_char) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
+  if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     args$value = value
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
     ret = withCallingHandlers_and_choose_call(do.call(`[<-`, c(list(x=x), args)), c("[<-", "[<-.integer64"))  
@@ -1117,13 +1111,7 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
     el
   })
   # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
-  if (is.character(value) && !(promote_to_char <- isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))))
-    if (!isTRUE(getOption("bit64.suppressPromoteInteger64ToCharacterMessage", FALSE))) {
-      message(.bit64.suppressPromoteInteger64ToCharacterMessage, "\nBy setting the option 'bit64.suppressPromoteInteger64ToCharacterMessage' to TRUE the display of this message can be suppressed. (This message is only displayed once per session.)")
-      options(bit64.suppressPromoteInteger64ToCharacterMessage=TRUE)
-    }
-
-  if (is.character(value) && promote_to_char || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
+  if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     args$value = value
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
     withCallingHandlers_and_choose_call({ret = do.call(`[[<-`, c(list(x=x), args))}, c("[[<-", "[[<-.integer64"))  
