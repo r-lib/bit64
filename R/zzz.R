@@ -311,10 +311,6 @@ target_class_and_sample_value = function(x, recursive=FALSE, errorClasses="", PO
   } else if (any(c("character", "factor", "ordered") %in% classes)) {
     # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option
     if (!isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) {
-      if (!isTRUE(getOption("bit64.suppressPromoteInteger64ToCharacterMessage", FALSE))) {
-        message(.bit64.suppressPromoteInteger64ToCharacterMessage, "\nBy setting the option 'bit64.suppressPromoteInteger64ToCharacterMessage' to TRUE the display of this message can be suppressed. (This message is only displayed once per session.)")
-        options(bit64.suppressPromoteInteger64ToCharacterMessage=TRUE)
-      }
       valueClass = "integer64"
     } else {
       valueClass = "character"
