@@ -290,7 +290,7 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
 }
 
 # function to determine target class and sample value for union, intersect, setdiff, setequal, min, max, range, sum, prod, c, cbind and rbind functions
-target_class_and_sample_value = function(x, recursive=FALSE, errorClasses="") {
+target_class = function(x, recursive=FALSE, errorClasses="") {
   
   getClassesOfElements = function(x, recursive, errorClasses) {
     classes = vapply(x, function(el) if (class(el)[1L] == "list" || "data.frame" %in% class(el)) "list" else class(el)[1L], character(1L))
