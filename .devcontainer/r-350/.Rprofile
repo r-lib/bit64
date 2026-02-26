@@ -124,6 +124,9 @@ expect_no_match = function(x, pattern, ...) {
   invisible(x)
 }
 
+pass = function() invisible()
+fail = function(message) stop(message)
+
 })
 
 with(patrick_shim_env, {
