@@ -522,3 +522,11 @@ test_that("table dispatch integer64 and 'higher' types and factors", {
   expect_identical(table(as.integer64(1L), 1.0+1.0i), table(1L, 1.0+1.0i))
   expect_identical(table(1.0+1.0i, as.integer64(1L)), table(1.0+1.0i, 1L))
 })
+
+test_that("table dispatch to default with integer64 correctly coerced to factor", {
+  x = c(132724613L, -2143220989L, -1L, NA, 1L)
+  y = c(TRUE, FALSE)
+  expect_identical(table(x=as.integer64(x), rep_len(y, length(x))), table(x, rep_len(y, length(x))))
+  expect_identical(table(x=as.integer64(x), rep_len(y, length(x)), useNA="ifany"), table(x, rep_len(y, length(x)), useNA="ifany"))
+  expect_identical(table(x=as.integer64(x), rep_len(y, length(x)), exclude=NULL), table(x, rep_len(y, length(x)), exclude=NULL))
+})

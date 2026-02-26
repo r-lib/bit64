@@ -62,6 +62,7 @@
 1. `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method (#45). Thanks @hcirellu.
 1. `factor`, `as.factor`, `ordered`, and `as.ordered` support `integer64` input correctly, i.e. the levels are sorted according to `integer64` values. Thanks @hcirellu.
 1. A replacement in an integer64 vector or array using `[<-` or `[[<-` with a complex or POSIXct leads to an R consistent coercion of the integer64 object to a complex or POSIXct object and not just an error. Thanks @hcirellu.
+1. The result of `table` with multiple inputs including `integer64` is now ordered according to `integer64` values for the corresponding input (#236). Thanks @hcirellu.
 
 ## BUG FIXES
 
