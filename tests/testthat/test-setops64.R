@@ -4,12 +4,9 @@ with_parameters_test_that(
     y = 5:10
     if (!is.na(type_x))
       x = eval(parse(text=paste0("as.", type_x, "(x)")))
-    if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double") || 
+    if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double", "POSIXct", "Date") || 
       # TODO(#44): remove the condition
       (type_y == "integer64" && type_x %in% c("character", "factor", "ordered") && promoteInteger64ToCharacter == FALSE)) {
-      expected_result_x_y = as.integer64(base::union(x, y))
-      expected_result_y_x = as.integer64(base::union(y, x))
-    } else if (type_y == "integer64" && type_x %in% c("POSIXct", "Date")) {
       expected_result_x_y = as.integer64(base::union(x, y))
       expected_result_y_x = as.integer64(base::union(y, x))
     } else {
@@ -79,12 +76,9 @@ with_parameters_test_that(
     y = 5:10
     if (!is.na(type_x))
       x = eval(parse(text=paste0("as.", type_x, "(x)")))
-    if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double") || 
+    if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double", "POSIXct", "Date") || 
       # TODO(#44): remove the condition
       (type_y == "integer64" && type_x %in% c("character", "factor", "ordered") && promoteInteger64ToCharacter == FALSE)) {
-      expected_result_x_y = as.integer64(base::intersect(x, y))
-      expected_result_y_x = as.integer64(base::intersect(y, x))
-    } else if (type_y == "integer64" && type_x %in% c("POSIXct", "Date")) {
       expected_result_x_y = as.integer64(base::intersect(x, y))
       expected_result_y_x = as.integer64(base::intersect(y, x))
     } else {
