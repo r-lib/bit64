@@ -659,9 +659,9 @@ y
 #> c <NA> <NA> <NA> <NA>
 y[1:2,-4]            # subscripting as usual
 #> integer64
-#>   A    B    C   
-#> a 1    2    1   
-#> b <NA> <NA> <NA>
+#>      [,1] [,2] [,3]
+#> [1,] 1    2    1   
+#> [2,] <NA> <NA> <NA>
 # cbind.integer64 dispatched on any argument and coerces everything to integer64
 cbind(E=1:3, F=runif(3, 0, 100), G=c("-1","0","1"), y)
 #> integer64

@@ -6,7 +6,7 @@ Methods to extract and replace parts of an integer64 vector.
 
 ``` r
 # S3 method for class 'integer64'
-x[i, ...]
+x[i, j, ..., drop = TRUE]
 
 # S3 method for class 'integer64'
 x[...] <- value
@@ -24,7 +24,7 @@ x[[...]] <- value
 
   an atomic vector
 
-- i:
+- i, j:
 
   indices specifying elements to extract
 
@@ -33,13 +33,18 @@ x[[...]] <- value
   further arguments to the
   [`NextMethod()`](https://rdrr.io/r/base/UseMethod.html)
 
+- drop:
+
+  relevant for matrices and arrays. If TRUE the result is coerced to the
+  lowest possible dimension.
+
 - value:
 
   an atomic vector with values to be assigned
 
 ## Value
 
-A vector or scalar of class 'integer64'
+A vector, matrix, array or scalar of class 'integer64'
 
 ## Note
 

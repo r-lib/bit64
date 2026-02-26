@@ -40,7 +40,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'integer64'</span></span>
-<span><span class="va">x</span><span class="op">[</span><span class="va">i</span>, <span class="va">...</span><span class="op">]</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="va">i</span>, <span class="va">j</span>, <span class="va">...</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'integer64'</span></span>
 <span><span class="va">x</span><span class="op">[</span><span class="va">...</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
@@ -60,12 +60,16 @@
 <dd><p>an atomic vector</p></dd>
 
 
-<dt id="arg-i">i<a class="anchor" aria-label="anchor" href="#arg-i"></a></dt>
+<dt id="arg-i-j">i, j<a class="anchor" aria-label="anchor" href="#arg-i-j"></a></dt>
 <dd><p>indices specifying elements to extract</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>further arguments to the <code><a href="https://rdrr.io/r/base/UseMethod.html" class="external-link">NextMethod()</a></code></p></dd>
+
+
+<dt id="arg-drop">drop<a class="anchor" aria-label="anchor" href="#arg-drop"></a></dt>
+<dd><p>relevant for matrices and arrays. If TRUE the result is coerced to the lowest possible dimension.</p></dd>
 
 
 <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
@@ -74,7 +78,7 @@
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A vector or scalar of class 'integer64'</p>
+    <p>A vector, matrix, array or scalar of class 'integer64'</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>

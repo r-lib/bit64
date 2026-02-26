@@ -480,9 +480,9 @@ behaviour here would either destroy performance or require extensive C-coding.</
 <span class="r-out co"><span class="r-pr">#&gt;</span> c &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
 <span class="r-in"><span><span class="va">y</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="op">-</span><span class="fl">4</span><span class="op">]</span>            <span class="co"># subscripting as usual</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A    B    C   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> a 1    2    1   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1    2    1   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
 <span class="r-in"><span><span class="co"># cbind.integer64 dispatched on any argument and coerces everything to integer64</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>E<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, F<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span>, G<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-1"</span>,<span class="st">"0"</span>,<span class="st">"1"</span><span class="op">)</span>, <span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>

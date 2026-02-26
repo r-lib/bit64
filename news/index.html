@@ -88,6 +88,7 @@
 <code>matrix</code>, <code>array</code>, <code>%*%</code> and <code>as.matrix</code> get an <code>integer64</code> method (<a href="https://github.com/r-lib/bit64/issues/45" class="external-link">#45</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
 <li>
 <code>factor</code>, <code>as.factor</code>, <code>ordered</code>, and <code>as.ordered</code> support <code>integer64</code> input correctly, i.e. the levels are sorted according to <code>integer64</code> values. Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
+<li>A replacement in an integer64 vector or array using <code>[&lt;-</code> or <code>[[&lt;-</code> with a complex or POSIXct leads to an R consistent coercion of the integer64 object to a complex or POSIXct object and not just an error. Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
 </ol></div>
 <div class="section level3">
 <h3 id="bug-fixes-4-7-99">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-7-99"></a></h3>
@@ -109,6 +110,8 @@
 <code><a href="https://rdrr.io/pkg/bit/man/Sorting.html" class="external-link">quicksort()</a></code> and others no longer segfault on trivial cases (e.g. sorting 0 or 1 item, <a href="https://github.com/r-lib/bit64/issues/220" class="external-link">#220</a>).</li>
 <li>
 <code>as.integer64(2^63)</code> returns <code>NA_integer64_</code> more consistently (e.g. on ARM), consistent with <code>as.integer(2^31)</code> (<a href="https://github.com/r-lib/bit64/issues/19" class="external-link">#19</a>). Thanks <a href="https://github.com/dipterix" class="external-link">@dipterix</a>.</li>
+<li>
+<code>[.integer64</code> now runs faster and correctly regarding <code>NA</code> and arrays (<a href="https://github.com/r-lib/bit64/issues/176" class="external-link">#176</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
 </ol></div>
 <div class="section level3">
 <h3 id="notes-4-7-99">NOTES<a class="anchor" aria-label="anchor" href="#notes-4-7-99"></a></h3>

@@ -170,6 +170,10 @@ necessary.
 8.  `factor`, `as.factor`, `ordered`, and `as.ordered` support
     `integer64` input correctly, i.e. the levels are sorted according to
     `integer64` values. Thanks [@hcirellu](https://github.com/hcirellu).
+9.  A replacement in an integer64 vector or array using `[<-` or `[[<-`
+    with a complex or POSIXct leads to an R consistent coercion of the
+    integer64 object to a complex or POSIXct object and not just an
+    error. Thanks [@hcirellu](https://github.com/hcirellu).
 
 ### BUG FIXES
 
@@ -203,6 +207,9 @@ necessary.
     (e.g. on ARM), consistent with `as.integer(2^31)`
     ([\#19](https://github.com/r-lib/bit64/issues/19)). Thanks
     [@dipterix](https://github.com/dipterix).
+10. `[.integer64` now runs faster and correctly regarding `NA` and
+    arrays ([\#176](https://github.com/r-lib/bit64/issues/176)). Thanks
+    [@hcirellu](https://github.com/hcirellu).
 
 ### NOTES
 
