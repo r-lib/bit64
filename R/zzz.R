@@ -290,23 +290,14 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
 }
 
 # function to determine target class and sample value for union, intersect, setdiff, setequal, min, max, range, sum, prod, c, cbind and rbind functions
-target_class_and_sample_value = function(x) {
-  
+target_class = function(x) {
+
   classes = unique(vapply(x, function(el) if (inherits(el, c("list", "data.frame"))) "list" else class(el)[1L], character(1L)))
   
+  if ("complex" %in% classes) return("complex")
   if (any(c("character", "factor", "ordered") %in% classes)) {
     # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option
-    if (!isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) {
-      valueClass = "integer64"
-    } else {
-      valueClass = "character"
-    }
-  } else if ("complex" %in% classes) {
-    valueClass = "complex"
-  } else if (any(c("Date", "POSIXct", "POSIXlt", "difftime") %in% classes)) {
-    valueClass = "integer64"
-  } else {
-    valueClass = "integer64"
+    if (isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) return("character")
   }
-  valueClass
+  "integer64"
 }
