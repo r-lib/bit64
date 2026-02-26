@@ -4,23 +4,26 @@ with_parameters_test_that(
     y = 5:10
     if (!is.na(type_x))
       x = eval(parse(text=paste0("as.", type_x, "(x)")))
-    if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double")) {
+    if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double") || 
+      # TODO(#44): remove the condition
+      (type_y == "integer64" && type_x %in% c("character", "factor", "ordered") && promoteInteger64ToCharacter == FALSE)) {
       expected_result_x_y = as.integer64(base::union(x, y))
       expected_result_y_x = as.integer64(base::union(y, x))
     } else if (type_y == "integer64" && type_x %in% c("POSIXct", "Date")) {
-      # as.POSIXct(1L) and as.Date(1L) stay internally integer
-      # as.POSIXct(1) and as.Date(1) stay internally double
-      y = as.double(y)
-      expected_result_x_y = base::union(x, y)
-      expected_result_y_x = base::union(y, x)
+      expected_result_x_y = as.integer64(base::union(x, y))
+      expected_result_y_x = as.integer64(base::union(y, x))
     } else {
       expected_result_x_y = base::union(x, y)
       expected_result_y_x = base::union(y, x)
     }
     y = as(y, type_y)
 
-    expect_identical(union(x, y), expected_result_x_y)
-    expect_identical(union(y, x), expected_result_y_x)
+    local({
+      # TODO(#44): remove the option
+      withr::local_options(list(bit64.promoteInteger64ToCharacter=promoteInteger64ToCharacter))
+      expect_identical(union(x, y), expected_result_x_y)
+      expect_identical(union(y, x), expected_result_y_x)
+    })
   },
   .cases=expand.grid(
     x=I(list(NULL, c(1:7, 2L, 11L))),
@@ -29,6 +32,7 @@ with_parameters_test_that(
       if (getRversion() > "3.6.0") c("POSIXct", "Date")
     ),
     type_y=c("integer", "integer64"),
+    promoteInteger64ToCharacter=c(FALSE, TRUE),
     stringsAsFactors=FALSE
   )
 )
@@ -75,15 +79,14 @@ with_parameters_test_that(
     y = 5:10
     if (!is.na(type_x))
       x = eval(parse(text=paste0("as.", type_x, "(x)")))
-    if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double")) {
+    if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double") || 
+      # TODO(#44): remove the condition
+      (type_y == "integer64" && type_x %in% c("character", "factor", "ordered") && promoteInteger64ToCharacter == FALSE)) {
       expected_result_x_y = as.integer64(base::intersect(x, y))
       expected_result_y_x = as.integer64(base::intersect(y, x))
     } else if (type_y == "integer64" && type_x %in% c("POSIXct", "Date")) {
-      # as.POSIXct(1L) and as.Date(1L) stay internally integer
-      # as.POSIXct(1) and as.Date(1) stay internally double
-      y = as.double(y)
-      expected_result_x_y = base::intersect(x, y)
-      expected_result_y_x = base::intersect(y, x)
+      expected_result_x_y = as.integer64(base::intersect(x, y))
+      expected_result_y_x = as.integer64(base::intersect(y, x))
     } else {
       expected_result_x_y = base::intersect(x, y)
       if (getRversion() <= "3.6.0" && type_x %in% c("character", "factor", "ordered") && type_y == "integer64")
@@ -94,8 +97,12 @@ with_parameters_test_that(
     }
     y = as(y, type_y)
 
-    expect_identical(intersect(x, y), expected_result_x_y)
-    expect_identical(intersect(y, x), expected_result_y_x)
+    local({
+      # TODO(#44): remove the option
+      withr::local_options(list(bit64.promoteInteger64ToCharacter=promoteInteger64ToCharacter))
+      expect_identical(intersect(x, y), expected_result_x_y)
+      expect_identical(intersect(y, x), expected_result_y_x)
+    })
   },
   .cases=expand.grid(
     x=I(list(NULL, c(1:7, 2L, 11L))),
@@ -104,6 +111,7 @@ with_parameters_test_that(
       if (getRversion() > "3.6.0") c("POSIXct", "Date")
     ),
     type_y=c("integer", "integer64"),
+    promoteInteger64ToCharacter=c(FALSE, TRUE),
     stringsAsFactors=FALSE
   )
 )
@@ -150,8 +158,12 @@ with_parameters_test_that(
     }
     y = as(y, type_y)
 
-    expect_identical(setdiff(x, y), expected_result_x_y)
-    expect_identical(setdiff(y, x), expected_result_y_x)
+    local({
+      # TODO(#44): remove the option
+      withr::local_options(list(bit64.promoteInteger64ToCharacter=promoteInteger64ToCharacter))
+      expect_identical(setdiff(x, y), expected_result_x_y)
+      expect_identical(setdiff(y, x), expected_result_y_x)
+    })
   },
   .cases=expand.grid(
     x=I(list(NULL, c(1:7, 2L, 11L))),
@@ -160,6 +172,7 @@ with_parameters_test_that(
       if (getRversion() > "3.6.0") c("POSIXct", "Date")
     ),
     type_y=c("integer", "integer64"),
+    promoteInteger64ToCharacter=c(FALSE, TRUE),
     stringsAsFactors=FALSE
   )
 )
@@ -199,8 +212,12 @@ with_parameters_test_that(
     expected_result_y_x = base::setequal(y, x)
     y = as(y, type_y)
 
-    expect_identical(setequal(x, y), expected_result_x_y)
-    expect_identical(setequal(y, x), expected_result_y_x)
+    local({
+      # TODO(#44): remove the option
+      withr::local_options(list(bit64.promoteInteger64ToCharacter=promoteInteger64ToCharacter))
+      expect_identical(setequal(x, y), expected_result_x_y)
+      expect_identical(setequal(y, x), expected_result_y_x)
+    })
   },
   .cases=expand.grid(
     x=I(list(NULL, c(1:7, 2L, 11L))),
@@ -209,6 +226,7 @@ with_parameters_test_that(
       if (getRversion() > "3.6.0") c("POSIXct", "Date")
     ),
     type_y=c("integer", "integer64"),
+    promoteInteger64ToCharacter=c(FALSE, TRUE),
     stringsAsFactors=FALSE
   )
 )
@@ -253,8 +271,12 @@ with_parameters_test_that(
     expected_result_y_x = base::is.element(y, x)
     y = as(y, type_y)
 
-    expect_identical(is.element(x, y), expected_result_x_y)
-    expect_identical(is.element(y, x), expected_result_y_x)
+    local({
+      # TODO(#44): remove the option
+      withr::local_options(list(bit64.promoteInteger64ToCharacter=promoteInteger64ToCharacter))
+      expect_identical(is.element(x, y), expected_result_x_y)
+      expect_identical(is.element(y, x), expected_result_y_x)
+    })
   },
   .cases=expand.grid(
     x=I(list(NULL, c(1:7, 2L, 11L))),
@@ -263,6 +285,7 @@ with_parameters_test_that(
       if (getRversion() > "3.6.0") c("POSIXct", "Date")
     ),
     type_y=c("integer", "integer64"),
+    promoteInteger64ToCharacter=c(FALSE, TRUE),
     stringsAsFactors=FALSE
   )
 )

@@ -305,11 +305,16 @@ target_class_and_sample_value = function(x, recursive=FALSE, errorClasses="") {
     stop(errorCondition(sprintf(gettext("invalid 'type' (%s) of argument", domain="R"), sel[1L]), call=sys.call(max(sys.nframe() - 1L, 1L))))
   
   if (any(c("character", "factor", "ordered") %in% classes)) {
-    valueClass = "character"
+    # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option
+    if (!isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) {
+      valueClass = "integer64"
+    } else {
+      valueClass = "character"
+    }
   } else if ("complex" %in% classes) {
     valueClass = "complex"
   } else if (any(c("Date", "POSIXct", "POSIXlt", "difftime") %in% classes)) {
-    valueClass = "double"
+    valueClass = "integer64"
   } else {
     valueClass = "integer64"
   }
