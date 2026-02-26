@@ -9,7 +9,7 @@
 
 #' @title Set Operations
 #' @description Performs set union, intersection, (asymmetric!) difference, equality and membership on two vectors. As soon as an integer64 vector is involved, the operations are performed using integer64 semantics. Otherwise the \code{base} package functions are called.
-#' @param x,y,el,set vectors (of the same mode) containing a sequence of items (conceptually) with no duplicated values.
+#' @inheritParams base::union
 #' @return 
 #' For union, a vector of a common mode or class.
 #' 
