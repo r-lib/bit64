@@ -302,7 +302,7 @@ target_class_and_sample_value = function(x, recursive=FALSE, errorClasses="") {
   }
   classes = getClassesOfElements(x, recursive=isTRUE(recursive), errorClasses=errorClasses)
   if (length(sel <- intersect(errorClasses, classes)))
-    stop(errorCondition(sprintf(gettext("invalid 'type' (%s) of argument", domain="R"), sel[1L]), call=sys.call(max(sys.nframe() - 1L, 1L))))
+    stop(errorCondition(gettextf("invalid 'type' (%s) of argument", sel[1L], domain="R"), call=sys.call(max(sys.nframe() - 1L, 1L))))
   
   if (any(c("character", "factor", "ordered") %in% classes)) {
     # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option
