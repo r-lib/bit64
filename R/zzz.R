@@ -290,19 +290,9 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
 }
 
 # function to determine target class and sample value for union, intersect, setdiff, setequal, min, max, range, sum, prod, c, cbind and rbind functions
-target_class_and_sample_value = function(x, recursive=FALSE, errorClasses="") {
+target_class_and_sample_value = function(x) {
   
-  getClassesOfElements = function(x, recursive, errorClasses) {
-    classes = vapply(x, function(el) if (class(el)[1L] == "list" || "data.frame" %in% class(el)) "list" else class(el)[1L], character(1L))
-    if (recursive) {
-      union(classes[classes != "list"], unlist(lapply(x[classes == "list"], function(el) getClassesOfElements(el, recursive=TRUE, errorClasses=errorClasses))))
-    } else {
-      unique(classes)
-    }
-  }
-  classes = getClassesOfElements(x, recursive=isTRUE(recursive), errorClasses=errorClasses)
-  if (length(sel <- intersect(errorClasses, classes)))
-    stop(errorCondition(sprintf(gettext("invalid 'type' (%s) of argument", domain="R"), sel[1L]), call=sys.call(max(sys.nframe() - 1L, 1L))))
+  classes = unique(vapply(x, function(el) if (inherits(el, c("list", "data.frame"))) "list" else class(el)[1L], character(1L)))
   
   if (any(c("character", "factor", "ordered") %in% classes)) {
     # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option
