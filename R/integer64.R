@@ -102,14 +102,15 @@ NULL
 #' Methods to extract and replace parts of an integer64 vector.
 #'
 #' @param x an atomic vector
-#' @param i indices specifying elements to extract
+#' @param i,j indices specifying elements to extract
+#' @param drop relevant for matrices and arrays. If TRUE the result is coerced to the lowest possible dimension.
 #' @param value an atomic vector with values to be assigned
 #' @param ... further arguments to the [NextMethod()]
 #'
 #' @note
 #'   You should not subscript non-existing elements and not use `NA`s as subscripts.
 #'   The current implementation returns `9218868437227407266` instead of `NA`.
-#' @returns A vector or scalar of class 'integer64'
+#' @returns A vector, matrix, array or scalar of class 'integer64'
 #' @keywords classes manip
 #' @seealso [`[`][base::Extract] [integer64()]
 #' @examples
@@ -991,55 +992,135 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
   invisible()
 }
 
+
+position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLast=FALSE) {
+  sc = as.list(sys_call)[-(1:2)]
+  if (isTRUE(skipLast))
+    sc = sc[-length(sc)]
+  lapply(sc, function(el) {
+    # NB: proxy for missing(), which doesn't work here
+    if(identical(el, substitute())) return(el)
+    el = eval(el, eval_frame)   
+    if (is.integer64(el))
+      el = as.integer(el)
+    el
+  })
+}
+
 #' @rdname extract.replace.integer64
 #' @export
-`[.integer64` <- function(x, i, ...) {
-  cl = oldClass(x)
-  ret = NextMethod()
-  # Begin NA-handling from Leonardo Silvestri
-  if (!missing(i)) {
-    if (inherits(i, "character")) {
-      na_idx <- union(which(!(i %in% names(x))), which(is.na(i)))
-      if (length(na_idx))
-        ret[na_idx] <- NA_integer64_
-    } else {
-      na_idx <- is.na(rep(TRUE, length(x))[i])
-      if (any(na_idx))
-        ret[na_idx] <- NA_integer64_
+`[.integer64` = function(x, i, j, ..., drop=TRUE) {
+  sc = sys.call() # NB: not match.call(), which eats a missing argument in x[1, , 3]
+  pf = parent.frame()
+  args = position_args_with_int64_to_int_coercion(sc, pf)
+  args$drop = FALSE
+  if (length(args) == 1L && isFALSE(drop)) return(x)
+  oldClass(x) = NULL
+  ret = withCallingHandlers_and_choose_call(do.call(`[`, c(list(x=x), args)), c("[", "[.integer64"))
+  NA_integer64_real = NA_integer64_
+  oldClass(NA_integer64_real) = NULL
+  # drop is not relevant anymore for NA handling
+  args$drop = NULL
+
+  # NA handling
+  if (length(dim(ret)) <= 1L) {
+    # vector mode
+    if (!is.symbol(args[[1L]]) || args[[1L]] != substitute()) {
+      arg1Value = args[[1L]]
+      if (is.logical(arg1Value)) {
+        ret[is.na(arg1Value[arg1Value])] = NA_integer64_real
+      } else if (is.character(arg1Value)) {
+        ret[is.na(arg1Value) | arg1Value == "" | !arg1Value %in% names(x)] = NA_integer64_real
+      } else if (anyNA(arg1Value) || suppressWarnings(max(arg1Value, na.rm=TRUE)) > length(x)) {
+        arg1Value = arg1Value[arg1Value != 0]
+        ret[which(is.na(arg1Value) | arg1Value > length(x))] = NA_integer64_real
+      }
+    }
+  } else {
+    # array/matrix mode
+    dimSelect = args[seq_along(dim(x))]
+    for (ii in seq_along(dimSelect)) {
+      if (is.symbol(dimSelect[[ii]]) && dimSelect[[ii]] == substitute()) next
+      dsValue = dimSelect[[ii]]
+      if (is.logical(dsValue) && anyNA(dsValue)) {
+        naIndex = which(is.na(seq_len(dim(x)[ii])[dsValue]))
+      } else {
+        naIndex = which(is.na(dsValue[dsValue != 0L]))
+      }
+      if (length(naIndex)) {
+        setArgs = rep(list(substitute()), length(dimSelect))
+        setArgs[[ii]] = naIndex
+        ret = do.call(`[<-`, c(list(x=ret), setArgs, list(value=NA_integer64_real)))
+      }
     }
   }
-  # End NA-handling from Leonardo Silvestri
-  oldClass(ret) = cl
-  remcache(ret)
+
+  # dimension handling
+  if (!isFALSE(drop) && !is.null(dim(ret))) {
+    newDim = dim(ret)[dim(ret) != 1L]
+    if(length(newDim) == 1L && !(length(dim(x)) == 1L && newDim != 1L))
+      newDim = NULL
+    dim(ret) = if (length(newDim)) newDim else NULL
+  }
+
+  oldClass(ret) = "integer64"
   ret
 }
 
 #' @rdname extract.replace.integer64
 #' @export
-`[<-.integer64` <- function(x, ..., value) {
-  cl = oldClass(x)
-  value = as.integer64(value)
-  ret = NextMethod()
-  oldClass(ret) = cl
+`[<-.integer64` = function(x, ..., value) {
+  sc = sys.call()
+  pf = parent.frame()
+  args = position_args_with_int64_to_int_coercion(sc, pf, skipLast=TRUE)
+  
+  # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
+  if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
+    args$value = value
+    x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
+    ret = withCallingHandlers_and_choose_call(do.call(`[<-`, c(list(x=x), args)), c("[<-", "[<-.integer64"))  
+  } else {
+    args$value = as.integer64(value)
+    oldClass(x) = NULL
+    ret = withCallingHandlers_and_choose_call(do.call(`[<-`, c(list(x=x), args)), c("[<-", "[<-.integer64"))  
+    oldClass(ret) = "integer64"
+  }
   ret
 }
 
 #' @rdname extract.replace.integer64
 #' @export
-`[[.integer64` <- function(x, ...) {
-  cl = oldClass(x)
-  ret = NextMethod()
-  oldClass(ret) = cl
+`[[.integer64` = function(x, ...) {
+  args = lapply(list(...), function(el) {
+    if (is.integer64(el))
+      el = as.integer(el)
+    el
+  })
+  oldClass(x) = NULL
+  withCallingHandlers_and_choose_call({ret = do.call(`[[`, c(list(x=x), args))}, c("[[", "[[.integer64"))  
+  oldClass(ret) = "integer64"
   ret
 }
 
 #' @rdname extract.replace.integer64
 #' @export
-`[[<-.integer64` <- function(x, ..., value) {
-  cl = oldClass(x)
-  value = as.integer64(value)
-  ret = NextMethod()
-  oldClass(ret) = cl
+`[[<-.integer64` = function(x, ..., value) {
+  args = lapply(list(...), function(el) {
+    if (is.integer64(el))
+      el = as.integer(el)
+    el
+  })
+  # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
+  if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
+    args$value = value
+    x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
+    withCallingHandlers_and_choose_call({ret = do.call(`[[<-`, c(list(x=x), args))}, c("[[<-", "[[<-.integer64"))  
+  } else {
+    args$value = as.integer64(value)
+    oldClass(x) = NULL
+    withCallingHandlers_and_choose_call({ret = do.call(`[[<-`, c(list(x=x), args))}, c("[[<-", "[[<-.integer64"))  
+    oldClass(ret) = "integer64"
+  }
   ret
 }
 

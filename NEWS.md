@@ -40,7 +40,6 @@
    off and un-export them in this release as opposed to waiting a full cycle more to do so.
 
 1. `as.integer64.integer64` returns a plain `integer64` vector stripped of any attributes. This is consistent with R like behavior, e.g. `as.integer.integer`.
-
 1. `%/%` matches base R/Knuth behavior of taking the `floor()` of a result, where before truncation was towards zero. For example, `as.integer64(-10L) %/% as.integer64(7L)` now gives `-2L`, not `-1L`. This is consistent with `-10L %/% 7L` in base R. Consequently, `%%` is also affected, e.g. `as.integer64(-10L) %% as.integer64(7L)` now gives `4L`, not `-3L`, consistent with `-10L %% 7L` in base R.
 
 ## NEW FEATURES
@@ -62,6 +61,7 @@
 1. `sortcache`, `sortordercache` and `ordercache` get a new argument `na.last`.
 1. `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method (#45). Thanks @hcirellu.
 1. `factor`, `as.factor`, `ordered`, and `as.ordered` support `integer64` input correctly, i.e. the levels are sorted according to `integer64` values. Thanks @hcirellu.
+1. A replacement in an integer64 vector or array using `[<-` or `[[<-` with a complex or POSIXct leads to an R consistent coercion of the integer64 object to a complex or POSIXct object and not just an error. Thanks @hcirellu.
 1. `union`, `setdiff`, `intersect`, `setequal` and `is.element` get an overload to work correctly with `integer64` (#182).
 
 ## BUG FIXES
@@ -75,6 +75,7 @@
 1. `as.integer64.character` now returns `NA` for out of range values, with warning, e.g. `as.integer64("22222222222222222222")` (#175). Thanks @hcirellu.
 1. `quicksort()` and others no longer segfault on trivial cases (e.g. sorting 0 or 1 item, #220).
 1. `as.integer64(2^63)` returns `NA_integer64_` more consistently (e.g. on ARM), consistent with `as.integer(2^31)` (#19). Thanks @dipterix.
+1. `[.integer64` now runs faster and correctly regarding `NA` and arrays (#176). Thanks @hcirellu.
 
 ## NOTES
 

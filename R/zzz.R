@@ -22,7 +22,17 @@ if (getRversion() < "3.6.0") {
     obj
   }
 }
-  
+
+.onAttach = function(libname, pkgname) {
+  packageStartupMessage( # in **bold**
+    "\033[1mThe assignment of character values to integer64 vectors and ",
+    "matrices with automatic coercion to integer64 will change to a more ",
+    "R consistent behaviour of coercing to character in future versions of ",
+    "bit64. If you wish you can update your code to the new behaviour by ",
+    "setting the option 'bit64.promoteInteger64ToCharacter' to TRUE.\033[22m"
+  )
+}
+
 # nocov start
 .onUnload = function(libpath) {
   library.dynam.unload("bit64", libpath)
