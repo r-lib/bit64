@@ -4,12 +4,10 @@ with_parameters_test_that(
     y = 5:10
     if (!is.na(type_x))
       x = eval(parse(text=paste0("as.", type_x, "(x)")))
-    if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double") || 
-      # TODO(#44): remove the condition
-      (type_y == "integer64" && type_x %in% c("character", "factor", "ordered") && promoteInteger64ToCharacter == FALSE)) {
-      expected_result_x_y = as.integer64(base::union(x, y))
-      expected_result_y_x = as.integer64(base::union(y, x))
-    } else if (type_y == "integer64" && type_x %in% c("POSIXct", "Date")) {
+    int64_types = c(NA, "logical", "raw", "integer", "double", "POSIXct", "Date")
+    # TODO(#44): remove the condition
+    if (!promoteInteger64ToCharacter) int64_types = c(int64_types, c("character", "factor", "ordered"))
+    if (type_y == "integer64" && type_x %in% int64_types) {
       expected_result_x_y = as.integer64(base::union(x, y))
       expected_result_y_x = as.integer64(base::union(y, x))
     } else {
@@ -79,20 +77,18 @@ with_parameters_test_that(
     y = 5:10
     if (!is.na(type_x))
       x = eval(parse(text=paste0("as.", type_x, "(x)")))
-    if (type_y == "integer64" && type_x %in% c(NA, "logical", "raw", "integer", "double") || 
-      # TODO(#44): remove the condition
-      (type_y == "integer64" && type_x %in% c("character", "factor", "ordered") && promoteInteger64ToCharacter == FALSE)) {
-      expected_result_x_y = as.integer64(base::intersect(x, y))
-      expected_result_y_x = as.integer64(base::intersect(y, x))
-    } else if (type_y == "integer64" && type_x %in% c("POSIXct", "Date")) {
+    int64_types = c(NA, "logical", "raw", "integer", "double", "POSIXct", "Date")
+    # TODO(#44): remove the condition
+    if (!promoteInteger64ToCharacter) int64_types = c(int64_types, c("character", "factor", "ordered"))
+    if (type_y == "integer64" && type_x %in% int64_types) {
       expected_result_x_y = as.integer64(base::intersect(x, y))
       expected_result_y_x = as.integer64(base::intersect(y, x))
     } else {
       expected_result_x_y = base::intersect(x, y)
-      if (getRversion() <= "3.6.0" && type_x %in% c("character", "factor", "ordered") && type_y == "integer64")
-        expected_result_x_y = as.character(expected_result_x_y)
-      if (getRversion() <= "3.6.0" && type_x == "complex" && type_y == "integer64")
-        expected_result_x_y = as.complex(expected_result_x_y)
+      if (getRversion() <= "3.6.0" && type_y == "integer64") {
+        if (type_x %in% c("character", "factor", "ordered")) expected_result_x_y = as.character(expected_result_x_y)
+        else if (type_x == "complex") expected_result_x_y = as.complex(expected_result_x_y)
+      }
       expected_result_y_x = base::intersect(y, x)
     }
     y = as(y, type_y)
@@ -189,7 +185,8 @@ test_that("setdiff works (additional cases)", {
 
   expect_identical(
     setdiff(c(5, 3, 5), c(0, 2, 1, 3, 6)),
-    base::setdiff(c(5, 3, 5), c(0, 2, 1, 3, 6)))
+    base::setdiff(c(5, 3, 5), c(0, 2, 1, 3, 6))
+  )
   expect_identical(
     setdiff(as.integer64(c(5, 3, 5)), as.integer64(c(0, 2, 1, 3, 6))),
     as.integer64(5L)

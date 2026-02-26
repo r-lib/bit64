@@ -115,8 +115,8 @@ setdiff = function(x, y) {
   x = unique(x)
   if (class(x)[1L] != target_class)
     x_match = as(x, target_class)
-    else
-      x_match = x
+  else
+    x_match = x
   y = unique(y)
   class_y = class(y)[1L]
   if (class_y != target_class) {
