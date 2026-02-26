@@ -185,7 +185,8 @@ test_that("setdiff works (additional cases)", {
 
   expect_identical(
     setdiff(c(5, 3, 5), c(0, 2, 1, 3, 6)),
-    base::setdiff(c(5, 3, 5), c(0, 2, 1, 3, 6)))
+    base::setdiff(c(5, 3, 5), c(0, 2, 1, 3, 6))
+  )
   expect_identical(
     setdiff(as.integer64(c(5, 3, 5)), as.integer64(c(0, 2, 1, 3, 6))),
     as.integer64(5L)
