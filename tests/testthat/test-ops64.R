@@ -190,21 +190,22 @@ with_parameters_test_that("ops with different classes in combination with intege
   y = sample(x32)
   eval(parse(text=paste0("y = as.", class, "(y)")))
 
-  eval(parse(text=paste0("test_e = tryCatch(`", operator, "`", "(x32, y), error=conditionMessage)")))
-  eval(parse(text=paste0("test_a = tryCatch(`", operator, "`", "(x64, y), error=conditionMessage)")))
+  op = match.fun(as.character(operator))
+  test_e = tryCatch(op(x32, y), error=conditionMessage)
+  test_a = tryCatch(op(x64, y), error=conditionMessage)
   if (operator %in% c("/", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"))
     expect_identical(test_a, test_e)
   else 
     expect_identical(test_a, as.integer64(test_e))
   
-  eval(parse(text=paste0("test_e = tryCatch(`", operator, "`", "(y, x32), error=conditionMessage)")))
-  eval(parse(text=paste0("test_a = tryCatch(`", operator, "`", "(y, x64), error=conditionMessage)")))
+  test_e = tryCatch(op(y, x32), error=conditionMessage)
+  test_a = tryCatch(op(y, x64), error=conditionMessage)
   if (operator %in% c("/", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"))
     expect_identical(test_a, test_e)
   else 
     expect_identical(test_a, as.integer64(test_e))
 
-  }, 
+}, 
   .cases=expand.grid(operator=c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"), class=c("integer", "double", "logical"))
 )
 
@@ -219,12 +220,13 @@ with_parameters_test_that("ops with different classes in combination with intege
     y = sample(x32)
     eval(parse(text=paste0("y = as.", class, "(as.double(y)", if (class == "difftime") ", units = \"secs\"", ")")))
     
-    eval(parse(text=paste0("test_e = tryCatch(`", operator, "`", "(x32, y), error=conditionMessage)")))
-    eval(parse(text=paste0("test_a = tryCatch(`", operator, "`", "(x64, y), error=conditionMessage)")))
+    op = match.fun(as.character(operator))
+    test_e = tryCatch(op(x32, y), error=conditionMessage)
+    test_a = tryCatch(op(x64, y), error=conditionMessage)
     expect_identical(test_a, test_e)
   
-    eval(parse(text=paste0("test_e = tryCatch(`", operator, "`", "(y, x32), error=conditionMessage)")))
-    eval(parse(text=paste0("test_a = tryCatch(`", operator, "`", "(y, x64), error=conditionMessage)")))
+    test_e = tryCatch(op(y, x32), error=conditionMessage)
+    test_a = tryCatch(op(y, x64), error=conditionMessage)
     expect_identical(test_a, test_e)
   }
 
