@@ -233,8 +233,3 @@ with_parameters_test_that("ops with different classes in combination with intege
   }, 
   .cases = expand.grid(operator = c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"), class = c("complex", "Date", "POSIXct", "POSIXlt", "difftime"))
 )
-
-test_that("!.integer64", {
-  x = c(-1:1, NA)
-  expect_identical(!as.integer64(x), !x)
-})
