@@ -133,18 +133,18 @@ test_that("Minus and plus edge cases and 'rev'", {
   # UBSAN signed integer overflow expected for type 'long long int'
   # This is a false UBSAN alarm because overflow is detected and NA returned
   expect_warning(
-    expect_true(
-        identical.integer64(lim.integer64() + 1.0 - 1.0,
-        c(lim.integer64()[1L], NA))
-    ),
+    expect_true(identical.integer64(
+      lim.integer64() + 1.0 - 1.0,
+      c(lim.integer64()[1L], NA)
+    )),
     "NAs produced by integer64 overflow",
     fixed = TRUE
   )
   expect_warning(
-    expect_true(
-        identical.integer64(rev(lim.integer64()) - 1.0 + 1.0,
-        c(lim.integer64()[2L], NA))
-    ),
+    expect_true(identical.integer64(
+      rev(lim.integer64()) - 1.0 + 1.0,
+      c(lim.integer64()[2L], NA)
+    )),
     "NAs produced by integer64 overflow",
     fixed = TRUE
   )
