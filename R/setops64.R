@@ -90,15 +90,20 @@ setequal = function(x, y) {
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::setequal(x, y))
   
-  target_class = target_class(list(x, y))
   x = unique(x)
+  y = unique(y)
+  length_x = length(x)
+  length_y = length(y)
+  if (length_x != length_y) return(FALSE)
+  if (length_x + length_y == 0L) return(TRUE)
+  
+  target_class = target_class(list(x, y))
   if (class(x)[1L] != target_class)
     x = as(x, target_class)
-  y = unique(y)
   if (class(y)[1L] != target_class)
     y = as(y, target_class)
   
-  length(x) == length(y) && !anyNA(match(x, y))
+  !anyNA(match(x, y))
 }
 
 #' @export
