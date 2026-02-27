@@ -59,6 +59,7 @@ union = function(x, y) {
 #' @export
 #' @rdname sets
 intersect = function(x, y) {
+  if (is.null(x) || is.null(y)) return(NULL)
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::intersect(x, y))
   
@@ -79,7 +80,7 @@ intersect = function(x, y) {
       y = as.character(y)
     y = as(y, target_class)
   }
-  
+
   x[match(x, y, 0L) > 0L]
 }
 
