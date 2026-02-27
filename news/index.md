@@ -174,6 +174,9 @@ necessary.
     with a complex or POSIXct leads to an R consistent coercion of the
     integer64 object to a complex or POSIXct object and not just an
     error. Thanks [@hcirellu](https://github.com/hcirellu).
+10. `union`, `setdiff`, `intersect`, `setequal` and `is.element` get an
+    overload to work correctly with `integer64`
+    ([\#182](https://github.com/r-lib/bit64/issues/182)).
 
 ### BUG FIXES
 

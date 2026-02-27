@@ -159,6 +159,12 @@
   integer64: random numbers
 - [`seq(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/seq.integer64.md)
   : Generating sequence of integer64 values
+- [`union()`](https://bit64.r-lib.org/reference/sets.md)
+  [`intersect()`](https://bit64.r-lib.org/reference/sets.md)
+  [`setequal()`](https://bit64.r-lib.org/reference/sets.md)
+  [`setdiff()`](https://bit64.r-lib.org/reference/sets.md)
+  [`is.element()`](https://bit64.r-lib.org/reference/sets.md) : Set
+  Operations
 - [`sort(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sort.integer64.md)
   [`order(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/sort.integer64.md)
   : High-level intger64 methods for sorting and ordering

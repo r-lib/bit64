@@ -89,6 +89,8 @@
 <li>
 <code>factor</code>, <code>as.factor</code>, <code>ordered</code>, and <code>as.ordered</code> support <code>integer64</code> input correctly, i.e. the levels are sorted according to <code>integer64</code> values. Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
 <li>A replacement in an integer64 vector or array using <code>[&lt;-</code> or <code>[[&lt;-</code> with a complex or POSIXct leads to an R consistent coercion of the integer64 object to a complex or POSIXct object and not just an error. Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
+<li>
+<code>union</code>, <code>setdiff</code>, <code>intersect</code>, <code>setequal</code> and <code>is.element</code> get an overload to work correctly with <code>integer64</code> (<a href="https://github.com/r-lib/bit64/issues/182" class="external-link">#182</a>).</li>
 </ol></div>
 <div class="section level3">
 <h3 id="bug-fixes-4-7-99">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-7-99"></a></h3>
