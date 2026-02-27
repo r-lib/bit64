@@ -62,7 +62,7 @@
 1. `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method (#45). Thanks @hcirellu.
 1. `factor`, `as.factor`, `ordered`, and `as.ordered` support `integer64` input correctly, i.e. the levels are sorted according to `integer64` values. Thanks @hcirellu.
 1. A replacement in an integer64 vector or array using `[<-` or `[[<-` with a complex or POSIXct leads to an R consistent coercion of the integer64 object to a complex or POSIXct object and not just an error. Thanks @hcirellu.
-1. The methods of the 'Ops' group (e.g. `+`, `&`, `==`) now support dispatch for both arguments so that e.g. `difftime * integer64` works consistent to R (>= 4.3.0) (#179). Thanks @hcirellu. 
+1. The methods of the 'Ops' group (e.g. `+`, `&`, `==`) now support dispatch for both arguments so that e.g. `difftime * integer64` works consistent to R (#179). Thanks @hcirellu. Note that this relies on `chooseOpsMethod()` and thus R 4.3.0.
 
 ## BUG FIXES
 
