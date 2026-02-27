@@ -186,7 +186,7 @@ with_parameters_test_that("ops with different classes in combination with intege
   # x32 = c(-10:-1, 1:10)
   x32 = 1:10
   x64 = as.integer64(x32)
-  set.seed(42)
+  withr::local_seed(42)
   y = sample(x32)
   eval(parse(text=paste0("y = as.", class, "(y)")))
 
@@ -215,7 +215,7 @@ with_parameters_test_that("ops with different classes in combination with intege
     # x32 = c(-10:-1, 1:10)
     x32 = 1:10
     x64 = as.integer64(x32)
-    set.seed(42)
+    withr::local_seed(42)
     y = sample(x32)
     eval(parse(text=paste0("y = as.", class, "(as.double(y)", if (class == "difftime") ", units = \"secs\"", ")")))
     
