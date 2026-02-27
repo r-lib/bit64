@@ -88,6 +88,7 @@ with_parameters_test_that(
       if (getRversion() <= "3.6.0" && type_y == "integer64") {
         if (type_x %in% c("character", "factor", "ordered")) expected_result_x_y = as.character(expected_result_x_y)
         else if (type_x %in% "complex") expected_result_x_y = as.complex(expected_result_x_y)
+        else if (is.na(type) && is.null(x)) expected_result_x_y = NULL
       }
       if (getRversion() <= "3.6.0" && type_y == "integer" && is.na(type_x) && is.null(x)) {
         expected_result_x_y = NULL
