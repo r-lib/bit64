@@ -87,7 +87,7 @@ with_parameters_test_that(
       expected_result_x_y = base::intersect(x, y)
       if (getRversion() <= "3.6.0" && type_y == "integer64") {
         if (type_x %in% c("character", "factor", "ordered")) expected_result_x_y = as.character(expected_result_x_y)
-        else if (type_x == "complex") expected_result_x_y = as.complex(expected_result_x_y)
+        else if (type_x %in% "complex") expected_result_x_y = as.complex(expected_result_x_y)
       }
       if (getRversion() <= "3.6.0" && type_y == "integer" && is.na(type_x) && is.null(x)) {
         expected_result_x_y = NULL
