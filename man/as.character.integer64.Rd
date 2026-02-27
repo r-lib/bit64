@@ -13,6 +13,8 @@
 \alias{as.Date.integer64}
 \alias{as.POSIXct.integer64}
 \alias{as.POSIXlt.integer64}
+\alias{as.factor}
+\alias{as.ordered}
 \alias{print.bitstring}
 \alias{as.list.integer64}
 \title{Coerce from integer64}
@@ -40,6 +42,10 @@ as.bitstring(x, ...)
 \method{as.POSIXct}{integer64}(x, tz = "", origin, ...)
 
 \method{as.POSIXlt}{integer64}(x, tz = "", origin, ...)
+
+as.factor(x)
+
+as.ordered(x)
 
 \method{print}{bitstring}(x, ...)
 
