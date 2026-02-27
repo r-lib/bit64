@@ -80,7 +80,7 @@ with_parameters_test_that(
     int64_types = c(NA, "logical", "raw", "integer", "double", "POSIXct", "Date")
     # TODO(#44): remove the condition
     if (!promoteInteger64ToCharacter) int64_types = c(int64_types, c("character", "factor", "ordered"))
-    if (type_y == "integer64" && type_x %in% int64_types && (getRversion() <= "3.6.0" || !(is.na(type_x) && is.null(x)))) {
+    if (type_y == "integer64" && type_x %in% int64_types && !(is.na(type_x) && is.null(x))) {
       expected_result_x_y = as.integer64(base::intersect(x, y))
       expected_result_y_x = as.integer64(base::intersect(y, x))
     } else {
@@ -88,6 +88,9 @@ with_parameters_test_that(
       if (getRversion() <= "3.6.0" && type_y == "integer64") {
         if (type_x %in% c("character", "factor", "ordered")) expected_result_x_y = as.character(expected_result_x_y)
         else if (type_x == "complex") expected_result_x_y = as.complex(expected_result_x_y)
+      }
+      if (getRversion() <= "3.6.0" && type_y == "integer" && is.na(type_x) && is.null(x)) {
+        expected_result_x_y = NULL
       }
       expected_result_y_x = base::intersect(y, x)
     }
