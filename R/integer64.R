@@ -1317,7 +1317,7 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
 target_class_for_Ops = function(e1, e2) {
   if(missing(e2)) {
     if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1))
-      stop(errorCondition(gettext("non-numeric argument to mathematical function", domain = "R"), call=sys.call(sys.nframe() - 1L)))
+      stop(errorCondition(gettext("non-numeric argument to mathematical function", domain="R"), call=sys.call(sys.nframe() - 1L)))
 
     if (is.complex(e1)) {
       "complex"
@@ -1326,9 +1326,9 @@ target_class_for_Ops = function(e1, e2) {
     }
   } else {
     if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1))
-      stop(errorCondition(gettext("non-numeric argument to binary operator", domain = "R"), call=sys.call(sys.nframe() - 1L)))
+      stop(errorCondition(gettext("non-numeric argument to binary operator", domain="R"), call=sys.call(sys.nframe() - 1L)))
     if (!is.numeric(unclass(e2)) && !is.logical(e2) && !is.complex(e2))
-      stop(errorCondition(gettext("non-numeric argument to binary operator", domain = "R"), call=sys.call(sys.nframe() - 1L)))
+      stop(errorCondition(gettext("non-numeric argument to binary operator", domain="R"), call=sys.call(sys.nframe() - 1L)))
 
     if (is.complex(e1) || is.complex(e2)) {
       "complex"
