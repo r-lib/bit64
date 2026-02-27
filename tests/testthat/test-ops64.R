@@ -180,7 +180,7 @@ test_that("Comparison operators", {
   expect_true(identical.integer64(xi64 <= yi64, xi <= yi))
 })
 
-with_parameters_test_that("ops with different classes in combination with integer64 (returning integer64):", local({
+with_parameters_test_that("ops with different classes in combination with integer64 (returning integer64):", {
 
   # TODO(#248): uncomment when fixed: as.integer64(-10L)%%7L = -3L vs. as.integer(-10L)%%7L = 4L
   # x32 = c(-10:-1, 1:10)
@@ -204,11 +204,11 @@ with_parameters_test_that("ops with different classes in combination with intege
   else 
     expect_identical(test_a, as.integer64(test_e))
 
-  }), 
+  }, 
   .cases=expand.grid(operator=c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"), class=c("integer", "double", "logical"))
 )
 
-with_parameters_test_that("ops with different classes in combination with integer64 (not returning integer64):", local({
+with_parameters_test_that("ops with different classes in combination with integer64 (not returning integer64):", {
 
   if (getRversion() >= "4.3.0") {
     # TODO(#248): uncomment when fixed: as.integer64(-10L)%%7L = -3L vs. as.integer(-10L)%%7L = 4L
@@ -228,7 +228,7 @@ with_parameters_test_that("ops with different classes in combination with intege
     expect_identical(test_a, test_e)
   }
 
-  }), 
+  }, 
   .cases = expand.grid(operator = c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"), class = c("complex", "Date", "POSIXct", "POSIXlt", "difftime"))
 )
 
