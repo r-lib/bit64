@@ -498,8 +498,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @rdname ops64
 #' @exportS3Method `!` integer64
 `!.integer64` = function(x) {
-  a = attributes(x)
   ret = !as.logical(x)
-  names(ret) = a$names
+  names(ret) = names(x)
   ret
 }
