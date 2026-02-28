@@ -19,40 +19,6 @@ test_that("Dispatch on the second argument fails and we want to be notified once
   expect_false(identical.integer64(c(NA, integer64(0L)), as.integer64(NA)))
 })
 
-test_that("Minus and plus", {
-  d64 = c(
-    -.Machine$double.base^.Machine$double.digits,
-    -.Machine$integer.max,
-    -1.0, 0.0, 1.0,
-    .Machine$integer.max,
-    .Machine$double.base^.Machine$double.digits
-  )
-  i64 = as.integer64(d64)
-  expect_true(identical.integer64(i64 - 1.0 + 1.0, i64))
-  expect_true(identical.integer64(i64 + 1.0 - 1.0, i64))
-})
-
-test_that("Minus and plus edge cases and 'rev'", {
-  # UBSAN signed integer overflow expected for type 'long long int'
-  # This is a false UBSAN alarm because overflow is detected and NA returned
-  expect_warning(
-    expect_true(
-        identical.integer64(lim.integer64() + 1.0 - 1.0,
-        c(lim.integer64()[1L], NA))
-    ),
-    "NAs produced by integer64 overflow",
-    fixed = TRUE
-  )
-  expect_warning(
-    expect_true(
-        identical.integer64(rev(lim.integer64()) - 1.0 + 1.0,
-        c(lim.integer64()[2L], NA))
-    ),
-    "NAs produced by integer64 overflow",
-    fixed = TRUE
-  )
-})
-
 test_that("'range.integer64', multiplication, integer division, sqrt, power, and log", {
   i64 = integer64(63L)
   i64[1L] = 1.0
@@ -312,36 +278,6 @@ test_that("Coercion works for cases requiring recent R", {
     as(as.integer64(111L), "complex"),
     111.0 + 0.0i
   )
-})
-
-test_that("Logical operators", {
-  expect_true(identical.integer64(
-    !c(NA, -1:1),
-    !c(as.integer64(NA), -1:1)
-  ))
-
-  xi = rep(c(NA, -1:1), 4L)
-  xi64 = as.integer64(xi)
-  yi = rep(c(NA, -1:1), each=4L)
-  yi64 = as.integer64(yi)
-
-  expect_true(identical.integer64(xi64 & yi64, xi & yi))
-  expect_true(identical.integer64(xi64 | yi64, xi | yi))
-  expect_true(identical.integer64(xor(xi64, yi64), xor(xi, yi)))
-})
-
-test_that("Comparison operators", {
-  xi = rep(c(NA, -1:1), 4L)
-  xi64 = as.integer64(xi)
-  yi = rep(c(NA, -1:1), each=4L)
-  yi64 = as.integer64(yi)
-
-  expect_true(identical.integer64(xi64 == yi64, xi == yi))
-  expect_true(identical.integer64(xi64 != yi64, xi != yi))
-  expect_true(identical.integer64(xi64 > yi64, xi > yi))
-  expect_true(identical.integer64(xi64 >= yi64, xi >= yi))
-  expect_true(identical.integer64(xi64 < yi64, xi < yi))
-  expect_true(identical.integer64(xi64 <= yi64, xi <= yi))
 })
 
 test_that("Vector functions", {

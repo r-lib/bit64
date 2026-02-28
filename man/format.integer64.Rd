@@ -18,7 +18,6 @@
 \alias{is.finite.integer64}
 \alias{is.infinite.integer64}
 \alias{is.nan.integer64}
-\alias{!.integer64}
 \title{Unary operators and functions for integer64 vectors}
 \usage{
 \method{format}{integer64}(x, justify = "right", ...)
@@ -54,8 +53,6 @@
 \method{is.infinite}{integer64}(x)
 
 \method{is.nan}{integer64}(x)
-
-\method{!}{integer64}(x)
 }
 \arguments{
 \item{x}{an atomic vector of class 'integer64'}
@@ -95,7 +92,7 @@ Unary operators and functions for integer64 vectors.
   sqrt(as.integer64(1:12))
 }
 \seealso{
-\code{\link[=xor.integer64]{xor.integer64()}} \code{\link[=integer64]{integer64()}}
+\link{ops64} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}
