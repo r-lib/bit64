@@ -1515,9 +1515,12 @@ match.integer64 = function(x, table, nomatch = NA_integer_, nunique=NULL, method
 
 #' @rdname match.integer64
 #' @export
-`%in%.integer64` <- function(x, table, ...) {
+`%in%.integer64` = function(x, table, ...) {
+  if (!length(x)) return(logical())
+  if (!length(table)) return(rep(FALSE, length(x)))
   stopifnot(is.integer64(x))
-  table = as.integer64(table)
+  if (!is.integer64(table))
+    table = as.integer64(table)
   nunique = NULL
   cache_env = cache(table)
   if (is.null(cache_env)) {
@@ -1526,28 +1529,28 @@ match.integer64 = function(x, table, nomatch = NA_integer_, nunique=NULL, method
       nunique = length(table)
     btable = as.integer(ceiling(log2(nunique*1.5)))
     bx = as.integer(ceiling(log2(nx*1.5)))
-    if (bx<=17L && btable>=16L) {
+    if (bx <= 17L && btable >= 16L) {
       method = "hashrin"
     } else {
       method = "hashfin"
     }
   } else if (!is.null(cache_env$hashmap)) {
     method = "hashfin"
-  } else if (!is.null(cache_env$sort) && (length(table)>length(x) || length(x)<4096L)) {
+  } else if (!is.null(cache_env$sort) && (length(table) > length(x) || length(x) < 4096L)) {
     method = "sortfin"
-  } else if (!is.null(cache_env$order) && (length(table)>length(x) || length(x)<4096L)) {
+  } else if (!is.null(cache_env$order) && (length(table) > length(x) || length(x) < 4096L)) {
     method = "orderfin"
   } else {
     nx = length(x)
     if (is.null(nunique)) {
       if (!is.null(cache_env$nunique))
-        nunique <- cache_env$nunique
+        nunique = cache_env$nunique
       else
-        nunique <- length(table)
+        nunique = length(table)
     }
     btable = as.integer(ceiling(log2(nunique*1.5)))
     bx = as.integer(ceiling(log2(nx*1.5)))
-    if (bx<=17L && btable>=16L) {
+    if (bx <= 17L && btable >= 16L) {
       method = "hashrin"
     } else {
       method = "hashfin"
@@ -1558,14 +1561,14 @@ match.integer64 = function(x, table, nomatch = NA_integer_, nunique=NULL, method
     hashfin={
       if (is.null(cache_env) || is.null(cache_env$hashmap)) {
         if (exists("btable", inherits=FALSE)) {
-          h <- hashmap(table, hashbits=btable)
+          h = hashmap(table, hashbits=btable)
         } else {
           if (is.null(nunique))
-            nunique <- cache_env$nunique
-          h <- hashmap(table, nunique=nunique)
+            nunique = cache_env$nunique
+          h = hashmap(table, nunique=nunique)
         }
       } else {
-        h <- cache_env
+        h = cache_env
       }
       p = hashfin(h, x)
     },
@@ -1573,32 +1576,32 @@ match.integer64 = function(x, table, nomatch = NA_integer_, nunique=NULL, method
       cache_env = cache(x)
       if (is.null(cache_env) || is.null(cache_env$hashmap)) {
         if (exists("bx", inherits=FALSE)) {
-          h <- hashmap(x, bits=bx)
+          h = hashmap(x, bits=bx)
         } else {
           if (is.null(nunique))
-            nunique <- cache_env$nunique
-          h <- hashmap(x, nunique=nunique)
+            nunique = cache_env$nunique
+          h = hashmap(x, nunique=nunique)
         }
       } else {
-        h <- cache_env
+        h = cache_env
       }
       p = hashrin(h, table)
     },
     sortfin={
       if (is.null(cache_env) || !exists("sort", cache_env)) {
-        s <- clone(table)
+        s = clone(table)
         ramsort(s, na.last=FALSE)
       } else {
-        s <- get("sort", cache_env)
+        s = get("sort", cache_env)
       }
       p = sortfin(s, x)
     },
     orderfin={
       if (is.null(cache_env) || !exists("order", cache_env)) {
-        o <- seq_along(s)
+        o = seq_along(s)
         ramorder(table, o, na.last=FALSE)
       } else {
-        o <- get("order", cache_env)
+        o = get("order", cache_env)
       }
       p = orderfin(table, o, x)
     }
