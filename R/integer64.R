@@ -1304,13 +1304,9 @@ scale.integer64 = function(x, center = TRUE, scale = TRUE) {
 round.integer64 = function(x, digits=0L) {
   if (digits >= 0L) return(x)
   a = attributes(x)
-  b = 10L^round(-digits)
-  b2 = b %/% 2L
-  d = (x %/% b)
-  db = d * b
-  r = abs(x-db)
-  ret = ifelse((r < b2) | (r == b2 & ((d %% 2L) == 0L)), db, db + sign(x)*b)
-  #a$class = minusclass(a$class, "integer64")
+  b = as.integer64(10L^round(-digits))
+  b2 = b%/%2L
+  ret = ((x + b2 - (((x - b2)%%(2L*b)) == 0L)) %/% b)*b
   attributes(ret) = a
   ret
 }
@@ -1600,7 +1596,6 @@ is.infinite.integer64 = function(x) rep(FALSE, length(x))
 #' @rdname format.integer64
 #' @export
 is.nan.integer64 = function(x) rep(FALSE, length(x))
-
 
 # as.vector.integer64 removed as requested by the CRAN maintainer
 # as.vector.integer64 <- function(x, mode="any") {
