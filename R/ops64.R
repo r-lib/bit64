@@ -85,23 +85,23 @@ binattr = function(e1, e2) {
   if (n1 == n2) {
     ## if same size take attribute from e1 if it exists, else from e2
     if (n1 == 0L) {
-      ae1 <- attributes(e1)[c("class", "dim", "dimnames")]
-      ae2 <- attributes(e2)[c("class", "dim", "dimnames")]
+      ae1 = attributes(e1)[c("class", "dim", "dimnames")]
+      ae2 = attributes(e2)[c("class", "dim", "dimnames")]
     }
-    ae1 <- attributes(e1)
-    ae2 <- attributes(e2)
-    nae1 <- names(attributes(e1))
-    nae2 <- names(attributes(e2))
+    ae1 = attributes(e1)
+    ae2 = attributes(e2)
+    nae1 = names(attributes(e1))
+    nae2 = names(attributes(e2))
     if (n1==0L) {
-      ae1 <- ae1[nae1 %in% c("class", "dim", "dimnames")]
-      ae2 <- ae1[nae1 %in% c("class", "dim", "dimnames")]
+      ae1 = ae1[nae1 %in% c("class", "dim", "dimnames")]
+      ae2 = ae1[nae1 %in% c("class", "dim", "dimnames")]
     }
-    allattr <- list()
+    allattr = list()
     for (a in union(nae1, nae2))
       if (a %in% nae1)
-        allattr[[a]] <- ae1[[a]]
+        allattr[[a]] = ae1[[a]]
     else
-      allattr[[a]] <- ae2[[a]]
+      allattr[[a]] = ae2[[a]]
     allattr
   } else if (n1 == 0L || n1 > n2) {
     attributes(e1)
@@ -137,7 +137,7 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`+.integer64` <- function(e1, e2) {
+`+.integer64` = function(e1, e2) {
   if (missing(e2))
     return(e1)
   a = binattr(e1, e2)
@@ -155,10 +155,10 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`-.integer64` <- function(e1, e2) {
+`-.integer64` = function(e1, e2) {
   if (missing(e2)) {
-    e2 <- e1
-    e1 <- 0L
+    e2 = e1
+    e1 = 0L
   }
   a = binattr(e1, e2)
   e1 = as.integer64(e1)
@@ -175,7 +175,7 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`%/%.integer64` <- function(e1, e2) {
+`%/%.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
   e1 = as.integer64(e1)
   e2 = as.integer64(e2)
@@ -191,7 +191,7 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`%%.integer64` <- function(e1, e2) {
+`%%.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
   e1 = as.integer64(e1)
   e2 = as.integer64(e2)
@@ -207,7 +207,7 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`*.integer64` <- function(e1, e2) {
+`*.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
   l1 = length(e1)
   l2 = length(e2)
@@ -215,17 +215,17 @@ target_class_for_Ops = function(e1, e2) {
   ret = double(l)
   if (getOption("integer64_semantics", "old") == "old") {
     if (is.double(e2))  # implies !is.integer64(e2)
-      ret <- .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
+      ret = .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
     else
-      ret <- .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
+      ret = .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   } else {
     # nolint next: unnecessary_nesting_linter. Good parallelism, and on a to-be-deprecated code path.
     if (is.double(e2))  # implies !is.integer64(e2)
-      ret <- .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
+      ret = .Call(C_times_integer64_double, as.integer64(e1), e2, ret)
     else if (is.double(e1))
-      ret <- .Call(C_times_integer64_double, as.integer64(e2), e1, ret)
+      ret = .Call(C_times_integer64_double, as.integer64(e2), e1, ret)
     else
-      ret <- .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
+      ret = .Call(C_times_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   }
   a$class = plusclass(a$class, "integer64")
   attributes(ret) = a
@@ -234,16 +234,16 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`^.integer64` <- function(e1, e2) {
+`^.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
   l1 = length(e1)
   l2 = length(e2)
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
   ret = double(l)
   if (is.double(e2))  # implies !is.integer64(e2)
-    ret <- .Call(C_power_integer64_double, as.integer64(e1), e2, ret)
+    ret = .Call(C_power_integer64_double, as.integer64(e1), e2, ret)
   else
-    ret <- .Call(C_power_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
+    ret = .Call(C_power_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   a$class = plusclass(a$class, "integer64")
   attributes(ret) = a
   ret
@@ -251,7 +251,7 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`/.integer64` <- function(e1, e2) {
+`/.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
   l1 = length(e1)
   l2 = length(e2)
@@ -259,17 +259,17 @@ target_class_for_Ops = function(e1, e2) {
   ret = double(l)
   if (getOption("integer64_semantics", "old") == "old") {
     if (is.double(e2))  # implies !is.integer64(e2)
-      ret <- .Call(C_divide_integer64_double, as.integer64(e1), e2, ret)
+      ret = .Call(C_divide_integer64_double, as.integer64(e1), e2, ret)
     else
-      ret <- .Call(C_divide_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
+      ret = .Call(C_divide_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   } else {
     # nolint next: unnecessary_nesting_linter. Good parallelism, and on a to-be-deprecated code path.
     if (is.double(e2))  # implies !is.integer64(e2)
-      ret <- .Call(C_divide_integer64_double, as.integer64(e1), e2, ret)
+      ret = .Call(C_divide_integer64_double, as.integer64(e1), e2, ret)
     else if (is.double(e1))
-      ret <- .Call(C_divide_double_integer64, e1, e2, ret)
+      ret = .Call(C_divide_double_integer64, e1, e2, ret)
     else
-      ret <- .Call(C_divide_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
+      ret = .Call(C_divide_integer64_integer64, as.integer64(e1), as.integer64(e2), ret)
   }
   a$class = minusclass(a$class, "integer64")
   attributes(ret) = a
@@ -278,7 +278,7 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`==.integer64` <- function(e1, e2) {
+`==.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
   e1 = as.integer64(e1)
   e2 = as.integer64(e2)
@@ -294,7 +294,7 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`!=.integer64` <- function(e1, e2) {
+`!=.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
   e1 = as.integer64(e1)
   e2 = as.integer64(e2)
@@ -310,7 +310,7 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`<.integer64` <- function(e1, e2) {
+`<.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
   e1 = as.integer64(e1)
   e2 = as.integer64(e2)
@@ -326,7 +326,7 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`<=.integer64` <- function(e1, e2) {
+`<=.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
   e1 = as.integer64(e1)
   e2 = as.integer64(e2)
@@ -342,7 +342,7 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`>.integer64` <- function(e1, e2) {
+`>.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
   e1 = as.integer64(e1)
   e2 = as.integer64(e2)
@@ -358,7 +358,7 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`>=.integer64` <- function(e1, e2) {
+`>=.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
   e1 = as.integer64(e1)
   e2 = as.integer64(e2)
@@ -374,7 +374,7 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`&.integer64` <- function(e1, e2) {
+`&.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
   ret = as.logical(e1) & as.logical(e2)
   a$class = minusclass(a$class, "integer64")
@@ -384,7 +384,7 @@ target_class_for_Ops = function(e1, e2) {
 
 #' @rdname xor.integer64
 #' @export
-`|.integer64` <- function(e1, e2) {
+`|.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
 ret = as.logical(e1) | as.logical(e2)
   a$class = minusclass(a$class, "integer64")
@@ -404,7 +404,7 @@ xor.integer64 = function(x, y) {
 
 #' @rdname format.integer64
 #' @export
-`!.integer64` <- function(x) {
+`!.integer64` = function(x) {
   a = attributes(x)
   ret = !as.logical(x)
   a$class = minusclass(a$class, "integer64")
