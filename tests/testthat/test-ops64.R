@@ -141,18 +141,18 @@ test_that("Minus and plus edge cases and 'rev'", {
   # UBSAN signed integer overflow expected for type 'long long int'
   # This is a false UBSAN alarm because overflow is detected and NA returned
   expect_warning(
-    expect_true(
-        identical.integer64(lim.integer64() + 1.0 - 1.0,
-        c(lim.integer64()[1L], NA))
-    ),
+    expect_true(identical.integer64(
+      lim.integer64() + 1.0 - 1.0,
+      c(lim.integer64()[1L], NA)
+    )),
     "NAs produced by integer64 overflow",
     fixed=TRUE
   )
   expect_warning(
-    expect_true(
-        identical.integer64(rev(lim.integer64()) - 1.0 + 1.0,
-        c(lim.integer64()[2L], NA))
-    ),
+    expect_true(identical.integer64(
+      rev(lim.integer64()) - 1.0 + 1.0,
+      c(lim.integer64()[2L], NA)
+    )),
     "NAs produced by integer64 overflow",
     fixed=TRUE
   )
@@ -188,3 +188,52 @@ test_that("Comparison operators", {
   expect_true(identical.integer64(xi64 <= yi64, xi <= yi))
 })
 
+with_parameters_test_that("ops with different classes in combination with integer64 (returning integer64):", {
+
+  x32 = c(-10:-1, 1:10)
+  x64 = as.integer64(x32)
+  withr::local_seed(42)
+  y = sample(x32)
+  eval(parse(text=paste0("y = as.", class, "(y)")))
+
+  op = match.fun(as.character(operator))
+  test_e = tryCatch(op(x32, y), error=conditionMessage)
+  test_a = tryCatch(op(x64, y), error=conditionMessage)
+  if (operator %in% c("/", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"))
+    expect_identical(test_a, test_e)
+  else 
+    expect_identical(test_a, as.integer64(test_e))
+  
+  test_e = tryCatch(op(y, x32), error=conditionMessage)
+  test_a = tryCatch(op(y, x64), error=conditionMessage)
+  if (operator %in% c("/", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"))
+    expect_identical(test_a, test_e)
+  else 
+    expect_identical(test_a, as.integer64(test_e))
+
+}, 
+  .cases=expand.grid(operator=c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"), class=c("integer", "double", "logical"))
+)
+
+with_parameters_test_that("ops with different classes in combination with integer64 (not returning integer64):", {
+
+  if (getRversion() >= "4.3.0") {
+    x32 = c(-10:-1, 1:10)
+    x64 = as.integer64(x32)
+    withr::local_seed(42)
+    y = sample(x32)
+    eval(parse(text=paste0("y = as.", class, "(as.double(y)", if (class == "difftime") ", units = \"secs\"", ")")))
+    
+    op = match.fun(as.character(operator))
+    test_e = tryCatch(op(x32, y), error=conditionMessage)
+    test_a = tryCatch(op(x64, y), error=conditionMessage)
+    expect_identical(test_a, test_e)
+  
+    test_e = tryCatch(op(y, x32), error=conditionMessage)
+    test_a = tryCatch(op(y, x64), error=conditionMessage)
+    expect_identical(test_a, test_e)
+  }
+
+  }, 
+  .cases = expand.grid(operator = c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"), class = c("complex", "Date", "POSIXct", "POSIXlt", "difftime"))
+)
