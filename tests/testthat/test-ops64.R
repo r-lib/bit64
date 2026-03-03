@@ -4,22 +4,31 @@ test_that("basic math ops works", {
 
   expect_identical(x + y, as.integer64(rep(11L, 10L)))
   expect_identical(y - x, as.integer64(seq(9L, -9L, by=-2L)))
-  expect_identical(x*y, as.integer64(c(10L, 18L, 24L, 28L, 30L, 30L, 28L, 24L, 18L, 10L)))
+  expect_identical(x * y, as.integer64(c(10L, 18L, 24L, 28L, 30L, 30L, 28L, 24L, 18L, 10L)))
   # output is double even though it fits in integer [and integer64]
   expect_identical(x[seq(2L, 10L, by=2L)] / 2L, as.double(1:5))
   expect_identical(x^2L, as.integer64((1:10)^2L))
   expect_identical(-x, as.integer64(-(1:10)))
 
-  expect_identical(x%/%2L, as.integer64(c(0L, 1L, 1L, 2L, 2L, 3L, 3L, 4L, 4L, 5L)))
-  expect_identical(x%%2L, as.integer64(rep_len(c(1L, 0L), 10L)))
+  expect_identical(x %/% 2L, as.integer64(c(0L, 1L, 1L, 2L, 2L, 3L, 3L, 4L, 4L, 5L)))
+  expect_identical(x %% 2L, as.integer64(rep_len(c(1L, 0L), 10L)))
 
   x32 = c(10L, 10L, -10L, -10L, 7L, 10L, -10L)
   y32 = c(3L, -3L, 3L, -3L, -10L, 0L, 0L)
   x64 = as.integer64(x32)
   y64 = as.integer64(y32)
-  expect_warning(expect_identical(x64%/%y64, as.integer64(x32%/%y32)), "NAs produced due to division by zero")
-  expect_warning(expect_identical(x64%%y64, as.integer64(x32%%y32)), "NAs produced due to division by zero")
-  expect_identical(suppressWarnings((x64%/%y64)*y64 + x64%%y64 == x64), c(rep(TRUE, 5L), rep(NA, 2L)))
+  expect_warning(
+    expect_identical(x64 %/% y64, as.integer64(x32 %/% y32)),
+    "NAs produced due to division by zero"
+  )
+  expect_warning(
+    expect_identical(x64 %% y64, as.integer64(x32 %% y32)),
+    "NAs produced due to division by zero"
+  )
+  expect_identical(
+    suppressWarnings((x64 %/% y64) * y64 + x64 %% y64 == x64),
+    c(rep(TRUE, 5L), rep(NA, 2L))
+  )
 
   # regression snuck through, caught by #149
   expect_identical(as.integer64(1L) * 1:5, as.integer64(1:5))
@@ -39,20 +48,20 @@ test_that("empty inputs give empty outputs for ops", {
   expect_identical(+empty, integer64())
   expect_identical(-empty, integer64())
 
-  expect_identical(x*empty, integer64())
-  expect_identical(empty*x, integer64())
+  expect_identical(x * empty, integer64())
+  expect_identical(empty * x, integer64())
 
-  expect_identical(x/empty, double())
-  expect_identical(empty/x, double())
+  expect_identical(x / empty, double())
+  expect_identical(empty / x, double())
 
   expect_identical(x^empty, integer64())
   expect_identical(empty^x, integer64())
 
-  expect_identical(x%/%empty, integer64())
-  expect_identical(empty%/%x, integer64())
+  expect_identical(x %/% empty, integer64())
+  expect_identical(empty %/% x, integer64())
 
-  expect_identical(x%%empty, integer64())
-  expect_identical(empty%%x, integer64())
+  expect_identical(x %% empty, integer64())
+  expect_identical(empty %% x, integer64())
 
   expect_identical(x == empty, logical())
   expect_identical(empty == x, logical())
@@ -88,18 +97,18 @@ test_that("semantics about mixed types for multiplication are respected", {
   dbl = 3.5
 
   # default: "old" semantics, to be deprecated
-  expect_identical(i64*dbl, as.integer64(7L))
-  expect_identical(dbl*i64, as.integer64(6L))
-  expect_identical(i64*int, as.integer64(10L))
-  expect_identical(int*i64, as.integer64(10L))
-  expect_identical(i64*i64, as.integer64(4L))
+  expect_identical(i64 * dbl, as.integer64(7L))
+  expect_identical(dbl * i64, as.integer64(6L))
+  expect_identical(i64 * int, as.integer64(10L))
+  expect_identical(int * i64, as.integer64(10L))
+  expect_identical(i64 * i64, as.integer64(4L))
 
   withr::with_options(list(integer64_semantics = "new"), {
-    expect_identical(i64*dbl, as.integer64(7L))
-    expect_identical(dbl*i64, as.integer64(7L))
-    expect_identical(i64*int, as.integer64(10L))
-    expect_identical(int*i64, as.integer64(10L))
-    expect_identical(i64*i64, as.integer64(4L))
+    expect_identical(i64 * dbl, as.integer64(7L))
+    expect_identical(dbl * i64, as.integer64(7L))
+    expect_identical(i64 * int, as.integer64(10L))
+    expect_identical(int * i64, as.integer64(10L))
+    expect_identical(i64 * i64, as.integer64(4L))
   })
 })
 
@@ -109,18 +118,18 @@ test_that("semantics about mixed types for division are respected", {
   dbl = 2.5
 
   # default: "old" semantics, to be deprecated
-  expect_identical(i64/dbl, 2.0)
-  expect_identical(dbl/i64, 0.4)
-  expect_identical(i64/int, 0.5)
-  expect_identical(int/i64, 2.0)
-  expect_identical(i64/i64, 1.0)
+  expect_identical(i64 / dbl, 2.0)
+  expect_identical(dbl / i64, 0.4)
+  expect_identical(i64 / int, 0.5)
+  expect_identical(int / i64, 2.0)
+  expect_identical(i64 / i64, 1.0)
 
   withr::with_options(list(integer64_semantics = "new"), {
-    expect_identical(i64/dbl, 2.0)
-    expect_identical(dbl/i64, 0.5)
-    expect_identical(i64/int, 0.5)
-    expect_identical(int/i64, 2.0)
-    expect_identical(i64/i64, 1.0)
+    expect_identical(i64 / dbl, 2.0)
+    expect_identical(dbl / i64, 0.5)
+    expect_identical(i64 / int, 0.5)
+    expect_identical(int / i64, 2.0)
+    expect_identical(i64 / i64, 1.0)
   })
 })
 
