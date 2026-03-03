@@ -140,7 +140,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `+` integer64
+#' @export
 `+.integer64` = function(e1, e2) {
   if (missing(e2))
     return(e1)
@@ -165,7 +165,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `-` integer64
+#' @export
 `-.integer64` = function(e1, e2) {
   if (missing(e2)) {
     if (!is.integer64(e1)) 
@@ -194,7 +194,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `%/%` integer64
+#' @export
 `%/%.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
   if (target_class != "integer64") {
@@ -216,7 +216,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `%%` integer64
+#' @export
 `%%.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
   if (target_class != "integer64") {
@@ -238,7 +238,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `*` integer64
+#' @export
 `*.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
   if (target_class != "integer64") {
@@ -273,7 +273,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `^` integer64
+#' @export
 `^.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
   if (target_class != "integer64") {
@@ -299,7 +299,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `/` integer64
+#' @export
 `/.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
   if (target_class != "integer64") {
@@ -334,7 +334,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `==` integer64
+#' @export
 `==.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
   if (target_class != "integer64") {
@@ -355,7 +355,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `!=` integer64
+#' @export
 `!=.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
   if (target_class != "integer64") {
@@ -376,7 +376,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `<` integer64
+#' @export
 `<.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
   if (target_class != "integer64") {
@@ -397,7 +397,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `<=` integer64
+#' @export
 `<=.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
   if (target_class != "integer64") {
@@ -418,7 +418,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `>` integer64
+#' @export
 `>.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
   if (target_class != "integer64") {
@@ -439,7 +439,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `>=` integer64
+#' @export
 `>=.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
   if (target_class != "integer64") {
@@ -460,7 +460,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `&` integer64
+#' @export
 `&.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
   if (target_class != "integer64") {
@@ -478,7 +478,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `|` integer64
+#' @export
 `|.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
   if (target_class != "integer64") {
@@ -496,7 +496,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 }
 
 #' @rdname ops64
-#' @exportS3Method `!` integer64
+#' @export
 `!.integer64` = function(x) {
   ret = !as.logical(x)
   names(ret) = names(x)
