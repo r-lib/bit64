@@ -213,6 +213,9 @@ necessary.
 10. `[.integer64` now runs faster and correctly regarding `NA` and
     arrays ([\#176](https://github.com/r-lib/bit64/issues/176)). Thanks
     [@hcirellu](https://github.com/hcirellu).
+11. `integer64() %in% 1L` no longer warns
+    ([\#265](https://github.com/r-lib/bit64/issues/265)). Thanks
+    [@hcirellu](https://github.com/hcirellu).
 
 ### NOTES
 
