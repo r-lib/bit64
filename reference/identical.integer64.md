@@ -49,7 +49,7 @@ arguments `num.eq = FALSE, single.NA = FALSE`.
 
 ## See also
 
-[`==.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md)
+[`==.integer64`](https://bit64.r-lib.org/reference/ops64.md)
 [`identical()`](https://rdrr.io/r/base/identical.html)
 [`integer64()`](https://bit64.r-lib.org/reference/bit64-package.md)
 

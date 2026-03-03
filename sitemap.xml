@@ -26,6 +26,7 @@
 <url><loc>https://bit64.r-lib.org/reference/keypos.html</loc></url>
 <url><loc>https://bit64.r-lib.org/reference/match.integer64.html</loc></url>
 <url><loc>https://bit64.r-lib.org/reference/matrix64.html</loc></url>
+<url><loc>https://bit64.r-lib.org/reference/ops64.html</loc></url>
 <url><loc>https://bit64.r-lib.org/reference/optimizer64.data.html</loc></url>
 <url><loc>https://bit64.r-lib.org/reference/plusclass.html</loc></url>
 <url><loc>https://bit64.r-lib.org/reference/prank.html</loc></url>
@@ -43,6 +44,5 @@
 <url><loc>https://bit64.r-lib.org/reference/tiepos.html</loc></url>
 <url><loc>https://bit64.r-lib.org/reference/unipos.html</loc></url>
 <url><loc>https://bit64.r-lib.org/reference/unique.integer64.html</loc></url>
-<url><loc>https://bit64.r-lib.org/reference/xor.integer64.html</loc></url>
 </urlset>
 

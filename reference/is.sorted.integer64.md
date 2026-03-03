@@ -77,7 +77,7 @@ functions creating big caches
 ## Examples
 
 ``` r
- x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+ x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
  length(x)
 #> [1] 32
  bit::na.count(x)

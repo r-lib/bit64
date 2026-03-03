@@ -201,23 +201,22 @@ example in [`c()`](https://bit64.r-lib.org/reference/c.integer64.md),
 [`rbind()`](https://bit64.r-lib.org/reference/c.integer64.md)
 
 Different from Base R, our operators
-[`+`](https://bit64.r-lib.org/reference/xor.integer64.md),
-[`-`](https://bit64.r-lib.org/reference/xor.integer64.md),
-[`%/%`](https://bit64.r-lib.org/reference/xor.integer64.md), and
-[`%%`](https://bit64.r-lib.org/reference/xor.integer64.md) coerce their
+[`+`](https://bit64.r-lib.org/reference/ops64.md),
+[`-`](https://bit64.r-lib.org/reference/ops64.md),
+[`%/%`](https://bit64.r-lib.org/reference/ops64.md), and
+[`%%`](https://bit64.r-lib.org/reference/ops64.md) coerce their
 arguments to `integer64` and always return `integer64`.
 
 The multiplication operator
-[`*`](https://bit64.r-lib.org/reference/xor.integer64.md) coerces its
-first argument to `integer64` but allows its second argument to be also
+[`*`](https://bit64.r-lib.org/reference/ops64.md) coerces its first
+argument to `integer64` but allows its second argument to be also
 `double`: the second argument is internaly coerced to 'long double' and
 the result of the multiplication is returned as `integer64`.
 
-The division [`/`](https://bit64.r-lib.org/reference/xor.integer64.md)
-and power [`^`](https://bit64.r-lib.org/reference/xor.integer64.md)
-operators also coerce their first argument to `integer64` and coerce
-internally their second argument to 'long double', they return as
-`double`, like
+The division [`/`](https://bit64.r-lib.org/reference/ops64.md) and power
+[`^`](https://bit64.r-lib.org/reference/ops64.md) operators also coerce
+their first argument to `integer64` and coerce internally their second
+argument to 'long double', they return as `double`, like
 [`sqrt()`](https://bit64.r-lib.org/reference/format.integer64.md),
 [`log()`](https://bit64.r-lib.org/reference/format.integer64.md),
 [`log2()`](https://bit64.r-lib.org/reference/format.integer64.md), and
@@ -346,34 +345,33 @@ the examples.
 | [`[[.integer64`](https://bit64.r-lib.org/reference/extract.replace.integer64.md)   | [`[[`](https://rdrr.io/r/base/Extract.html)   | scalar extract           |
 | [`[[<-.integer64`](https://bit64.r-lib.org/reference/extract.replace.integer64.md) | [`[[<-`](https://rdrr.io/r/base/Extract.html) | scalar assign            |
 
-|                                                                     |                                                 |                   |
-|---------------------------------------------------------------------|-------------------------------------------------|-------------------|
-| **binary operators**                                                | **see also**                                    | **description**   |
-| [`+.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`+`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
-| [`-.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`-`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
-| [`*.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`*`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
-| [`^.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`^`](https://rdrr.io/r/base/Arithmetic.html)   | returns double    |
-| [`/.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`/`](https://rdrr.io/r/base/Arithmetic.html)   | returns double    |
-| [`%/%`](https://bit64.r-lib.org/reference/xor.integer64.md)         | [`%/%`](https://rdrr.io/r/base/Arithmetic.html) | returns integer64 |
-| [`%%`](https://bit64.r-lib.org/reference/xor.integer64.md)          | [`%%`](https://rdrr.io/r/base/Arithmetic.html)  | returns integer64 |
+|                                                             |                                                 |                   |
+|-------------------------------------------------------------|-------------------------------------------------|-------------------|
+| **binary operators**                                        | **see also**                                    | **description**   |
+| [`+.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`+`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
+| [`-.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`-`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
+| [`*.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`*`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
+| [`^.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`^`](https://rdrr.io/r/base/Arithmetic.html)   | returns double    |
+| [`/.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`/`](https://rdrr.io/r/base/Arithmetic.html)   | returns double    |
+| [`%/%`](https://bit64.r-lib.org/reference/ops64.md)         | [`%/%`](https://rdrr.io/r/base/Arithmetic.html) | returns integer64 |
+| [`%%`](https://bit64.r-lib.org/reference/ops64.md)          | [`%%`](https://rdrr.io/r/base/Arithmetic.html)  | returns integer64 |
 
-|                                                                      |                                                |                 |
-|----------------------------------------------------------------------|------------------------------------------------|-----------------|
-| **comparison operators**                                             | **see also**                                   | **description** |
-| [`==.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`==`](https://rdrr.io/r/base/Comparison.html) |                 |
-| [`!=.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`!=`](https://rdrr.io/r/base/Comparison.html) |                 |
-| `<.integer64`                                                        | `<`                                            |                 |
-| `<=.integer64`                                                       | `<=`                                           |                 |
-| `>.integer64`                                                        | `>`                                            |                 |
-| `>=.integer64`                                                       | `>=`                                           |                 |
+|                                                              |                                                |                 |
+|--------------------------------------------------------------|------------------------------------------------|-----------------|
+| **comparison operators**                                     | **see also**                                   | **description** |
+| [`==.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`==`](https://rdrr.io/r/base/Comparison.html) |                 |
+| [`!=.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`!=`](https://rdrr.io/r/base/Comparison.html) |                 |
+| `<.integer64`                                                | `<`                                            |                 |
+| `<=.integer64`                                               | `<=`                                           |                 |
+| `>.integer64`                                                | `>`                                            |                 |
+| `>=.integer64`                                               | `>=`                                           |                 |
 
-|                                                                        |                                              |                 |
-|------------------------------------------------------------------------|----------------------------------------------|-----------------|
-| **logical operators**                                                  | **see also**                                 | **description** |
-| [`!.integer64`](https://bit64.r-lib.org/reference/format.integer64.md) | [`!`](https://rdrr.io/r/base/Logic.html)     |                 |
-| `&.integer64`                                                          | `&`                                          |                 |
-| [`|.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md)    | [`|`](https://rdrr.io/r/base/Logic.html)     |                 |
-| [`xor.integer64`](https://bit64.r-lib.org/reference/xor.integer64.md)  | [`xor()`](https://rdrr.io/r/base/Logic.html) |                 |
+|                                                                        |                                          |                 |
+|------------------------------------------------------------------------|------------------------------------------|-----------------|
+| **logical operators**                                                  | **see also**                             | **description** |
+| [`!.integer64`](https://bit64.r-lib.org/reference/format.integer64.md) | [`!`](https://rdrr.io/r/base/Logic.html) |                 |
+| `&.integer64`                                                          | `&`                                      |                 |
+| [`|.integer64`](https://bit64.r-lib.org/reference/ops64.md)            | [`|`](https://rdrr.io/r/base/Logic.html) |                 |
 
 |                                                                                |                                                  |                              |
 |--------------------------------------------------------------------------------|--------------------------------------------------|------------------------------|
@@ -432,12 +430,12 @@ the examples.
 | [`summary.integer64()`](https://bit64.r-lib.org/reference/qtile.md)                   | [`summary()`](https://rdrr.io/r/base/summary.html)        | (/s/o/so)                                                          |
 | [`all.equal.integer64()`](https://bit64.r-lib.org/reference/all.equal.integer64.md)   | [`all.equal()`](https://rdrr.io/r/base/all.equal.html)    | test if two objects are (nearly) equal (/s/o/so)                   |
 
-|                                                                   |                                                                   |                            |
-|-------------------------------------------------------------------|-------------------------------------------------------------------|----------------------------|
-| **helper functions**                                              | **see also**                                                      | **description**            |
-| [`minusclass()`](https://bit64.r-lib.org/reference/plusclass.md)  | [`minusclass()`](https://bit64.r-lib.org/reference/plusclass.md)  | removing class attritbute  |
-| [`plusclass()`](https://bit64.r-lib.org/reference/plusclass.md)   | [`plusclass()`](https://bit64.r-lib.org/reference/plusclass.md)   | inserting class attribute  |
-| [`binattr()`](https://bit64.r-lib.org/reference/xor.integer64.md) | [`binattr()`](https://bit64.r-lib.org/reference/xor.integer64.md) | define binary op behaviour |
+|                                                                  |                                                                  |                            |
+|------------------------------------------------------------------|------------------------------------------------------------------|----------------------------|
+| **helper functions**                                             | **see also**                                                     | **description**            |
+| [`minusclass()`](https://bit64.r-lib.org/reference/plusclass.md) | [`minusclass()`](https://bit64.r-lib.org/reference/plusclass.md) | removing class attritbute  |
+| [`plusclass()`](https://bit64.r-lib.org/reference/plusclass.md)  | [`plusclass()`](https://bit64.r-lib.org/reference/plusclass.md)  | inserting class attribute  |
+| [`binattr()`](https://bit64.r-lib.org/reference/ops64.md)        | [`binattr()`](https://bit64.r-lib.org/reference/ops64.md)        | define binary op behaviour |
 
 |                          |                                                             |                       |
 |--------------------------|-------------------------------------------------------------|-----------------------|
@@ -584,6 +582,8 @@ Other contributors:
 - Leonardo Silvestri \[contributor\]
 
 - Ofek Shilon \[contributor\]
+
+- Christian Ullerich \[contributor\]
 
 ## Examples
 

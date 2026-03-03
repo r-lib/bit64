@@ -124,6 +124,23 @@
   [`colSums()`](https://bit64.r-lib.org/reference/matrix64.md)
   [`rowSums()`](https://bit64.r-lib.org/reference/matrix64.md) : Working
   with integer64 arrays and matrices
+- [`binattr()`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `+`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `-`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `%/%`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `%%`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `*`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `^`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `/`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `==`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `!=`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `<`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `<=`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `>`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `>=`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `&`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `|`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  : Binary operators for integer64 vectors
 - [`optimizer64.data`](https://bit64.r-lib.org/reference/optimizer64.data.md)
   : Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM
   under Windows 7 64bit
@@ -210,21 +227,3 @@
   Positions of Unique Elements
 - [`unique(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/unique.integer64.md)
   : Extract Unique Elements from integer64
-- [`binattr()`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `+`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `-`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `%/%`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `%%`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `*`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `^`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `/`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `==`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `!=`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `<`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `<=`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `>`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `>=`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `&`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`` `|`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  [`xor(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/xor.integer64.md)
-  : Binary operators for integer64 vectors

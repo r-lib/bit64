@@ -116,9 +116,9 @@ With `return="list"` you also get a *dense* representation as a simple
 ## Details
 
 If at least one argument of `...` is integer64 and the remaining
-arguments of `...` are integer64 or integer the \`table.integer64\`
-method is used. Only this method supports the arguments `return`,
-`order`, `nunique`, and `method`.
+arguments of `...` are integer64 or integer the `table.integer64` method
+is used. Only this method supports the arguments `return`, `order`,
+`nunique`, and `method`.
 
 This function automatically chooses from several low-level functions
 considering the size of `x` and the availability of a cache.

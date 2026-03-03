@@ -119,7 +119,7 @@ vector
 
 ## See also
 
-[`xor.integer64()`](https://bit64.r-lib.org/reference/xor.integer64.md)
+[ops64](https://bit64.r-lib.org/reference/ops64.md)
 [`integer64()`](https://bit64.r-lib.org/reference/bit64-package.md)
 
 ## Examples

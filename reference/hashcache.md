@@ -83,6 +83,6 @@ for methods benefiting from small caches
 ## Examples
 
 ``` r
-  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   sortordercache(x)
 ```
