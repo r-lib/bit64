@@ -95,7 +95,7 @@ Unary operators and functions for integer64 vectors.
   sqrt(as.integer64(1:12))
 }
 \seealso{
-\code{\link[=xor.integer64]{xor.integer64()}} \code{\link[=integer64]{integer64()}}
+\link{ops64} \code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}

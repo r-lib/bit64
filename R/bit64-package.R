@@ -86,7 +86,7 @@
 #' [`rbind()`][rbind.integer64]
 #'
 #' Different from Base R, our operators [`+`][+.integer64], [`-`][-.integer64],
-#' \code{\link[=xor.integer64]{\%/\%}}, and \code{\link[=xor.integer64]{\%\%}} coerce their arguments to
+#' \code{\link[=ops64]{\%/\%}}, and \code{\link[=ops64]{\%\%}} coerce their arguments to
 #' `integer64` and always return `integer64`.
 #'
 #' The multiplication operator [`*`][*.integer64] coerces its first argument to
@@ -218,8 +218,8 @@
 #' |      [`*.integer64`] |        [`*`] | returns integer64 |
 #' |      [`^.integer64`] |        [`^`] | returns double    |
 #' |      [`/.integer64`] |        [`/`] | returns double    |
-#' | \code{\link[=xor.integer64]{\%/\%}} | \code{\link[=Arithmetic]{\%/\%}} | returns integer64 |
-#' | \code{\link[=xor.integer64]{\%\%}} | \code{\link[=Arithmetic]{\%\%}} | returns integer64 |
+#' | \code{\link[=ops64]{\%/\%}} | \code{\link[=Arithmetic]{\%/\%}} | returns integer64 |
+#' | \code{\link[=ops64]{\%\%}} | \code{\link[=Arithmetic]{\%\%}} | returns integer64 |
 #'
 #' | **comparison operators** | **see also** | **description** |
 #' |-------------------------:|-------------:|:----------------|
@@ -234,16 +234,14 @@
 #'    \strong{logical operators} \tab \strong{see also} \tab \strong{description} \cr
 #'    \code{\link{!.integer64}} \tab \code{\link{!}} \tab  \cr
 #'    \code{\link{&.integer64}} \tab \code{\link{&}} \tab  \cr
-#'    \code{\link[=xor.integer64]{|.integer64}} \tab \code{\link[base:Logic]{|}} \tab  \cr
-#'    \code{\link{xor.integer64}} \tab \code{\link[=xor]{xor()}} \tab  \cr
+#'    \code{\link[=ops64]{|.integer64}} \tab \code{\link[base:Logic]{|}} \tab  \cr
 #' }
 # TODO(r-lib/roxygen2#1668): Restore the markdown representation of the table.
 # | **logical operators** | **see also** | **description** |
 # |----------------------:|-------------:|:----------------|
 # |       [`!.integer64`] |        [`!`] | |
 # |       [`&.integer64`] |        [`&`] | |
-# | [`\|.integer64`][xor.integer64] | [`\|`][base::Logic] | |
-# |     [`xor.integer64`] |      [xor()] | |
+# | [`\|.integer64`][ops64] | [`\|`][base::Logic] | |
 #'
 #' | **math functions**    | **see also** | **description**              |
 #' |----------------------:|-------------:|:-----------------------------|
@@ -697,7 +695,7 @@
 #'   mergesort mergesortorder na.count nties nunique nvalid quickorder
 #'   quicksort quicksortorder radixorder radixsort radixsortorder ramorder
 #'   ramsort ramsortorder repeat.time setattr shellorder shellsort
-#'   shellsortorder still.identical xor
+#'   shellsortorder still.identical
 #' @importFrom graphics barplot par title
 #' @importFrom methods as is
 #' @importFrom stats cor median quantile
@@ -744,6 +742,6 @@
 #' @export sortordertie.integer64 sortorderuni.integer64 sortorderupo.integer64
 #' @export sortqtl.integer64 sorttab.integer64 sortuni.integer64
 #' @export str.integer64 sum.integer64 summary.integer64 tiepos.integer64
-#' @export unipos.integer64 unique.integer64 xor.integer64
+#' @export unipos.integer64 unique.integer64
 ## usethis namespace: end
 NULL

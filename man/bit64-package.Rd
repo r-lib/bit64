@@ -161,7 +161,7 @@ example in \code{\link[=c.integer64]{c()}}, \code{\link[=cbind.integer64]{cbind(
 \code{\link[=rbind.integer64]{rbind()}}
 
 Different from Base R, our operators \code{\link[=+.integer64]{+}}, \code{\link[=-.integer64]{-}},
-\code{\link[=xor.integer64]{\%/\%}}, and \code{\link[=xor.integer64]{\%\%}} coerce their arguments to
+\code{\link[=ops64]{\%/\%}}, and \code{\link[=ops64]{\%\%}} coerce their arguments to
 \code{integer64} and always return \code{integer64}.
 
 The multiplication operator \code{\link[=*.integer64]{*}} coerces its first argument to
@@ -286,8 +286,8 @@ For all available methods on \code{integer64} vectors see the index below and th
    \code{\link{*.integer64}} \tab \code{\link{*}} \tab returns integer64 \cr
    \code{\link{^.integer64}} \tab \code{\link{^}} \tab returns double \cr
    \code{\link{/.integer64}} \tab \code{\link{/}} \tab returns double \cr
-   \code{\link[=xor.integer64]{\%/\%}} \tab \code{\link[=Arithmetic]{\%/\%}} \tab returns integer64 \cr
-   \code{\link[=xor.integer64]{\%\%}} \tab \code{\link[=Arithmetic]{\%\%}} \tab returns integer64 \cr
+   \code{\link[=ops64]{\%/\%}} \tab \code{\link[=Arithmetic]{\%/\%}} \tab returns integer64 \cr
+   \code{\link[=ops64]{\%\%}} \tab \code{\link[=Arithmetic]{\%\%}} \tab returns integer64 \cr
 }
 \tabular{rrl}{
    \strong{comparison operators} \tab \strong{see also} \tab \strong{description} \cr
@@ -304,8 +304,7 @@ For all available methods on \code{integer64} vectors see the index below and th
 \strong{logical operators} \tab \strong{see also} \tab \strong{description} \cr
 \code{\link{!.integer64}} \tab \code{\link{!}} \tab  \cr
 \code{\link{&.integer64}} \tab \code{\link{&}} \tab  \cr
-\code{\link[=xor.integer64]{|.integer64}} \tab \code{\link[base:Logic]{|}} \tab  \cr
-\code{\link{xor.integer64}} \tab \code{\link[=xor]{xor()}} \tab  \cr
+\code{\link[=ops64]{|.integer64}} \tab \code{\link[base:Logic]{|}} \tab  \cr
 }\tabular{rrl}{
    \strong{math functions} \tab \strong{see also} \tab \strong{description} \cr
    \code{\link[=is.na.integer64]{is.na.integer64()}} \tab \code{\link[=is.na]{is.na()}} \tab returns logical \cr
