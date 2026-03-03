@@ -65,18 +65,18 @@ found to be outdated
 
 }}
 \examples{
-  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-  y <- x
+  x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  y = x
   bit::still.identical(x, y)
-  y[1] <- NA
+  y[1] = NA
   bit::still.identical(x, y)
-  mycache <- newcache(x)
+  mycache = newcache(x)
   ls(mycache)
   mycache
   rm(mycache)
   jamcache(x)
   cache(x)
-  x[1] <- NA
+  x[1] = NA
   cache(x)
   getcache(x, "abc")
   setcache(x, "abc", 1)

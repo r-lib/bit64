@@ -151,7 +151,7 @@ NULL
 #'   [signif()] is not implemented
 #'
 #' @keywords classes manip
-#' @seealso [xor.integer64()] [integer64()]
+#' @seealso [ops64] [integer64()]
 #' @examples
 #'   sqrt(as.integer64(1:12))
 #' @name format.integer64

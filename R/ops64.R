@@ -40,11 +40,11 @@
 #'   d/i  # old: 0.4
 #'   d*i  # old: 10
 #'   i*d  # old: 13
-#' @name xor.integer64
+#' @name ops64
 NULL
 
 # Version of Leonardo Silvestri
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 binattr = function(e1, e2) {
   d1 = dim(e1)
@@ -135,7 +135,7 @@ target_class_for_Ops = function(e1, e2) {
   }
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `+.integer64` = function(e1, e2) {
   if (missing(e2))
@@ -153,7 +153,7 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `-.integer64` = function(e1, e2) {
   if (missing(e2)) {
@@ -173,7 +173,7 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `%/%.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
@@ -189,7 +189,7 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `%%.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
@@ -205,7 +205,7 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `*.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
@@ -232,7 +232,7 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `^.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
@@ -249,7 +249,7 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `/.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
@@ -276,7 +276,7 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `==.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
@@ -292,7 +292,7 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `!=.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
@@ -308,7 +308,7 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `<.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
@@ -324,7 +324,7 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `<=.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
@@ -340,7 +340,7 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `>.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
@@ -356,7 +356,7 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `>=.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
@@ -372,7 +372,7 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `&.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
@@ -382,21 +382,11 @@ target_class_for_Ops = function(e1, e2) {
   ret
 }
 
-#' @rdname xor.integer64
+#' @rdname ops64
 #' @export
 `|.integer64` = function(e1, e2) {
   a = binattr(e1, e2)
 ret = as.logical(e1) | as.logical(e2)
-  a$class = minusclass(a$class, "integer64")
-  attributes(ret) = a
-  ret
-}
-
-#' @rdname xor.integer64
-#' @export
-xor.integer64 = function(x, y) {
-  a = binattr(x, y)
-  ret = as.logical(x) != as.logical(y)
   a$class = minusclass(a$class, "integer64")
   attributes(ret) = a
   ret
