@@ -11,7 +11,7 @@ test_that <- function(desc, code) {
   # Eval in a new environment to keep scope cleanish
   tryCatch(
     eval(substitute(code), envir = new.env(parent = parent.frame())),
-    skip_error = identity
+    skip = identity
   )
   cat("\n")
 }
