@@ -211,13 +211,13 @@ with_parameters_test_that("{operator} with integer64 vs {class} (returning integ
   op = match.fun(operator)
   maybe_cast = if (operator %in% c("+", "-", "*", "^", "%%", "%/%")) as.integer64 else identity
 
-  test_e = tryCatch(op(x32, y), error=conditionMessage)
-  test_a = tryCatch(maybe_cast(op(x64, y)), error=conditionMessage)
-  expect_identical(test_a, test_e)
+  expected = tryCatch(maybe_cast(op(x32, y)), error=conditionMessage)
+  actual = tryCatch(op(x64, y), error=conditionMessage)
+  expect_identical(actual, expected)
   
-  test_e = tryCatch(op(y, x32), error=conditionMessage)
-  test_a = tryCatch(maybe_cast(op(y, x64)), error=conditionMessage)
-  expect_identical(test_a, test_e)
+  expected = tryCatch(maybe_cast(op(y, x32)), error=conditionMessage)
+  actual = tryCatch(op(y, x64), error=conditionMessage)
+  expect_identical(actual, expected)
 }, 
   .cases = expand.grid(
     operator=c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"),
