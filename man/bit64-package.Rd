@@ -741,6 +741,7 @@ Other contributors:
 \itemize{
   \item Leonardo Silvestri [contributor]
   \item Ofek Shilon [contributor]
+  \item Christian Ullerich [contributor]
 }
 
 }
