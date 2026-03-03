@@ -63,14 +63,6 @@ e1 | e2
 
   an atomic vector of class 'integer64'
 
-- x:
-
-  an atomic vector of class 'integer64'
-
-- y:
-
-  an atomic vector of class 'integer64'
-
 ## Value
 
 `&`, [`|`](https://rdrr.io/r/base/Logic.html),
