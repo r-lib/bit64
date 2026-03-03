@@ -22,8 +22,8 @@ test_that("empty inputs give empty outputs for ops", {
   x = integer64(1L)
   empty = integer64(0L)
 
-  expect_identical(x+empty, integer64())
-  expect_identical(empty+x, integer64())
+  expect_identical(x + empty, integer64())
+  expect_identical(empty + x, integer64())
 
   expect_identical(x - empty, integer64())
   expect_identical(empty - x, integer64())
@@ -31,11 +31,11 @@ test_that("empty inputs give empty outputs for ops", {
   expect_identical(+empty, integer64())
   expect_identical(-empty, integer64())
 
-  expect_identical(x*empty, integer64())
-  expect_identical(empty*x, integer64())
+  expect_identical(x * empty, integer64())
+  expect_identical(empty * x, integer64())
 
-  expect_identical(x/empty, double())
-  expect_identical(empty/x, double())
+  expect_identical(x / empty, double())
+  expect_identical(empty / x, double())
 
   expect_identical(x^empty, integer64())
   expect_identical(empty^x, integer64())
@@ -43,32 +43,32 @@ test_that("empty inputs give empty outputs for ops", {
   expect_identical(x %/% empty, integer64())
   expect_identical(empty %/% x, integer64())
 
-  expect_identical(x%%empty, integer64())
-  expect_identical(empty%%x, integer64())
+  expect_identical(x %% empty, integer64())
+  expect_identical(empty %% x, integer64())
 
   expect_identical(x == empty, logical())
   expect_identical(empty == x, logical())
 
-  expect_identical(x!=empty, logical())
-  expect_identical(empty!=x, logical())
+  expect_identical(x != empty, logical())
+  expect_identical(empty != x, logical())
 
-  expect_identical(x>=empty, logical())
-  expect_identical(empty>=x, logical())
+  expect_identical(x >= empty, logical())
+  expect_identical(empty >= x, logical())
 
-  expect_identical(x<=empty, logical())
-  expect_identical(empty<=x, logical())
+  expect_identical(x <= empty, logical())
+  expect_identical(empty <= x, logical())
 
-  expect_identical(x>empty, logical())
-  expect_identical(empty>x, logical())
+  expect_identical(x > empty, logical())
+  expect_identical(empty > x, logical())
 
-  expect_identical(x<empty, logical())
-  expect_identical(empty<x, logical())
+  expect_identical(x < empty, logical())
+  expect_identical(empty < x, logical())
 
-  expect_identical(x&empty, logical())
-  expect_identical(empty&x, logical())
+  expect_identical(x & empty, logical())
+  expect_identical(empty & x, logical())
 
-  expect_identical(x|empty, logical())
-  expect_identical(empty|x, logical())
+  expect_identical(x | empty, logical())
+  expect_identical(empty | x, logical())
 
   expect_identical(xor(x, empty), logical())
   expect_identical(xor(empty, x), logical())
