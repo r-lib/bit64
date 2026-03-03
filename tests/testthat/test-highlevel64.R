@@ -23,6 +23,9 @@ test_that("match & %in% basics work", {
   x_nm <- as.integer64(c(1L, 3L))
   table_nm <- as.integer64(2:4)
   expect_identical(match(x_nm, table_nm, nomatch = -1L), c(-1L, 2L))
+
+  expect_identical(integer64() %in% 1L, integer() %in% 1L)
+  expect_identical(as.integer64(1L) %in% double(), 1L %in% double())
 })
 
 test_that("Different method= for match() and %in% work", {
