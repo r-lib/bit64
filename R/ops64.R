@@ -14,8 +14,6 @@
 #'
 #' @param e1 an atomic vector of class 'integer64'
 #' @param e2 an atomic vector of class 'integer64'
-#' @param x an atomic vector of class 'integer64'
-#' @param y an atomic vector of class 'integer64'
 #'
 #' @returns
 #'   [`&`], [`|`], [xor()], [`!=`], [`==`],
