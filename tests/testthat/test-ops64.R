@@ -7,7 +7,7 @@ test_that("basic math ops works", {
   expect_identical(x * y, as.integer64(c(10L, 18L, 24L, 28L, 30L, 30L, 28L, 24L, 18L, 10L)))
   # output is double even though it fits in integer [and integer64]
   expect_identical(x[seq(2L, 10L, by=2L)] / 2L, as.double(1:5))
-  expect_identical(x ^ 2L, as.integer64((1:10)^2L))
+  expect_identical(x^2L, as.integer64((1:10)^2L))
   expect_identical(-x, as.integer64(-(1:10)))
 
   expect_identical(x %/% 2L, as.integer64(c(0L, 1L, 1L, 2L, 2L, 3L, 3L, 4L, 4L, 5L)))
@@ -25,8 +25,8 @@ test_that("empty inputs give empty outputs for ops", {
   expect_identical(x+empty, integer64())
   expect_identical(empty+x, integer64())
 
-  expect_identical(x-empty, integer64())
-  expect_identical(empty-x, integer64())
+  expect_identical(x - empty, integer64())
+  expect_identical(empty - x, integer64())
 
   expect_identical(+empty, integer64())
   expect_identical(-empty, integer64())
@@ -46,8 +46,8 @@ test_that("empty inputs give empty outputs for ops", {
   expect_identical(x%%empty, integer64())
   expect_identical(empty%%x, integer64())
 
-  expect_identical(x==empty, logical())
-  expect_identical(empty==x, logical())
+  expect_identical(x == empty, logical())
+  expect_identical(empty == x, logical())
 
   expect_identical(x!=empty, logical())
   expect_identical(empty!=x, logical())
