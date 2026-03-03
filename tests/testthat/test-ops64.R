@@ -197,7 +197,7 @@ test_that("Comparison operators", {
   expect_true(identical.integer64(xi64 <= yi64, xi <= yi))
 })
 
-with_parameters_test_that("ops with different classes in combination with integer64 (returning integer64):", {
+with_parameters_test_that("{operator} with integer64 vs {class} (returning integer64):", {
   withr::local_seed(42)
 
   if (getRversion() <= "3.6.0" && operator == "^")
@@ -226,7 +226,7 @@ with_parameters_test_that("ops with different classes in combination with intege
   )
 )
 
-with_parameters_test_that("ops with different classes in combination with integer64 (not returning integer64):", {
+with_parameters_test_that("{operator} with integer64 vs. {class} (not returning integer64):", {
   skip_unless_r(">= 4.3.0")
   withr::local_seed(42)
 
