@@ -13,6 +13,23 @@ test_that("basic math ops works", {
   expect_identical(x %/% 2L, as.integer64(c(0L, 1L, 1L, 2L, 2L, 3L, 3L, 4L, 4L, 5L)))
   expect_identical(x %% 2L, as.integer64(rep_len(c(1L, 0L), 10L)))
 
+  x32 = c(10L, 10L, -10L, -10L, 7L, 10L, -10L)
+  y32 = c(3L, -3L, 3L, -3L, -10L, 0L, 0L)
+  x64 = as.integer64(x32)
+  y64 = as.integer64(y32)
+  expect_warning(
+    expect_identical(x64 %/% y64, as.integer64(x32 %/% y32)),
+    "NAs produced due to division by zero"
+  )
+  expect_warning(
+    expect_identical(x64 %% y64, as.integer64(x32 %% y32)),
+    "NAs produced due to division by zero"
+  )
+  expect_identical(
+    suppressWarnings((x64 %/% y64) * y64 + x64 %% y64 == x64),
+    c(rep(TRUE, 5L), rep(NA, 2L))
+  )
+
   # regression snuck through, caught by #149
   expect_identical(as.integer64(1L) * 1:5, as.integer64(1:5))
   expect_identical(1:5 * as.integer64(1L), as.integer64(1:5))
