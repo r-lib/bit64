@@ -182,9 +182,10 @@ test_that("Comparison operators", {
 
 with_parameters_test_that("ops with different classes in combination with integer64 (returning integer64):", {
 
-  # TODO(#263): uncomment when fixed: as.integer64(-10L)%%7L = -3L vs. as.integer(-10L)%%7L = 4L
-  # x32 = c(-10:-1, 1:10)
-  x32 = 1:10
+  if (getRversion() <= "3.6.0" && as.character(operator) == "^")
+    x32 = c(1:10) # there seems to be an issue with negative values with the `^` operator in ancient
+  else
+    x32 = c(-10:-1, 1:10)
   x64 = as.integer64(x32)
   withr::local_seed(42)
   y = sample(x32)
@@ -212,9 +213,7 @@ with_parameters_test_that("ops with different classes in combination with intege
 with_parameters_test_that("ops with different classes in combination with integer64 (not returning integer64):", {
 
   if (getRversion() >= "4.3.0") {
-    # TODO(#263): uncomment when fixed: as.integer64(-10L)%%7L = -3L vs. as.integer(-10L)%%7L = 4L
-    # x32 = c(-10:-1, 1:10)
-    x32 = 1:10
+    x32 = c(-10:-1, 1:10)
     x64 = as.integer64(x32)
     withr::local_seed(42)
     y = sample(x32)
