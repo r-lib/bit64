@@ -19,7 +19,7 @@ test_that <- function(desc, code) {
 skip_if = function(cond, info) {
   if (!cond) return(invisible())
   e = simpleError(paste("Skipping:", info))
-  class(e) = c("skip_error", class(e))
+  class(e) = c("skip", class(e))
   stop(e)
 }
 
