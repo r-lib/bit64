@@ -156,6 +156,8 @@ with_parameters_test_that <- function(desc, code, .cases = NULL, .interpret_glue
     tryCatch({
       eval(code_expr, envir = case_env)
       cat(".") # print dot for progress
+    }, skip = function(s) {
+      cat(sprintf("\nSKIPPED at case %d: %s\n", i, conditionMessage(s)))
     }, error = function(e) {
       cat(sprintf("\nFAILED at case %d: %s\n", i, conditionMessage(e)))
       cat("  Case parameters:\n")
