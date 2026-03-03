@@ -209,7 +209,7 @@ with_parameters_test_that("ops with different classes in combination with intege
   eval(parse(text=paste0("y = as.", class, "(y)")))
 
   op = match.fun(operator)
-  maybe_cast64 = if (operator %in% c("+", "-", "*", "^", "%%", "%/%")) as.integer64 else identity
+  maybe_cast = if (operator %in% c("+", "-", "*", "^", "%%", "%/%")) as.integer64 else identity
 
   test_e = tryCatch(op(x32, y), error=conditionMessage)
   test_a = tryCatch(maybe_cast(op(x64, y)), error=conditionMessage)
