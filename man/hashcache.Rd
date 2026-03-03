@@ -55,7 +55,7 @@ as a relevant side-effect, and therefore storing them in the cache should
 require a conscious decision of the user.
 }
 \examples{
-  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   sortordercache(x)
 
 }
