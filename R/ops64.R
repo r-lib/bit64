@@ -107,7 +107,7 @@ binattr = function(e1, e2) {
 
 # helper for determining the target class for Ops methods
 target_class_for_Ops = function(e1, e2) {
-  convert_to_integer64 = function(el) is.integer64(el) || ((is.integer(el) || is.double(el)) && !inherits(el, c("difftime", "Date", "POSIXt"))) || is.logical(el)
+  convert_to_integer64 = function(el) is.numeric(el) || is.logical(el)
   if(missing(e2)) {
     if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1) && !inherits(e1, "POSIXt"))
       stop(errorCondition(gettext("non-numeric argument to mathematical function", domain="R"), call=sys.call(sys.nframe() - 1L)))
