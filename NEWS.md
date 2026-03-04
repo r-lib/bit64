@@ -77,6 +77,7 @@
 1. `quicksort()` and others no longer segfault on trivial cases (e.g. sorting 0 or 1 item, #220).
 1. `as.integer64(2^63)` returns `NA_integer64_` more consistently (e.g. on ARM), consistent with `as.integer(2^31)` (#19). Thanks @dipterix.
 1. `[.integer64` now runs faster and correctly regarding `NA` and arrays (#176). Thanks @hcirellu.
+1. `integer64() %in% 1L` no longer warns (#265). Thanks @hcirellu.
 
 ## NOTES
 
