@@ -177,6 +177,13 @@ necessary.
 10. `union`, `setdiff`, `intersect`, `setequal` and `is.element` get an
     overload to work correctly with `integer64`
     ([\#182](https://github.com/r-lib/bit64/issues/182)).
+11. The methods of the ‘Ops’ group (e.g. `+`, `&`, `==`) now support
+    dispatch for both arguments so that e.g. `difftime * integer64`
+    works consistent to R
+    ([\#179](https://github.com/r-lib/bit64/issues/179)). Thanks
+    [@hcirellu](https://github.com/hcirellu). Note that this relies on
+    [`chooseOpsMethod()`](https://rdrr.io/r/base/chooseOpsMethod.html)
+    and thus R 4.3.0.
 
 ### BUG FIXES
 

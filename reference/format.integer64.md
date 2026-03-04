@@ -55,9 +55,6 @@ is.infinite(x)
 
 # S3 method for class 'integer64'
 is.nan(x)
-
-# S3 method for class 'integer64'
-!x
 ```
 
 ## Arguments

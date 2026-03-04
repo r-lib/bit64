@@ -51,39 +51,39 @@ e1 & e2
 
 # S3 method for class 'integer64'
 e1 | e2
+
+# S3 method for class 'integer64'
+!x
 ```
 
 ## Arguments
 
-- e1:
+- e1, e2, x:
 
-  an atomic vector of class 'integer64'
-
-- e2:
-
-  an atomic vector of class 'integer64'
+  numeric or complex vectors or objects which can be coerced to such, or
+  other objects for which methods have been written for - especially
+  'integer64' vectors.
 
 ## Value
 
 `&`, [`|`](https://rdrr.io/r/base/Logic.html),
-[`bit::xor()`](https://rdrr.io/pkg/bit/man/xor.html),
+[`!`](https://rdrr.io/r/base/Logic.html),
 [`!=`](https://rdrr.io/r/base/Comparison.html),
 [`==`](https://rdrr.io/r/base/Comparison.html), `<`, `<=`, `>`, `>=`
 return a logical vector
 
-[`^`](https://rdrr.io/r/base/Arithmetic.html) and
-[`/`](https://rdrr.io/r/base/Arithmetic.html) return a double vector
+[`/`](https://rdrr.io/r/base/Arithmetic.html) returns a double vector
 
 [`+`](https://rdrr.io/r/base/Arithmetic.html),
 [`-`](https://rdrr.io/r/base/Arithmetic.html),
 [`*`](https://rdrr.io/r/base/Arithmetic.html),
 [`%/%`](https://rdrr.io/r/base/Arithmetic.html),
-[`%%`](https://rdrr.io/r/base/Arithmetic.html) return a vector of class
-'integer64'
+[`%%`](https://rdrr.io/r/base/Arithmetic.html),
+[`^`](https://rdrr.io/r/base/Arithmetic.html) return a vector of class
+'integer64' or different class depending on the operands
 
 ## See also
 
-[`format.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md)
 [`integer64()`](https://bit64.r-lib.org/reference/bit64-package.md)
 
 ## Examples

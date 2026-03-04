@@ -200,45 +200,65 @@ example in [`c()`](https://bit64.r-lib.org/reference/c.integer64.md),
 [`cbind()`](https://bit64.r-lib.org/reference/c.integer64.md), and
 [`rbind()`](https://bit64.r-lib.org/reference/c.integer64.md)
 
-Different from Base R, our operators
-[`+`](https://bit64.r-lib.org/reference/ops64.md),
+Our operators [`+`](https://bit64.r-lib.org/reference/ops64.md),
 [`-`](https://bit64.r-lib.org/reference/ops64.md),
 [`%/%`](https://bit64.r-lib.org/reference/ops64.md), and
 [`%%`](https://bit64.r-lib.org/reference/ops64.md) coerce their
-arguments to `integer64` and always return `integer64`.
+arguments to `integer64` and return `integer64` if they are `integer`,
+`double` or `logical`. Otherwise the `integer64` argument is coerced to
+double and the R base method for the other class is called.
 
-The multiplication operator
-[`*`](https://bit64.r-lib.org/reference/ops64.md) coerces its first
-argument to `integer64` but allows its second argument to be also
-`double`: the second argument is internaly coerced to 'long double' and
-the result of the multiplication is returned as `integer64`.
+Our operators [`*`](https://bit64.r-lib.org/reference/ops64.md) and
+[`^`](https://bit64.r-lib.org/reference/ops64.md) coerce their first
+argument to `integer64` and possibly the second to `integer64` if it is
+not `double` and return `integer64` if they are `integer`, `double` or
+`logical`. Otherwise the `integer64` argument is coerced to double and
+the R base method for the other class is called.
 
-The division [`/`](https://bit64.r-lib.org/reference/ops64.md) and power
-[`^`](https://bit64.r-lib.org/reference/ops64.md) operators also coerce
-their first argument to `integer64` and coerce internally their second
-argument to 'long double', they return as `double`, like
+The division [`/`](https://bit64.r-lib.org/reference/ops64.md) operator
+also coerces its first argument to `integer64` and possibly the second
+to `integer64` if it is not `double` and returns `integer64` if they are
+`integer`, `double` or `logical`. Otherwise the `integer64` argument is
+coerced to double and the R base method for the other class is called.
+
 [`sqrt()`](https://bit64.r-lib.org/reference/format.integer64.md),
 [`log()`](https://bit64.r-lib.org/reference/format.integer64.md),
 [`log2()`](https://bit64.r-lib.org/reference/format.integer64.md), and
-[`log10()`](https://bit64.r-lib.org/reference/format.integer64.md) do.
+[`log10()`](https://bit64.r-lib.org/reference/format.integer64.md)
+coerce their first argument to `integer64` and coerce internally their
+second argument to 'long double', they return as `double`
 
 |               |        |               |         |              |        |              |         |            |
 |---------------|--------|---------------|---------|--------------|--------|--------------|---------|------------|
 | **argument1** | **op** | **argument2** | **-\>** | **coerced1** | **op** | **coerced2** | **-\>** | **result** |
 | integer64     | \+     | double        | -\>     | integer64    | \+     | integer64    | -\>     | integer64  |
 | double        | \+     | integer64     | -\>     | integer64    | \+     | integer64    | -\>     | integer64  |
+| integer64     | \+     | complex       | -\>     | double       | \+     | complex      | -\>     | complex    |
+| complex       | \+     | integer64     | -\>     | complex      | \+     | double       | -\>     | complex    |
 | integer64     | \-     | double        | -\>     | integer64    | \-     | integer64    | -\>     | integer64  |
 | double        | \-     | integer64     | -\>     | integer64    | \-     | integer64    | -\>     | integer64  |
+| integer64     | \-     | complex       | -\>     | double       | \-     | complex      | -\>     | complex    |
+| complex       | \-     | integer64     | -\>     | complex      | \-     | double       | -\>     | complex    |
 | integer64     | %/%    | double        | -\>     | integer64    | %/%    | integer64    | -\>     | integer64  |
 | double        | %/%    | integer64     | -\>     | integer64    | %/%    | integer64    | -\>     | integer64  |
+| integer64     | %/%    | complex       | -\>     | double       | %/%    | complex      | -\>     | complex    |
+| complex       | %/%    | integer64     | -\>     | complex      | %/%    | double       | -\>     | complex    |
 | integer64     | %%     | double        | -\>     | integer64    | %%     | integer64    | -\>     | integer64  |
 | double        | %%     | integer64     | -\>     | integer64    | %%     | integer64    | -\>     | integer64  |
+| integer64     | %%     | complex       | -\>     | double       | %%     | complex      | -\>     | complex    |
+| complex       | %%     | integer64     | -\>     | complex      | %%     | double       | -\>     | complex    |
 | integer64     | \*     | double        | -\>     | integer64    | \*     | long double  | -\>     | integer64  |
 | double        | \*     | integer64     | -\>     | integer64    | \*     | integer64    | -\>     | integer64  |
+| integer64     | \*     | complex       | -\>     | double       | \*     | complex      | -\>     | complex    |
+| complex       | \*     | integer64     | -\>     | complex      | \*     | double       | -\>     | complex    |
 | integer64     | /      | double        | -\>     | integer64    | /      | long double  | -\>     | double     |
 | double        | /      | integer64     | -\>     | integer64    | /      | long double  | -\>     | double     |
-| integer64     | ^      | double        | -\>     | integer64    | /      | long double  | -\>     | double     |
-| double        | ^      | integer64     | -\>     | integer64    | /      | long double  | -\>     | double     |
+| integer64     | /      | complex       | -\>     | double       | /      | complex      | -\>     | complex    |
+| complex       | /      | integer64     | -\>     | complex      | /      | double       | -\>     | complex    |
+| integer64     | ^      | double        | -\>     | integer64    | ^      | long double  | -\>     | double     |
+| double        | ^      | integer64     | -\>     | integer64    | ^      | long double  | -\>     | double     |
+| integer64     | ^      | complex       | -\>     | double       | ^      | complex      | -\>     | complex    |
+| complex       | ^      | integer64     | -\>     | complex      | ^      | double       | -\>     | complex    |
 | integer64     | %\*%   | double        | -\>     | integer64    | %\*%   | integer64    | -\>     | integer64  |
 | double        | %\*%   | integer64     | -\>     | integer64    | %\*%   | integer64    | -\>     | integer64  |
 | integer64     | %\*%   | complex       | -\>     | double       | %\*%   | complex      | -\>     | complex    |
@@ -366,12 +386,12 @@ the examples.
 | `>.integer64`                                                | `>`                                            |                 |
 | `>=.integer64`                                               | `>=`                                           |                 |
 
-|                                                                        |                                          |                 |
-|------------------------------------------------------------------------|------------------------------------------|-----------------|
-| **logical operators**                                                  | **see also**                             | **description** |
-| [`!.integer64`](https://bit64.r-lib.org/reference/format.integer64.md) | [`!`](https://rdrr.io/r/base/Logic.html) |                 |
-| `&.integer64`                                                          | `&`                                      |                 |
-| [`|.integer64`](https://bit64.r-lib.org/reference/ops64.md)            | [`|`](https://rdrr.io/r/base/Logic.html) |                 |
+|                                                             |                                          |                 |
+|-------------------------------------------------------------|------------------------------------------|-----------------|
+| **logical operators**                                       | **see also**                             | **description** |
+| [`!.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`!`](https://rdrr.io/r/base/Logic.html) |                 |
+| `&.integer64`                                               | `&`                                      |                 |
+| [`|.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`|`](https://rdrr.io/r/base/Logic.html) |                 |
 
 |                                                                                |                                                  |                              |
 |--------------------------------------------------------------------------------|--------------------------------------------------|------------------------------|
@@ -502,23 +522,6 @@ the examples.
   the proper method when called with argument `recursive=TRUE`.
   Therefore `c(list(integer64, integer64))` does not work and for now
   you can only call `c.integer64(list(x, x))`.
-
-- **generic binary operators** fail to dispatch *any* user-defined S3
-  method if the two arguments have two different S3 classes. For example
-  we have two classes [`bit::bit`](https://rdrr.io/pkg/bit/man/bit.html)
-  and [`bit::bitwhich`](https://rdrr.io/pkg/bit/man/bitwhich.html)
-  sparsely representing boolean vectors and we have methods
-  [`&.bit`](https://rdrr.io/pkg/bit/man/xor.html) and
-  [`&.bitwhich`](https://rdrr.io/pkg/bit/man/xor.html). For an
-  expression involving both as in `bit & bitwhich`, none of the two
-  methods is dispatched. Instead a standard method is dispatched, which
-  neither handles `bit` nor `bitwhich`. Although it lacks symmetry, the
-  better choice would be to dispatch simply the method of the class of
-  the first argument in case of class conflict. This choice would allow
-  authors of extension packages providing coherent behaviour at least
-  within their contributed classes. But as long as none of the package
-  author's methods is dispatched, they cannot handle the conflicting
-  classes at all.
 
 - **[`unlist()`](https://rdrr.io/r/base/unlist.html)** is not generic
   and if it were, we would face similar problems as with

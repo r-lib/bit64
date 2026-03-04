@@ -84,7 +84,6 @@
   [`is.finite(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
   [`is.infinite(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
   [`is.nan(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
-  [`` `!`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/format.integer64.md)
   : Unary operators and functions for integer64 vectors
 - [`hashcache()`](https://bit64.r-lib.org/reference/hashcache.md)
   [`sortcache()`](https://bit64.r-lib.org/reference/hashcache.md)
@@ -140,6 +139,7 @@
   [`` `>=`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
   [`` `&`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
   [`` `|`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
+  [`` `!`( ``*`<integer64>`*`)`](https://bit64.r-lib.org/reference/ops64.md)
   : Binary operators for integer64 vectors
 - [`optimizer64.data`](https://bit64.r-lib.org/reference/optimizer64.data.md)
   : Results of performance measurement on a Core i7 Lenovo T410 8 GB RAM
