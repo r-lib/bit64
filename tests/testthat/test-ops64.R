@@ -150,20 +150,20 @@ test_that("Minus and plus edge cases and 'rev'", {
   # UBSAN signed integer overflow expected for type 'long long int'
   # This is a false UBSAN alarm because overflow is detected and NA returned
   expect_warning(
-    expect_true(
-        identical.integer64(lim.integer64() + 1.0 - 1.0,
-        c(lim.integer64()[1L], NA))
-    ),
+    expect_true(identical.integer64(
+      lim.integer64() + 1.0 - 1.0,
+      c(lim.integer64()[1L], NA)
+    )),
     "NAs produced by integer64 overflow",
-    fixed=TRUE
+    fixed = TRUE
   )
   expect_warning(
-    expect_true(
-        identical.integer64(rev(lim.integer64()) - 1.0 + 1.0,
-        c(lim.integer64()[2L], NA))
-    ),
+    expect_true(identical.integer64(
+      rev(lim.integer64()) - 1.0 + 1.0,
+      c(lim.integer64()[2L], NA)
+    )),
     "NAs produced by integer64 overflow",
-    fixed=TRUE
+    fixed = TRUE
   )
 })
 
@@ -197,3 +197,56 @@ test_that("Comparison operators", {
   expect_true(identical.integer64(xi64 <= yi64, xi <= yi))
 })
 
+with_parameters_test_that("{operator} with integer64 vs {class} (returning integer64):", {
+  withr::local_seed(42)
+
+  if (getRversion() <= "3.6.0" && operator == "^")
+    x32 = 1:10 # there seems to be an issue with negative values with the `^` operator in ancient
+  else
+    x32 = c(-10:-1, 1:10)
+  x64 = as.integer64(x32)
+  y = sample(x32)
+  eval(parse(text=paste0("y = as.", class, "(y)")))
+
+  op = match.fun(operator)
+  maybe_cast = if (operator %in% c("+", "-", "*", "^", "%%", "%/%")) as.integer64 else identity
+
+  expected = tryCatch(maybe_cast(op(x32, y)), error=conditionMessage)
+  actual = tryCatch(op(x64, y), error=conditionMessage)
+  expect_identical(actual, expected)
+  
+  expected = tryCatch(maybe_cast(op(y, x32)), error=conditionMessage)
+  actual = tryCatch(op(y, x64), error=conditionMessage)
+  expect_identical(actual, expected)
+}, 
+  .cases = expand.grid(
+    operator=c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"),
+    class=c("integer", "double", "logical"),
+    stringsAsFactors=FALSE
+  )
+)
+
+with_parameters_test_that("{operator} with integer64 vs. {class} (not returning integer64):", {
+  skip_unless_r(">= 4.3.0")
+  withr::local_seed(42)
+
+  x32 = c(-10:-1, 1:10)
+  x64 = as.integer64(x32)
+  y = sample(x32)
+  eval(parse(text=paste0("y = as.", class, "(as.double(y)", if (class == "difftime") ', units = "secs"', ")")))
+    
+  op = match.fun(as.character(operator))
+  test_e = tryCatch(op(x32, y), error=conditionMessage)
+  test_a = tryCatch(op(x64, y), error=conditionMessage)
+  expect_identical(test_a, test_e)
+  
+  test_e = tryCatch(op(y, x32), error=conditionMessage)
+  test_a = tryCatch(op(y, x64), error=conditionMessage)
+  expect_identical(test_a, test_e)
+
+  }, 
+  .cases = expand.grid(
+    operator = c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"),
+    class = c("complex", "Date", "POSIXct", "POSIXlt", "difftime")
+  )
+)

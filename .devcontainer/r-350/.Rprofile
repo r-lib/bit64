@@ -11,7 +11,7 @@ test_that <- function(desc, code) {
   # Eval in a new environment to keep scope cleanish
   tryCatch(
     eval(substitute(code), envir = new.env(parent = parent.frame())),
-    skip_error = identity
+    skip = identity
   )
   cat("\n")
 }
@@ -19,7 +19,7 @@ test_that <- function(desc, code) {
 skip_if = function(cond, info) {
   if (!cond) return(invisible())
   e = simpleError(paste("Skipping:", info))
-  class(e) = c("skip_error", class(e))
+  class(e) = c("skip", class(e))
   stop(e)
 }
 
@@ -156,6 +156,8 @@ with_parameters_test_that <- function(desc, code, .cases = NULL, .interpret_glue
     tryCatch({
       eval(code_expr, envir = case_env)
       cat(".") # print dot for progress
+    }, skip = function(s) {
+      cat(sprintf("\nSKIPPED at case %d: %s\n", i, conditionMessage(s)))
     }, error = function(e) {
       cat(sprintf("\nFAILED at case %d: %s\n", i, conditionMessage(e)))
       cat("  Case parameters:\n")

@@ -85,37 +85,57 @@
 #' example in [`c()`][c.integer64], [`cbind()`][cbind.integer64], and
 #' [`rbind()`][rbind.integer64]
 #'
-#' Different from Base R, our operators [`+`][+.integer64], [`-`][-.integer64],
-#' \code{\link[=ops64]{\%/\%}}, and \code{\link[=ops64]{\%\%}} coerce their arguments to
-#' `integer64` and always return `integer64`.
+#' Our operators [`+`][ops64], [`-`][ops64], [`%/%`][ops64], and [`%%`][ops64] coerce 
+#' their arguments to `integer64` and return `integer64` if they are `integer`, 
+#' `double` or `logical`. Otherwise the `integer64` argument is coerced to double and 
+#' the R base method for the other class is called.
 #'
-#' The multiplication operator [`*`][*.integer64] coerces its first argument to
-#' `integer64` but allows its second argument to be also `double`: the second
-#' argument is internaly coerced to 'long double' and the result of the
-#' multiplication is returned as `integer64`.
-#'
-#' The division [`/`][/.integer64] and power [`^`][^.integer64] operators also
-#' coerce their first argument to `integer64` and coerce internally their second
-#' argument to 'long double', they return as `double`, like
+#' Our operators [`*`][ops64] and [`^`][ops64] coerce their first argument to 
+#' `integer64` and possibly the second to `integer64` if it is not `double` and 
+#' return `integer64` if they are `integer`, `double` or `logical`. Otherwise the 
+#' `integer64` argument is coerced to double and the R base method for the other 
+#' class is called.
+#' 
+#' The division [`/`][ops64] operator also coerces its first argument to `integer64` 
+#' and possibly the second to `integer64` if it is not `double` and returns 
+#' `integer64` if they are `integer`, `double` or `logical`. Otherwise the `integer64` 
+#' argument is coerced to double and the R base method for the other class is called.
+#' 
 #' [`sqrt()`][sqrt.integer64], [`log()`][log.integer64],
-#' [`log2()`][log2.integer64], and [`log10()`][log10.integer64] do.
+#' [`log2()`][log2.integer64], and [`log10()`][log10.integer64] coerce their first 
+#' argument to `integer64` and coerce internally their second argument to 
+#' 'long double', they return as `double`
 #'
 #' | **argument1** | **op** | **argument2** | **->** | **coerced1** | **op** | **coerced2** | **->** | **result** |
 #' |:-------------:|:------:|:-------------:|:------:|:------------:|:------:|:------------:|:------:|:----------:|
 #' | integer64     | +      | double        | ->     | integer64    | +      | integer64    | ->     | integer64  |
 #' | double        | +      | integer64     | ->     | integer64    | +      | integer64    | ->     | integer64  |
+#' | integer64     | +      | complex       | ->     | double       | +      | complex      | ->     | complex    |
+#' | complex       | +      | integer64     | ->     | complex      | +      | double       | ->     | complex    |
 #' | integer64     | -      | double        | ->     | integer64    | -      | integer64    | ->     | integer64  |
 #' | double        | -      | integer64     | ->     | integer64    | -      | integer64    | ->     | integer64  |
+#' | integer64     | -      | complex       | ->     | double       | -      | complex      | ->     | complex    |
+#' | complex       | -      | integer64     | ->     | complex      | -      | double       | ->     | complex    |
 #' | integer64     | %/%    | double        | ->     | integer64    | %/%    | integer64    | ->     | integer64  |
 #' | double        | %/%    | integer64     | ->     | integer64    | %/%    | integer64    | ->     | integer64  |
+#' | integer64     | %/%    | complex       | ->     | double       | %/%    | complex      | ->     | complex    |
+#' | complex       | %/%    | integer64     | ->     | complex      | %/%    | double       | ->     | complex    |
 #' | integer64     | %%     | double        | ->     | integer64    | %%     | integer64    | ->     | integer64  |
 #' | double        | %%     | integer64     | ->     | integer64    | %%     | integer64    | ->     | integer64  |
+#' | integer64     | %%     | complex       | ->     | double       | %%     | complex      | ->     | complex    |
+#' | complex       | %%     | integer64     | ->     | complex      | %%     | double       | ->     | complex    |
 #' | integer64     | *      | double        | ->     | integer64    | *      | long double  | ->     | integer64  |
 #' | double        | *      | integer64     | ->     | integer64    | *      | integer64    | ->     | integer64  |
+#' | integer64     | *      | complex       | ->     | double       | *      | complex      | ->     | complex    |
+#' | complex       | *      | integer64     | ->     | complex      | *      | double       | ->     | complex    |
 #' | integer64     | /      | double        | ->     | integer64    | /      | long double  | ->     | double     |
 #' | double        | /      | integer64     | ->     | integer64    | /      | long double  | ->     | double     |
-#' | integer64     | ^      | double        | ->     | integer64    | /      | long double  | ->     | double     |
-#' | double        | ^      | integer64     | ->     | integer64    | /      | long double  | ->     | double     |
+#' | integer64     | /      | complex       | ->     | double       | /      | complex      | ->     | complex    |
+#' | complex       | /      | integer64     | ->     | complex      | /      | double       | ->     | complex    |
+#' | integer64     | ^      | double        | ->     | integer64    | ^      | long double  | ->     | double     |
+#' | double        | ^      | integer64     | ->     | integer64    | ^      | long double  | ->     | double     |
+#' | integer64     | ^      | complex       | ->     | double       | ^      | complex      | ->     | complex    |
+#' | complex       | ^      | integer64     | ->     | complex      | ^      | double       | ->     | complex    |
 #' | integer64     | %*%    | double        | ->     | integer64    | %*%    | integer64    | ->     | integer64  |
 #' | double        | %*%    | integer64     | ->     | integer64    | %*%    | integer64    | ->     | integer64  |
 #' | integer64     | %*%    | complex       | ->     | double       | %*%    | complex      | ->     | complex    |
@@ -234,14 +254,14 @@
 #'    \strong{logical operators} \tab \strong{see also} \tab \strong{description} \cr
 #'    \code{\link{!.integer64}} \tab \code{\link{!}} \tab  \cr
 #'    \code{\link{&.integer64}} \tab \code{\link{&}} \tab  \cr
-#'    \code{\link[=ops64]{|.integer64}} \tab \code{\link[base:Logic]{|}} \tab  \cr
+#'    \code{\link{|.integer64}} \tab \code{\link[base:Logic]{|}} \tab  \cr
 #' }
 # TODO(r-lib/roxygen2#1668): Restore the markdown representation of the table.
 # | **logical operators** | **see also** | **description** |
 # |----------------------:|-------------:|:----------------|
 # |       [`!.integer64`] |        [`!`] | |
 # |       [`&.integer64`] |        [`&`] | |
-# | [`\|.integer64`][ops64] | [`\|`][base::Logic] | |
+# | [`\|.integer64`] | [`\|`][base::Logic] | |
 #'
 #' | **math functions**    | **see also** | **description**              |
 #' |----------------------:|-------------:|:-----------------------------|
@@ -357,19 +377,6 @@
 #'    and it does not recursively dispatch the proper method when called with argument
 #'    `recursive=TRUE`. Therefore `c(list(integer64, integer64))` does not work and
 #'    for now you can only call `c.integer64(list(x, x))`.
-#'
-#'  - **generic binary operators** fail to dispatch *any* user-defined S3 method
-#'     if the two arguments have two different S3 classes. For example we have two
-#'     classes [`bit::bit`] and [`bit::bitwhich`] sparsely representing boolean vectors
-#'     and we have methods [`&.bit`][bit::xor.default] and
-#'     [`&.bitwhich`][bit::xor.default]. For an expression involving both as in
-#'     `bit & bitwhich`, none of the two methods is dispatched. Instead a standard
-#'     method is dispatched, which neither handles `bit` nor `bitwhich`. Although
-#'     it lacks symmetry, the better choice would be to dispatch simply the method
-#'     of the class of the first argument in case of class conflict. This choice would
-#'     allow authors of extension packages providing coherent behaviour at least within
-#'     their contributed classes. But as long as none of the package author's methods is
-#'     dispatched, they cannot handle the conflicting classes at all.
 #'
 #'  - **[unlist()]** is not generic and if it were, we would face similar problems as
 #'    with [c()]

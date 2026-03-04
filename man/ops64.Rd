@@ -18,6 +18,7 @@
 \alias{>=.integer64}
 \alias{&.integer64}
 \alias{|.integer64}
+\alias{!.integer64}
 \title{Binary operators for integer64 vectors}
 \usage{
 binattr(e1, e2)
@@ -51,20 +52,18 @@ binattr(e1, e2)
 \method{&}{integer64}(e1, e2)
 
 \method{|}{integer64}(e1, e2)
+
+\method{!}{integer64}(x)
 }
 \arguments{
-\item{e1}{an atomic vector of class 'integer64'}
-
-\item{e2}{an atomic vector of class 'integer64'}
+\item{e1, e2, x}{numeric or complex vectors or objects which can be coerced to such, or other objects for which methods have been written for - especially 'integer64' vectors.}
 }
 \value{
-\code{\link{&}}, \code{\link{|}}, \code{\link[bit:xor]{bit::xor()}}, \code{\link{!=}}, \code{\link{==}},
-\code{\link{<}}, \code{\link{<=}}, \code{\link{>}}, \code{\link{>=}} return a logical vector
+\code{\link{&}}, \code{\link{|}}, \code{\link{!}}, \code{\link{!=}}, \code{\link{==}}, \code{\link{<}}, \code{\link{<=}}, \code{\link{>}}, \code{\link{>=}} return a logical vector
 
-\code{\link{^}} and \code{\link{/}} return a double vector
+\code{\link{/}} returns a double vector
 
-\code{\link{+}}, \code{\link{-}}, \code{\link{*}}, \code{\link[=Arithmetic]{\%/\%}}, \code{\link[=Arithmetic]{\%\%}}
-return a vector of class 'integer64'
+\code{\link{+}}, \code{\link{-}}, \code{\link{*}}, \code{\link[=Arithmetic]{\%/\%}}, \code{\link[=Arithmetic]{\%\%}}, \code{\link{^}} return a vector of class 'integer64' or different class depending on the operands
 }
 \description{
 Binary operators for integer64 vectors.
@@ -83,7 +82,7 @@ Binary operators for integer64 vectors.
   i*d  # old: 13
 }
 \seealso{
-\code{\link[=format.integer64]{format.integer64()}} \code{\link[=integer64]{integer64()}}
+\code{\link[=integer64]{integer64()}}
 }
 \keyword{classes}
 \keyword{manip}
