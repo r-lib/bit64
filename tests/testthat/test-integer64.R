@@ -871,10 +871,10 @@ test_that("extraction works consistent to integer: vector[", {
   expect_identical(getter(i32, 1L), i32)
   expect_identical(getter(i32, "a"), i32)
 
-  l = list(integer32(1L), integer32(2L), integer32(3L))
+  l = list(integer(1L), integer(2L), integer(3L))
   expect_identical(
     lapply(l, getter, 1L),
-    list(integer32(1L), integer32(1L), integer32(1L))
+    list(integer(1L), integer(1L), integer(1L))
   )
 })
 
