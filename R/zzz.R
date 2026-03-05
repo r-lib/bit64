@@ -301,3 +301,6 @@ target_class = function(x) {
   }
   "integer64"
 }
+
+# quote() requires >0 arguments and substitute(...) does not WAI, so mix substitute() and quote(...)
+missing_or_dots = function(x) identical(x, substitute()) || identical(x, quote(...))

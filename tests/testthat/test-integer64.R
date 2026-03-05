@@ -854,6 +854,28 @@ test_that("extraction works consistent to integer: vector[", {
 
   sel = c("d", "", "b", NA_character_)
   expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x[sel])))
+
+  expect_identical(lapply(list(integer64()), `[`, 0L), list(integer64()))
+
+  getter = function(x, ...) x[...]
+
+  i64 = integer64(1)
+  names(i64) = "a"
+  expect_identical(getter(i64), i64)
+  expect_identical(getter(i64, 1L), i64)
+  expect_identical(getter(i64, "a"), i64)
+
+  i32 = integer(1)
+  names(i32) = "a"
+  expect_identical(getter(i32), i32)
+  expect_identical(getter(i32, 1L), i32)
+  expect_identical(getter(i32, "a"), i32)
+
+  l = list(integer(1L), integer(2L), integer(3L))
+  expect_identical(
+    lapply(l, getter, 1L),
+    list(integer(1L), integer(1L), integer(1L))
+  )
 })
 
 test_that("replacement works consistent to integer: vector[<-", {
