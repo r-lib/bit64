@@ -375,6 +375,7 @@ NULL
 NULL
 
 methods::setOldClass("integer64")
+methods::setOldClass("difftime")
 
 # contributed by Leonardo Silvestri with modifications of JO
 #' @rdname all.equal.integer64
