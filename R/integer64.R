@@ -721,6 +721,7 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
   if (!is.integer64(x)) {
     sys_call = sys.call()
     sys_call[[1L]] = base::factor
+    sys_call[[2L]] = x # use local copy: #274
     pf = parent.frame()
     return(withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), "factor"))
   }

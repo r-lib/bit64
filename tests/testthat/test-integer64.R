@@ -821,6 +821,13 @@ with_parameters_test_that("factor and order work analogously to integer:", {
     )
 )
 
+test_that("factor() overwrite doesn't oversample (#274)", {
+  expect_identical(
+    with_seed(1, factor(sample(10))),
+    with_seed(1, base::factor(sample(10)))
+  )
+})
+
 test_that("extraction works consistent to integer: vector[", {
   x = 1:10
   names(x) = letters[seq_along(x)]
