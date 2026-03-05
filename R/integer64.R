@@ -896,8 +896,7 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   if (isTRUE(skipLast))
     sc = sc[-length(sc)]
   lapply(sc, function(el) {
-    # NB: proxy for missing(), which doesn't work here
-    if(identical(el, substitute()) || identical(el, ...)) return(el)
+    if(missing_or_dots(el)) return(el)
     el = eval(el, eval_frame)   
     if (is.integer64(el))
       el = as.integer(el)
@@ -923,7 +922,7 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   # NA handling
   if (length(dim(ret)) <= 1L) {
     # vector mode
-    if (!identical(args[[1L]], substitute()) && !identical(args[[1L]], quote(...))) {
+    if (!missing_or_dots(args[[1L]])) {
       arg1Value = args[[1L]]
       if (is.logical(arg1Value)) {
         ret[is.na(arg1Value[arg1Value])] = NA_integer64_real
@@ -938,7 +937,7 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
     # array/matrix mode
     dimSelect = args[seq_along(dim(x))]
     for (ii in seq_along(dimSelect)) {
-      if (identical(dimSelect[[ii]], substitute()) || identical(dimSelect[[ii]], quote(...))) next
+      if (missing_or_dots(dimSelect[[ii]])) next
       dsValue = dimSelect[[ii]]
       if (is.logical(dsValue) && anyNA(dsValue)) {
         naIndex = which(is.na(seq_len(dim(x)[ii])[dsValue]))
