@@ -823,16 +823,28 @@ with_parameters_test_that("factor and order work analogously to integer:", {
 
 test_that("factor() overwrite doesn't oversample (#274)", {
   expect_identical(
-    with_seed(1, factor(sample(10))),
-    with_seed(1, base::factor(sample(10)))
+    withr::with_seed(1, factor(sample(10))),
+    withr::with_seed(1, base::factor(sample(10)))
   )
-  expected_result = with_seed(1, base::factor(exclude = sample(1:10, 1L), sample(1:10)))
-  expect_identical(with_seed(1, factor(exclude = sample(1:10, 1L), sample(as.integer64(1:10)))), expected_result)
-  expect_identical(with_seed(1, factor(exclude = sample(1:10, 1L), sample(1:10))), expected_result)
+  expected_result = withr::with_seed(1, base::factor(exclude = sample(1:10, 1L), sample(1:10)))
+  expect_identical(
+    withr::with_seed(1, factor(exclude = sample(1:10, 1L), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1, factor(exclude = sample(1:10, 1L), sample(1:10))),
+    expected_result
+  )
   
-  expected_result = with_seed(1, base::factor(sample(1:10), exclude = sample(1:10, 1L)))
-  expect_identical(with_seed(1, factor(sample(as.integer64(1:10)), exclude = sample(1:10, 1L))), expected_result)
-  expect_identical(with_seed(1, factor(sample(1:10), exclude = sample(1:10, 1L))), expected_result)
+  expected_result = withr::with_seed(1, base::factor(sample(1:10), exclude = sample(1:10, 1L)))
+  expect_identical(
+    withr::with_seed(1, factor(sample(as.integer64(1:10)), exclude = sample(1:10, 1L))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1, factor(sample(1:10), exclude = sample(1:10, 1L))),
+    expected_result
+  )
 })
 
 test_that("extraction works consistent to integer: vector[", {
