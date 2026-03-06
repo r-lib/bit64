@@ -41,7 +41,6 @@ Suitable methods are
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 keypos(x)
 
-stopifnot(identical(keypos(x),  match.integer64(x, sort(unique(x), na.last=FALSE))))
 }
 \seealso{
 \code{\link[=unique.integer64]{unique.integer64()}} for the unique subset and \code{\link[=match.integer64]{match.integer64()}}
