@@ -200,6 +200,49 @@ test_that("exclude, useNA arguments work for integer64 method of table", {
   )
 })
 
+test_that("function evaluation in arguments of table is consistent to R", {
+  skip_unless_r("> 3.5.0") # unclear what's going on
+  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(1:10)))
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(1:10))),
+    expected_result
+  )
+
+  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(1:10)))
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(1:10))),
+    expected_result
+  )
+
+  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(1:10)))
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(1:10))),
+    expected_result
+  )
+  
+  expected_result = withr::with_seed(1L, base::table(useNA=sample(c("no", "ifany", "always"), 1), sample(1:10)))
+  expect_identical(
+    withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample(1:10))),
+    expected_result
+  )
+})
+
 test_that("different method= for duplicated, unique work", {
   x = as.integer64(c(1L, 2L, 1L))
   exp_dup = c(FALSE, FALSE, TRUE)
@@ -524,4 +567,30 @@ test_that("table dispatch integer64 and 'higher' types and factors", {
 
   expect_identical(table(as.integer64(1L), 1.0+1.0i), table(1L, 1.0+1.0i))
   expect_identical(table(1.0+1.0i, as.integer64(1L)), table(1.0+1.0i, 1L))
+})
+
+test_that("implicit tests from ?match work", {
+  x = as.integer64(sample(c(rep(NA, 9), 0:9), 32, TRUE))
+  table = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+
+  expect_identical(
+    match(x, table),
+    match(as.integer(x), as.integer(table))
+  )
+  expect_identical(
+    x %in% table,
+    as.integer(x) %in% as.integer(table)
+  )
+})
+
+test_that("implicit tests from ?unipos and ?keypos work", {
+  x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  expect_identical(unipos(x),  seq_along(x)[!duplicated(x)])
+  expect_identical(unipos(x),  match(unique(x), x))
+  expect_identical(unipos(x, order="values"),  match(unique(x, order="values"), x))
+  expect_identical(unique(x),  x[unipos(x)])
+  expect_identical(unique(x, order="values"),  x[unipos(x, order="values")])
+
+  x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  expect_identical(keypos(x),  match(x, sort(unique(x), na.last=FALSE)))
 })

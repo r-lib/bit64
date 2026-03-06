@@ -1355,13 +1355,11 @@ optimizer64 = function(nsmall=2L^16L,
 #' @examples
 #' x <- as.integer64(c(NA, 0:9), 32)
 #' table <- as.integer64(c(1:9, NA))
-#' match.integer64(x, table)
-#' "%in%.integer64"(x, table)
+#' match(x, table)
+#' x %in% table
 #'
 #' x <- as.integer64(sample(c(rep(NA, 9), 0:9), 32, TRUE))
 #' table <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#' stopifnot(identical(match.integer64(x, table), match(as.integer(x), as.integer(table))))
-#' stopifnot(identical("%in%.integer64"(x, table), as.integer(x) %in% as.integer(table)))
 #'
 #' \dontrun{
 #'     library(bit)
@@ -1900,12 +1898,6 @@ unique.integer64 = function(x,
 #' unipos(x)
 #' unipos(x, order="values")
 #'
-#' stopifnot(identical(unipos(x),  (1:length(x))[!duplicated(x)]))
-#' stopifnot(identical(unipos(x),  match.integer64(unique(x), x)))
-#' stopifnot(identical(unipos(x, order="values"),  match.integer64(unique(x, order="values"), x)))
-#' stopifnot(identical(unique(x),  x[unipos(x)]))
-#' stopifnot(identical(unique(x, order="values"),  x[unipos(x, order="values")]))
-#'
 #' @keywords manip logic
 #' @export
 unipos = function(x, incomparables = FALSE, order = c("original", "values", "any"), ...) UseMethod("unipos")
@@ -2107,20 +2099,52 @@ unipos.integer64 = function(x,
 #' @concept contingency table
 #' @export
 table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifany", "always"), dnn=list.names(...), deparse.level=1L) {
+  # assure order of evaluation to match base::table()
+  if (!missing(useNA) && !missing(exclude)) {
+    force(useNA)
+  } else if (!missing(exclude)) {
+    force(exclude)
+  } else if (!missing(useNA)) {
+    force(useNA)
+  }
   dots = list(...)
-  is_int64 = vapply(dots, is.integer64, logical(1L), USE.NAMES=FALSE)
-  is_int = vapply(dots, is.integer, logical(1L), USE.NAMES=FALSE)
+  if (!missing(useNA) && !missing(exclude)) force(exclude) # force after '...'
+
+  if (is.null(names(dots)))
+    sel = rep(TRUE, length(dots))
+  else
+    sel = !names(dots) %in% c("return", "order", "nunique", "method")
+  is_int64 = vapply(dots[sel], is.integer64, logical(1L), USE.NAMES=FALSE)
+  is_int = vapply(dots[sel], is.integer, logical(1L), USE.NAMES=FALSE)
   # TODO(#236): avoid this workaround to hack S3 dispatch. For now,
   #   we only use table.integer64() when we are sure there is no information loss (coercion).
+  sys_call = match.call()
+  sel = which(vapply(sys_call[seq_along(dots) + 1L], is.symbol, FALSE)) + 1L
+  if (length(sel)) {
+    n = names(sys_call)
+    s = vapply(sys_call[sel], as.character, "")
+    if (is.null(n)) {
+      n = rep("", length(sys_call))
+      n[sel] = s
+    } else {
+      idx = sel[n[sel] == ""]
+      n[idx] = s[n[sel] == ""]
+    }
+    names(sys_call) = n
+  }
+  for (ii in seq_along(dots))
+    sys_call[[ii + 1L]] = dots[[ii]]
+  if (!missing(useNA)) sys_call$useNA = useNA
+  if (!missing(exclude)) sys_call$exclude = exclude
+  pf = parent.frame()
+  # add unused function `list.names` to eliminate CMD check NOTE about missing function definition.
+  list.names = function(...) {}
   if (length(dots) && any(is_int64) && all(is_int64 | is_int)) {
-    sys_call = sys.call()
     sys_call[[1L]] = table.integer64
-    pf = parent.frame()
-    # add unused function `list.names` to eliminate CMD check NOTE about missing function definition.
-    list.names = function(...) {}
     withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"), "table.integer64")
   } else {
-    UseMethod("table")
+    sys_call[[1L]] = base::table
+    withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"))
   }
 }
 #' @exportS3Method table default
@@ -2422,7 +2446,6 @@ as.integer64.factor = function(x, ...) as.integer64(unclass(x))
 #' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #' keypos(x)
 #'
-#' stopifnot(identical(keypos(x),  match.integer64(x, sort(unique(x), na.last=FALSE))))
 #' @keywords manip univar
 #' @export
 keypos = function(x, ...) UseMethod("keypos")

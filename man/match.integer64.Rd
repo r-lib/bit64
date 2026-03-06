@@ -72,13 +72,11 @@ Suitable methods for \code{match.integer64} are
 \examples{
 x <- as.integer64(c(NA, 0:9), 32)
 table <- as.integer64(c(1:9, NA))
-match.integer64(x, table)
-"\%in\%.integer64"(x, table)
+match(x, table)
+x \%in\% table
 
 x <- as.integer64(sample(c(rep(NA, 9), 0:9), 32, TRUE))
 table <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-stopifnot(identical(match.integer64(x, table), match(as.integer(x), as.integer(table))))
-stopifnot(identical("\%in\%.integer64"(x, table), as.integer(x) \%in\% as.integer(table)))
 
 \dontrun{
     library(bit)
