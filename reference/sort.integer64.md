@@ -97,22 +97,22 @@ see [`sort()`](https://rdrr.io/r/base/sort.html) and
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   x
 #> integer64
-#>  [1] <NA> 1    <NA> 7    <NA> <NA> <NA> <NA> 3    5    9    <NA> <NA>
-#> [14] <NA> <NA> <NA> <NA> 8    <NA> 9    <NA> 4    <NA> 6    5    <NA>
-#> [27] 8    <NA> 1    <NA> 7    4   
+#>  [1] <NA> <NA> <NA> 3    <NA> 3    <NA> <NA> <NA> <NA> <NA> 6    9   
+#> [14] <NA> <NA> <NA> 1    <NA> <NA> 8    <NA> <NA> <NA> <NA> <NA> <NA>
+#> [27] <NA> 3    <NA> 5    9    <NA>
   sort(x)
 #> integer64
-#>  [1] 1    1    3    4    4    5    5    6    7    7    8    8    9   
-#> [14] 9    <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA>
+#>  [1] 1    3    3    3    5    6    8    9    9    <NA> <NA> <NA> <NA>
+#> [14] <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA>
 #> [27] <NA> <NA> <NA> <NA> <NA> <NA>
   message("the following has default optimize='time' which is faster but requires more RAM, this calls 'ramorder'")
 #> the following has default optimize='time' which is faster but requires more RAM, this calls 'ramorder'
   order(x)
-#>  [1]  2 29  9 22 32 10 25 24  4 31 18 27 11 20  1  3  5  6  7  8 12 13
-#> [23] 14 15 16 17 19 21 23 26 28 30
+#>  [1] 17  4  6 28 30 12 20 13 31  1  2  3  5  7  8  9 10 11 14 15 16 18
+#> [23] 19 21 22 23 24 25 26 27 29 32
   message("slower with less RAM, this calls 'ramsortorder'")
 #> slower with less RAM, this calls 'ramsortorder'
   order(x, optimize="memory")
-#>  [1]  2 29  9 22 32 10 25 24  4 31 18 27 11 20  1  3  5  6  7  8 12 13
-#> [23] 14 15 16 17 19 21 23 26 28 30
+#>  [1] 17  4  6 28 30 12 20 13 31  1  2  3  5  7  8  9 10 11 14 15 16 18
+#> [23] 19 21 22 23 24 25 26 27 29 32
 ```

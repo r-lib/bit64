@@ -94,7 +94,7 @@ for general matching.
 ``` r
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 unipos(x)
-#> [1]  1  3  5  6  7 20 22 30
+#>  [1]  1  7  9 11 13 14 18 20 28 30
 unipos(x, order="values")
-#> [1]  1  3  5 22 30  6 20  7
+#>  [1]  1 18 28 30 11 14 13 20  7  9
 ```
