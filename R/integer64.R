@@ -719,9 +719,11 @@ as.ordered = function(x) ordered(x=x)
 #' @rdname factor
 #' @export
 factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.ordered(x), nmax=NA) {
+  force(x)
   if (!is.integer64(x)) {
-    sys_call = sys.call()
+    sys_call = match.call()
     sys_call[[1L]] = base::factor
+    sys_call$x = x
     pf = parent.frame()
     return(withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), "factor"))
   }
