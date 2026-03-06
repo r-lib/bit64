@@ -115,9 +115,3 @@ cat(sprintf(
 ))
 
 setdiff(failing_pkgs, failing_on_cran)
-
-
-set.seed(1L)
-bit64::factor(sample(letters[1:3], 10L, replace=TRUE), levels=letters[1:5])
-set.seed(1L)
-base::factor(sample(letters[1:3], 10L, replace=TRUE), levels=letters[1:5])
