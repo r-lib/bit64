@@ -41,7 +41,8 @@ if (getRversion() < "3.6.0") {
 generic_call_in_stack = function(generic_name) {
   calls = sys.calls()
   # we define `:.default` --> avoid infinite loop
-  for (jj in base::`:`(length(calls), 1L)) {
+  # -2: tail is always this function, -2 is the method calling this function
+  for (jj in base::`:`(length(calls) - 2L, 1L)) {
     this_call = calls[[jj]][[1L]]
     if (identical(this_call, as.name(generic_name))) return(TRUE)
     if (is.call(this_call)) {
@@ -51,6 +52,13 @@ generic_call_in_stack = function(generic_name) {
     } else if (is.function(this_call)) {
       # substitute() equivalent
       if (identical(this_call, get(generic_name))) return(TRUE)
+    } else if (identical(this_call, quote(FUN))) { # sapply, lapply, Map, mapply, apply, ...
+      FUN = evalq(FUN, parent.frame(length(calls) - jj))
+      if (identical(FUN, get(generic_name))) return(TRUE)
+      if (identical(FUN, generic_name)) return(TRUE) # sapply(x, "is.double")
+    } else if (identical(this_call, quote(.f))) { # purrr mappers
+      .f = evalq(.f, parent.frame(length(calls) - jj))
+      if (identical(.f, get(generic_name))) return(TRUE)
     }
   }
   FALSE

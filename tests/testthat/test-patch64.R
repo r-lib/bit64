@@ -30,3 +30,17 @@ test_that("Old \\dontshow{} tests continue working", {
   expect_identical(order(zi64), order(zi))
   expect_identical(order(zi64, decreasing=TRUE), order(zi, decreasing=TRUE))
 })
+
+test_that("generic invoked from sapply doesn't throw warning", {
+  expect_no_warning(expect_true(sapply(1.0, is.double)))
+  expect_no_warning(expect_true(sapply(1.0, 'is.double')))
+
+  # simulating purrr::map
+  map = function(.x, .f) {
+    type = typeof(.f(.x[0L]))
+    out = vector(type, length(.x))
+    for (jj in seq_along(.x)) out[jj] = .f(.x[[jj]])
+    out
+  }
+  expect_no_warning(expect_true(map(1.0, is.double)))
+})
