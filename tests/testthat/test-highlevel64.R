@@ -201,21 +201,45 @@ test_that("exclude, useNA arguments work for integer64 method of table", {
 })
 
 test_that("function evaluation in arguments of table is consistent to R", {
-  expected_result = with_seed(1L, base::table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(1:10)))
-  expect_identical(with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(as.integer64(1:10)))), expected_result)
-  expect_identical(with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(1:10))), expected_result)
+  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(1:10)))
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(1:10))),
+    expected_result
+  )
 
-  expected_result = with_seed(1L, base::table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(1:10)))
-  expect_identical(with_seed(1L, table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(as.integer64(1:10)))), expected_result)
-  expect_identical(with_seed(1L, table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(1:10))), expected_result)
+  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(1:10)))
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(1:10))),
+    expected_result
+  )
 
-  expected_result = with_seed(1L, base::table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(1:10)))
-  expect_identical(with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))), expected_result)
-  expect_identical(with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(1:10))), expected_result)
+  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(1:10)))
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(1:10))),
+    expected_result
+  )
   
-  expected_result = with_seed(1L, base::table(useNA=sample(c("no", "ifany", "always"), 1), sample(1:10)))
-  expect_identical(with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))), expected_result)
-  expect_identical(with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample(1:10))), expected_result)
+  expected_result = withr::with_seed(1L, base::table(useNA=sample(c("no", "ifany", "always"), 1), sample(1:10)))
+  expect_identical(
+    withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample(1:10))),
+    expected_result
+  )
 })
 
 test_that("different method= for duplicated, unique work", {
