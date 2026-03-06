@@ -185,7 +185,23 @@ local_options <- function(new_opts) {
   invisible()
 }
 
-# local_seed: Save seed, set new seed, defer restore to parent frame
+# seed handling: Save seed, set new seed, defer restore to parent frame
+with_seed <- function(seed) {
+  # Check if global seed exists
+  if (exists(".Random.seed", envir = .GlobalEnv)) {
+    old_seed <- get(".Random.seed", envir = .GlobalEnv)
+    # Cleanup: restore the vector to global env
+    cleanup <- substitute(assign(".Random.seed", val, envir = .GlobalEnv), list(val = old_seed))
+  } else {
+    # Cleanup: remove the seed if it didn't exist
+    cleanup <- quote(rm(".Random.seed", envir = .GlobalEnv))
+  }
+  
+  set.seed(seed)
+  do.call(on.exit, list(cleanup, add = TRUE))
+  invisible()
+}
+
 local_seed <- function(seed) {
   # Check if global seed exists
   if (exists(".Random.seed", envir = .GlobalEnv)) {
