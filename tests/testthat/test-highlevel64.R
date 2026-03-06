@@ -200,7 +200,16 @@ test_that("exclude, useNA arguments work for integer64 method of table", {
   )
 })
 
-test_that("function evaluation in arguments of table is consistent to R", {
+test_that("our overwrite of table() is consistent with base::table", {
+  expect_identical(table(NULL), base::table(NULL))
+  expect_identical(table(a=NULL), base::table(a=NULL))
+  expect_identical(table(NULL, NULL), base::table(NULL, NULL))
+  expect_identical(table(a=NULL, b=NULL), base::table(a=NULL, b=NULL))
+  expect_identical(table(integer(), NULL), base::table(integer(), NULL))
+  expect_identical(table(a=integer(), b=NULL), base::table(a=integer(), b=NULL))
+  expect_same_error(table(1L, NULL), base::table(1L, NULL))
+  expect_same_error(table(a=1L, b=NULL), base::table(a=1L, b=NULL))
+
   skip_unless_r("> 3.5.0") # unclear what's going on
   expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(1:10)))
   expect_identical(
