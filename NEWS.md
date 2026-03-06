@@ -72,6 +72,7 @@
 1. `as.integer64(2^63)` returns `NA_integer64_` more consistently (e.g. on ARM), consistent with `as.integer(2^31)` (#19). Thanks @dipterix.
 1. `[.integer64` now runs faster and correctly regarding `NA` and arrays (#176). Thanks @hcirellu.
 1. `integer64() %in% 1L` no longer warns (#265). Thanks @hcirellu.
+1. `match.integer64(..., method="orderpos")` and `duplicated.integer64(..., method="orderdup")` no longer fail with "object 's' not found" (#58).
 
 ## NOTES
 

@@ -37,8 +37,7 @@ test_that("Different method= for match() and %in% work", {
   expect_identical(match(x, y, method="hashrev"), expected)
   expect_identical(match(x, y, method="sortorderpos"), expected)
   expect_error(match(x, y, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
-  # TODO(#58): Fix this, currently fails.
-  # expect_identical(match(x, y, method="orderpos"), expected)
+  expect_identical(match(x, y, method="orderpos"), expected)
 
   # NB: %in% is quite a bit different; while there's a public API to
   #   `%in%.integer64`, likely, there shouldn't be (it's strange to export
@@ -265,8 +264,7 @@ test_that("different method= for duplicated, unique work", {
   expect_identical(unique(x, method="sortorderuni"), exp_unq)
   expect_identical(unique(x, method="sortuni"), exp_unq)
 
-  # TODO(#58): Fix this, currently fails.
-  # expect_identical(duplicated(x, method="orderdup"), exp_dup)
+  expect_identical(duplicated(x, method="orderdup"), exp_dup)
   expect_identical(unique(x, method="orderuni"), exp_unq)
 })
 
@@ -377,10 +375,10 @@ test_that("prank() works as intended", {
   expect_identical(prank(x[1L]), NA_integer64_)
 })
 
-test_that("match.integer64 with method='orderpos' fails due to bug", {
+test_that("match.integer64 with method='orderpos' works", {
   x <- as.integer64(1:5)
   table <- as.integer64(3:7)
-  expect_error(match(x, table, method="orderpos"), "object 's' not found", fixed=TRUE)
+  expect_identical(match(x, table, method="orderpos"), c(NA, NA, 1:3))
 })
 
 test_that("match.integer64 with partial cache triggers fallback", {
