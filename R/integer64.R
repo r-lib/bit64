@@ -910,6 +910,8 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
 #' @rdname extract.replace.integer64
 #' @export
 `[.integer64` = function(x, i, j, ..., drop=TRUE) {
+  old_class = oldClass(x)
+
   sc = sys.call() # NB: not match.call(), which eats a missing argument in x[1, , 3]
   pf = parent.frame()
   args = position_args_with_int64_to_int_coercion(sc, pf)
@@ -963,7 +965,7 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
     dim(ret) = if (length(newDim)) newDim else NULL
   }
 
-  oldClass(ret) = "integer64"
+  oldClass(ret) = old_class
   ret
 }
 
@@ -981,9 +983,10 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
     ret = withCallingHandlers_and_choose_call(do.call(`[<-`, c(list(x=x), args)), c("[<-", "[<-.integer64"))  
   } else {
     args$value = as.integer64(value)
+    old_class = oldClass(x)
     oldClass(x) = NULL
     ret = withCallingHandlers_and_choose_call(do.call(`[<-`, c(list(x=x), args)), c("[<-", "[<-.integer64"))  
-    oldClass(ret) = "integer64"
+    oldClass(ret) = old_class
   }
   ret
 }
@@ -996,9 +999,10 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
       el = as.integer(el)
     el
   })
+  old_class = oldClass(x)
   oldClass(x) = NULL
   withCallingHandlers_and_choose_call({ret = do.call(`[[`, c(list(x=x), args))}, c("[[", "[[.integer64"))  
-  oldClass(ret) = "integer64"
+  oldClass(ret) = old_class
   ret
 }
 
@@ -1017,9 +1021,10 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
     withCallingHandlers_and_choose_call({ret = do.call(`[[<-`, c(list(x=x), args))}, c("[[<-", "[[<-.integer64"))  
   } else {
     args$value = as.integer64(value)
+    old_class = oldClass(x)
     oldClass(x) = NULL
     withCallingHandlers_and_choose_call({ret = do.call(`[[<-`, c(list(x=x), args))}, c("[[<-", "[[<-.integer64"))  
-    oldClass(ret) = "integer64"
+    oldClass(ret) = old_class
   }
   ret
 }
@@ -1059,7 +1064,7 @@ cbind.integer64 = function(...) {
         oldClass(l[[k]]) <- NULL
   }
   ret = do.call(cbind, l)
-    oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -1077,7 +1082,7 @@ rbind.integer64 = function(...) {
         oldClass(l[[k]]) <- NULL
   }
   ret = do.call(rbind, l)
-    oldClass(ret) <- "integer64"
+  oldClass(ret) = "integer64"
   ret
 }
 
@@ -1096,10 +1101,10 @@ as.data.frame.integer64 = function(x, row.names=NULL, optional=FALSE, ...) {
 
 #' @export
 rep.integer64 = function(x, ...) {
-    cl <- oldClass(x)
-    ret <- NextMethod()
-    oldClass(ret) <- cl
-    ret
+  cl = oldClass(x)
+  ret = NextMethod()
+  oldClass(ret) = cl
+  ret
 }
 
 # FIXME no method dispatch for :

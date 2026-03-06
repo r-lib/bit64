@@ -1156,3 +1156,20 @@ test_that("extraction consistent to integer: array[", {
   expect_identical(a32[-1, 2, -c(0, 2:3), drop=TRUE], 5:6)
   expect_identical(a64[-1, 2, -c(0, 2:3), drop=TRUE], as.integer64(5:6))
 })
+
+test_that("extraction from subclass retains inheritance structure", {
+  x = as.integer64(1:2)
+  class(x) = c("subclass", "integer64")
+
+  expect_identical(x[1:2], x)
+
+  y = x
+  y[2L] = as.integer64(3L)
+  expect_identical(y, structure(unclass(as.integer64(c(1L, 3L))), class=class(x)))
+
+  x1 = x[[1L]]
+  expect_identical(x1, structure(unclass(x)[1L], class=class(x)))
+
+  y[[2L]] = as.integer64(4L)
+  expect_identical(y, structure(unclass(as.integer64(c(1L, 4L))), class=class(x)))
+})
