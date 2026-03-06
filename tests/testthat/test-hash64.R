@@ -22,10 +22,10 @@ test_that("runif64 behaves as expected", {
 })
 
 test_that("implicit tests from ?hashmap continue working", {
-  x <- as.integer64(sample(c(NA, 0:9)))
-  y <- as.integer64(sample(c(NA, 1:9), 10, TRUE))
-  hx <- hashmap(x)
-  hy <- hashmap(y)
+  x = as.integer64(sample(c(NA, 0:9)))
+  y = as.integer64(sample(c(NA, 1:9), 10, TRUE))
+  hx = hashmap(x)
+  hy = hashmap(y)
 
   expect_identical(match(as.integer(x), as.integer(y)), hashpos(hy, x))
   expect_identical(match(as.integer(x), as.integer(y)), hashrev(hx, y))

@@ -1355,13 +1355,11 @@ optimizer64 = function(nsmall=2L^16L,
 #' @examples
 #' x <- as.integer64(c(NA, 0:9), 32)
 #' table <- as.integer64(c(1:9, NA))
-#' match.integer64(x, table)
-#' "%in%.integer64"(x, table)
+#' match(x, table)
+#' x %in% table
 #'
 #' x <- as.integer64(sample(c(rep(NA, 9), 0:9), 32, TRUE))
 #' table <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#' stopifnot(identical(match.integer64(x, table), match(as.integer(x), as.integer(table))))
-#' stopifnot(identical("%in%.integer64"(x, table), as.integer(x) %in% as.integer(table)))
 #'
 #' \dontrun{
 #'     library(bit)
@@ -1900,12 +1898,6 @@ unique.integer64 = function(x,
 #' unipos(x)
 #' unipos(x, order="values")
 #'
-#' stopifnot(identical(unipos(x),  (1:length(x))[!duplicated(x)]))
-#' stopifnot(identical(unipos(x),  match.integer64(unique(x), x)))
-#' stopifnot(identical(unipos(x, order="values"),  match.integer64(unique(x, order="values"), x)))
-#' stopifnot(identical(unique(x),  x[unipos(x)]))
-#' stopifnot(identical(unique(x, order="values"),  x[unipos(x, order="values")]))
-#'
 #' @keywords manip logic
 #' @export
 unipos = function(x, incomparables = FALSE, order = c("original", "values", "any"), ...) UseMethod("unipos")
@@ -2422,7 +2414,6 @@ as.integer64.factor = function(x, ...) as.integer64(unclass(x))
 #' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #' keypos(x)
 #'
-#' stopifnot(identical(keypos(x),  match.integer64(x, sort(unique(x), na.last=FALSE))))
 #' @keywords manip univar
 #' @export
 keypos = function(x, ...) UseMethod("keypos")
