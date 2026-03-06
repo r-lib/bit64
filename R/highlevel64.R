@@ -2132,7 +2132,7 @@ table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifan
     }
     names(sys_call) = n
   }
-  for (ii in seq_along(dots))
+  for (ii in which(vapply(dots, Negate(is.null), logical(1L))))
     sys_call[[ii + 1L]] = dots[[ii]]
   if (!missing(useNA)) sys_call$useNA = useNA
   if (!missing(exclude)) sys_call$exclude = exclude
