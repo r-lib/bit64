@@ -1500,7 +1500,7 @@ match.integer64 = function(x, table, nomatch = NA_integer_, nunique=NULL, method
     },
     orderpos={
       if (is.null(cache_env) || !exists("order", cache_env)) {
-        o <- seq_along(s)
+        o <- seq_along(table)
         ramorder(table, o, na.last=FALSE)
       } else {
         o <- get("order", cache_env)
@@ -1685,7 +1685,7 @@ duplicated.integer64 = function(x, incomparables = FALSE, nunique = NULL, method
     },
     orderdup={
       if (is.null(cache_env) || is.null(cache_env$order)) {
-        o <- seq_along(s)
+        o <- seq_along(x)
         ramorder(x, o, na.last=FALSE)
       } else {
         o <- get("order", cache_env, inherits=FALSE)
