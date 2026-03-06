@@ -549,5 +549,5 @@ test_that("implicit tests from ?unipos and ?keypos work", {
   expect_identical(unique(x, order="values"),  x[unipos(x, order="values")])
 
   x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-  expect_identical(keypos(x),  match.integer64(x, sort(unique(x), na.last=FALSE)))
+  expect_identical(keypos(x),  match(x, sort(unique(x), na.last=FALSE)))
 })
