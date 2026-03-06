@@ -97,12 +97,4 @@ unipos(x)
 #> [1]  1  3  5  6  7 20 22 30
 unipos(x, order="values")
 #> [1]  1  3  5 22 30  6 20  7
-
-stopifnot(identical(unipos(x),  (1:length(x))[!duplicated(x)]))
-stopifnot(identical(unipos(x),  match.integer64(unique(x), x)))
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-stopifnot(identical(unipos(x, order="values"),  match.integer64(unique(x, order="values"), x)))
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-stopifnot(identical(unique(x),  x[unipos(x)]))
-stopifnot(identical(unique(x, order="values"),  x[unipos(x, order="values")]))
 ```

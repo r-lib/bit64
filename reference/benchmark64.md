@@ -155,7 +155,7 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> out of curiosity: how well rank-correlated are fact and parallel fact table?
 #> coerce to factor
 #>         32-bit 64-bit hashcache sortordercache ordercache allcache
-#> seconds  0.018      0         0              0          0        0
+#> seconds  0.012      0         0              0          0        0
 #> factor   1.000    Inf       Inf            Inf        Inf      Inf
 #> 
 #> === 64-bit ===
@@ -163,125 +163,95 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> get all percentiles for plotting distribution shape
 #> list the upper and lower permille of values
 #> OK, for some of these values I want to see the complete ROW, so I need their positions in the data.frame
-#> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check if any values are duplicated
 #> since not unique, then check distribution of frequencies
 #> OK, let's plot the percentiles of unique values versus the percentiles allowing for duplicates
 #> check whether we find a match for each fact in the dimension table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check whether there are any dimension table entries not in the fact table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check whether we find a match for each fact in a parallel fact table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> find positions of facts in dimension table for joining
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> find positions of facts in parallel fact table for joining
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> out of curiosity: how well rank-correlated are fact and parallel fact table?
 #> coerce to factor
 #>         32-bit 64-bit hashcache sortordercache ordercache allcache
-#> seconds  0.018   0.02         0              0          0        0
-#> factor   1.000   0.90       Inf            Inf        Inf      Inf
+#> seconds  0.012  0.008         0              0          0        0
+#> factor   1.000  1.500       Inf            Inf        Inf      Inf
 #> 
 #> === hashcache ===
 #> check data range, mean etc.
 #> get all percentiles for plotting distribution shape
 #> list the upper and lower permille of values
 #> OK, for some of these values I want to see the complete ROW, so I need their positions in the data.frame
-#> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check if any values are duplicated
 #> since not unique, then check distribution of frequencies
 #> OK, let's plot the percentiles of unique values versus the percentiles allowing for duplicates
 #> check whether we find a match for each fact in the dimension table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check whether there are any dimension table entries not in the fact table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check whether we find a match for each fact in a parallel fact table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> find positions of facts in dimension table for joining
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> find positions of facts in parallel fact table for joining
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> out of curiosity: how well rank-correlated are fact and parallel fact table?
 #> coerce to factor
 #>         32-bit 64-bit hashcache sortordercache ordercache allcache
-#> seconds  0.018   0.02     0.016              0          0        0
-#> factor   1.000   0.90     1.125            Inf        Inf      Inf
+#> seconds  0.012  0.008     0.005              0          0        0
+#> factor   1.000  1.500     2.400            Inf        Inf      Inf
 #> 
 #> === sortordercache ===
 #> check data range, mean etc.
 #> get all percentiles for plotting distribution shape
 #> list the upper and lower permille of values
 #> OK, for some of these values I want to see the complete ROW, so I need their positions in the data.frame
-#> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check if any values are duplicated
 #> since not unique, then check distribution of frequencies
 #> OK, let's plot the percentiles of unique values versus the percentiles allowing for duplicates
 #> check whether we find a match for each fact in the dimension table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check whether there are any dimension table entries not in the fact table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check whether we find a match for each fact in a parallel fact table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> find positions of facts in dimension table for joining
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> find positions of facts in parallel fact table for joining
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> out of curiosity: how well rank-correlated are fact and parallel fact table?
 #> coerce to factor
 #>         32-bit 64-bit hashcache sortordercache ordercache allcache
-#> seconds  0.018   0.02     0.016          0.013          0        0
-#> factor   1.000   0.90     1.125          1.385        Inf      Inf
+#> seconds  0.012  0.008     0.005          0.004          0        0
+#> factor   1.000  1.500     2.400          3.000        Inf      Inf
 #> 
 #> === ordercache ===
 #> check data range, mean etc.
 #> get all percentiles for plotting distribution shape
 #> list the upper and lower permille of values
 #> OK, for some of these values I want to see the complete ROW, so I need their positions in the data.frame
-#> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check if any values are duplicated
 #> since not unique, then check distribution of frequencies
 #> OK, let's plot the percentiles of unique values versus the percentiles allowing for duplicates
 #> check whether we find a match for each fact in the dimension table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check whether there are any dimension table entries not in the fact table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check whether we find a match for each fact in a parallel fact table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> find positions of facts in dimension table for joining
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> find positions of facts in parallel fact table for joining
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> out of curiosity: how well rank-correlated are fact and parallel fact table?
 #> coerce to factor
 #>         32-bit 64-bit hashcache sortordercache ordercache allcache
-#> seconds  0.018   0.02     0.016          0.013      0.014        0
-#> factor   1.000   0.90     1.125          1.385      1.286      Inf
+#> seconds  0.012  0.008     0.005          0.004      0.008        0
+#> factor   1.000  1.500     2.400          3.000      1.500      Inf
 #> 
 #> === allcache ===
 #> check data range, mean etc.
 #> get all percentiles for plotting distribution shape
 #> list the upper and lower permille of values
 #> OK, for some of these values I want to see the complete ROW, so I need their positions in the data.frame
-#> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check if any values are duplicated
 #> since not unique, then check distribution of frequencies
 #> OK, let's plot the percentiles of unique values versus the percentiles allowing for duplicates
 #> check whether we find a match for each fact in the dimension table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check whether there are any dimension table entries not in the fact table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> check whether we find a match for each fact in a parallel fact table
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> find positions of facts in dimension table for joining
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> find positions of facts in parallel fact table for joining
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> out of curiosity: how well rank-correlated are fact and parallel fact table?
 #> coerce to factor
 #>         32-bit 64-bit hashcache sortordercache ordercache allcache
-#> seconds  0.018   0.02     0.016          0.013      0.014     0.01
-#> factor   1.000   0.90     1.125          1.385      1.286     1.80
+#> seconds  0.012  0.008     0.005          0.004      0.008    0.006
+#> factor   1.000  1.500     2.400          3.000      1.500    2.000
 #> 
 #> now let's look more systematically at the components involved
 #> 32-bit match(s, b)
@@ -300,49 +270,49 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> 32-bit summary(b)
 #> 32-bit factor(b)
 #> seconds              32-bit 64-bit hashcache sortordercache ordercache
-#> cache          0.000   0.00     0.000          0.000      0.000
-#> match(s, b)    0.000   0.00     0.000          0.000      0.000
-#> s %in% b       0.000   0.00     0.000          0.000      0.000
-#> match(b, s)    0.000   0.00     0.000          0.000      0.000
-#> b %in% s       0.000   0.00     0.000          0.000      0.000
-#> match(b, b)    0.001   0.00     0.000          0.000      0.000
-#> b %in% b       0.000   0.00     0.000          0.000      0.000
-#> duplicated(b)  0.000   0.00     0.000          0.000      0.000
-#> unique(b)      0.000   0.00     0.000          0.000      0.000
-#> table(b)       0.002   0.00     0.000          0.000      0.000
-#> sort(b)        0.000   0.00     0.000          0.000      0.000
-#> order(b)       0.000   0.00     0.000          0.000      0.000
-#> rank(b)        0.001   0.00     0.000          0.000      0.000
-#> quantile(b)    0.001   0.00     0.000          0.000      0.000
-#> summary(b)     0.000   0.00     0.000          0.000      0.000
-#> factor(b)      0.001   0.00     0.000          0.000      0.000
-#> SESSION        0.018   0.02     0.016          0.013      0.014
+#> cache          0.000  0.000     0.000          0.000      0.000
+#> match(s, b)    0.000  0.000     0.000          0.000      0.000
+#> s %in% b       0.001  0.000     0.000          0.000      0.000
+#> match(b, s)    0.000  0.000     0.000          0.000      0.000
+#> b %in% s       0.000  0.000     0.000          0.000      0.000
+#> match(b, b)    0.000  0.000     0.000          0.000      0.000
+#> b %in% b       0.001  0.000     0.000          0.000      0.000
+#> duplicated(b)  0.000  0.000     0.000          0.000      0.000
+#> unique(b)      0.000  0.000     0.000          0.000      0.000
+#> table(b)       0.003  0.000     0.000          0.000      0.000
+#> sort(b)        0.000  0.000     0.000          0.000      0.000
+#> order(b)       0.000  0.000     0.000          0.000      0.000
+#> rank(b)        0.001  0.000     0.000          0.000      0.000
+#> quantile(b)    0.001  0.000     0.000          0.000      0.000
+#> summary(b)     0.000  0.000     0.000          0.000      0.000
+#> factor(b)      0.001  0.000     0.000          0.000      0.000
+#> SESSION        0.012  0.008     0.005          0.004      0.008
 #>               allcache
-#> cache             0.00
-#> match(s, b)       0.00
-#> s %in% b          0.00
-#> match(b, s)       0.00
-#> b %in% s          0.00
-#> match(b, b)       0.00
-#> b %in% b          0.00
-#> duplicated(b)     0.00
-#> unique(b)         0.00
-#> table(b)          0.00
-#> sort(b)           0.00
-#> order(b)          0.00
-#> rank(b)           0.00
-#> quantile(b)       0.00
-#> summary(b)        0.00
-#> factor(b)         0.00
-#> SESSION           0.01
+#> cache            0.000
+#> match(s, b)      0.000
+#> s %in% b         0.000
+#> match(b, s)      0.000
+#> b %in% s         0.000
+#> match(b, b)      0.000
+#> b %in% b         0.000
+#> duplicated(b)    0.000
+#> unique(b)        0.000
+#> table(b)         0.000
+#> sort(b)          0.000
+#> order(b)         0.000
+#> rank(b)          0.000
+#> quantile(b)      0.000
+#> summary(b)       0.000
+#> factor(b)        0.000
+#> SESSION          0.006
 #> factor              32-bit 64-bit hashcache sortordercache ordercache
 #> cache            NaN    NaN       NaN            NaN        NaN
 #> match(s, b)      NaN    NaN       NaN            NaN        NaN
-#> s %in% b         NaN    NaN       NaN            NaN        NaN
+#> s %in% b           1    Inf       Inf            Inf        Inf
 #> match(b, s)      NaN    NaN       NaN            NaN        NaN
 #> b %in% s         NaN    NaN       NaN            NaN        NaN
-#> match(b, b)        1    Inf       Inf            Inf        Inf
-#> b %in% b         NaN    NaN       NaN            NaN        NaN
+#> match(b, b)      NaN    NaN       NaN            NaN        NaN
+#> b %in% b           1    Inf       Inf            Inf        Inf
 #> duplicated(b)    NaN    NaN       NaN            NaN        NaN
 #> unique(b)        NaN    NaN       NaN            NaN        NaN
 #> table(b)           1    Inf       Inf            Inf        Inf
@@ -352,15 +322,15 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> quantile(b)        1    Inf       Inf            Inf        Inf
 #> summary(b)       NaN    NaN       NaN            NaN        NaN
 #> factor(b)          1    Inf       Inf            Inf        Inf
-#> SESSION            1    0.9     1.125          1.385      1.286
+#> SESSION            1    1.5       2.4              3        1.5
 #>               allcache
 #> cache              NaN
 #> match(s, b)        NaN
-#> s %in% b           NaN
+#> s %in% b           Inf
 #> match(b, s)        NaN
 #> b %in% s           NaN
-#> match(b, b)        Inf
-#> b %in% b           NaN
+#> match(b, b)        NaN
+#> b %in% b           Inf
 #> duplicated(b)      NaN
 #> unique(b)          NaN
 #> table(b)           Inf
@@ -370,91 +340,84 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> quantile(b)        Inf
 #> summary(b)         NaN
 #> factor(b)          Inf
-#> SESSION            1.8
+#> SESSION              2
 #> 64-bit match(s, b)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> 64-bit s %in% b
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> 64-bit match(b, s)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> 64-bit b %in% s
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> 64-bit match(b, b)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> 64-bit b %in% b
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> 64-bit duplicated(b)
 #> 64-bit unique(b)
 #> 64-bit table(b)
 #> 64-bit sort(b)
 #> 64-bit order(b)
-#> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> 64-bit rank(b)
 #> 64-bit quantile(b)
 #> 64-bit summary(b)
 #> 64-bit factor(b)
 #> seconds              32-bit 64-bit hashcache sortordercache ordercache
 #> cache          0.000  0.000     0.000          0.000      0.000
-#> match(s, b)    0.000  0.001     0.000          0.000      0.000
-#> s %in% b       0.000  0.001     0.000          0.000      0.000
-#> match(b, s)    0.000  0.001     0.000          0.000      0.000
-#> b %in% s       0.000  0.001     0.000          0.000      0.000
-#> match(b, b)    0.001  0.001     0.000          0.000      0.000
-#> b %in% b       0.000  0.001     0.000          0.000      0.000
-#> duplicated(b)  0.000  0.000     0.000          0.000      0.000
+#> match(s, b)    0.000  0.000     0.000          0.000      0.000
+#> s %in% b       0.001  0.000     0.000          0.000      0.000
+#> match(b, s)    0.000  0.000     0.000          0.000      0.000
+#> b %in% s       0.000  0.000     0.000          0.000      0.000
+#> match(b, b)    0.000  0.000     0.000          0.000      0.000
+#> b %in% b       0.001  0.000     0.000          0.000      0.000
+#> duplicated(b)  0.000  0.001     0.000          0.000      0.000
 #> unique(b)      0.000  0.000     0.000          0.000      0.000
-#> table(b)       0.002  0.001     0.000          0.000      0.000
+#> table(b)       0.003  0.001     0.000          0.000      0.000
 #> sort(b)        0.000  0.000     0.000          0.000      0.000
-#> order(b)       0.000  0.001     0.000          0.000      0.000
-#> rank(b)        0.001  0.001     0.000          0.000      0.000
-#> quantile(b)    0.001  0.001     0.000          0.000      0.000
+#> order(b)       0.000  0.000     0.000          0.000      0.000
+#> rank(b)        0.001  0.000     0.000          0.000      0.000
+#> quantile(b)    0.001  0.000     0.000          0.000      0.000
 #> summary(b)     0.000  0.001     0.000          0.000      0.000
-#> factor(b)      0.001  0.002     0.000          0.000      0.000
-#> SESSION        0.018  0.020     0.016          0.013      0.014
+#> factor(b)      0.001  0.001     0.000          0.000      0.000
+#> SESSION        0.012  0.008     0.005          0.004      0.008
 #>               allcache
-#> cache             0.00
-#> match(s, b)       0.00
-#> s %in% b          0.00
-#> match(b, s)       0.00
-#> b %in% s          0.00
-#> match(b, b)       0.00
-#> b %in% b          0.00
-#> duplicated(b)     0.00
-#> unique(b)         0.00
-#> table(b)          0.00
-#> sort(b)           0.00
-#> order(b)          0.00
-#> rank(b)           0.00
-#> quantile(b)       0.00
-#> summary(b)        0.00
-#> factor(b)         0.00
-#> SESSION           0.01
+#> cache            0.000
+#> match(s, b)      0.000
+#> s %in% b         0.000
+#> match(b, s)      0.000
+#> b %in% s         0.000
+#> match(b, b)      0.000
+#> b %in% b         0.000
+#> duplicated(b)    0.000
+#> unique(b)        0.000
+#> table(b)         0.000
+#> sort(b)          0.000
+#> order(b)         0.000
+#> rank(b)          0.000
+#> quantile(b)      0.000
+#> summary(b)       0.000
+#> factor(b)        0.000
+#> SESSION          0.006
 #> factor              32-bit 64-bit hashcache sortordercache ordercache
 #> cache            NaN    NaN       NaN            NaN        NaN
-#> match(s, b)      NaN    0.0       NaN            NaN        NaN
-#> s %in% b         NaN    0.0       NaN            NaN        NaN
-#> match(b, s)      NaN    0.0       NaN            NaN        NaN
-#> b %in% s         NaN    0.0       NaN            NaN        NaN
-#> match(b, b)        1    1.0       Inf            Inf        Inf
-#> b %in% b         NaN    0.0       NaN            NaN        NaN
-#> duplicated(b)    NaN    NaN       NaN            NaN        NaN
+#> match(s, b)      NaN    NaN       NaN            NaN        NaN
+#> s %in% b           1    Inf       Inf            Inf        Inf
+#> match(b, s)      NaN    NaN       NaN            NaN        NaN
+#> b %in% s         NaN    NaN       NaN            NaN        NaN
+#> match(b, b)      NaN    NaN       NaN            NaN        NaN
+#> b %in% b           1    Inf       Inf            Inf        Inf
+#> duplicated(b)    NaN    0.0       NaN            NaN        NaN
 #> unique(b)        NaN    NaN       NaN            NaN        NaN
-#> table(b)           1    2.0       Inf            Inf        Inf
+#> table(b)           1    3.0       Inf            Inf        Inf
 #> sort(b)          NaN    NaN       NaN            NaN        NaN
-#> order(b)         NaN    0.0       NaN            NaN        NaN
-#> rank(b)            1    1.0       Inf            Inf        Inf
-#> quantile(b)        1    1.0       Inf            Inf        Inf
+#> order(b)         NaN    NaN       NaN            NaN        NaN
+#> rank(b)            1    Inf       Inf            Inf        Inf
+#> quantile(b)        1    Inf       Inf            Inf        Inf
 #> summary(b)       NaN    0.0       NaN            NaN        NaN
-#> factor(b)          1    0.5       Inf            Inf        Inf
-#> SESSION            1    0.9     1.125          1.385      1.286
+#> factor(b)          1    1.0       Inf            Inf        Inf
+#> SESSION            1    1.5       2.4              3        1.5
 #>               allcache
 #> cache              NaN
 #> match(s, b)        NaN
-#> s %in% b           NaN
+#> s %in% b           Inf
 #> match(b, s)        NaN
 #> b %in% s           NaN
-#> match(b, b)        Inf
-#> b %in% b           NaN
+#> match(b, b)        NaN
+#> b %in% b           Inf
 #> duplicated(b)      NaN
 #> unique(b)          NaN
 #> table(b)           Inf
@@ -464,92 +427,85 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> quantile(b)        Inf
 #> summary(b)         NaN
 #> factor(b)          Inf
-#> SESSION            1.8
+#> SESSION              2
 #> hashcache cache
 #> hashcache match(s, b)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> hashcache s %in% b
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> hashcache match(b, s)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> hashcache b %in% s
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> hashcache match(b, b)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> hashcache b %in% b
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> hashcache duplicated(b)
 #> hashcache unique(b)
 #> hashcache table(b)
 #> hashcache sort(b)
 #> hashcache order(b)
-#> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> hashcache rank(b)
 #> hashcache quantile(b)
 #> hashcache summary(b)
 #> hashcache factor(b)
 #> seconds              32-bit 64-bit hashcache sortordercache ordercache
-#> cache          0.000  0.000     0.000          0.000      0.000
-#> match(s, b)    0.000  0.001     0.000          0.000      0.000
-#> s %in% b       0.000  0.001     0.001          0.000      0.000
-#> match(b, s)    0.000  0.001     0.001          0.000      0.000
-#> b %in% s       0.000  0.001     0.000          0.000      0.000
-#> match(b, b)    0.001  0.001     0.000          0.000      0.000
-#> b %in% b       0.000  0.001     0.001          0.000      0.000
-#> duplicated(b)  0.000  0.000     0.000          0.000      0.000
+#> cache          0.000  0.000     0.001          0.000      0.000
+#> match(s, b)    0.000  0.000     0.000          0.000      0.000
+#> s %in% b       0.001  0.000     0.000          0.000      0.000
+#> match(b, s)    0.000  0.000     0.000          0.000      0.000
+#> b %in% s       0.000  0.000     0.000          0.000      0.000
+#> match(b, b)    0.000  0.000     0.001          0.000      0.000
+#> b %in% b       0.001  0.000     0.000          0.000      0.000
+#> duplicated(b)  0.000  0.001     0.000          0.000      0.000
 #> unique(b)      0.000  0.000     0.000          0.000      0.000
-#> table(b)       0.002  0.001     0.001          0.000      0.000
+#> table(b)       0.003  0.001     0.000          0.000      0.000
 #> sort(b)        0.000  0.000     0.000          0.000      0.000
-#> order(b)       0.000  0.001     0.001          0.000      0.000
-#> rank(b)        0.001  0.001     0.001          0.000      0.000
-#> quantile(b)    0.001  0.001     0.000          0.000      0.000
-#> summary(b)     0.000  0.001     0.001          0.000      0.000
-#> factor(b)      0.001  0.002     0.002          0.000      0.000
-#> SESSION        0.018  0.020     0.016          0.013      0.014
+#> order(b)       0.000  0.000     0.000          0.000      0.000
+#> rank(b)        0.001  0.000     0.001          0.000      0.000
+#> quantile(b)    0.001  0.000     0.000          0.000      0.000
+#> summary(b)     0.000  0.001     0.000          0.000      0.000
+#> factor(b)      0.001  0.001     0.001          0.000      0.000
+#> SESSION        0.012  0.008     0.005          0.004      0.008
 #>               allcache
-#> cache             0.00
-#> match(s, b)       0.00
-#> s %in% b          0.00
-#> match(b, s)       0.00
-#> b %in% s          0.00
-#> match(b, b)       0.00
-#> b %in% b          0.00
-#> duplicated(b)     0.00
-#> unique(b)         0.00
-#> table(b)          0.00
-#> sort(b)           0.00
-#> order(b)          0.00
-#> rank(b)           0.00
-#> quantile(b)       0.00
-#> summary(b)        0.00
-#> factor(b)         0.00
-#> SESSION           0.01
+#> cache            0.000
+#> match(s, b)      0.000
+#> s %in% b         0.000
+#> match(b, s)      0.000
+#> b %in% s         0.000
+#> match(b, b)      0.000
+#> b %in% b         0.000
+#> duplicated(b)    0.000
+#> unique(b)        0.000
+#> table(b)         0.000
+#> sort(b)          0.000
+#> order(b)         0.000
+#> rank(b)          0.000
+#> quantile(b)      0.000
+#> summary(b)       0.000
+#> factor(b)        0.000
+#> SESSION          0.006
 #> factor              32-bit 64-bit hashcache sortordercache ordercache
-#> cache            NaN    NaN       NaN            NaN        NaN
-#> match(s, b)      NaN    0.0       NaN            NaN        NaN
-#> s %in% b         NaN    0.0     0.000            NaN        NaN
-#> match(b, s)      NaN    0.0     0.000            NaN        NaN
-#> b %in% s         NaN    0.0       NaN            NaN        NaN
-#> match(b, b)        1    1.0       Inf            Inf        Inf
-#> b %in% b         NaN    0.0     0.000            NaN        NaN
-#> duplicated(b)    NaN    NaN       NaN            NaN        NaN
+#> cache            NaN    NaN       0.0            NaN        NaN
+#> match(s, b)      NaN    NaN       NaN            NaN        NaN
+#> s %in% b           1    Inf       Inf            Inf        Inf
+#> match(b, s)      NaN    NaN       NaN            NaN        NaN
+#> b %in% s         NaN    NaN       NaN            NaN        NaN
+#> match(b, b)      NaN    NaN       0.0            NaN        NaN
+#> b %in% b           1    Inf       Inf            Inf        Inf
+#> duplicated(b)    NaN    0.0       NaN            NaN        NaN
 #> unique(b)        NaN    NaN       NaN            NaN        NaN
-#> table(b)           1    2.0     2.000            Inf        Inf
+#> table(b)           1    3.0       Inf            Inf        Inf
 #> sort(b)          NaN    NaN       NaN            NaN        NaN
-#> order(b)         NaN    0.0     0.000            NaN        NaN
-#> rank(b)            1    1.0     1.000            Inf        Inf
-#> quantile(b)        1    1.0       Inf            Inf        Inf
-#> summary(b)       NaN    0.0     0.000            NaN        NaN
-#> factor(b)          1    0.5     0.500            Inf        Inf
-#> SESSION            1    0.9     1.125          1.385      1.286
+#> order(b)         NaN    NaN       NaN            NaN        NaN
+#> rank(b)            1    Inf       1.0            Inf        Inf
+#> quantile(b)        1    Inf       Inf            Inf        Inf
+#> summary(b)       NaN    0.0       NaN            NaN        NaN
+#> factor(b)          1    1.0       1.0            Inf        Inf
+#> SESSION            1    1.5       2.4              3        1.5
 #>               allcache
 #> cache              NaN
 #> match(s, b)        NaN
-#> s %in% b           NaN
+#> s %in% b           Inf
 #> match(b, s)        NaN
 #> b %in% s           NaN
-#> match(b, b)        Inf
-#> b %in% b           NaN
+#> match(b, b)        NaN
+#> b %in% b           Inf
 #> duplicated(b)      NaN
 #> unique(b)          NaN
 #> table(b)           Inf
@@ -559,92 +515,85 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> quantile(b)        Inf
 #> summary(b)         NaN
 #> factor(b)          Inf
-#> SESSION            1.8
+#> SESSION              2
 #> sortordercache cache
 #> sortordercache match(s, b)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> sortordercache s %in% b
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> sortordercache match(b, s)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> sortordercache b %in% s
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> sortordercache match(b, b)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> sortordercache b %in% b
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> sortordercache duplicated(b)
 #> sortordercache unique(b)
 #> sortordercache table(b)
 #> sortordercache sort(b)
 #> sortordercache order(b)
-#> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> sortordercache rank(b)
 #> sortordercache quantile(b)
 #> sortordercache summary(b)
 #> sortordercache factor(b)
 #> seconds              32-bit 64-bit hashcache sortordercache ordercache
-#> cache          0.000  0.000     0.000          0.000      0.000
-#> match(s, b)    0.000  0.001     0.000          0.000      0.000
-#> s %in% b       0.000  0.001     0.001          0.001      0.000
-#> match(b, s)    0.000  0.001     0.001          0.001      0.000
-#> b %in% s       0.000  0.001     0.000          0.001      0.000
-#> match(b, b)    0.001  0.001     0.000          0.000      0.000
-#> b %in% b       0.000  0.001     0.001          0.000      0.000
-#> duplicated(b)  0.000  0.000     0.000          0.000      0.000
+#> cache          0.000  0.000     0.001          0.000      0.000
+#> match(s, b)    0.000  0.000     0.000          0.001      0.000
+#> s %in% b       0.001  0.000     0.000          0.000      0.000
+#> match(b, s)    0.000  0.000     0.000          0.000      0.000
+#> b %in% s       0.000  0.000     0.000          0.000      0.000
+#> match(b, b)    0.000  0.000     0.001          0.000      0.000
+#> b %in% b       0.001  0.000     0.000          0.000      0.000
+#> duplicated(b)  0.000  0.001     0.000          0.000      0.000
 #> unique(b)      0.000  0.000     0.000          0.000      0.000
-#> table(b)       0.002  0.001     0.001          0.000      0.000
+#> table(b)       0.003  0.001     0.000          0.000      0.000
 #> sort(b)        0.000  0.000     0.000          0.000      0.000
-#> order(b)       0.000  0.001     0.001          0.000      0.000
-#> rank(b)        0.001  0.001     0.001          0.007      0.000
-#> quantile(b)    0.001  0.001     0.000          0.001      0.000
-#> summary(b)     0.000  0.001     0.001          0.002      0.000
-#> factor(b)      0.001  0.002     0.002          0.002      0.000
-#> SESSION        0.018  0.020     0.016          0.013      0.014
+#> order(b)       0.000  0.000     0.000          0.000      0.000
+#> rank(b)        0.001  0.000     0.001          0.000      0.000
+#> quantile(b)    0.001  0.000     0.000          0.000      0.000
+#> summary(b)     0.000  0.001     0.000          0.001      0.000
+#> factor(b)      0.001  0.001     0.001          0.001      0.000
+#> SESSION        0.012  0.008     0.005          0.004      0.008
 #>               allcache
-#> cache             0.00
-#> match(s, b)       0.00
-#> s %in% b          0.00
-#> match(b, s)       0.00
-#> b %in% s          0.00
-#> match(b, b)       0.00
-#> b %in% b          0.00
-#> duplicated(b)     0.00
-#> unique(b)         0.00
-#> table(b)          0.00
-#> sort(b)           0.00
-#> order(b)          0.00
-#> rank(b)           0.00
-#> quantile(b)       0.00
-#> summary(b)        0.00
-#> factor(b)         0.00
-#> SESSION           0.01
+#> cache            0.000
+#> match(s, b)      0.000
+#> s %in% b         0.000
+#> match(b, s)      0.000
+#> b %in% s         0.000
+#> match(b, b)      0.000
+#> b %in% b         0.000
+#> duplicated(b)    0.000
+#> unique(b)        0.000
+#> table(b)         0.000
+#> sort(b)          0.000
+#> order(b)         0.000
+#> rank(b)          0.000
+#> quantile(b)      0.000
+#> summary(b)       0.000
+#> factor(b)        0.000
+#> SESSION          0.006
 #> factor              32-bit 64-bit hashcache sortordercache ordercache
-#> cache            NaN    NaN       NaN            NaN        NaN
-#> match(s, b)      NaN    0.0       NaN            NaN        NaN
-#> s %in% b         NaN    0.0     0.000          0.000        NaN
-#> match(b, s)      NaN    0.0     0.000          0.000        NaN
-#> b %in% s         NaN    0.0       NaN          0.000        NaN
-#> match(b, b)        1    1.0       Inf            Inf        Inf
-#> b %in% b         NaN    0.0     0.000            NaN        NaN
-#> duplicated(b)    NaN    NaN       NaN            NaN        NaN
+#> cache            NaN    NaN       0.0            NaN        NaN
+#> match(s, b)      NaN    NaN       NaN              0        NaN
+#> s %in% b           1    Inf       Inf            Inf        Inf
+#> match(b, s)      NaN    NaN       NaN            NaN        NaN
+#> b %in% s         NaN    NaN       NaN            NaN        NaN
+#> match(b, b)      NaN    NaN       0.0            NaN        NaN
+#> b %in% b           1    Inf       Inf            Inf        Inf
+#> duplicated(b)    NaN    0.0       NaN            NaN        NaN
 #> unique(b)        NaN    NaN       NaN            NaN        NaN
-#> table(b)           1    2.0     2.000            Inf        Inf
+#> table(b)           1    3.0       Inf            Inf        Inf
 #> sort(b)          NaN    NaN       NaN            NaN        NaN
-#> order(b)         NaN    0.0     0.000            NaN        NaN
-#> rank(b)            1    1.0     1.000          0.143        Inf
-#> quantile(b)        1    1.0       Inf          1.000        Inf
-#> summary(b)       NaN    0.0     0.000          0.000        NaN
-#> factor(b)          1    0.5     0.500          0.500        Inf
-#> SESSION            1    0.9     1.125          1.385      1.286
+#> order(b)         NaN    NaN       NaN            NaN        NaN
+#> rank(b)            1    Inf       1.0            Inf        Inf
+#> quantile(b)        1    Inf       Inf            Inf        Inf
+#> summary(b)       NaN    0.0       NaN              0        NaN
+#> factor(b)          1    1.0       1.0              1        Inf
+#> SESSION            1    1.5       2.4              3        1.5
 #>               allcache
 #> cache              NaN
 #> match(s, b)        NaN
-#> s %in% b           NaN
+#> s %in% b           Inf
 #> match(b, s)        NaN
 #> b %in% s           NaN
-#> match(b, b)        Inf
-#> b %in% b           NaN
+#> match(b, b)        NaN
+#> b %in% b           Inf
 #> duplicated(b)      NaN
 #> unique(b)          NaN
 #> table(b)           Inf
@@ -654,92 +603,85 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> quantile(b)        Inf
 #> summary(b)         NaN
 #> factor(b)          Inf
-#> SESSION            1.8
+#> SESSION              2
 #> ordercache cache
 #> ordercache match(s, b)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> ordercache s %in% b
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> ordercache match(b, s)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> ordercache b %in% s
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> ordercache match(b, b)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> ordercache b %in% b
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> ordercache duplicated(b)
 #> ordercache unique(b)
 #> ordercache table(b)
 #> ordercache sort(b)
 #> ordercache order(b)
-#> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> ordercache rank(b)
 #> ordercache quantile(b)
 #> ordercache summary(b)
 #> ordercache factor(b)
 #> seconds              32-bit 64-bit hashcache sortordercache ordercache
-#> cache          0.000  0.000     0.000          0.000      0.002
-#> match(s, b)    0.000  0.001     0.000          0.000      0.001
-#> s %in% b       0.000  0.001     0.001          0.001      0.001
-#> match(b, s)    0.000  0.001     0.001          0.001      0.000
-#> b %in% s       0.000  0.001     0.000          0.001      0.000
-#> match(b, b)    0.001  0.001     0.000          0.000      0.001
-#> b %in% b       0.000  0.001     0.001          0.000      0.001
-#> duplicated(b)  0.000  0.000     0.000          0.000      0.001
+#> cache          0.000  0.000     0.001          0.000      0.001
+#> match(s, b)    0.000  0.000     0.000          0.001      0.000
+#> s %in% b       0.001  0.000     0.000          0.000      0.000
+#> match(b, s)    0.000  0.000     0.000          0.000      0.001
+#> b %in% s       0.000  0.000     0.000          0.000      0.000
+#> match(b, b)    0.000  0.000     0.001          0.000      0.001
+#> b %in% b       0.001  0.000     0.000          0.000      0.000
+#> duplicated(b)  0.000  0.001     0.000          0.000      0.001
 #> unique(b)      0.000  0.000     0.000          0.000      0.000
-#> table(b)       0.002  0.001     0.001          0.000      0.001
+#> table(b)       0.003  0.001     0.000          0.000      0.001
 #> sort(b)        0.000  0.000     0.000          0.000      0.000
-#> order(b)       0.000  0.001     0.001          0.000      0.001
-#> rank(b)        0.001  0.001     0.001          0.007      0.000
-#> quantile(b)    0.001  0.001     0.000          0.001      0.001
-#> summary(b)     0.000  0.001     0.001          0.002      0.001
-#> factor(b)      0.001  0.002     0.002          0.002      0.002
-#> SESSION        0.018  0.020     0.016          0.013      0.014
+#> order(b)       0.000  0.000     0.000          0.000      0.000
+#> rank(b)        0.001  0.000     0.001          0.000      0.000
+#> quantile(b)    0.001  0.000     0.000          0.000      0.000
+#> summary(b)     0.000  0.001     0.000          0.001      0.000
+#> factor(b)      0.001  0.001     0.001          0.001      0.001
+#> SESSION        0.012  0.008     0.005          0.004      0.008
 #>               allcache
-#> cache             0.00
-#> match(s, b)       0.00
-#> s %in% b          0.00
-#> match(b, s)       0.00
-#> b %in% s          0.00
-#> match(b, b)       0.00
-#> b %in% b          0.00
-#> duplicated(b)     0.00
-#> unique(b)         0.00
-#> table(b)          0.00
-#> sort(b)           0.00
-#> order(b)          0.00
-#> rank(b)           0.00
-#> quantile(b)       0.00
-#> summary(b)        0.00
-#> factor(b)         0.00
-#> SESSION           0.01
+#> cache            0.000
+#> match(s, b)      0.000
+#> s %in% b         0.000
+#> match(b, s)      0.000
+#> b %in% s         0.000
+#> match(b, b)      0.000
+#> b %in% b         0.000
+#> duplicated(b)    0.000
+#> unique(b)        0.000
+#> table(b)         0.000
+#> sort(b)          0.000
+#> order(b)         0.000
+#> rank(b)          0.000
+#> quantile(b)      0.000
+#> summary(b)       0.000
+#> factor(b)        0.000
+#> SESSION          0.006
 #> factor              32-bit 64-bit hashcache sortordercache ordercache
-#> cache            NaN    NaN       NaN            NaN      0.000
-#> match(s, b)      NaN    0.0       NaN            NaN      0.000
-#> s %in% b         NaN    0.0     0.000          0.000      0.000
-#> match(b, s)      NaN    0.0     0.000          0.000        NaN
-#> b %in% s         NaN    0.0       NaN          0.000        NaN
-#> match(b, b)        1    1.0       Inf            Inf      1.000
-#> b %in% b         NaN    0.0     0.000            NaN      0.000
-#> duplicated(b)    NaN    NaN       NaN            NaN      0.000
+#> cache            NaN    NaN       0.0            NaN        0.0
+#> match(s, b)      NaN    NaN       NaN              0        NaN
+#> s %in% b           1    Inf       Inf            Inf        Inf
+#> match(b, s)      NaN    NaN       NaN            NaN        0.0
+#> b %in% s         NaN    NaN       NaN            NaN        NaN
+#> match(b, b)      NaN    NaN       0.0            NaN        0.0
+#> b %in% b           1    Inf       Inf            Inf        Inf
+#> duplicated(b)    NaN    0.0       NaN            NaN        0.0
 #> unique(b)        NaN    NaN       NaN            NaN        NaN
-#> table(b)           1    2.0     2.000            Inf      2.000
+#> table(b)           1    3.0       Inf            Inf        3.0
 #> sort(b)          NaN    NaN       NaN            NaN        NaN
-#> order(b)         NaN    0.0     0.000            NaN      0.000
-#> rank(b)            1    1.0     1.000          0.143        Inf
-#> quantile(b)        1    1.0       Inf          1.000      1.000
-#> summary(b)       NaN    0.0     0.000          0.000      0.000
-#> factor(b)          1    0.5     0.500          0.500      0.500
-#> SESSION            1    0.9     1.125          1.385      1.286
+#> order(b)         NaN    NaN       NaN            NaN        NaN
+#> rank(b)            1    Inf       1.0            Inf        Inf
+#> quantile(b)        1    Inf       Inf            Inf        Inf
+#> summary(b)       NaN    0.0       NaN              0        NaN
+#> factor(b)          1    1.0       1.0              1        1.0
+#> SESSION            1    1.5       2.4              3        1.5
 #>               allcache
 #> cache              NaN
 #> match(s, b)        NaN
-#> s %in% b           NaN
+#> s %in% b           Inf
 #> match(b, s)        NaN
 #> b %in% s           NaN
-#> match(b, b)        Inf
-#> b %in% b           NaN
+#> match(b, b)        NaN
+#> b %in% b           Inf
 #> duplicated(b)      NaN
 #> unique(b)          NaN
 #> table(b)           Inf
@@ -749,53 +691,46 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> quantile(b)        Inf
 #> summary(b)         NaN
 #> factor(b)          Inf
-#> SESSION            1.8
+#> SESSION              2
 #> allcache cache
 #> allcache match(s, b)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> allcache s %in% b
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> allcache match(b, s)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> allcache b %in% s
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> allcache match(b, b)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> allcache b %in% b
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> allcache duplicated(b)
 #> allcache unique(b)
 #> allcache table(b)
 #> allcache sort(b)
 #> allcache order(b)
-#> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> allcache rank(b)
 #> allcache quantile(b)
 #> allcache summary(b)
 #> allcache factor(b)
 #> seconds              32-bit 64-bit hashcache sortordercache ordercache
-#> cache          0.000  0.000     0.000          0.000      0.002
-#> match(s, b)    0.000  0.001     0.000          0.000      0.001
-#> s %in% b       0.000  0.001     0.001          0.001      0.001
-#> match(b, s)    0.000  0.001     0.001          0.001      0.000
-#> b %in% s       0.000  0.001     0.000          0.001      0.000
-#> match(b, b)    0.001  0.001     0.000          0.000      0.001
-#> b %in% b       0.000  0.001     0.001          0.000      0.001
-#> duplicated(b)  0.000  0.000     0.000          0.000      0.001
+#> cache          0.000  0.000     0.001          0.000      0.001
+#> match(s, b)    0.000  0.000     0.000          0.001      0.000
+#> s %in% b       0.001  0.000     0.000          0.000      0.000
+#> match(b, s)    0.000  0.000     0.000          0.000      0.001
+#> b %in% s       0.000  0.000     0.000          0.000      0.000
+#> match(b, b)    0.000  0.000     0.001          0.000      0.001
+#> b %in% b       0.001  0.000     0.000          0.000      0.000
+#> duplicated(b)  0.000  0.001     0.000          0.000      0.001
 #> unique(b)      0.000  0.000     0.000          0.000      0.000
-#> table(b)       0.002  0.001     0.001          0.000      0.001
+#> table(b)       0.003  0.001     0.000          0.000      0.001
 #> sort(b)        0.000  0.000     0.000          0.000      0.000
-#> order(b)       0.000  0.001     0.001          0.000      0.001
-#> rank(b)        0.001  0.001     0.001          0.007      0.000
-#> quantile(b)    0.001  0.001     0.000          0.001      0.001
-#> summary(b)     0.000  0.001     0.001          0.002      0.001
-#> factor(b)      0.001  0.002     0.002          0.002      0.002
-#> SESSION        0.018  0.020     0.016          0.013      0.014
+#> order(b)       0.000  0.000     0.000          0.000      0.000
+#> rank(b)        0.001  0.000     0.001          0.000      0.000
+#> quantile(b)    0.001  0.000     0.000          0.000      0.000
+#> summary(b)     0.000  0.001     0.000          0.001      0.000
+#> factor(b)      0.001  0.001     0.001          0.001      0.001
+#> SESSION        0.012  0.008     0.005          0.004      0.008
 #>               allcache
 #> cache            0.001
 #> match(s, b)      0.000
-#> s %in% b         0.001
-#> match(b, s)      0.001
+#> s %in% b         0.000
+#> match(b, s)      0.000
 #> b %in% s         0.000
 #> match(b, b)      0.000
 #> b %in% b         0.001
@@ -804,70 +739,70 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> table(b)         0.000
 #> sort(b)          0.000
 #> order(b)         0.000
-#> rank(b)          0.001
+#> rank(b)          0.000
 #> quantile(b)      0.000
 #> summary(b)       0.000
 #> factor(b)        0.001
-#> SESSION          0.010
+#> SESSION          0.006
 #> factor              32-bit 64-bit hashcache sortordercache ordercache
-#> cache            NaN    NaN       NaN            NaN      0.000
-#> match(s, b)      NaN    0.0       NaN            NaN      0.000
-#> s %in% b         NaN    0.0     0.000          0.000      0.000
-#> match(b, s)      NaN    0.0     0.000          0.000        NaN
-#> b %in% s         NaN    0.0       NaN          0.000        NaN
-#> match(b, b)        1    1.0       Inf            Inf      1.000
-#> b %in% b         NaN    0.0     0.000            NaN      0.000
-#> duplicated(b)    NaN    NaN       NaN            NaN      0.000
+#> cache            NaN    NaN       0.0            NaN        0.0
+#> match(s, b)      NaN    NaN       NaN              0        NaN
+#> s %in% b           1    Inf       Inf            Inf        Inf
+#> match(b, s)      NaN    NaN       NaN            NaN        0.0
+#> b %in% s         NaN    NaN       NaN            NaN        NaN
+#> match(b, b)      NaN    NaN       0.0            NaN        0.0
+#> b %in% b           1    Inf       Inf            Inf        Inf
+#> duplicated(b)    NaN    0.0       NaN            NaN        0.0
 #> unique(b)        NaN    NaN       NaN            NaN        NaN
-#> table(b)           1    2.0     2.000            Inf      2.000
+#> table(b)           1    3.0       Inf            Inf        3.0
 #> sort(b)          NaN    NaN       NaN            NaN        NaN
-#> order(b)         NaN    0.0     0.000            NaN      0.000
-#> rank(b)            1    1.0     1.000          0.143        Inf
-#> quantile(b)        1    1.0       Inf          1.000      1.000
-#> summary(b)       NaN    0.0     0.000          0.000      0.000
-#> factor(b)          1    0.5     0.500          0.500      0.500
-#> SESSION            1    0.9     1.125          1.385      1.286
+#> order(b)         NaN    NaN       NaN            NaN        NaN
+#> rank(b)            1    Inf       1.0            Inf        Inf
+#> quantile(b)        1    Inf       Inf            Inf        Inf
+#> summary(b)       NaN    0.0       NaN              0        NaN
+#> factor(b)          1    1.0       1.0              1        1.0
+#> SESSION            1    1.5       2.4              3        1.5
 #>               allcache
-#> cache              0.0
+#> cache                0
 #> match(s, b)        NaN
-#> s %in% b           0.0
-#> match(b, s)        0.0
+#> s %in% b           Inf
+#> match(b, s)        NaN
 #> b %in% s           NaN
-#> match(b, b)        Inf
-#> b %in% b           0.0
+#> match(b, b)        NaN
+#> b %in% b             1
 #> duplicated(b)      NaN
 #> unique(b)          NaN
 #> table(b)           Inf
 #> sort(b)            NaN
 #> order(b)           NaN
-#> rank(b)            1.0
+#> rank(b)            Inf
 #> quantile(b)        Inf
 #> summary(b)         NaN
-#> factor(b)          1.0
-#> SESSION            1.8
+#> factor(b)            1
+#> SESSION              2
 #>               32-bit 64-bit hashcache sortordercache ordercache
-#> cache          0.000  0.000     0.000          0.000      0.002
-#> match(s, b)    0.000  0.001     0.000          0.000      0.001
-#> s %in% b       0.000  0.001     0.001          0.001      0.001
-#> match(b, s)    0.000  0.001     0.001          0.001      0.000
-#> b %in% s       0.000  0.001     0.000          0.001      0.000
-#> match(b, b)    0.001  0.001     0.000          0.000      0.001
-#> b %in% b       0.000  0.001     0.001          0.000      0.001
-#> duplicated(b)  0.000  0.000     0.000          0.000      0.001
+#> cache          0.000  0.000     0.001          0.000      0.001
+#> match(s, b)    0.000  0.000     0.000          0.001      0.000
+#> s %in% b       0.001  0.000     0.000          0.000      0.000
+#> match(b, s)    0.000  0.000     0.000          0.000      0.001
+#> b %in% s       0.000  0.000     0.000          0.000      0.000
+#> match(b, b)    0.000  0.000     0.001          0.000      0.001
+#> b %in% b       0.001  0.000     0.000          0.000      0.000
+#> duplicated(b)  0.000  0.001     0.000          0.000      0.001
 #> unique(b)      0.000  0.000     0.000          0.000      0.000
-#> table(b)       0.002  0.001     0.001          0.000      0.001
+#> table(b)       0.003  0.001     0.000          0.000      0.001
 #> sort(b)        0.000  0.000     0.000          0.000      0.000
-#> order(b)       0.000  0.001     0.001          0.000      0.001
-#> rank(b)        0.001  0.001     0.001          0.007      0.000
-#> quantile(b)    0.001  0.001     0.000          0.001      0.001
-#> summary(b)     0.000  0.001     0.001          0.002      0.001
-#> factor(b)      0.001  0.002     0.002          0.002      0.002
-#> SESSION        0.018  0.020     0.016          0.013      0.014
+#> order(b)       0.000  0.000     0.000          0.000      0.000
+#> rank(b)        0.001  0.000     0.001          0.000      0.000
+#> quantile(b)    0.001  0.000     0.000          0.000      0.000
+#> summary(b)     0.000  0.001     0.000          0.001      0.000
+#> factor(b)      0.001  0.001     0.001          0.001      0.001
+#> SESSION        0.012  0.008     0.005          0.004      0.008
 #>               allcache
 #> cache            0.001
 #> match(s, b)      0.000
-#> s %in% b         0.001
-#> match(b, s)      0.001
+#> s %in% b         0.000
+#> match(b, s)      0.000
 #> b %in% s         0.000
 #> match(b, b)      0.000
 #> b %in% b         0.001
@@ -876,34 +811,16 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> table(b)         0.000
 #> sort(b)          0.000
 #> order(b)         0.000
-#> rank(b)          0.001
+#> rank(b)          0.000
 #> quantile(b)      0.000
 #> summary(b)       0.000
 #> factor(b)        0.001
-#> SESSION          0.010
+#> SESSION          0.006
 optimizer64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFirst=FALSE)
 , plot=FALSE
 )
 #> match: timings of different methods
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> %in%: timings of different methods
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 #> duplicated: timings of different methods
 #> unique: timings of different methods
 #> unipos: timings of different methods

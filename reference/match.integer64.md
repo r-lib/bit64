@@ -106,19 +106,13 @@ Suitable methods for `match.integer64` are
 ``` r
 x <- as.integer64(c(NA, 0:9), 32)
 table <- as.integer64(c(1:9, NA))
-match.integer64(x, table)
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
+match(x, table)
 #>  [1] 10 NA  1  2  3  4  5  6  7  8  9
-"%in%.integer64"(x, table)
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
+x %in% table
 #>  [1]  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
 
 x <- as.integer64(sample(c(rep(NA, 9), 0:9), 32, TRUE))
 table <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-stopifnot(identical(match.integer64(x, table), match(as.integer(x), as.integer(table))))
-#> Warning: Detected that 'match.integer64' was called directly. Instead only call 'match' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
-stopifnot(identical("%in%.integer64"(x, table), as.integer(x) %in% as.integer(table)))
-#> Warning: Detected that '%in%.integer64' was called directly. Instead only call '%in%' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
 
 if (FALSE) { # \dontrun{
     library(bit)

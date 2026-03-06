@@ -105,18 +105,14 @@ see [`sort()`](https://rdrr.io/r/base/sort.html) and
 #>  [1] 1    1    3    4    4    5    5    6    7    7    8    8    9   
 #> [14] 9    <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA>
 #> [27] <NA> <NA> <NA> <NA> <NA> <NA>
-  message("the following has default optimize='time' which is faster but requires more RAM
-, this calls 'ramorder'")
-#> the following has default optimize='time' which is faster but requires more RAM
-#> , this calls 'ramorder'
-  order.integer64(x)
-#> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
+  message("the following has default optimize='time' which is faster but requires more RAM, this calls 'ramorder'")
+#> the following has default optimize='time' which is faster but requires more RAM, this calls 'ramorder'
+  order(x)
 #>  [1]  2 29  9 22 32 10 25 24  4 31 18 27 11 20  1  3  5  6  7  8 12 13
 #> [23] 14 15 16 17 19 21 23 26 28 30
   message("slower with less RAM, this calls 'ramsortorder'")
 #> slower with less RAM, this calls 'ramsortorder'
-  order.integer64(x, optimize="memory")
-#> Warning: Detected that 'order.integer64' was called directly. Instead only call 'order' and rely on S3 dispatch. To suppress this warning, e.g. if this is a false positive, use options(bit64.warn.exported.s3.method = FALSE). In the next version, this symbol will stop being exported.
+  order(x, optimize="memory")
 #>  [1]  2 29  9 22 32 10 25 24  4 31 18 27 11 20  1  3  5  6  7  8 12 13
 #> [23] 14 15 16 17 19 21 23 26 28 30
 ```
