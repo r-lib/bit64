@@ -186,7 +186,7 @@ local_options <- function(new_opts) {
 }
 
 # seed handling: Save seed, set new seed, defer restore to parent frame
-with_seed <- function(seed) {
+with_seed <- function(seed, expr) {
   # Check if global seed exists
   if (exists(".Random.seed", envir = .GlobalEnv)) {
     old_seed <- get(".Random.seed", envir = .GlobalEnv)
@@ -199,7 +199,7 @@ with_seed <- function(seed) {
   
   set.seed(seed)
   do.call(on.exit, list(cleanup, add = TRUE))
-  invisible()
+  expr
 }
 
 local_seed <- function(seed) {
