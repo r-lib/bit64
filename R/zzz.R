@@ -37,6 +37,7 @@ if (getRversion() < "3.6.0") {
 .onUnload = function(libpath) {
   library.dynam.unload("bit64", libpath)
 }
+# nocov end
 
 # The call stack is searched for a given sequence of function names. If the last element of function_names is found, 
 # we try to match as many elements in function_names with the function names in the call stack. The sequence must be 
