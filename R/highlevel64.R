@@ -2110,17 +2110,14 @@ table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifan
   # assure order of evaluation to match base::table()
   if (!missing(useNA) && !missing(exclude)) {
     force(useNA)
-    dots = list(...)
-    force(exclude)
   } else if (!missing(exclude)) {
     force(exclude)
-    dots = list(...)
   } else if (!missing(useNA)) {
     force(useNA)
-    dots = list(...)
-  } else {
-    dots = list(...)
   }
+  dots = list(...)
+  if (!missing(useNA) && !missing(exclude)) force(exclude) # force after '...'
+
   if (is.null(names(dots)))
     sel = rep(TRUE, length(dots))
   else
