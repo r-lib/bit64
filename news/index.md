@@ -230,6 +230,10 @@ necessary.
 11. `integer64() %in% 1L` no longer warns
     ([\#265](https://github.com/r-lib/bit64/issues/265)). Thanks
     [@hcirellu](https://github.com/hcirellu).
+12. `match.integer64(..., method="orderpos")` and
+    `duplicated.integer64(..., method="orderdup")` no longer fail with
+    “object ‘s’ not found”
+    ([\#58](https://github.com/r-lib/bit64/issues/58)).
 
 ### NOTES
 

@@ -119,6 +119,8 @@
 <code>[.integer64</code> now runs faster and correctly regarding <code>NA</code> and arrays (<a href="https://github.com/r-lib/bit64/issues/176" class="external-link">#176</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
 <li>
 <code>integer64() %in% 1L</code> no longer warns (<a href="https://github.com/r-lib/bit64/issues/265" class="external-link">#265</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
+<li>
+<code>match.integer64(..., method="orderpos")</code> and <code>duplicated.integer64(..., method="orderdup")</code> no longer fail with “object ‘s’ not found” (<a href="https://github.com/r-lib/bit64/issues/58" class="external-link">#58</a>).</li>
 </ol></div>
 <div class="section level3">
 <h3 id="notes-4-7-99">NOTES<a class="anchor" aria-label="anchor" href="#notes-4-7-99"></a></h3>
