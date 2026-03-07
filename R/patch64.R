@@ -85,9 +85,6 @@ NULL
 #' @export
 `:.default` <- function(from, to) base::`:`(from, to)
 
-#' @export
-`:.integer64` <- function(from, to) seq.integer64(from=from, to=to)
-
 is.double <- function(x) UseMethod("is.double")
 #' @rdname bit64S3
 #' @export

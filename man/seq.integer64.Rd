@@ -4,17 +4,10 @@
 \alias{seq.integer64}
 \title{Generating sequence of integer64 values}
 \usage{
-\method{seq}{integer64}(
-  from = NULL,
-  to = NULL,
-  by = NULL,
-  length.out = NULL,
-  along.with = NULL,
-  ...
-)
+\method{seq}{integer64}(from = 1L, to = 1L, by = 1L, length.out = NULL, along.with = NULL, ...)
 }
 \arguments{
-\item{from}{integer64 scalar (in order to dispatch the integer64 method of \code{\link[=seq]{seq()}})}
+\item{from}{integer64 (in order to dispatch the integer64 method of \code{\link[=seq]{seq()}})}
 
 \item{to}{scalar}
 
@@ -22,7 +15,7 @@
 
 \item{length.out}{scalar}
 
-\item{along.with}{scalar}
+\item{along.with}{R object}
 
 \item{...}{ignored}
 }
