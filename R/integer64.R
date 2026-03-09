@@ -1112,7 +1112,7 @@ cbind.integer64 = function(..., deparse.level=1) {
     eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""), " = val")))
   }
   ret = withCallingHandlers_and_choose_call(
-    do.call("cbind", c(dots, list(deparse.level=deparse.level))), 
+    do.call(cbind, c(dots, list(deparse.level=deparse.level))), 
     c("cbind", "cbind"),
     callStack = sys.calls()
   )
@@ -1165,7 +1165,7 @@ rbind.integer64 = function(..., deparse.level=1) {
   findPositionsOfItemsToConvert = function(x) {
     res = list()
     for (ii in seq_along(x)) {
-      if ("data.frame" %in% class(x[[ii]])) {
+      if (is.data.frame(x[[ii]])) {
         res = c(res, lapply(findPositionsOfItemsToConvert(x[[ii]]), function(el) c(ii, el)))
       } else {
         if (checkFunc(x[[ii]]) && !is.list(x[[ii]]))
@@ -1195,7 +1195,7 @@ rbind.integer64 = function(..., deparse.level=1) {
     eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""), " = val")))
   }
   ret = withCallingHandlers_and_choose_call(
-    do.call("rbind", c(dots, list(deparse.level=deparse.level))), 
+    do.call(rbind, c(dots, list(deparse.level=deparse.level))), 
     c("rbind", "rbind"),
     callStack = sys.calls()
   )
