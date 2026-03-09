@@ -1051,7 +1051,7 @@ c.integer64 = function(..., recursive=FALSE) {
   findPositionsOfItemsToConvert = function(x) {
     res = list()
     for (ii in seq_along(x)) {
-      if (class(x[[ii]])[1L] == "list" || "data.frame" %in% class(x[[ii]])) {
+      if (inherits(x[[ii]], c("list", "data.frame")) {
         res = c(res, lapply(findPositionsOfItemsToConvert(x[[ii]]), function(el) c(ii, el)))
       } else {
         if (checkFunc(x[[ii]]))
@@ -1062,8 +1062,8 @@ c.integer64 = function(..., recursive=FALSE) {
   }
   for (idx in findPositionsOfItemsToConvert(dots)) {
     val = eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""))))
-    if (class(val)[1L] == "POSIXlt") {
-      val = lapply(unclass(val), function(el) as(el, value_class))
+    if (inherits(val, "POSIXlt")) {
+      val = lapply(unclass(val), as, value_class)
     } else {
       val = as(val, value_class)
       if (value_class == "integer64")
@@ -1072,7 +1072,7 @@ c.integer64 = function(..., recursive=FALSE) {
     eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""), " = val")))
   }
 
-  ret = do.call("c", c(dots, list(recursive=recursive)))
+  ret = do.call(c, c(dots, list(recursive=recursive)))
   if (value_class == "integer64")
     oldClass(ret) = value_class
   ret
