@@ -1051,7 +1051,7 @@ c.integer64 = function(..., recursive=FALSE) {
   findPositionsOfItemsToConvert = function(x) {
     res = list()
     for (ii in seq_along(x)) {
-      if (inherits(x[[ii]], c("list", "data.frame")) {
+      if (inherits(x[[ii]], c("list", "data.frame"))) {
         res = c(res, lapply(findPositionsOfItemsToConvert(x[[ii]]), function(el) c(ii, el)))
       } else {
         if (checkFunc(x[[ii]]))
