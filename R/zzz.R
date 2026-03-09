@@ -88,43 +88,20 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
 }
 
 # function to determine target class and sample value for union, intersect, setdiff, setequal, min, max, range, sum, prod, c, cbind and rbind functions
-# it could be that this function needs to have a differentiation for c, cbind, rbind and the setOps (union, intersect, setdiff, setequal).
-target_class_and_sample_value = function(x, recursive=FALSE, errorClasses="", POSIXltAsCharacter=FALSE) {
-  
-  getClassesOfElements = function(x, recursive, errorClasses) {
-    classes = vapply(x, function(el) if (class(el)[1L] == "list" || "data.frame" %in% class(el)) "list" else class(el)[1L], character(1L))
-    if (recursive) {
-      union(classes[classes != "list"], unlist(lapply(x[classes == "list"], function(el) getClassesOfElements(el, recursive=TRUE, errorClasses=errorClasses))))
-    } else {
-      unique(classes)
-    }
-  }
-  classes = getClassesOfElements(x, recursive=isTRUE(recursive), errorClasses=errorClasses)
-  if (length(sel <- intersect(errorClasses, classes)))
-    stop(errorCondition(sprintf(gettext("invalid 'type' (%s) of argument", domain="R"), sel[1L]), call=sys.call(max(sys.nframe() - 1L, 1L))))
-  if ("POSIXlt" %in% classes && isTRUE(POSIXltAsCharacter)) {
-    valueClass = "character"
-  } else if (any(c("character", "factor", "ordered") %in% classes)) {
-    # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option
-    if (!isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) {
-      valueClass = "integer64"
-    } else {
-      valueClass = "character"
-    }
-  } else if ("complex" %in% classes) {
-    valueClass = "complex"
-  } else if (any(c("Date", "POSIXct", "POSIXlt", "difftime") %in% classes)) {
-    valueClass = "integer64"
+getClassesOfElements = function(x, recursive) {
+  classes = vapply(x, function(el) if (inherits(el, c("list", "data.frame"))) "list" else class(el)[1L], character(1L))
+  if (recursive) {
+    union(classes[classes != "list"], unlist(lapply(x[classes == "list"], function(el) getClassesOfElements(el, recursive=TRUE))))
   } else {
-    valueClass = "integer64"
+    unique(classes)
   }
-  valueClass
 }
-# TODO (#253): merge target_class and target_class_and_sample_value
-target_class = function(x) {
 
-  classes = unique(vapply(x, function(el) if (inherits(el, c("list", "data.frame"))) "list" else class(el)[1L], character(1L)))
+target_class = function(x, recursive=FALSE, POSIXltAsCharacter=FALSE) {
+
+  classes = getClassesOfElements(x, recursive=isTRUE(recursive))
   
+  if ("POSIXlt" %in% classes && isTRUE(POSIXltAsCharacter)) return("character")
   if ("complex" %in% classes) return("complex")
   if (any(c("character", "factor", "ordered") %in% classes)) {
     # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option

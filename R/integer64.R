@@ -1040,7 +1040,7 @@ c.integer64 = function(..., recursive=FALSE) {
     return(unlist(lapply(dots, function(el) {if (class(el)[1L] == "POSIXlt") el else as.list(el)}), recursive=FALSE))
   }
   
-  value_class = target_class_and_sample_value(dots, recursive=recursive, POSIXltAsCharacter=TRUE)
+  value_class = target_class(dots, recursive=recursive, POSIXltAsCharacter=TRUE)
   # find positions of elements to be converted
   if(value_class == "integer64") {
     # integer64 doesn't have to be converted, but `oldClass(val) = NULL` has to be applied
@@ -1082,7 +1082,7 @@ c.integer64 = function(..., recursive=FALSE) {
 #' @export
 cbind.integer64 = function(..., deparse.level=1) {
   dots = list(...)
-  value_class = target_class_and_sample_value(dots, recursive=FALSE)
+  value_class = target_class(dots, recursive=FALSE)
   
   # find positions of elements to be converted
   if(value_class == "integer64") {
@@ -1153,7 +1153,7 @@ cbind.integer64 = function(..., deparse.level=1) {
 #' @export
 rbind.integer64 = function(..., deparse.level=1) {
   dots = list(...)
-  value_class = target_class_and_sample_value(dots, recursive=TRUE)
+  value_class = target_class(dots, recursive=TRUE)
   
   # find positions of elements to be converted
   if(value_class == "integer64") {
