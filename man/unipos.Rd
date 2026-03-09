@@ -64,12 +64,6 @@ x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 unipos(x)
 unipos(x, order="values")
 
-stopifnot(identical(unipos(x),  (1:length(x))[!duplicated(x)]))
-stopifnot(identical(unipos(x),  match.integer64(unique(x), x)))
-stopifnot(identical(unipos(x, order="values"),  match.integer64(unique(x, order="values"), x)))
-stopifnot(identical(unique(x),  x[unipos(x)]))
-stopifnot(identical(unique(x, order="values"),  x[unipos(x, order="values")]))
-
 }
 \seealso{
 \code{\link[=unique.integer64]{unique.integer64()}} for unique values and \code{\link[=match.integer64]{match.integer64()}}

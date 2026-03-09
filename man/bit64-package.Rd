@@ -160,35 +160,55 @@ integers, we usually return \code{integer64} from functions involving \code{inte
 example in \code{\link[=c.integer64]{c()}}, \code{\link[=cbind.integer64]{cbind()}}, and
 \code{\link[=rbind.integer64]{rbind()}}
 
-Different from Base R, our operators \code{\link[=+.integer64]{+}}, \code{\link[=-.integer64]{-}},
-\code{\link[=xor.integer64]{\%/\%}}, and \code{\link[=xor.integer64]{\%\%}} coerce their arguments to
-\code{integer64} and always return \code{integer64}.
+Our operators \code{\link[=ops64]{+}}, \code{\link[=ops64]{-}}, \code{\link[=ops64]{\%/\%}}, and \code{\link[=ops64]{\%\%}} coerce
+their arguments to \code{integer64} and return \code{integer64} if they are \code{integer},
+\code{double} or \code{logical}. Otherwise the \code{integer64} argument is coerced to double and
+the R base method for the other class is called.
 
-The multiplication operator \code{\link[=*.integer64]{*}} coerces its first argument to
-\code{integer64} but allows its second argument to be also \code{double}: the second
-argument is internaly coerced to 'long double' and the result of the
-multiplication is returned as \code{integer64}.
+Our operators \code{\link[=ops64]{*}} and \code{\link[=ops64]{^}} coerce their first argument to
+\code{integer64} and possibly the second to \code{integer64} if it is not \code{double} and
+return \code{integer64} if they are \code{integer}, \code{double} or \code{logical}. Otherwise the
+\code{integer64} argument is coerced to double and the R base method for the other
+class is called.
 
-The division \code{\link[=/.integer64]{/}} and power \code{\link[=^.integer64]{^}} operators also
-coerce their first argument to \code{integer64} and coerce internally their second
-argument to 'long double', they return as \code{double}, like
+The division \code{\link[=ops64]{/}} operator also coerces its first argument to \code{integer64}
+and possibly the second to \code{integer64} if it is not \code{double} and returns
+\code{integer64} if they are \code{integer}, \code{double} or \code{logical}. Otherwise the \code{integer64}
+argument is coerced to double and the R base method for the other class is called.
+
 \code{\link[=sqrt.integer64]{sqrt()}}, \code{\link[=log.integer64]{log()}},
-\code{\link[=log2.integer64]{log2()}}, and \code{\link[=log10.integer64]{log10()}} do.\tabular{ccccccccc}{
+\code{\link[=log2.integer64]{log2()}}, and \code{\link[=log10.integer64]{log10()}} coerce their first
+argument to \code{integer64} and coerce internally their second argument to
+'long double', they return as \code{double}\tabular{ccccccccc}{
    \strong{argument1} \tab \strong{op} \tab \strong{argument2} \tab \strong{->} \tab \strong{coerced1} \tab \strong{op} \tab \strong{coerced2} \tab \strong{->} \tab \strong{result} \cr
    integer64 \tab + \tab double \tab -> \tab integer64 \tab + \tab integer64 \tab -> \tab integer64 \cr
    double \tab + \tab integer64 \tab -> \tab integer64 \tab + \tab integer64 \tab -> \tab integer64 \cr
+   integer64 \tab + \tab complex \tab -> \tab double \tab + \tab complex \tab -> \tab complex \cr
+   complex \tab + \tab integer64 \tab -> \tab complex \tab + \tab double \tab -> \tab complex \cr
    integer64 \tab - \tab double \tab -> \tab integer64 \tab - \tab integer64 \tab -> \tab integer64 \cr
    double \tab - \tab integer64 \tab -> \tab integer64 \tab - \tab integer64 \tab -> \tab integer64 \cr
+   integer64 \tab - \tab complex \tab -> \tab double \tab - \tab complex \tab -> \tab complex \cr
+   complex \tab - \tab integer64 \tab -> \tab complex \tab - \tab double \tab -> \tab complex \cr
    integer64 \tab \%/\% \tab double \tab -> \tab integer64 \tab \%/\% \tab integer64 \tab -> \tab integer64 \cr
    double \tab \%/\% \tab integer64 \tab -> \tab integer64 \tab \%/\% \tab integer64 \tab -> \tab integer64 \cr
+   integer64 \tab \%/\% \tab complex \tab -> \tab double \tab \%/\% \tab complex \tab -> \tab complex \cr
+   complex \tab \%/\% \tab integer64 \tab -> \tab complex \tab \%/\% \tab double \tab -> \tab complex \cr
    integer64 \tab \%\% \tab double \tab -> \tab integer64 \tab \%\% \tab integer64 \tab -> \tab integer64 \cr
    double \tab \%\% \tab integer64 \tab -> \tab integer64 \tab \%\% \tab integer64 \tab -> \tab integer64 \cr
+   integer64 \tab \%\% \tab complex \tab -> \tab double \tab \%\% \tab complex \tab -> \tab complex \cr
+   complex \tab \%\% \tab integer64 \tab -> \tab complex \tab \%\% \tab double \tab -> \tab complex \cr
    integer64 \tab * \tab double \tab -> \tab integer64 \tab * \tab long double \tab -> \tab integer64 \cr
    double \tab * \tab integer64 \tab -> \tab integer64 \tab * \tab integer64 \tab -> \tab integer64 \cr
+   integer64 \tab * \tab complex \tab -> \tab double \tab * \tab complex \tab -> \tab complex \cr
+   complex \tab * \tab integer64 \tab -> \tab complex \tab * \tab double \tab -> \tab complex \cr
    integer64 \tab / \tab double \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
    double \tab / \tab integer64 \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
-   integer64 \tab ^ \tab double \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
-   double \tab ^ \tab integer64 \tab -> \tab integer64 \tab / \tab long double \tab -> \tab double \cr
+   integer64 \tab / \tab complex \tab -> \tab double \tab / \tab complex \tab -> \tab complex \cr
+   complex \tab / \tab integer64 \tab -> \tab complex \tab / \tab double \tab -> \tab complex \cr
+   integer64 \tab ^ \tab double \tab -> \tab integer64 \tab ^ \tab long double \tab -> \tab double \cr
+   double \tab ^ \tab integer64 \tab -> \tab integer64 \tab ^ \tab long double \tab -> \tab double \cr
+   integer64 \tab ^ \tab complex \tab -> \tab double \tab ^ \tab complex \tab -> \tab complex \cr
+   complex \tab ^ \tab integer64 \tab -> \tab complex \tab ^ \tab double \tab -> \tab complex \cr
    integer64 \tab \%*\% \tab double \tab -> \tab integer64 \tab \%*\% \tab integer64 \tab -> \tab integer64 \cr
    double \tab \%*\% \tab integer64 \tab -> \tab integer64 \tab \%*\% \tab integer64 \tab -> \tab integer64 \cr
    integer64 \tab \%*\% \tab complex \tab -> \tab double \tab \%*\% \tab complex \tab -> \tab complex \cr
@@ -286,8 +306,8 @@ For all available methods on \code{integer64} vectors see the index below and th
    \code{\link{*.integer64}} \tab \code{\link{*}} \tab returns integer64 \cr
    \code{\link{^.integer64}} \tab \code{\link{^}} \tab returns double \cr
    \code{\link{/.integer64}} \tab \code{\link{/}} \tab returns double \cr
-   \code{\link[=xor.integer64]{\%/\%}} \tab \code{\link[=Arithmetic]{\%/\%}} \tab returns integer64 \cr
-   \code{\link[=xor.integer64]{\%\%}} \tab \code{\link[=Arithmetic]{\%\%}} \tab returns integer64 \cr
+   \code{\link[=ops64]{\%/\%}} \tab \code{\link[=Arithmetic]{\%/\%}} \tab returns integer64 \cr
+   \code{\link[=ops64]{\%\%}} \tab \code{\link[=Arithmetic]{\%\%}} \tab returns integer64 \cr
 }
 \tabular{rrl}{
    \strong{comparison operators} \tab \strong{see also} \tab \strong{description} \cr
@@ -304,8 +324,7 @@ For all available methods on \code{integer64} vectors see the index below and th
 \strong{logical operators} \tab \strong{see also} \tab \strong{description} \cr
 \code{\link{!.integer64}} \tab \code{\link{!}} \tab  \cr
 \code{\link{&.integer64}} \tab \code{\link{&}} \tab  \cr
-\code{\link[=xor.integer64]{|.integer64}} \tab \code{\link[base:Logic]{|}} \tab  \cr
-\code{\link{xor.integer64}} \tab \code{\link[=xor]{xor()}} \tab  \cr
+\code{\link{|.integer64}} \tab \code{\link[base:Logic]{|}} \tab  \cr
 }\tabular{rrl}{
    \strong{math functions} \tab \strong{see also} \tab \strong{description} \cr
    \code{\link[=is.na.integer64]{is.na.integer64()}} \tab \code{\link[=is.na]{is.na()}} \tab returns logical \cr
@@ -420,18 +439,6 @@ and it will return \code{FALSE} on \code{integer64}.
 and it does not recursively dispatch the proper method when called with argument
 \code{recursive=TRUE}. Therefore \code{c(list(integer64, integer64))} does not work and
 for now you can only call \code{c.integer64(list(x, x))}.
-\item \strong{generic binary operators} fail to dispatch \emph{any} user-defined S3 method
-if the two arguments have two different S3 classes. For example we have two
-classes \code{\link[bit:bit]{bit::bit}} and \code{\link[bit:bitwhich]{bit::bitwhich}} sparsely representing boolean vectors
-and we have methods \code{\link[bit:xor]{&.bit}} and
-\code{\link[bit:xor]{&.bitwhich}}. For an expression involving both as in
-\code{bit & bitwhich}, none of the two methods is dispatched. Instead a standard
-method is dispatched, which neither handles \code{bit} nor \code{bitwhich}. Although
-it lacks symmetry, the better choice would be to dispatch simply the method
-of the class of the first argument in case of class conflict. This choice would
-allow authors of extension packages providing coherent behaviour at least within
-their contributed classes. But as long as none of the package author's methods is
-dispatched, they cannot handle the conflicting classes at all.
 \item \strong{\code{\link[=unlist]{unlist()}}} is not generic and if it were, we would face similar problems as
 with \code{\link[=c]{c()}}
 \item \strong{\code{\link[=vector]{vector()}}} with argument \code{mode='integer64'} cannot work without adjustment
@@ -741,6 +748,7 @@ Other contributors:
 \itemize{
   \item Leonardo Silvestri [contributor]
   \item Ofek Shilon [contributor]
+  \item Christian Ullerich [contributor]
 }
 
 }

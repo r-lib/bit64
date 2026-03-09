@@ -1,87 +1,117 @@
-library(withr)
-library(xml2)
+library(BiocManager)
 
-rev_dep_span = "https://cran.r-project.org/web/packages/bit64/index.html" |>
-  read_html() |>
-  xml_find_all("
-    //h4[contains(text(), 'Reverse dependencies')]
-      /following-sibling::table[1]
-      /tr[not(td[contains(text(), 'enhances')])]
-      /td
-      /a
-      /span
-  ")
+db = available.packages(repos = BiocManager::repositories())
 
-rev_df = data.frame(
-  package = xml_text(rev_dep_span),
-  source = xml_attr(rev_dep_span, "class")
-)
+rev_deps = unlist(tools::package_dependencies("bit64", reverse=TRUE, recursive=FALSE, db=db, which='all'), use.names=FALSE)
 
-message(sprintf(
-  "Found %d reverse dependencies, %d of which are on CRAN",
-  nrow(rev_df), sum(rev_df$source == "CRAN")
+cat(sprintf(
+  "Found %d reverse dependencies, %d of which are on CRAN\n",
+  length(rev_deps), sum(grepl("cloud.r-project.org", db[rev_deps, "Repository"]))
 ))
 
-system("
-  sudo apt update && sudo apt-get update && \
-  sudo apt install libgsl-dev mpich libopenmpi-dev && \
-  sudo apt-get install \
-    libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc pkg-config libssh-dev libarchive-dev
-")
-# install rust in the most insane way possible
-system("curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh")
+apt_packages = c(
+  "cmake",
+  NULL
+)
+apt_get_packages = c(
+  "libcurl4-openssl-dev",
+  "libssl-dev",
+  "libfontconfig1-dev",
+  "libharfbuzz-dev",
+  "libfribidi-dev",
+  "libxml2-dev",
+  "libnetcdf-dev",
+  "libgrpc++-dev",
+  "libprotobuf-dev",
+  "protobuf-compiler-grpc",
+  "pkg-config",
+  "libgdal-dev",
+  "libgeos-dev",
+  "libproj-dev",
+  "openjdk-21-jdk",
+  "libmpfr-dev",
+  "libgmp-dev",
+  "libudunits2-dev",
+  "libgsl-dev",
+  "libv8-dev",
+  "libfftw3-dev",
+  "libmagick++-dev",
+  NULL
+)
 
-if (!require("BiocManager")) { install.packages("BiocManager"); require("BiocManager") }
+cat(sprintf(
+  "Installing %d system requirements...\n",
+  length(apt_packages) + length(apt_get_packages)
+))
 
-cran_reqs = rev_df$package[rev_df$source == "CRAN"]
-bioc_reqs = rev_df$package[rev_df$source == "BioC"]
+sudo = Sys.which("sudo")
+cmd_update = paste(sudo, c("apt modernize-sources", "apt update", "apt-get update"), collapse = " && ")
+cmd_apt = paste(sudo, "apt install", paste(apt_packages, collapse = " "))
+cmd_apt_get = paste(sudo, "apt-get install -y", paste(apt_get_packages, collapse = " "))
 
-# First-level downstreams typically need their Suggests available to pass their own
-#   tests (and even if they pass without Suggests, they might have a much richer suite
-#   with their Suggests available), hence install their Suggests, however, _don't_ use
-#   dependencies=TRUE since that installs Suggests-of-Suggests, which is much too wide
-#   a net to case for the purposes here. We can use the default dependencies=NA on the
-#   output of this function.
-first_level_reqs = function(pkgs) {
-  direct_full_req =
-    available.packages()[pkgs, c("Depends", "Imports", "Suggests", "LinkingTo")]
-  c(direct_full_req) |>
-    na.omit() |>
-    tools:::.split_dependencies() |>
-    names() |>
-    setdiff("R")
-}
+system(cmd_update)
+system(cmd_apt)
+system(cmd_apt_get)
 
-# This iteration is mainly to ensure second-order deps are also installed,
-#   including Suggests to minimize spurious test failures even though it can
-#   massively increase install time.
-message("Installing all revdeps to latest CRAN version (indiscriminately)")
-install.packages(first_level_reqs(cran_reqs))
-# TODO: figure out how to do the same for BioConductor
-install(bioc_reqs, dependencies=TRUE)
-
-if (!all(rev_df$package %in% rownames(installed.packages())))
-  stop("Some packages failed to install, necessitating some manual intervention...")
+cat(sprintf("Installing downstreams with --install-tests\n"))
 
 message("Installing all revdeps (again), this time with --install-tests")
-install.packages(cran_reqs, INSTALL_opts = "--install-tests")
-install(         bioc_reqs, INSTALL_opts = "--install-tests")
+install(rev_deps, INSTALL_opts="--install-tests", dependencies=TRUE)
+
+if (!all(rev_deps %in% rownames(installed.packages())))
+  stop("Some packages failed to install, necessitating some manual intervention...")
+
+if (!basename(getwd()) == "bit64")
+  stop("The proceeding assumes you're in the bit64 package directory.")
+
+run_revdep_tests = function(pkgs) {
+  log_file = 'all_test_output.log'
+  file.create(log_file)
+  log_file = normalizePath(log_file)
+  for (pkg in pkgs) {
+    cat(pkg, "")
+    dir.create(pkg, showWarnings=FALSE)
+    local({
+      tmp <- tempfile()
+      setwd(pkg)
+      on.exit({unlink(tmp); setwd("..")})
+
+      system2("Rscript",
+        c("-e", shQuote(sprintf("tools::testInstalledPackage('%s')", pkg))),
+        stderr = tmp, stdout = tmp
+      )
+      cat(readLines(tmp), sep='\n', file=log_file, append=TRUE)
+    })
+  }
+  cat("\n")
+}
+
+## REVDEPS USING DEVEL VERSION
+system("R CMD INSTALL .")
 
 dir.create("revdep", showWarnings=FALSE)
 setwd("revdep")
-con = file("all_test_output.log", "a")
-for (pkg in rev_df$package) {
-  cat(pkg,"")
-  with_tempfile("tmp", {
-    system2("Rscript",
-      c("-e", shQuote(sprintf("tools::testInstalledPackage('%s')", pkg))),
-      stderr = tmp, stdout = tmp
-    )
-    writeLines(readLines(tmp), con)
-  })
-}
-close(con)
 
-failing_pkg = unique(sub("-.*", "", list.files(recursive=TRUE, pattern="\\.Rout\\.fail$")))
+dir.create("devel", showWarnings=FALSE)
+setwd("devel")
+run_revdep_tests(rev_deps)
 
-# examine failure logs manually...
+failing_pkgs = unique(sub("/.*", "", list.files(recursive=TRUE, pattern="\\.Rout\\.fail$")))
+setwd("..")
+
+## REVDEPS USING CRAN VERSION (for baseline among failing packages)
+
+install('bit64', force=TRUE)
+
+dir.create("cran", showWarnings=FALSE)
+setwd("cran")
+run_revdep_tests(failing_pkgs)
+
+failing_on_cran = unique(sub("/.*", "", list.files(recursive=TRUE, pattern="\\.Rout\\.fail$")))
+
+cat(sprintf(
+  "The following packages fail on CRAN as well as with devel and are ignored:\n  %s\n",
+  paste(failing_on_cran, collapse = " ")
+))
+
+setdiff(failing_pkgs, failing_on_cran)

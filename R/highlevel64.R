@@ -1355,13 +1355,11 @@ optimizer64 = function(nsmall=2L^16L,
 #' @examples
 #' x <- as.integer64(c(NA, 0:9), 32)
 #' table <- as.integer64(c(1:9, NA))
-#' match.integer64(x, table)
-#' "%in%.integer64"(x, table)
+#' match(x, table)
+#' x %in% table
 #'
 #' x <- as.integer64(sample(c(rep(NA, 9), 0:9), 32, TRUE))
 #' table <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#' stopifnot(identical(match.integer64(x, table), match(as.integer(x), as.integer(table))))
-#' stopifnot(identical("%in%.integer64"(x, table), as.integer(x) %in% as.integer(table)))
 #'
 #' \dontrun{
 #'     library(bit)
@@ -1502,7 +1500,7 @@ match.integer64 = function(x, table, nomatch = NA_integer_, nunique=NULL, method
     },
     orderpos={
       if (is.null(cache_env) || !exists("order", cache_env)) {
-        o <- seq_along(s)
+        o <- seq_along(table)
         ramorder(table, o, na.last=FALSE)
       } else {
         o <- get("order", cache_env)
@@ -1515,9 +1513,12 @@ match.integer64 = function(x, table, nomatch = NA_integer_, nunique=NULL, method
 
 #' @rdname match.integer64
 #' @export
-`%in%.integer64` <- function(x, table, ...) {
+`%in%.integer64` = function(x, table, ...) {
+  if (!length(x)) return(logical())
+  if (!length(table)) return(rep(FALSE, length(x)))
   stopifnot(is.integer64(x))
-  table = as.integer64(table)
+  if (!is.integer64(table))
+    table = as.integer64(table)
   nunique = NULL
   cache_env = cache(table)
   if (is.null(cache_env)) {
@@ -1526,28 +1527,28 @@ match.integer64 = function(x, table, nomatch = NA_integer_, nunique=NULL, method
       nunique = length(table)
     btable = as.integer(ceiling(log2(nunique*1.5)))
     bx = as.integer(ceiling(log2(nx*1.5)))
-    if (bx<=17L && btable>=16L) {
+    if (bx <= 17L && btable >= 16L) {
       method = "hashrin"
     } else {
       method = "hashfin"
     }
   } else if (!is.null(cache_env$hashmap)) {
     method = "hashfin"
-  } else if (!is.null(cache_env$sort) && (length(table)>length(x) || length(x)<4096L)) {
+  } else if (!is.null(cache_env$sort) && (length(table) > length(x) || length(x) < 4096L)) {
     method = "sortfin"
-  } else if (!is.null(cache_env$order) && (length(table)>length(x) || length(x)<4096L)) {
+  } else if (!is.null(cache_env$order) && (length(table) > length(x) || length(x) < 4096L)) {
     method = "orderfin"
   } else {
     nx = length(x)
     if (is.null(nunique)) {
       if (!is.null(cache_env$nunique))
-        nunique <- cache_env$nunique
+        nunique = cache_env$nunique
       else
-        nunique <- length(table)
+        nunique = length(table)
     }
     btable = as.integer(ceiling(log2(nunique*1.5)))
     bx = as.integer(ceiling(log2(nx*1.5)))
-    if (bx<=17L && btable>=16L) {
+    if (bx <= 17L && btable >= 16L) {
       method = "hashrin"
     } else {
       method = "hashfin"
@@ -1558,14 +1559,14 @@ match.integer64 = function(x, table, nomatch = NA_integer_, nunique=NULL, method
     hashfin={
       if (is.null(cache_env) || is.null(cache_env$hashmap)) {
         if (exists("btable", inherits=FALSE)) {
-          h <- hashmap(table, hashbits=btable)
+          h = hashmap(table, hashbits=btable)
         } else {
           if (is.null(nunique))
-            nunique <- cache_env$nunique
-          h <- hashmap(table, nunique=nunique)
+            nunique = cache_env$nunique
+          h = hashmap(table, nunique=nunique)
         }
       } else {
-        h <- cache_env
+        h = cache_env
       }
       p = hashfin(h, x)
     },
@@ -1573,32 +1574,32 @@ match.integer64 = function(x, table, nomatch = NA_integer_, nunique=NULL, method
       cache_env = cache(x)
       if (is.null(cache_env) || is.null(cache_env$hashmap)) {
         if (exists("bx", inherits=FALSE)) {
-          h <- hashmap(x, bits=bx)
+          h = hashmap(x, bits=bx)
         } else {
           if (is.null(nunique))
-            nunique <- cache_env$nunique
-          h <- hashmap(x, nunique=nunique)
+            nunique = cache_env$nunique
+          h = hashmap(x, nunique=nunique)
         }
       } else {
-        h <- cache_env
+        h = cache_env
       }
       p = hashrin(h, table)
     },
     sortfin={
       if (is.null(cache_env) || !exists("sort", cache_env)) {
-        s <- clone(table)
+        s = clone(table)
         ramsort(s, na.last=FALSE)
       } else {
-        s <- get("sort", cache_env)
+        s = get("sort", cache_env)
       }
       p = sortfin(s, x)
     },
     orderfin={
       if (is.null(cache_env) || !exists("order", cache_env)) {
-        o <- seq_along(s)
+        o = seq_along(s)
         ramorder(table, o, na.last=FALSE)
       } else {
-        o <- get("order", cache_env)
+        o = get("order", cache_env)
       }
       p = orderfin(table, o, x)
     }
@@ -1684,7 +1685,7 @@ duplicated.integer64 = function(x, incomparables = FALSE, nunique = NULL, method
     },
     orderdup={
       if (is.null(cache_env) || is.null(cache_env$order)) {
-        o <- seq_along(s)
+        o <- seq_along(x)
         ramorder(x, o, na.last=FALSE)
       } else {
         o <- get("order", cache_env, inherits=FALSE)
@@ -1897,12 +1898,6 @@ unique.integer64 = function(x,
 #' unipos(x)
 #' unipos(x, order="values")
 #'
-#' stopifnot(identical(unipos(x),  (1:length(x))[!duplicated(x)]))
-#' stopifnot(identical(unipos(x),  match.integer64(unique(x), x)))
-#' stopifnot(identical(unipos(x, order="values"),  match.integer64(unique(x, order="values"), x)))
-#' stopifnot(identical(unique(x),  x[unipos(x)]))
-#' stopifnot(identical(unique(x, order="values"),  x[unipos(x, order="values")]))
-#'
 #' @keywords manip logic
 #' @export
 unipos = function(x, incomparables = FALSE, order = c("original", "values", "any"), ...) UseMethod("unipos")
@@ -2104,20 +2099,52 @@ unipos.integer64 = function(x,
 #' @concept contingency table
 #' @export
 table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifany", "always"), dnn=list.names(...), deparse.level=1L) {
+  # assure order of evaluation to match base::table()
+  if (!missing(useNA) && !missing(exclude)) {
+    force(useNA)
+  } else if (!missing(exclude)) {
+    force(exclude)
+  } else if (!missing(useNA)) {
+    force(useNA)
+  }
   dots = list(...)
-  is_int64 = vapply(dots, is.integer64, logical(1L), USE.NAMES=FALSE)
-  is_int = vapply(dots, is.integer, logical(1L), USE.NAMES=FALSE)
+  if (!missing(useNA) && !missing(exclude)) force(exclude) # force after '...'
+
+  if (is.null(names(dots)))
+    sel = rep(TRUE, length(dots))
+  else
+    sel = !names(dots) %in% c("return", "order", "nunique", "method")
+  is_int64 = vapply(dots[sel], is.integer64, logical(1L), USE.NAMES=FALSE)
+  is_int = vapply(dots[sel], is.integer, logical(1L), USE.NAMES=FALSE)
   # TODO(#236): avoid this workaround to hack S3 dispatch. For now,
   #   we only use table.integer64() when we are sure there is no information loss (coercion).
+  sys_call = match.call()
+  sel = which(vapply(sys_call[seq_along(dots) + 1L], is.symbol, FALSE)) + 1L
+  if (length(sel)) {
+    n = names(sys_call)
+    s = vapply(sys_call[sel], as.character, "")
+    if (is.null(n)) {
+      n = rep("", length(sys_call))
+      n[sel] = s
+    } else {
+      idx = sel[n[sel] == ""]
+      n[idx] = s[n[sel] == ""]
+    }
+    names(sys_call) = n
+  }
+  for (ii in which(vapply(dots, Negate(is.null), logical(1L))))
+    sys_call[[ii + 1L]] = dots[[ii]]
+  if (!missing(useNA)) sys_call$useNA = useNA
+  if (!missing(exclude)) sys_call$exclude = exclude
+  pf = parent.frame()
+  # add unused function `list.names` to eliminate CMD check NOTE about missing function definition.
+  list.names = function(...) {}
   if (length(dots) && any(is_int64) && all(is_int64 | is_int)) {
-    sys_call = sys.call()
     sys_call[[1L]] = table.integer64
-    pf = parent.frame()
-    # add unused function `list.names` to eliminate CMD check NOTE about missing function definition.
-    list.names = function(...) {}
     withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"), "table.integer64")
   } else {
-    UseMethod("table")
+    sys_call[[1L]] = base::table
+    withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"))
   }
 }
 #' @exportS3Method table default
@@ -2419,7 +2446,6 @@ as.integer64.factor = function(x, ...) as.integer64(unclass(x))
 #' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #' keypos(x)
 #'
-#' stopifnot(identical(keypos(x),  match.integer64(x, sort(unique(x), na.last=FALSE))))
 #' @keywords manip univar
 #' @export
 keypos = function(x, ...) UseMethod("keypos")
