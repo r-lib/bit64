@@ -1037,7 +1037,7 @@ c.integer64 = function(..., recursive=FALSE) {
   dots = list(...)
   
   if (!isTRUE(recursive) && any(vapply(dots, function(el) is.list(el), FALSE))) {
-    return(unlist(lapply(dots, function(el) {if (class(el)[1L] == "POSIXlt") el else as.list(el)}), recursive=FALSE))
+    return(unlist(lapply(dots, function(el) if (inherits(el, "POSIXlt")) el else as.list(el)), recursive=FALSE))
   }
   
   value_class = target_class(dots, recursive=recursive, POSIXltAsCharacter=TRUE)
