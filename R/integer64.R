@@ -1036,7 +1036,7 @@ c.integer64 = function(..., recursive=FALSE) {
   if (...length() == 0L) return(NULL)
   dots = list(...)
   
-  if (!isTRUE(recursive) && any(vapply(dots, function(el) is.list(el), FALSE))) {
+  if (!isTRUE(recursive) && any(vapply(dots, is.list), FALSE))) {
     return(unlist(lapply(dots, function(el) if (inherits(el, "POSIXlt")) el else as.list(el)), recursive=FALSE))
   }
   
@@ -1053,9 +1053,8 @@ c.integer64 = function(..., recursive=FALSE) {
     for (ii in seq_along(x)) {
       if (inherits(x[[ii]], c("list", "data.frame"))) {
         res = c(res, lapply(findPositionsOfItemsToConvert(x[[ii]]), function(el) c(ii, el)))
-      } else {
-        if (checkFunc(x[[ii]]))
-          res = c(res, list(ii))
+      } else if (checkFunc(x[[ii]])) {
+        res = c(res, list(ii))
       }
     }
     res
@@ -1167,9 +1166,8 @@ rbind.integer64 = function(..., deparse.level=1) {
     for (ii in seq_along(x)) {
       if (is.data.frame(x[[ii]])) {
         res = c(res, lapply(findPositionsOfItemsToConvert(x[[ii]]), function(el) c(ii, el)))
-      } else {
-        if (checkFunc(x[[ii]]) && !is.list(x[[ii]]))
-          res = c(res, list(ii))
+      } else if (checkFunc(x[[ii]]) && !is.list(x[[ii]]))
+        res = c(res, list(ii))
       }
     }
     res

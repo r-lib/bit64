@@ -1177,9 +1177,11 @@ test_that("extraction from subclass retains inheritance structure", {
 test_that("c works consistent to R", {
   convert_x32_result_to_integer64 = function(x, x32=x, recursive=FALSE) {
     if (isTRUE(recursive))
-      setNames(as.integer64(x), names(x))
+      ret = as.integer64(x)
     else
-      setNames(lapply(seq_along(x), function(el) if (el <= length(x32)) as.integer64(x[[el]]) else x[[el]]), names(x))
+      ret = lapply(seq_along(x), function(el) if (el <= length(x32)) as.integer64(x[[el]]) else x[[el]])
+    names(ret) = names(x)
+    ret
   }
   
   x32 = 1:10
@@ -1328,21 +1330,21 @@ test_that("cbind works consistent to R", {
     convert_x32_result_to_integer64(cbind(A=matrix(x32, 5), B=list(a=1:10, b=1:2), C=1:5), c(1, 2, 4))
   ))
   skip_unless_r(">= 4.0.0") # in my tests on R 3.5.0 this is identical
-  expect_identical(
-    tryCatch(cbind(matrix(x64, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage),
-    tryCatch(cbind(matrix(x32, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage)
+  expect_same_error(
+    cbind(matrix(x64, 5), list(), NULL, matrix(1:10, 2)),
+    cbind(matrix(x32, 5), list(), NULL, matrix(1:10, 2))
   )
-  expect_identical(
-    tryCatch(cbind(matrix(x64, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE), error=conditionMessage),
-    tryCatch(cbind(matrix(x32, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE), error=conditionMessage)
+  expect_same_error(
+    cbind(matrix(x64, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE),
+    cbind(matrix(x32, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10]), stringsAsFactors=FALSE)
   )
   expect_identical(
     cbind(matrix(x64, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE)), 
     convert_x32_result_to_integer64(cbind(matrix(x32, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE)), colsToConvert=1:2)
   )
-  expect_identical(
-    tryCatch(cbind(matrix(x64, 5), data.frame(a=9:1, b=LETTERS[1:9], stringsAsFactors=FALSE)), error=conditionMessage),
-    tryCatch(cbind(matrix(x32, 5), data.frame(a=9:1, b=LETTERS[1:9], stringsAsFactors=FALSE)), error=conditionMessage)
+  expect_same_error(
+    cbind(matrix(x64, 5), data.frame(a=9:1, b=LETTERS[1:9], stringsAsFactors=FALSE)),
+    cbind(matrix(x32, 5), data.frame(a=9:1, b=LETTERS[1:9], stringsAsFactors=FALSE))
   )
   expect_identical(
     cbind(matrix(x64, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE)), 
