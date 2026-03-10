@@ -176,7 +176,7 @@ else {                                                   \
             ret = e1 / e2; \
         if (ret == NA_INTEGER64) \
             naflag = TRUE; \
-        else if (ret < 0 && ret*e2 != e1) \
+        else if ((e1^e2) < 0 && ret*e2 != e1) \
             ret -= 1; \
     }
 
@@ -192,7 +192,7 @@ else {                                                   \
         if (ret == NA_INTEGER64) \
             naflag = TRUE; \
         else { \
-            if (ret < 0 && ret*e2 != e1) \
+            if ((e1^e2) < 0 && ret*e2 != e1) \
                 ret -= 1; \
             ret = e1 - e2 * ret; \
             } \

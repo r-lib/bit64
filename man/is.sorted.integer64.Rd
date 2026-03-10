@@ -55,7 +55,7 @@ a relevant side-effect, since these small cache results do not have a
 relevant memory footprint.
 }
 \examples{
- x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+ x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
  length(x)
  bit::na.count(x)
  bit::nvalid(x)

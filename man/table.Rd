@@ -90,8 +90,8 @@ input dimensions
 contingency table of the counts at each combination of vector values.
 }
 \details{
-If at least one argument of \code{...} is integer64 and the remaining arguments of \code{...} 
-are integer64 or integer the `table.integer64` method is used. Only this method 
+If at least one argument of \code{...} is integer64 and the remaining arguments of \code{...}
+are integer64 or integer the \code{table.integer64} method is used. Only this method
 supports the arguments \code{return}, \code{order}, \code{nunique}, and \code{method}.
 
 This function automatically chooses from several low-level functions considering

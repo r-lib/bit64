@@ -1,5 +1,13 @@
 # bit64 4.7.99 (in development)
 
+## NOTICE OF PLANNED BREAKING CHANGES
+
+1. The remaining S3 methods will be un-exported in the next release:
+
+   `[<-.integer64`, `abs.integer64`, `all.integer64`, `any.integer64`, `as.character.integer64`, `as.data.frame.integer64`, `as.double.integer64`, `as.integer.integer64`, `as.integer64.character`, `as.integer64.double`, `as.integer64.integer`, `as.integer64.logical`, `c.integer64`, `format.integer64`, `is.na.integer64`, `log.integer64`, `max.integer64`, `min.integer64`, `print.integer64`, `rank.integer64`, `rep.integer64`, `seq.integer64`, `str.integer64`, `sum.integer64`, `unique.integer64`
+
+   All of these have observed downstream calls directly. If the call is in a CRAN/Bioconductor package, I'll be reaching out to help migrate onto the generic. This will probably take at least a year, so don't expect this to induce a CRAN release _per se_ until 2027 (although you should certainly aim to slip this in to your next release in the meantime).
+
 ## BREAKING CHANGES
 
 1. {bit64} no longer `Depends` on {bit}; instead it `Imports` it. Please file an issue if this
@@ -16,31 +24,16 @@
   available or (2) namespace-qualify all {bit} calls with `bit::`; adding {bit} to `Imports:` or
   `Suggests:` will also be necessary.
 
-1. The following S3 methods now generate a warning if called directly (but not if called properly,
-   i.e. _via_ S3 dispatch on the generic):
-
-   `:.default`, `:.integer64`, `[.integer64`, `[[.integer64`, `[[<-.integer64`, `%in%.default`, `%in%.integer64`, `length<-.integer64`, `all.equal.integer64`, `as.bitstring.integer64`, `as.integer64.bitstring`, `as.integer64.factor`, `as.integer64.integer64`, `as.integer64.NULL`, `as.list.integer64`, `as.logical.integer64`, `cbind.integer64`, `diff.integer64`, `duplicated.integer64`, `hashdup.cache_integer64`, `hashfin.cache_integer64`, `hashfun.integer64`, `hashmap.integer64`, `hashmaptab.integer64`, `hashmapuni.integer64`, `hashmapupo.integer64`, `hashpos.cache_integer64`, `hashrev.cache_integer64`, `hashrin.cache_integer64`, `hashtab.cache_integer64`, `hashuni.cache_integer64`, `hashupo.cache_integer64`, `is.double.default`, `is.double.integer64`, `is.finite.integer64`, `is.infinite.integer64`, `is.nan.integer64`, `is.sorted.integer64`, `is.vector.integer64`, `keypos.integer64`, `match.default`, `match.integer64`, `mean.integer64`, `median.integer64`, `mergeorder.integer64`, `mergesort.integer64`, `mergesortorder.integer64`, `na.count.integer64`, `nties.integer64`, `nunique.integer64`, `nvalid.integer64`, `order.default`, `order.integer64`, `orderdup.integer64`, `orderfin.integer64`, `orderkey.integer64`, `ordernut.integer64`, `orderpos.integer64`, `orderqtl.integer64`, `orderrnk.integer64`, `ordertab.integer64`, `ordertie.integer64`, `orderuni.integer64`, `orderupo.integer64`, `prank.integer64`, `print.bitstring`, `qtile.integer64`, `quantile.integer64`, `quickorder.integer64`, `quicksort.integer64`, `quicksortorder.integer64`, `radixorder.integer64`, `radixsort.integer64`, `radixsortorder.integer64`, `ramorder.integer64`, `ramsort.integer64`, `ramsortorder.integer64`, `rank.default`, `rbind.integer64`, `scale.integer64`, `shellorder.integer64`, `shellsort.integer64`, `shellsortorder.integer64`, `sort.integer64`, `sortfin.integer64`, `sortnut.integer64`, `sortorderdup.integer64`, `sortorderkey.integer64`, `sortorderpos.integer64`, `sortorderrnk.integer64`, `sortordertab.integer64`, `sortordertie.integer64`, `sortorderuni.integer64`, `sortorderupo.integer64`, `sortqtl.integer64`, `sorttab.integer64`, `sortuni.integer64`, `summary.integer64`, `table.integer64`, `tiepos.integer64`, `unipos.integer64`
-
-   As noted in the notes for 4.6.0-1, there was no recorded instance of users calling these methods
-   directly on GitHub; in the next release, they will be removed from the NAMESPACE. Note that
-   `as.integer64.bitstring` is a new addition here -- on follow-up, the only references were in old
-   (e.g. 2020) Advent of Code solutions and archived repos.
-
-   To disable this warning, use `options(bit64.warn.exported.s3.method = FALSE)`.
-
 1. The following S3 methods were directly removed from the NAMESPACE:
 
-   `-.integer64`, `!.integer64`, `!=.integer64`, `*.integer64`, `/.integer64`, `&.integer64`, `%/%.integer64`, `%%.integer64`, `^.integer64`, `+.integer64`, `<.integer64`, `<=.integer64`, `==.integer64`, `>.integer64`, `>=.integer64`, `|.integer64`, `ceiling.integer64`, `cummax.integer64`, `cummin.integer64`, `cumprod.integer64`, `cumsum.integer64`, `floor.integer64`, `log10.integer64`, `log2.integer64`, `prod.integer64`, `range.integer64`, `round.integer64`, `sign.integer64`, `signif.integer64`, `sqrt.integer64`, `trunc.integer64`
+   `-.integer64`, `:.default`, `:.integer64`, `!.integer64`, `!=.integer64`, `[.integer64`, `[[.integer64`, `[[<-.integer64`, `*.integer64`, `/.integer64`, `&.integer64`, `%/%.integer64`, `%%.integer64`, `%in%.default`, `%in%.integer64`, `^.integer64`, `+.integer64`, `<.integer64`, `<=.integer64`, `==.integer64`, `>.integer64`, `>=.integer64`, `|.integer64`, `all.equal.integer64`, `as.bitstring.integer64`, `as.integer64.bitstring`, `as.integer64.factor`, `as.integer64.integer64`, `as.integer64.NULL`, `as.list.integer64`, `as.logical.integer64`, `cbind.integer64`, `ceiling.integer64`, `cummax.integer64`, `cummin.integer64`, `cumprod.integer64`, `cumsum.integer64`, `diff.integer64`, `duplicated.integer64`, `floor.integer64`, `hashdup.cache_integer64`, `hashfin.cache_integer64`, `hashfun.integer64`, `hashmap.integer64`, `hashmaptab.integer64`, `hashmapuni.integer64`, `hashmapupo.integer64`, `hashpos.cache_integer64`, `hashrev.cache_integer64`, `hashrin.cache_integer64`, `hashtab.cache_integer64`, `hashuni.cache_integer64`, `hashupo.cache_integer64`, `is.double.default`, `is.double.integer64`, `is.finite.integer64`, `is.infinite.integer64`, `is.nan.integer64`, `is.sorted.integer64`, `is.vector.integer64`, `keypos.integer64`, `length<-.integer64`, `log10.integer64`, `log2.integer64`, `match.default`, `match.integer64`, `mean.integer64`, `median.integer64`, `mergeorder.integer64`, `mergesort.integer64`, `mergesortorder.integer64`, `na.count.integer64`, `nties.integer64`, `nunique.integer64`, `nvalid.integer64`, `order.default`, `order.integer64`, `orderdup.integer64`, `orderfin.integer64`, `orderkey.integer64`, `ordernut.integer64`, `orderpos.integer64`, `orderqtl.integer64`, `orderrnk.integer64`, `ordertab.integer64`, `ordertie.integer64`, `orderuni.integer64`, `orderupo.integer64`, `prank.integer64`, `print.bitstring`, `prod.integer64`, `qtile.integer64`, `quantile.integer64`, `quickorder.integer64`, `quicksort.integer64`, `quicksortorder.integer64`, `radixorder.integer64`, `radixsort.integer64`, `radixsortorder.integer64`, `ramorder.integer64`, `ramsort.integer64`, `ramsortorder.integer64`, `range.integer64`, `rank.default`, `rbind.integer64`, `round.integer64`, `scale.integer64`, `shellorder.integer64`, `shellsort.integer64`, `shellsortorder.integer64`, `sign.integer64`, `signif.integer64`, `sort.integer64`, `sortfin.integer64`, `sortnut.integer64`, `sortorderdup.integer64`, `sortorderkey.integer64`, `sortorderpos.integer64`, `sortorderrnk.integer64`, `sortordertab.integer64`, `sortordertie.integer64`, `sortorderuni.integer64`, `sortorderupo.integer64`, `sortqtl.integer64`, `sorttab.integer64`, `sortuni.integer64`, `sqrt.integer64`, `summary.integer64`, `tiepos.integer64`, `trunc.integer64`, `unipos.integer64`
 
-   Owing to a quirk in R, it is not possible to pursue the same strategy for these methods as for
-   those mentioned above because it is not possible to inspect the call stack to distinguish whether
-   the corresponding generic was invoked or the method was invoked directly.
+   Previously, it was noted that this release would feature a warning to nudge towards correcting direct calls, but that has proven infeasible -- R's evaluation rules are simply too complex to warrant an expensive haystack search for the generic in the call stack each time a method is invoked. In some cases it is also not possible, period.
 
    Because there was no recorded direct usage for any of these, I am opting to just rip the band-aid
    off and un-export them in this release as opposed to waiting a full cycle more to do so.
 
 1. `as.integer64.integer64` returns a plain `integer64` vector stripped of any attributes. This is consistent with R like behavior, e.g. `as.integer.integer`.
-
 1. `%/%` matches base R/Knuth behavior of taking the `floor()` of a result, where before truncation was towards zero. For example, `as.integer64(-10L) %/% as.integer64(7L)` now gives `-2L`, not `-1L`. This is consistent with `-10L %/% 7L` in base R. Consequently, `%%` is also affected, e.g. `as.integer64(-10L) %% as.integer64(7L)` now gives `4L`, not `-3L`, consistent with `-10L %% 7L` in base R.
 
 1. `quantile` and `median` have consistent behavior to base (#247). This is achieved by a change of `sortqtl` and `orderqtl`, which is used in `qtile` and thus also in `quantile` and `median`. This means that `median(as.integer64(c(1, 3)))` new returns `2` (previously `3`), consistent with `median(c(1, 3))` in base R.
@@ -63,6 +56,10 @@
    - Ignores leading/trailing whitespace (as does `as.integer()`; #232).
 1. `sortcache`, `sortordercache` and `ordercache` get a new argument `na.last`.
 1. `matrix`, `array`, `%*%` and `as.matrix` get an `integer64` method (#45). Thanks @hcirellu.
+1. `factor`, `as.factor`, `ordered`, and `as.ordered` support `integer64` input correctly, i.e. the levels are sorted according to `integer64` values. Thanks @hcirellu.
+1. A replacement in an integer64 vector or array using `[<-` or `[[<-` with a complex or POSIXct leads to an R consistent coercion of the integer64 object to a complex or POSIXct object and not just an error. Thanks @hcirellu.
+1. `union`, `setdiff`, `intersect`, `setequal` and `is.element` get an overload to work correctly with `integer64` (#182).
+1. The methods of the 'Ops' group (e.g. `+`, `&`, `==`) now support dispatch for both arguments so that e.g. `difftime * integer64` works consistent to R (#179). Thanks @hcirellu. Note that this relies on `chooseOpsMethod()` and thus R 4.3.0.
 
 ## BUG FIXES
 
@@ -75,6 +72,9 @@
 1. `as.integer64.character` now returns `NA` for out of range values, with warning, e.g. `as.integer64("22222222222222222222")` (#175). Thanks @hcirellu.
 1. `quicksort()` and others no longer segfault on trivial cases (e.g. sorting 0 or 1 item, #220).
 1. `as.integer64(2^63)` returns `NA_integer64_` more consistently (e.g. on ARM), consistent with `as.integer(2^31)` (#19). Thanks @dipterix.
+1. `[.integer64` now runs faster and correctly regarding `NA` and arrays (#176). Thanks @hcirellu.
+1. `integer64() %in% 1L` no longer warns (#265). Thanks @hcirellu.
+1. `match.integer64(..., method="orderpos")` and `duplicated.integer64(..., method="orderdup")` no longer fail with "object 's' not found" (#58).
 1. `quantile` and `median` have consistent behavior to base (#247). This is achieved by a change of `sortqtl` and `orderqtl`, which is used in `qtile` and thus also in `quantile` and `median`.
 
 ## NOTES

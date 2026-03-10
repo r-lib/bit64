@@ -11,7 +11,7 @@ test_that <- function(desc, code) {
   # Eval in a new environment to keep scope cleanish
   tryCatch(
     eval(substitute(code), envir = new.env(parent = parent.frame())),
-    skip_error = identity
+    skip = identity
   )
   cat("\n")
 }
@@ -19,7 +19,7 @@ test_that <- function(desc, code) {
 skip_if = function(cond, info) {
   if (!cond) return(invisible())
   e = simpleError(paste("Skipping:", info))
-  class(e) = c("skip_error", class(e))
+  class(e) = c("skip", class(e))
   stop(e)
 }
 
@@ -124,6 +124,9 @@ expect_no_match = function(x, pattern, ...) {
   invisible(x)
 }
 
+pass = function() invisible()
+fail = function(message) stop(message)
+
 })
 
 with(patrick_shim_env, {
@@ -153,6 +156,8 @@ with_parameters_test_that <- function(desc, code, .cases = NULL, .interpret_glue
     tryCatch({
       eval(code_expr, envir = case_env)
       cat(".") # print dot for progress
+    }, skip = function(s) {
+      cat(sprintf("\nSKIPPED at case %d: %s\n", i, conditionMessage(s)))
     }, error = function(e) {
       cat(sprintf("\nFAILED at case %d: %s\n", i, conditionMessage(e)))
       cat("  Case parameters:\n")
@@ -180,7 +185,23 @@ local_options <- function(new_opts) {
   invisible()
 }
 
-# local_seed: Save seed, set new seed, defer restore to parent frame
+# seed handling: Save seed, set new seed, defer restore to parent frame
+with_seed <- function(seed, expr) {
+  # Check if global seed exists
+  if (exists(".Random.seed", envir = .GlobalEnv)) {
+    old_seed <- get(".Random.seed", envir = .GlobalEnv)
+    # Cleanup: restore the vector to global env
+    cleanup <- substitute(assign(".Random.seed", val, envir = .GlobalEnv), list(val = old_seed))
+  } else {
+    # Cleanup: remove the seed if it didn't exist
+    cleanup <- quote(rm(".Random.seed", envir = .GlobalEnv))
+  }
+  
+  set.seed(seed)
+  do.call(on.exit, list(cleanup, add = TRUE))
+  expr
+}
+
 local_seed <- function(seed) {
   # Check if global seed exists
   if (exists(".Random.seed", envir = .GlobalEnv)) {
