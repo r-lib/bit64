@@ -21,8 +21,6 @@ if (getRversion() < "3.6.0") {
     class(obj) = c(class, "warning", "condition")
     obj
   }
-  
-   str2lang = function(x) parse(text=x)[[1L]]
 }
 
 .onAttach = function(libname, pkgname) {

@@ -1061,7 +1061,7 @@ c.integer64 = function(..., recursive=FALSE) {
     res
   }
   for (idx in findPositionsOfItemsToConvert(dots)) {
-    val = eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""))))
+    val = dots[[idx]]
     if (inherits(val, "POSIXlt")) {
       val = lapply(unclass(val), as, value_class)
     } else {
@@ -1069,7 +1069,7 @@ c.integer64 = function(..., recursive=FALSE) {
       if (value_class == "integer64")
         oldClass(val) = NULL
     }
-    eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""), " = val")))
+    dots[[idx]] = val
   }
 
   ret = do.call(c, c(dots, list(recursive=recursive)))
@@ -1105,11 +1105,11 @@ cbind.integer64 = function(..., deparse.level=1) {
   }
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
-    val = eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""))))
+    val = dots[[idx]]
     val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
     if (value_class == "integer64")
       oldClass(val) = NULL
-    eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""), " = val")))
+    dots[[idx]] = val
   }
   ret = withCallingHandlers_and_choose_call(
     do.call(cbind, c(dots, list(deparse.level=deparse.level))), 
@@ -1188,11 +1188,11 @@ rbind.integer64 = function(..., deparse.level=1) {
   }
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
-    val = eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""))))
+    val = dots[[idx]]
     val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
     if (value_class == "integer64")
       oldClass(val) = NULL
-    eval(str2lang(paste0("dots", paste0("[[", idx, "]]", collapse = ""), " = val")))
+    dots[[idx]] = val
   }
   ret = withCallingHandlers_and_choose_call(
     do.call(rbind, c(dots, list(deparse.level=deparse.level))), 
