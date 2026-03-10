@@ -1166,7 +1166,7 @@ rbind.integer64 = function(..., deparse.level=1) {
     for (ii in seq_along(x)) {
       if (is.data.frame(x[[ii]])) {
         res = c(res, lapply(findPositionsOfItemsToConvert(x[[ii]]), function(el) c(ii, el)))
-      } else if (checkFunc(x[[ii]]) && !is.list(x[[ii]]))
+      } else if (checkFunc(x[[ii]]) && !is.list(x[[ii]])) {
         res = c(res, list(ii))
       }
     }
