@@ -1036,7 +1036,7 @@ c.integer64 = function(..., recursive=FALSE) {
   if (...length() == 0L) return(NULL)
   dots = list(...)
   
-  if (!isTRUE(recursive) && any(vapply(dots, is.list), FALSE))) {
+  if (!isTRUE(recursive) && any(vapply(dots, is.list, FALSE))) {
     return(unlist(lapply(dots, function(el) if (inherits(el, "POSIXlt")) el else as.list(el)), recursive=FALSE))
   }
   
