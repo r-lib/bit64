@@ -102,16 +102,28 @@
           ret = llroundl(longret); \
     }
 
-#define POW64(e1,e2,ret,naflag, longret) \
+#define POW64(e1,e2,ret,naflag,base,exp,intermediate) \
     if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
         ret = NA_INTEGER64; \
     else { \
-        longret = pow(e1, (long double) e2); \
-        if (isnan(longret)){ \
-          naflag = TRUE; \
-          ret = NA_INTEGER64; \
-        }else \
-          ret = llroundl(longret); \
+        if (e2 >= 0 || e1 == 1 || e1 == -1) { \
+            ret = 1; \
+            base = e1; \
+            exp = e2; \
+            while (exp > 0) { \
+                if (exp % 2 == 1) { \
+                    intermediate = ret; \
+                    ret *= base; \
+                    if (!GOODIPROD64(intermediate, base, ret)) { \
+                        ret = NA_INTEGER64; \
+                        naflag = TRUE; \
+                        break; \
+                    } \
+                } \
+                base *= base; \
+                exp >>= 1; \
+            } \
+        } \
     }
 
 #define POW64REAL(e1,e2,ret,naflag,longret) \
