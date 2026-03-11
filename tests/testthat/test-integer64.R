@@ -802,14 +802,14 @@ with_parameters_test_that("factor and order work analogously to integer:", {
 
     expect_identical(factor(as.integer64(x)), factor(x))
 
-    expect_same_error(
-      factor(as.integer64(x), levels=levels, labels=labels, exclude=exclude, ordered=ordered),
-      factor(x, levels=levels, labels=labels, exclude=exclude, ordered=ordered)
+    expect_identical(
+      tryCatch(factor(as.integer64(x), levels=levels, labels=labels, exclude=exclude, ordered=ordered), error=conditionMessage),
+      tryCatch(factor(x, levels=levels, labels=labels, exclude=exclude, ordered=ordered), error=conditionMessage)
     )
     if (isTRUE(ordered))
-      expect_same_error(
-        ordered(as.integer64(x), levels=levels, labels=labels, exclude=exclude),
-        ordered(x, levels=levels, labels=labels, exclude=exclude)
+      expect_identical(
+        tryCatch(ordered(as.integer64(x), levels=levels, labels=labels, exclude=exclude), error=conditionMessage),
+        tryCatch(ordered(x, levels=levels, labels=labels, exclude=exclude), error=conditionMessage)
       )
 },
   .cases = expand.grid(
