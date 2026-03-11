@@ -8,7 +8,7 @@
 
    All of these have observed downstream calls directly. If the call is in a CRAN/Bioconductor package, I'll be reaching out to help migrate onto the generic. This will probably take at least a year, so don't expect this to induce a CRAN release _per se_ until 2027 (although you should certainly aim to slip this in to your next release in the meantime).
 
-1. When integer64 and character are combined, the result will be character. To try this in advance for `c.integer64`, `cbind.integer64`, `rbind.integer64`, `[.integer64<-`, `[[.integer64<-`, `union`, `intersect`, `setdiff`, `setdiff` and `is.element` one can set the option `bit64.promoteInteger64ToCharacter=TRUE`.
+1. When integer64 and character are combined, the result will be character. This prevents loss of information, e.g. in `c(as.integer64(1L), "a")` and `c(as.integer64(1L), "999999999999999999999999")`. To try this in advance for `c.integer64`, `cbind.integer64`, `rbind.integer64`, `[.integer64<-`, `[[.integer64<-`, `union`, `intersect`, `setdiff`, `setdiff` and `is.element` one can set the option `bit64.promoteInteger64ToCharacter=TRUE`.
 
 ## BREAKING CHANGES
 
