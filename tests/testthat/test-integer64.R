@@ -1258,6 +1258,11 @@ test_that("c works consistent to R", {
   })
 })
 
+replace_dimnames = function(x, old, new) {
+  if (!is.null(dn <- dimnames(x))) 
+    dimnames(x) = lapply(dn, function(el) {el[el == old] = new; el})
+  x
+}
 test_that("cbind works consistent to R", {
   convert_x32_result_to_integer64 = function(x, colsToConvert=NULL) {
     if (!is.matrix(x) && !is.data.frame(x)) return(x)
@@ -1266,33 +1271,31 @@ test_that("cbind works consistent to R", {
         x[[col]] = as.integer64(x[[col]])
       return(x)
     }
-    replace_dimnames = function() if (!is.null(dn <- dimnames(x))) lapply(dn, function(el) { el[el == "x32"] = "x64"; el})
     if (is.list(x)) {
       nrow_x = nrow(x)
       for (col in colsToConvert)
         for (ii in seq_len(nrow_x))
           x[[(col - 1L)*nrow_x + ii]] = as.integer64(x[[(col - 1L)*nrow_x + ii]])
-      dimnames(x) = replace_dimnames()
+      x = replace_dimnames(x, "x32", "x64")
     } else { # is.matrix(x)
-      x = matrix(as.integer64(x), nrow=nrow(x), ncol=ncol(x), dimnames=replace_dimnames())
+      x = replace_dimnames(matrix(as.integer64(x), nrow=nrow(x), ncol=ncol(x), dimnames=dimnames(x)), "x32", "x64")
       oldClass(x) = "integer64"
     }
     x
   }
-  
+
   x32 = 1:10
   x64 = as.integer64(x32)
   
   expect_identical(cbind(x64, FALSE), convert_x32_result_to_integer64(cbind(x32, FALSE)))
   expect_identical(cbind(x64, 0L), convert_x32_result_to_integer64(cbind(x32, 0L)))
   expect_identical(cbind(x64, 0.0), convert_x32_result_to_integer64(cbind(x32, 0.0)))
-  # The dimnames differ, because of the different symbols `x64` vs `x32`.
-  expect_identical(cbind(x64, 0.0+0.0i), cbind(x32, 0.0+0.0i), ignore_attr="dimnames")
+  expect_identical(cbind(x64, 0.0+0.0i), replace_dimnames(cbind(x32, 0.0+0.0i), "x32", "x64"))
   expect_identical(cbind(x64, as.difftime(0.0, units="secs")), convert_x32_result_to_integer64(cbind(x32, as.difftime(0.0, units="secs"))))
   expect_identical(cbind(x64, as.POSIXct(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(cbind(x32, as.POSIXct(0.0, origin="2026-01-27"))))
   suppressWarnings(expect_identical(cbind(x64, as.POSIXlt(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(cbind(x32, as.POSIXlt(0.0, origin="2026-01-27")), 1L)))
   expect_identical(cbind(x64, as.Date(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(cbind(x32, as.Date(0.0, origin="2026-01-27"))))
-  expect_identical(cbind(x64, as.integer64(0L)), cbind(x32, as.integer64(0L)), ignore_attr="dimnames")
+  expect_identical(cbind(x64, as.integer64(0L)), replace_dimnames(cbind(x32, as.integer64(0L)), "x32", "x64"))
   expect_identical(cbind(integer64()), convert_x32_result_to_integer64(cbind(integer())))
   expect_identical(cbind(NA_integer64_), convert_x32_result_to_integer64(cbind(NA_integer_)))
   expect_identical(cbind(rep(NA_integer64_, 2)), convert_x32_result_to_integer64(cbind(rep(NA_integer_, 2))))
@@ -1300,15 +1303,15 @@ test_that("cbind works consistent to R", {
   expect_identical(cbind(x64, c(TRUE, NA)), convert_x32_result_to_integer64(cbind(x32, c(TRUE, NA))))
   expect_identical(cbind(x64, c(42L, NA)), convert_x32_result_to_integer64(cbind(x32, c(42L, NA))))
   expect_identical(cbind(x64, c(42.0, NA)), convert_x32_result_to_integer64(cbind(x32, c(42.0, NA))))
-  expect_identical(cbind(x64, c(42.0+42.0i, NA)), cbind(x32, c(42.0+42.0i, NA)), ignore_attr="dimnames")
+  expect_identical(cbind(x64, c(42.0+42.0i, NA)), replace_dimnames(cbind(x32, c(42.0+42.0i, NA)), "x32", "x64"))
   # TODO(#44): adjust tests accordingly
   expect_identical(cbind(x64, c("42", NA)), convert_x32_result_to_integer64(cbind(x32, c("42", NA))))
   expect_identical(cbind(x64, character()), convert_x32_result_to_integer64(cbind(x32, character())))
   withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
-    expect_identical(cbind(x64, c("42", NA)), cbind(x32, c("42", NA)), ignore_attr="dimnames")
-    expect_identical(cbind(x64, character()), cbind(x32, character()), ignore_attr="dimnames")
+    expect_identical(cbind(x64, c("42", NA)), replace_dimnames(cbind(x32, c("42", NA)), "x32", "x64"))
+    expect_identical(cbind(x64, character()), replace_dimnames(cbind(x32, character()), "x32", "x64"))
   })
-  expect_identical(cbind(x64, complex()), cbind(x32, complex()), ignore_attr="dimnames")
+  expect_identical(cbind(x64, complex()), replace_dimnames(cbind(x32, complex()), "x32", "x64"))
   
   expect_identical(
     cbind(A=x64, B=list()),
@@ -1381,15 +1384,14 @@ test_that("rbind works consistent to R", {
         x[[row]] = as.integer64(x[[row]])
       return(x)
     }
-    replace_dimnames = function() if (!is.null(dn <- dimnames(x))) lapply(dn, function(el) { el[el == "x32"] = "x64"; el})
     if (is.list(x)) {
       nrow_x = nrow(x)
       for (row in rowsToConvert)
         for (ii in seq_len(ncol(x)))
           x[[(ii - 1L)*nrow_x + row]] = as.integer64(x[[(ii - 1L)*nrow_x + row]])
-      dimnames(x) = replace_dimnames()
+      x = replace_dimnames(x, "x32", "x64")
     } else { # is.matrix(x)
-      x = matrix(as.integer64(x), nrow=nrow(x), ncol=ncol(x), dimnames=replace_dimnames())
+      x = replace_dimnames(matrix(as.integer64(x), nrow=nrow(x), ncol=ncol(x), dimnames=dimnames(x)), "x32", "x64")
       oldClass(x) = "integer64"
     }
     x
@@ -1401,13 +1403,12 @@ test_that("rbind works consistent to R", {
   expect_identical(rbind(x64, FALSE), convert_x32_result_to_integer64(rbind(x32, FALSE)))
   expect_identical(rbind(x64, 0L), convert_x32_result_to_integer64(rbind(x32, 0L)))
   expect_identical(rbind(x64, 0.0), convert_x32_result_to_integer64(rbind(x32, 0.0)))
-  # The dimnames differ, because of the different symbols `x64` vs `x32`.
-  expect_identical(rbind(x64, 0.0+0.0i), rbind(x32, 0.0+0.0i), ignore_attr="dimnames")
+  expect_identical(rbind(x64, 0.0+0.0i),  replace_dimnames(rbind(x32, 0.0+0.0i), "x32", "x64"))
   expect_identical(rbind(x64, as.difftime(0.0, units="secs")), convert_x32_result_to_integer64(rbind(x32, as.difftime(0.0, units="secs"))))
   expect_identical(rbind(x64, as.POSIXct(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(rbind(x32, as.POSIXct(0.0, origin="2026-01-27"))))
   suppressWarnings(expect_identical(rbind(x64, as.POSIXlt(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(rbind(x32, as.POSIXlt(0.0, origin="2026-01-27")), 1L)))
   expect_identical(rbind(x64, as.Date(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(rbind(x32, as.Date(0.0, origin="2026-01-27"))))
-  expect_identical(rbind(x64, as.integer64(0L)), rbind(x32, as.integer64(0L)), ignore_attr="dimnames")
+  expect_identical(rbind(x64, as.integer64(0L)), replace_dimnames(rbind(x32, as.integer64(0L)), "x32", "x64"))
   expect_identical(rbind(integer64()), convert_x32_result_to_integer64(rbind(integer())))
   expect_identical(rbind(NA_integer64_), convert_x32_result_to_integer64(rbind(NA_integer_)))
   expect_identical(rbind(rep(NA_integer64_, 2)), convert_x32_result_to_integer64(rbind(rep(NA_integer_, 2))))
@@ -1415,15 +1416,15 @@ test_that("rbind works consistent to R", {
   expect_identical(rbind(x64, c(TRUE, NA)), convert_x32_result_to_integer64(rbind(x32, c(TRUE, NA))))
   expect_identical(rbind(x64, c(42L, NA)), convert_x32_result_to_integer64(rbind(x32, c(42L, NA))))
   expect_identical(rbind(x64, c(42.0, NA)), convert_x32_result_to_integer64(rbind(x32, c(42.0, NA))))
-  expect_identical(rbind(x64, c(42.0+42.0i, NA)), rbind(x32, c(42.0+42.0i, NA)), ignore_attr="dimnames")
+  expect_identical(rbind(x64, c(42.0+42.0i, NA)), replace_dimnames(rbind(x32, c(42.0+42.0i, NA)), "x32", "x64"))
   # TODO(#44): adjust tests accordingly
   expect_identical(rbind(x64, c("42", NA)), convert_x32_result_to_integer64(rbind(x32, c("42", NA))))
   expect_identical(rbind(x64, character()), convert_x32_result_to_integer64(rbind(x32, character())))
   withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
-    expect_identical(rbind(x64, c("42", NA)), rbind(x32, c("42", NA)), ignore_attr="dimnames")
-    expect_identical(rbind(x64, character()), rbind(x32, character()), ignore_attr="dimnames")
+    expect_identical(rbind(x64, c("42", NA)), replace_dimnames(rbind(x32, c("42", NA)), "x32", "x64"))
+    expect_identical(rbind(x64, character()), replace_dimnames(rbind(x32, character()), "x32", "x64"))
   })
-  expect_identical(rbind(x64, complex()), rbind(x32, complex()), ignore_attr="dimnames")
+  expect_identical(rbind(x64, complex()), replace_dimnames(rbind(x32, complex()), "x32", "x64"))
   
   expect_identical(
     rbind(A=x64, B=list()),
