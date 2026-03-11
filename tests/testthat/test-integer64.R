@@ -802,14 +802,14 @@ with_parameters_test_that("factor and order work analogously to integer:", {
 
     expect_identical(factor(as.integer64(x)), factor(x))
 
-    expect_identical(
-      tryCatch(factor(as.integer64(x), levels=levels, labels=labels, exclude=exclude, ordered=ordered), error=conditionMessage),
-      tryCatch(factor(x, levels=levels, labels=labels, exclude=exclude, ordered=ordered), error=conditionMessage)
+    expect_same_error(
+      factor(as.integer64(x), levels=levels, labels=labels, exclude=exclude, ordered=ordered),
+      factor(x, levels=levels, labels=labels, exclude=exclude, ordered=ordered)
     )
     if (isTRUE(ordered))
-      expect_identical(
-        tryCatch(ordered(as.integer64(x), levels=levels, labels=labels, exclude=exclude), error=conditionMessage),
-        tryCatch(ordered(x, levels=levels, labels=labels, exclude=exclude), error=conditionMessage)
+      expect_same_error(
+        ordered(as.integer64(x), levels=levels, labels=labels, exclude=exclude),
+        ordered(x, levels=levels, labels=labels, exclude=exclude)
       )
 },
   .cases = expand.grid(
@@ -1444,17 +1444,17 @@ test_that("rbind works consistent to R", {
     convert_x32_result_to_integer64(rbind(A=matrix(x32, 5), B=list(a=1:10, b=1:2), C=1:5), c(1:5, 7))
   ))
   skip_unless_r(">= 4.0.0") # in my tests on R 3.5.0 this is identical, except the one with as.complex() and "bit64.promoteInteger64ToCharacter=TRUE", because a factor instead of character is returned.
-  expect_identical(
-    tryCatch(rbind(matrix(x64, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage),
-    tryCatch(rbind(matrix(x32, 5), list(), NULL, matrix(1:10, 2)), error=conditionMessage)
+  expect_same_error(
+    rbind(matrix(x64, 5), list(), NULL, matrix(1:10, 2)),
+    rbind(matrix(x32, 5), list(), NULL, matrix(1:10, 2))
   )
-  expect_identical(
-    tryCatch(rbind(matrix(x64, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE)), error=conditionMessage),
-    tryCatch(rbind(matrix(x32, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE)), error=conditionMessage)
+  expect_same_error(
+    rbind(matrix(x64, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE)),
+    rbind(matrix(x32, 5), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE))
   )
-  expect_identical(
-    tryCatch(rbind(matrix(x64, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE)), error=conditionMessage), 
-    tryCatch(rbind(matrix(x32, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE)), error=conditionMessage)
+  expect_same_error(
+    rbind(matrix(x64, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE)),
+    rbind(matrix(x32, 5), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE))
   )
   # TODO(#44): adjust tests accordingly
   expect_identical(
@@ -1475,9 +1475,9 @@ test_that("rbind works consistent to R", {
     # This would be consistent with base R, but it requires additional logic to determine the columns to convert from the input in advance to have them coerced accordingly.
     # convert_x32_result_to_integer64(rbind(matrix(x32, 5, dimnames=list(NULL, c("a", "b"))), data.frame(a=5:1, b=as.complex(1:5))), 1L)
   )
-  expect_identical(
-    tryCatch(rbind(matrix(x64, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer64(-(1:10))), error=conditionMessage), 
-    tryCatch(rbind(matrix(x32, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer64(-(1:10))), error=conditionMessage)
+  expect_same_error(
+    rbind(matrix(x64, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer64(-(1:10))),
+    rbind(matrix(x32, 5), data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE), yy=as.integer64(-(1:10)))
   )
   expect_identical(
     tryCatch(rbind(as.integer64(1:5), matrix(x64, 5)), warning=conditionMessage),
