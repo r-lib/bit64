@@ -1267,15 +1267,15 @@ test_that("cbind works consistent to R", {
       return(x)
     }
     replace_dimnames = function() if (!is.null(dn <- dimnames(x))) lapply(dn, function(el) { el[el == "x32"] = "x64"; el})
-    if (is.matrix(x)) {
-      x = matrix(as.integer64(x), nrow=nrow(x), ncol=ncol(x), dimnames=replace_dimnames() )
-      oldClass(x) = "integer64"
-    } else { # is.list(x)
+    if (is.list(x)) {
       nrow_x = nrow(x)
       for (col in colsToConvert)
         for (ii in seq_len(nrow_x))
           x[[(col - 1L)*nrow_x + ii]] = as.integer64(x[[(col - 1L)*nrow_x + ii]])
       dimnames(x) = replace_dimnames()
+    } else { # is.matrix(x)
+      x = matrix(as.integer64(x), nrow=nrow(x), ncol=ncol(x), dimnames=replace_dimnames())
+      oldClass(x) = "integer64"
     }
     x
   }
