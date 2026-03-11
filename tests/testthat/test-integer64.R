@@ -1373,25 +1373,25 @@ test_that("cbind works consistent to R", {
 })
 
 test_that("rbind works consistent to R", {
-  convert_x32_result_to_integer64 = function(x, rowsToConvert=NULL) {
-    if (!is.list(x) && is.matrix(x)) {
-      x = matrix(as.integer64(x), nrow=nrow(x), ncol=ncol(x), dimnames=if (!is.null(dimnames(x))) lapply(dimnames(x), function(el) {el[el == "x32"] = "x64"; el}) )
-      oldClass(x) = "integer64"
-      x
-    } else if (is.data.frame(x)) {
+  convert_x32_result_to_integer64 = function(x, colsToConvert=NULL) {
+    if (!is.matrix(x) && !is.data.frame(x)) return(x)
+    if (is.data.frame(x)) {
       for (row in rowsToConvert)
         x[[row]] = as.integer64(x[[row]])
-      x
-    } else if (is.list(x)) {
+      return(x)
+    }
+    replace_dimnames = function() if (!is.null(dn <- dimnames(x))) lapply(dn, function(el) { el[el == "x32"] = "x64"; el})
+    if (is.list(x)) {
       nrow_x = nrow(x)
       for (row in rowsToConvert)
         for (ii in seq_len(ncol(x)))
           x[[(ii - 1L)*nrow_x + row]] = as.integer64(x[[(ii - 1L)*nrow_x + row]])
-      dimnames(x) = if (!is.null(dimnames(x))) lapply(dimnames(x), function(el) {el[el == "x32"] = "x64"; el})
-      x
-    } else {
-      x
+      dimnames(x) = replace_dimnames()
+    } else { # is.matrix(x)
+      x = matrix(as.integer64(x), nrow=nrow(x), ncol=ncol(x), dimnames=replace_dimnames())
+      oldClass(x) = "integer64"
     }
+    x
   }
   
   x32 = 1:10
