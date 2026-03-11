@@ -20,6 +20,8 @@
 
 1. `log()` operations, especially for `log(x, base=10)` and `log(x, base=2)`, have better precision and consistency (#180).
 
+1. `^.integer64` with integer or integer64 exponent now calculates the power precisely and returns an overflow warning, if an overflow appears (#288).
+
 ## NOTES
 
 1. The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0 (2019).
@@ -61,9 +63,6 @@
    Previously, it was noted that this release would feature a warning to nudge towards correcting direct calls, but that has proven infeasible -- R's evaluation rules are simply too complex to warrant an expensive haystack search for the generic in the call stack each time a method is invoked. In some cases it is also not possible, period.
 
    Because there was no recorded direct usage for any of these, I am opting to just rip the band-aid off and un-export them in this release as opposed to waiting a full cycle more to do so.
-
-1. `as.integer64.integer64` returns a plain `integer64` vector stripped of any attributes. This is consistent with R-like behavior, e.g. `as.integer.integer`.
-1. `%/%` matches base R/Knuth behavior of taking the `floor()` of a result, where previously truncation was towards zero. For example, `as.integer64(-10L) %/% as.integer64(7L)` now gives `-2L`, not `-1L`. This is consistent with `-10L %/% 7L` in base R. Consequently, `%%` is also affected, e.g. `as.integer64(-10L) %% as.integer64(7L)` now gives `4L`, not `-3L`, consistent with `-10L %% 7L` in base R.
 
 ## NEW FEATURES
 
