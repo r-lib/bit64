@@ -1033,6 +1033,7 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
 #' @rdname c.integer64
 #' @export
 c.integer64 = function(..., recursive=FALSE) {
+  # This check can be dropped in the future when c.integer64 is not exported anymore
   if (...length() == 0L) return(NULL)
   dots = list(...)
   
@@ -1077,6 +1078,19 @@ c.integer64 = function(..., recursive=FALSE) {
   ret
 }
 
+# helper function to generate names for cbind/rbind if missing; it is not intended to be exported
+make_names_for_cbind = function(sys_call, dots) {
+  nd = names(dots)
+  if (is.null(nd)) {
+    sys_call_dots = sys_call[-1L][seq_along(dots)]
+    sel = vapply(sys_call_dots, is.symbol, FALSE)
+    sel = sel & !vapply(dots, function(el) length(el) == 1L && is.na(el), FALSE)
+    nd = character(length(sel))
+    nd[sel] = as.character(sys_call_dots[sel])
+  }
+  nd
+}
+
 #' @rdname c.integer64
 #' @export
 cbind.integer64 = function(..., deparse.level=1) {
@@ -1093,15 +1107,7 @@ cbind.integer64 = function(..., deparse.level=1) {
   positionsOfItemsToConvert = which(vapply(dots, function(el) !is.list(el) && checkFunc(el), FALSE, USE.NAMES=FALSE))
 
   # set names if missing  
-  if (is.null(names(dots))) {
-    sys_call = choose_sys_call(c("cbind", "cbind"))
-    sel = vapply(sys_call, is.symbol, FALSE)
-    sel[1L] = FALSE
-    sel = sel & c(FALSE, !vapply(dots, function(el) length(el) == 1L && is.na(el), FALSE))
-    nd = character(length(sel))
-    nd[sel] = as.character(sys_call[sel])
-    names(dots) = nd[-1L]
-  }
+  names(dots) = make_names_for_cbind(choose_sys_call(c("cbind", "cbind")), dots)
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
     val = dots[[idx]]
@@ -1175,15 +1181,7 @@ rbind.integer64 = function(..., deparse.level=1) {
   positionsOfItemsToConvert = findPositionsOfItemsToConvert(dots)
 
   # set names if missing  
-  if (is.null(names(dots))) {
-    sys_call = choose_sys_call(c("rbind", "rbind"))
-    sel = vapply(sys_call, is.symbol, FALSE)
-    sel[1L] = FALSE
-    sel = sel & c(FALSE, !vapply(dots, function(el) length(el) == 1L && is.na(el), FALSE))
-    nd = character(length(sel))
-    nd[sel] = as.character(sys_call[sel])
-    names(dots) = nd[-1L]
-  }
+  names(dots) = make_names_for_cbind(choose_sys_call(c("rbind", "rbind")), dots)
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
     val = dots[[idx]]
@@ -1205,6 +1203,8 @@ rbind.integer64 = function(..., deparse.level=1) {
         for (ii in seq_along(ret))
           oldClass(ret[[ii]]) = value_class
       } else {
+        # for rbind, we have to estimate row indices for each item to convert because of possible recycling
+        # this is mainly for POSIXlt
         estimatedRowIndices = lapply(dots, function(el) {
           res = nrow(el)
           if (is.null(res)) 

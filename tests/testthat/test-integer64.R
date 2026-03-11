@@ -1286,6 +1286,7 @@ test_that("cbind works consistent to R", {
   expect_identical(cbind(x64, FALSE), convert_x32_result_to_integer64(cbind(x32, FALSE)))
   expect_identical(cbind(x64, 0L), convert_x32_result_to_integer64(cbind(x32, 0L)))
   expect_identical(cbind(x64, 0.0), convert_x32_result_to_integer64(cbind(x32, 0.0)))
+  # The dimnames differ, because of the different symbols `x64` vs `x32`.
   expect_identical(cbind(x64, 0.0+0.0i), cbind(x32, 0.0+0.0i), ignore_attr="dimnames")
   expect_identical(cbind(x64, as.difftime(0.0, units="secs")), convert_x32_result_to_integer64(cbind(x32, as.difftime(0.0, units="secs"))))
   expect_identical(cbind(x64, as.POSIXct(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(cbind(x32, as.POSIXct(0.0, origin="2026-01-27"))))
@@ -1309,22 +1310,22 @@ test_that("cbind works consistent to R", {
   })
   expect_identical(cbind(x64, complex()), cbind(x32, complex()), ignore_attr="dimnames")
   
-  suppressWarnings(expect_identical(
+  expect_identical(
     cbind(A=x64, B=list()),
     convert_x32_result_to_integer64(cbind(A=x32, B=list()), 1L)
-  ))
-  suppressWarnings(expect_identical(
+  )
+  expect_identical(
     cbind(A=x64, B=list(a=1:10, b=1:2)),
     convert_x32_result_to_integer64(cbind(A=x32, B=list(a=1:10, b=1:2)), 1L)
-  ))
-  suppressWarnings(expect_identical(
+  )
+  expect_identical(
     cbind(A=matrix(x64, 5), B=list()),
     convert_x32_result_to_integer64(cbind(A=matrix(x32, 5), B=list()), 1:2)
-  ))
-  suppressWarnings(expect_identical(
+  )
+  expect_identical(
     cbind(A=matrix(x64, 5), B=list(), C=1:5),
     convert_x32_result_to_integer64(cbind(A=matrix(x32, 5), B=list(), C=1:5), 1:3)
-  ))
+  )
   suppressWarnings(expect_identical(
     cbind(A=matrix(x64, 5), B=list(a=1:10, b=1:2), C=1:5),
     convert_x32_result_to_integer64(cbind(A=matrix(x32, 5), B=list(a=1:10, b=1:2), C=1:5), c(1, 2, 4))
@@ -1400,6 +1401,7 @@ test_that("rbind works consistent to R", {
   expect_identical(rbind(x64, FALSE), convert_x32_result_to_integer64(rbind(x32, FALSE)))
   expect_identical(rbind(x64, 0L), convert_x32_result_to_integer64(rbind(x32, 0L)))
   expect_identical(rbind(x64, 0.0), convert_x32_result_to_integer64(rbind(x32, 0.0)))
+  # The dimnames differ, because of the different symbols `x64` vs `x32`.
   expect_identical(rbind(x64, 0.0+0.0i), rbind(x32, 0.0+0.0i), ignore_attr="dimnames")
   expect_identical(rbind(x64, as.difftime(0.0, units="secs")), convert_x32_result_to_integer64(rbind(x32, as.difftime(0.0, units="secs"))))
   expect_identical(rbind(x64, as.POSIXct(0.0, origin="2026-01-27")), convert_x32_result_to_integer64(rbind(x32, as.POSIXct(0.0, origin="2026-01-27"))))
@@ -1423,18 +1425,18 @@ test_that("rbind works consistent to R", {
   })
   expect_identical(rbind(x64, complex()), rbind(x32, complex()), ignore_attr="dimnames")
   
-  suppressWarnings(expect_identical(
+  expect_identical(
     rbind(A=x64, B=list()),
     convert_x32_result_to_integer64(rbind(A=x32, B=list()), 1L)
-  ))
-  suppressWarnings(expect_identical(
+  )
+  expect_identical(
     rbind(A=x64, B=list(a=1:10, b=1:2)),
     convert_x32_result_to_integer64(rbind(A=x32, B=list(a=1:10, b=1:2)), 1L)
-  ))
-  suppressWarnings(expect_identical(
+  )
+  expect_identical(
     rbind(A=matrix(x64, 5), B=list()),
     convert_x32_result_to_integer64(rbind(A=matrix(x32, 5), B=list()), 1:5)
-  ))
+  )
   suppressWarnings(expect_identical(
     rbind(A=matrix(x64, 5), B=list(), C=1:5),
     convert_x32_result_to_integer64(rbind(A=matrix(x32, 5), B=list(), C=1:5), 1:6)

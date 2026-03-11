@@ -8,6 +8,8 @@
 
    All of these have observed downstream calls directly. If the call is in a CRAN/Bioconductor package, I'll be reaching out to help migrate onto the generic. This will probably take at least a year, so don't expect this to induce a CRAN release _per se_ until 2027 (although you should certainly aim to slip this in to your next release in the meantime).
 
+1. When integer64 and character are combined, the result will be character. To try this in advance for `c.integer64`, `cbind.integer64`, `rbind.integer64`, `[.integer64<-`, `[[.integer64<-`, `union`, `intersect`, `setdiff`, `setdiff` and `is.element` one can set the option `bit64.promoteInteger64ToCharacter=TRUE`.
+
 ## BREAKING CHANGES
 
 1. {bit64} no longer `Depends` on {bit}; instead it `Imports` it. Please file an issue if this
@@ -58,7 +60,7 @@
 1. A replacement in an integer64 vector or array using `[<-` or `[[<-` with a complex or POSIXct leads to an R consistent coercion of the integer64 object to a complex or POSIXct object and not just an error. Thanks @hcirellu.
 1. `union`, `setdiff`, `intersect`, `setequal` and `is.element` get an overload to work correctly with `integer64` (#182).
 1. The methods of the 'Ops' group (e.g. `+`, `&`, `==`) now support dispatch for both arguments so that e.g. `difftime * integer64` works consistent to R (#179). Thanks @hcirellu. Note that this relies on `chooseOpsMethod()` and thus R 4.3.0.
-1. `c.integer64`, `cbind.integer64` and `rbind.integer64` now support combining with lists and recursion as `base::c`, `base::cbind` and `base::rbind` do (#252). Thanks @hcirellu.
+1. `c.integer64`, `cbind.integer64` and `rbind.integer64` now support combining with lists and recursion as `base::c`, `base::cbind` and `base::rbind` do (#252). In addition, by setting the option `bit64.promoteInteger64ToCharacter=TRUE` the methods return character if integer64 and character are combined. Thanks @hcirellu.
 
 ## BUG FIXES
 
