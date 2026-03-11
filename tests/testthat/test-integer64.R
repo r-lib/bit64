@@ -1260,7 +1260,7 @@ test_that("c works consistent to R", {
 
 test_that("cbind works consistent to R", {
   convert_x32_result_to_integer64 = function(x, colsToConvert=NULL) {
-    if (!is.list(x) && !is.matrix(x)) return(x)
+    if (!is.matrix(x) && !is.data.frame(x)) return(x)
     if (is.data.frame(x)) {
       for (col in colsToConvert)
         x[[col]] = as.integer64(x[[col]])
