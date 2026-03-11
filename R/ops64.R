@@ -14,6 +14,9 @@
 #'
 #' @param e1,e2,x numeric or complex vectors or objects which can be coerced to such, or other objects for which methods have been written for - especially 'integer64' vectors.
 #'
+#' @details 
+#' [`^`] with 'integer' or 'integer64' exponent now calculates the power precisely and returns an overflow warning, if an overflow appears.
+#' 
 #' @returns
 #'   [`&`], [`|`], [`!`], [`!=`], [`==`], [`<`], [`<=`], [`>`], [`>=`] return a logical vector
 #'
