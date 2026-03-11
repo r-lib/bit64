@@ -1373,7 +1373,7 @@ test_that("cbind works consistent to R", {
 })
 
 test_that("rbind works consistent to R", {
-  convert_x32_result_to_integer64 = function(x, colsToConvert=NULL) {
+  convert_x32_result_to_integer64 = function(x, rowsToConvert=NULL) {
     if (!is.matrix(x) && !is.data.frame(x)) return(x)
     if (is.data.frame(x)) {
       for (row in rowsToConvert)
