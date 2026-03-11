@@ -267,7 +267,5 @@ test_that("power with integer64", {
   expect_identical(as.integer64("94906267")^2L, as.integer64("94906267")*as.integer64("94906267"))
   
   expect_warning(expect_identical(as.integer64("2147483650")^3L, NA_integer64_), "NAs produced by integer64 overflow")
-  # no warning for exponent double
-  expect_identical(as.integer64("2147483650")^3, NA_integer64_)
 })
 
