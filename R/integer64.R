@@ -1079,15 +1079,42 @@ c.integer64 = function(..., recursive=FALSE) {
 }
 
 # helper function to generate names for cbind/rbind if missing; it is not intended to be exported
-make_names_for_cbind = function(sys_call, dots) {
-  nd = names(dots)
-  if (is.null(nd)) {
-    sys_call_dots = sys_call[-1L][seq_along(dots)]
-    sel = vapply(sys_call_dots, is.symbol, FALSE)
-    sel = sel & !vapply(dots, function(el) length(el) == 1L && is.na(el), FALSE)
-    nd = character(length(sel))
-    nd[sel] = as.character(sys_call_dots[sel])
+make_names_for_cbind = function(sys_call, dots, deparse.level) {
+  sc_args = as.list(sys_call)[-1L]
+  nm_sc_args = names(sc_args)
+  if (is.null(nm_sc_args)) {
+    sys_call_dots = sc_args
+  } else {
+    is_dots = nm_sc_args == "" | nm_sc_args != "deparse.level"
+    sys_call_dots = sc_args[is_dots]
   }
+  # take only as many as dots
+  sys_call_dots = sys_call_dots[seq_along(dots)]
+  
+  nd = names(dots)
+  any_named = !is.null(nd) && any(nd != "")
+  nd = if (is.null(nd)) character(length(dots)) else nd
+  any_df = any(vapply(dots, is.data.frame, FALSE))
+  
+  for (i in seq_along(sys_call_dots)) {
+    if (nd[i] != "") next
+    
+    el = sys_call_dots[[i]]
+    if (is.symbol(el)) {
+      nd[i] = as.character(el)
+    } else if (deparse.level >= 2L || (any_df && deparse.level > 0L)) {
+      # Base R deparses everything if level >= 2 or if it's a data.frame context
+      # But avoid deparsing literal NA
+      if (length(dots[[i]]) == 1L && !is.list(dots[[i]]) && is.na(dots[[i]]) && !is.call(el)) {
+        nd[i] = ""
+      } else if (is.null(dots[[i]])) {
+        nd[i] = ""
+      } else {
+        nd[i] = deparse(el)[1L]
+      }
+    }
+  }
+  if (!any_named && all(nd == "")) return(NULL)
   nd
 }
 
@@ -1107,7 +1134,8 @@ cbind.integer64 = function(..., deparse.level=1) {
   positionsOfItemsToConvert = which(vapply(dots, function(el) !is.list(el) && checkFunc(el), FALSE, USE.NAMES=FALSE))
 
   # set names if missing  
-  names(dots) = make_names_for_cbind(choose_sys_call(c("cbind", "cbind")), dots)
+  nd = make_names_for_cbind(choose_sys_call(c("cbind", "cbind")), dots, deparse.level)
+  if (!is.null(nd)) names(dots) = nd
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
     val = dots[[idx]]
@@ -1181,7 +1209,8 @@ rbind.integer64 = function(..., deparse.level=1) {
   positionsOfItemsToConvert = findPositionsOfItemsToConvert(dots)
 
   # set names if missing  
-  names(dots) = make_names_for_cbind(choose_sys_call(c("rbind", "rbind")), dots)
+  nd = make_names_for_cbind(choose_sys_call(c("rbind", "rbind")), dots, deparse.level)
+  if (!is.null(nd)) names(dots) = nd
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
     val = dots[[idx]]

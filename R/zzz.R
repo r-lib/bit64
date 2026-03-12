@@ -99,7 +99,7 @@ target_class = function(x, recursive=FALSE, POSIXltAsCharacter=FALSE) {
 
   classes = getClassesOfElements(x, recursive=isTRUE(recursive))
   
-  if ("POSIXlt" %in% classes && isTRUE(POSIXltAsCharacter)) return("character")
+  if (isTRUE(POSIXltAsCharacter) && any(vapply(x, function(el) inherits(el, "POSIXlt") || (isTRUE(recursive) && is.list(el) && "POSIXlt" %in% getClassesOfElements(el, recursive=TRUE)), FALSE))) return("character")
   if ("complex" %in% classes) return("complex")
   if (any(c("character", "factor", "ordered") %in% classes)) {
     # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option

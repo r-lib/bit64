@@ -1500,3 +1500,17 @@ test_that("rbind works consistent to R", {
     tryCatch(convert_x32_result_to_integer64(rbind(integer(3), data.frame(a=1:2, b=10:11)), 1:2), warning=conditionMessage)
   )
 })
+
+test_that("c, cbind, rbind regression tests", {
+  # recursive c with POSIXlt (#252)
+  plt = as.POSIXlt("2026-03-12 18:45:24", tz="UTC")
+  expect_identical(unname(c(as.integer64(1), plt, recursive=TRUE)), unname(c("1", unlist(lapply(unclass(plt), as.character)))))
+  
+  # deparse.level in cbind/rbind (#252)
+  x = as.integer64(1:2)
+  expect_identical(colnames(cbind(x, x, deparse.level=0)), NULL)
+  expect_identical(colnames(cbind(x, x, deparse.level=1)), c("x", "x"))
+  
+  expect_identical(rownames(rbind(x, x, deparse.level=0)), NULL)
+  expect_identical(rownames(rbind(x, x, deparse.level=1)), c("x", "x"))
+})

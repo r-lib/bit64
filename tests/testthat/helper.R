@@ -45,10 +45,10 @@ expect_int_32_64_equivalent = function(expr) {
 }
 
 expect_same_error = function(expr1, expr2) {
-  err1 = tryCatch(expr1, error=identity)
+  err1 = tryCatch(suppressWarnings(expr1), error=identity)
   if (!inherits(err1, "error")) return(fail("'expr1' did not produce an error"))
 
-  err2 = tryCatch(expr2, error=identity)
+  err2 = tryCatch(suppressWarnings(expr2), error=identity)
   if (!inherits(err2, "error")) return(fail("'expr2' did not produce an error"))
 
   msg1 = conditionMessage(err1)
