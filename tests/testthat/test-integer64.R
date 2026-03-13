@@ -1376,6 +1376,18 @@ test_that("cbind works consistent to R", {
   ))
 })
 
+with_parameters_test_that("cbind deparse.level works consistent to R", {
+
+  x = 1L
+  expected_result = base::cbind(a=x, x, x + 1L, deparse.level=deparse.level)
+  expected_result = structure(as.integer64(expected_result), dim = dim(expected_result), dimnames = dimnames(expected_result))
+
+  FUN = cbind
+  x = as.integer64(x)
+  expect_identical(cbind(a=x, x, x + 1L, deparse.level=deparse.level), expected_result)
+  expect_identical(FUN(a=x, x, x + 1L, deparse.level=deparse.level), expected_result)
+}, .cases = expand.grid(deparse.level = -1:4))
+
 test_that("rbind works consistent to R", {
   convert_x32_result_to_integer64 = function(x, rowsToConvert=NULL) {
     if (!is.matrix(x) && !is.data.frame(x)) return(x)
@@ -1500,3 +1512,15 @@ test_that("rbind works consistent to R", {
     tryCatch(convert_x32_result_to_integer64(rbind(integer(3), data.frame(a=1:2, b=10:11)), 1:2), warning=conditionMessage)
   )
 })
+
+with_parameters_test_that("rbind deparse.level works consistent to R", {
+
+  x = 1L
+  expected_result = base::rbind(a=x, x, x + 1L, deparse.level=deparse.level)
+  expected_result = structure(as.integer64(expected_result), dim = dim(expected_result), dimnames = dimnames(expected_result))
+
+  FUN = rbind
+  x = as.integer64(x)
+  expect_identical(rbind(a=x, x, x + 1L, deparse.level=deparse.level), expected_result)
+  expect_identical(FUN(a=x, x, x + 1L, deparse.level=deparse.level), expected_result)
+}, .cases = expand.grid(deparse.level = -1:4))
