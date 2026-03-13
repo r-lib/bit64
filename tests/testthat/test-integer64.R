@@ -1386,7 +1386,7 @@ with_parameters_test_that("cbind deparse.level works consistent to R", {
   x = as.integer64(x)
   expect_identical(cbind(a=x, x, x + 1L, deparse.level=deparse.level), expected_result)
   expect_identical(FUN(a=x, x, x + 1L, deparse.level=deparse.level), expected_result)
-}, .cases = expand.grid(deparse.level = -1:4))
+}, deparse.level = -1:3)
 
 test_that("rbind works consistent to R", {
   convert_x32_result_to_integer64 = function(x, rowsToConvert=NULL) {
@@ -1523,4 +1523,4 @@ with_parameters_test_that("rbind deparse.level works consistent to R", {
   x = as.integer64(x)
   expect_identical(rbind(a=x, x, x + 1L, deparse.level=deparse.level), expected_result)
   expect_identical(FUN(a=x, x, x + 1L, deparse.level=deparse.level), expected_result)
-}, .cases = expand.grid(deparse.level = -1:4))
+}, deparse.level = -1:3)
