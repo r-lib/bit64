@@ -1377,7 +1377,7 @@ test_that("cbind works consistent to R", {
 })
 
 with_parameters_test_that("cbind deparse.level works consistent to R", {
-
+  skip_unless_r(">= 4.0.0")
   x = 1L
   expected_result = base::cbind(a=x, x, x + 1L, deparse.level=deparse.level)
   expected_result = structure(as.integer64(expected_result), dim = dim(expected_result), dimnames = dimnames(expected_result))
@@ -1514,7 +1514,7 @@ test_that("rbind works consistent to R", {
 })
 
 with_parameters_test_that("rbind deparse.level works consistent to R", {
-
+  skip_unless_r(">= 4.0.0")
   x = 1L
   expected_result = base::rbind(a=x, x, x + 1L, deparse.level=deparse.level)
   expected_result = structure(as.integer64(expected_result), dim = dim(expected_result), dimnames = dimnames(expected_result))
