@@ -98,10 +98,10 @@ frequencies of the unique elements.
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 unique(x)
 #> integer64
-#> [1] <NA> 1    9    8    7    5    4    6   
+#>  [1] 3    5    9    <NA> 8    4    6    1    7    2   
 unique(x, order="values")
 #> integer64
-#> [1] <NA> 1    4    5    6    7    8    9   
+#>  [1] <NA> 1    2    3    4    5    6    7    8    9   
 
 stopifnot(identical(unique(x),  x[!duplicated(x)]))
 stopifnot(identical(unique(x),  as.integer64(unique(as.integer(x)))))

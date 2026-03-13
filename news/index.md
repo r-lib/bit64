@@ -23,6 +23,15 @@
     you should certainly aim to slip this in to your next release in the
     meantime).
 
+2.  When integer64 and character are combined, the result will be
+    character. This prevents loss of information, e.g. in
+    `c(as.integer64(1L), "a")` and
+    `c(as.integer64(1L), "999999999999999999999999")`. To try this in
+    advance for `c.integer64`, `cbind.integer64`, `rbind.integer64`,
+    `[.integer64<-`, `[[.integer64<-`, `union`, `intersect`, `setdiff`,
+    `setdiff` and `is.element` one can set the option
+    `bit64.promoteInteger64ToCharacter=TRUE`.
+
 ### BREAKING CHANGES
 
 1.  {bit64} no longer `Depends` on {bit}; instead it `Imports` it.
@@ -191,6 +200,15 @@ necessary.
     [@hcirellu](https://github.com/hcirellu). Note that this relies on
     [`chooseOpsMethod()`](https://rdrr.io/r/base/chooseOpsMethod.html)
     and thus R 4.3.0.
+12. `c.integer64`, `cbind.integer64` and `rbind.integer64` now support
+    combining with lists and recursion as
+    [`base::c`](https://rdrr.io/r/base/c.html),
+    [`base::cbind`](https://rdrr.io/r/base/cbind.html) and
+    [`base::rbind`](https://rdrr.io/r/base/cbind.html) do
+    ([\#252](https://github.com/r-lib/bit64/issues/252)). In addition,
+    by setting the option `bit64.promoteInteger64ToCharacter=TRUE` the
+    methods return character if integer64 and character are combined.
+    Thanks [@hcirellu](https://github.com/hcirellu).
 
 ### BUG FIXES
 

@@ -51,10 +51,12 @@ function quantiles.
 ``` r
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 prank(x)
-#>  [1]      NA 0.50000 0.21875 0.21875 0.21875 0.21875      NA 0.50000
-#>  [9]      NA      NA      NA 0.00000      NA      NA 0.21875      NA
-#> [17] 0.90625 1.00000 0.50000 0.90625 0.62500      NA      NA 0.75000
-#> [25] 0.75000 0.75000      NA      NA      NA 0.21875      NA      NA
+#>  [1] 0.70833333 0.45833333         NA         NA         NA         NA
+#>  [7]         NA         NA         NA 1.00000000         NA 0.45833333
+#> [13]         NA         NA         NA 0.25000000 0.70833333 0.70833333
+#> [19] 0.25000000 0.70833333         NA         NA 0.91666667         NA
+#> [25] 0.00000000 0.25000000         NA         NA         NA         NA
+#> [31] 0.08333333         NA
 
 x <- x[!is.na(x)]
 stopifnot(identical(x,  unname(qtile(x, probs=prank(x)))))

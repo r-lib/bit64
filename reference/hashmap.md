@@ -149,51 +149,51 @@ See Details
 x <- as.integer64(sample(c(NA, 0:9)))
 y <- as.integer64(sample(c(NA, 1:9), 10, TRUE))
 hashfun(y)
-#>  [1]  3  8  7  5 11  9  9 11  9  9
+#>  [1] 15  3 11 13  3 15  1  8  5  7
 hx <- hashmap(x)
 hy <- hashmap(y)
 ls(hy)
 #> [1] "hashbits" "hashmap"  "nhash"    "nunique"  "x"       
 hashpos(hy, x)
-#>  [1] NA  6  2 NA NA  4  3 NA  5 NA  1
+#>  [1] NA NA  4  3  9 10  7 NA  8  1  2
 hashrev(hx, y)
-#>  [1] NA  6  2 NA NA  4  3 NA  5 NA  1
+#>  [1] NA NA  4  3  9 10  7 NA  8  1  2
 hashfin(hy, x)
-#>  [1] FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE
+#>  [1] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE
 hashrin(hx, y)
-#>  [1] FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE
+#>  [1] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE
 hashdup(hy)
-#>  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE
+#>  [1] FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE
 hashuni(hy)
 #> integer64
-#> [1] 2    7    4    <NA> 1    6   
+#> [1] 5    2    7    4    <NA> 6    3    8   
 hashuni(hy, keep.order=TRUE)
 #> integer64
-#> [1] 2    <NA> 4    7    6    1   
+#> [1] 8    2    6    3    5    <NA> 7    4   
 hashmapuni(y)
 #> integer64
-#> [1] 2    <NA> 4    7    6    1   
+#> [1] 8    2    6    3    5    <NA> 7    4   
 hashupo(hy)
-#> [1] 1 4 3 2 6 5
+#> [1]  7  2  9 10  8  3  4  1
 hashupo(hy, keep.order=TRUE)
-#> [1] 1 2 3 4 5 6
+#> [1]  1  2  3  4  7  8  9 10
 hashmapupo(y)
-#> [1] 1 2 3 4 5 6
+#> [1]  1  2  3  4  7  8  9 10
 hashtab(hy)
 #> $values
 #> integer64
-#> [1] 2    7    4    <NA> 1    6   
+#> [1] 5    2    7    4    <NA> 6    3    8   
 #> 
 #> $counts
-#> [1] 1 1 1 1 4 2
+#> [1] 1 2 1 1 1 1 1 2
 #> 
 hashmaptab(y)
 #> $values
 #> integer64
-#> [1] 2    7    4    <NA> 1    6   
+#> [1] 5    2    7    4    <NA> 6    3    8   
 #> 
 #> $counts
-#> [1] 1 1 1 1 4 2
+#> [1] 1 2 1 1 1 1 1 2
 #> 
 
     if (FALSE) { # \dontrun{

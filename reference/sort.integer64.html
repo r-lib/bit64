@@ -128,24 +128,24 @@ more RAM, set to 'memory' to minimize RAM requirements and sacrifice speed</p></
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="as.integer64.character.html">as.integer64</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">9</span><span class="op">)</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span>, <span class="fl">32</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">x</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 3    &lt;NA&gt; 3    &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 6    9   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14] &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 1    &lt;NA&gt; &lt;NA&gt; 8    &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [27] &lt;NA&gt; 3    &lt;NA&gt; 5    9    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] &lt;NA&gt; 7    7    1    1    &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 2    &lt;NA&gt; 4    9    2   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14] &lt;NA&gt; 3    &lt;NA&gt; 6    &lt;NA&gt; 5    3    6    &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 1   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27] &lt;NA&gt; 1    5    1    &lt;NA&gt; 2   </span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1    3    3    3    5    6    8    9    9    &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14] &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1    1    1    1    1    2    2    2    3    3    4    5    5   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14] 6    6    7    7    9    &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [27] &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"the following has default optimize='time' which is faster but requires more RAM, this calls 'ramorder'"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> the following has default optimize='time' which is faster but requires more RAM, this calls 'ramorder'</span>
 <span class="r-in"><span>  <span class="fu"><a href="bit64S3.html">order</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 17  4  6 28 30 12 20 13 31  1  2  3  5  7  8  9 10 11 14 15 16 18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23] 19 21 22 23 24 25 26 27 29 32</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  4  5 26 28 30  9 13 32 15 20 11 19 29 17 21  2  3 12  1  6  7  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23] 10 14 16 18 22 23 24 25 27 31</span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"slower with less RAM, this calls 'ramsortorder'"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> slower with less RAM, this calls 'ramsortorder'</span>
 <span class="r-in"><span>  <span class="fu"><a href="bit64S3.html">order</a></span><span class="op">(</span><span class="va">x</span>, optimize<span class="op">=</span><span class="st">"memory"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 17  4  6 28 30 12 20 13 31  1  2  3  5  7  8  9 10 11 14 15 16 18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23] 19 21 22 23 24 25 26 27 29 32</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  4  5 26 28 30  9 13 32 15 20 11 19 29 17 21  2  3 12  1  6  7  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23] 10 14 16 18 22 23 24 25 27 31</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

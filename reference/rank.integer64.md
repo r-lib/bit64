@@ -53,9 +53,9 @@ rank.
 ``` r
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 rank.integer64(x)
-#>  [1]   NA   NA   NA   NA  2.0   NA  4.0   NA  8.0   NA   NA   NA   NA
-#> [14] 10.0   NA  8.0   NA  8.0   NA 11.5   NA   NA  1.0   NA  5.0  3.0
-#> [27]   NA   NA   NA   NA 11.5  6.0
+#>  [1]   NA   NA  1.5   NA   NA  8.0 13.5   NA   NA 11.5   NA 10.0   NA
+#> [14]  5.5   NA   NA   NA  1.5   NA   NA  8.0 13.5   NA 11.5   NA 16.0
+#> [27] 15.0  8.0  3.5  5.5  3.5   NA
 
 stopifnot(identical(rank.integer64(x),  rank(as.integer(x)
 , na.last="keep", ties.method = "average")))

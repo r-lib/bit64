@@ -9,10 +9,10 @@ The ususal functions 'c', 'cbind' and 'rbind'
 c(..., recursive = FALSE)
 
 # S3 method for class 'integer64'
-cbind(...)
+cbind(..., deparse.level = 1)
 
 # S3 method for class 'integer64'
-rbind(...)
+rbind(..., deparse.level = 1)
 ```
 
 ## Arguments
@@ -28,13 +28,19 @@ rbind(...)
   through lists (and pairlists) combining all their elements into a
   vector.
 
+- deparse.level:
+
+  integer controlling the construction of labels in the case of
+  non-matrix-like arguments
+
 ## Value
 
-[`c()`](https://rdrr.io/r/base/c.html) returns a integer64 vector of the
-total length of the input
+[`c()`](https://rdrr.io/r/base/c.html) returns a vector of the
+appropriate mode. This could be a integer64 vector or a list of objects
 
 [`cbind()`](https://rdrr.io/r/base/cbind.html) and
-[`rbind()`](https://rdrr.io/r/base/cbind.html) return a integer64 matrix
+[`rbind()`](https://rdrr.io/r/base/cbind.html) return a matrix,
+data.frame or list with dimensions
 
 ## Note
 

@@ -81,20 +81,20 @@ functions creating big caches
  length(x)
 #> [1] 32
  bit::na.count(x)
-#> [1] 14
+#> [1] 16
  bit::nvalid(x)
-#> [1] 18
+#> [1] 16
  bit::nunique(x)
 #> [1] 8
  bit::nties(x)
-#> [1] 31
+#> [1] 30
  table(x)
 #> x
-#> 1 3 4 5 6 7 8 
-#> 1 5 3 2 3 2 2 
+#> 2 3 4 5 7 8 9 
+#> 2 1 1 2 3 2 5 
  x
 #> integer64
-#>  [1] 3    8    3    <NA> <NA> <NA> 4    <NA> 1    6    3    <NA> 3   
-#> [14] 6    7    4    <NA> <NA> 4    <NA> 5    8    <NA> <NA> <NA> <NA>
-#> [27] 3    <NA> 6    <NA> 5    7   
+#>  [1] <NA> <NA> <NA> 2    <NA> <NA> <NA> 7    4    9    8    <NA> <NA>
+#> [14] 8    9    5    <NA> <NA> 5    7    <NA> <NA> 2    <NA> 9    9   
+#> [27] <NA> 9    7    <NA> <NA> 3   
 ```

@@ -60,6 +60,5 @@ for finding positions in a different vector.
 ``` r
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 keypos(x)
-#>  [1]  6  5  5  4 10  3  1  7  1  1  1  1  1  2  9  1  9  2  1  8  1  6
-#> [23]  1  1  1  2  1  1  1  6  1  2
+#>  [1] 3 8 3 1 1 1 4 1 2 6 3 1 3 6 7 4 1 1 4 1 5 8 1 1 1 1 3 1 6 1 5 7
 ```
