@@ -1186,7 +1186,8 @@ test_that("c works consistent to R", {
   
   x32 = 1:10
   x64 = as.integer64(x32) 
-  
+
+  expect_identical(c(A=integer64(), B=as.raw(x32)), convert_x32_result_to_integer64(c(A=integer(), B=as.raw(x32)), recursive=TRUE))
   expect_identical(c(A=integer64(), B=as.logical(x32)), convert_x32_result_to_integer64(c(A=integer(), B=as.logical(x32)), recursive=TRUE))
   expect_identical(c(A=integer64(), B=as.POSIXct(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(A=integer(), B=as.POSIXct(x32, origin="2026-01-27")), recursive=TRUE))
   expect_identical(c(A=integer64(), B=as.Date(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(A=integer(), B=as.Date(x32, origin="2026-01-27")), recursive=TRUE))
@@ -1200,6 +1201,7 @@ test_that("c works consistent to R", {
     expect_identical(c(A=integer64(), B=as.character(x32)), c(A=integer(), B=as.character(x32)))
   })
   
+  expect_identical(c(A=x64, B=as.raw(x32)), convert_x32_result_to_integer64(c(A=x32, B=as.raw(x32)), recursive=TRUE))
   expect_identical(c(A=x64, B=as.logical(x32)), convert_x32_result_to_integer64(c(A=x32, B=as.logical(x32)), recursive=TRUE))
   expect_identical(c(A=x64, B=as.POSIXct(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(A=x32, B=as.POSIXct(x32, origin="2026-01-27")), recursive=TRUE))
   expect_identical(c(A=x64, B=as.Date(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(A=x32, B=as.Date(x32, origin="2026-01-27")), recursive=TRUE))
@@ -1286,7 +1288,8 @@ test_that("cbind works consistent to R", {
 
   x32 = 1:10
   x64 = as.integer64(x32)
-  
+
+  expect_identical(cbind(x64, as.raw(5L)), convert_x32_result_to_integer64(cbind(x32, as.raw(5L))))
   expect_identical(cbind(x64, FALSE), convert_x32_result_to_integer64(cbind(x32, FALSE)))
   expect_identical(cbind(x64, 0L), convert_x32_result_to_integer64(cbind(x32, 0L)))
   expect_identical(cbind(x64, 0.0), convert_x32_result_to_integer64(cbind(x32, 0.0)))
@@ -1411,7 +1414,8 @@ test_that("rbind works consistent to R", {
   
   x32 = 1:10
   x64 = as.integer64(x32)
-  
+
+  expect_identical(rbind(x64, as.raw(5L)), convert_x32_result_to_integer64(rbind(x32, as.raw(5L))))
   expect_identical(rbind(x64, FALSE), convert_x32_result_to_integer64(rbind(x32, FALSE)))
   expect_identical(rbind(x64, 0L), convert_x32_result_to_integer64(rbind(x32, 0L)))
   expect_identical(rbind(x64, 0.0), convert_x32_result_to_integer64(rbind(x32, 0.0)))
