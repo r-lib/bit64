@@ -48,8 +48,8 @@ if (getRversion() < "3.6.0") {
 # * call stack: [A, B, C, D, E]; function_names = c("C", "D") returns C
 # * call stack: [A, B, C, D, E]; function_names = c("E", "D") returns D
 # * call stack: [A, B, C, D, E]; function_names = c("E", "X") returns A
-choose_sys_call = function(function_names, name_to_display=NULL) {
-  calls = sys.calls()
+choose_sys_call = function(function_names, name_to_display=NULL, callStack=NULL) {
+  calls = if (is.null(callStack)) sys.calls() else callStack
   if (length(calls) == 1L || length(function_names) == 0L) return(calls[[1L]])
   # find last occurrence of last name in function_names
   function_names_rev = rev(as.character(function_names))
@@ -70,14 +70,14 @@ choose_sys_call = function(function_names, name_to_display=NULL) {
   ret
 }
 
-withCallingHandlers_and_choose_call = function(expr, function_names, name_to_display=NULL) {
+withCallingHandlers_and_choose_call = function(expr, function_names, name_to_display=NULL, callStack=NULL) {
   wch = substitute(
     withCallingHandlers(expr, error=error, warning=warning),
     list(
       expr = sys.call()[[2L]],
-      error = function(e) stop(errorCondition(e$message, call=choose_sys_call(function_names, name_to_display))),
+      error = function(e) stop(errorCondition(e$message, call=choose_sys_call(function_names, name_to_display, callStack=callStack))),
       warning = function(w) {
-        warning(warningCondition(w$message, call=choose_sys_call(function_names, name_to_display)))
+        warning(warningCondition(w$message, call=choose_sys_call(function_names, name_to_display, callStack=callStack)))
         invokeRestart("muffleWarning")
       }
     )
@@ -86,10 +86,20 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
 }
 
 # function to determine target class and sample value for union, intersect, setdiff, setequal, min, max, range, sum, prod, c, cbind and rbind functions
-target_class = function(x) {
+getClassesOfElements = function(x, recursive) {
+  classes = vapply(x, function(el) if (inherits(el, c("list", "data.frame"))) "list" else class(el)[1L], character(1L))
+  if (recursive) {
+    union(classes[classes != "list"], unlist(lapply(x[classes == "list"], function(el) getClassesOfElements(el, recursive=TRUE))))
+  } else {
+    unique(classes)
+  }
+}
 
-  classes = unique(vapply(x, function(el) if (inherits(el, c("list", "data.frame"))) "list" else class(el)[1L], character(1L)))
+target_class = function(x, recursive=FALSE, POSIXltAsCharacter=FALSE) {
+
+  classes = getClassesOfElements(x, recursive=isTRUE(recursive))
   
+  if ("POSIXlt" %in% classes && isTRUE(POSIXltAsCharacter)) return("character")
   if ("complex" %in% classes) return("complex")
   if (any(c("character", "factor", "ordered") %in% classes)) {
     # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option
