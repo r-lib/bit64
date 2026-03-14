@@ -78,11 +78,7 @@ sortnut = function(sorted, ...) UseMethod("sortnut")
 #' @rdname sortnut
 #' @export
 sortnut.integer64 = function(sorted, ...) {
-<<<<<<< median
   ret = .Call(C_r_ram_integer64_sortnut, x=sorted)
-=======
-  ret = .Call(C_r_ram_integer64_sortnut, x = sorted)
->>>>>>> main
   names(ret) = c("nunique", "nties")
   ret
 }
@@ -96,11 +92,7 @@ ordernut = function(table, order, ...) UseMethod("ordernut")
 #' @rdname sortnut
 #' @export
 ordernut.integer64 = function(table, order, ...) {
-<<<<<<< median
   ret = .Call(C_r_ram_integer64_ordernut, table=as.integer64(table), order=as.integer(order))
-=======
-  ret = .Call(C_r_ram_integer64_ordernut, table = as.integer64(table), order = as.integer(order))
->>>>>>> main
   names(ret) = c("nunique", "nties")
   ret
 }
@@ -115,15 +107,9 @@ sortfin = function(sorted, x, ...) UseMethod("sortfin")
 sortfin.integer64 = function(sorted, x, method=NULL, ...) {
   n = length(x)
   if (is.null(method)) {
-<<<<<<< median
     if (n < 2048L) {
       method = 1L
     } else if (n < length(sorted)/128L) {
-=======
-    if (n<2048L) {
-      method = 1L
-    } else if (n<length(sorted)/128L) {
->>>>>>> main
       method = 2L
     } else {
       method = 3L
@@ -139,7 +125,6 @@ sortfin.integer64 = function(sorted, x, method=NULL, ...) {
       , ret=logical(n)
       )
   } else {
-<<<<<<< median
     sx = clone(as.integer64(x))
     o = seq_along(x)
     ramsortorder(sx, o, na.last=FALSE, ...)
@@ -149,15 +134,6 @@ sortfin.integer64 = function(sorted, x, method=NULL, ...) {
       , sorted=as.integer64(sorted)
       , method=method
       , ret=ret
-=======
-    sx = clone(as.integer64(x)); o = seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
-    ret = logical(n)
-    ret[o] = .Call(C_r_ram_integer64_sortfin_asc
-      , x = sx
-      , sorted = as.integer64(sorted)
-      , method= method
-      , ret = ret
->>>>>>> main
       )
     ret
   }
@@ -172,15 +148,9 @@ orderfin = function(table, order, x, ...) UseMethod("orderfin")
 orderfin.integer64 = function(table, order, x, method=NULL, ...) {
   n = length(x)
   if (is.null(method)) {
-<<<<<<< median
     if (n < 4096L) {
       method = 1L
     } else if (n < length(table)/8L) {
-=======
-    if (n<4096L) {
-      method = 1L
-    } else if (n<length(table)/8L) {
->>>>>>> main
       method = 2L
     } else {
       method = 3L
@@ -198,7 +168,6 @@ orderfin.integer64 = function(table, order, x, method=NULL, ...) {
       )
   } else {
     x = as.integer64(x)
-<<<<<<< median
     o = seq_along(x)
     ramorder(x, o, na.last=FALSE, ...)
     ret = logical(n)
@@ -208,16 +177,6 @@ orderfin.integer64 = function(table, order, x, method=NULL, ...) {
       , order=as.integer(order)
       , method=as.integer(method)
       , ret=ret
-=======
-    o = seq_along(x); ramorder(x, o, na.last=FALSE, ...)
-    ret = logical(n)
-    ret[o] = .Call(C_r_ram_integer64_orderfin_asc
-      , x = x[o]
-      , table = as.integer64(table)
-      , order = as.integer(order)
-      , method= as.integer(method)
-      , ret = ret
->>>>>>> main
       )
       ret
   }
@@ -233,15 +192,9 @@ orderpos = function(table, order, x, ...) UseMethod("orderpos")
 orderpos.integer64 = function(table, order, x, nomatch=NA, method=NULL, ...) {
   n = length(x)
   if (is.null(method)) {
-<<<<<<< median
     if (n < 4096L) {
       method = 1L
     } else if (n < length(table)/8L) {
-=======
-    if (n<4096L) {
-      method = 1L
-    } else if (n<length(table)/8L) {
->>>>>>> main
       method = 2L
     } else {
       method = 3L
@@ -260,7 +213,6 @@ orderpos.integer64 = function(table, order, x, nomatch=NA, method=NULL, ...) {
       )
   } else {
     x = as.integer64(x)
-<<<<<<< median
     o = seq_along(x)
     ramorder(x, o, na.last=FALSE, ...)
     ret = integer(n)
@@ -271,17 +223,6 @@ orderpos.integer64 = function(table, order, x, nomatch=NA, method=NULL, ...) {
       , nomatch=as.integer(nomatch)
       , method=as.integer(method)
       , ret=ret
-=======
-    o = seq_along(x); ramorder(x, o, na.last=FALSE, ...)
-    ret = integer(n)
-    ret[o] = .Call(C_r_ram_integer64_orderpos_asc
-      , x = x[o]
-      , table = as.integer64(table)
-      , order = as.integer(order)
-      , nomatch = as.integer(nomatch)
-      , method= as.integer(method)
-      , ret = ret
->>>>>>> main
       )
       ret
   }
@@ -296,15 +237,9 @@ sortorderpos = function(sorted, order, x, ...) UseMethod("sortorderpos")
 sortorderpos.integer64 = function(sorted, order, x, nomatch=NA, method=NULL, ...) {
   n = length(x)
   if (is.null(method)) {
-<<<<<<< median
     if (n < 2048L) {
       method = 1L
     } else if (n < length(sorted)/128L) {
-=======
-    if (n<2048L) {
-      method = 1L
-    } else if (n<length(sorted)/128L) {
->>>>>>> main
       method = 2L
     } else {
       method = 3L
@@ -322,7 +257,6 @@ sortorderpos.integer64 = function(sorted, order, x, nomatch=NA, method=NULL, ...
       , ret=integer(n)
       )
   } else {
-<<<<<<< median
     sx = clone(as.integer64(x))
     o = seq_along(x)
     ramsortorder(sx, o, na.last=FALSE, ...)
@@ -334,17 +268,6 @@ sortorderpos.integer64 = function(sorted, order, x, nomatch=NA, method=NULL, ...
       , nomatch=as.integer(nomatch)
       , method=as.integer(method)
       , ret=ret
-=======
-    sx = clone(as.integer64(x)); o = seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
-    ret = integer(n)
-    ret[o] = .Call(C_r_ram_integer64_sortorderpos_asc
-      , x = sx
-      , sorted = as.integer64(sorted)
-      , order = as.integer(order)
-      , nomatch = as.integer(nomatch)
-      , method= as.integer(method)
-      , ret = ret
->>>>>>> main
       )
       ret
   }
@@ -358,11 +281,7 @@ orderdup = function(table, order, ...) UseMethod("orderdup")
 #' @export
 orderdup.integer64 = function(table, order, method=NULL, ...) {
   if (is.null(method)) {
-<<<<<<< median
     if (length(table) < 4194304L)
-=======
-    if (length(table)<4194304L)
->>>>>>> main
         method = 1L
       else
         method = 2L
@@ -385,11 +304,7 @@ sortorderdup = function(sorted, order, ...) UseMethod("sortorderdup")
 #' @export
 sortorderdup.integer64 = function(sorted, order, method=NULL, ...) {
   if (is.null(method)) {
-<<<<<<< median
     if (length(sorted) < 4194304L)
-=======
-    if (length(sorted)<4194304L)
->>>>>>> main
         method = 1L
       else
         method = 2L
@@ -459,21 +374,12 @@ orderupo = function(table, order, nunique, ...) UseMethod("orderupo")
 #' @rdname sortnut
 #' @export
 orderupo.integer64 = function(table, order, nunique, keep.order=FALSE, ...) {
-<<<<<<< median
     .Call(C_r_ram_integer64_orderupo_asc
     , table=as.integer64(table)
     , order=as.integer(order)
     , keep.order=as.logical(keep.order)
     , ret=integer(nunique)
     )
-=======
-  .Call(C_r_ram_integer64_orderupo_asc
-  , table = as.integer64(table)
-  , order = as.integer(order)
-  , keep.order = as.logical(keep.order)
-  , ret = integer(nunique)
-  )
->>>>>>> main
 }
 
 #' @rdname sortnut
@@ -578,21 +484,12 @@ orderkey = function(table, order, na.skip.num=0L, ...) UseMethod("orderkey")
 #' @rdname sortnut
 #' @export
 orderkey.integer64 = function(table, order, na.skip.num=0L, ...) {
-<<<<<<< median
     .Call(C_r_ram_integer64_orderkey_asc
     , table=as.integer64(table)
     , order=as.integer(order)
     , na.skip.num=na.skip.num
     , ret=integer(length(table))
     )
-=======
-  .Call(C_r_ram_integer64_orderkey_asc
-  , table = as.integer64(table)
-  , order = as.integer(order)
-  , na.skip.num=na.skip.num
-  , ret = integer(length(table))
-  )
->>>>>>> main
 }
 
 #' @rdname sortnut
@@ -649,14 +546,10 @@ sortqtl = function(sorted, na.count, probs, ...) UseMethod("sortqtl")
 #' @export
 sortqtl.integer64 = function(sorted, na.count, probs, ...) {
   n = length(sorted) - na.count  # nvalid
-<<<<<<< median
   sel = na.count + (1L + probs * (n-1L))
   idx = matrix(c(floor(sel), ceiling(sel)), nrow=2L, byrow=TRUE)
   neighboring_values = matrix(sorted[idx], nrow=2L)
   ret = neighboring_values[1L,] + (neighboring_values[2L,] - neighboring_values[1L,])*(sel%%1)
-=======
-  ret = sorted[na.count + round(1L + probs * (n-1L))]
->>>>>>> main
   # TODO(#31): Remove this once `[` can return NA for integer64 directly
   ret[is.na(probs)] = NA
   ret
