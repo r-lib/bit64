@@ -38,6 +38,8 @@
 1. `as.integer64.integer64` returns a plain `integer64` vector stripped of any attributes. This is consistent with R like behavior, e.g. `as.integer.integer`.
 1. `%/%` matches base R/Knuth behavior of taking the `floor()` of a result, where before truncation was towards zero. For example, `as.integer64(-10L) %/% as.integer64(7L)` now gives `-2L`, not `-1L`. This is consistent with `-10L %/% 7L` in base R. Consequently, `%%` is also affected, e.g. `as.integer64(-10L) %% as.integer64(7L)` now gives `4L`, not `-3L`, consistent with `-10L %% 7L` in base R.
 
+1. `quantile` and `median` have consistent behavior to base (#247). This is achieved by a change of `sortqtl` and `orderqtl`, which is used in `qtile` and thus also in `quantile` and `median`. This means that `median(as.integer64(c(1, 3)))` new returns `2` (previously `3`), consistent with `median(c(1, 3))` in base R.
+
 ## NEW FEATURES
 
 1. `anyNA` gets an `integer64` method. Thanks @hcirellu.
@@ -76,6 +78,7 @@
 1. `[.integer64` now runs faster and correctly regarding `NA` and arrays (#176). Thanks @hcirellu.
 1. `integer64() %in% 1L` no longer warns (#265). Thanks @hcirellu.
 1. `match.integer64(..., method="orderpos")` and `duplicated.integer64(..., method="orderdup")` no longer fail with "object 's' not found" (#58).
+1. `quantile` and `median` have consistent behavior to base (#247). This is achieved by a change of `sortqtl` and `orderqtl`, which is used in `qtile` and thus also in `quantile` and `median`.
 
 ## NOTES
 
