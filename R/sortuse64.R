@@ -125,7 +125,9 @@ sortfin.integer64 = function(sorted, x, method=NULL, ...) {
     , ret=logical(n)
     )
   } else {
-    sx = clone(as.integer64(x)); o = seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
+    sx = clone(as.integer64(x))
+    o = seq_along(x)
+    ramsortorder(sx, o, na.last=FALSE, ...)
     ret = logical(n)
     ret[o] = .Call(C_r_ram_integer64_sortfin_asc
       , x=sx
@@ -166,7 +168,8 @@ orderfin.integer64 = function(table, order, x, method=NULL, ...) {
       )
   } else {
     x = as.integer64(x)
-    o = seq_along(x); ramorder(x, o, na.last=FALSE, ...)
+    o = seq_along(x)
+    ramorder(x, o, na.last=FALSE, ...)
     ret = logical(n)
     ret[o] = .Call(C_r_ram_integer64_orderfin_asc
       , x=x[o]
@@ -210,7 +213,8 @@ orderpos.integer64 = function(table, order, x, nomatch=NA, method=NULL, ...) {
       )
   } else {
     x = as.integer64(x)
-    o = seq_along(x); ramorder(x, o, na.last=FALSE, ...)
+    o = seq_along(x)
+    ramorder(x, o, na.last=FALSE, ...)
     ret = integer(n)
     ret[o] = .Call(C_r_ram_integer64_orderpos_asc
       , x=x[o]
@@ -253,7 +257,9 @@ sortorderpos.integer64 = function(sorted, order, x, nomatch=NA, method=NULL, ...
       , ret=integer(n)
       )
   } else {
-    sx = clone(as.integer64(x)); o = seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
+    sx = clone(as.integer64(x))
+    o = seq_along(x)
+    ramsortorder(sx, o, na.last=FALSE, ...)
     ret = integer(n)
     ret[o] = .Call(C_r_ram_integer64_sortorderpos_asc
       , x=sx
