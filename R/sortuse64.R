@@ -109,7 +109,7 @@ sortfin.integer64 = function(sorted, x, method=NULL, ...) {
   if (is.null(method)) {
     if (n < 2048L) {
       method = 1L
-    } else if (n < length(sorted)/128L) {
+    } else if (n < length(sorted) / 128L) {
       method = 2L
     } else {
       method = 3L
@@ -118,12 +118,12 @@ sortfin.integer64 = function(sorted, x, method=NULL, ...) {
     method = as.integer(method)
   }
   if (method == 1L) {
-      .Call(C_r_ram_integer64_sortfin_asc
-      , x=as.integer64(x)
-      , sorted=as.integer64(sorted)
-      , method=method
-      , ret=logical(n)
-      )
+    .Call(C_r_ram_integer64_sortfin_asc
+    , x=as.integer64(x)
+    , sorted=as.integer64(sorted)
+    , method=method
+    , ret=logical(n)
+    )
   } else {
     sx = clone(as.integer64(x))
     o = seq_along(x)
@@ -150,7 +150,7 @@ orderfin.integer64 = function(table, order, x, method=NULL, ...) {
   if (is.null(method)) {
     if (n < 4096L) {
       method = 1L
-    } else if (n < length(table)/8L) {
+    } else if (n < length(table) / 8L) {
       method = 2L
     } else {
       method = 3L
@@ -194,7 +194,7 @@ orderpos.integer64 = function(table, order, x, nomatch=NA, method=NULL, ...) {
   if (is.null(method)) {
     if (n < 4096L) {
       method = 1L
-    } else if (n < length(table)/8L) {
+    } else if (n < length(table) / 8L) {
       method = 2L
     } else {
       method = 3L
@@ -239,7 +239,7 @@ sortorderpos.integer64 = function(sorted, order, x, nomatch=NA, method=NULL, ...
   if (is.null(method)) {
     if (n < 2048L) {
       method = 1L
-    } else if (n < length(sorted)/128L) {
+    } else if (n < length(sorted) / 128L) {
       method = 2L
     } else {
       method = 3L
@@ -374,12 +374,12 @@ orderupo = function(table, order, nunique, ...) UseMethod("orderupo")
 #' @rdname sortnut
 #' @export
 orderupo.integer64 = function(table, order, nunique, keep.order=FALSE, ...) {
-    .Call(C_r_ram_integer64_orderupo_asc
-    , table=as.integer64(table)
-    , order=as.integer(order)
-    , keep.order=as.logical(keep.order)
-    , ret=integer(nunique)
-    )
+  .Call(C_r_ram_integer64_orderupo_asc
+  , table=as.integer64(table)
+  , order=as.integer(order)
+  , keep.order=as.logical(keep.order)
+  , ret=integer(nunique)
+  )
 }
 
 #' @rdname sortnut
@@ -484,12 +484,12 @@ orderkey = function(table, order, na.skip.num=0L, ...) UseMethod("orderkey")
 #' @rdname sortnut
 #' @export
 orderkey.integer64 = function(table, order, na.skip.num=0L, ...) {
-    .Call(C_r_ram_integer64_orderkey_asc
-    , table=as.integer64(table)
-    , order=as.integer(order)
-    , na.skip.num=na.skip.num
-    , ret=integer(length(table))
-    )
+  .Call(C_r_ram_integer64_orderkey_asc
+  , table=as.integer64(table)
+  , order=as.integer(order)
+  , na.skip.num=na.skip.num
+  , ret=integer(length(table))
+  )
 }
 
 #' @rdname sortnut
@@ -546,7 +546,7 @@ sortqtl = function(sorted, na.count, probs, ...) UseMethod("sortqtl")
 #' @export
 sortqtl.integer64 = function(sorted, na.count, probs, ...) {
   n = length(sorted) - na.count  # nvalid
-  sel = na.count + (1L + probs * (n-1L))
+  sel = na.count + (1L + probs * (n - 1L))
   idx = matrix(c(floor(sel), ceiling(sel)), nrow=2L, byrow=TRUE)
   neighboring_values = matrix(sorted[idx], nrow=2L)
   ret = neighboring_values[1L,] + (neighboring_values[2L,] - neighboring_values[1L,])*(sel%%1)
@@ -563,7 +563,7 @@ orderqtl = function(table, order, na.count, probs, ...) UseMethod("orderqtl")
 #' @export
 orderqtl.integer64 = function(table, order, na.count, probs, ...) {
   n = length(table) - na.count  # nvalid
-  sel = na.count + (1L + probs * (n-1L))
+  sel = na.count + (1L + probs * (n - 1L))
   idx = matrix(c(floor(sel), ceiling(sel)), nrow=2L, byrow=TRUE)
   neighboring_values = matrix(table[order[idx]], nrow=2L)
   ret = neighboring_values[1L,] + (neighboring_values[2L,] - neighboring_values[1L,])*(sel%%1)
