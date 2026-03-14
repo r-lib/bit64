@@ -78,7 +78,7 @@ sortnut = function(sorted, ...) UseMethod("sortnut")
 #' @rdname sortnut
 #' @export
 sortnut.integer64 = function(sorted, ...) {
-  ret = .Call(C_r_ram_integer64_sortnut, x = sorted)
+  ret = .Call(C_r_ram_integer64_sortnut, x=sorted)
   names(ret) = c("nunique", "nties")
   ret
 }
@@ -92,7 +92,7 @@ ordernut = function(table, order, ...) UseMethod("ordernut")
 #' @rdname sortnut
 #' @export
 ordernut.integer64 = function(table, order, ...) {
-  ret = .Call(C_r_ram_integer64_ordernut, table = as.integer64(table), order = as.integer(order))
+  ret = .Call(C_r_ram_integer64_ordernut, table=as.integer64(table), order=as.integer(order))
   names(ret) = c("nunique", "nties")
   ret
 }
@@ -107,9 +107,9 @@ sortfin = function(sorted, x, ...) UseMethod("sortfin")
 sortfin.integer64 = function(sorted, x, method=NULL, ...) {
   n = length(x)
   if (is.null(method)) {
-    if (n<2048L) {
+    if (n < 2048L) {
       method = 1L
-    } else if (n<length(sorted)/128L) {
+    } else if (n < length(sorted) / 128L) {
       method = 2L
     } else {
       method = 3L
@@ -117,21 +117,21 @@ sortfin.integer64 = function(sorted, x, method=NULL, ...) {
   } else {
     method = as.integer(method)
   }
-  if (method==1L) {
-      .Call(C_r_ram_integer64_sortfin_asc
-      , x = as.integer64(x)
-      , sorted = as.integer64(sorted)
-      , method= method
-      , ret = logical(n)
-      )
+  if (method == 1L) {
+    .Call(C_r_ram_integer64_sortfin_asc
+    , x=as.integer64(x)
+    , sorted=as.integer64(sorted)
+    , method=method
+    , ret=logical(n)
+    )
   } else {
     sx = clone(as.integer64(x)); o = seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
     ret = logical(n)
     ret[o] = .Call(C_r_ram_integer64_sortfin_asc
-      , x = sx
-      , sorted = as.integer64(sorted)
-      , method= method
-      , ret = ret
+      , x=sx
+      , sorted=as.integer64(sorted)
+      , method=method
+      , ret=ret
       )
     ret
   }
@@ -146,9 +146,9 @@ orderfin = function(table, order, x, ...) UseMethod("orderfin")
 orderfin.integer64 = function(table, order, x, method=NULL, ...) {
   n = length(x)
   if (is.null(method)) {
-    if (n<4096L) {
+    if (n < 4096L) {
       method = 1L
-    } else if (n<length(table)/8L) {
+    } else if (n < length(table) / 8L) {
       method = 2L
     } else {
       method = 3L
@@ -156,24 +156,24 @@ orderfin.integer64 = function(table, order, x, method=NULL, ...) {
   } else {
     method = as.integer(method)
   }
-  if (method==1L) {
+  if (method == 1L) {
       .Call(C_r_ram_integer64_orderfin_asc
-      , x = as.integer64(x)
-      , table = as.integer64(table)
-      , order = as.integer(order)
-      , method= as.integer(method)
-      , ret = logical(n)
+      , x=as.integer64(x)
+      , table=as.integer64(table)
+      , order=as.integer(order)
+      , method=as.integer(method)
+      , ret=logical(n)
       )
   } else {
     x = as.integer64(x)
     o = seq_along(x); ramorder(x, o, na.last=FALSE, ...)
     ret = logical(n)
     ret[o] = .Call(C_r_ram_integer64_orderfin_asc
-      , x = x[o]
-      , table = as.integer64(table)
-      , order = as.integer(order)
-      , method= as.integer(method)
-      , ret = ret
+      , x=x[o]
+      , table=as.integer64(table)
+      , order=as.integer(order)
+      , method=as.integer(method)
+      , ret=ret
       )
       ret
   }
@@ -189,9 +189,9 @@ orderpos = function(table, order, x, ...) UseMethod("orderpos")
 orderpos.integer64 = function(table, order, x, nomatch=NA, method=NULL, ...) {
   n = length(x)
   if (is.null(method)) {
-    if (n<4096L) {
+    if (n < 4096L) {
       method = 1L
-    } else if (n<length(table)/8L) {
+    } else if (n < length(table) / 8L) {
       method = 2L
     } else {
       method = 3L
@@ -199,26 +199,26 @@ orderpos.integer64 = function(table, order, x, nomatch=NA, method=NULL, ...) {
   } else {
     method = as.integer(method)
   }
-  if (method==1L) {
+  if (method == 1L) {
       .Call(C_r_ram_integer64_orderpos_asc
-      , x = as.integer64(x)
-      , table = as.integer64(table)
-      , order = as.integer(order)
-      , nomatch = as.integer(nomatch)
-      , method= as.integer(method)
-      , ret = integer(n)
+      , x=as.integer64(x)
+      , table=as.integer64(table)
+      , order=as.integer(order)
+      , nomatch=as.integer(nomatch)
+      , method=as.integer(method)
+      , ret=integer(n)
       )
   } else {
     x = as.integer64(x)
     o = seq_along(x); ramorder(x, o, na.last=FALSE, ...)
     ret = integer(n)
     ret[o] = .Call(C_r_ram_integer64_orderpos_asc
-      , x = x[o]
-      , table = as.integer64(table)
-      , order = as.integer(order)
-      , nomatch = as.integer(nomatch)
-      , method= as.integer(method)
-      , ret = ret
+      , x=x[o]
+      , table=as.integer64(table)
+      , order=as.integer(order)
+      , nomatch=as.integer(nomatch)
+      , method=as.integer(method)
+      , ret=ret
       )
       ret
   }
@@ -233,9 +233,9 @@ sortorderpos = function(sorted, order, x, ...) UseMethod("sortorderpos")
 sortorderpos.integer64 = function(sorted, order, x, nomatch=NA, method=NULL, ...) {
   n = length(x)
   if (is.null(method)) {
-    if (n<2048L) {
+    if (n < 2048L) {
       method = 1L
-    } else if (n<length(sorted)/128L) {
+    } else if (n < length(sorted) / 128L) {
       method = 2L
     } else {
       method = 3L
@@ -243,25 +243,25 @@ sortorderpos.integer64 = function(sorted, order, x, nomatch=NA, method=NULL, ...
   } else {
     method = as.integer(method)
   }
-  if (method==1L) {
+  if (method == 1L) {
       .Call(C_r_ram_integer64_sortorderpos_asc
-      , x = as.integer64(x)
-      , sorted = as.integer64(sorted)
-      , order = as.integer(order)
-      , nomatch = as.integer(nomatch)
-      , method= as.integer(method)
-      , ret = integer(n)
+      , x=as.integer64(x)
+      , sorted=as.integer64(sorted)
+      , order=as.integer(order)
+      , nomatch=as.integer(nomatch)
+      , method=as.integer(method)
+      , ret=integer(n)
       )
   } else {
     sx = clone(as.integer64(x)); o = seq_along(x); ramsortorder(sx, o, na.last=FALSE, ...)
     ret = integer(n)
     ret[o] = .Call(C_r_ram_integer64_sortorderpos_asc
-      , x = sx
-      , sorted = as.integer64(sorted)
-      , order = as.integer(order)
-      , nomatch = as.integer(nomatch)
-      , method= as.integer(method)
-      , ret = ret
+      , x=sx
+      , sorted=as.integer64(sorted)
+      , order=as.integer(order)
+      , nomatch=as.integer(nomatch)
+      , method=as.integer(method)
+      , ret=ret
       )
       ret
   }
@@ -275,7 +275,7 @@ orderdup = function(table, order, ...) UseMethod("orderdup")
 #' @export
 orderdup.integer64 = function(table, order, method=NULL, ...) {
   if (is.null(method)) {
-    if (length(table)<4194304L)
+    if (length(table) < 4194304L)
         method = 1L
       else
         method = 2L
@@ -283,10 +283,10 @@ orderdup.integer64 = function(table, order, method=NULL, ...) {
     method = as.integer(method)
   }
   .Call(C_r_ram_integer64_orderdup_asc
-  , table = as.integer64(table)
-  , order = as.integer(order)
-  , method = method
-  , ret = logical(length(table))
+  , table=as.integer64(table)
+  , order=as.integer(order)
+  , method=method
+  , ret=logical(length(table))
   )
 }
 
@@ -298,7 +298,7 @@ sortorderdup = function(sorted, order, ...) UseMethod("sortorderdup")
 #' @export
 sortorderdup.integer64 = function(sorted, order, method=NULL, ...) {
   if (is.null(method)) {
-    if (length(sorted)<4194304L)
+    if (length(sorted) < 4194304L)
         method = 1L
       else
         method = 2L
@@ -306,10 +306,10 @@ sortorderdup.integer64 = function(sorted, order, method=NULL, ...) {
     method = as.integer(method)
   }
   .Call(C_r_ram_integer64_sortorderdup_asc
-  , sorted = as.integer64(sorted)
-  , order = as.integer(order)
-  , method = method
-  , ret = logical(length(sorted))
+  , sorted=as.integer64(sorted)
+  , order=as.integer(order)
+  , method=method
+  , ret=logical(length(sorted))
   )
 }
 
@@ -323,8 +323,8 @@ sortuni = function(sorted, nunique, ...) UseMethod("sortuni")
 #' @export
 sortuni.integer64 = function(sorted, nunique, ...) {
   .Call(C_r_ram_integer64_sortuni_asc
-  , sorted = as.integer64(sorted)
-  , ret = integer64(nunique)
+  , sorted=as.integer64(sorted)
+  , ret=integer64(nunique)
   )
 }
 
@@ -339,10 +339,10 @@ orderuni = function(table, order, nunique, ...) UseMethod("orderuni")
 #' @export
 orderuni.integer64 = function(table, order, nunique, keep.order=FALSE, ...) {
   .Call(C_r_ram_integer64_orderuni_asc
-  , table = as.integer64(table)
-  , order = as.integer(order)
-  , keep.order = as.logical(keep.order)
-  , ret = integer64(nunique)
+  , table=as.integer64(table)
+  , order=as.integer(order)
+  , keep.order=as.logical(keep.order)
+  , ret=integer64(nunique)
   )
 }
 
@@ -354,10 +354,10 @@ sortorderuni = function(table, sorted, order, nunique, ...) UseMethod("sortorder
 #' @export
 sortorderuni.integer64 = function(table, sorted, order, nunique, ...) {
   .Call(C_r_ram_integer64_sortorderuni_asc
-  , table = as.integer64(table)
-  , sorted = as.integer64(sorted)
-  , order = as.integer(order)
-  , ret = integer64(nunique)
+  , table=as.integer64(table)
+  , sorted=as.integer64(sorted)
+  , order=as.integer(order)
+  , ret=integer64(nunique)
   )
 }
 
@@ -369,10 +369,10 @@ orderupo = function(table, order, nunique, ...) UseMethod("orderupo")
 #' @export
 orderupo.integer64 = function(table, order, nunique, keep.order=FALSE, ...) {
   .Call(C_r_ram_integer64_orderupo_asc
-  , table = as.integer64(table)
-  , order = as.integer(order)
-  , keep.order = as.logical(keep.order)
-  , ret = integer(nunique)
+  , table=as.integer64(table)
+  , order=as.integer(order)
+  , keep.order=as.logical(keep.order)
+  , ret=integer(nunique)
   )
 }
 
@@ -384,10 +384,10 @@ sortorderupo = function(sorted, order, nunique, keep.order=FALSE, ...) UseMethod
 #' @export
 sortorderupo.integer64 = function(sorted, order, nunique, keep.order=FALSE, ...) {
   .Call(C_r_ram_integer64_sortorderupo_asc
-    , sorted = as.integer64(sorted)
-    , order = as.integer(order)
-    , keep.order = as.logical(keep.order)
-    , ret = integer(nunique)
+    , sorted=as.integer64(sorted)
+    , order=as.integer(order)
+    , keep.order=as.logical(keep.order)
+    , ret=integer(nunique)
     )
 }
 
@@ -401,9 +401,9 @@ ordertie = function(table, order, nties, ...) UseMethod("ordertie")
 #' @export
 ordertie.integer64 = function(table, order, nties, ...) {
   .Call(C_r_ram_integer64_ordertie_asc
-  , table = as.integer64(table)
-  , order = as.integer(order)
-  , ret = integer(nties)
+  , table=as.integer64(table)
+  , order=as.integer(order)
+  , ret=integer(nties)
   )
 }
 
@@ -415,9 +415,9 @@ sortordertie = function(sorted, order, nties, ...) UseMethod("sortordertie")
 #' @export
 sortordertie.integer64 = function(sorted, order, nties, ...) {
   .Call(C_r_ram_integer64_sortordertie_asc
-  , sorted = as.integer64(sorted)
-  , order = as.integer(order)
-  , ret = integer(nties)
+  , sorted=as.integer64(sorted)
+  , order=as.integer(order)
+  , ret=integer(nties)
   )
 }
 
@@ -429,8 +429,8 @@ sorttab = function(sorted, nunique, ...) UseMethod("sorttab")
 #' @export
 sorttab.integer64 = function(sorted, nunique, ...) {
   .Call(C_r_ram_integer64_sorttab_asc
-  , sorted = as.integer64(sorted)
-  , ret = integer(nunique)
+  , sorted=as.integer64(sorted)
+  , ret=integer(nunique)
   )
 }
 
@@ -446,11 +446,11 @@ ordertab.integer64 = function(table, order, nunique, denormalize=FALSE, keep.ord
   denormalize = as.logical(denormalize)
   keep.order = as.logical(keep.order)
   .Call(C_r_ram_integer64_ordertab_asc
-  , table = as.integer64(table)
-  , order = as.integer(order)
-  , denormalize = denormalize
-  , keep.order = keep.order
-  , ret = integer(if (denormalize || keep.order) length(table) else nunique)
+  , table=as.integer64(table)
+  , order=as.integer(order)
+  , denormalize=denormalize
+  , keep.order=keep.order
+  , ret=integer(if (denormalize || keep.order) length(table) else nunique)
   )
 }
 
@@ -462,10 +462,10 @@ sortordertab = function(sorted, order, ...) UseMethod("sortordertab")
 #' @export
 sortordertab.integer64 = function(sorted, order, denormalize=FALSE, ...) {
   .Call(C_r_ram_integer64_sortordertab_asc
-  , sorted = as.integer64(sorted)
-  , order = as.integer(order)
-  , denormalize = as.logical(denormalize)
-  , ret = integer(length(sorted))
+  , sorted=as.integer64(sorted)
+  , order=as.integer(order)
+  , denormalize=as.logical(denormalize)
+  , ret=integer(length(sorted))
   )
 }
 
@@ -479,10 +479,10 @@ orderkey = function(table, order, na.skip.num=0L, ...) UseMethod("orderkey")
 #' @export
 orderkey.integer64 = function(table, order, na.skip.num=0L, ...) {
   .Call(C_r_ram_integer64_orderkey_asc
-  , table = as.integer64(table)
-  , order = as.integer(order)
+  , table=as.integer64(table)
+  , order=as.integer(order)
   , na.skip.num=na.skip.num
-  , ret = integer(length(table))
+  , ret=integer(length(table))
   )
 }
 
@@ -494,10 +494,10 @@ sortorderkey = function(sorted, order, na.skip.num=0L, ...) UseMethod("sortorder
 #' @export
 sortorderkey.integer64 = function(sorted, order, na.skip.num=0L, ...) {
     .Call(C_r_ram_integer64_sortorderkey_asc
-    , sorted = as.integer64(sorted)
-    , order = as.integer(order)
+    , sorted=as.integer64(sorted)
+    , order=as.integer(order)
     , na.skip.num=na.skip.num
-    , ret = integer(length(sorted))
+    , ret=integer(length(sorted))
     )
 }
 
@@ -510,10 +510,10 @@ orderrnk = function(table, order, na.count, ...) UseMethod("orderrnk")
 #' @export
 orderrnk.integer64 = function(table, order, na.count, ...) {
   .Call(C_r_ram_integer64_orderrnk_asc
-  , table = as.integer64(table)
-  , order = as.integer(order)
+  , table=as.integer64(table)
+  , order=as.integer(order)
   , na.count=as.integer(na.count)
-  , ret = double(length(table))
+  , ret=double(length(table))
   )
 }
 
@@ -524,10 +524,10 @@ sortorderrnk = function(sorted, order, na.count, ...) UseMethod("sortorderrnk")
 #' @export
 sortorderrnk.integer64 = function(sorted, order, na.count, ...) {
   .Call(C_r_ram_integer64_sortorderrnk_asc
-  , sorted = as.integer64(sorted)
-  , order = as.integer(order)
+  , sorted=as.integer64(sorted)
+  , order=as.integer(order)
   , na.count=as.integer(na.count)
-  , ret = double(length(sorted))
+  , ret=double(length(sorted))
   )
 }
 
@@ -540,7 +540,7 @@ sortqtl = function(sorted, na.count, probs, ...) UseMethod("sortqtl")
 #' @export
 sortqtl.integer64 = function(sorted, na.count, probs, ...) {
   n = length(sorted) - na.count  # nvalid
-  ret = sorted[na.count + round(1L + probs * (n-1L))]
+  ret = sorted[na.count + round(1L + probs * (n - 1L))]
   # TODO(#31): Remove this once `[` can return NA for integer64 directly
   ret[is.na(probs)] = NA
   ret
@@ -554,7 +554,7 @@ orderqtl = function(table, order, na.count, probs, ...) UseMethod("orderqtl")
 #' @export
 orderqtl.integer64 = function(table, order, na.count, probs, ...) {
   n = length(table) - na.count  # nvalid
-  idx = na.count + round(1L + probs * (n-1L))
+  idx = na.count + round(1L + probs * (n - 1L))
   ret = table[order[idx]]
   # TODO(#31): Remove this once `[` can return NA for integer64 directly
   ret[is.na(probs)] = NA
