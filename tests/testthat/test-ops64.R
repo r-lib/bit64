@@ -1,0 +1,252 @@
+test_that("basic math ops works", {
+  x = as.integer64(1:10)
+  y = as.integer64(10:1)
+
+  expect_identical(x + y, as.integer64(rep(11L, 10L)))
+  expect_identical(y - x, as.integer64(seq(9L, -9L, by=-2L)))
+  expect_identical(x * y, as.integer64(c(10L, 18L, 24L, 28L, 30L, 30L, 28L, 24L, 18L, 10L)))
+  # output is double even though it fits in integer [and integer64]
+  expect_identical(x[seq(2L, 10L, by=2L)] / 2L, as.double(1:5))
+  expect_identical(x^2L, as.integer64((1:10)^2L))
+  expect_identical(-x, as.integer64(-(1:10)))
+
+  expect_identical(x %/% 2L, as.integer64(c(0L, 1L, 1L, 2L, 2L, 3L, 3L, 4L, 4L, 5L)))
+  expect_identical(x %% 2L, as.integer64(rep_len(c(1L, 0L), 10L)))
+
+  x32 = c(10L, 10L, -10L, -10L, 7L, 10L, -10L)
+  y32 = c(3L, -3L, 3L, -3L, -10L, 0L, 0L)
+  x64 = as.integer64(x32)
+  y64 = as.integer64(y32)
+  expect_warning(
+    expect_identical(x64 %/% y64, as.integer64(x32 %/% y32)),
+    "NAs produced due to division by zero"
+  )
+  expect_warning(
+    expect_identical(x64 %% y64, as.integer64(x32 %% y32)),
+    "NAs produced due to division by zero"
+  )
+  expect_identical(
+    suppressWarnings((x64 %/% y64) * y64 + x64 %% y64 == x64),
+    c(rep(TRUE, 5L), rep(NA, 2L))
+  )
+
+  # regression snuck through, caught by #149
+  expect_identical(as.integer64(1L) * 1:5, as.integer64(1:5))
+  expect_identical(1:5 * as.integer64(1L), as.integer64(1:5))
+})
+
+test_that("empty inputs give empty outputs for ops", {
+  x = integer64(1L)
+  empty = integer64(0L)
+
+  expect_identical(x + empty, integer64())
+  expect_identical(empty + x, integer64())
+
+  expect_identical(x - empty, integer64())
+  expect_identical(empty - x, integer64())
+
+  expect_identical(+empty, integer64())
+  expect_identical(-empty, integer64())
+
+  expect_identical(x * empty, integer64())
+  expect_identical(empty * x, integer64())
+
+  expect_identical(x / empty, double())
+  expect_identical(empty / x, double())
+
+  expect_identical(x^empty, integer64())
+  expect_identical(empty^x, integer64())
+
+  expect_identical(x %/% empty, integer64())
+  expect_identical(empty %/% x, integer64())
+
+  expect_identical(x %% empty, integer64())
+  expect_identical(empty %% x, integer64())
+
+  expect_identical(x == empty, logical())
+  expect_identical(empty == x, logical())
+
+  expect_identical(x != empty, logical())
+  expect_identical(empty != x, logical())
+
+  expect_identical(x >= empty, logical())
+  expect_identical(empty >= x, logical())
+
+  expect_identical(x <= empty, logical())
+  expect_identical(empty <= x, logical())
+
+  expect_identical(x > empty, logical())
+  expect_identical(empty > x, logical())
+
+  expect_identical(x < empty, logical())
+  expect_identical(empty < x, logical())
+
+  expect_identical(x & empty, logical())
+  expect_identical(empty & x, logical())
+
+  expect_identical(x | empty, logical())
+  expect_identical(empty | x, logical())
+
+  expect_identical(xor(x, empty), logical())
+  expect_identical(xor(empty, x), logical())
+})
+
+test_that("semantics about mixed types for multiplication are respected", {
+  int = 5L
+  i64 = as.integer64(2L)
+  dbl = 3.5
+
+  # default: "old" semantics, to be deprecated
+  expect_identical(i64 * dbl, as.integer64(7L))
+  expect_identical(dbl * i64, as.integer64(6L))
+  expect_identical(i64 * int, as.integer64(10L))
+  expect_identical(int * i64, as.integer64(10L))
+  expect_identical(i64 * i64, as.integer64(4L))
+
+  withr::with_options(list(integer64_semantics = "new"), {
+    expect_identical(i64 * dbl, as.integer64(7L))
+    expect_identical(dbl * i64, as.integer64(7L))
+    expect_identical(i64 * int, as.integer64(10L))
+    expect_identical(int * i64, as.integer64(10L))
+    expect_identical(i64 * i64, as.integer64(4L))
+  })
+})
+
+test_that("semantics about mixed types for division are respected", {
+  int = 10L
+  i64 = as.integer64(5L)
+  dbl = 2.5
+
+  # default: "old" semantics, to be deprecated
+  expect_identical(i64 / dbl, 2.0)
+  expect_identical(dbl / i64, 0.4)
+  expect_identical(i64 / int, 0.5)
+  expect_identical(int / i64, 2.0)
+  expect_identical(i64 / i64, 1.0)
+
+  withr::with_options(list(integer64_semantics = "new"), {
+    expect_identical(i64 / dbl, 2.0)
+    expect_identical(dbl / i64, 0.5)
+    expect_identical(i64 / int, 0.5)
+    expect_identical(int / i64, 2.0)
+    expect_identical(i64 / i64, 1.0)
+  })
+})
+
+test_that("Minus and plus", {
+  d64 = c(
+    -.Machine$double.base^.Machine$double.digits,
+    -.Machine$integer.max,
+    -1.0, 0.0, 1.0,
+    .Machine$integer.max,
+    .Machine$double.base^.Machine$double.digits
+  )
+  i64 = as.integer64(d64)
+  expect_true(identical.integer64(i64 - 1.0 + 1.0, i64))
+  expect_true(identical.integer64(i64 + 1.0 - 1.0, i64))
+})
+
+test_that("Minus and plus edge cases and 'rev'", {
+  # UBSAN signed integer overflow expected for type 'long long int'
+  # This is a false UBSAN alarm because overflow is detected and NA returned
+  expect_warning(
+    expect_true(identical.integer64(
+      lim.integer64() + 1.0 - 1.0,
+      c(lim.integer64()[1L], NA)
+    )),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_true(identical.integer64(
+      rev(lim.integer64()) - 1.0 + 1.0,
+      c(lim.integer64()[2L], NA)
+    )),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+})
+
+test_that("Logical operators", {
+  expect_true(identical.integer64(
+    !c(NA, -1:1),
+    !c(as.integer64(NA), -1:1)
+  ))
+
+  xi = rep(c(NA, -1:1), 4L)
+  xi64 = as.integer64(xi)
+  yi = rep(c(NA, -1:1), each=4L)
+  yi64 = as.integer64(yi)
+
+  expect_true(identical.integer64(xi64 & yi64, xi & yi))
+  expect_true(identical.integer64(xi64 | yi64, xi | yi))
+  expect_true(identical.integer64(xor(xi64, yi64), xor(xi, yi)))
+})
+
+test_that("Comparison operators", {
+  xi = rep(c(NA, -1:1), 4L)
+  xi64 = as.integer64(xi)
+  yi = rep(c(NA, -1:1), each=4L)
+  yi64 = as.integer64(yi)
+
+  expect_true(identical.integer64(xi64 == yi64, xi == yi))
+  expect_true(identical.integer64(xi64 != yi64, xi != yi))
+  expect_true(identical.integer64(xi64 > yi64, xi > yi))
+  expect_true(identical.integer64(xi64 >= yi64, xi >= yi))
+  expect_true(identical.integer64(xi64 < yi64, xi < yi))
+  expect_true(identical.integer64(xi64 <= yi64, xi <= yi))
+})
+
+with_parameters_test_that("{operator} with integer64 vs {class} (returning integer64):", {
+  withr::local_seed(42)
+
+  if (getRversion() <= "3.6.0" && operator == "^")
+    x32 = 1:10 # there seems to be an issue with negative values with the `^` operator in ancient
+  else
+    x32 = c(-10:-1, 1:10)
+  x64 = as.integer64(x32)
+  y = sample(x32)
+  eval(parse(text=paste0("y = as.", class, "(y)")))
+
+  op = match.fun(operator)
+  maybe_cast = if (operator %in% c("+", "-", "*", "^", "%%", "%/%")) as.integer64 else identity
+
+  expected = tryCatch(maybe_cast(op(x32, y)), error=conditionMessage)
+  actual = tryCatch(op(x64, y), error=conditionMessage)
+  expect_identical(actual, expected)
+  
+  expected = tryCatch(maybe_cast(op(y, x32)), error=conditionMessage)
+  actual = tryCatch(op(y, x64), error=conditionMessage)
+  expect_identical(actual, expected)
+}, 
+  .cases = expand.grid(
+    operator=c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"),
+    class=c("integer", "double", "logical"),
+    stringsAsFactors=FALSE
+  )
+)
+
+with_parameters_test_that("{operator} with integer64 vs. {class} (not returning integer64):", {
+  skip_unless_r(">= 4.3.0")
+  withr::local_seed(42)
+
+  x32 = c(-10:-1, 1:10)
+  x64 = as.integer64(x32)
+  y = sample(x32)
+  eval(parse(text=paste0("y = as.", class, "(as.double(y)", if (class == "difftime") ', units = "secs"', ")")))
+    
+  op = match.fun(as.character(operator))
+  test_e = tryCatch(op(x32, y), error=conditionMessage)
+  test_a = tryCatch(op(x64, y), error=conditionMessage)
+  expect_identical(test_a, test_e)
+  
+  test_e = tryCatch(op(y, x32), error=conditionMessage)
+  test_a = tryCatch(op(y, x64), error=conditionMessage)
+  expect_identical(test_a, test_e)
+
+  }, 
+  .cases = expand.grid(
+    operator = c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"),
+    class = c("complex", "Date", "POSIXct", "POSIXlt", "difftime")
+  )
+)

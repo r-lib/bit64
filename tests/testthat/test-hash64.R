@@ -21,6 +21,33 @@ test_that("runif64 behaves as expected", {
   expect_true(all(x >= -5L & x <= 5L))
 })
 
+test_that("implicit tests from ?hashmap continue working", {
+  x = as.integer64(sample(c(NA, 0:9)))
+  y = as.integer64(sample(c(NA, 1:9), 10, TRUE))
+  hx = hashmap(x)
+  hy = hashmap(y)
+
+  expect_identical(match(as.integer(x), as.integer(y)), hashpos(hy, x))
+  expect_identical(match(as.integer(x), as.integer(y)), hashrev(hx, y))
+  expect_identical(as.integer(x) %in% as.integer(y), hashfin(hy, x))
+  expect_identical(as.integer(x) %in% as.integer(y), hashrin(hx, y))
+  expect_identical(duplicated(as.integer(y)), hashdup(hy))
+  expect_identical(as.integer64(unique(as.integer(y))), hashuni(hy, keep.order=TRUE))
+  expect_identical(sort(hashuni(hy, keep.order=FALSE)), sort(hashuni(hy, keep.order=TRUE)))
+  expect_identical(y[hashupo(hy, keep.order=FALSE)], hashuni(hy, keep.order=FALSE))
+  expect_identical(y[hashupo(hy, keep.order=TRUE)], hashuni(hy, keep.order=TRUE))
+  expect_identical(hashpos(hy, hashuni(hy, keep.order=TRUE)), hashupo(hy, keep.order=TRUE))
+  expect_identical(hashpos(hy, hashuni(hy, keep.order=FALSE)), hashupo(hy, keep.order=FALSE))
+  expect_identical(hashuni(hy, keep.order=FALSE), hashtab(hy)$values)
+  expect_identical(
+    as.vector(table(as.integer(y), useNA="ifany")),
+    hashtab(hy)$counts[order(hashtab(hy)$values)]
+  )
+  expect_identical(hashuni(hy, keep.order=TRUE), hashmapuni(y))
+  expect_identical(hashupo(hy, keep.order=TRUE), hashmapupo(y))
+  expect_identical(hashtab(hy), hashmaptab(y))
+})
+
   #   require(bit64)
   #   require(microbenchmark)
   #   n <- 1000000L
@@ -86,7 +113,7 @@ test_that("runif64 behaves as expected", {
   # cbind(as.bitstring(r),as.bitstring(as.integer64(as.bitstring(r))))
 
   # #sum(duplicated(r))
-  # #table.integer64(r)
+  # #table(r)
   # #range(r)
   # log2(abs(range(r)))
 

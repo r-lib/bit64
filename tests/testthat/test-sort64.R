@@ -40,7 +40,6 @@ with_parameters_test_that(
     na_entries = rep(NA_integer64_, n_missing)
     y = sample(c(x, if (duplicates) x[1L], na_entries))
     expect_identical(sort_function(y, decreasing=decreasing, na.last=na.last), n_missing)
-    # TODO(#154): Drop explicit 'else' branches
     expected_value = c(
       if (na.last) integer64() else na_entries,
       if (duplicates && !decreasing) x[1L],
@@ -75,7 +74,6 @@ with_parameters_test_that(
     y = sample(c(x, if (duplicates) x[1L], na_entries))
     i = seq_along(y)
     expect_identical(order_function(y, i, decreasing=decreasing, na.last=na.last), n_missing)
-    # TODO(#154): Drop explicit 'else' branches
     expected_value = c(
       if (na.last) integer64() else na_entries,
       if (duplicates && !decreasing) x[1L],
@@ -110,7 +108,6 @@ with_parameters_test_that(
     y = sample(c(x, if (duplicates) x[1L], na_entries))
     i = seq_along(y)
     expect_identical(sortorder_function(y, i, decreasing=decreasing, na.last=na.last), n_missing)
-    # TODO(#154): Drop explicit 'else' branches
     expected_value = c(
       if (na.last) integer64() else na_entries,
       if (duplicates && !decreasing) x[1L],
@@ -254,13 +251,22 @@ test_that("Shellsort direct invocation", {
 test_that("Corner cases for partitioning logic", {
   # Single element and empty vectors often trip up "do { ... } while" or sentinel loops
 
-  # TODO(#220): restore this.
   # Case 1: Empty
-  # x_empty = integer64()
-  # x = bit::clone(x_empty)
-  # # bit::quicksort returns the NA count (0L), and modifies 'x' in-place
-  # expect_identical(bit::quicksort(x), 0L) 
-  # expect_identical(x, x_empty)
+  x_empty = integer64()
+  x = bit::clone(x_empty)
+  # bit::quicksort returns the NA count (0L), and modifies 'x' in-place
+  expect_identical(bit::quicksort(x), 0L)
+  expect_identical(x, x_empty)
+  expect_identical(bit::quicksort(x, decreasing = TRUE), 0L)
+  expect_identical(x, x_empty)
+
+  # Add explicit tests for shellsort variants with empty vectors
+  expect_identical(bit::shellsort(x_empty), 0L)
+  expect_identical(bit::shellsort(x_empty, decreasing = TRUE), 0L)
+  expect_identical(bit::shellsortorder(x_empty, integer(0)), 0L)
+  expect_identical(bit::shellsortorder(x_empty, integer(0), decreasing = TRUE), 0L)
+  expect_identical(bit::shellorder(x_empty, integer(0)), 0L)
+  expect_identical(bit::shellorder(x_empty, integer(0), decreasing = TRUE), 0L)
 
   # Case 2: Single Element
   x_single = as.integer64(1L)

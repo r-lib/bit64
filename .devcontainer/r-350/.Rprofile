@@ -7,18 +7,19 @@ withr_shim_env <- new.env()
 with(testthat_shim_env, {
 
 test_that <- function(desc, code) {
-  cat(sprintf("\nTEST: %s\n", desc))
+  cat(sprintf("\nTEST: %s\n  ", desc))
   # Eval in a new environment to keep scope cleanish
   tryCatch(
     eval(substitute(code), envir = new.env(parent = parent.frame())),
-    skip_error = identity
+    skip = identity
   )
+  cat("\n")
 }
 
 skip_if = function(cond, info) {
   if (!cond) return(invisible())
   e = simpleError(paste("Skipping:", info))
-  class(e) = c("skip_error", class(e))
+  class(e) = c("skip", class(e))
   stop(e)
 }
 
@@ -42,17 +43,20 @@ expect_identical = function(x, y, tolerance = NULL, ignore_attr = NULL, info = c
   if (is.null(tolerance)) {
     # NB: some tests _do_ require identical() dispatch here.
     if (!identical(x, y)) {
-      stop(
-        "x and y are not identical. all.equal(x, y, tolerance=0) result:\n",
-        paste0("  ", all.equal(x, y, tolerance=0), collapse = "\n"),
-        if (length(info)) "\n", info
-      )
+      cat("all.equal(x, y, tolerance=0) result:\n")
+      writeLines(paste0("  ", all.equal(x, y, tolerance=0)))
+      cat("----\nx:\n")
+      print(x)
+      cat("----\ny:\n")
+      print(y)
+      stop("x and y are not identical.", if (length(info)) "\n", info)
     }
   } else {
     if (!isTRUE(all.equal(x, y, tolerance=tolerance))) {
       stop("x and y are not identical (within tolerance)", if (length(info)) "\n", info)
     }
   }
+  cat(".")
   invisible(x)
 }
 
@@ -75,10 +79,11 @@ expect_warning <- function(object, regexp = NULL, ...) {
     stop("FAILURE: expect_warning() failed (no warning caught).")
   }
 
-  if (is.null(regexp)) return(invisible())
-  if (!any(grepl(regexp, warnings))) {
+  if (is.null(regexp)) { cat("."); return(invisible()) }
+  if (!any(grepl(regexp, warnings, ...))) {
     stop(sprintf("FAILURE: expect_warning() regex mismatch.\n  Expected: %s\n  Actual: %s", regexp, toString(warnings)))
   }
+  cat(".")
 }
 
 expect_no_warning <- function(object, ...) {
@@ -87,32 +92,40 @@ expect_no_warning <- function(object, ...) {
   }, warning = function(w) {
     stop(sprintf("FAILURE: expect_no_warning() failed. Caught warning: %s", conditionMessage(w)))
   })
+  cat(".")
 }
 
 expect_error = function(expr, msg, ...) {
   val = tryCatch(expr, error = identity)
   stopifnot(inherits(val, "error") && grepl(msg, conditionMessage(val), ...))
+  cat(".")
 }
 
-expect_s3_class = function(x, kls) stopifnot(inherits(x, kls))
+expect_s3_class = function(x, kls) { stopifnot(inherits(x, kls)); cat(".") }
 expect_length = function(x, l) expect_identical(length(x), l)
 
 expect_output = function(expr, str, ...) {
   act = paste(capture.output(val <- expr), collapse="\n")
   stopifnot(grepl(str, act, ...))
+  cat(".")
   invisible(val)
 }
 
 expect_match = function(x, pattern, ..., all=TRUE) {
   agg = if (all) base::all else any
   stopifnot(agg(grepl(pattern, x, ...)))
+  cat(".")
   invisible(x)
 }
 
 expect_no_match = function(x, pattern, ...) {
   stopifnot(!any(grepl(pattern, x, ...)))
+  cat(".")
   invisible(x)
 }
+
+pass = function() invisible()
+fail = function(message) stop(message)
 
 })
 
@@ -124,9 +137,9 @@ with_parameters_test_that <- function(desc, code, .cases = NULL, .interpret_glue
   code_expr <- substitute(code)  
   # If .cases is not provided, build it from ... (grid expansion)
   if (is.null(.cases)) {
-    args = list(...)
-    args$stringsAsFactors = FALSE
-    .cases <- do.call(expand.grid, args)
+    .cases = list(...)
+    for (ii in seq_along(.cases)) if (is.list(.cases[[ii]])) .cases[[ii]] = I(.cases[[ii]])
+    .cases = data.frame(.cases, stringsAsFactors=FALSE)
   }
 
   # Iterate over cases
@@ -143,8 +156,12 @@ with_parameters_test_that <- function(desc, code, .cases = NULL, .interpret_glue
     tryCatch({
       eval(code_expr, envir = case_env)
       cat(".") # print dot for progress
+    }, skip = function(s) {
+      cat(sprintf("\nSKIPPED at case %d: %s\n", i, conditionMessage(s)))
     }, error = function(e) {
       cat(sprintf("\nFAILED at case %d: %s\n", i, conditionMessage(e)))
+      cat("  Case parameters:\n")
+      print(row_vals)
       stop(e)
     })
   }
@@ -168,7 +185,23 @@ local_options <- function(new_opts) {
   invisible()
 }
 
-# local_seed: Save seed, set new seed, defer restore to parent frame
+# seed handling: Save seed, set new seed, defer restore to parent frame
+with_seed <- function(seed, expr) {
+  # Check if global seed exists
+  if (exists(".Random.seed", envir = .GlobalEnv)) {
+    old_seed <- get(".Random.seed", envir = .GlobalEnv)
+    # Cleanup: restore the vector to global env
+    cleanup <- substitute(assign(".Random.seed", val, envir = .GlobalEnv), list(val = old_seed))
+  } else {
+    # Cleanup: remove the seed if it didn't exist
+    cleanup <- quote(rm(".Random.seed", envir = .GlobalEnv))
+  }
+  
+  set.seed(seed)
+  do.call(on.exit, list(cleanup, add = TRUE))
+  expr
+}
+
 local_seed <- function(seed) {
   # Check if global seed exists
   if (exists(".Random.seed", envir = .GlobalEnv)) {

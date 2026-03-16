@@ -43,8 +43,8 @@
 #' | `hashmapuni` |          [`unique()`][unique.integer64] | return unique values of `x` |
 #' |    `hashupo` |          [`unique()`][unique.integer64] | return positions of unique values in hashdat |
 #' | `hashmapupo` |          [`unique()`][unique.integer64] | return positions of unique values in `x` |
-#' |    `hashtab` |            [`table()`][table.integer64] | tabulate values of hashdat using hashmap in `keep.order=FALSE` |
-#' | `hashmaptab` |            [`table()`][table.integer64] | tabulate values of `x` building hasmap on the fly in `keep.order=FALSE` |
+#' |    `hashtab` |            [`table()`][table] | tabulate values of hashdat using hashmap in `keep.order=FALSE` |
+#' | `hashmaptab` |            [`table()`][table] | tabulate values of `x` building hasmap on the fly in `keep.order=FALSE` |
 # nolint end: line_length_linter.
 #'
 #' @return See Details
@@ -70,24 +70,6 @@
 #' hashmapupo(y)
 #' hashtab(hy)
 #' hashmaptab(y)
-#'
-#' stopifnot(identical(match(as.integer(x), as.integer(y)), hashpos(hy, x)))
-#' stopifnot(identical(match(as.integer(x), as.integer(y)), hashrev(hx, y)))
-#' stopifnot(identical(as.integer(x) %in% as.integer(y), hashfin(hy, x)))
-#' stopifnot(identical(as.integer(x) %in% as.integer(y), hashrin(hx, y)))
-#' stopifnot(identical(duplicated(as.integer(y)), hashdup(hy)))
-#' stopifnot(identical(as.integer64(unique(as.integer(y))), hashuni(hy, keep.order=TRUE)))
-#' stopifnot(identical(sort(hashuni(hy, keep.order=FALSE)), sort(hashuni(hy, keep.order=TRUE))))
-#' stopifnot(identical(y[hashupo(hy, keep.order=FALSE)], hashuni(hy, keep.order=FALSE)))
-#' stopifnot(identical(y[hashupo(hy, keep.order=TRUE)], hashuni(hy, keep.order=TRUE)))
-#' stopifnot(identical(hashpos(hy, hashuni(hy, keep.order=TRUE)), hashupo(hy, keep.order=TRUE)))
-#' stopifnot(identical(hashpos(hy, hashuni(hy, keep.order=FALSE)), hashupo(hy, keep.order=FALSE)))
-#' stopifnot(identical(hashuni(hy, keep.order=FALSE), hashtab(hy)$values))
-#' stopifnot(identical(as.vector(table(as.integer(y), useNA="ifany"))
-#' , hashtab(hy)$counts[order.integer64(hashtab(hy)$values)]))
-#' stopifnot(identical(hashuni(hy, keep.order=TRUE), hashmapuni(y)))
-#' stopifnot(identical(hashupo(hy, keep.order=TRUE), hashmapupo(y)))
-#' stopifnot(identical(hashtab(hy), hashmaptab(y)))
 #'
 #'     \dontrun{
 #'     message("explore speed given size of the hasmap in 2^hashbits and size of the data")

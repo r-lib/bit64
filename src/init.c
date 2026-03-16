@@ -51,6 +51,9 @@ extern SEXP logbase_integer64(SEXP, SEXP, SEXP);
 extern SEXP log_integer64(SEXP, SEXP);
 extern SEXP logvect_integer64(SEXP, SEXP, SEXP);
 extern SEXP LT_integer64(SEXP, SEXP, SEXP);
+extern SEXP matmult_double_integer64(SEXP, SEXP, SEXP);
+extern SEXP matmult_integer64_double(SEXP, SEXP, SEXP);
+extern SEXP matmult_integer64_integer64(SEXP, SEXP, SEXP);
 extern SEXP max_integer64(SEXP, SEXP, SEXP);
 extern SEXP mean_integer64(SEXP, SEXP, SEXP);
 extern SEXP min_integer64(SEXP, SEXP, SEXP);
@@ -166,6 +169,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"log_integer64",                    (DL_FUNC) &log_integer64,                    2},
     {"logvect_integer64",                (DL_FUNC) &logvect_integer64,                3},
     {"LT_integer64",                     (DL_FUNC) &LT_integer64,                     3},
+    {"matmult_double_integer64",         (DL_FUNC) &matmult_double_integer64,         3},
+    {"matmult_integer64_double",         (DL_FUNC) &matmult_integer64_double,         3},
+    {"matmult_integer64_integer64",      (DL_FUNC) &matmult_integer64_integer64,      3},
     {"max_integer64",                    (DL_FUNC) &max_integer64,                    3},
     {"mean_integer64",                   (DL_FUNC) &mean_integer64,                   3},
     {"min_integer64",                    (DL_FUNC) &min_integer64,                    3},

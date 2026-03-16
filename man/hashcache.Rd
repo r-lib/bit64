@@ -9,11 +9,11 @@
 \usage{
 hashcache(x, nunique = NULL, ...)
 
-sortcache(x, has.na = NULL)
+sortcache(x, has.na = NULL, na.last = FALSE)
 
-sortordercache(x, has.na = NULL, stable = NULL)
+sortordercache(x, has.na = NULL, stable = NULL, na.last = FALSE)
 
-ordercache(x, has.na = NULL, stable = NULL, optimize = "time")
+ordercache(x, has.na = NULL, stable = NULL, optimize = "time", na.last = FALSE)
 }
 \arguments{
 \item{x}{an atomic vector (note that currently only integer64 is supported)}
@@ -26,6 +26,8 @@ the size of the hashmap}
 \item{has.na}{boolean scalar defining whether the input vector might contain
 \code{NA}s. If we know we don't have \code{NA}s, this may speed-up. \emph{Note} that you
 risk a crash if there are unexpected \code{NA}s with \code{has.na=FALSE}.}
+
+\item{na.last}{boolean scalar defining whether NA should be last.}
 
 \item{stable}{boolean scalar defining whether stable sorting is needed. Allowing
 non-stable may speed-up.}
@@ -53,7 +55,7 @@ as a relevant side-effect, and therefore storing them in the cache should
 require a conscious decision of the user.
 }
 \examples{
-  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   sortordercache(x)
 
 }

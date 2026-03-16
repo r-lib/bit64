@@ -1,19 +1,9 @@
-# TODO(#45): use matrix() directly
-matrix64 = function(x, nrow=1L, ncol=1L, byrow=FALSE) {
-  x = as.integer64(x)
-  if (byrow) {
-    dim(x) = c(ncol, nrow)
-    t(x)
-  } else {
-    dim(x) = c(nrow, ncol)
-    x
-  }
+matrix64 = function(x, nrow=1L, ncol=1L, byrow=FALSE, dimnames=NULL) {
+  matrix(as.integer64(x), nrow=nrow, ncol=ncol, byrow=byrow, dimnames=dimnames)
 }
 
 array64 = function(x, dim) {
-  x = as.integer64(x)
-  dim(x) = dim
-  x
+  array(as.integer64(x), dim=dim)
 }
 
 # Test that 'expr' gives the same result whether
@@ -27,7 +17,7 @@ array64 = function(x, dim) {
 #   guarantees representation, where casting integer64
 #   to integer might have to stipulate inputs must be
 #   representable as integer.
-expect_int_32_64_equivalent <- function(expr) {
+expect_int_32_64_equivalent = function(expr) {
   # Capture the unevaluated expression
   esub = substitute(expr)
   evar = all.vars(esub)
@@ -52,4 +42,18 @@ expect_int_32_64_equivalent <- function(expr) {
     attr(int64_result_as_int, a) = a64[[a]]
 
   expect_identical(int64_result_as_int, int_result)
+}
+
+expect_same_error = function(expr1, expr2) {
+  err1 = tryCatch(expr1, error=identity)
+  if (!inherits(err1, "error")) return(fail("'expr1' did not produce an error"))
+
+  err2 = tryCatch(expr2, error=identity)
+  if (!inherits(err2, "error")) return(fail("'expr2' did not produce an error"))
+
+  msg1 = conditionMessage(err1)
+  msg2 = conditionMessage(err2)
+
+  if (msg1 == msg2) return(pass())
+  fail(sprintf("Error messages differ.\n'expr1' failed as %s\n'expr2' failed as %s", msg1, msg2))
 }
