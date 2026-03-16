@@ -965,7 +965,7 @@ test_that(":.integer64 works analogously to integer", {
     tryCatch(1L:NA, error=conditionMessage)
   )
   expect_identical(
-    tryCatch(i64_1:"a", error=conditionMessage),
+    tryCatch(suppressWarnings(i64_1:"a"), error=conditionMessage),
     tryCatch(suppressWarnings(1L:"a"), error=conditionMessage)
   )
   expect_identical(
