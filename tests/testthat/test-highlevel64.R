@@ -23,6 +23,9 @@ test_that("match & %in% basics work", {
   x_nm <- as.integer64(c(1L, 3L))
   table_nm <- as.integer64(2:4)
   expect_identical(match(x_nm, table_nm, nomatch = -1L), c(-1L, 2L))
+
+  expect_identical(integer64() %in% 1L, integer() %in% 1L)
+  expect_identical(as.integer64(1L) %in% double(), 1L %in% double())
 })
 
 test_that("Different method= for match() and %in% work", {
@@ -34,8 +37,7 @@ test_that("Different method= for match() and %in% work", {
   expect_identical(match(x, y, method="hashrev"), expected)
   expect_identical(match(x, y, method="sortorderpos"), expected)
   expect_error(match(x, y, method="_unknown_"), "'arg' should be one of", fixed=TRUE)
-  # TODO(#58): Fix this, currently fails.
-  # expect_identical(match(x, y, method="orderpos"), expected)
+  expect_identical(match(x, y, method="orderpos"), expected)
 
   # NB: %in% is quite a bit different; while there's a public API to
   #   `%in%.integer64`, likely, there shouldn't be (it's strange to export
@@ -197,6 +199,58 @@ test_that("exclude, useNA arguments work for integer64 method of table", {
   )
 })
 
+test_that("our overwrite of table() is consistent with base::table", {
+  expect_identical(table(NULL), base::table(NULL))
+  expect_identical(table(a=NULL), base::table(a=NULL))
+  expect_identical(table(NULL, NULL), base::table(NULL, NULL))
+  expect_identical(table(a=NULL, b=NULL), base::table(a=NULL, b=NULL))
+  expect_identical(table(integer(), NULL), base::table(integer(), NULL))
+  expect_identical(table(a=integer(), b=NULL), base::table(a=integer(), b=NULL))
+  expect_same_error(table(1L, NULL), base::table(1L, NULL))
+  expect_same_error(table(a=1L, b=NULL), base::table(a=1L, b=NULL))
+
+  skip_unless_r("> 3.5.0") # unclear what's going on
+  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(1:10)))
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(1:10))),
+    expected_result
+  )
+
+  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(1:10)))
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(1:10))),
+    expected_result
+  )
+
+  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(1:10)))
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(1:10))),
+    expected_result
+  )
+  
+  expected_result = withr::with_seed(1L, base::table(useNA=sample(c("no", "ifany", "always"), 1), sample(1:10)))
+  expect_identical(
+    withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample(1:10))),
+    expected_result
+  )
+})
+
 test_that("different method= for duplicated, unique work", {
   x = as.integer64(c(1L, 2L, 1L))
   exp_dup = c(FALSE, FALSE, TRUE)
@@ -210,8 +264,7 @@ test_that("different method= for duplicated, unique work", {
   expect_identical(unique(x, method="sortorderuni"), exp_unq)
   expect_identical(unique(x, method="sortuni"), exp_unq)
 
-  # TODO(#58): Fix this, currently fails.
-  # expect_identical(duplicated(x, method="orderdup"), exp_dup)
+  expect_identical(duplicated(x, method="orderdup"), exp_dup)
   expect_identical(unique(x, method="orderuni"), exp_unq)
 })
 
@@ -322,10 +375,10 @@ test_that("prank() works as intended", {
   expect_identical(prank(x[1L]), NA_integer64_)
 })
 
-test_that("match.integer64 with method='orderpos' fails due to bug", {
+test_that("match.integer64 with method='orderpos' works", {
   x <- as.integer64(1:5)
   table <- as.integer64(3:7)
-  expect_error(match(x, table, method="orderpos"), "object 's' not found", fixed=TRUE)
+  expect_identical(match(x, table, method="orderpos"), c(NA, NA, 1:3))
 })
 
 test_that("match.integer64 with partial cache triggers fallback", {
@@ -529,4 +582,30 @@ test_that("table dispatch to default with integer64 correctly coerced to factor"
   expect_identical(table(x=as.integer64(x), rep_len(y, length(x))), table(x, rep_len(y, length(x))))
   expect_identical(table(x=as.integer64(x), rep_len(y, length(x)), useNA="ifany"), table(x, rep_len(y, length(x)), useNA="ifany"))
   expect_identical(table(x=as.integer64(x), rep_len(y, length(x)), exclude=NULL), table(x, rep_len(y, length(x)), exclude=NULL))
+})
+
+test_that("implicit tests from ?match work", {
+  x = as.integer64(sample(c(rep(NA, 9), 0:9), 32, TRUE))
+  table = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+
+  expect_identical(
+    match(x, table),
+    match(as.integer(x), as.integer(table))
+  )
+  expect_identical(
+    x %in% table,
+    as.integer(x) %in% as.integer(table)
+  )
+})
+
+test_that("implicit tests from ?unipos and ?keypos work", {
+  x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  expect_identical(unipos(x),  seq_along(x)[!duplicated(x)])
+  expect_identical(unipos(x),  match(unique(x), x))
+  expect_identical(unipos(x, order="values"),  match(unique(x, order="values"), x))
+  expect_identical(unique(x),  x[unipos(x)])
+  expect_identical(unique(x, order="values"),  x[unipos(x, order="values")])
+
+  x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  expect_identical(keypos(x),  match(x, sort(unique(x), na.last=FALSE)))
 })
