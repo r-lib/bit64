@@ -1397,7 +1397,8 @@ seq.integer64 = function(from=1L, to=1L, by=1L, length.out=NULL, along.with=NULL
   if (n_args == 3L && missing(by)) {
     if (length.out > 1L) {
       len_out = length.out - 1L
-      by = (to - from)%/%len_out
+      diff = to - from
+      by = abs(diff)%/%len_out*sign(diff)
       if (from%%len_out != to%%len_out)
         warning("the resulting 'by' is truncated to integer64")
     }
