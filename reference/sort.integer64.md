@@ -105,7 +105,10 @@ see [`sort()`](https://rdrr.io/r/base/sort.html) and
 #>  [1] 1    1    1    1    1    2    2    2    3    3    4    5    5   
 #> [14] 6    6    7    7    9    <NA> <NA> <NA> <NA> <NA> <NA> <NA> <NA>
 #> [27] <NA> <NA> <NA> <NA> <NA> <NA>
-  message("the following has default optimize='time' which is faster but requires more RAM, this calls 'ramorder'")
+  message(
+    "the following has default optimize='time' which is faster ",
+    "but requires more RAM, this calls 'ramorder'"
+  )
 #> the following has default optimize='time' which is faster but requires more RAM, this calls 'ramorder'
   order(x)
 #>  [1]  4  5 26 28 30  9 13 32 15 20 11 19 29 17 21  2  3 12  1  6  7  8
