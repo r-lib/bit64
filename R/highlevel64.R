@@ -2115,7 +2115,6 @@ table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifan
   else
     sel = !names(dots) %in% c("return", "order", "nunique", "method")
   is_int64 = vapply(dots[sel], is.integer64, logical(1L), USE.NAMES=FALSE)
-  is_int = vapply(dots[sel], is.integer, logical(1L), USE.NAMES=FALSE)
   sys_call = match.call()
   sel = which(vapply(sys_call[seq_along(dots) + 1L], is.symbol, FALSE)) + 1L
   if (length(sel)) {
@@ -2137,7 +2136,7 @@ table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifan
   pf = parent.frame()
   # add unused function `list.names` to eliminate CMD check NOTE about missing function definition.
   list.names = function(...) {}
-  if (length(dots) && any(is_int64) && all(is_int64 | is_int)) {
+  if (length(dots) && any(is_int64)) {
     sys_call[[1L]] = table.integer64
     withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"), "table.integer64")
   } else {
