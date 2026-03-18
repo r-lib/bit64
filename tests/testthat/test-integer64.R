@@ -1564,3 +1564,9 @@ test_that("seq.integer64 works with S4 subclasses inheriting from integer64", {
   expect_identical(seq(to=to, by=by, length.out=5L), as.integer64(c(2L, 4L, 6L, 8L, 10L)))
   expect_identical(seq(from=from, by=by, length.out=5L), as.integer64(c(1L, 3L, 5L, 7L, 9L)))
 })
+
+test_that("back-compatible keep.names=TRUE is supported for limited input classes", {
+  x = as.integer64(1L)
+  names(x) = "a"
+  expect_named(as.integer64(x, keep.names=TRUE), "a")
+})

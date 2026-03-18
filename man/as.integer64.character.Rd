@@ -27,7 +27,7 @@ as.integer64(x, ...)
 
 \method{as.integer64}{`NULL`}(x, ...)
 
-\method{as.integer64}{integer64}(x, ...)
+\method{as.integer64}{integer64}(x, ..., keep.names = FALSE)
 
 \method{as.integer64}{double}(x, ...)
 
@@ -59,6 +59,8 @@ NA_integer64_
 \item{x}{an atomic vector}
 
 \item{..., units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
+
+\item{keep.names}{Logical, default \code{FALSE}. If \code{TRUE}, the input's names are retained.}
 }
 \value{
 The other methods return atomic vectors of the expected types
