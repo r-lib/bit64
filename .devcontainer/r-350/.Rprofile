@@ -218,6 +218,8 @@ local_seed <- function(seed) {
   invisible()
 }
 
+defer <- on.exit
+
 })
 
 # Attach the shim so functions are available globally

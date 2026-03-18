@@ -1538,3 +1538,20 @@ with_parameters_test_that("rbind deparse.level works consistent to R", {
   expect_identical(rbind(a=x, x, x + 1L, deparse.level=deparse.level), expected_result)
   expect_identical(FUN(a=x, x, x + 1L, deparse.level=deparse.level), expected_result)
 }, deparse.level = -1:3)
+
+test_that("seq.integer64 works with S4 subclasses inheriting from integer64", {
+  # Use a unique class name to avoid conflicts
+  className <- "test64_seq_regression"
+  if (!methods::isClass(className)) {
+    methods::setClass(className, contains = "integer64")
+    withr::defer(methods::removeClass(className))
+  }
+
+  from <- as.integer64(1L)
+  to <- as.integer64(10L)
+  by <- methods::new(className, as.integer64(2))
+
+  expect_identical(seq(from=from, to=to, by=by), as.integer64(c(1L, 3L, 5L, 7L, 9L)))
+  expect_identical(seq(to=to, by=by, length.out=5L), as.integer64(c(2L, 4L, 6L, 8L, 10L)))
+  expect_identical(seq(from=from, by=by, length.out=5L), as.integer64(c(1L, 3L, 5L, 7L, 9L)))
+})
