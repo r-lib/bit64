@@ -1064,16 +1064,14 @@ c.integer64 = function(..., recursive=FALSE) {
     val = dots[[idx]]
     if (inherits(val, "POSIXlt")) {
       val = lapply(unclass(val), as, value_class)
-    } else {
+    } else if (value_class == "integer64") {
       # NB: as(, "integer64") may not work, #298
-      if (value_class == "integer64") {
-        val = as.integer64(val)
-        names(val) = names(dots[[idx]])
-        oldClass(val) = NULL
-      } else {
-        val = as(val, value_class)
-      }
+      val = as.integer64(val)
+      oldClass(val) = NULL
+    } else {
+      val = as(val, value_class)
     }
+    names(val) = names(dots[[idx]])
     dots[[idx]] = val
   }
 
