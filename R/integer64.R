@@ -1071,11 +1071,11 @@ c.integer64 = function(..., recursive=FALSE) {
     } else {
       val = as(val, value_class)
     }
+    names(val) = names(dots[[idx]])
     dots[[idx]] = val
   }
 
   ret = do.call(c, c(dots, list(recursive=recursive)))
-  names(ret) = names(dots)
   if (value_class == "integer64")
     oldClass(ret) = value_class
   ret
