@@ -11,7 +11,7 @@ as.integer64(x, ...)
 as.integer64(x, ...)
 
 # S3 method for class 'integer64'
-as.integer64(x, ...)
+as.integer64(x, ..., keep.names = FALSE)
 
 # S3 method for class 'double'
 as.integer64(x, ...)
@@ -66,6 +66,10 @@ An object of class `integer64` of length 1.
 
   further arguments to the
   [`NextMethod()`](https://rdrr.io/r/base/UseMethod.html)
+
+- keep.names:
+
+  Logical, default `FALSE`. If `TRUE`, the input's names are retained.
 
 ## Value
 

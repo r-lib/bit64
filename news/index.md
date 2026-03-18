@@ -32,6 +32,18 @@
     `setdiff` and `is.element` one can set the option
     `bit64.promoteInteger64ToCharacter=TRUE`.
 
+3.  Some
+    [`as.integer64()`](https://bit64.r-lib.org/reference/as.integer64.character.md)
+    methods, e.g. `"double"`, allowed `keep.names=TRUE` to have
+    `names(as.integer64(x)) == names(x)`. This is inconsistent with
+    other vector coercions like
+    [`as.integer()`](https://rdrr.io/r/base/integer.html),
+    [`as.double()`](https://rdrr.io/r/base/double.html),
+    [`as.character()`](https://rdrr.io/r/base/character.html), … which
+    strip names. Therefore, starting from the next release, it will be a
+    warning to use this argument; users should just add code to retain
+    the names.
+
 ### BREAKING CHANGES
 
 1.  {bit64} no longer `Depends` on {bit}; instead it `Imports` it.
