@@ -427,7 +427,10 @@ ramorder.integer64 <- function(x, i,
 #'   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
 #'   x
 #'   sort(x)
-#'   message("the following has default optimize='time' which is faster but requires more RAM, this calls 'ramorder'")
+#'   message(
+#'     "the following has default optimize='time' which is faster ",
+#'     "but requires more RAM, this calls 'ramorder'"
+#'   )
 #'   order(x)
 #'   message("slower with less RAM, this calls 'ramsortorder'")
 #'   order(x, optimize="memory")
