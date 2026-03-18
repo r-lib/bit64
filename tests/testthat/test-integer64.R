@@ -1263,6 +1263,12 @@ test_that("c works consistent to R", {
   })
 })
 
+test_that("c works consistent to R regarding S3 classes derived from integer64", {
+  x = y = as.integer64(1L)
+  class(x) = c('foo', 'integer64')
+  expect_identical(c(x, y), as.integer64(rep(1L, 2L)))
+})
+
 replace_dimnames = function(x, old, new) {
   if (!is.null(dn <- dimnames(x))) 
     dimnames(x) = lapply(dn, function(el) {el[el == old] = new; el})
