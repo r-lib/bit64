@@ -1065,11 +1065,14 @@ c.integer64 = function(..., recursive=FALSE) {
     if (inherits(val, "POSIXlt")) {
       val = lapply(unclass(val), as, value_class)
     } else {
-      val = as(val, value_class)
-      if (value_class == "integer64")
+      if (value_class == "integer64") {
+        val = as.integer64(val)
         oldClass(val) = NULL
+      } else {
+        val = as(val, value_class)
+      }
     }
-    dots[[idx]] = val
+    dots[[idx]] = setNames(val, names(dots[[idx]]))
   }
 
   ret = do.call(c, c(dots, list(recursive=recursive)))
@@ -1114,9 +1117,12 @@ cbind.integer64 = function(..., deparse.level=1) {
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
     val = dots[[idx]]
-    val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
-    if (value_class == "integer64")
+    if (value_class == "integer64") {
+      val = structure(as.integer64(val), dim=dim(val), dimnames=dimnames(val), names=names(val))
       oldClass(val) = NULL
+    }else {
+      val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
+    }
     dots[[idx]] = val
   }
   ret = withCallingHandlers_and_choose_call(
@@ -1188,9 +1194,12 @@ rbind.integer64 = function(..., deparse.level=1) {
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
     val = dots[[idx]]
-    val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
-    if (value_class == "integer64")
+    if (value_class == "integer64") {
+      val = structure(as.integer64(val), dim=dim(val), dimnames=dimnames(val), names=names(val))
       oldClass(val) = NULL
+    } else {
+      val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
+    }
     dots[[idx]] = val
   }
   ret = withCallingHandlers_and_choose_call(
