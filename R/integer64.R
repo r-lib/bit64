@@ -1068,12 +1068,13 @@ c.integer64 = function(..., recursive=FALSE) {
       # NB: as(, "integer64") may not work, #298
       if (value_class == "integer64") {
         val = as.integer64(val)
+        names(val) = names(dots[[idx]])
         oldClass(val) = NULL
       } else {
         val = as(val, value_class)
       }
     }
-    dots[[idx]] = setNames(val, names(dots[[idx]]))
+    dots[[idx]] = val
   }
 
   ret = do.call(c, c(dots, list(recursive=recursive)))

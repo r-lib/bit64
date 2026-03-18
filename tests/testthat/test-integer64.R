@@ -1263,7 +1263,7 @@ test_that("c works consistent to R", {
   })
 })
 
-test_that("c works consistent to R regarding S3 classes derived from integer64", {
+test_that("c works on extended integer64 objects (#298)", {
   x = y = as.integer64(1L)
   class(x) = c('foo', 'integer64')
   expect_identical(c(x, y), as.integer64(rep(1L, 2L)))
