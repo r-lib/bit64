@@ -1267,8 +1267,8 @@ test_that("c works on extended integer64 objects (#298)", {
   x = y = as.integer64(1L)
   class(x) = c('foo', 'integer64')
   expect_identical(c(x, y), as.integer64(c(1L, 1L)))
-  expect_identical(cbind(x, y), matrix64(c(1L, 1L), nrow=1L, ncol=2L))
-  expect_identical(rbind(x, y), matrix64(c(1L, 1L), nrow=2L, ncol=1L))
+  expect_identical(cbind(x, y), matrix64(c(1L, 1L), nrow=1L, ncol=2L, dimnames=list(c("x", "y"), NULL)))
+  expect_identical(rbind(x, y), matrix64(c(1L, 1L), nrow=2L, ncol=1L, dimnames=list(NULL, c("x", "y"))))
 })
 
 replace_dimnames = function(x, old, new) {
