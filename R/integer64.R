@@ -1340,8 +1340,8 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
   if (!is.null(length.out) && is.double(length.out))
     length.out = ceiling(length.out)
 
-  if (!is.null(by) && !is.integer64(by))
-    by = as.integer64(by)
+  if (!is.null(by))
+    by = as.integer64(by) # always coerce, e.g. for nanotime classes, #297
 
   if (is.null(from)) {
     from = to - (length.out - 1L) * by
