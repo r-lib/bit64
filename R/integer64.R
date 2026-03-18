@@ -1065,6 +1065,7 @@ c.integer64 = function(..., recursive=FALSE) {
     if (inherits(val, "POSIXlt")) {
       val = lapply(unclass(val), as, value_class)
     } else {
+      # NB: as(, "integer64") may not work, #298
       if (value_class == "integer64") {
         val = as.integer64(val)
         oldClass(val) = NULL
@@ -1117,6 +1118,7 @@ cbind.integer64 = function(..., deparse.level=1) {
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
     val = dots[[idx]]
+    # NB: as(, "integer64") may not work, #298
     if (value_class == "integer64") {
       val = structure(as.integer64(val), dim=dim(val), dimnames=dimnames(val), names=names(val))
       oldClass(val) = NULL
@@ -1194,6 +1196,7 @@ rbind.integer64 = function(..., deparse.level=1) {
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
     val = dots[[idx]]
+    # NB: as(, "integer64") may not work, #298
     if (value_class == "integer64") {
       val = structure(as.integer64(val), dim=dim(val), dimnames=dimnames(val), names=names(val))
       oldClass(val) = NULL
