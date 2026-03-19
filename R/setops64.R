@@ -30,7 +30,8 @@
 #' 
 #' @export
 #' @rdname sets
-union = function(x, y) {
+#' @name sets
+union.integer64 = function(x, y) {
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::union(x, y))
   
@@ -55,10 +56,19 @@ union = function(x, y) {
 
   unique(c(x, y))
 }
+#' @exportMethod union
+#' @rdname sets
+setMethod("union", signature(x="ANY", y="ANY"), union.integer64)
+#' @rdname sets
+setMethod("union", signature(x="integer64", y="ANY"), union.integer64)
+#' @rdname sets
+setMethod("union", signature(x="ANY", y="integer64"), union.integer64)
+#' @rdname sets
+setMethod("union", signature(x="integer64", y="integer64"), union.integer64)
 
 #' @export
 #' @rdname sets
-intersect = function(x, y) {
+intersect.integer64 = function(x, y) {
   if (is.null(x) || is.null(y)) return(NULL)
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::intersect(x, y))
@@ -83,10 +93,19 @@ intersect = function(x, y) {
 
   x[match(x, y, 0L) > 0L]
 }
+#' @exportMethod intersect
+#' @rdname sets
+setMethod("intersect", signature(x="ANY", y="ANY"), intersect.integer64)
+#' @rdname sets
+setMethod("intersect", signature(x="integer64", y="ANY"), intersect.integer64)
+#' @rdname sets
+setMethod("intersect", signature(x="ANY", y="integer64"), intersect.integer64)
+#' @rdname sets
+setMethod("intersect", signature(x="integer64", y="integer64"), intersect.integer64)
 
 #' @export
 #' @rdname sets
-setequal = function(x, y) {
+setequal.integer64 = function(x, y) {
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::setequal(x, y))
   
@@ -105,10 +124,19 @@ setequal = function(x, y) {
   
   !anyNA(match(x, y))
 }
+#' @exportMethod setequal
+#' @rdname sets
+setMethod("setequal", signature(x="ANY", y="ANY"), setequal.integer64)
+#' @rdname sets
+setMethod("setequal", signature(x="integer64", y="ANY"), setequal.integer64)
+#' @rdname sets
+setMethod("setequal", signature(x="ANY", y="integer64"), setequal.integer64)
+#' @rdname sets
+setMethod("setequal", signature(x="integer64", y="integer64"), setequal.integer64)
 
 #' @export
 #' @rdname sets
-setdiff = function(x, y) {
+setdiff.integer64 = function(x, y) {
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::setdiff(x, y))
   
@@ -134,10 +162,19 @@ setdiff = function(x, y) {
 
   x[match(x_match, y, 0L) == 0L]
 }
+#' @exportMethod setdiff
+#' @rdname sets
+setMethod("setdiff", signature(x="ANY", y="ANY"), setdiff.integer64)
+#' @rdname sets
+setMethod("setdiff", signature(x="integer64", y="ANY"), setdiff.integer64)
+#' @rdname sets
+setMethod("setdiff", signature(x="ANY", y="integer64"), setdiff.integer64)
+#' @rdname sets
+setMethod("setdiff", signature(x="integer64", y="integer64"), setdiff.integer64)
 
 #' @export
 #' @rdname sets
-is.element = function(el, set) {
+is.element.integer64 = function(el, set) {
   if (!(is.integer64(el) || is.integer64(set)))
     return(base::is.element(el, set))
   
@@ -160,3 +197,12 @@ is.element = function(el, set) {
   
   match(el, set, 0L) > 0L
 }
+#' @exportMethod is.element
+#' @rdname sets
+setMethod("is.element", signature(el="ANY", set="ANY"), is.element.integer64)
+#' @rdname sets
+setMethod("is.element", signature(el="integer64", set="ANY"), is.element.integer64)
+#' @rdname sets
+setMethod("is.element", signature(el="ANY", set="integer64"), is.element.integer64)
+#' @rdname sets
+setMethod("is.element", signature(el="integer64", set="integer64"), is.element.integer64)
