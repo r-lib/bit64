@@ -31,9 +31,13 @@
 #' @export
 #' @rdname sets
 union = function(x, y) {
+  if ((isS4(x) || isS4(y)) && isGeneric("union")) {
+    s4_intersect = selectMethod("union", list(x=class(x), y=class(y)))
+    return(s4_intersect(x, y))
+  }
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::union(x, y))
-  
+
   target_class = target_class(list(x, y))
   # try using the benefit of integer64 caching, if possible. I.e. call unique() before as().
   x = unique(x)
@@ -60,9 +64,13 @@ union = function(x, y) {
 #' @rdname sets
 intersect = function(x, y) {
   if (is.null(x) || is.null(y)) return(NULL)
+  if ((isS4(x) || isS4(y)) && isGeneric("intersect")) {
+    s4_intersect = selectMethod("intersect", list(x=class(x), y=class(y)))
+    return(s4_intersect(x, y))
+  }
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::intersect(x, y))
-  
+
   target_class = target_class(list(x, y))
   x = unique(x)
   class_x = class(x)[1L]
@@ -109,6 +117,10 @@ setequal = function(x, y) {
 #' @export
 #' @rdname sets
 setdiff = function(x, y) {
+  if ((isS4(x) || isS4(y)) && isGeneric("setdiff")) {
+    s4_intersect = selectMethod("setdiff", list(x=class(x), y=class(y)))
+    return(s4_intersect(x, y))
+  }
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::setdiff(x, y))
   
