@@ -322,7 +322,46 @@ test_that("is.element works (additional cases)", {
 })
 
 test_that("S4 dispatch still happens for classes extending integer64 (#301)", {
-  delete_generic = !methods::isGeneric("intersect")
+  methods::setClass("TestS4", representation(data="integer"))
+  delete_intersect_generic = !methods::isGeneric("intersect")
+  suppressMessages(methods::setGeneric("intersect"))
+  delete_union_generic = !methods::isGeneric("union")
+  suppressMessages(methods::setGeneric("union"))
+  methods::setMethod(
+    "intersect",
+    signature=c("TestS4", "integer64"),
+    function(x, y) "Successfully routed to S4 method!"
+  )
+  methods::setMethod(
+    "union",
+    signature=c("TestS4", "integer64"),
+    function(x, y) "Successfully routed to S4 method!"
+  )
+  withr::defer({
+    methods::removeMethod("union", signature=c("TestS4", "integer64"))
+    methods::removeMethod("intersect", signature=c("TestS4", "integer64"))
+    methods::removeClass("TestS4")
+    if (delete_intersect_generic) methods::removeGeneric("intersect")
+    if (delete_union_generic) methods::removeGeneric("union")
+  })
+
+  # Instantiate test objects
+  x = methods::new("TestS4", data = 1L)
+  y = as.integer64(2L)
+
+  expect_identical(intersect(x, y), "Successfully routed to S4 method!")
+  expect_identical(union(x, y), "Successfully routed to S4 method!")
+  # NB: nanoival class is "complex64" -- it kludges complex to be a pair
+  #   of integer64 vectors, but there is no complex64 class, so it just
+  #   shows up on the inheritance chain as 'complex' --> need to ensure
+  #   S4 gets invoked when possible even if the inputs don't directly test
+  #   as being is("integer64").
+  expect_identical(intersect(x, x), "Successfully routed to S4 method!")
+  expect_identical(union(x, x), "Successfully routed to S4 method!")
+})
+
+test_that("S4 dispatch still happens for classes extending integer64 (#301, union)", {
+  delete_generic = !methods::isGeneric("union")
   methods::setClass("TestS4", representation(data="integer"))
   suppressMessages(methods::setGeneric("intersect"))
   methods::setMethod(
