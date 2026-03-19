@@ -563,9 +563,10 @@ as.integer64.integer64 = function(x, ..., keep.names=FALSE) {
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.double = function(x, ...) {
+as.integer64.double = function(x, ..., keep.names=FALSE) {
   ret = .Call(C_as_integer64_double, x, double(length(x)))
   oldClass(ret) = "integer64"
+  if (isTRUE(keep.names)) names(ret) = names(x)
   ret
 }
 

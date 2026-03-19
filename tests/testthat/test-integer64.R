@@ -1569,4 +1569,7 @@ test_that("back-compatible keep.names=TRUE is supported for limited input classe
   x = as.integer64(1L)
   names(x) = "a"
   expect_named(as.integer64(x, keep.names=TRUE), "a")
+
+  y = c(a = 1.0)
+  expect_named(as.integer64(y, keep.names=TRUE), "a")
 })
