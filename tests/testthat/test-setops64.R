@@ -341,4 +341,10 @@ test_that("S4 dispatch still happens for classes extending integer64 (#301)", {
   y = as.integer64(2L)
 
   expect_identical(intersect(x, y), "Successfully routed to S4 method!")
+  # NB: nanoival class is "complex64" -- it kludges complex to be a pair
+  #   of integer64 vectors, but there is no complex64 class, so it just
+  #   shows up on the inheritance chain as 'complex' --> need to ensure
+  #   S4 gets invoked when possible even if the inputs don't directly test
+  #   as being is("integer64").
+  expect_identical(intersect(x, x), "Successfully routed to S4 method!")
 })
