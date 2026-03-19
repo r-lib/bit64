@@ -62,7 +62,11 @@ intersect = function(x, y) {
   if (is.null(x) || is.null(y)) return(NULL)
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::intersect(x, y))
-  
+  if ((isS4(x) || isS4(y)) && isGeneric("intersect")) {
+    s4_intersect = selectMethod("intersect", list(x=class(x), y=class(y)))
+    return(s4_intersect(x, y))
+  }
+
   target_class = target_class(list(x, y))
   x = unique(x)
   class_x = class(x)[1L]

@@ -320,3 +320,25 @@ test_that("is.element works (additional cases)", {
   expect_true(is.element(NA_integer64_, NA))
 
 })
+
+test_that("S4 dispatch still happens for classes extending integer64 (#301)", {
+  delete_generic = !methods::isGeneric("intersect")
+  methods::setClass("TestS4", representation(data="integer"))
+  suppressMessages(methods::setGeneric("intersect"))
+  methods::setMethod(
+    "intersect",
+    signature=c("TestS4", "integer64"),
+    function(x, y) "Successfully routed to S4 method!"
+  )
+  withr::defer({
+    methods::removeMethod("intersect", signature=c("TestS4", "integer64"))
+    methods::removeClass("TestS4")
+    if (delete_generic) methods::removeGeneric("intersect")
+  })
+
+  # Instantiate test objects
+  x = methods::new("TestS4", data = 1L)
+  y = as.integer64(2L)
+
+  expect_identical(intersect(x, y), "Successfully routed to S4 method!")
+})
