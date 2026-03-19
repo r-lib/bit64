@@ -155,7 +155,7 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> out of curiosity: how well rank-correlated are fact and parallel fact table?
 #> coerce to factor
 #>         32-bit 64-bit hashcache sortordercache ordercache allcache
-#> seconds  0.012      0         0              0          0        0
+#> seconds  0.013      0         0              0          0        0
 #> factor   1.000    Inf       Inf            Inf        Inf      Inf
 #> 
 #> === 64-bit ===
@@ -174,8 +174,8 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> out of curiosity: how well rank-correlated are fact and parallel fact table?
 #> coerce to factor
 #>         32-bit 64-bit hashcache sortordercache ordercache allcache
-#> seconds  0.012   0.01         0              0          0        0
-#> factor   1.000   1.20       Inf            Inf        Inf      Inf
+#> seconds  0.013  0.012         0              0          0        0
+#> factor   1.000  1.083       Inf            Inf        Inf      Inf
 #> 
 #> === hashcache ===
 #> check data range, mean etc.
@@ -193,8 +193,8 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> out of curiosity: how well rank-correlated are fact and parallel fact table?
 #> coerce to factor
 #>         32-bit 64-bit hashcache sortordercache ordercache allcache
-#> seconds  0.012   0.01     0.007              0          0        0
-#> factor   1.000   1.20     1.714            Inf        Inf      Inf
+#> seconds  0.013  0.012     0.005              0          0        0
+#> factor   1.000  1.083     2.600            Inf        Inf      Inf
 #> 
 #> === sortordercache ===
 #> check data range, mean etc.
@@ -212,8 +212,8 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> out of curiosity: how well rank-correlated are fact and parallel fact table?
 #> coerce to factor
 #>         32-bit 64-bit hashcache sortordercache ordercache allcache
-#> seconds  0.012   0.01     0.007          0.006          0        0
-#> factor   1.000   1.20     1.714          2.000        Inf      Inf
+#> seconds  0.013  0.012     0.005          0.008          0        0
+#> factor   1.000  1.083     2.600          1.625        Inf      Inf
 #> 
 #> === ordercache ===
 #> check data range, mean etc.
@@ -231,8 +231,8 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> out of curiosity: how well rank-correlated are fact and parallel fact table?
 #> coerce to factor
 #>         32-bit 64-bit hashcache sortordercache ordercache allcache
-#> seconds  0.012   0.01     0.007          0.006      0.006        0
-#> factor   1.000   1.20     1.714          2.000      2.000      Inf
+#> seconds  0.013  0.012     0.005          0.008       0.01        0
+#> factor   1.000  1.083     2.600          1.625       1.30      Inf
 #> 
 #> === allcache ===
 #> check data range, mean etc.
@@ -250,8 +250,8 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> out of curiosity: how well rank-correlated are fact and parallel fact table?
 #> coerce to factor
 #>         32-bit 64-bit hashcache sortordercache ordercache allcache
-#> seconds  0.012   0.01     0.007          0.006      0.006    0.007
-#> factor   1.000   1.20     1.714          2.000      2.000    1.714
+#> seconds  0.013  0.012     0.005          0.008       0.01    0.005
+#> factor   1.000  1.083     2.600          1.625       1.30    2.600
 #> 
 #> now let's look more systematically at the components involved
 #> 32-bit match(s, b)
@@ -270,23 +270,23 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> 32-bit summary(b)
 #> 32-bit factor(b)
 #> seconds              32-bit 64-bit hashcache sortordercache ordercache
-#> cache          0.000   0.00     0.000          0.000      0.000
-#> match(s, b)    0.000   0.00     0.000          0.000      0.000
-#> s %in% b       0.000   0.00     0.000          0.000      0.000
-#> match(b, s)    0.000   0.00     0.000          0.000      0.000
-#> b %in% s       0.000   0.00     0.000          0.000      0.000
-#> match(b, b)    0.001   0.00     0.000          0.000      0.000
-#> b %in% b       0.000   0.00     0.000          0.000      0.000
-#> duplicated(b)  0.000   0.00     0.000          0.000      0.000
-#> unique(b)      0.000   0.00     0.000          0.000      0.000
-#> table(b)       0.002   0.00     0.000          0.000      0.000
-#> sort(b)        0.000   0.00     0.000          0.000      0.000
-#> order(b)       0.000   0.00     0.000          0.000      0.000
-#> rank(b)        0.001   0.00     0.000          0.000      0.000
-#> quantile(b)    0.001   0.00     0.000          0.000      0.000
-#> summary(b)     0.000   0.00     0.000          0.000      0.000
-#> factor(b)      0.001   0.00     0.000          0.000      0.000
-#> SESSION        0.012   0.01     0.007          0.006      0.006
+#> cache          0.000  0.000     0.000          0.000       0.00
+#> match(s, b)    0.001  0.000     0.000          0.000       0.00
+#> s %in% b       0.000  0.000     0.000          0.000       0.00
+#> match(b, s)    0.001  0.000     0.000          0.000       0.00
+#> b %in% s       0.000  0.000     0.000          0.000       0.00
+#> match(b, b)    0.001  0.000     0.000          0.000       0.00
+#> b %in% b       0.000  0.000     0.000          0.000       0.00
+#> duplicated(b)  0.001  0.000     0.000          0.000       0.00
+#> unique(b)      0.000  0.000     0.000          0.000       0.00
+#> table(b)       0.003  0.000     0.000          0.000       0.00
+#> sort(b)        0.000  0.000     0.000          0.000       0.00
+#> order(b)       0.001  0.000     0.000          0.000       0.00
+#> rank(b)        0.001  0.000     0.000          0.000       0.00
+#> quantile(b)    0.000  0.000     0.000          0.000       0.00
+#> summary(b)     0.000  0.000     0.000          0.000       0.00
+#> factor(b)      0.002  0.000     0.000          0.000       0.00
+#> SESSION        0.013  0.012     0.005          0.008       0.01
 #>               allcache
 #> cache            0.000
 #> match(s, b)      0.000
@@ -304,43 +304,43 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> quantile(b)      0.000
 #> summary(b)       0.000
 #> factor(b)        0.000
-#> SESSION          0.007
+#> SESSION          0.005
 #> factor              32-bit 64-bit hashcache sortordercache ordercache
 #> cache            NaN    NaN       NaN            NaN        NaN
-#> match(s, b)      NaN    NaN       NaN            NaN        NaN
+#> match(s, b)        1    Inf       Inf            Inf        Inf
 #> s %in% b         NaN    NaN       NaN            NaN        NaN
-#> match(b, s)      NaN    NaN       NaN            NaN        NaN
+#> match(b, s)        1    Inf       Inf            Inf        Inf
 #> b %in% s         NaN    NaN       NaN            NaN        NaN
 #> match(b, b)        1    Inf       Inf            Inf        Inf
 #> b %in% b         NaN    NaN       NaN            NaN        NaN
-#> duplicated(b)    NaN    NaN       NaN            NaN        NaN
+#> duplicated(b)      1    Inf       Inf            Inf        Inf
 #> unique(b)        NaN    NaN       NaN            NaN        NaN
 #> table(b)           1    Inf       Inf            Inf        Inf
 #> sort(b)          NaN    NaN       NaN            NaN        NaN
-#> order(b)         NaN    NaN       NaN            NaN        NaN
+#> order(b)           1    Inf       Inf            Inf        Inf
 #> rank(b)            1    Inf       Inf            Inf        Inf
-#> quantile(b)        1    Inf       Inf            Inf        Inf
+#> quantile(b)      NaN    NaN       NaN            NaN        NaN
 #> summary(b)       NaN    NaN       NaN            NaN        NaN
 #> factor(b)          1    Inf       Inf            Inf        Inf
-#> SESSION            1    1.2     1.714              2          2
+#> SESSION            1  1.083       2.6          1.625        1.3
 #>               allcache
 #> cache              NaN
-#> match(s, b)        NaN
+#> match(s, b)        Inf
 #> s %in% b           NaN
-#> match(b, s)        NaN
+#> match(b, s)        Inf
 #> b %in% s           NaN
 #> match(b, b)        Inf
 #> b %in% b           NaN
-#> duplicated(b)      NaN
+#> duplicated(b)      Inf
 #> unique(b)          NaN
 #> table(b)           Inf
 #> sort(b)            NaN
-#> order(b)           NaN
+#> order(b)           Inf
 #> rank(b)            Inf
-#> quantile(b)        Inf
+#> quantile(b)        NaN
 #> summary(b)         NaN
 #> factor(b)          Inf
-#> SESSION          1.714
+#> SESSION            2.6
 #> 64-bit match(s, b)
 #> 64-bit s %in% b
 #> 64-bit match(b, s)
@@ -357,23 +357,23 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> 64-bit summary(b)
 #> 64-bit factor(b)
 #> seconds              32-bit 64-bit hashcache sortordercache ordercache
-#> cache          0.000  0.000     0.000          0.000      0.000
-#> match(s, b)    0.000  0.000     0.000          0.000      0.000
-#> s %in% b       0.000  0.000     0.000          0.000      0.000
-#> match(b, s)    0.000  0.000     0.000          0.000      0.000
-#> b %in% s       0.000  0.000     0.000          0.000      0.000
-#> match(b, b)    0.001  0.000     0.000          0.000      0.000
-#> b %in% b       0.000  0.000     0.000          0.000      0.000
-#> duplicated(b)  0.000  0.000     0.000          0.000      0.000
-#> unique(b)      0.000  0.000     0.000          0.000      0.000
-#> table(b)       0.002  0.001     0.000          0.000      0.000
-#> sort(b)        0.000  0.000     0.000          0.000      0.000
-#> order(b)       0.000  0.001     0.000          0.000      0.000
-#> rank(b)        0.001  0.000     0.000          0.000      0.000
-#> quantile(b)    0.001  0.001     0.000          0.000      0.000
-#> summary(b)     0.000  0.001     0.000          0.000      0.000
-#> factor(b)      0.001  0.001     0.000          0.000      0.000
-#> SESSION        0.012  0.010     0.007          0.006      0.006
+#> cache          0.000  0.000     0.000          0.000       0.00
+#> match(s, b)    0.001  0.000     0.000          0.000       0.00
+#> s %in% b       0.000  0.000     0.000          0.000       0.00
+#> match(b, s)    0.001  0.000     0.000          0.000       0.00
+#> b %in% s       0.000  0.001     0.000          0.000       0.00
+#> match(b, b)    0.001  0.000     0.000          0.000       0.00
+#> b %in% b       0.000  0.001     0.000          0.000       0.00
+#> duplicated(b)  0.001  0.000     0.000          0.000       0.00
+#> unique(b)      0.000  0.000     0.000          0.000       0.00
+#> table(b)       0.003  0.000     0.000          0.000       0.00
+#> sort(b)        0.000  0.000     0.000          0.000       0.00
+#> order(b)       0.001  0.000     0.000          0.000       0.00
+#> rank(b)        0.001  0.000     0.000          0.000       0.00
+#> quantile(b)    0.000  0.001     0.000          0.000       0.00
+#> summary(b)     0.000  0.001     0.000          0.000       0.00
+#> factor(b)      0.002  0.001     0.000          0.000       0.00
+#> SESSION        0.013  0.012     0.005          0.008       0.01
 #>               allcache
 #> cache            0.000
 #> match(s, b)      0.000
@@ -391,43 +391,43 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> quantile(b)      0.000
 #> summary(b)       0.000
 #> factor(b)        0.000
-#> SESSION          0.007
+#> SESSION          0.005
 #> factor              32-bit 64-bit hashcache sortordercache ordercache
 #> cache            NaN    NaN       NaN            NaN        NaN
-#> match(s, b)      NaN    NaN       NaN            NaN        NaN
+#> match(s, b)        1    Inf       Inf            Inf        Inf
 #> s %in% b         NaN    NaN       NaN            NaN        NaN
-#> match(b, s)      NaN    NaN       NaN            NaN        NaN
-#> b %in% s         NaN    NaN       NaN            NaN        NaN
+#> match(b, s)        1    Inf       Inf            Inf        Inf
+#> b %in% s         NaN  0.000       NaN            NaN        NaN
 #> match(b, b)        1    Inf       Inf            Inf        Inf
-#> b %in% b         NaN    NaN       NaN            NaN        NaN
-#> duplicated(b)    NaN    NaN       NaN            NaN        NaN
+#> b %in% b         NaN  0.000       NaN            NaN        NaN
+#> duplicated(b)      1    Inf       Inf            Inf        Inf
 #> unique(b)        NaN    NaN       NaN            NaN        NaN
-#> table(b)           1    2.0       Inf            Inf        Inf
+#> table(b)           1    Inf       Inf            Inf        Inf
 #> sort(b)          NaN    NaN       NaN            NaN        NaN
-#> order(b)         NaN    0.0       NaN            NaN        NaN
+#> order(b)           1    Inf       Inf            Inf        Inf
 #> rank(b)            1    Inf       Inf            Inf        Inf
-#> quantile(b)        1    1.0       Inf            Inf        Inf
-#> summary(b)       NaN    0.0       NaN            NaN        NaN
-#> factor(b)          1    1.0       Inf            Inf        Inf
-#> SESSION            1    1.2     1.714              2          2
+#> quantile(b)      NaN  0.000       NaN            NaN        NaN
+#> summary(b)       NaN  0.000       NaN            NaN        NaN
+#> factor(b)          1  2.000       Inf            Inf        Inf
+#> SESSION            1  1.083       2.6          1.625        1.3
 #>               allcache
 #> cache              NaN
-#> match(s, b)        NaN
+#> match(s, b)        Inf
 #> s %in% b           NaN
-#> match(b, s)        NaN
+#> match(b, s)        Inf
 #> b %in% s           NaN
 #> match(b, b)        Inf
 #> b %in% b           NaN
-#> duplicated(b)      NaN
+#> duplicated(b)      Inf
 #> unique(b)          NaN
 #> table(b)           Inf
 #> sort(b)            NaN
-#> order(b)           NaN
+#> order(b)           Inf
 #> rank(b)            Inf
-#> quantile(b)        Inf
+#> quantile(b)        NaN
 #> summary(b)         NaN
 #> factor(b)          Inf
-#> SESSION          1.714
+#> SESSION            2.6
 #> hashcache cache
 #> hashcache match(s, b)
 #> hashcache s %in% b
@@ -445,23 +445,23 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> hashcache summary(b)
 #> hashcache factor(b)
 #> seconds              32-bit 64-bit hashcache sortordercache ordercache
-#> cache          0.000  0.000     0.000          0.000      0.000
-#> match(s, b)    0.000  0.000     0.000          0.000      0.000
-#> s %in% b       0.000  0.000     0.000          0.000      0.000
-#> match(b, s)    0.000  0.000     0.001          0.000      0.000
-#> b %in% s       0.000  0.000     0.000          0.000      0.000
-#> match(b, b)    0.001  0.000     0.000          0.000      0.000
-#> b %in% b       0.000  0.000     0.000          0.000      0.000
-#> duplicated(b)  0.000  0.000     0.000          0.000      0.000
-#> unique(b)      0.000  0.000     0.001          0.000      0.000
-#> table(b)       0.002  0.001     0.000          0.000      0.000
-#> sort(b)        0.000  0.000     0.000          0.000      0.000
-#> order(b)       0.000  0.001     0.000          0.000      0.000
-#> rank(b)        0.001  0.000     0.000          0.000      0.000
-#> quantile(b)    0.001  0.001     0.001          0.000      0.000
-#> summary(b)     0.000  0.001     0.000          0.000      0.000
-#> factor(b)      0.001  0.001     0.001          0.000      0.000
-#> SESSION        0.012  0.010     0.007          0.006      0.006
+#> cache          0.000  0.000     0.001          0.000       0.00
+#> match(s, b)    0.001  0.000     0.000          0.000       0.00
+#> s %in% b       0.000  0.000     0.000          0.000       0.00
+#> match(b, s)    0.001  0.000     0.000          0.000       0.00
+#> b %in% s       0.000  0.001     0.000          0.000       0.00
+#> match(b, b)    0.001  0.000     0.000          0.000       0.00
+#> b %in% b       0.000  0.001     0.000          0.000       0.00
+#> duplicated(b)  0.001  0.000     0.001          0.000       0.00
+#> unique(b)      0.000  0.000     0.000          0.000       0.00
+#> table(b)       0.003  0.000     0.001          0.000       0.00
+#> sort(b)        0.000  0.000     0.000          0.000       0.00
+#> order(b)       0.001  0.000     0.001          0.000       0.00
+#> rank(b)        0.001  0.000     0.000          0.000       0.00
+#> quantile(b)    0.000  0.001     0.001          0.000       0.00
+#> summary(b)     0.000  0.001     0.001          0.000       0.00
+#> factor(b)      0.002  0.001     0.001          0.000       0.00
+#> SESSION        0.013  0.012     0.005          0.008       0.01
 #>               allcache
 #> cache            0.000
 #> match(s, b)      0.000
@@ -479,43 +479,43 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> quantile(b)      0.000
 #> summary(b)       0.000
 #> factor(b)        0.000
-#> SESSION          0.007
+#> SESSION          0.005
 #> factor              32-bit 64-bit hashcache sortordercache ordercache
-#> cache            NaN    NaN       NaN            NaN        NaN
-#> match(s, b)      NaN    NaN       NaN            NaN        NaN
+#> cache            NaN    NaN       0.0            NaN        NaN
+#> match(s, b)        1    Inf       Inf            Inf        Inf
 #> s %in% b         NaN    NaN       NaN            NaN        NaN
-#> match(b, s)      NaN    NaN     0.000            NaN        NaN
-#> b %in% s         NaN    NaN       NaN            NaN        NaN
+#> match(b, s)        1    Inf       Inf            Inf        Inf
+#> b %in% s         NaN  0.000       NaN            NaN        NaN
 #> match(b, b)        1    Inf       Inf            Inf        Inf
-#> b %in% b         NaN    NaN       NaN            NaN        NaN
-#> duplicated(b)    NaN    NaN       NaN            NaN        NaN
-#> unique(b)        NaN    NaN     0.000            NaN        NaN
-#> table(b)           1    2.0       Inf            Inf        Inf
+#> b %in% b         NaN  0.000       NaN            NaN        NaN
+#> duplicated(b)      1    Inf       1.0            Inf        Inf
+#> unique(b)        NaN    NaN       NaN            NaN        NaN
+#> table(b)           1    Inf       3.0            Inf        Inf
 #> sort(b)          NaN    NaN       NaN            NaN        NaN
-#> order(b)         NaN    0.0       NaN            NaN        NaN
+#> order(b)           1    Inf       1.0            Inf        Inf
 #> rank(b)            1    Inf       Inf            Inf        Inf
-#> quantile(b)        1    1.0     1.000            Inf        Inf
-#> summary(b)       NaN    0.0       NaN            NaN        NaN
-#> factor(b)          1    1.0     1.000            Inf        Inf
-#> SESSION            1    1.2     1.714              2          2
+#> quantile(b)      NaN  0.000       0.0            NaN        NaN
+#> summary(b)       NaN  0.000       0.0            NaN        NaN
+#> factor(b)          1  2.000       2.0            Inf        Inf
+#> SESSION            1  1.083       2.6          1.625        1.3
 #>               allcache
 #> cache              NaN
-#> match(s, b)        NaN
+#> match(s, b)        Inf
 #> s %in% b           NaN
-#> match(b, s)        NaN
+#> match(b, s)        Inf
 #> b %in% s           NaN
 #> match(b, b)        Inf
 #> b %in% b           NaN
-#> duplicated(b)      NaN
+#> duplicated(b)      Inf
 #> unique(b)          NaN
 #> table(b)           Inf
 #> sort(b)            NaN
-#> order(b)           NaN
+#> order(b)           Inf
 #> rank(b)            Inf
-#> quantile(b)        Inf
+#> quantile(b)        NaN
 #> summary(b)         NaN
 #> factor(b)          Inf
-#> SESSION          1.714
+#> SESSION            2.6
 #> sortordercache cache
 #> sortordercache match(s, b)
 #> sortordercache s %in% b
@@ -533,23 +533,23 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> sortordercache summary(b)
 #> sortordercache factor(b)
 #> seconds              32-bit 64-bit hashcache sortordercache ordercache
-#> cache          0.000  0.000     0.000          0.000      0.000
-#> match(s, b)    0.000  0.000     0.000          0.000      0.000
-#> s %in% b       0.000  0.000     0.000          0.000      0.000
-#> match(b, s)    0.000  0.000     0.001          0.001      0.000
-#> b %in% s       0.000  0.000     0.000          0.000      0.000
-#> match(b, b)    0.001  0.000     0.000          0.001      0.000
-#> b %in% b       0.000  0.000     0.000          0.000      0.000
-#> duplicated(b)  0.000  0.000     0.000          0.000      0.000
-#> unique(b)      0.000  0.000     0.001          0.000      0.000
-#> table(b)       0.002  0.001     0.000          0.000      0.000
-#> sort(b)        0.000  0.000     0.000          0.000      0.000
-#> order(b)       0.000  0.001     0.000          0.000      0.000
-#> rank(b)        0.001  0.000     0.000          0.000      0.000
-#> quantile(b)    0.001  0.001     0.001          0.001      0.000
-#> summary(b)     0.000  0.001     0.000          0.000      0.000
-#> factor(b)      0.001  0.001     0.001          0.001      0.000
-#> SESSION        0.012  0.010     0.007          0.006      0.006
+#> cache          0.000  0.000     0.001          0.000       0.00
+#> match(s, b)    0.001  0.000     0.000          0.001       0.00
+#> s %in% b       0.000  0.000     0.000          0.000       0.00
+#> match(b, s)    0.001  0.000     0.000          0.001       0.00
+#> b %in% s       0.000  0.001     0.000          0.000       0.00
+#> match(b, b)    0.001  0.000     0.000          0.000       0.00
+#> b %in% b       0.000  0.001     0.000          0.000       0.00
+#> duplicated(b)  0.001  0.000     0.001          0.000       0.00
+#> unique(b)      0.000  0.000     0.000          0.001       0.00
+#> table(b)       0.003  0.000     0.001          0.000       0.00
+#> sort(b)        0.000  0.000     0.000          0.000       0.00
+#> order(b)       0.001  0.000     0.001          0.000       0.00
+#> rank(b)        0.001  0.000     0.000          0.001       0.00
+#> quantile(b)    0.000  0.001     0.001          0.000       0.00
+#> summary(b)     0.000  0.001     0.001          0.000       0.00
+#> factor(b)      0.002  0.001     0.001          0.002       0.00
+#> SESSION        0.013  0.012     0.005          0.008       0.01
 #>               allcache
 #> cache            0.000
 #> match(s, b)      0.000
@@ -567,43 +567,43 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> quantile(b)      0.000
 #> summary(b)       0.000
 #> factor(b)        0.000
-#> SESSION          0.007
+#> SESSION          0.005
 #> factor              32-bit 64-bit hashcache sortordercache ordercache
-#> cache            NaN    NaN       NaN            NaN        NaN
-#> match(s, b)      NaN    NaN       NaN            NaN        NaN
+#> cache            NaN    NaN       0.0            NaN        NaN
+#> match(s, b)        1    Inf       Inf          1.000        Inf
 #> s %in% b         NaN    NaN       NaN            NaN        NaN
-#> match(b, s)      NaN    NaN     0.000              0        NaN
-#> b %in% s         NaN    NaN       NaN            NaN        NaN
-#> match(b, b)        1    Inf       Inf              1        Inf
-#> b %in% b         NaN    NaN       NaN            NaN        NaN
-#> duplicated(b)    NaN    NaN       NaN            NaN        NaN
-#> unique(b)        NaN    NaN     0.000            NaN        NaN
-#> table(b)           1    2.0       Inf            Inf        Inf
+#> match(b, s)        1    Inf       Inf          1.000        Inf
+#> b %in% s         NaN  0.000       NaN            NaN        NaN
+#> match(b, b)        1    Inf       Inf            Inf        Inf
+#> b %in% b         NaN  0.000       NaN            NaN        NaN
+#> duplicated(b)      1    Inf       1.0            Inf        Inf
+#> unique(b)        NaN    NaN       NaN          0.000        NaN
+#> table(b)           1    Inf       3.0            Inf        Inf
 #> sort(b)          NaN    NaN       NaN            NaN        NaN
-#> order(b)         NaN    0.0       NaN            NaN        NaN
-#> rank(b)            1    Inf       Inf            Inf        Inf
-#> quantile(b)        1    1.0     1.000              1        Inf
-#> summary(b)       NaN    0.0       NaN            NaN        NaN
-#> factor(b)          1    1.0     1.000              1        Inf
-#> SESSION            1    1.2     1.714              2          2
+#> order(b)           1    Inf       1.0            Inf        Inf
+#> rank(b)            1    Inf       Inf          1.000        Inf
+#> quantile(b)      NaN  0.000       0.0            NaN        NaN
+#> summary(b)       NaN  0.000       0.0            NaN        NaN
+#> factor(b)          1  2.000       2.0          1.000        Inf
+#> SESSION            1  1.083       2.6          1.625        1.3
 #>               allcache
 #> cache              NaN
-#> match(s, b)        NaN
+#> match(s, b)        Inf
 #> s %in% b           NaN
-#> match(b, s)        NaN
+#> match(b, s)        Inf
 #> b %in% s           NaN
 #> match(b, b)        Inf
 #> b %in% b           NaN
-#> duplicated(b)      NaN
+#> duplicated(b)      Inf
 #> unique(b)          NaN
 #> table(b)           Inf
 #> sort(b)            NaN
-#> order(b)           NaN
+#> order(b)           Inf
 #> rank(b)            Inf
-#> quantile(b)        Inf
+#> quantile(b)        NaN
 #> summary(b)         NaN
 #> factor(b)          Inf
-#> SESSION          1.714
+#> SESSION            2.6
 #> ordercache cache
 #> ordercache match(s, b)
 #> ordercache s %in% b
@@ -621,23 +621,23 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> ordercache summary(b)
 #> ordercache factor(b)
 #> seconds              32-bit 64-bit hashcache sortordercache ordercache
-#> cache          0.000  0.000     0.000          0.000      0.001
-#> match(s, b)    0.000  0.000     0.000          0.000      0.006
-#> s %in% b       0.000  0.000     0.000          0.000      0.000
-#> match(b, s)    0.000  0.000     0.001          0.001      0.001
-#> b %in% s       0.000  0.000     0.000          0.000      0.000
-#> match(b, b)    0.001  0.000     0.000          0.001      0.000
-#> b %in% b       0.000  0.000     0.000          0.000      0.000
-#> duplicated(b)  0.000  0.000     0.000          0.000      0.000
-#> unique(b)      0.000  0.000     0.001          0.000      0.000
-#> table(b)       0.002  0.001     0.000          0.000      0.000
-#> sort(b)        0.000  0.000     0.000          0.000      0.001
-#> order(b)       0.000  0.001     0.000          0.000      0.000
-#> rank(b)        0.001  0.000     0.000          0.000      0.000
-#> quantile(b)    0.001  0.001     0.001          0.001      0.000
-#> summary(b)     0.000  0.001     0.000          0.000      0.001
-#> factor(b)      0.001  0.001     0.001          0.001      0.001
-#> SESSION        0.012  0.010     0.007          0.006      0.006
+#> cache          0.000  0.000     0.001          0.000      0.002
+#> match(s, b)    0.001  0.000     0.000          0.001      0.001
+#> s %in% b       0.000  0.000     0.000          0.000      0.001
+#> match(b, s)    0.001  0.000     0.000          0.001      0.000
+#> b %in% s       0.000  0.001     0.000          0.000      0.000
+#> match(b, b)    0.001  0.000     0.000          0.000      0.000
+#> b %in% b       0.000  0.001     0.000          0.000      0.000
+#> duplicated(b)  0.001  0.000     0.001          0.000      0.001
+#> unique(b)      0.000  0.000     0.000          0.001      0.000
+#> table(b)       0.003  0.000     0.001          0.000      0.001
+#> sort(b)        0.000  0.000     0.000          0.000      0.000
+#> order(b)       0.001  0.000     0.001          0.000      0.000
+#> rank(b)        0.001  0.000     0.000          0.001      0.000
+#> quantile(b)    0.000  0.001     0.001          0.000      0.001
+#> summary(b)     0.000  0.001     0.001          0.000      0.001
+#> factor(b)      0.002  0.001     0.001          0.002      0.001
+#> SESSION        0.013  0.012     0.005          0.008      0.010
 #>               allcache
 #> cache            0.000
 #> match(s, b)      0.000
@@ -655,43 +655,43 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> quantile(b)      0.000
 #> summary(b)       0.000
 #> factor(b)        0.000
-#> SESSION          0.007
+#> SESSION          0.005
 #> factor              32-bit 64-bit hashcache sortordercache ordercache
-#> cache            NaN    NaN       NaN            NaN          0
-#> match(s, b)      NaN    NaN       NaN            NaN          0
-#> s %in% b         NaN    NaN       NaN            NaN        NaN
-#> match(b, s)      NaN    NaN     0.000              0          0
-#> b %in% s         NaN    NaN       NaN            NaN        NaN
-#> match(b, b)        1    Inf       Inf              1        Inf
-#> b %in% b         NaN    NaN       NaN            NaN        NaN
-#> duplicated(b)    NaN    NaN       NaN            NaN        NaN
-#> unique(b)        NaN    NaN     0.000            NaN        NaN
-#> table(b)           1    2.0       Inf            Inf        Inf
-#> sort(b)          NaN    NaN       NaN            NaN          0
-#> order(b)         NaN    0.0       NaN            NaN        NaN
-#> rank(b)            1    Inf       Inf            Inf        Inf
-#> quantile(b)        1    1.0     1.000              1        Inf
-#> summary(b)       NaN    0.0       NaN            NaN          0
-#> factor(b)          1    1.0     1.000              1          1
-#> SESSION            1    1.2     1.714              2          2
+#> cache            NaN    NaN       0.0            NaN        0.0
+#> match(s, b)        1    Inf       Inf          1.000        1.0
+#> s %in% b         NaN    NaN       NaN            NaN        0.0
+#> match(b, s)        1    Inf       Inf          1.000        Inf
+#> b %in% s         NaN  0.000       NaN            NaN        NaN
+#> match(b, b)        1    Inf       Inf            Inf        Inf
+#> b %in% b         NaN  0.000       NaN            NaN        NaN
+#> duplicated(b)      1    Inf       1.0            Inf        1.0
+#> unique(b)        NaN    NaN       NaN          0.000        NaN
+#> table(b)           1    Inf       3.0            Inf        3.0
+#> sort(b)          NaN    NaN       NaN            NaN        NaN
+#> order(b)           1    Inf       1.0            Inf        Inf
+#> rank(b)            1    Inf       Inf          1.000        Inf
+#> quantile(b)      NaN  0.000       0.0            NaN        0.0
+#> summary(b)       NaN  0.000       0.0            NaN        0.0
+#> factor(b)          1  2.000       2.0          1.000        2.0
+#> SESSION            1  1.083       2.6          1.625        1.3
 #>               allcache
 #> cache              NaN
-#> match(s, b)        NaN
+#> match(s, b)        Inf
 #> s %in% b           NaN
-#> match(b, s)        NaN
+#> match(b, s)        Inf
 #> b %in% s           NaN
 #> match(b, b)        Inf
 #> b %in% b           NaN
-#> duplicated(b)      NaN
+#> duplicated(b)      Inf
 #> unique(b)          NaN
 #> table(b)           Inf
 #> sort(b)            NaN
-#> order(b)           NaN
+#> order(b)           Inf
 #> rank(b)            Inf
-#> quantile(b)        Inf
+#> quantile(b)        NaN
 #> summary(b)         NaN
 #> factor(b)          Inf
-#> SESSION          1.714
+#> SESSION            2.6
 #> allcache cache
 #> allcache match(s, b)
 #> allcache s %in% b
@@ -709,113 +709,113 @@ benchmark64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFir
 #> allcache summary(b)
 #> allcache factor(b)
 #> seconds              32-bit 64-bit hashcache sortordercache ordercache
-#> cache          0.000  0.000     0.000          0.000      0.001
-#> match(s, b)    0.000  0.000     0.000          0.000      0.006
-#> s %in% b       0.000  0.000     0.000          0.000      0.000
-#> match(b, s)    0.000  0.000     0.001          0.001      0.001
-#> b %in% s       0.000  0.000     0.000          0.000      0.000
-#> match(b, b)    0.001  0.000     0.000          0.001      0.000
-#> b %in% b       0.000  0.000     0.000          0.000      0.000
-#> duplicated(b)  0.000  0.000     0.000          0.000      0.000
-#> unique(b)      0.000  0.000     0.001          0.000      0.000
-#> table(b)       0.002  0.001     0.000          0.000      0.000
-#> sort(b)        0.000  0.000     0.000          0.000      0.001
-#> order(b)       0.000  0.001     0.000          0.000      0.000
-#> rank(b)        0.001  0.000     0.000          0.000      0.000
-#> quantile(b)    0.001  0.001     0.001          0.001      0.000
-#> summary(b)     0.000  0.001     0.000          0.000      0.001
-#> factor(b)      0.001  0.001     0.001          0.001      0.001
-#> SESSION        0.012  0.010     0.007          0.006      0.006
+#> cache          0.000  0.000     0.001          0.000      0.002
+#> match(s, b)    0.001  0.000     0.000          0.001      0.001
+#> s %in% b       0.000  0.000     0.000          0.000      0.001
+#> match(b, s)    0.001  0.000     0.000          0.001      0.000
+#> b %in% s       0.000  0.001     0.000          0.000      0.000
+#> match(b, b)    0.001  0.000     0.000          0.000      0.000
+#> b %in% b       0.000  0.001     0.000          0.000      0.000
+#> duplicated(b)  0.001  0.000     0.001          0.000      0.001
+#> unique(b)      0.000  0.000     0.000          0.001      0.000
+#> table(b)       0.003  0.000     0.001          0.000      0.001
+#> sort(b)        0.000  0.000     0.000          0.000      0.000
+#> order(b)       0.001  0.000     0.001          0.000      0.000
+#> rank(b)        0.001  0.000     0.000          0.001      0.000
+#> quantile(b)    0.000  0.001     0.001          0.000      0.001
+#> summary(b)     0.000  0.001     0.001          0.000      0.001
+#> factor(b)      0.002  0.001     0.001          0.002      0.001
+#> SESSION        0.013  0.012     0.005          0.008      0.010
 #>               allcache
 #> cache            0.001
 #> match(s, b)      0.000
 #> s %in% b         0.000
-#> match(b, s)      0.000
+#> match(b, s)      0.001
 #> b %in% s         0.000
 #> match(b, b)      0.000
-#> b %in% b         0.001
+#> b %in% b         0.000
 #> duplicated(b)    0.000
-#> unique(b)        0.000
+#> unique(b)        0.001
 #> table(b)         0.000
-#> sort(b)          0.000
+#> sort(b)          0.001
 #> order(b)         0.000
 #> rank(b)          0.000
 #> quantile(b)      0.000
-#> summary(b)       0.000
+#> summary(b)       0.001
 #> factor(b)        0.001
-#> SESSION          0.007
+#> SESSION          0.005
 #> factor              32-bit 64-bit hashcache sortordercache ordercache
-#> cache            NaN    NaN       NaN            NaN          0
-#> match(s, b)      NaN    NaN       NaN            NaN          0
-#> s %in% b         NaN    NaN       NaN            NaN        NaN
-#> match(b, s)      NaN    NaN     0.000              0          0
-#> b %in% s         NaN    NaN       NaN            NaN        NaN
-#> match(b, b)        1    Inf       Inf              1        Inf
-#> b %in% b         NaN    NaN       NaN            NaN        NaN
-#> duplicated(b)    NaN    NaN       NaN            NaN        NaN
-#> unique(b)        NaN    NaN     0.000            NaN        NaN
-#> table(b)           1    2.0       Inf            Inf        Inf
-#> sort(b)          NaN    NaN       NaN            NaN          0
-#> order(b)         NaN    0.0       NaN            NaN        NaN
-#> rank(b)            1    Inf       Inf            Inf        Inf
-#> quantile(b)        1    1.0     1.000              1        Inf
-#> summary(b)       NaN    0.0       NaN            NaN          0
-#> factor(b)          1    1.0     1.000              1          1
-#> SESSION            1    1.2     1.714              2          2
+#> cache            NaN    NaN       0.0            NaN        0.0
+#> match(s, b)        1    Inf       Inf          1.000        1.0
+#> s %in% b         NaN    NaN       NaN            NaN        0.0
+#> match(b, s)        1    Inf       Inf          1.000        Inf
+#> b %in% s         NaN  0.000       NaN            NaN        NaN
+#> match(b, b)        1    Inf       Inf            Inf        Inf
+#> b %in% b         NaN  0.000       NaN            NaN        NaN
+#> duplicated(b)      1    Inf       1.0            Inf        1.0
+#> unique(b)        NaN    NaN       NaN          0.000        NaN
+#> table(b)           1    Inf       3.0            Inf        3.0
+#> sort(b)          NaN    NaN       NaN            NaN        NaN
+#> order(b)           1    Inf       1.0            Inf        Inf
+#> rank(b)            1    Inf       Inf          1.000        Inf
+#> quantile(b)      NaN  0.000       0.0            NaN        0.0
+#> summary(b)       NaN  0.000       0.0            NaN        0.0
+#> factor(b)          1  2.000       2.0          1.000        2.0
+#> SESSION            1  1.083       2.6          1.625        1.3
 #>               allcache
-#> cache            0.000
-#> match(s, b)        NaN
+#> cache              0.0
+#> match(s, b)        Inf
 #> s %in% b           NaN
-#> match(b, s)        NaN
+#> match(b, s)        1.0
 #> b %in% s           NaN
 #> match(b, b)        Inf
-#> b %in% b         0.000
-#> duplicated(b)      NaN
-#> unique(b)          NaN
+#> b %in% b           NaN
+#> duplicated(b)      Inf
+#> unique(b)          0.0
 #> table(b)           Inf
-#> sort(b)            NaN
-#> order(b)           NaN
+#> sort(b)            0.0
+#> order(b)           Inf
 #> rank(b)            Inf
-#> quantile(b)        Inf
-#> summary(b)         NaN
-#> factor(b)        1.000
-#> SESSION          1.714
+#> quantile(b)        NaN
+#> summary(b)         0.0
+#> factor(b)          2.0
+#> SESSION            2.6
 #>               32-bit 64-bit hashcache sortordercache ordercache
-#> cache          0.000  0.000     0.000          0.000      0.001
-#> match(s, b)    0.000  0.000     0.000          0.000      0.006
-#> s %in% b       0.000  0.000     0.000          0.000      0.000
-#> match(b, s)    0.000  0.000     0.001          0.001      0.001
-#> b %in% s       0.000  0.000     0.000          0.000      0.000
-#> match(b, b)    0.001  0.000     0.000          0.001      0.000
-#> b %in% b       0.000  0.000     0.000          0.000      0.000
-#> duplicated(b)  0.000  0.000     0.000          0.000      0.000
-#> unique(b)      0.000  0.000     0.001          0.000      0.000
-#> table(b)       0.002  0.001     0.000          0.000      0.000
-#> sort(b)        0.000  0.000     0.000          0.000      0.001
-#> order(b)       0.000  0.001     0.000          0.000      0.000
-#> rank(b)        0.001  0.000     0.000          0.000      0.000
-#> quantile(b)    0.001  0.001     0.001          0.001      0.000
-#> summary(b)     0.000  0.001     0.000          0.000      0.001
-#> factor(b)      0.001  0.001     0.001          0.001      0.001
-#> SESSION        0.012  0.010     0.007          0.006      0.006
+#> cache          0.000  0.000     0.001          0.000      0.002
+#> match(s, b)    0.001  0.000     0.000          0.001      0.001
+#> s %in% b       0.000  0.000     0.000          0.000      0.001
+#> match(b, s)    0.001  0.000     0.000          0.001      0.000
+#> b %in% s       0.000  0.001     0.000          0.000      0.000
+#> match(b, b)    0.001  0.000     0.000          0.000      0.000
+#> b %in% b       0.000  0.001     0.000          0.000      0.000
+#> duplicated(b)  0.001  0.000     0.001          0.000      0.001
+#> unique(b)      0.000  0.000     0.000          0.001      0.000
+#> table(b)       0.003  0.000     0.001          0.000      0.001
+#> sort(b)        0.000  0.000     0.000          0.000      0.000
+#> order(b)       0.001  0.000     0.001          0.000      0.000
+#> rank(b)        0.001  0.000     0.000          0.001      0.000
+#> quantile(b)    0.000  0.001     0.001          0.000      0.001
+#> summary(b)     0.000  0.001     0.001          0.000      0.001
+#> factor(b)      0.002  0.001     0.001          0.002      0.001
+#> SESSION        0.013  0.012     0.005          0.008      0.010
 #>               allcache
 #> cache            0.001
 #> match(s, b)      0.000
 #> s %in% b         0.000
-#> match(b, s)      0.000
+#> match(b, s)      0.001
 #> b %in% s         0.000
 #> match(b, b)      0.000
-#> b %in% b         0.001
+#> b %in% b         0.000
 #> duplicated(b)    0.000
-#> unique(b)        0.000
+#> unique(b)        0.001
 #> table(b)         0.000
-#> sort(b)          0.000
+#> sort(b)          0.001
 #> order(b)         0.000
 #> rank(b)          0.000
 #> quantile(b)      0.000
-#> summary(b)       0.000
+#> summary(b)       0.001
 #> factor(b)        0.001
-#> SESSION          0.007
+#> SESSION          0.005
 optimizer64(nsmall=2^7, nbig=2^13, timefun=function(expr)system.time(expr, gcFirst=FALSE)
 , plot=FALSE
 )

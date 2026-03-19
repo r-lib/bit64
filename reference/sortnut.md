@@ -1042,6 +1042,6 @@ fastest algorithm.
 #>     }
 #>     ret
 #> }
-#> <bytecode: 0x55634116a178>
+#> <bytecode: 0x55ae2547ea80>
 #> <environment: namespace:bit64>
 ```

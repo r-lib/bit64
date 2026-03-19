@@ -14,7 +14,7 @@ as.integer64(x, ...)
 as.integer64(x, ..., keep.names = FALSE)
 
 # S3 method for class 'double'
-as.integer64(x, ...)
+as.integer64(x, ..., keep.names = FALSE)
 
 # S3 method for class 'complex'
 as.integer64(x, ...)
