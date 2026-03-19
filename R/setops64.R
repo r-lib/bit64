@@ -31,6 +31,10 @@
 #' @export
 #' @rdname sets
 union = function(x, y) {
+  if ((isS4(x) || isS4(y)) && isGeneric("union")) {
+    s4_intersect = selectMethod("union", list(x=class(x), y=class(y)))
+    return(s4_intersect(x, y))
+  }
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::union(x, y))
   
