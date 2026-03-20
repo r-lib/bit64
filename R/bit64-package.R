@@ -704,7 +704,7 @@
 #'   ramsort ramsortorder repeat.time setattr shellorder shellsort
 #'   shellsortorder still.identical
 #' @importFrom graphics barplot par title
-#' @importFrom methods as is
+#' @importFrom methods as is isGeneric selectMethod
 #' @importFrom stats cor median quantile
 #' @importFrom utils head packageDescription strOptions tail getS3method
 #' @export : %in% is.double match order print.cache rank
