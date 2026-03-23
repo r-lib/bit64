@@ -28,12 +28,22 @@
 #' setequal(x, y)
 #' is.element(x, y)
 #' 
+#' @name sets
 #' @export
 #' @rdname sets
 union = function(x, y) {
+  if ((isS4(x) || isS4(y)) && isGeneric("union"))
+    return(selectMethod("union", c(x=class(x), y=class(y)))(x, y))
   if (!(is.integer64(x) || is.integer64(y)))
-    return(base::union(x, y))
+    return(union.default(x, y))
+  union.integer64(x, y)
+}
+
+#' @exportS3Method union default
+union.default = base::union
   
+#' @exportS3Method union integer64
+union.integer64 = function(x, y) {
   target_class = target_class(list(x, y))
   # try using the benefit of integer64 caching, if possible. I.e. call unique() before as().
   x = unique(x)
@@ -56,13 +66,23 @@ union = function(x, y) {
   unique(c(x, y))
 }
 
+
 #' @export
 #' @rdname sets
 intersect = function(x, y) {
   if (is.null(x) || is.null(y)) return(NULL)
+  if ((isS4(x) || isS4(y)) && isGeneric("intersect"))
+    return(selectMethod("intersect", c(x=class(x), y=class(y)))(x, y))
   if (!(is.integer64(x) || is.integer64(y)))
-    return(base::intersect(x, y))
+    return(intersect.default(x, y))
+  intersect.integer64(x, y)
+}
+
+#' @exportS3Method intersect default
+intersect.default = base::intersect
   
+#' @exportS3Method intersect integer64
+intersect.integer64 = function(x, y) {
   target_class = target_class(list(x, y))
   x = unique(x)
   class_x = class(x)[1L]
@@ -87,9 +107,18 @@ intersect = function(x, y) {
 #' @export
 #' @rdname sets
 setequal = function(x, y) {
+  if ((isS4(x) || isS4(y)) && isGeneric("setequal"))
+    return(selectMethod("setequal", c(x=class(x), y=class(y)))(x, y))
   if (!(is.integer64(x) || is.integer64(y)))
-    return(base::setequal(x, y))
+    return(setequal.default(x, y))
+  setequal.integer64(x, y)
+}
+
+#' @exportS3Method setequal default
+setequal.default = base::setequal
   
+#' @exportS3Method setequal integer64
+setequal.integer64 = function(x, y) {
   x = unique(x)
   y = unique(y)
   length_x = length(x)
@@ -109,9 +138,18 @@ setequal = function(x, y) {
 #' @export
 #' @rdname sets
 setdiff = function(x, y) {
+  if ((isS4(x) || isS4(y)) && isGeneric("setdiff"))
+    return(selectMethod("setdiff", c(x=class(x), y=class(y)))(x, y))
   if (!(is.integer64(x) || is.integer64(y)))
-    return(base::setdiff(x, y))
+    return(setdiff.default(x, y))
+  setdiff.integer64(x, y)
+}
+
+#' @exportS3Method setdiff default
+setdiff.default = base::setdiff
   
+#' @exportS3Method setdiff integer64
+setdiff.integer64 = function(x, y) {
   class_x = class(x)[1L]
   if (class_x %in% c("POSIXct", "Date"))
     x = unclass(x)
@@ -138,9 +176,18 @@ setdiff = function(x, y) {
 #' @export
 #' @rdname sets
 is.element = function(el, set) {
+  if ((isS4(el) || isS4(set)) && isGeneric("is.element"))
+    return(selectMethod("is.element", c(el=class(el), set=class(set)))(el, set))
   if (!(is.integer64(el) || is.integer64(set)))
-    return(base::is.element(el, set))
+    return(is.element.default(el, set))
+  is.element.integer64(el, set)
+}
+
+#' @exportS3Method is.element default
+is.element.default = base::is.element
   
+#' @exportS3Method is.element integer64
+is.element.integer64 = function(el, set) {
   target_class = target_class(list(el, set))
   class_el = class(el)[1L]
   if (class_el != target_class) {

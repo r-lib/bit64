@@ -320,3 +320,63 @@ test_that("is.element works (additional cases)", {
   expect_true(is.element(NA_integer64_, NA))
 
 })
+
+test_that("S3 dispatch happens for classes extending integer64 (#298)", {
+  x = 1:2
+  y = as.integer64(2:3)
+  class(y) = c('foo', 'integer64')
+  expect_identical(intersect(x, y), as.integer64(2L))
+  expect_identical(union(x, y), as.integer64(1:3))
+  expect_identical(setdiff(x, y), 1L)
+})
+
+# This test has to be the last test, because it adds a generic (e.g. intersect), which cannot be removed properly during R CMD CHECK. 
+# If removeGeneric() is called the following test have base::intersect instead of bit64::intersect as 'generic'.
+# This even applies for the two runs per 'method' within the test.
+with_parameters_test_that("S4 and S3 dispatch still happens for classes extending {dataType} (#301)", {
+  x = as(1:2, dataType)
+  y = as.integer64(2:3)
+
+  # S4
+  methods::setClass("TestS4", representation(data=dataType))
+  methods::setGeneric(method)
+  methods::setMethod(
+    method,
+    signature=c("TestS4", "integer64"),
+    function(x, y) "Successfully routed to S4 method A!"
+  )
+  methods::setMethod(
+    method,
+    signature=c("TestS4", "TestS4"),
+    function(x, y) "Successfully routed to S4 method B!"
+  )
+  # Instantiate test objects
+  xS4 = methods::new("TestS4", data=x)
+  fun = get(method)
+  expect_identical(fun(xS4, y), "Successfully routed to S4 method A!")
+  # NB: nanoival class is "complex64" -- it kludges complex to be a pair
+  #   of integer64 vectors, but there is no complex64 class, so it just
+  #   shows up on the inheritance chain as 'complex' --> need to ensure
+  #   S4 gets invoked when possible even if the inputs don't directly test
+  #   as being is("integer64").
+  expect_identical(fun(xS4, xS4), "Successfully routed to S4 method B!")
+
+  # S3
+  yS3 = y
+  class(yS3) = c('foo', 'integer64')
+  actual_result = fun(x, yS3)
+  expected_result = fun(as.integer(x), as.integer(y))
+  if (!(dataType == "integer" && method == "setdiff"))
+    expected_result = as.integer64(expected_result)
+  expect_identical(actual_result, expected_result)
+
+  # cleanup
+  methods::removeMethod(method, signature=c("TestS4", "integer64"))
+  methods::removeMethod(method, signature=c("TestS4", "TestS4"))
+  methods::removeClass("TestS4")
+},
+.cases=expand.grid(
+  dataType=c("integer", "integer64"),
+  method=c("intersect", "union", "setdiff"),
+  stringsAsFactors=FALSE
+))
