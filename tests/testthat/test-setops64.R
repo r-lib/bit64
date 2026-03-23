@@ -330,15 +330,15 @@ test_that("S3 dispatch happens for classes extending integer64 (#298)", {
   expect_identical(setdiff(x, y), 1L)
 })
 
-# This test has to be the last test, because it removes the generics (e.g. intersect) during R CMD CHECK, 
-# such that the following test have base::intersect instead of bit64::intersect as 'generic'.
+# This test has to be the last test, because it adds a generic (e.g. intersect), which cannot be removed properly during R CMD CHECK. 
+# If removeGeneric() is called the following test have base::intersect instead of bit64::intersect as 'generic'.
+# This even applies for the two runs per 'method' within the test.
 with_parameters_test_that("S4 and S3 dispatch still happens for classes extending {dataType} (#301)", {
   x = as(1:2, dataType)
   y = as.integer64(2:3)
 
   # S4
   methods::setClass("TestS4", representation(data=dataType))
-  delete_intersect_generic = !methods::isGeneric(method)
   methods::setGeneric(method)
   methods::setMethod(
     method,
@@ -361,30 +361,22 @@ with_parameters_test_that("S4 and S3 dispatch still happens for classes extendin
   #   as being is("integer64").
   expect_identical(fun(xS4, xS4), "Successfully routed to S4 method B!")
 
-  warning("fun: ", deparse(fun))
-
   # S3
   yS3 = y
   class(yS3) = c('foo', 'integer64')
-  warning("x: ", deparse(x))
-  warning("yS3: ", deparse(yS3))
   actual_result = fun(x, yS3)
   expected_result = fun(as.integer(x), as.integer(y))
   if (!(dataType == "integer" && method == "setdiff"))
     expected_result = as.integer64(expected_result)
-  warning("actual_result: ", deparse(actual_result))
-  warning("expected_result: ", deparse(expected_result))
   expect_identical(actual_result, expected_result)
 
   # cleanup
   methods::removeMethod(method, signature=c("TestS4", "integer64"))
   methods::removeMethod(method, signature=c("TestS4", "TestS4"))
   methods::removeClass("TestS4")
-#  if (delete_intersect_generic) methods::removeGeneric(method)
 },
 .cases=expand.grid(
   dataType=c("integer", "integer64"),
-  # method=c("intersect", "union", "setdiff"),
-  method=c("intersect"),
+  method=c("intersect", "union", "setdiff"),
   stringsAsFactors=FALSE
 ))
