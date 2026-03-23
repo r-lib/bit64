@@ -368,6 +368,8 @@ with_parameters_test_that("S4 and S3 dispatch still happens for classes extendin
   expected_result = fun(as.integer(x), as.integer(y))
   if (!(dataType == "integer" && method == "setdiff"))
     expected_result = as.integer64(expected_result)
+  warning(print(actual_result))
+  warning(print(expected_result))
   expect_identical(actual_result, expected_result)
 
   # cleanup
