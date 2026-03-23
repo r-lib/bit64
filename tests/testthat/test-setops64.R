@@ -321,145 +321,62 @@ test_that("is.element works (additional cases)", {
 
 })
 
-test_that("S4 dispatch still happens for classes extending integer (#301)", {
-  methods::setClass("TestS4", representation(data="integer"))
-
-  delete_intersect_generic = !methods::isGeneric("intersect")
-  suppressMessages(methods::setGeneric("intersect"))
-  delete_union_generic = !methods::isGeneric("union")
-  suppressMessages(methods::setGeneric("union"))
-  delete_setdiff_generic = !methods::isGeneric("setdiff")
-  suppressMessages(methods::setGeneric("setdiff"))
-
-  methods::setMethod(
-    "intersect",
-    signature=c("TestS4", "integer64"),
-    function(x, y) "Successfully routed to S4 method A!"
-  )
-  methods::setMethod(
-    "intersect",
-    signature=c("TestS4", "TestS4"),
-    function(x, y) "Successfully routed to S4 method B!"
-  )
-  methods::setMethod(
-    "union",
-    signature=c("TestS4", "integer64"),
-    function(x, y) "Successfully routed to S4 method A!"
-  )
-  methods::setMethod(
-    "union",
-    signature=c("TestS4", "TestS4"),
-    function(x, y) "Successfully routed to S4 method B!"
-  )
-  methods::setMethod(
-    "setdiff",
-    signature=c("TestS4", "integer64"),
-    function(x, y) "Successfully routed to S4 method A!"
-  )
-  methods::setMethod(
-    "setdiff",
-    signature=c("TestS4", "TestS4"),
-    function(x, y) "Successfully routed to S4 method B!"
-  )
-  withr::defer({
-    methods::removeMethod("setdiff", signature=c("TestS4", "integer64"))
-    methods::removeMethod("union", signature=c("TestS4", "integer64"))
-    methods::removeMethod("intersect", signature=c("TestS4", "integer64"))
-    methods::removeClass("TestS4")
-    if (delete_setdiff_generic) methods::removeGeneric("setdiff")
-    if (delete_union_generic) methods::removeGeneric("union")
-    if (delete_intersect_generic) methods::removeGeneric("intersect")
-  })
-
-  # Instantiate test objects
-  x = methods::new("TestS4", data = 1L)
-  y = as.integer64(2L)
-
-  expect_identical(intersect(x, y), "Successfully routed to S4 method A!")
-  expect_identical(union(x, y), "Successfully routed to S4 method A!")
-  expect_identical(setdiff(x, y), "Successfully routed to S4 method A!")
-  # NB: nanoival class is "complex64" -- it kludges complex to be a pair
-  #   of integer64 vectors, but there is no complex64 class, so it just
-  #   shows up on the inheritance chain as 'complex' --> need to ensure
-  #   S4 gets invoked when possible even if the inputs don't directly test
-  #   as being is("integer64").
-  expect_identical(intersect(x, x), "Successfully routed to S4 method B!")
-  expect_identical(union(x, x), "Successfully routed to S4 method B!")
-  expect_identical(setdiff(x, x), "Successfully routed to S4 method B!")
-})
-
-test_that("S4 dispatch still happens for classes extending integer64 (#301)", {
-  methods::setClass("TestS4", representation(data="integer64"))
-
-  delete_intersect_generic = !methods::isGeneric("intersect")
-  suppressMessages(methods::setGeneric("intersect"))
-  delete_union_generic = !methods::isGeneric("union")
-  suppressMessages(methods::setGeneric("union"))
-  delete_setdiff_generic = !methods::isGeneric("setdiff")
-  suppressMessages(methods::setGeneric("setdiff"))
-
-  methods::setMethod(
-    "intersect",
-    signature=c("TestS4", "integer64"),
-    function(x, y) "Successfully routed to S4 method A!"
-  )
-  methods::setMethod(
-    "intersect",
-    signature=c("TestS4", "TestS4"),
-    function(x, y) "Successfully routed to S4 method B!"
-  )
-  methods::setMethod(
-    "union",
-    signature=c("TestS4", "integer64"),
-    function(x, y) "Successfully routed to S4 method A!"
-  )
-  methods::setMethod(
-    "union",
-    signature=c("TestS4", "TestS4"),
-    function(x, y) "Successfully routed to S4 method B!"
-  )
-  methods::setMethod(
-    "setdiff",
-    signature=c("TestS4", "integer64"),
-    function(x, y) "Successfully routed to S4 method A!"
-  )
-  methods::setMethod(
-    "setdiff",
-    signature=c("TestS4", "TestS4"),
-    function(x, y) "Successfully routed to S4 method B!"
-  )
-  withr::defer({
-    methods::removeMethod("setdiff", signature=c("TestS4", "integer64"))
-    methods::removeMethod("union", signature=c("TestS4", "integer64"))
-    methods::removeMethod("intersect", signature=c("TestS4", "integer64"))
-    methods::removeClass("TestS4")
-    if (delete_setdiff_generic) methods::removeGeneric("setdiff")
-    if (delete_union_generic) methods::removeGeneric("union")
-    if (delete_intersect_generic) methods::removeGeneric("intersect")
-  })
-
-  # Instantiate test objects
-  x = methods::new("TestS4", data = as.integer64(1L))
-  y = as.integer64(2L)
-
-  expect_identical(intersect(x, y), "Successfully routed to S4 method A!")
-  expect_identical(union(x, y), "Successfully routed to S4 method A!")
-  expect_identical(setdiff(x, y), "Successfully routed to S4 method A!")
-  # NB: nanoival class is "complex64" -- it kludges complex to be a pair
-  #   of integer64 vectors, but there is no complex64 class, so it just
-  #   shows up on the inheritance chain as 'complex' --> need to ensure
-  #   S4 gets invoked when possible even if the inputs don't directly test
-  #   as being is("integer64").
-  expect_identical(intersect(x, x), "Successfully routed to S4 method B!")
-  expect_identical(union(x, x), "Successfully routed to S4 method B!")
-  expect_identical(setdiff(x, x), "Successfully routed to S4 method B!")
-})
-
-test_that("S3 dispatch still happens for classes extending integer64 (#298)", {
+test_that("S3 dispatch happens for classes extending integer64 (#298)", {
   x = 1:2
-  y = as.integer64(1L)
+  y = as.integer64(2:3)
   class(y) = c('foo', 'integer64')
-  expect_identical(intersect(x, y), as.integer64(1L))
-  expect_identical(union(x, y), as.integer64(1:2))
-  expect_identical(setdiff(x, y), 2L)
+  expect_identical(intersect(x, y), as.integer64(2L))
+  expect_identical(union(x, y), as.integer64(1:3))
+  expect_identical(setdiff(x, y), 1L)
 })
+
+# This test has to be the last test, because it removes the generics (e.g. intersect) during R CMD CHECK, 
+# such that the following test have base::intersect instead of bit64::intersect as 'generic'.
+with_parameters_test_that("S4 and S3 dispatch still happens for classes extending {dataType} (#301)", {
+  x = as(1:2, dataType)
+  y = as.integer64(2:3)
+
+  # S4
+  methods::setClass("TestS4", representation(data=dataType))
+  delete_intersect_generic = !methods::isGeneric(method)
+  methods::setGeneric(method)
+  methods::setMethod(
+    method,
+    signature=c("TestS4", "integer64"),
+    function(x, y) "Successfully routed to S4 method A!"
+  )
+  methods::setMethod(
+    method,
+    signature=c("TestS4", "TestS4"),
+    function(x, y) "Successfully routed to S4 method B!"
+  )
+  # Instantiate test objects
+  xS4 = methods::new("TestS4", data=x)
+  fun = get(method)
+  expect_identical(fun(xS4, y), "Successfully routed to S4 method A!")
+  # NB: nanoival class is "complex64" -- it kludges complex to be a pair
+  #   of integer64 vectors, but there is no complex64 class, so it just
+  #   shows up on the inheritance chain as 'complex' --> need to ensure
+  #   S4 gets invoked when possible even if the inputs don't directly test
+  #   as being is("integer64").
+  expect_identical(fun(xS4, xS4), "Successfully routed to S4 method B!")
+
+  # S3
+  yS3 = y
+  class(yS3) = c('foo', 'integer64')
+  if (dataType == "integer" && method == "setdiff")
+    expect_identical(fun(x, yS3), fun(as.integer(x), as.integer(y)))
+  else
+    expect_identical(fun(x, yS3), as.integer64(fun(as.integer(x), as.integer(y))))
+
+  # cleanup
+  methods::removeMethod(method, signature=c("TestS4", "integer64"))
+  methods::removeMethod(method, signature=c("TestS4", "TestS4"))
+  methods::removeClass("TestS4")
+  if (delete_intersect_generic) methods::removeGeneric(method)
+},
+.cases=expand.grid(
+  dataType=c("integer", "integer64"),
+  method=c("intersect", "union", "setdiff"),
+  stringsAsFactors=FALSE
+))
