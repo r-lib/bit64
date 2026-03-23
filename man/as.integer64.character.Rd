@@ -29,7 +29,7 @@ as.integer64(x, ...)
 
 \method{as.integer64}{integer64}(x, ..., keep.names = FALSE)
 
-\method{as.integer64}{double}(x, ...)
+\method{as.integer64}{double}(x, ..., keep.names = FALSE)
 
 \method{as.integer64}{complex}(x, ...)
 
