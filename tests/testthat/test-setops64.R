@@ -364,10 +364,11 @@ with_parameters_test_that("S4 and S3 dispatch still happens for classes extendin
   # S3
   yS3 = y
   class(yS3) = c('foo', 'integer64')
-  if (dataType == "integer" && method == "setdiff")
-    expect_identical(fun(x, yS3), fun(as.integer(x), as.integer(y)))
-  else
-    expect_identical(fun(x, yS3), as.integer64(fun(as.integer(x), as.integer(y))))
+  actual_result = fun(x, yS3)
+  expected_result = fun(as.integer(x), as.integer(y))
+  if (!(dataType == "integer" && method == "setdiff"))
+    expected_result = as.integer64(expected_result)
+  expect_identical(actual_result, expected_result)
 
   # cleanup
   methods::removeMethod(method, signature=c("TestS4", "integer64"))
