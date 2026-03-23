@@ -380,7 +380,7 @@ with_parameters_test_that("S4 and S3 dispatch still happens for classes extendin
   methods::removeMethod(method, signature=c("TestS4", "integer64"))
   methods::removeMethod(method, signature=c("TestS4", "TestS4"))
   methods::removeClass("TestS4")
-  if (delete_intersect_generic) methods::removeGeneric(method)
+#  if (delete_intersect_generic) methods::removeGeneric(method)
 },
 .cases=expand.grid(
   dataType=c("integer", "integer64"),
