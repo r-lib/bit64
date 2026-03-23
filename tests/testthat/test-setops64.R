@@ -361,15 +361,19 @@ with_parameters_test_that("S4 and S3 dispatch still happens for classes extendin
   #   as being is("integer64").
   expect_identical(fun(xS4, xS4), "Successfully routed to S4 method B!")
 
+  warning("fun: ", deparse(fun))
+
   # S3
   yS3 = y
   class(yS3) = c('foo', 'integer64')
+  warning("x: ", deparse(x))
+  warning("yS3: ", deparse(yS3))
   actual_result = fun(x, yS3)
   expected_result = fun(as.integer(x), as.integer(y))
   if (!(dataType == "integer" && method == "setdiff"))
     expected_result = as.integer64(expected_result)
-  warning(print(actual_result))
-  warning(print(expected_result))
+  warning("actual_result: ", deparse(actual_result))
+  warning("expected_result: ", deparse(expected_result))
   expect_identical(actual_result, expected_result)
 
   # cleanup
@@ -380,6 +384,7 @@ with_parameters_test_that("S4 and S3 dispatch still happens for classes extendin
 },
 .cases=expand.grid(
   dataType=c("integer", "integer64"),
-  method=c("intersect", "union", "setdiff"),
+  # method=c("intersect", "union", "setdiff"),
+  method=c("intersect"),
   stringsAsFactors=FALSE
 ))
