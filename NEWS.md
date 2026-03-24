@@ -39,6 +39,7 @@
 
 1. `as.integer64.integer64` returns a plain `integer64` vector stripped of any attributes. This is consistent with R like behavior, e.g. `as.integer.integer`.
 1. `%/%` matches base R/Knuth behavior of taking the `floor()` of a result, where before truncation was towards zero. For example, `as.integer64(-10L) %/% as.integer64(7L)` now gives `-2L`, not `-1L`. This is consistent with `-10L %/% 7L` in base R. Consequently, `%%` is also affected, e.g. `as.integer64(-10L) %% as.integer64(7L)` now gives `4L`, not `-3L`, consistent with `-10L %% 7L` in base R.
+1. `^.integer64` with integer or integer64 exponent now calculates the power precisely and returns an overflow warning, if an overflow appears.
 
 ## NEW FEATURES
 
@@ -78,6 +79,7 @@
 1. `[.integer64` now runs faster and correctly regarding `NA` and arrays (#176). Thanks @hcirellu.
 1. `integer64() %in% 1L` no longer warns (#265). Thanks @hcirellu.
 1. `match.integer64(..., method="orderpos")` and `duplicated.integer64(..., method="orderdup")` no longer fail with "object 's' not found" (#58).
+1. `^.integer64` with integer or integer64 exponent now calculates the power precisely and returns an overflow warning, if an overflow appears (#288).
 
 ## NOTES
 
