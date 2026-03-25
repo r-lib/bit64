@@ -70,13 +70,29 @@
         ret = x ^ (long long) y; \
     }
 
-#define BITWSHIFTL(x,y,ret) \
+#define BITWSHIFTL64(x,y,ret) \
     if (x == NA_INTEGER64 || y == NA_INTEGER64 || y < 0 || y > 63) \
         ret = NA_INTEGER64; \
     else { \
         ret = x << y; \
         if (!GOODISHIFTL64(x, y, ret)) \
           ret = NA_INTEGER64; \
+    }
+
+#define BITWSHIFTL(x,y,ret) \
+    if (x == NA_INTEGER64 || y == NA_INTEGER || y < 0 || y > 63) \
+        ret = NA_INTEGER64; \
+    else { \
+        ret = x << y; \
+        if (!GOODISHIFTL64(x, y, ret)) \
+          ret = NA_INTEGER64; \
+    }
+
+#define BITWSHIFTR64(x,y,ret) \
+    if (x == NA_INTEGER64 || y == NA_INTEGER64 || y < 0 || y > 63) \
+        ret = NA_INTEGER64; \
+    else { \
+        ret = (unsigned long long) x >> y; \
     }
 
 #define BITWSHIFTR(x,y,ret) \

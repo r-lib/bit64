@@ -122,7 +122,7 @@ SEXP bitwShiftL_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_){
   long long * y = (long long *) REAL(y_);
   long long * ret = (long long *) REAL(ret_);
   mod_iterate(n1, n2, i1, i2) {
-    BITWSHIFTL(x[i1],y[i2],ret[i])
+    BITWSHIFTL64(x[i1],y[i2],ret[i])
   }
   return ret_;
 }
@@ -148,7 +148,7 @@ SEXP bitwShiftR_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_){
   long long * y = (long long *) REAL(y_);
   long long * ret = (long long *) REAL(ret_);
   mod_iterate(n1, n2, i1, i2) {
-    BITWSHIFTR(x[i1],y[i2],ret[i])
+    BITWSHIFTR64(x[i1],y[i2],ret[i])
   }
   return ret_;
 }
