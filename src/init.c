@@ -4,11 +4,10 @@
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
 
+#include "bitwise64.h"
 #include "hash64.h"
 #include "integer64.h"
 #include "sortuse64.h"
-
-
 
 static const R_CallMethodDef CallEntries[] = {
     {"as_list_integer64",                (DL_FUNC) &as_list_integer64,                1},
@@ -24,6 +23,17 @@ static const R_CallMethodDef CallEntries[] = {
     {"as_integer64_integer",             (DL_FUNC) &as_integer64_integer,             2},
     {"as_integer_integer64",             (DL_FUNC) &as_integer_integer64,             2},
     {"as_logical_integer64",             (DL_FUNC) &as_logical_integer64,             2},
+    {"bitwNot_integer64",                (DL_FUNC) &bitwNot_integer64,                2},
+    {"bitwAnd_integer64_integer64",      (DL_FUNC) &bitwAnd_integer64_integer64,      3},
+    {"bitwAnd_integer64_integer",        (DL_FUNC) &bitwAnd_integer64_integer,        3},
+    {"bitwOr_integer64_integer64",       (DL_FUNC) &bitwOr_integer64_integer64,       3},
+    {"bitwOr_integer64_integer",         (DL_FUNC) &bitwOr_integer64_integer,         3},
+    {"bitwXor_integer64_integer64",      (DL_FUNC) &bitwXor_integer64_integer64,      3},
+    {"bitwXor_integer64_integer",        (DL_FUNC) &bitwXor_integer64_integer,        3},
+    {"bitwShiftL_integer64_integer64",   (DL_FUNC) &bitwShiftL_integer64_integer64,   3},
+    {"bitwShiftL_integer64_integer",     (DL_FUNC) &bitwShiftL_integer64_integer,     3},
+    {"bitwShiftR_integer64_integer64",   (DL_FUNC) &bitwShiftR_integer64_integer64,   3},
+    {"bitwShiftR_integer64_integer",     (DL_FUNC) &bitwShiftR_integer64_integer,     3},
     {"cummax_integer64",                 (DL_FUNC) &cummax_integer64,                 2},
     {"cummin_integer64",                 (DL_FUNC) &cummin_integer64,                 2},
     {"cumprod_integer64",                (DL_FUNC) &cumprod_integer64,                2},

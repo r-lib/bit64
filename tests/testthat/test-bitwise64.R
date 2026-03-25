@@ -1,0 +1,162 @@
+with_parameters_test_that(
+  "bitwNot works with basic R types: ",
+  {
+    if (!is.na(type))
+      eval(parse(text=paste0("x_cast = as.", type, "(x)")))
+    else
+      x_cast = x
+    
+    if (!is.na(type) && type == "integer64")
+      x = as.integer(x)
+    else
+      x = x_cast
+
+    fun = base::bitwNot
+    expected_result_x = tryCatch(fun(x), error=conditionMessage)
+
+    if (!is.na(type) && type == "integer64" && !is.character(expected_result_x)) {
+      expected_result_x = as.integer64(expected_result_x)
+    }
+    fun = bitwNot
+    actual_result_x = tryCatch(fun(x_cast), error=conditionMessage)
+
+    expect_identical(actual_result_x, expected_result_x)
+  },
+  .cases=expand.grid(
+    type=c(
+      NA, "integer64", "double", "logical", "integer", "character", "complex", "factor", "ordered",
+      if (getRversion() > "3.6.0") c("POSIXct", "Date")
+      ),
+    x=I(list(NULL, c(-(50:2), 2:50, seq(-1, 1, 0.25), NA))),
+    stringsAsFactors=FALSE
+  )
+)
+
+with_parameters_test_that(
+  "bitwise function works with basic R types: ",
+  {
+    y32 = -3:3
+    y64 = as.integer64(y32)
+    if (!is.na(type))
+      eval(parse(text=paste0("x_cast = as.", type, "(x)")))
+    else
+      x_cast = x
+    
+    if (!is.na(type) && type == "integer64")
+      x = as.integer(x)
+    else
+      x = x_cast
+
+    fun = get(func, baseenv())
+    expected_result_x_y32 = tryCatch(fun(x, y32), error=conditionMessage)
+    expected_result_y32_x = tryCatch(fun(y32, x), error=conditionMessage)
+    expected_result_x_y64 = tryCatch(as.integer64(fun(x, y32)), error=conditionMessage)
+    expected_result_y64_x = tryCatch(as.integer64(fun(y32, x)), error=conditionMessage)
+    if (!is.na(type) && type == "integer64" && !is.character(expected_result_x_y32)) {
+      expected_result_x_y32 = as.integer64(expected_result_x_y32)
+      expected_result_y32_x = as.integer64(expected_result_y32_x)
+    }
+      
+    fun = get(func)
+    actual_result_x_y32 = tryCatch(fun(x_cast, y32), error=conditionMessage)
+    actual_result_y32_x = tryCatch(fun(y32, x_cast), error=conditionMessage)
+    actual_result_x_y64 = tryCatch(fun(x_cast, y64), error=conditionMessage)
+    actual_result_y64_x = tryCatch(fun(y64, x_cast), error=conditionMessage)
+
+    expect_identical(actual_result_x_y32, expected_result_x_y32)
+    expect_identical(actual_result_y32_x, expected_result_y32_x)
+    expect_identical(actual_result_x_y64, expected_result_x_y64)
+    expect_identical(actual_result_y64_x, expected_result_y64_x)
+  },
+  .cases=expand.grid(
+    func=c("bitwAnd", "bitwOr", "bitwXor"),
+    type=c(
+      NA, "integer64", "double", "logical", "integer", "character", "complex", "factor", "ordered",
+      if (getRversion() > "3.6.0") c("POSIXct", "Date")
+      ),
+    x=I(list(NULL, c(-(50:2), 2:50, seq(-1, 1, 0.25), NA))),
+    stringsAsFactors=FALSE
+  )
+)
+
+my_if_else = function(test, yes, no) {
+  if (class(yes)[1L] != class(no)[1L])
+    stop("'yes' and 'no' must have the same type")
+  l = max(length(test), length(yes), length(no))
+  ret = rep_len(no, l)
+  test = rep_len(as.logical(test), l)
+  ret[test] = rep_len(yes, l)[test]
+  ret
+}
+
+with_parameters_test_that(
+  "bitwise shift function works with basic R types: ",
+  {
+    y32 = -3:3
+    y64 = as.integer64(y32)
+    if (!is.na(type))
+      eval(parse(text=paste0("x_cast = as.", type, "(x)")))
+    else
+      x_cast = x
+    
+    if (!is.na(type) && type == "integer64")
+      x = as.integer(x)
+    else
+      x = x_cast
+
+    fun = get(func, baseenv())
+    expected_result_x_y32 = tryCatch(fun(x, y32), error=conditionMessage)
+    expected_result_y32_x = tryCatch(fun(y32, x), error=conditionMessage)
+    expected_result_x_y64 = tryCatch(fun(x, y32), error=conditionMessage)
+    expected_result_y64_x = tryCatch(as.integer64(fun(y32, x)), error=conditionMessage)
+    if (!is.na(type) && type == "integer64" && !is.character(expected_result_x_y32)) {
+      expected_result_x_y32 = as.integer64(expected_result_x_y32)
+      expected_result_x_y64 = as.integer64(expected_result_x_y64)
+    }
+    # because of the way bitwShiftR is defined, it shifts based on unsigned integers
+    # if (func == "bitwShiftR" && (is.numeric(x) || is.logical(x))) {
+    if (func == "bitwShiftR" && !is.null(x)) {
+      shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - y32)
+      if(is.integer64(expected_result_x_y32) && length(expected_result_x_y32))
+        expected_result_x_y32 = expected_result_x_y32 + my_if_else(!is.na(x) & x < 0L & y32 != 0L, shiftOffset, as.integer64(0L))
+      if(is.integer64(expected_result_x_y64) && length(expected_result_x_y64))
+        expected_result_x_y64 = expected_result_x_y64 + my_if_else(!is.na(x) & x < 0L & y32 != 0L, shiftOffset, as.integer64(0L))
+        
+      shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - as.integer(x))
+      if(is.integer64(expected_result_y32_x) && length(expected_result_y32_x))
+        expected_result_y32_x = expected_result_y32_x + my_if_else(y32 < 0L & as.integer(x) != 0L, shiftOffset, as.integer64(0L))
+      if(is.integer64(expected_result_y64_x) && length(expected_result_y64_x))
+        expected_result_y64_x = expected_result_y64_x + my_if_else(y32 < 0L & as.integer(x) != 0L, shiftOffset, as.integer64(0L))
+    }
+      
+    fun = get(func)
+    actual_result_x_y32 = tryCatch(fun(x_cast, y32), error=conditionMessage)
+    actual_result_y32_x = tryCatch(fun(y32, x_cast), error=conditionMessage)
+    actual_result_x_y64 = tryCatch(fun(x_cast, y64), error=conditionMessage)
+    actual_result_y64_x = tryCatch(fun(y64, x_cast), error=conditionMessage)
+
+    expect_identical(actual_result_x_y32, expected_result_x_y32)
+    expect_identical(actual_result_y32_x, expected_result_y32_x)
+    expect_identical(actual_result_x_y64, expected_result_x_y64)
+    expect_identical(actual_result_y64_x, expected_result_y64_x)
+  },
+  .cases=expand.grid(
+    func=c("bitwShiftL", "bitwShiftR"),
+    type=c(
+      NA, "integer64", "double", "logical", "integer", "character", "complex", "factor", "ordered",
+      if (getRversion() > "3.6.0") c("POSIXct", "Date")
+      ),
+    x=I(list(NULL, c(-(10:2), 2:10, seq(-1, 1, 0.25), NA))),
+    stringsAsFactors=FALSE
+  )
+)
+
+test_that("bitwise functions work in integer64 range", {
+  expect_identical(bitwShiftL(as.integer64(1L), 62L), as.integer64(2L)^62L)
+  expect_identical(bitwShiftL(as.integer64(-1L), 62L), -as.integer64(2L)^62L)
+  expect_identical(bitwShiftL(as.integer64(1L), 63:70), rep(NA_integer64_, 8))
+  expect_identical(bitwShiftL(as.integer64(-1L), 63:70), rep(NA_integer64_, 8))
+
+  expect_identical(bitwShiftR(as.integer64(1L), 63:70), rep(as.integer64(0L), 8))
+  expect_identical(bitwShiftR(as.integer64(-1L), 63:70), c(as.integer64(1L), rep(NA_integer64_, 7)))
+})
