@@ -114,7 +114,6 @@ with_parameters_test_that(
       expected_result_x_y64 = as.integer64(expected_result_x_y64)
     }
     # because of the way bitwShiftR is defined, it shifts based on unsigned integers
-    # if (func == "bitwShiftR" && (is.numeric(x) || is.logical(x))) {
     if (func == "bitwShiftR" && !is.null(x)) {
       shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - y32)
       if(is.integer64(expected_result_x_y32) && length(expected_result_x_y32))
