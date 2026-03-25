@@ -135,11 +135,6 @@ bitwShiftL = function(a, n) {
   if (!is.integer64(a))
     return(base::bitwShiftL(a, as.integer(n)))
   
-  # if (!is.numeric(n) || is.factor(n) || inherits(n, "POSIXct") || inherits(n, "Date"))
-  #   n = as.integer(n)
-  # if (!is.numeric(a))
-  #   stop("'a' and 'b' must have the same type", domain="R")
-  
   l1 = length(a)
   l2 = length(n)
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
@@ -159,11 +154,6 @@ bitwShiftR = function(a, n) {
     return(base::bitwShiftR(a, n))
   if (!is.integer64(a))
     return(base::bitwShiftR(a, as.integer(n)))
-  
-  # if (!is.numeric(n) || is.factor(n) || inherits(n, "POSIXct") || inherits(n, "Date"))
-  #   n = as.integer(n)
-  # if (!is.numeric(a))
-  #   stop("'a' and 'b' must have the same type", domain="R")
   
   l1 = length(a)
   l2 = length(n)
