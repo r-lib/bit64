@@ -1263,6 +1263,15 @@ test_that("c works consistent to R", {
   })
 })
 
+test_that("c works on extended integer64 objects (#298)", {
+  x = y = as.integer64(1L)
+  class(x) = c('foo', 'integer64')
+  expect_identical(c(x, y), as.integer64(c(1L, 1L)))
+  expect_identical(c(a=x, b=y), setNames(as.integer64(c(1L, 1L)), c("a", "b")))
+  expect_identical(cbind(x, y), matrix64(c(1L, 1L), nrow=1L, ncol=2L, dimnames=list(NULL, c("x", "y"))))
+  expect_identical(rbind(x, y), matrix64(c(1L, 1L), nrow=2L, ncol=1L, dimnames=list(c("x", "y"), NULL)))
+})
+
 replace_dimnames = function(x, old, new) {
   if (!is.null(dn <- dimnames(x))) 
     dimnames(x) = lapply(dn, function(el) {el[el == old] = new; el})
@@ -1538,3 +1547,29 @@ with_parameters_test_that("rbind deparse.level works consistent to R", {
   expect_identical(rbind(a=x, x, x + 1L, deparse.level=deparse.level), expected_result)
   expect_identical(FUN(a=x, x, x + 1L, deparse.level=deparse.level), expected_result)
 }, deparse.level = -1:3)
+
+test_that("seq.integer64 works with S4 subclasses inheriting from integer64", {
+  # Use a unique class name to avoid conflicts
+  className <- "test64_seq_regression"
+  if (!methods::isClass(className)) {
+    methods::setClass(className, contains = "integer64")
+    withr::defer(methods::removeClass(className))
+  }
+
+  from <- as.integer64(1L)
+  to <- as.integer64(10L)
+  by <- methods::new(className, as.integer64(2))
+
+  expect_identical(seq(from=from, to=to, by=by), as.integer64(c(1L, 3L, 5L, 7L, 9L)))
+  expect_identical(seq(to=to, by=by, length.out=5L), as.integer64(c(2L, 4L, 6L, 8L, 10L)))
+  expect_identical(seq(from=from, by=by, length.out=5L), as.integer64(c(1L, 3L, 5L, 7L, 9L)))
+})
+
+test_that("back-compatible keep.names=TRUE is supported for limited input classes", {
+  x = as.integer64(1L)
+  names(x) = "a"
+  expect_named(as.integer64(x, keep.names=TRUE), "a")
+
+  y = c(a = 1.0)
+  expect_named(as.integer64(y, keep.names=TRUE), "a")
+})

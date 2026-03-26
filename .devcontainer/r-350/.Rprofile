@@ -65,6 +65,8 @@ expect_false = function(x) expect_identical(x, FALSE)
 
 expect_setequal = function(x, y) expect_true(setequal(x, y))
 
+expect_named = function(x, y) expect_identical(names(x), y)
+
 expect_warning <- function(object, regexp = NULL, ...) {
   warnings <- character()
   e <- environment()
@@ -217,6 +219,8 @@ local_seed <- function(seed) {
   do.call(on.exit, list(cleanup, add = TRUE), envir = parent.frame())
   invisible()
 }
+
+defer <- on.exit
 
 })
 

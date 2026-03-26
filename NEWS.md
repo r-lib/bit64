@@ -10,6 +10,8 @@
 
 1. When integer64 and character are combined, the result will be character. This prevents loss of information, e.g. in `c(as.integer64(1L), "a")` and `c(as.integer64(1L), "999999999999999999999999")`. To try this in advance for `c.integer64`, `cbind.integer64`, `rbind.integer64`, `[.integer64<-`, `[[.integer64<-`, `union`, `intersect`, `setdiff`, `setdiff` and `is.element` one can set the option `bit64.promoteInteger64ToCharacter=TRUE`.
 
+1. Some `as.integer64()` methods, e.g. `"double"`, allowed `keep.names=TRUE` to have `names(as.integer64(x)) == names(x)`. This is inconsistent with other vector coercions like `as.integer()`, `as.double()`, `as.character()`, ... which strip names. Therefore, starting from the next release, it will be a warning to use this argument; users should just add code to retain the names.
+
 ## BREAKING CHANGES
 
 1. {bit64} no longer `Depends` on {bit}; instead it `Imports` it. Please file an issue if this

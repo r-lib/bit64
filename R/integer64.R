@@ -550,19 +550,23 @@ is.integer64 = function(x) inherits(x, "integer64")
 as.integer64.NULL = function(x, ...) integer64()
 
 #' @rdname as.integer64.character
+#' @param keep.names Logical, default `FALSE`. If `TRUE`, the input's names are retained.
 #' @export
-as.integer64.integer64 = function(x, ...) {
+as.integer64.integer64 = function(x, ..., keep.names=FALSE) {
   ret = unclass(x)
   attributes(ret) = NULL
   oldClass(ret) = "integer64"
+  # for back-compatibility, e.g. {nanotime}
+  if (isTRUE(keep.names)) names(ret) = names(x)
   ret
 }
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.double = function(x, ...) {
+as.integer64.double = function(x, ..., keep.names=FALSE) {
   ret = .Call(C_as_integer64_double, x, double(length(x)))
   oldClass(ret) = "integer64"
+  if (isTRUE(keep.names)) names(ret) = names(x)
   ret
 }
 
@@ -1064,11 +1068,14 @@ c.integer64 = function(..., recursive=FALSE) {
     val = dots[[idx]]
     if (inherits(val, "POSIXlt")) {
       val = lapply(unclass(val), as, value_class)
+    } else if (value_class == "integer64") {
+      # NB: as(, "integer64") may not work, #298
+      val = as.integer64(val)
+      oldClass(val) = NULL
     } else {
       val = as(val, value_class)
-      if (value_class == "integer64")
-        oldClass(val) = NULL
     }
+    names(val) = names(dots[[idx]])
     dots[[idx]] = val
   }
 
@@ -1114,9 +1121,13 @@ cbind.integer64 = function(..., deparse.level=1) {
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
     val = dots[[idx]]
-    val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
-    if (value_class == "integer64")
+    # NB: as(, "integer64") may not work, #298
+    if (value_class == "integer64") {
+      val = structure(as.integer64(val), dim=dim(val), dimnames=dimnames(val), names=names(val))
       oldClass(val) = NULL
+    }else {
+      val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
+    }
     dots[[idx]] = val
   }
   ret = withCallingHandlers_and_choose_call(
@@ -1188,9 +1199,13 @@ rbind.integer64 = function(..., deparse.level=1) {
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
     val = dots[[idx]]
-    val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
-    if (value_class == "integer64")
+    # NB: as(, "integer64") may not work, #298
+    if (value_class == "integer64") {
+      val = structure(as.integer64(val), dim=dim(val), dimnames=dimnames(val), names=names(val))
       oldClass(val) = NULL
+    } else {
+      val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
+    }
     dots[[idx]] = val
   }
   ret = withCallingHandlers_and_choose_call(
@@ -1340,8 +1355,8 @@ seq.integer64 = function(from=NULL, to=NULL, by=NULL, length.out=NULL, along.wit
   if (!is.null(length.out) && is.double(length.out))
     length.out = ceiling(length.out)
 
-  if (!is.null(by) && !is.integer64(by))
-    by = as.integer64(by)
+  if (!is.null(by))
+    by = as.integer64(by) # always coerce, e.g. for nanotime classes, #297
 
   if (is.null(from)) {
     from = to - (length.out - 1L) * by
