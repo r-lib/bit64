@@ -94,6 +94,8 @@ my_if_else = function(test, yes, no, na=no) {
   } else {
     ret[test] = rep_len(yes, l)[test]
   }
+  # rep_len is loosing oldClass on ancient
+  oldClass(ret) = oldClass(yes)
   ret
 }
 
