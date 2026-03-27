@@ -15,11 +15,23 @@ if (getRversion() < "3.6.0") {
     class(obj) = c(class, "error", "condition")
     obj
   }
-  
+
   warningCondition = function(message, ..., class = NULL, call = NULL) {
     obj <- list(message = as.character(message), call = call, ...)
     class(obj) = c(class, "warning", "condition")
     obj
+  }
+}
+
+.onLoad = function(libname, pkgname) {
+  # TODO(R >= 4.6.0): remove this.
+  if (!utils::isS3method("print.bitstring")) {
+    registerS3method("print", "bitstring", function(x, ...) {
+      reset_class = minusclass(class(x), 'bitstring')
+      attributes(x) = NULL
+      oldClass(x) = reset_class
+      NextMethod(x)
+    })
   }
 }
 
