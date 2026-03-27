@@ -82,7 +82,8 @@
 ## NOTES
 
 1. {bit64} no longer prints any start-up messages through an `.onAttach()` hook (#106). Thanks @hadley for the request.
-2. The R version dependency has been bumped from 3.4.0 (2017) to 3.5.0 (2018).
+1. The R version dependency has been bumped from 3.4.0 (2017) to 3.5.0 (2018).
+1. From R 4.6.0, R's {utils} package has its own 'bitstring' class which is basically compatible with that shipped by {bit64} for many years. `as.bitstring()` only makes a simple adjustment, namely, for `as.bitstring()` to add two new attributes (`nbits` and `type`). Everything else should continue to work as before.
 
 ## BUG FIXES
 

@@ -695,6 +695,8 @@ as.character.integer64 = function(x, ...)
 as.bitstring.integer64 = function(x, ...) {
   ret = .Call(C_as_bitstring_integer64, x, rep(NA_character_, length(x)))
   oldClass(ret) = 'bitstring'
+  attr(ret, 'nbits') = c(1L, 63L)
+  attr(ret, 'type') = "int64"
   ret
 }
 
@@ -779,13 +781,6 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
 #' @rdname factor
 #' @export
 ordered = function(x=character(), ...) factor(x, ..., ordered=TRUE)
-
-#' @rdname as.character.integer64
-#' @export
-print.bitstring = function(x, ...) {
-  oldClass(x) = minusclass(class(x), 'bitstring')
-  NextMethod(x)
-}
 
 #' @rdname as.integer64.character
 #' @export
