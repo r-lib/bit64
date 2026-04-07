@@ -553,12 +553,20 @@ as.integer64.NULL = function(x, ...) integer64()
 #' @param keep.names Logical, default `FALSE`. If `TRUE`, the input's names are retained.
 #' @export
 as.integer64.integer64 = function(x, ..., keep.names=FALSE) {
-  ret = unclass(x)
-  attributes(ret) = NULL
-  oldClass(ret) = "integer64"
-  # for back-compatibility, e.g. {nanotime}
-  if (isTRUE(keep.names)) names(ret) = names(x)
-  ret
+  if (isS4(x) || length(class(x)) != 1L || class(x)[1L] != "integer64") {
+    x = unclass(x)
+    oldClass(x) = "integer64"
+  }
+  # keep the valid cache if it exists (attr and attributes copy the object)
+  the_cache = cache(x)
+  # keep names for back-compatibility, e.g. {nanotime}
+  # remove all attributes except for 'class', 'cache' and 'names' (if keep.names), to avoid copying of x in case of existing attributes that should be kept
+  for (n in setdiff(names(attributes(x)), c("class", "cache", if (isTRUE(keep.names)) "names")))
+    attr(x, n) = NULL
+  if (!is.null(the_cache))
+    # keep the cache valid
+    assign("x", x, envir = the_cache)
+  x
 }
 
 #' @rdname as.integer64.character

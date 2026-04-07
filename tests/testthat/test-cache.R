@@ -32,3 +32,9 @@ test_that("na-last works", {
   remcache(x_64)
 })
 
+test_that("cache is preserved when converting to integer64", {
+  x = as.integer64(1:3)
+  sortcache(x, na.last=FALSE)
+  x_converted = as.integer64(x)
+  expect_equal(cache(x_converted), cache(x))
+})
