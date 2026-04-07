@@ -126,6 +126,8 @@ sortfin.integer64 = function(sorted, x, method=NULL, ...) {
     )
   } else {
     sx = clone(as.integer64(x))
+    # clone invalidates the cache, so we can remove it to avoid warning messages
+    remcache(sx)
     o = seq_along(x)
     ramsortorder(sx, o, na.last=FALSE, ...)
     ret = logical(n)
@@ -258,6 +260,8 @@ sortorderpos.integer64 = function(sorted, order, x, nomatch=NA, method=NULL, ...
       )
   } else {
     sx = clone(as.integer64(x))
+    # clone invalidates the cache, so we can remove it to avoid warning messages
+    remcache(sx)
     o = seq_along(x)
     ramsortorder(sx, o, na.last=FALSE, ...)
     ret = integer(n)

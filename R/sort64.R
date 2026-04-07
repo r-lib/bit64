@@ -483,6 +483,8 @@ sort.integer64 <- function(x,
     if (identical(cache_env$na.count, 0L))
       has.na <- FALSE
     s <- clone(x)
+    # clone invalidates the cache, so we can remove it to avoid warning messages
+    remcache(s)
     na.count <- ramsort(
         s
     , has.na=has.na
@@ -553,6 +555,8 @@ order.integer64 <- function(...,
     o <- seq_along(x)
     if (optimize == "time") {
         s <- clone(x)
+        # clone invalidates the cache, so we can remove it to avoid warning messages
+        remcache(s)
         na.count <- ramsortorder(s, o
         , has.na=has.na
         , na.last=do.na.last

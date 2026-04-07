@@ -1573,3 +1573,22 @@ test_that("back-compatible keep.names=TRUE is supported for limited input classe
   y = c(a = 1.0)
   expect_named(as.integer64(y, keep.names=TRUE), "a")
 })
+
+test_that("as.integer64 does not copy integer64 object if not necessary", {
+  x = as.integer64(1:3)
+  tm_x = tracemem(x)
+  y = as.integer64(x)
+  tm_y = tracemem(y)
+  expect_identical(tm_x, tm_y)
+  untracemem(x)
+  untracemem(y)
+
+  x = as.integer64(1:3)
+  names(x) = letters[seq_along(x)]
+  tm_x = tracemem(x)
+  y = as.integer64(x, keep.names=TRUE)
+  tm_y = tracemem(y)
+  expect_identical(tm_x, tm_y)
+  untracemem(x)
+  untracemem(y)
+})

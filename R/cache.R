@@ -207,6 +207,8 @@ sortcache = function(x, has.na=NULL, na.last=FALSE) {
       has.na = na.count > 0L
   }
   s = clone(x)
+  # clone invalidates the cache, so we can remove it to avoid warning messages
+  remcache(s)
   na.count = ramsort(s, has.na=has.na, na.last=na.last, decreasing=FALSE, stable=FALSE, optimize="time")
   nut = .Call(C_r_ram_integer64_sortnut, x=s)
   setcache(x, "sort", s)
@@ -236,6 +238,8 @@ sortordercache = function(x, has.na=NULL, stable=NULL, na.last=FALSE) {
       stable = nunique < length(x)
   }
   s = clone(x)
+  # clone invalidates the cache, so we can remove it to avoid warning messages
+  remcache(s)
   o = seq_along(x)
   na.count = ramsortorder(s, o, has.na=has.na, na.last=na.last, decreasing=FALSE, stable=stable, optimize="time")
   nut = .Call(C_r_ram_integer64_sortnut, x=s)
@@ -381,6 +385,8 @@ nties.integer64 = function(x, ...) {
       cv = .Call(C_r_ram_integer64_sortnut, x=x)[2L]
     } else {
       s = clone(x)
+      # clone invalidates the cache, so we can remove it to avoid warning messages
+      remcache(s)
       # nolint next: object_usage_linter. Keep the output of in-place ramsort for debugging.
       na.count = ramsort(s, has.na=TRUE, na.last=FALSE, decreasing=FALSE, stable=FALSE, optimize="time")
       cv = .Call(C_r_ram_integer64_sortnut, x=s)[[2L]]
