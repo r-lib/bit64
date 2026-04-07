@@ -1579,7 +1579,7 @@ test_that("as.integer64 does not copy integer64 object if not necessary", {
   tm_x = tracemem(x)
   y = as.integer64(x)
   tm_y = tracemem(y)
-  expect_equal(tm_x, tm_y)
+  expect_identical(tm_x, tm_y)
   untracemem(x)
   untracemem(y)
 
@@ -1588,7 +1588,7 @@ test_that("as.integer64 does not copy integer64 object if not necessary", {
   tm_x = tracemem(x)
   y = as.integer64(x, keep.names=TRUE)
   tm_y = tracemem(y)
-  expect_equal(tm_x, tm_y)
+  expect_identical(tm_x, tm_y)
   untracemem(x)
   untracemem(y)
 })
