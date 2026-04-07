@@ -550,9 +550,8 @@ is.integer64 = function(x) inherits(x, "integer64")
 as.integer64.NULL = function(x, ...) integer64()
 
 #' @rdname as.integer64.character
-#' @param keep.names Logical, default `FALSE`. If `TRUE`, the input's names are retained.
 #' @export
-as.integer64.integer64 = function(x, ..., keep.names=FALSE) {
+as.integer64.integer64 = function(x, ...) {
   if (isS4(x) || length(class(x)) != 1L || class(x)[1L] != "integer64") {
     x = unclass(x)
     oldClass(x) = "integer64"
@@ -561,7 +560,7 @@ as.integer64.integer64 = function(x, ..., keep.names=FALSE) {
   the_cache = cache(x)
   # keep names for back-compatibility, e.g. {nanotime}
   # remove all attributes except for 'class', 'cache' and 'names' (if keep.names), to avoid copying of x in case of existing attributes that should be kept
-  for (n in setdiff(names(attributes(x)), c("class", "cache", if (isTRUE(keep.names)) "names")))
+  for (n in setdiff(names(attributes(x)), c("class", "cache", if (isTRUE(list(...)$keep.names)) "names")))
     attr(x, n) = NULL
   if (!is.null(the_cache))
     # keep the cache valid
@@ -571,10 +570,11 @@ as.integer64.integer64 = function(x, ..., keep.names=FALSE) {
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.double = function(x, ..., keep.names=FALSE) {
+as.integer64.double = function(x, ...) {
   ret = .Call(C_as_integer64_double, x, double(length(x)))
   oldClass(ret) = "integer64"
-  if (isTRUE(keep.names)) names(ret) = names(x)
+  if (isTRUE(list(...)$keep.names))
+    names(ret) = names(x)
   ret
 }
 
@@ -591,6 +591,8 @@ as.integer64.complex = function(x, ...) {
   )
   ret = .Call(C_as_integer64_double, xd, double(length(xd)))
   oldClass(ret) = "integer64"
+  if (isTRUE(list(...)$keep.names))
+    names(ret) = names(x)
   ret
 }
 
@@ -599,6 +601,8 @@ as.integer64.complex = function(x, ...) {
 as.integer64.integer = function(x, ...) {
   ret = .Call(C_as_integer64_integer, x, double(length(x)))
   oldClass(ret) = "integer64"
+  if (isTRUE(list(...)$keep.names))
+    names(ret) = names(x)
   ret
 }
 
@@ -607,6 +611,8 @@ as.integer64.integer = function(x, ...) {
 as.integer64.raw = function(x, ...) {
   ret = .Call(C_as_integer64_integer, as.integer(x), double(length(x)))
   oldClass(ret) = "integer64"
+  if (isTRUE(list(...)$keep.names))
+    names(ret) = names(x)
   ret
 }
 
@@ -619,6 +625,8 @@ as.integer64.logical = as.integer64.integer
 as.integer64.character = function(x, ...) {
   ret = .Call(C_as_integer64_character, x, rep(NA_real_, length(x)))
   oldClass(ret) = "integer64"
+  if (isTRUE(list(...)$keep.names))
+    names(ret) = names(x)
   ret
 }
 
