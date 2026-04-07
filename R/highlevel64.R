@@ -471,6 +471,7 @@ optimizer64 = function(nsmall=2L^16L,
 
       tim["sortorderpos", "prep"] = system.time({
         s2 = clone(x2)
+        remcache(s2)
         o2 = seq_along(x2)
         ramsortorder(s2, o2, na.last=FALSE)
       })[3L]
@@ -568,6 +569,7 @@ optimizer64 = function(nsmall=2L^16L,
 
       tim["sortfin", "prep"] = timefun({
         s2 = clone(x2)
+        remcache(s2)
         ramsort(s2, na.last=FALSE)
       })[3L]
       tim["sortfin", "use"] = timefun({
@@ -646,6 +648,7 @@ optimizer64 = function(nsmall=2L^16L,
 
       tim["sortorderdup1", "prep"] = timefun({
         s = clone(x)
+        remcache(s)
         o = seq_along(x)
         ramsortorder(s, o, na.last=FALSE)
         nunique = sortnut(s)[1L]
@@ -757,6 +760,7 @@ optimizer64 = function(nsmall=2L^16L,
 
       tim["sortuni", "prep"] = timefun({
         s = clone(x)
+        remcache(s)
         ramsort(s, na.last=FALSE)
         nunique = sortnut(s)[1L]
       })[3L]
@@ -768,6 +772,7 @@ optimizer64 = function(nsmall=2L^16L,
 
       tim["sortunikeep", "prep"] = timefun({
         s = clone(x)
+        remcache(s)
         o = seq_along(x)
         ramsortorder(s, o, na.last=FALSE)
         nunique = sortnut(s)[1L]
@@ -898,6 +903,7 @@ optimizer64 = function(nsmall=2L^16L,
 
       tim["sortorderupo", "prep"] = timefun({
         s = clone(x)
+        remcache(s)
         o = seq_along(x)
         ramsortorder(s, o, na.last=FALSE)
         nunique = sortnut(s)[1L]
@@ -910,6 +916,7 @@ optimizer64 = function(nsmall=2L^16L,
 
       tim["sortorderupokeep", "prep"] = timefun({
         s = clone(x)
+        remcache(s)
         o = seq_along(x)
         ramsortorder(s, o, na.last=FALSE)
         nunique = sortnut(s)[1L]
@@ -1043,6 +1050,7 @@ optimizer64 = function(nsmall=2L^16L,
 
       tim["sorttab", "prep"] = timefun({
         s = clone(x)
+        remcache(s)
         ramsort(s, na.last=FALSE)
         nunique = sortnut(s)[1L]
       })[3L]
@@ -1053,6 +1061,7 @@ optimizer64 = function(nsmall=2L^16L,
 
       tim["sortordertab", "prep"] = timefun({
         s = clone(x)
+        remcache(s)
         o = seq_along(x)
         ramsortorder(s, o, na.last=FALSE)
         nunique = sortnut(s)[1L]
@@ -1137,6 +1146,7 @@ optimizer64 = function(nsmall=2L^16L,
 
       tim["sortorderrnk", "prep"] = timefun({
         s = clone(x)
+        remcache(s)
         o = seq_along(x)
         na.count = ramsortorder(s, o, na.last=FALSE)
       })[3L]
@@ -1204,6 +1214,7 @@ optimizer64 = function(nsmall=2L^16L,
 
       tim["sortqtl", "prep"] = timefun({
         s = clone(x)
+        remcache(s)
         na.count = ramsort(s, na.last=FALSE)
       })[3L]
       tim["sortqtl", "use"] = timefun({
@@ -1490,6 +1501,8 @@ match.integer64 = function(x, table, nomatch = NA_integer_, nunique=NULL, method
     sortorderpos={
       if (is.null(cache_env) || !exists("sort", cache_env) || !exists("order", cache_env)) {
         s <- clone(table)
+        # clone invalidates the cache, so we can remove it to avoid warning messages
+        remcache(s)
         o <- seq_along(s)
         ramsortorder(s, o, na.last=FALSE)
       } else {
@@ -1588,6 +1601,8 @@ match.integer64 = function(x, table, nomatch = NA_integer_, nunique=NULL, method
     sortfin={
       if (is.null(cache_env) || !exists("sort", cache_env)) {
         s = clone(table)
+        # clone invalidates the cache, so we can remove it to avoid warning messages
+        remcache(s)
         ramsort(s, na.last=FALSE)
       } else {
         s = get("sort", cache_env)
@@ -1675,6 +1690,8 @@ duplicated.integer64 = function(x, incomparables = FALSE, nunique = NULL, method
     sortorderdup={
       if (is.null(cache_env) || is.null(cache_env$sort) || is.null(cache_env$order)) {
         s <- clone(x)
+        # clone invalidates the cache, so we can remove it to avoid warning messages
+        remcache(s)
         o <- seq_along(s)
         ramsortorder(s, o, na.last=FALSE)
       } else {
@@ -1821,6 +1838,8 @@ unique.integer64 = function(x,
     sortuni={
       if (is.null(cache_env) || is.null(cache_env$sort)) {
         s <- clone(x)
+        # clone invalidates the cache, so we can remove it to avoid warning messages
+        remcache(s)
         ramsort(s, na.last=FALSE)
       } else {
         s <- get("sort", cache_env, inherits=FALSE)
@@ -1832,6 +1851,8 @@ unique.integer64 = function(x,
     sortorderuni={
       if (is.null(cache_env) || is.null(cache_env$sort) || is.null(cache_env$order)) {
         s <- clone(x)
+        # clone invalidates the cache, so we can remove it to avoid warning messages
+        remcache(s)
         o <- seq_along(x)
         ramsortorder(s, o, na.last=FALSE)
       } else {
@@ -1980,6 +2001,8 @@ unipos.integer64 = function(x,
     sortorderupo={
       if (is.null(cache_env) || is.null(cache_env$sort) || is.null(cache_env$order)) {
         s <- clone(x)
+        # clone invalidates the cache, so we can remove it to avoid warning messages
+        remcache(s)
         o <- seq_along(x)
         ramsortorder(s, o, na.last=FALSE)
       } else {
@@ -2252,6 +2275,8 @@ table.integer64 = function(...,
       cache_env = cache(a)
       if (is.null(cache_env$order)) {
         s = clone(a)
+        # clone invalidates the cache, so we can remove it to avoid warning messages
+        remcache(s)
         o = seq_along(s)
         ramsortorder(s, o, na.last=TRUE)
         nu[[i]] = sortnut(s)[["nunique"]]
@@ -2328,6 +2353,8 @@ table.integer64 = function(...,
     sorttab={
       if (is.null(cache_env) || is.null(cache_env$sort)) {
         s = clone(x)
+        # clone invalidates the cache, so we can remove it to avoid warning messages
+        remcache(s)
         ramsort(s, na.last=TRUE)
       } else {
         s = get("sort", cache_env, inherits=FALSE)
@@ -2471,6 +2498,8 @@ keypos.integer64 = function(x, method = NULL, ...) {
     sortorderkey={
       if (is.null(cache_env) || is.null(cache_env$sort) || is.null(cache_env$order)) {
         s <- clone(x)
+        # clone invalidates the cache, so we can remove it to avoid warning messages
+        remcache(s)
         o <- seq_along(x)
         ramsortorder(s, o, na.last=FALSE)
       } else {
@@ -2548,6 +2577,8 @@ tiepos.integer64 = function(x, nties = NULL, method = NULL, ...) {
     sortordertie={
       if (is.null(cache_env) || is.null(cache_env$sort) || is.null(cache_env$order)) {
         s <- clone(x)
+        # clone invalidates the cache, so we can remove it to avoid warning messages
+        remcache(s)
         o <- seq_along(x)
         ramsortorder(s, o, na.last=FALSE)
       } else {
@@ -2620,6 +2651,8 @@ rank.integer64 = function(x, method = NULL, ...) {
     sortorderrnk={
       if (is.null(cache_env) || is.null(cache_env$sort) || is.null(cache_env$order)) {
         s <- clone(x)
+        # clone invalidates the cache, so we can remove it to avoid warning messages
+        remcache(s)
         o <- seq_along(x)
         na.count <- ramsortorder(s, o, na.last=FALSE)
       } else {
@@ -2750,6 +2783,8 @@ qtile.integer64 = function(x, probs = seq(0.0, 1.0, 0.25), names = TRUE, method 
     sortqtl={
       if (is.null(cache_env) || is.null(cache_env$sort)) {
         s <- clone(x)
+        # clone invalidates the cache, so we can remove it to avoid warning messages
+        remcache(s)
         na.count <- ramsort(s, na.last=FALSE)
       } else {
         s <- get("sort", cache_env, inherits=FALSE)
