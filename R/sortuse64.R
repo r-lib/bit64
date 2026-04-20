@@ -546,7 +546,10 @@ sortqtl = function(sorted, na.count, probs, ...) UseMethod("sortqtl")
 #' @export
 sortqtl.integer64 = function(sorted, na.count, probs, ...) {
   n = length(sorted) - na.count  # nvalid
-  ret = sorted[na.count + round(1L + probs * (n - 1L))]
+  sel = na.count + (1L + probs * (n - 1L))
+  idx = matrix(c(floor(sel), ceiling(sel)), nrow=2L, byrow=TRUE)
+  neighboring_values = matrix(sorted[idx], nrow=2L)
+  ret = neighboring_values[1L,] + (neighboring_values[2L,] - neighboring_values[1L,])*(sel%%1)
   # TODO(#31): Remove this once `[` can return NA for integer64 directly
   ret[is.na(probs)] = NA
   ret
@@ -560,8 +563,10 @@ orderqtl = function(table, order, na.count, probs, ...) UseMethod("orderqtl")
 #' @export
 orderqtl.integer64 = function(table, order, na.count, probs, ...) {
   n = length(table) - na.count  # nvalid
-  idx = na.count + round(1L + probs * (n - 1L))
-  ret = table[order[idx]]
+  sel = na.count + (1L + probs * (n - 1L))
+  idx = matrix(c(floor(sel), ceiling(sel)), nrow=2L, byrow=TRUE)
+  neighboring_values = matrix(table[order[idx]], nrow=2L)
+  ret = neighboring_values[1L,] + (neighboring_values[2L,] - neighboring_values[1L,])*(sel%%1)
   # TODO(#31): Remove this once `[` can return NA for integer64 directly
   ret[is.na(probs)] = NA
   ret

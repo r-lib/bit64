@@ -173,3 +173,22 @@ test_that("sortorderkey works", {
   # Note: NA_integer_ is used for NAs in the key vector
   expect_identical(sortorderkey(x_na, o_na, na.skip.num=2L), c(NA_integer_, NA_integer_, 1L, 2L))
 })
+
+with_parameters_test_that("quantile, median", {
+    x32 = as.integer(x)
+    x64 = as.integer64(x32)
+    convert_x32_result_to_integer64 = function(x) {
+      myRound = function(x) {res = round(x); res[x%%1 == 0.5] = ceiling(x[x%%1 == 0.5]); res}
+      setNames(as.integer64(myRound(x)), names(x))
+    }
+    expect_identical(quantile(x64, probs=probs, na.rm=TRUE), convert_x32_result_to_integer64(quantile(x32, probs=probs, na.rm=TRUE)))
+    expect_identical(median(x64, na.rm=TRUE), convert_x32_result_to_integer64(median(x32, na.rm=TRUE)))
+  }, .cases = expand.grid(
+    x = I(list(c(1, 5, 7, NA, 1), c(1, 5, 7, NA, 1), 1:2, 1:3, c(1, 3), c(-5, -2, 0, 2))), 
+    probs = I(list(c(0, 0.25, 0.5, 0.75, 1), c(0.1, 0.6, 0.9)))
+  )
+)
+
+test_that("special median", {
+    expect_identical(median(as.integer64(c("1152921504606846976", "1152921504606847232"))), as.integer64("1152921504606847104"))
+})
