@@ -273,6 +273,14 @@ necessary.
     [@hadley](https://github.com/hadley) for the request.
 2.  The R version dependency has been bumped from 3.4.0 (2017) to 3.5.0
     (2018).
+3.  From R 4.6.0, R’s {utils} package has its own ‘bitstring’ class
+    which is basically compatible with that shipped by {bit64} for many
+    years.
+    [`as.bitstring()`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+    only makes a simple adjustment, namely, for
+    [`as.bitstring()`](https://bit64.r-lib.org/reference/as.character.integer64.md)
+    to add two new attributes (`nbits` and `type`). Everything else
+    should continue to work as before.
 
 ### BUG FIXES
 

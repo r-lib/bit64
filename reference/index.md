@@ -17,7 +17,6 @@
   [`as.POSIXlt(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   [`as.factor()`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   [`as.ordered()`](https://bit64.r-lib.org/reference/as.character.integer64.md)
-  [`print(`*`<bitstring>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   [`as.list(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.character.integer64.md)
   : Coerce from integer64
 - [`as.data.frame(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/as.data.frame.integer64.md)

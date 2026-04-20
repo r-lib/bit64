@@ -51,9 +51,6 @@ as.factor(x)
 
 as.ordered(x)
 
-# S3 method for class 'bitstring'
-print(x, ...)
-
 # S3 method for class 'integer64'
 as.list(x, ...)
 ```
