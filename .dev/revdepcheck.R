@@ -13,6 +13,10 @@ apt_packages = c(
   "cmake",
   NULL
 )
+# NB: libnode-dev / libv8-dev are recommended by V8 config,
+#   which worked on Codespaces but caused major headaches on
+#   my Linux Mint desktop; handle this for your platform. What
+#   wound up working on Mint is Sys.setenv(DOWNLOAD_STATIC_LIBV8=1).
 apt_get_packages = c(
   "libcurl4-openssl-dev",
   "libssl-dev",
@@ -33,7 +37,6 @@ apt_get_packages = c(
   "libgmp-dev",
   "libudunits2-dev",
   "libgsl-dev",
-  "libnode-dev",
   "libfftw3-dev",
   "libmagick++-dev",
   "libuv1-dev",
