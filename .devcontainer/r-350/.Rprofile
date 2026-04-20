@@ -98,8 +98,14 @@ expect_no_warning <- function(object, ...) {
 }
 
 expect_error = function(expr, msg, ...) {
-  val = tryCatch(expr, error = identity)
+  val = tryCatch(expr, error=identity)
   stopifnot(inherits(val, "error") && grepl(msg, conditionMessage(val), ...))
+  cat(".")
+}
+
+expect_no_error = function(expr) {
+  val = tryCatch(expr, error=identity)
+  stopifnot(!inherits(val, "error"))
   cat(".")
 }
 

@@ -1573,3 +1573,7 @@ test_that("back-compatible keep.names=TRUE is supported for limited input classe
   y = c(a = 1.0)
   expect_named(as.integer64(y, keep.names=TRUE), "a")
 })
+
+test_that("bitstring class meshes with R's own (from 4.6.0)", {
+  expect_no_error(print(as.bitstring(lim.integer64())))
+})
