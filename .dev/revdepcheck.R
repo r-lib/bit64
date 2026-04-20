@@ -6,13 +6,17 @@ rev_deps = unlist(tools::package_dependencies("bit64", reverse=TRUE, recursive=F
 
 cat(sprintf(
   "Found %d reverse dependencies, %d of which are on CRAN\n",
-  length(rev_deps), sum(grepl("cloud.r-project.org", db[rev_deps, "Repository"]))
+  length(rev_deps), sum(!grepl("bioconductor", db[rev_deps, "Repository"]))
 ))
 
 apt_packages = c(
   "cmake",
   NULL
 )
+# NB: libnode-dev / libv8-dev are recommended by V8 config,
+#   which worked on Codespaces but caused major headaches on
+#   my Linux Mint desktop; handle this for your platform. What
+#   wound up working on Mint is Sys.setenv(DOWNLOAD_STATIC_LIBV8=1).
 apt_get_packages = c(
   "libcurl4-openssl-dev",
   "libssl-dev",
@@ -33,9 +37,9 @@ apt_get_packages = c(
   "libgmp-dev",
   "libudunits2-dev",
   "libgsl-dev",
-  "libv8-dev",
   "libfftw3-dev",
   "libmagick++-dev",
+  "libuv1-dev",
   NULL
 )
 
@@ -55,7 +59,7 @@ system(cmd_apt_get)
 
 cat(sprintf("Installing downstreams with --install-tests\n"))
 
-message("Installing all revdeps (again), this time with --install-tests")
+message("Installing all revdeps with --install-tests")
 install(rev_deps, INSTALL_opts="--install-tests", dependencies=TRUE)
 
 if (!all(rev_deps %in% rownames(installed.packages())))
@@ -114,4 +118,7 @@ cat(sprintf(
   paste(failing_on_cran, collapse = " ")
 ))
 
-setdiff(failing_pkgs, failing_on_cran)
+cat(sprintf(
+  "The following packages are broken by the devel version of bit64:\n  %s\n",
+  paste(setdiff(failing_pkgs, failing_on_cran), collapse = " ")
+))
