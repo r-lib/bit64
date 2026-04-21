@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">bit64</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">4.7.99</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">4.8.99</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,34 +33,38 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="4.7.99" id="bit64-4799-in-development">bit64 4.7.99 (in development)<a class="anchor" aria-label="anchor" href="#bit64-4799-in-development"></a></h2>
+<h2 class="pkg-version" data-toc-text="4.8.99" id="bit64-4899-in-development">bit64 4.8.99 (in development)<a class="anchor" aria-label="anchor" href="#bit64-4899-in-development"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="4.8.0" id="bit64-480-2025-04-19">bit64 4.8.0 (2025-04-19)<a class="anchor" aria-label="anchor" href="#bit64-480-2025-04-19"></a></h2><p class="text-muted">CRAN release: 2026-04-21</p>
 <div class="section level3">
-<h3 id="notice-of-planned-breaking-changes-4-7-99">NOTICE OF PLANNED BREAKING CHANGES<a class="anchor" aria-label="anchor" href="#notice-of-planned-breaking-changes-4-7-99"></a></h3>
+<h3 id="notice-of-planned-breaking-changes-4-8-0">NOTICE OF PLANNED BREAKING CHANGES<a class="anchor" aria-label="anchor" href="#notice-of-planned-breaking-changes-4-8-0"></a></h3>
 <ol style="list-style-type: decimal"><li>
 <p>The remaining S3 methods will be un-exported in the next release:</p>
 <p><code>[&lt;-.integer64</code>, <code>abs.integer64</code>, <code>all.integer64</code>, <code>any.integer64</code>, <code>as.character.integer64</code>, <code>as.data.frame.integer64</code>, <code>as.double.integer64</code>, <code>as.integer.integer64</code>, <code>as.integer64.character</code>, <code>as.integer64.double</code>, <code>as.integer64.integer</code>, <code>as.integer64.logical</code>, <code>c.integer64</code>, <code>format.integer64</code>, <code>is.na.integer64</code>, <code>log.integer64</code>, <code>max.integer64</code>, <code>min.integer64</code>, <code>print.integer64</code>, <code>rank.integer64</code>, <code>rep.integer64</code>, <code>seq.integer64</code>, <code>str.integer64</code>, <code>sum.integer64</code>, <code>unique.integer64</code></p>
 <p>All of these have observed downstream calls directly. If the call is in a CRAN/Bioconductor package, I’ll be reaching out to help migrate onto the generic. This will probably take at least a year, so don’t expect this to induce a CRAN release <em>per se</em> until 2027 (although you should certainly aim to slip this in to your next release in the meantime).</p>
 </li>
-<li><p>When integer64 and character are combined, the result will be character. This prevents loss of information, e.g. in <code>c(as.integer64(1L), "a")</code> and <code>c(as.integer64(1L), "999999999999999999999999")</code>. To try this in advance for <code>c.integer64</code>, <code>cbind.integer64</code>, <code>rbind.integer64</code>, <code>[.integer64&lt;-</code>, <code>[[.integer64&lt;-</code>, <code>union</code>, <code>intersect</code>, <code>setdiff</code>, <code>setdiff</code> and <code>is.element</code> one can set the option <code>bit64.promoteInteger64ToCharacter=TRUE</code>.</p></li>
-<li><p>Some <code><a href="../reference/as.integer64.character.html">as.integer64()</a></code> methods, e.g. <code>"double"</code>, allowed <code>keep.names=TRUE</code> to have <code>names(as.integer64(x)) == names(x)</code>. This is inconsistent with other vector coercions like <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code>, <code><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double()</a></code>, <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>, … which strip names. Therefore, starting from the next release, it will be a warning to use this argument; users should just add code to retain the names.</p></li>
+<li><p>When integer64 and character are combined, the result will be character. This prevents loss of information, e.g. in <code>c(as.integer64(1L), "a")</code> and <code>c(as.integer64(1L), "999999999999999999999999")</code>. Use the option <code>bit64.promoteInteger64ToCharacter</code> set to <code>TRUE</code> to try this in advance for <code>c.integer64</code>, <code>cbind.integer64</code>, <code>rbind.integer64</code>, <code>[.integer64&lt;-</code>, <code>[[.integer64&lt;-</code>, <code>union</code>, <code>intersect</code>, <code>setdiff</code>, and <code>is.element</code>.</p></li>
+<li><p><code>keep.names</code> will be removed from <code><a href="../reference/as.integer64.character.html">as.integer64()</a></code> methods, e.g. <code>double</code>. Allowing <code>keep.names</code> is inconsistent with other vector coercions like <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code>, <code><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double()</a></code>, <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>, … which strip names. Therefore, starting from the next release, it will be a warning to use this argument; users should just add code to retain the names if so desired.</p></li>
 </ol></div>
 <div class="section level3">
-<h3 id="breaking-changes-4-7-99">BREAKING CHANGES<a class="anchor" aria-label="anchor" href="#breaking-changes-4-7-99"></a></h3>
-<ol style="list-style-type: decimal"><li>{bit64} no longer <code>Depends</code> on {bit}; instead it <code>Imports</code> it. Please file an issue if this affects you before release; I plan to have {bit64} temporarily re-export some objects from {bit} to minimize the number of downstream packages/scripts adversely affected.</li>
-</ol><p>Here I copy the advice from 4.6.0-1 about how to adapt to this as a user depending on {bit64} if it affects you:</p>
-<p>Users relying on this in scripts can (1) write <code><a href="https://github.com/r-lib/bit" class="external-link">library(bit)</a></code> to attach {bit} explicitly or (2) namespace-qualify all {bit} calls with <code>bit::</code>.</p>
-<p>Package authors relying on this can (1) add <code>import(bit)</code> to make the full {bit} namespace available or (2) namespace-qualify all {bit} calls with <code>bit::</code>; adding {bit} to <code>Imports:</code> or <code>Suggests:</code> will also be necessary.</p>
+<h3 id="breaking-changes-4-8-0">BREAKING CHANGES<a class="anchor" aria-label="anchor" href="#breaking-changes-4-8-0"></a></h3>
 <ol style="list-style-type: decimal"><li>
+<p>{bit64} no longer <code>Depends</code> on {bit}; instead it <code>Imports</code> it. Here I copy the advice from 4.6.0-1 about how to adapt to this as a user depending on {bit64} if it affects you:</p>
+<p>Users relying on Depends in scripts can (1) write <code><a href="https://github.com/r-lib/bit" class="external-link">library(bit)</a></code> to attach {bit} explicitly or (2) namespace-qualify all {bit} calls with <code>bit::</code>.</p>
+<p>Package authors relying on Depends can (1) add <code>import(bit)</code> to make the full {bit} namespace available or (2) namespace-qualify all {bit} calls with <code>bit::</code>; adding {bit} to <code>Imports:</code> or <code>Suggests:</code> will also be necessary.</p>
+</li>
+<li>
 <p>The following S3 methods were directly removed from the NAMESPACE:</p>
 <p><code>-.integer64</code>, <code>:.default</code>, <code>:.integer64</code>, <code>!.integer64</code>, <code>!=.integer64</code>, <code>[.integer64</code>, <code>[[.integer64</code>, <code>[[&lt;-.integer64</code>, <code>*.integer64</code>, <code>/.integer64</code>, <code>&amp;.integer64</code>, <code>%/%.integer64</code>, <code>%%.integer64</code>, <code>%in%.default</code>, <code>%in%.integer64</code>, <code>^.integer64</code>, <code>+.integer64</code>, <code>&lt;.integer64</code>, <code>&lt;=.integer64</code>, <code>==.integer64</code>, <code>&gt;.integer64</code>, <code>&gt;=.integer64</code>, <code>|.integer64</code>, <code>all.equal.integer64</code>, <code>as.bitstring.integer64</code>, <code>as.integer64.bitstring</code>, <code>as.integer64.factor</code>, <code>as.integer64.integer64</code>, <code>as.integer64.NULL</code>, <code>as.list.integer64</code>, <code>as.logical.integer64</code>, <code>cbind.integer64</code>, <code>ceiling.integer64</code>, <code>cummax.integer64</code>, <code>cummin.integer64</code>, <code>cumprod.integer64</code>, <code>cumsum.integer64</code>, <code>diff.integer64</code>, <code>duplicated.integer64</code>, <code>floor.integer64</code>, <code>hashdup.cache_integer64</code>, <code>hashfin.cache_integer64</code>, <code>hashfun.integer64</code>, <code>hashmap.integer64</code>, <code>hashmaptab.integer64</code>, <code>hashmapuni.integer64</code>, <code>hashmapupo.integer64</code>, <code>hashpos.cache_integer64</code>, <code>hashrev.cache_integer64</code>, <code>hashrin.cache_integer64</code>, <code>hashtab.cache_integer64</code>, <code>hashuni.cache_integer64</code>, <code>hashupo.cache_integer64</code>, <code>is.double.default</code>, <code>is.double.integer64</code>, <code>is.finite.integer64</code>, <code>is.infinite.integer64</code>, <code>is.nan.integer64</code>, <code>is.sorted.integer64</code>, <code>is.vector.integer64</code>, <code>keypos.integer64</code>, <code>length&lt;-.integer64</code>, <code>log10.integer64</code>, <code>log2.integer64</code>, <code>match.default</code>, <code>match.integer64</code>, <code>mean.integer64</code>, <code>median.integer64</code>, <code>mergeorder.integer64</code>, <code>mergesort.integer64</code>, <code>mergesortorder.integer64</code>, <code>na.count.integer64</code>, <code>nties.integer64</code>, <code>nunique.integer64</code>, <code>nvalid.integer64</code>, <code>order.default</code>, <code>order.integer64</code>, <code>orderdup.integer64</code>, <code>orderfin.integer64</code>, <code>orderkey.integer64</code>, <code>ordernut.integer64</code>, <code>orderpos.integer64</code>, <code>orderqtl.integer64</code>, <code>orderrnk.integer64</code>, <code>ordertab.integer64</code>, <code>ordertie.integer64</code>, <code>orderuni.integer64</code>, <code>orderupo.integer64</code>, <code>prank.integer64</code>, <code>print.bitstring</code>, <code>prod.integer64</code>, <code>qtile.integer64</code>, <code>quantile.integer64</code>, <code>quickorder.integer64</code>, <code>quicksort.integer64</code>, <code>quicksortorder.integer64</code>, <code>radixorder.integer64</code>, <code>radixsort.integer64</code>, <code>radixsortorder.integer64</code>, <code>ramorder.integer64</code>, <code>ramsort.integer64</code>, <code>ramsortorder.integer64</code>, <code>range.integer64</code>, <code>rank.default</code>, <code>rbind.integer64</code>, <code>round.integer64</code>, <code>scale.integer64</code>, <code>shellorder.integer64</code>, <code>shellsort.integer64</code>, <code>shellsortorder.integer64</code>, <code>sign.integer64</code>, <code>signif.integer64</code>, <code>sort.integer64</code>, <code>sortfin.integer64</code>, <code>sortnut.integer64</code>, <code>sortorderdup.integer64</code>, <code>sortorderkey.integer64</code>, <code>sortorderpos.integer64</code>, <code>sortorderrnk.integer64</code>, <code>sortordertab.integer64</code>, <code>sortordertie.integer64</code>, <code>sortorderuni.integer64</code>, <code>sortorderupo.integer64</code>, <code>sortqtl.integer64</code>, <code>sorttab.integer64</code>, <code>sortuni.integer64</code>, <code>sqrt.integer64</code>, <code>summary.integer64</code>, <code>tiepos.integer64</code>, <code>trunc.integer64</code>, <code>unipos.integer64</code></p>
 <p>Previously, it was noted that this release would feature a warning to nudge towards correcting direct calls, but that has proven infeasible – R’s evaluation rules are simply too complex to warrant an expensive haystack search for the generic in the call stack each time a method is invoked. In some cases it is also not possible, period.</p>
 <p>Because there was no recorded direct usage for any of these, I am opting to just rip the band-aid off and un-export them in this release as opposed to waiting a full cycle more to do so.</p>
 </li>
-<li><p><code>as.integer64.integer64</code> returns a plain <code>integer64</code> vector stripped of any attributes. This is consistent with R like behavior, e.g. <code>as.integer.integer</code>.</p></li>
-<li><p><code>%/%</code> matches base R/Knuth behavior of taking the <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor()</a></code> of a result, where before truncation was towards zero. For example, <code>as.integer64(-10L) %/% as.integer64(7L)</code> now gives <code>-2L</code>, not <code>-1L</code>. This is consistent with <code>-10L %/% 7L</code> in base R. Consequently, <code>%%</code> is also affected, e.g. <code>as.integer64(-10L) %% as.integer64(7L)</code> now gives <code>4L</code>, not <code>-3L</code>, consistent with <code>-10L %% 7L</code> in base R.</p></li>
+<li><p><code>as.integer64.integer64</code> returns a plain <code>integer64</code> vector stripped of any attributes. This is consistent with R-like behavior, e.g. <code>as.integer.integer</code>.</p></li>
+<li><p><code>%/%</code> matches base R/Knuth behavior of taking the <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor()</a></code> of a result, where previously truncation was towards zero. For example, <code>as.integer64(-10L) %/% as.integer64(7L)</code> now gives <code>-2L</code>, not <code>-1L</code>. This is consistent with <code>-10L %/% 7L</code> in base R. Consequently, <code>%%</code> is also affected, e.g. <code>as.integer64(-10L) %% as.integer64(7L)</code> now gives <code>4L</code>, not <code>-3L</code>, consistent with <code>-10L %% 7L</code> in base R.</p></li>
 </ol></div>
 <div class="section level3">
-<h3 id="new-features-4-7-99">NEW FEATURES<a class="anchor" aria-label="anchor" href="#new-features-4-7-99"></a></h3>
+<h3 id="new-features-4-8-0">NEW FEATURES<a class="anchor" aria-label="anchor" href="#new-features-4-8-0"></a></h3>
 <ol style="list-style-type: decimal"><li>
 <code>anyNA</code> gets an <code>integer64</code> method. Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
 <li>
@@ -77,9 +81,9 @@
 </ul></li>
 <li>Coercion to/from integer64 is expanded greatly (includes <a href="https://github.com/r-lib/bit64/issues/199" class="external-link">#199</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.
 <ul><li>
-<code>as.Date</code>, <code>as.POSIXct</code>, <code>as.POSXlt</code>, <code>as.complex</code>, and <code>as.raw</code> get an <code>integer64</code> method.</li>
+<code>as.Date</code>, <code>as.POSIXct</code>, <code>as.POSIXlt</code>, <code>as.complex</code>, and <code>as.raw</code> get an <code>integer64</code> method.</li>
 <li>
-<code>as.integer64</code> gets <code>Date</code>, <code>POSIXct</code>, <code>POSXlt</code>, <code>complex</code>, <code>raw</code>, and <code>difftime</code> methods.</li>
+<code>as.integer64</code> gets <code>Date</code>, <code>POSIXct</code>, <code>POSIXlt</code>, <code>complex</code>, <code>raw</code>, and <code>difftime</code> methods.</li>
 </ul></li>
 <li>
 <code>as.integer64.character</code>:
@@ -95,16 +99,16 @@
 <li>A replacement in an integer64 vector or array using <code>[&lt;-</code> or <code>[[&lt;-</code> with a complex or POSIXct leads to an R consistent coercion of the integer64 object to a complex or POSIXct object and not just an error. Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
 <li>
 <code>union</code>, <code>setdiff</code>, <code>intersect</code>, <code>setequal</code> and <code>is.element</code> get an overload to work correctly with <code>integer64</code> (<a href="https://github.com/r-lib/bit64/issues/182" class="external-link">#182</a>).</li>
-<li>The methods of the ‘Ops’ group (e.g. <code>+</code>, <code>&amp;</code>, <code>==</code>) now support dispatch for both arguments so that e.g. <code>difftime * integer64</code> works consistent to R (<a href="https://github.com/r-lib/bit64/issues/179" class="external-link">#179</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>. Note that this relies on <code><a href="https://rdrr.io/r/base/chooseOpsMethod.html" class="external-link">chooseOpsMethod()</a></code> and thus R 4.3.0.</li>
+<li>The methods of the ‘Ops’ group (e.g. <code>+</code>, <code>&amp;</code>, <code>==</code>) now support dispatch for both arguments so that e.g. <code>difftime * integer64</code> works consistent with R (<a href="https://github.com/r-lib/bit64/issues/179" class="external-link">#179</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>. Note that this relies on <code><a href="https://rdrr.io/r/base/chooseOpsMethod.html" class="external-link">chooseOpsMethod()</a></code> and thus R 4.3.0.</li>
 <li>
 <code>c.integer64</code>, <code>cbind.integer64</code> and <code>rbind.integer64</code> now support combining with lists and recursion as <code><a href="https://rdrr.io/r/base/c.html" class="external-link">base::c</a></code>, <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">base::cbind</a></code> and <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">base::rbind</a></code> do (<a href="https://github.com/r-lib/bit64/issues/252" class="external-link">#252</a>). In addition, by setting the option <code>bit64.promoteInteger64ToCharacter=TRUE</code> the methods return character if integer64 and character are combined. Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
 </ol></div>
 <div class="section level3">
-<h3 id="bug-fixes-4-7-99">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-7-99"></a></h3>
+<h3 id="bug-fixes-4-8-0">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-8-0"></a></h3>
 <ol style="list-style-type: decimal"><li>
-<code>min.integer64</code>, <code>max.integer64</code> and <code>range.integer64</code> now support <code>na.rm=TRUE</code> correctly when combining across mutliple inputs like <code>min(x, NA_integer64_, na.rm=TRUE)</code> (<a href="https://github.com/r-lib/bit64/issues/142" class="external-link">#142</a>).</li>
+<code>min.integer64</code>, <code>max.integer64</code> and <code>range.integer64</code> now support <code>na.rm=TRUE</code> correctly when combining across multiple inputs like <code>min(x, NA_integer64_, na.rm=TRUE)</code> (<a href="https://github.com/r-lib/bit64/issues/142" class="external-link">#142</a>).</li>
 <li>
-<code>as.integer64.integer64</code> is consistent with <code>as.integer.integer</code> in terms or returning a plain integer64 vector (i.e., stripped of attributes; <a href="https://github.com/r-lib/bit64/issues/188" class="external-link">#188</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
+<code>as.integer64.integer64</code> is consistent with <code>as.integer.integer</code> in terms of returning a plain integer64 vector (i.e., stripped of attributes; <a href="https://github.com/r-lib/bit64/issues/188" class="external-link">#188</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
 <li>
 <code>log(integer64(), base=integer64(1))</code> no longer warns, consistent with <code>log(integer(), base=integer())</code> (<a href="https://github.com/r-lib/bit64/issues/93" class="external-link">#93</a>).</li>
 <li>
@@ -125,17 +129,14 @@
 <code>integer64() %in% 1L</code> no longer warns (<a href="https://github.com/r-lib/bit64/issues/265" class="external-link">#265</a>). Thanks <a href="https://github.com/hcirellu" class="external-link">@hcirellu</a>.</li>
 <li>
 <code>match.integer64(..., method="orderpos")</code> and <code>duplicated.integer64(..., method="orderdup")</code> no longer fail with “object ‘s’ not found” (<a href="https://github.com/r-lib/bit64/issues/58" class="external-link">#58</a>).</li>
+<li>
+<code>median(NA_integer64_, na.rm=FALSE)</code> and <code>median(integer64())</code> now return <code>NA_integer64_</code>, aligning its behavior with <code>median(NA_integer_)</code>, <a href="https://github.com/r-lib/bit64/issues/185" class="external-link">#185</a>. Previously the former threw an error while the latter gave an incorrect result. Thanks <a href="https://github.com/ben-schwen" class="external-link">@ben-schwen</a> for the report and the PR.</li>
 </ol></div>
 <div class="section level3">
-<h3 id="notes-4-7-99">NOTES<a class="anchor" aria-label="anchor" href="#notes-4-7-99"></a></h3>
+<h3 id="notes-4-8-0">NOTES<a class="anchor" aria-label="anchor" href="#notes-4-8-0"></a></h3>
 <ol style="list-style-type: decimal"><li>{bit64} no longer prints any start-up messages through an <code>.onAttach()</code> hook (<a href="https://github.com/r-lib/bit64/issues/106" class="external-link">#106</a>). Thanks <a href="https://github.com/hadley" class="external-link">@hadley</a> for the request.</li>
 <li>The R version dependency has been bumped from 3.4.0 (2017) to 3.5.0 (2018).</li>
 <li>From R 4.6.0, R’s {utils} package has its own ‘bitstring’ class which is basically compatible with that shipped by {bit64} for many years. <code><a href="../reference/as.character.integer64.html">as.bitstring()</a></code> only makes a simple adjustment, namely, for <code><a href="../reference/as.character.integer64.html">as.bitstring()</a></code> to add two new attributes (<code>nbits</code> and <code>type</code>). Everything else should continue to work as before.</li>
-</ol></div>
-<div class="section level3">
-<h3 id="bug-fixes-4-7-99-1">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-7-99-1"></a></h3>
-<ol style="list-style-type: decimal"><li>
-<code>median(NA_integer64_, na.rm=FALSE)</code> and <code>median(integer64())</code> now return <code>NA_integer64_</code>, aligning its behavior with <code>median(NA_integer_)</code>, <a href="https://github.com/r-lib/bit64/issues/185" class="external-link">#185</a>. Previously the former threw an error while the latter gave an incorrect result. Thanks <a href="https://github.com/ben-schwen" class="external-link">@ben-schwen</a> for the report and the PR.</li>
 </ol></div>
 </div>
     <div class="section level2">

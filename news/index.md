@@ -1,6 +1,10 @@
 # Changelog
 
-## bit64 4.7.99 (in development)
+## bit64 4.8.99 (in development)
+
+## bit64 4.8.0 (2025-04-19)
+
+CRAN release: 2026-04-21
 
 ### NOTICE OF PLANNED BREAKING CHANGES
 
@@ -26,45 +30,39 @@
 2.  When integer64 and character are combined, the result will be
     character. This prevents loss of information, e.g. in
     `c(as.integer64(1L), "a")` and
-    `c(as.integer64(1L), "999999999999999999999999")`. To try this in
+    `c(as.integer64(1L), "999999999999999999999999")`. Use the option
+    `bit64.promoteInteger64ToCharacter` set to `TRUE` to try this in
     advance for `c.integer64`, `cbind.integer64`, `rbind.integer64`,
     `[.integer64<-`, `[[.integer64<-`, `union`, `intersect`, `setdiff`,
-    `setdiff` and `is.element` one can set the option
-    `bit64.promoteInteger64ToCharacter=TRUE`.
+    and `is.element`.
 
-3.  Some
+3.  `keep.names` will be removed from
     [`as.integer64()`](https://bit64.r-lib.org/reference/as.integer64.character.md)
-    methods, e.g. `"double"`, allowed `keep.names=TRUE` to have
-    `names(as.integer64(x)) == names(x)`. This is inconsistent with
+    methods, e.g. `double`. Allowing `keep.names` is inconsistent with
     other vector coercions like
     [`as.integer()`](https://rdrr.io/r/base/integer.html),
     [`as.double()`](https://rdrr.io/r/base/double.html),
     [`as.character()`](https://rdrr.io/r/base/character.html), … which
     strip names. Therefore, starting from the next release, it will be a
     warning to use this argument; users should just add code to retain
-    the names.
+    the names if so desired.
 
 ### BREAKING CHANGES
 
-1.  {bit64} no longer `Depends` on {bit}; instead it `Imports` it.
-    Please file an issue if this affects you before release; I plan to
-    have {bit64} temporarily re-export some objects from {bit} to
-    minimize the number of downstream packages/scripts adversely
-    affected.
+1.  {bit64} no longer `Depends` on {bit}; instead it `Imports` it. Here
+    I copy the advice from 4.6.0-1 about how to adapt to this as a user
+    depending on {bit64} if it affects you:
 
-Here I copy the advice from 4.6.0-1 about how to adapt to this as a user
-depending on {bit64} if it affects you:
+    Users relying on Depends in scripts can (1) write
+    [`library(bit)`](https://github.com/r-lib/bit) to attach {bit}
+    explicitly or (2) namespace-qualify all {bit} calls with `bit::`.
 
-Users relying on this in scripts can (1) write
-[`library(bit)`](https://github.com/r-lib/bit) to attach {bit}
-explicitly or (2) namespace-qualify all {bit} calls with `bit::`.
+    Package authors relying on Depends can (1) add `import(bit)` to make
+    the full {bit} namespace available or (2) namespace-qualify all
+    {bit} calls with `bit::`; adding {bit} to `Imports:` or `Suggests:`
+    will also be necessary.
 
-Package authors relying on this can (1) add `import(bit)` to make the
-full {bit} namespace available or (2) namespace-qualify all {bit} calls
-with `bit::`; adding {bit} to `Imports:` or `Suggests:` will also be
-necessary.
-
-1.  The following S3 methods were directly removed from the NAMESPACE:
+2.  The following S3 methods were directly removed from the NAMESPACE:
 
     `-.integer64`, `:.default`, `:.integer64`, `!.integer64`,
     `!=.integer64`, `[.integer64`, `[[.integer64`, `[[<-.integer64`,
@@ -125,13 +123,13 @@ necessary.
     opting to just rip the band-aid off and un-export them in this
     release as opposed to waiting a full cycle more to do so.
 
-2.  `as.integer64.integer64` returns a plain `integer64` vector stripped
-    of any attributes. This is consistent with R like behavior,
+3.  `as.integer64.integer64` returns a plain `integer64` vector stripped
+    of any attributes. This is consistent with R-like behavior,
     e.g. `as.integer.integer`.
 
-3.  `%/%` matches base R/Knuth behavior of taking the
+4.  `%/%` matches base R/Knuth behavior of taking the
     [`floor()`](https://rdrr.io/r/base/Round.html) of a result, where
-    before truncation was towards zero. For example,
+    previously truncation was towards zero. For example,
     `as.integer64(-10L) %/% as.integer64(7L)` now gives `-2L`, not
     `-1L`. This is consistent with `-10L %/% 7L` in base R.
     Consequently, `%%` is also affected,
@@ -178,10 +176,10 @@ necessary.
 4.  Coercion to/from integer64 is expanded greatly (includes
     [\#199](https://github.com/r-lib/bit64/issues/199)). Thanks
     [@hcirellu](https://github.com/hcirellu).
-    - `as.Date`, `as.POSIXct`, `as.POSXlt`, `as.complex`, and `as.raw`
+    - `as.Date`, `as.POSIXct`, `as.POSIXlt`, `as.complex`, and `as.raw`
       get an `integer64` method.
-    - `as.integer64` gets `Date`, `POSIXct`, `POSXlt`, `complex`, `raw`,
-      and `difftime` methods.
+    - `as.integer64` gets `Date`, `POSIXct`, `POSIXlt`, `complex`,
+      `raw`, and `difftime` methods.
 5.  `as.integer64.character`:
     - Supports hexadecimal (base 16) input when prefixed with “0x” or
       “-0x”, e.g. `as.integer64("0x7FFFFFFFFFFFFFFF")`. Thanks
@@ -207,7 +205,7 @@ necessary.
     ([\#182](https://github.com/r-lib/bit64/issues/182)).
 11. The methods of the ‘Ops’ group (e.g. `+`, `&`, `==`) now support
     dispatch for both arguments so that e.g. `difftime * integer64`
-    works consistent to R
+    works consistent with R
     ([\#179](https://github.com/r-lib/bit64/issues/179)). Thanks
     [@hcirellu](https://github.com/hcirellu). Note that this relies on
     [`chooseOpsMethod()`](https://rdrr.io/r/base/chooseOpsMethod.html)
@@ -225,11 +223,11 @@ necessary.
 ### BUG FIXES
 
 1.  `min.integer64`, `max.integer64` and `range.integer64` now support
-    `na.rm=TRUE` correctly when combining across mutliple inputs like
+    `na.rm=TRUE` correctly when combining across multiple inputs like
     `min(x, NA_integer64_, na.rm=TRUE)`
     ([\#142](https://github.com/r-lib/bit64/issues/142)).
 2.  `as.integer64.integer64` is consistent with `as.integer.integer` in
-    terms or returning a plain integer64 vector (i.e., stripped of
+    terms of returning a plain integer64 vector (i.e., stripped of
     attributes; [\#188](https://github.com/r-lib/bit64/issues/188)).
     Thanks [@hcirellu](https://github.com/hcirellu).
 3.  `log(integer64(), base=integer64(1))` no longer warns, consistent
@@ -264,6 +262,13 @@ necessary.
     `duplicated.integer64(..., method="orderdup")` no longer fail with
     “object ‘s’ not found”
     ([\#58](https://github.com/r-lib/bit64/issues/58)).
+13. `median(NA_integer64_, na.rm=FALSE)` and `median(integer64())` now
+    return `NA_integer64_`, aligning its behavior with
+    `median(NA_integer_)`,
+    [\#185](https://github.com/r-lib/bit64/issues/185). Previously the
+    former threw an error while the latter gave an incorrect result.
+    Thanks [@ben-schwen](https://github.com/ben-schwen) for the report
+    and the PR.
 
 ### NOTES
 
@@ -281,16 +286,6 @@ necessary.
     [`as.bitstring()`](https://bit64.r-lib.org/reference/as.character.integer64.md)
     to add two new attributes (`nbits` and `type`). Everything else
     should continue to work as before.
-
-### BUG FIXES
-
-1.  `median(NA_integer64_, na.rm=FALSE)` and `median(integer64())` now
-    return `NA_integer64_`, aligning its behavior with
-    `median(NA_integer_)`,
-    [\#185](https://github.com/r-lib/bit64/issues/185). Previously the
-    former threw an error while the latter gave an incorrect result.
-    Thanks [@ben-schwen](https://github.com/ben-schwen) for the report
-    and the PR.
 
 ## bit64 4.6.0-1 (2025-01-16)
 
