@@ -11,6 +11,8 @@
 #define _SORT64_C_SRC
 
 #include <R_ext/Random.h> // unif_rand
+#include <Rinternals.h> // asLogical
+#include "integer64.h" // NA_INTEGER64
 #include "sort64.h"
 
 #define SHELLARRAYSIZE 16
