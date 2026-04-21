@@ -1,4 +1,4 @@
-# bit64 4.7.99 (in development)
+# bit64 4.8.0 (2025-04-19)
 
 ## NOTICE OF PLANNED BREAKING CHANGES
 
@@ -8,25 +8,17 @@
 
    All of these have observed downstream calls directly. If the call is in a CRAN/Bioconductor package, I'll be reaching out to help migrate onto the generic. This will probably take at least a year, so don't expect this to induce a CRAN release _per se_ until 2027 (although you should certainly aim to slip this in to your next release in the meantime).
 
-1. When integer64 and character are combined, the result will be character. This prevents loss of information, e.g. in `c(as.integer64(1L), "a")` and `c(as.integer64(1L), "999999999999999999999999")`. To try this in advance for `c.integer64`, `cbind.integer64`, `rbind.integer64`, `[.integer64<-`, `[[.integer64<-`, `union`, `intersect`, `setdiff`, `setdiff` and `is.element` one can set the option `bit64.promoteInteger64ToCharacter=TRUE`.
+1. When integer64 and character are combined, the result will be character. This prevents loss of information, e.g. in `c(as.integer64(1L), "a")` and `c(as.integer64(1L), "999999999999999999999999")`. Use the option `bit64.promoteInteger64ToCharacter` set to `TRUE` to try this in advance for `c.integer64`, `cbind.integer64`, `rbind.integer64`, `[.integer64<-`, `[[.integer64<-`, `union`, `intersect`, `setdiff`, and `is.element`.
 
-1. Some `as.integer64()` methods, e.g. `"double"`, allowed `keep.names=TRUE` to have `names(as.integer64(x)) == names(x)`. This is inconsistent with other vector coercions like `as.integer()`, `as.double()`, `as.character()`, ... which strip names. Therefore, starting from the next release, it will be a warning to use this argument; users should just add code to retain the names.
+1. `keep.names` will be removed from `as.integer64()` methods, e.g. `double`. Allowing `keep.names` is inconsistent with other vector coercions like `as.integer()`, `as.double()`, `as.character()`, ... which strip names. Therefore, starting from the next release, it will be a warning to use this argument; users should just add code to retain the names if so desired.
 
 ## BREAKING CHANGES
 
-1. {bit64} no longer `Depends` on {bit}; instead it `Imports` it. Please file an issue if this
-  affects you before release; I plan to have {bit64} temporarily re-export some objects from {bit}
-  to minimize the number of downstream packages/scripts adversely affected.
+1. {bit64} no longer `Depends` on {bit}; instead it `Imports` it. Here I copy the advice from 4.6.0-1 about how to adapt to this as a user depending on {bit64} if it affects you:
 
-  Here I copy the advice from 4.6.0-1 about how to adapt to this as a user depending on {bit64} if
-  it affects you:
+   Users relying on Depends in scripts can (1) write `library(bit)` to attach {bit} explicitly or (2) namespace-qualify all {bit} calls with `bit::`.
 
-  Users relying on this in scripts can (1) write `library(bit)` to attach {bit} explicitly or
-  (2) namespace-qualify all {bit} calls with `bit::`.
-
-  Package authors relying on this can (1) add `import(bit)` to make the full {bit} namespace
-  available or (2) namespace-qualify all {bit} calls with `bit::`; adding {bit} to `Imports:` or
-  `Suggests:` will also be necessary.
+   Package authors relying on Depends can (1) add `import(bit)` to make the full {bit} namespace available or (2) namespace-qualify all {bit} calls with `bit::`; adding {bit} to `Imports:` or `Suggests:` will also be necessary.
 
 1. The following S3 methods were directly removed from the NAMESPACE:
 
@@ -34,11 +26,10 @@
 
    Previously, it was noted that this release would feature a warning to nudge towards correcting direct calls, but that has proven infeasible -- R's evaluation rules are simply too complex to warrant an expensive haystack search for the generic in the call stack each time a method is invoked. In some cases it is also not possible, period.
 
-   Because there was no recorded direct usage for any of these, I am opting to just rip the band-aid
-   off and un-export them in this release as opposed to waiting a full cycle more to do so.
+   Because there was no recorded direct usage for any of these, I am opting to just rip the band-aid off and un-export them in this release as opposed to waiting a full cycle more to do so.
 
-1. `as.integer64.integer64` returns a plain `integer64` vector stripped of any attributes. This is consistent with R like behavior, e.g. `as.integer.integer`.
-1. `%/%` matches base R/Knuth behavior of taking the `floor()` of a result, where before truncation was towards zero. For example, `as.integer64(-10L) %/% as.integer64(7L)` now gives `-2L`, not `-1L`. This is consistent with `-10L %/% 7L` in base R. Consequently, `%%` is also affected, e.g. `as.integer64(-10L) %% as.integer64(7L)` now gives `4L`, not `-3L`, consistent with `-10L %% 7L` in base R.
+1. `as.integer64.integer64` returns a plain `integer64` vector stripped of any attributes. This is consistent with R-like behavior, e.g. `as.integer.integer`.
+1. `%/%` matches base R/Knuth behavior of taking the `floor()` of a result, where previously truncation was towards zero. For example, `as.integer64(-10L) %/% as.integer64(7L)` now gives `-2L`, not `-1L`. This is consistent with `-10L %/% 7L` in base R. Consequently, `%%` is also affected, e.g. `as.integer64(-10L) %% as.integer64(7L)` now gives `4L`, not `-3L`, consistent with `-10L %% 7L` in base R.
 
 ## NEW FEATURES
 
@@ -51,8 +42,8 @@
    - We match the default method behavior of assuming `from=1` and `to=1` if needed in order to support usage like `seq(as.integer64(10L), by=-1L)` and `seq(by=as.integer64(3L), length.out=8L)`.
    - `seq(a, a, length.out=n)` will give `rep(a, n)`, not `seq(a, by=1, length.out=n)`.
 1. Coercion to/from integer64 is expanded greatly (includes #199). Thanks @hcirellu.
-   - `as.Date`, `as.POSIXct`, `as.POSXlt`, `as.complex`, and `as.raw` get an `integer64` method.
-   - `as.integer64` gets `Date`, `POSIXct`, `POSXlt`, `complex`, `raw`, and `difftime` methods.
+   - `as.Date`, `as.POSIXct`, `as.POSIXlt`, `as.complex`, and `as.raw` get an `integer64` method.
+   - `as.integer64` gets `Date`, `POSIXct`, `POSIXlt`, `complex`, `raw`, and `difftime` methods.
 1. `as.integer64.character`:
    - Supports hexadecimal (base 16) input when prefixed with "0x" or "-0x", e.g. `as.integer64("0x7FFFFFFFFFFFFFFF")`. Thanks @hcirellu for a PR which completes work begun by @marcpaterno.
    - Ignores leading/trailing whitespace (as does `as.integer()`; #232).
@@ -61,13 +52,13 @@
 1. `factor`, `as.factor`, `ordered`, and `as.ordered` support `integer64` input correctly, i.e. the levels are sorted according to `integer64` values. Thanks @hcirellu.
 1. A replacement in an integer64 vector or array using `[<-` or `[[<-` with a complex or POSIXct leads to an R consistent coercion of the integer64 object to a complex or POSIXct object and not just an error. Thanks @hcirellu.
 1. `union`, `setdiff`, `intersect`, `setequal` and `is.element` get an overload to work correctly with `integer64` (#182).
-1. The methods of the 'Ops' group (e.g. `+`, `&`, `==`) now support dispatch for both arguments so that e.g. `difftime * integer64` works consistent to R (#179). Thanks @hcirellu. Note that this relies on `chooseOpsMethod()` and thus R 4.3.0.
+1. The methods of the 'Ops' group (e.g. `+`, `&`, `==`) now support dispatch for both arguments so that e.g. `difftime * integer64` works consistent with R (#179). Thanks @hcirellu. Note that this relies on `chooseOpsMethod()` and thus R 4.3.0.
 1. `c.integer64`, `cbind.integer64` and `rbind.integer64` now support combining with lists and recursion as `base::c`, `base::cbind` and `base::rbind` do (#252). In addition, by setting the option `bit64.promoteInteger64ToCharacter=TRUE` the methods return character if integer64 and character are combined. Thanks @hcirellu.
 
 ## BUG FIXES
 
-1. `min.integer64`, `max.integer64` and `range.integer64` now support `na.rm=TRUE` correctly when combining across mutliple inputs like `min(x, NA_integer64_, na.rm=TRUE)` (#142).
-1. `as.integer64.integer64` is consistent with `as.integer.integer` in terms or returning a plain integer64 vector (i.e., stripped of attributes; #188). Thanks @hcirellu.
+1. `min.integer64`, `max.integer64` and `range.integer64` now support `na.rm=TRUE` correctly when combining across multiple inputs like `min(x, NA_integer64_, na.rm=TRUE)` (#142).
+1. `as.integer64.integer64` is consistent with `as.integer.integer` in terms of returning a plain integer64 vector (i.e., stripped of attributes; #188). Thanks @hcirellu.
 1. `log(integer64(), base=integer64(1))` no longer warns, consistent with `log(integer(), base=integer())` (#93).
 1. `sortfin(integer64(), 1:10)` no longer segfaults (#164).
 1. `orderfin(as.integer64(10:1), 1:3, 8:11)` enforces that `table` be sorted by `order` instead of segfaulting (#166).
@@ -78,16 +69,13 @@
 1. `[.integer64` now runs faster and correctly regarding `NA` and arrays (#176). Thanks @hcirellu.
 1. `integer64() %in% 1L` no longer warns (#265). Thanks @hcirellu.
 1. `match.integer64(..., method="orderpos")` and `duplicated.integer64(..., method="orderdup")` no longer fail with "object 's' not found" (#58).
+1. `median(NA_integer64_, na.rm=FALSE)` and `median(integer64())` now return `NA_integer64_`, aligning its behavior with `median(NA_integer_)`, #185. Previously the former threw an error while the latter gave an incorrect result. Thanks @ben-schwen for the report and the PR.
 
 ## NOTES
 
 1. {bit64} no longer prints any start-up messages through an `.onAttach()` hook (#106). Thanks @hadley for the request.
 1. The R version dependency has been bumped from 3.4.0 (2017) to 3.5.0 (2018).
 1. From R 4.6.0, R's {utils} package has its own 'bitstring' class which is basically compatible with that shipped by {bit64} for many years. `as.bitstring()` only makes a simple adjustment, namely, for `as.bitstring()` to add two new attributes (`nbits` and `type`). Everything else should continue to work as before.
-
-## BUG FIXES
-
-1. `median(NA_integer64_, na.rm=FALSE)` and `median(integer64())` now return `NA_integer64_`, aligning its behavior with `median(NA_integer_)`, #185. Previously the former threw an error while the latter gave an incorrect result. Thanks @ben-schwen for the report and the PR.
 
 # bit64 4.6.0-1 (2025-01-16)
 

@@ -708,7 +708,7 @@
 #' @importFrom stats cor median quantile
 #' @importFrom utils head packageDescription strOptions tail getS3method
 #' @export : %in% is.double match order print.cache rank
-# TODO(>=4.8.0): un-export these
+# TODO(>=4.9.0): un-export these
 #' @export [<-.integer64 abs.integer64 all.integer64 any.integer64
 #' @export as.character.integer64 as.data.frame.integer64 as.double.integer64
 #' @export as.integer.integer64 as.integer64.character as.integer64.double
