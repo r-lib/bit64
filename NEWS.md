@@ -1,3 +1,5 @@
+# bit64 4.8.99 (in development)
+
 # bit64 4.8.0 (2025-04-19)
 
 ## NOTICE OF PLANNED BREAKING CHANGES

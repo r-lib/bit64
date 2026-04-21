@@ -1,6 +1,6 @@
 Package: bit64
 Title: A S3 Class for Vectors of 64bit Integers
-Version: 4.8.0
+Version: 4.8.99
 Authors@R: c(
     person("Michael", "Chirico", email="michaelchirico4@gmail.com", role=c("aut", "cre")),
     person("Jens", "Oehlschlägel", role="aut"),
