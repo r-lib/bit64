@@ -50,65 +50,24 @@ jobs:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
 
-  sanitizers:
+  valgrind:
     runs-on: ubuntu-latest
-    container:
-      image: rocker/r-devel-san
     steps:
       - uses: actions/checkout@v4
-
+      - uses: r-lib/actions/setup-r@v2
       - name: Install system dependencies
         run: |
-          apt-get update && apt-get install -y libuv1-dev
-
-      - name: Install dependencies
-        run: |
-          Rscript -e 'install.packages("remotes")'
-          Rscript -e 'remotes::install_deps(dependencies = TRUE)'
-
-      - name: Check with ASAN/UBSAN
+          sudo apt-get update
+          sudo apt-get install -y valgrind libuv1-dev
+      - uses: r-lib/actions/setup-r-dependencies@v2
+      - name: R CMD check with valgrind
         env:
-          ASAN_OPTIONS: 'detect_leaks=0:detect_odr_violation=0'
-          NOT_CRAN: "true"
+          # halt_on_error forces an immediate crash. strict_string_checks helps catch global OOB reads.
+          ASAN_OPTIONS: 'detect_leaks=0:detect_odr_violation=0:halt_on_error=1:strict_string_checks=1'
+          UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
         run: |
           R CMD build .
-          R CMD check --as-cran bit64_*.tar.gz || {
-            echo "----------------------------------------------------------------"
-            echo "R CMD check failed, running tests directly to see ASAN/UBSAN output"
-            R CMD INSTALL bit64_*.tar.gz
-            Rscript -e 'library(bit64); library(patrick); testthat::test_local()'
-            exit 1
-          }
-
-  clang-sanitizers:
-    runs-on: ubuntu-latest
-    container:
-      image: rocker/r-devel-ubsan-clang
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install system dependencies
-        run: |
-          apt-get update && apt-get install -y libuv1-dev
-
-      - name: Install dependencies
-        run: |
-          RDscript -e 'install.packages("remotes")'
-          RDscript -e 'remotes::install_deps(dependencies = TRUE)'
-
-      - name: Check with ASAN/UBSAN (Clang)
-        env:
-          ASAN_OPTIONS: 'detect_leaks=0:detect_odr_violation=0'
-          NOT_CRAN: "true"
-        run: |
-          RD CMD build .
-          RD CMD check --as-cran bit64_*.tar.gz || {
-            echo "----------------------------------------------------------------"
-            echo "RD CMD check failed, running tests directly to see ASAN/UBSAN output"
-            RD CMD INSTALL bit64_*.tar.gz
-            RDscript -e 'library(bit64); library(patrick); testthat::test_local()'
-            exit 1
-          }
+          R CMD check --use-valgrind bit64_*.tar.gz
 
   test-ancient:
     runs-on: ubuntu-latest
@@ -135,16 +94,16 @@ jobs:
           for FILE in tests/testthat/test-*.R; do
             echo "----------------------------------------------------------------"
             echo "Running $FILE"
-            
+
             sed -E "s/(patrick|withr):://g" "$FILE" > "${FILE}_SHIMMED.R"
             Rscript -e "library(methods); suppressWarnings(suppressMessages(library(bit64))); source('tests/testthat/helper.R'); source('${FILE}_SHIMMED.R')"
             rm "${FILE}_SHIMMED.R"
-            
+
             # Capture failure
             if [ $? -ne 0 ]; then
               EXIT_CODE=1
             fi
-            
+
           done
 
           exit $EXIT_CODE
