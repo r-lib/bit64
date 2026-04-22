@@ -60,14 +60,22 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y valgrind libuv1-dev
       - uses: r-lib/actions/setup-r-dependencies@v2
-      - name: R CMD check with valgrind
-        env:
-          # halt_on_error forces an immediate crash. strict_string_checks helps catch global OOB reads.
-          ASAN_OPTIONS: 'detect_leaks=0:detect_odr_violation=0:halt_on_error=1:strict_string_checks=1'
-          UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
+      - name: Set Debug Flags
         run: |
-          R CMD build .
-          R CMD check --use-valgrind bit64_*.tar.gz
+          mkdir -p ~/.R
+          # -O0 turns off optimizations
+          # -g adds debug symbols so you get a stack trace
+          echo "CFLAGS = -O0 -g" >> ~/.R/Makevars
+          echo "CXXFLAGS = -O0 -g" >> ~/.R/Makevars
+      - name: Install package
+        run: R CMD INSTALL .
+
+      - name: Run tests with Valgrind
+        run: |
+          # --error-exitcode=1 ensures the GHA job fails if Valgrind detects a problem
+          # --tool=memcheck is standard for memory errors
+          # --track-origins=yes helps locate the uninitialized value
+          R -d "valgrind --tool=memcheck --leak-check=full --track-origins=yes --error-exitcode=1" -e "library(patrick); testthat::test_local()"
 
   test-sanitizers-only:
     runs-on: ubuntu-latest
@@ -84,6 +92,14 @@ jobs:
         run: |
           Rscript -e 'install.packages("remotes")'
           Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+
+      - name: Set Debug Flags
+        run: |
+          mkdir -p ~/.R
+          # -O0 turns off optimizations
+          # -g adds debug symbols so you get a stack trace
+          echo "CFLAGS = -O0 -g" >> ~/.R/Makevars
+          echo "CXXFLAGS = -O0 -g" >> ~/.R/Makevars
 
       - name: Install Package and Run Tests (ASAN/UBSAN)
         env:
@@ -111,6 +127,14 @@ jobs:
         run: |
           Rscript -e 'install.packages("remotes")'
           Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+
+      - name: Set Debug Flags
+        run: |
+          mkdir -p ~/.R
+          # -O0 turns off optimizations
+          # -g adds debug symbols so you get a stack trace
+          echo "CFLAGS = -O0 -g" >> ~/.R/Makevars
+          echo "CXXFLAGS = -O0 -g" >> ~/.R/Makevars
 
       - name: Install Package
         run: R CMD INSTALL .
