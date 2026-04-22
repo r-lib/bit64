@@ -50,7 +50,7 @@ jobs:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
 
-sanitizers:
+  sanitizers:
     runs-on: ubuntu-latest
     container:
       image: rocker/r-devel-san
