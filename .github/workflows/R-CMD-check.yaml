@@ -94,7 +94,7 @@ jobs:
           R CMD INSTALL .
 
           # Run tests directly
-          Rscript -e 'library(testthat); test_local()'
+          Rscript -e 'library(testthat); library(patrick); test_local()'
 
   test-valgrind-only:
     runs-on: ubuntu-latest
@@ -118,7 +118,7 @@ jobs:
       - name: Run Tests under Valgrind
         run: |
           # The --error-exitcode=1 ensures the GH Action fails if Valgrind finds a memory error
-          R -d "valgrind --leak-check=full --track-origins=yes --error-exitcode=1" -e 'testthat::test_local()'
+          R -d "valgrind --leak-check=full --track-origins=yes --error-exitcode=1" -e 'library(patrick); testthat::test_local()'
 
   test-ancient:
     runs-on: ubuntu-latest
