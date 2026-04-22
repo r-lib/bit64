@@ -80,6 +80,44 @@ jobs:
         run: |
           Rscript -e 'library(patrick); testthat::test_local()'
 
+  repro-cran:
+    name: Reproduce CRAN Segfault (Clang ASAN/UBSAN + libc++)
+    runs-on: ubuntu-latest
+    container: rocker/r-devel-san
+    env:
+      # Match CRAN flags exactly
+      CC: "clang"
+      CXX: "clang++"
+      # Disable fortify as it conflicts with sanitizers; use -O3 as CRAN does
+      CFLAGS: "-fsanitize=address,undefined -fno-omit-frame-pointer -g -O3 -Wall -pedantic -U_FORTIFY_SOURCE"
+      CXXFLAGS: "-fsanitize=address,undefined -fno-omit-frame-pointer -g -O3 -Wall -pedantic -stdlib=libc++ -U_FORTIFY_SOURCE"
+      LDFLAGS: "-fsanitize=address,undefined -stdlib=libc++"
+      # Match CRAN ASAN options
+      ASAN_OPTIONS: "detect_leaks=0:detect_odr_violation=0:halt_on_error=1"
+      UBSAN_OPTIONS: "print_stacktrace=1:halt_on_error=1"
+      R_KEEP_PKG_SOURCE: yes
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install System Dependencies
+        run: |
+          apt-get update
+          apt-get install -y clang libc++-dev libc++abi-dev libuv1-dev
+
+      - name: Install Dependencies from Source
+        run: |
+          # Force source installation to ensure dependencies are compiled with the same sanitizers
+          Rscript -e 'install.packages(c("remotes", "testthat", "patrick", "bit"), type="source")'
+          Rscript -e 'remotes::install_deps(dependencies = TRUE, type="source")'
+
+      - name: Install bit64
+        run: R CMD INSTALL .
+
+      - name: Run Tests
+        run: |
+          # Running the tests that triggered the crash on CRAN
+          Rscript -e 'library(patrick); testthat::test_local()'
+
   test-ancient:
     runs-on: ubuntu-latest
     steps:
