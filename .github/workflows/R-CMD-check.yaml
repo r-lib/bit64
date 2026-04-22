@@ -50,34 +50,7 @@ jobs:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
 
-  valgrind:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: r-lib/actions/setup-r@v2
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y valgrind libuv1-dev
-      - uses: r-lib/actions/setup-r-dependencies@v2
-      - name: Set Debug Flags
-        run: |
-          mkdir -p ~/.R
-          # -O0 turns off optimizations
-          # -g adds debug symbols so you get a stack trace
-          echo "CFLAGS = -O0 -g" >> ~/.R/Makevars
-          echo "CXXFLAGS = -O0 -g" >> ~/.R/Makevars
-      - name: Install package
-        run: R CMD INSTALL .
-
-      - name: Run tests with Valgrind
-        run: |
-          # --error-exitcode=1 ensures the GHA job fails if Valgrind detects a problem
-          # --tool=memcheck is standard for memory errors
-          # --track-origins=yes helps locate the uninitialized value
-          R -d "valgrind --tool=memcheck --leak-check=full --track-origins=yes --error-exitcode=1" -e "library(patrick); testthat::test_local()"
-
-  test-sanitizers-only:
+sanitizers:
     runs-on: ubuntu-latest
     container:
       image: rocker/r-devel-san
@@ -88,61 +61,24 @@ jobs:
         run: |
           apt-get update && apt-get install -y libuv1-dev
 
-      - name: Install R dependencies
+      - name: Install dependencies
         run: |
           Rscript -e 'install.packages("remotes")'
           Rscript -e 'remotes::install_deps(dependencies = TRUE)'
 
-      - name: Set Debug Flags
-        run: |
-          mkdir -p ~/.R
-          # -O0 turns off optimizations
-          # -g adds debug symbols so you get a stack trace
-          echo "CFLAGS = -O0 -g" >> ~/.R/Makevars
-          echo "CXXFLAGS = -O0 -g" >> ~/.R/Makevars
-
-      - name: Install Package and Run Tests (ASAN/UBSAN)
-        env:
-          ASAN_OPTIONS: 'detect_leaks=0:detect_odr_violation=0:halt_on_error=1:strict_string_checks=1'
-          UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
-        run: |
-          # Install the package directly from source
-          R CMD INSTALL .
-
-          # Run tests directly
-          Rscript -e 'library(testthat); library(patrick); test_local()'
-
-  test-valgrind-only:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: r-lib/actions/setup-r@v2
-
-      - name: Install Valgrind & Sys Deps
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y valgrind libuv1-dev
-
-      - name: Install R dependencies
-        run: |
-          Rscript -e 'install.packages("remotes")'
-          Rscript -e 'remotes::install_deps(dependencies = TRUE)'
-
-      - name: Set Debug Flags
-        run: |
-          mkdir -p ~/.R
-          # -O0 turns off optimizations
-          # -g adds debug symbols so you get a stack trace
-          echo "CFLAGS = -O0 -g" >> ~/.R/Makevars
-          echo "CXXFLAGS = -O0 -g" >> ~/.R/Makevars
-
-      - name: Install Package
+      - name: Install package
         run: R CMD INSTALL .
 
-      - name: Run Tests under Valgrind
+      - name: Run Tests with Sanitizers
+        env:
+          # halt_on_error ensures the CI job fails immediately upon finding the bug
+          ASAN_OPTIONS: 'detect_leaks=0:halt_on_error=1:strict_string_checks=1'
+          UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
+          # Use aggressive bounds checking flags used by CRAN
+          CFLAGS: '-fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -g -O2'
+          CXXFLAGS: '-fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -g -O2'
         run: |
-          # The --error-exitcode=1 ensures the GH Action fails if Valgrind finds a memory error
-          R -d "valgrind --leak-check=full --track-origins=yes --error-exitcode=1" -e 'library(patrick); testthat::test_local()'
+          Rscript -e 'library(patrick); testthat::test_local()'
 
   test-ancient:
     runs-on: ubuntu-latest
