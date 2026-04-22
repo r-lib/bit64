@@ -86,8 +86,8 @@ jobs:
     container: rocker/r-devel-san
     env:
       # Match CRAN flags exactly
-      CC: "clang"
-      CXX: "clang++"
+      CC: "clang-19"
+      CXX: "clang++-19"
       # Disable fortify as it conflicts with sanitizers; use -O3 as CRAN does
       CFLAGS: "-fsanitize=address,undefined -fno-omit-frame-pointer -g -O3 -Wall -pedantic -U_FORTIFY_SOURCE"
       CXXFLAGS: "-fsanitize=address,undefined -fno-omit-frame-pointer -g -O3 -Wall -pedantic -stdlib=libc++ -U_FORTIFY_SOURCE"
@@ -102,7 +102,8 @@ jobs:
       - name: Install System Dependencies
         run: |
           apt-get update
-          apt-get install -y clang libc++-dev libc++abi-dev libuv1-dev
+          # Use Clang 19 to avoid version 21 dependency conflicts in Debian Sid/Testing
+          apt-get install -y --no-install-recommends clang-19 libc++-19-dev libc++abi-19-dev libuv1-dev
 
       - name: Install Dependencies from Source
         run: |
