@@ -8,12 +8,12 @@ test_that("shellsort with > 100 elements (triggers shellincs logic)", {
   
   # This calls ram_integer64_shellsort_asc (or desc)
   # In the buggy version, this should trigger ASAN/UBSAN
-  expect_error(bit::shellsort(x), NA)
+  expect_no_error(bit::shellsort(x))
   expect_identical(x, as.integer64(1:n))
   
   # Test descending
   x <- as.integer64(sample.int(n))
-  expect_error(bit::shellsort(x, decreasing=TRUE), NA)
+  expect_no_error(bit::shellsort(x, decreasing=TRUE))
   expect_identical(x, as.integer64(n:1))
 })
 
@@ -23,6 +23,6 @@ test_that("shellorder with > 100 elements", {
   x <- as.integer64(sample.int(n))
   ix <- seq_along(x)
   
-  expect_error(bit::shellorder(x, ix), NA)
+  expect_no_error(bit::shellorder(x, ix))
   expect_identical(x[ix], as.integer64(1:n))
 })
