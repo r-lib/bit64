@@ -83,7 +83,7 @@ jobs:
   clang-sanitizers:
     runs-on: ubuntu-latest
     container:
-      image: rocker/r-devel-san-clang
+      image: rocker/r-devel-ubsan-clang
     steps:
       - uses: actions/checkout@v4
 
@@ -93,20 +93,20 @@ jobs:
 
       - name: Install dependencies
         run: |
-          Rscript -e 'install.packages("remotes")'
-          Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+          RDscript -e 'install.packages("remotes")'
+          RDscript -e 'remotes::install_deps(dependencies = TRUE)'
 
       - name: Check with ASAN/UBSAN (Clang)
         env:
           ASAN_OPTIONS: 'detect_leaks=0:detect_odr_violation=0'
           NOT_CRAN: "true"
         run: |
-          R CMD build .
-          R CMD check --as-cran bit64_*.tar.gz || {
+          RD CMD build .
+          RD CMD check --as-cran bit64_*.tar.gz || {
             echo "----------------------------------------------------------------"
-            echo "R CMD check failed, running tests directly to see ASAN/UBSAN output"
-            R CMD INSTALL bit64_*.tar.gz
-            Rscript -e 'library(bit64); library(patrick); testthat::test_local()'
+            echo "RD CMD check failed, running tests directly to see ASAN/UBSAN output"
+            RD CMD INSTALL bit64_*.tar.gz
+            RDscript -e 'library(bit64); library(patrick); testthat::test_local()'
             exit 1
           }
 
