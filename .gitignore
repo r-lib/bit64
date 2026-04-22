@@ -7,6 +7,7 @@
 
 # User-specific files
 .Ruserdata
+*.swp
 
 # Output files from build+check+revdeps
 /*.tar.gz
