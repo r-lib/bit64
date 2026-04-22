@@ -50,50 +50,19 @@ jobs:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
 
-  sanitizers:
-    runs-on: ubuntu-latest
-    container:
-      image: rocker/r-devel-san
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install system dependencies
-        run: |
-          apt-get update && apt-get install -y libuv1-dev
-
-      - name: Install dependencies
-        run: |
-          Rscript -e 'install.packages("remotes")'
-          Rscript -e 'remotes::install_deps(dependencies = TRUE)'
-
-      - name: Install package
-        run: R CMD INSTALL .
-
-      - name: Run Tests with Sanitizers
-        env:
-          # halt_on_error ensures the CI job fails immediately upon finding the bug
-          ASAN_OPTIONS: 'detect_leaks=0:halt_on_error=1:strict_string_checks=1'
-          UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
-          # Use aggressive bounds checking flags used by CRAN
-          CFLAGS: '-fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -g -O2'
-          CXXFLAGS: '-fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -g -O2'
-        run: |
-          Rscript -e 'library(patrick); testthat::test_local()'
-
   repro-cran:
-    name: Reproduce CRAN Segfault (Clang ASAN/UBSAN + libc++)
+    name: Reproduce CRAN Segfault (Fedora Rawhide + ASAN + GCTorture)
     runs-on: ubuntu-latest
-    container: rocker/r-devel-san
+    container: fedora:rawhide
     env:
-      # Match CRAN flags exactly
-      CC: "clang-19"
-      CXX: "clang++-19"
-      # Disable fortify as it conflicts with sanitizers; use -O3 as CRAN does
-      CFLAGS: "-fsanitize=address,undefined -fno-omit-frame-pointer -g -O3 -Wall -pedantic -U_FORTIFY_SOURCE"
-      CXXFLAGS: "-fsanitize=address,undefined -fno-omit-frame-pointer -g -O3 -Wall -pedantic -stdlib=libc++ -U_FORTIFY_SOURCE"
+      CC: "clang"
+      CXX: "clang++"
+      # Aggressive flags to match CRAN and expose subtle memory/alignment issues
+      # Using -fno-strict-aliasing for type-punning safety in integer64.c
+      CFLAGS: "-fsanitize=address,undefined -fno-omit-frame-pointer -g -O3 -fno-strict-aliasing -fstack-protector-all -U_FORTIFY_SOURCE"
+      CXXFLAGS: "-fsanitize=address,undefined -fno-omit-frame-pointer -g -O3 -fno-strict-aliasing -fstack-protector-all -stdlib=libc++ -U_FORTIFY_SOURCE"
       LDFLAGS: "-fsanitize=address,undefined -stdlib=libc++"
-      # Match CRAN ASAN options
-      ASAN_OPTIONS: "detect_leaks=0:detect_odr_violation=0:halt_on_error=1"
+      ASAN_OPTIONS: "detect_leaks=0:detect_odr_violation=0:halt_on_error=1:strict_string_checks=1"
       UBSAN_OPTIONS: "print_stacktrace=1:halt_on_error=1"
       R_KEEP_PKG_SOURCE: yes
     steps:
@@ -101,23 +70,22 @@ jobs:
 
       - name: Install System Dependencies
         run: |
-          apt-get update
-          # Use Clang 19 to avoid version 21 dependency conflicts in Debian Sid/Testing
-          apt-get install -y --no-install-recommends clang-19 libc++-19-dev libc++abi-19-dev libuv1-dev
+          dnf install -y R-core-devel clang libcxx-devel libuv-devel libcurl-devel openssl-devel procps-ng
 
       - name: Install Dependencies from Source
         run: |
           # Force source installation to ensure dependencies are compiled with the same sanitizers
-          Rscript -e 'install.packages(c("remotes", "testthat", "patrick", "bit"), type="source")'
+          Rscript -e 'install.packages(c("remotes", "testthat", "patrick", "bit"), repos="https://cloud.r-project.org", type="source")'
           Rscript -e 'remotes::install_deps(dependencies = TRUE, type="source")'
 
       - name: Install bit64
         run: R CMD INSTALL .
 
-      - name: Run Tests
+      - name: Run Tests with GCTorture
         run: |
-          # Running the tests that triggered the crash on CRAN
-          Rscript -e 'library(patrick); testthat::test_local()'
+          # Use gctorture2 to force GC frequently, exposing dangling pointers in C code
+          # This is the most likely way to reproduce a segfault that ASAN misses
+          Rscript -e 'gctorture2(10); testthat::test_local()'
 
   test-ancient:
     runs-on: ubuntu-latest
