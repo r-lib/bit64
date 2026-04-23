@@ -85,7 +85,7 @@ jobs:
         run: |
           # Use gctorture2 to force GC frequently, exposing dangling pointers in C code
           # This is the most likely way to reproduce a segfault that ASAN misses
-          Rscript -e 'gctorture2(10); testthat::test_local()'
+          Rscript -e 'gctorture2(10); library(patrick); testthat::test_local()'
 
   test-ancient:
     runs-on: ubuntu-latest
