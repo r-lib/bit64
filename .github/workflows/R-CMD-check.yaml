@@ -50,6 +50,63 @@ jobs:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
 
+  sanitizers:
+    runs-on: ubuntu-latest
+    container:
+      image: rocker/r-devel-san
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          apt-get update && apt-get install -y libuv1-dev
+
+      - name: Install dependencies
+        run: |
+          Rscript -e 'install.packages("remotes")'
+          Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+
+      - name: Install package
+        run: R CMD INSTALL .
+
+      - name: Run Tests with Sanitizers
+        env:
+          # halt_on_error ensures the CI job fails immediately upon finding the bug
+          ASAN_OPTIONS: 'detect_leaks=0:halt_on_error=1:strict_string_checks=1'
+          UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
+          # Use aggressive bounds checking flags used by CRAN
+          CFLAGS: '-fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -g -O2'
+          CXXFLAGS: '-fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -g -O2'
+        run: |
+          Rscript -e 'library(patrick); testthat::test_local()'
+
+  repro-segfault:
+    name: Target Segfault (Fedora + Targeted GCTorture)
+    runs-on: ubuntu-latest
+    container: fedora:rawhide
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Dependencies
+        run: |
+          dnf install -y R-core-devel clang libcxx-devel libuv-devel libcurl-devel openssl-devel procps-ng
+          Rscript -e 'install.packages(c("remotes", "testthat", "patrick", "bit"), repos="https://cloud.r-project.org", type="source")'
+      
+      - name: Build and Install bit64
+        env:
+          CC: "clang"
+          CFLAGS: "-fsanitize=address,undefined -g"
+        run: R CMD INSTALL .
+
+      - name: Reproduce
+        run: |
+          # Use gctorture(TRUE) with the proper test runner to expose the memory issue
+          Rscript -e '
+            library(patrick)
+            gctorture(TRUE)
+            testthat::test_local()
+            gctorture(FALSE)
+          '
+
   test-ancient:
     runs-on: ubuntu-latest
     steps:
@@ -75,16 +132,16 @@ jobs:
           for FILE in tests/testthat/test-*.R; do
             echo "----------------------------------------------------------------"
             echo "Running $FILE"
-            
+
             sed -E "s/(patrick|withr):://g" "$FILE" > "${FILE}_SHIMMED.R"
             Rscript -e "library(methods); suppressWarnings(suppressMessages(library(bit64))); source('tests/testthat/helper.R'); source('${FILE}_SHIMMED.R')"
             rm "${FILE}_SHIMMED.R"
-            
+
             # Capture failure
             if [ $? -ne 0 ]; then
               EXIT_CODE=1
             fi
-            
+
           done
 
           exit $EXIT_CODE
