@@ -88,35 +88,105 @@ jobs:
         run: |
           Rscript -e 'library(patrick); testthat::test_local()'
 
-  sanitizers:
+  gcc-ASAN:
+    name: "Oxford gcc-ASAN"
     runs-on: ubuntu-latest
     container:
       image: rocker/r-devel-san
+    env:
+      ASAN_OPTIONS: 'detect_leaks=0:halt_on_error=1'
+      UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
+      R_DONT_USE_TK: true
+      RGL_USE_NULL: true
+      RJAVA_JVM_STACK_WORKAROUND: 0
+      # Oxford flags
+      CFLAGS: "-g -O2 -Wall -pedantic -mtune=native -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -Wno-stringop-truncation -Wno-alloc-size-larger-than"
+      CXXFLAGS: "-g -O2 -Wall -pedantic -mtune=native -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-stringop-truncation -Wno-alloc-size-larger-than"
+      MAIN_LDFLAGS: "-fsanitize=address,undefined -pthread"
     steps:
       - uses: actions/checkout@v4
-
       - name: Install system dependencies
         run: |
           apt-get update && apt-get install -y libuv1-dev
-
       - name: Install dependencies
         run: |
           Rscript -e 'install.packages("remotes")'
           Rscript -e 'remotes::install_deps(dependencies = TRUE)'
-
-      - name: Install package
-        run: R CMD INSTALL .
-
-      - name: Run Tests with Sanitizers
-        env:
-          # halt_on_error ensures the CI job fails immediately upon finding the bug
-          ASAN_OPTIONS: 'detect_leaks=0:halt_on_error=1:strict_string_checks=1'
-          UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
-          # Use aggressive bounds checking flags used by CRAN
-          CFLAGS: '-fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -g -O2'
-          CXXFLAGS: '-fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -g -O2'
+      - name: Build and Check
         run: |
-          Rscript -e 'library(patrick); testthat::test_local()'
+          R CMD build .
+          R CMD check bit64_*.tar.gz --as-cran --no-manual --no-vignettes
+
+  clang-ASAN:
+    name: "Oxford clang-ASAN"
+    runs-on: ubuntu-latest
+    container:
+      image: rocker/r-devel-ubsan-clang
+    env:
+      ASAN_OPTIONS: 'detect_leaks=0:detect_odr_violation=0:halt_on_error=1'
+      UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
+      R_DONT_USE_TK: true
+      RGL_USE_NULL: true
+      RJAVA_JVM_STACK_WORKAROUND: 0
+      # Oxford flags
+      CC: "clang -fsanitize=address,undefined -fno-omit-frame-pointer"
+      CXX: "clang++ -fsanitize=address,undefined -fno-omit-frame-pointer -frtti -stdlib=libc++"
+      CFLAGS: "-g -O3 -Wall -pedantic"
+      CXXFLAGS: "-g -O3 -Wall -pedantic"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install system dependencies
+        run: |
+          apt-get update && apt-get install -y libuv1-dev libc++-dev libc++abi-dev
+      - name: Install dependencies
+        run: |
+          Rscript -e 'install.packages("remotes")'
+          Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+      - name: Build and Check
+        run: |
+          R CMD build .
+          R CMD check bit64_*.tar.gz --as-cran --no-manual --no-vignettes
+
+  valgrind:
+    name: "Oxford Valgrind"
+    runs-on: ubuntu-latest
+    env:
+      R_DONT_USE_TK: true
+      RJAVA_JVM_STACK_WORKAROUND: 0
+      # Oxford flags
+      CFLAGS: "-g -O2 -Wall -pedantic -mtune=native"
+      CXXFLAGS: "-g -O2 -Wall -pedantic -mtune=native"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-pandoc@v2
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'devel'
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y valgrind libuv1-dev
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+      - name: Build and Check
+        run: |
+          R CMD build .
+          echo '{
+             Suppression for wcsrtombs
+             Memcheck:Cond
+             fun:__wcsnlen_sse4_1
+             fun:wcsrtombs
+             fun:wcstombs
+          }
+          {
+             Suppression for do_makename
+             Memcheck:Addr16
+             fun:__wcsnlen_sse4_1
+             fun:wcsrtombs
+             fun:wcstombs
+          }' > valgrind.supp
+          R CMD check bit64_*.tar.gz --as-cran --no-manual --no-vignettes --use-valgrind --valgrind-args="--suppressions=valgrind.supp"
 
   test-ancient:
     runs-on: ubuntu-latest
