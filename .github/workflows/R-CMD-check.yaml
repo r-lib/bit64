@@ -100,18 +100,37 @@ jobs:
       RGL_USE_NULL: true
       RJAVA_JVM_STACK_WORKAROUND: 0
       # Oxford flags
+      CC: "gcc -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer"
+      CXX: "g++ -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer"
       CFLAGS: "-g -O2 -Wall -pedantic -mtune=native -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -Wno-stringop-truncation -Wno-alloc-size-larger-than"
       CXXFLAGS: "-g -O2 -Wall -pedantic -mtune=native -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-stringop-truncation -Wno-alloc-size-larger-than"
+      FC: gfortran
+      FFLAGS: "-g -O2 -mtune=native"
       MAIN_LDFLAGS: "-fsanitize=address,undefined -pthread"
+      # LTO flags
+      AR: gcc-ar
+      RANLIB: gcc-ranlib
+      LTO: "-flto=10"
+      LTO_OPT: "-flto"
     steps:
       - uses: actions/checkout@v4
       - name: Install system dependencies
         run: |
           apt-get update && apt-get install -y libuv1-dev
-      - name: Install dependencies
+      - name: Install dependencies from source
         run: |
-          Rscript -e 'install.packages("remotes")'
-          Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+          mkdir -p ~/.R
+          echo "CC=$CC" >> ~/.R/Makevars
+          echo "CXX=$CXX" >> ~/.R/Makevars
+          echo "CFLAGS=$CFLAGS" >> ~/.R/Makevars
+          echo "CXXFLAGS=$CXXFLAGS" >> ~/.R/Makevars
+          echo "FC=$FC" >> ~/.R/Makevars
+          echo "FFLAGS=$FFLAGS" >> ~/.R/Makevars
+          echo "MAIN_LDFLAGS=$MAIN_LDFLAGS" >> ~/.R/Makevars
+          echo "AR=$AR" >> ~/.R/Makevars
+          echo "RANLIB=$RANLIB" >> ~/.R/Makevars
+          Rscript -e 'install.packages("remotes", repos="https://cloud.r-project.org")'
+          Rscript -e 'remotes::install_deps(dependencies = TRUE, type = "source")'
       - name: Build and Check
         run: |
           R CMD build .
@@ -133,15 +152,24 @@ jobs:
       CXX: "clang++ -fsanitize=address,undefined -fno-omit-frame-pointer -frtti -stdlib=libc++"
       CFLAGS: "-g -O3 -Wall -pedantic"
       CXXFLAGS: "-g -O3 -Wall -pedantic"
+      FC: gfortran
+      FFLAGS: "-O2 -pedantic"
     steps:
       - uses: actions/checkout@v4
       - name: Install system dependencies
         run: |
           apt-get update && apt-get install -y libuv1-dev libc++-dev libc++abi-dev
-      - name: Install dependencies
+      - name: Install dependencies from source
         run: |
-          Rscript -e 'install.packages("remotes")'
-          Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+          mkdir -p ~/.R
+          echo "CC=$CC" >> ~/.R/Makevars
+          echo "CXX=$CXX" >> ~/.R/Makevars
+          echo "CFLAGS=$CFLAGS" >> ~/.R/Makevars
+          echo "CXXFLAGS=$CXXFLAGS" >> ~/.R/Makevars
+          echo "FC=$FC" >> ~/.R/Makevars
+          echo "FFLAGS=$FFLAGS" >> ~/.R/Makevars
+          Rscript -e 'install.packages("remotes", repos="https://cloud.r-project.org")'
+          Rscript -e 'remotes::install_deps(dependencies = TRUE, type = "source")'
       - name: Build and Check
         run: |
           R CMD build .
@@ -156,6 +184,8 @@ jobs:
       # Oxford flags
       CFLAGS: "-g -O2 -Wall -pedantic -mtune=native"
       CXXFLAGS: "-g -O2 -Wall -pedantic -mtune=native"
+      FFLAGS: "-g -O2 -mtune=native"
+      FCFLAGS: "-g -O2 -mtune=native"
     steps:
       - uses: actions/checkout@v4
       - uses: r-lib/actions/setup-pandoc@v2
@@ -165,10 +195,15 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y valgrind libuv1-dev
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::rcmdcheck
-          needs: check
+      - name: Install dependencies from source
+        run: |
+          mkdir -p ~/.R
+          echo "CFLAGS=$CFLAGS" >> ~/.R/Makevars
+          echo "CXXFLAGS=$CXXFLAGS" >> ~/.R/Makevars
+          echo "FFLAGS=$FFLAGS" >> ~/.R/Makevars
+          echo "FCFLAGS=$FCFLAGS" >> ~/.R/Makevars
+          Rscript -e 'install.packages("remotes", repos="https://cloud.r-project.org")'
+          Rscript -e 'remotes::install_deps(dependencies = TRUE, type = "source")'
       - name: Build and Check
         run: |
           R CMD build .
