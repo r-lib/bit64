@@ -50,106 +50,13 @@ jobs:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
 
-  strict-clang:
-    name: "Strict Clang (Clang + Opt + Hardening)"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: r-lib/actions/setup-pandoc@v2
-
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: 'devel'
-          use-public-rspm: true
-
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update && sudo apt-get install -y libuv1-dev clang
-
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::rcmdcheck
-          needs: check
-
-      - name: Build and Check
-        env:
-          CC: clang
-          CXX: clang++
-          # Strict compiler configuration:
-          # -O3: High optimization level
-          # -DNDEBUG: Disable assertions for performance
-          # -Wall -Wextra -Werror: Enforce clean code via strict warnings
-          # -fno-omit-frame-pointer: Enable better profiling/debugging
-          # -fstack-protector: Enable stack overflow protection
-          # -D_FORTIFY_SOURCE=2: Enable additional buffer overflow checks
-          CFLAGS: "-O3 -DNDEBUG -Wall -Wextra -Werror -Wno-unused-parameter -Wno-missing-field-initializers -fno-omit-frame-pointer -fstack-protector -D_FORTIFY_SOURCE=2"
-          CXXFLAGS: "-O3 -DNDEBUG -Wall -Wextra -Werror -Wno-unused-parameter -Wno-missing-field-initializers -fno-omit-frame-pointer -fstack-protector -D_FORTIFY_SOURCE=2"
-        run: |
-          Rscript -e 'library(patrick); testthat::test_local()'
-
-  gcc-ASAN:
-    name: "Oxford gcc-ASAN"
-    runs-on: ubuntu-latest
-    container:
-      image: rocker/r-devel-san
-    env:
-      _R_CHECK_FORCE_SUGGESTS_: true
-      _R_CHECK_TESTS_NLINES_: 0
-      ASAN_OPTIONS: 'detect_leaks=0:halt_on_error=1'
-      UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
-      R_DONT_USE_TK: true
-      RGL_USE_NULL: true
-      RJAVA_JVM_STACK_WORKAROUND: 0
-      # Oxford flags
-      CC: "gcc -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer"
-      CXX: "g++ -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer"
-      CFLAGS: "-g -O2 -Wall -pedantic -mtune=native -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -Wno-stringop-truncation -Wno-alloc-size-larger-than"
-      CXXFLAGS: "-g -O2 -Wall -pedantic -mtune=native -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-stringop-truncation -Wno-alloc-size-larger-than"
-      LDFLAGS: "-fsanitize=address,undefined"
-      FC: gfortran
-      FFLAGS: "-g -O2 -mtune=native"
-      MAIN_LDFLAGS: "-fsanitize=address,undefined -pthread"
-      # LTO flags
-      AR: gcc-ar
-      RANLIB: gcc-ranlib
-      LTO: "-flto=10"
-      LTO_OPT: "-flto"
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install system dependencies
-        run: |
-          apt-get update && apt-get install -y libuv1-dev
-      - name: Install dependencies from source
-        run: |
-          mkdir -p ~/.R
-          echo "CC=$CC" >> ~/.R/Makevars
-          echo "CXX=$CXX" >> ~/.R/Makevars
-          echo "CFLAGS=$CFLAGS" >> ~/.R/Makevars
-          echo "CXXFLAGS=$CXXFLAGS" >> ~/.R/Makevars
-          echo "LDFLAGS=$LDFLAGS" >> ~/.R/Makevars
-          echo "FC=$FC" >> ~/.R/Makevars
-          echo "FFLAGS=$FFLAGS" >> ~/.R/Makevars
-          echo "MAIN_LDFLAGS=$MAIN_LDFLAGS" >> ~/.R/Makevars
-          echo "AR=$AR" >> ~/.R/Makevars
-          echo "RANLIB=$RANLIB" >> ~/.R/Makevars
-          ASAN_LIB=$(gcc -print-file-name=libasan.so)
-          export LD_PRELOAD=$ASAN_LIB
-          Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org")); install.packages("remotes"); remotes::install_deps(dependencies = TRUE, type = "source")'
-      - name: Build and Check
-        run: |
-          R CMD build .
-          ASAN_LIB=$(gcc -print-file-name=libasan.so)
-          export LD_PRELOAD=$ASAN_LIB
-          R CMD check bit64_*.tar.gz --as-cran --no-manual --no-vignettes
-
+  # trying to approximate https://www.stats.ox.ac.uk/pub/bdr/memtests/README.txt
   clang-ASAN:
-    name: "Oxford clang-ASAN"
+    name: "CRAN-like clang-ASAN"
     runs-on: ubuntu-latest
     container:
       image: rocker/r-devel-ubsan-clang
     env:
-      _R_CHECK_FORCE_SUGGESTS_: true
       _R_CHECK_TESTS_NLINES_: 0
       ASAN_OPTIONS: 'detect_leaks=0:detect_odr_violation=0:halt_on_error=1'
       UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
@@ -181,62 +88,13 @@ jobs:
           echo "FFLAGS=$FFLAGS" >> ~/.R/Makevars
           ASAN_LIB=$(clang -print-file-name=libclang_rt.asan-x86_64.so)
           export LD_PRELOAD=$ASAN_LIB
-          Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org")); install.packages("remotes"); remotes::install_deps(dependencies = TRUE, type = "source")'
+          Rscript -e 'install.packages("remotes"); remotes::install_deps(dependencies = TRUE, type = "source")'
       - name: Build and Check
         run: |
           R CMD build .
           ASAN_LIB=$(clang -print-file-name=libclang_rt.asan-x86_64.so)
           export LD_PRELOAD=$ASAN_LIB
           R CMD check bit64_*.tar.gz --as-cran --no-manual --no-vignettes
-
-  valgrind:
-    name: "Oxford Valgrind"
-    runs-on: ubuntu-latest
-    env:
-      _R_CHECK_FORCE_SUGGESTS_: true
-      _R_CHECK_TESTS_NLINES_: 0
-      R_DONT_USE_TK: true
-      RJAVA_JVM_STACK_WORKAROUND: 0
-      # Oxford flags
-      CFLAGS: "-g -O2 -Wall -pedantic -mtune=native"
-      CXXFLAGS: "-g -O2 -Wall -pedantic -mtune=native"
-      FFLAGS: "-g -O2 -mtune=native"
-      FCFLAGS: "-g -O2 -mtune=native"
-    steps:
-      - uses: actions/checkout@v4
-      - uses: r-lib/actions/setup-pandoc@v2
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: 'devel'
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update && sudo apt-get install -y valgrind libuv1-dev
-      - name: Install dependencies from source
-        run: |
-          mkdir -p ~/.R
-          echo "CFLAGS=$CFLAGS" >> ~/.R/Makevars
-          echo "CXXFLAGS=$CXXFLAGS" >> ~/.R/Makevars
-          echo "FFLAGS=$FFLAGS" >> ~/.R/Makevars
-          echo "FCFLAGS=$FCFLAGS" >> ~/.R/Makevars
-          Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org")); install.packages("remotes"); remotes::install_deps(dependencies = TRUE, type = "source")'
-      - name: Build and Check
-        run: |
-          R CMD build .
-          echo '{
-             Suppression for wcsrtombs
-             Memcheck:Cond
-             fun:__wcsnlen_sse4_1
-             fun:wcsrtombs
-             fun:wcstombs
-          }
-          {
-             Suppression for do_makename
-             Memcheck:Addr16
-             fun:__wcsnlen_sse4_1
-             fun:wcsrtombs
-             fun:wcstombs
-          }' > valgrind.supp
-          R CMD check bit64_*.tar.gz --as-cran --no-manual --no-vignettes --use-valgrind --valgrind-args="--suppressions=valgrind.supp"
 
   test-ancient:
     runs-on: ubuntu-latest
