@@ -50,50 +50,27 @@ jobs:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
 
-  # trying to approximate https://www.stats.ox.ac.uk/pub/bdr/memtests/README.txt
   clang-ASAN:
-    name: "CRAN-like clang-ASAN"
+    name: "Minimal clang-ASAN"
     runs-on: ubuntu-latest
-    container:
-      image: rocker/r-devel-ubsan-clang
+    container: rocker/r-devel-ubsan-clang
     env:
       _R_CHECK_TESTS_NLINES_: 0
-      ASAN_OPTIONS: 'detect_leaks=0:detect_odr_violation=0:halt_on_error=1'
+      ASAN_OPTIONS: 'detect_leaks=0:halt_on_error=1'
       UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
-      R_DONT_USE_TK: true
-      RGL_USE_NULL: true
-      RJAVA_JVM_STACK_WORKAROUND: 0
-      # Oxford flags
       CC: "clang -fsanitize=address,undefined -fno-omit-frame-pointer"
-      CXX: "clang++ -fsanitize=address,undefined -fno-omit-frame-pointer -frtti -stdlib=libc++"
-      CFLAGS: "-g -O3 -Wall -pedantic"
-      CXXFLAGS: "-g -O3 -Wall -pedantic"
-      LDFLAGS: "-fsanitize=address,undefined"
-      FC: gfortran
-      FFLAGS: "-O2 -pedantic"
+      CXX: "clang++ -fsanitize=address,undefined -fno-omit-frame-pointer"
     steps:
       - uses: actions/checkout@v4
-      - name: Install system dependencies
+      - name: Set up ASAN
+        run: echo "LD_PRELOAD=$(clang -print-file-name=libclang_rt.asan-x86_64.so)" >> $GITHUB_ENV
+      - name: Install dependencies
         run: |
-          apt-get update && apt-get install -y libuv1-dev libc++-dev libc++abi-dev
-      - name: Install dependencies from source
-        run: |
-          mkdir -p ~/.R
-          echo "CC=$CC" >> ~/.R/Makevars
-          echo "CXX=$CXX" >> ~/.R/Makevars
-          echo "CFLAGS=$CFLAGS" >> ~/.R/Makevars
-          echo "CXXFLAGS=$CXXFLAGS" >> ~/.R/Makevars
-          echo "LDFLAGS=$LDFLAGS" >> ~/.R/Makevars
-          echo "FC=$FC" >> ~/.R/Makevars
-          echo "FFLAGS=$FFLAGS" >> ~/.R/Makevars
-          ASAN_LIB=$(clang -print-file-name=libclang_rt.asan-x86_64.so)
-          export LD_PRELOAD=$ASAN_LIB
-          Rscript -e 'install.packages("remotes"); remotes::install_deps(dependencies = TRUE, type = "source")'
+          apt-get update && apt-get install -y libuv1-dev
+          Rscript -e 'install.packages("remotes", repos="https://cloud.r-project.org"); remotes::install_deps(dependencies = TRUE, type = "source")'
       - name: Build and Check
         run: |
           R CMD build .
-          ASAN_LIB=$(clang -print-file-name=libclang_rt.asan-x86_64.so)
-          export LD_PRELOAD=$ASAN_LIB
           R CMD check bit64_*.tar.gz --as-cran --no-manual --no-vignettes
 
   test-ancient:
