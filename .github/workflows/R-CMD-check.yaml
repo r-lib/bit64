@@ -95,6 +95,7 @@ jobs:
       image: rocker/r-devel-san
     env:
       _R_CHECK_FORCE_SUGGESTS_: true
+      _R_CHECK_TESTS_NLINES_: 0
       ASAN_OPTIONS: 'detect_leaks=0:halt_on_error=1'
       UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
       R_DONT_USE_TK: true
@@ -132,16 +133,15 @@ jobs:
           echo "MAIN_LDFLAGS=$MAIN_LDFLAGS" >> ~/.R/Makevars
           echo "AR=$AR" >> ~/.R/Makevars
           echo "RANLIB=$RANLIB" >> ~/.R/Makevars
-          echo 'options(rcmdcheck.n_lines = -1)' >> ~/.Rprofile
           ASAN_LIB=$(gcc -print-file-name=libasan.so)
           export LD_PRELOAD=$ASAN_LIB
-          Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org")); install.packages(c("remotes", "rcmdcheck")); remotes::install_deps(dependencies = TRUE, type = "source")'
+          Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org")); install.packages("remotes"); remotes::install_deps(dependencies = TRUE, type = "source")'
       - name: Build and Check
         run: |
           R CMD build .
           ASAN_LIB=$(gcc -print-file-name=libasan.so)
           export LD_PRELOAD=$ASAN_LIB
-          Rscript -e "rcmdcheck::rcmdcheck(args = c('--as-cran', '--no-manual', '--no-vignettes'), error_on = 'error')"
+          R CMD check bit64_*.tar.gz --as-cran --no-manual --no-vignettes
 
   clang-ASAN:
     name: "Oxford clang-ASAN"
@@ -150,6 +150,7 @@ jobs:
       image: rocker/r-devel-ubsan-clang
     env:
       _R_CHECK_FORCE_SUGGESTS_: true
+      _R_CHECK_TESTS_NLINES_: 0
       ASAN_OPTIONS: 'detect_leaks=0:detect_odr_violation=0:halt_on_error=1'
       UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
       R_DONT_USE_TK: true
@@ -178,22 +179,22 @@ jobs:
           echo "LDFLAGS=$LDFLAGS" >> ~/.R/Makevars
           echo "FC=$FC" >> ~/.R/Makevars
           echo "FFLAGS=$FFLAGS" >> ~/.R/Makevars
-          echo 'options(rcmdcheck.n_lines = -1)' >> ~/.Rprofile
           ASAN_LIB=$(clang -print-file-name=libclang_rt.asan-x86_64.so)
           export LD_PRELOAD=$ASAN_LIB
-          Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org")); install.packages(c("remotes", "rcmdcheck")); remotes::install_deps(dependencies = TRUE, type = "source")'
+          Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org")); install.packages("remotes"); remotes::install_deps(dependencies = TRUE, type = "source")'
       - name: Build and Check
         run: |
           R CMD build .
           ASAN_LIB=$(clang -print-file-name=libclang_rt.asan-x86_64.so)
           export LD_PRELOAD=$ASAN_LIB
-          Rscript -e "rcmdcheck::rcmdcheck(args = c('--as-cran', '--no-manual', '--no-vignettes'), error_on = 'error')"
+          R CMD check bit64_*.tar.gz --as-cran --no-manual --no-vignettes
 
   valgrind:
     name: "Oxford Valgrind"
     runs-on: ubuntu-latest
     env:
       _R_CHECK_FORCE_SUGGESTS_: true
+      _R_CHECK_TESTS_NLINES_: 0
       R_DONT_USE_TK: true
       RJAVA_JVM_STACK_WORKAROUND: 0
       # Oxford flags
@@ -217,8 +218,7 @@ jobs:
           echo "CXXFLAGS=$CXXFLAGS" >> ~/.R/Makevars
           echo "FFLAGS=$FFLAGS" >> ~/.R/Makevars
           echo "FCFLAGS=$FCFLAGS" >> ~/.R/Makevars
-          echo 'options(rcmdcheck.n_lines = -1)' >> ~/.Rprofile
-          Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org")); install.packages(c("remotes", "rcmdcheck")); remotes::install_deps(dependencies = TRUE, type = "source")'
+          Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org")); install.packages("remotes"); remotes::install_deps(dependencies = TRUE, type = "source")'
       - name: Build and Check
         run: |
           R CMD build .
@@ -236,8 +236,7 @@ jobs:
              fun:wcsrtombs
              fun:wcstombs
           }' > valgrind.supp
-          export R_VALGRIND_FLAGS="--suppressions=valgrind.supp"
-          Rscript -e "rcmdcheck::rcmdcheck(args = c('--as-cran', '--no-manual', '--no-vignettes', '--use-valgrind'), error_on = 'error')"
+          R CMD check bit64_*.tar.gz --as-cran --no-manual --no-vignettes --use-valgrind --valgrind-args="--suppressions=valgrind.supp"
 
   test-ancient:
     runs-on: ubuntu-latest
