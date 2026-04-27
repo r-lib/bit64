@@ -317,7 +317,7 @@ test_that("arithmetic & basic math works", {
   expect_identical(abs(x - 6.0), as.integer64(c(5:0, 1:4)))
 
   expect_identical(sqrt(as.integer64(c(0L, 1L, 4L, 9L))), as.numeric(0:3))
-  expect_identical(log(x), log(as.numeric(x)), tolerance=1e-6)
+  expect_identical(log(x), log(as.numeric(x)))
   expect_identical(log(as.integer64(c(1L, 2L, 4L, 8L)), base=2L), as.numeric(0:3))
   expect_identical(log2(as.integer64(c(1L, 2L, 4L, 8L))), as.numeric(0:3))
   expect_identical(log10(as.integer64(c(1L, 10L, 100L, 1000L))), as.numeric(0:3), tolerance=1e-7)
