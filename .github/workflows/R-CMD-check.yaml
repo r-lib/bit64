@@ -94,6 +94,7 @@ jobs:
     container:
       image: rocker/r-devel-san
     env:
+      _R_CHECK_FORCE_SUGGESTS_: true
       ASAN_OPTIONS: 'detect_leaks=0:halt_on_error=1'
       UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
       R_DONT_USE_TK: true
@@ -104,6 +105,7 @@ jobs:
       CXX: "g++ -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer"
       CFLAGS: "-g -O2 -Wall -pedantic -mtune=native -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -Wno-stringop-truncation -Wno-alloc-size-larger-than"
       CXXFLAGS: "-g -O2 -Wall -pedantic -mtune=native -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-stringop-truncation -Wno-alloc-size-larger-than"
+      LDFLAGS: "-fsanitize=address,undefined"
       FC: gfortran
       FFLAGS: "-g -O2 -mtune=native"
       MAIN_LDFLAGS: "-fsanitize=address,undefined -pthread"
@@ -124,16 +126,20 @@ jobs:
           echo "CXX=$CXX" >> ~/.R/Makevars
           echo "CFLAGS=$CFLAGS" >> ~/.R/Makevars
           echo "CXXFLAGS=$CXXFLAGS" >> ~/.R/Makevars
+          echo "LDFLAGS=$LDFLAGS" >> ~/.R/Makevars
           echo "FC=$FC" >> ~/.R/Makevars
           echo "FFLAGS=$FFLAGS" >> ~/.R/Makevars
           echo "MAIN_LDFLAGS=$MAIN_LDFLAGS" >> ~/.R/Makevars
           echo "AR=$AR" >> ~/.R/Makevars
           echo "RANLIB=$RANLIB" >> ~/.R/Makevars
-          Rscript -e 'install.packages("remotes", repos="https://cloud.r-project.org")'
-          Rscript -e 'remotes::install_deps(dependencies = TRUE, type = "source")'
+          ASAN_LIB=$(gcc -print-file-name=libasan.so)
+          export LD_PRELOAD=$ASAN_LIB
+          Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org")); install.packages("remotes"); remotes::install_deps(dependencies = TRUE, type = "source")'
       - name: Build and Check
         run: |
           R CMD build .
+          ASAN_LIB=$(gcc -print-file-name=libasan.so)
+          export LD_PRELOAD=$ASAN_LIB
           R CMD check bit64_*.tar.gz --as-cran --no-manual --no-vignettes
 
   clang-ASAN:
@@ -142,6 +148,7 @@ jobs:
     container:
       image: rocker/r-devel-ubsan-clang
     env:
+      _R_CHECK_FORCE_SUGGESTS_: true
       ASAN_OPTIONS: 'detect_leaks=0:detect_odr_violation=0:halt_on_error=1'
       UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
       R_DONT_USE_TK: true
@@ -152,6 +159,7 @@ jobs:
       CXX: "clang++ -fsanitize=address,undefined -fno-omit-frame-pointer -frtti -stdlib=libc++"
       CFLAGS: "-g -O3 -Wall -pedantic"
       CXXFLAGS: "-g -O3 -Wall -pedantic"
+      LDFLAGS: "-fsanitize=address,undefined"
       FC: gfortran
       FFLAGS: "-O2 -pedantic"
     steps:
@@ -166,19 +174,24 @@ jobs:
           echo "CXX=$CXX" >> ~/.R/Makevars
           echo "CFLAGS=$CFLAGS" >> ~/.R/Makevars
           echo "CXXFLAGS=$CXXFLAGS" >> ~/.R/Makevars
+          echo "LDFLAGS=$LDFLAGS" >> ~/.R/Makevars
           echo "FC=$FC" >> ~/.R/Makevars
           echo "FFLAGS=$FFLAGS" >> ~/.R/Makevars
-          Rscript -e 'install.packages("remotes", repos="https://cloud.r-project.org")'
-          Rscript -e 'remotes::install_deps(dependencies = TRUE, type = "source")'
+          ASAN_LIB=$(clang -print-file-name=libclang_rt.asan-x86_64.so)
+          export LD_PRELOAD=$ASAN_LIB
+          Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org")); install.packages("remotes"); remotes::install_deps(dependencies = TRUE, type = "source")'
       - name: Build and Check
         run: |
           R CMD build .
+          ASAN_LIB=$(clang -print-file-name=libclang_rt.asan-x86_64.so)
+          export LD_PRELOAD=$ASAN_LIB
           R CMD check bit64_*.tar.gz --as-cran --no-manual --no-vignettes
 
   valgrind:
     name: "Oxford Valgrind"
     runs-on: ubuntu-latest
     env:
+      _R_CHECK_FORCE_SUGGESTS_: true
       R_DONT_USE_TK: true
       RJAVA_JVM_STACK_WORKAROUND: 0
       # Oxford flags
@@ -202,8 +215,7 @@ jobs:
           echo "CXXFLAGS=$CXXFLAGS" >> ~/.R/Makevars
           echo "FFLAGS=$FFLAGS" >> ~/.R/Makevars
           echo "FCFLAGS=$FCFLAGS" >> ~/.R/Makevars
-          Rscript -e 'install.packages("remotes", repos="https://cloud.r-project.org")'
-          Rscript -e 'remotes::install_deps(dependencies = TRUE, type = "source")'
+          Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org")); install.packages("remotes"); remotes::install_deps(dependencies = TRUE, type = "source")'
       - name: Build and Check
         run: |
           R CMD build .
