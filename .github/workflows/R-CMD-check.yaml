@@ -51,32 +51,38 @@ jobs:
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
 
   strict-clang:
-    name: "Clang + Opt + Hardening"
+    name: "Strict Clang (Clang + Opt + Hardening)"
     runs-on: ubuntu-latest
-    container:
-      image: rocker/r-devel
     steps:
       - uses: actions/checkout@v4
 
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'devel'
+          use-public-rspm: true
+
       - name: Install system dependencies
         run: |
-          apt-get update && apt-get install -y libuv1-dev clang
+          sudo apt-get update && sudo apt-get install -y libuv1-dev clang
 
-      - name: Install dependencies
-        run: |
-          Rscript -e 'install.packages(c("remotes", "rcmdcheck", "testthat", "patrick", "bit"), repos="https://cloud.r-project.org")'
-          Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
 
       - name: Build and Check
         env:
           CC: clang
           CXX: clang++
-          # -O3: Optimization level for opt mode
-          # -DNDEBUG: Standard for opt mode
-          # -Wall -Wextra -Werror: Strict warnings
-          # -fno-omit-frame-pointer: Important for profiling and debugging
-          # -fstack-protector: Security hardening
-          # -D_FORTIFY_SOURCE=2: Security hardening
+          # Strict compiler configuration:
+          # -O3: High optimization level
+          # -DNDEBUG: Disable assertions for performance
+          # -Wall -Wextra -Werror: Enforce clean code via strict warnings
+          # -fno-omit-frame-pointer: Enable better profiling/debugging
+          # -fstack-protector: Enable stack overflow protection
+          # -D_FORTIFY_SOURCE=2: Enable additional buffer overflow checks
           CFLAGS: "-O3 -DNDEBUG -Wall -Wextra -Werror -Wno-unused-parameter -Wno-missing-field-initializers -fno-omit-frame-pointer -fstack-protector -D_FORTIFY_SOURCE=2"
           CXXFLAGS: "-O3 -DNDEBUG -Wall -Wextra -Werror -Wno-unused-parameter -Wno-missing-field-initializers -fno-omit-frame-pointer -fstack-protector -D_FORTIFY_SOURCE=2"
         run: |
