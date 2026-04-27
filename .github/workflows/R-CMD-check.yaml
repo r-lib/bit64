@@ -50,6 +50,38 @@ jobs:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
 
+  strict-clang:
+    name: "Clang + Opt + Hardening"
+    runs-on: ubuntu-latest
+    container:
+      image: rocker/r-devel
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          apt-get update && apt-get install -y libuv1-dev clang
+
+      - name: Install dependencies
+        run: |
+          Rscript -e 'install.packages(c("remotes", "rcmdcheck", "testthat", "patrick", "bit"), repos="https://cloud.r-project.org")'
+          Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+
+      - name: Build and Check
+        env:
+          CC: clang
+          CXX: clang++
+          # -O3: Optimization level for opt mode
+          # -DNDEBUG: Standard for opt mode
+          # -Wall -Wextra -Werror: Strict warnings
+          # -fno-omit-frame-pointer: Important for profiling and debugging
+          # -fstack-protector: Security hardening
+          # -D_FORTIFY_SOURCE=2: Security hardening
+          CFLAGS: "-O3 -DNDEBUG -Wall -Wextra -Werror -Wno-unused-parameter -Wno-missing-field-initializers -fno-omit-frame-pointer -fstack-protector -D_FORTIFY_SOURCE=2"
+          CXXFLAGS: "-O3 -DNDEBUG -Wall -Wextra -Werror -Wno-unused-parameter -Wno-missing-field-initializers -fno-omit-frame-pointer -fstack-protector -D_FORTIFY_SOURCE=2"
+        run: |
+          Rscript -e 'library(patrick); testthat::test_local()'
+
   sanitizers:
     runs-on: ubuntu-latest
     container:
@@ -79,33 +111,6 @@ jobs:
           CXXFLAGS: '-fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -g -O2'
         run: |
           Rscript -e 'library(patrick); testthat::test_local()'
-
-  repro-segfault:
-    name: Target Segfault (Fedora + Targeted GCTorture)
-    runs-on: ubuntu-latest
-    container: fedora:rawhide
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Dependencies
-        run: |
-          dnf install -y R-core-devel clang libcxx-devel libuv-devel libcurl-devel openssl-devel procps-ng
-          Rscript -e 'install.packages(c("remotes", "testthat", "patrick", "bit"), repos="https://cloud.r-project.org", type="source")'
-      
-      - name: Build and Install bit64
-        env:
-          CC: "clang"
-          CFLAGS: "-fsanitize=address,undefined -g"
-        run: R CMD INSTALL .
-
-      - name: Reproduce
-        run: |
-          # Use gctorture(TRUE) with the proper test runner to expose the memory issue
-          Rscript -e '
-            library(patrick)
-            gctorture(TRUE)
-            testthat::test_local()
-            gctorture(FALSE)
-          '
 
   test-ancient:
     runs-on: ubuntu-latest
