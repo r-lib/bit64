@@ -5,6 +5,8 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+    paths:
+      - 'src/**'
 
 name: R-CMD-check.yaml
 
@@ -50,6 +52,36 @@ jobs:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
 
+  clang-ASAN:
+    name: "Minimal clang-ASAN"
+    runs-on: ubuntu-latest
+    container: rocker/r-devel-ubsan-clang
+    env:
+      _R_CHECK_TESTS_NLINES_: 0
+      ASAN_OPTIONS: 'detect_leaks=0:halt_on_error=1'
+      UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
+      CC: "clang -fsanitize=address,undefined -fno-omit-frame-pointer"
+      CXX: "clang++ -fsanitize=address,undefined -fno-omit-frame-pointer"
+      CFLAGS: "-g -O3"
+      CXXFLAGS: "-g -O3"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up ASAN
+        run: echo "LD_PRELOAD=$(clang -print-file-name=libclang_rt.asan-x86_64.so)" >> $GITHUB_ENV
+      - name: Install dependencies
+        run: |
+          apt-get update && apt-get install -y libuv1-dev
+          mkdir -p ~/.R
+          echo "CC=$CC" >> ~/.R/Makevars
+          echo "CXX=$CXX" >> ~/.R/Makevars
+          echo "CFLAGS=$CFLAGS" >> ~/.R/Makevars
+          echo "CXXFLAGS=$CXXFLAGS" >> ~/.R/Makevars
+          Rscript -e 'install.packages("remotes", repos="https://cloud.r-project.org"); remotes::install_deps(dependencies = TRUE, type = "source")'
+      - name: Build and Check
+        run: |
+          R CMD build .
+          R CMD check bit64_*.tar.gz --as-cran --no-manual --no-vignettes
+
   test-ancient:
     runs-on: ubuntu-latest
     steps:
@@ -75,16 +107,16 @@ jobs:
           for FILE in tests/testthat/test-*.R; do
             echo "----------------------------------------------------------------"
             echo "Running $FILE"
-            
+
             sed -E "s/(patrick|withr):://g" "$FILE" > "${FILE}_SHIMMED.R"
             Rscript -e "library(methods); suppressWarnings(suppressMessages(library(bit64))); source('tests/testthat/helper.R'); source('${FILE}_SHIMMED.R')"
             rm "${FILE}_SHIMMED.R"
-            
+
             # Capture failure
             if [ $? -ne 0 ]; then
               EXIT_CODE=1
             fi
-            
+
           done
 
           exit $EXIT_CODE
