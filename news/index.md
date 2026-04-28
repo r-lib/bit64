@@ -2,6 +2,13 @@
 
 ## bit64 4.8.99 (in development)
 
+### BUG FIXES
+
+1.  Fix some potential segfaults from shellsort algorithms
+    ([\#315](https://github.com/r-lib/bit64/issues/315)). The culprit
+    code has been faulty for many years, but only newly caught by CRAN’s
+    rigorous environment with extensive new test coverage.
+
 ## bit64 4.8.0 (2025-04-19)
 
 CRAN release: 2026-04-21
