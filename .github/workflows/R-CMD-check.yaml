@@ -60,6 +60,8 @@ jobs:
       UBSAN_OPTIONS: 'print_stacktrace=1:halt_on_error=1'
       CC: "clang -fsanitize=address,undefined -fno-omit-frame-pointer"
       CXX: "clang++ -fsanitize=address,undefined -fno-omit-frame-pointer"
+      CFLAGS: "-g -O3"
+      CXXFLAGS: "-g -O3"
     steps:
       - uses: actions/checkout@v4
       - name: Set up ASAN
@@ -67,6 +69,11 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get update && apt-get install -y libuv1-dev
+          mkdir -p ~/.R
+          echo "CC=$CC" >> ~/.R/Makevars
+          echo "CXX=$CXX" >> ~/.R/Makevars
+          echo "CFLAGS=$CFLAGS" >> ~/.R/Makevars
+          echo "CXXFLAGS=$CXXFLAGS" >> ~/.R/Makevars
           Rscript -e 'install.packages("remotes", repos="https://cloud.r-project.org"); remotes::install_deps(dependencies = TRUE, type = "source")'
       - name: Build and Check
         run: |
