@@ -10,6 +10,7 @@
 #' @title Set Operations
 #' @description Performs set union, intersection, (asymmetric!) difference, equality and membership on two vectors. As soon as an integer64 vector is involved, the operations are performed using integer64 semantics. Otherwise the \code{base} package functions are called.
 #' @inheritParams base::union
+#' @param ... further arguments passed to or from other methods.
 #' @return 
 #' For union, a vector of a common mode or class.
 #' 
@@ -28,12 +29,18 @@
 #' setequal(x, y)
 #' is.element(x, y)
 #' 
-#' @export
+#' @importFrom generics union
+#' @exportS3Method union default
+#' @aliases union
 #' @rdname sets
-union = function(x, y) {
-  if (!(is.integer64(x) || is.integer64(y)))
-    return(base::union(x, y))
-  
+union.default = function(x, y, ...) {
+  if (is.integer64(y)) return(union.integer64(x, y))
+  base::union(x, y)
+}
+    
+#' @exportS3Method union integer64
+#' @rdname sets
+union.integer64 = function(x, y, ...) {
   target_class = target_class(list(x, y))
   # try using the benefit of integer64 caching, if possible. I.e. call unique() before as().
   x = unique(x)
@@ -56,13 +63,19 @@ union = function(x, y) {
   unique(c(x, y))
 }
 
-#' @export
+#' @importFrom generics intersect
+#' @exportS3Method intersect default
+#' @aliases intersect
 #' @rdname sets
-intersect = function(x, y) {
+intersect.default = function(x, y, ...) {
+  if (is.integer64(y)) return(intersect.integer64(x, y))
+  base::intersect(x, y)
+}
+
+#' @exportS3Method intersect integer64
+#' @rdname sets
+intersect.integer64 = function(x, y, ...) {
   if (is.null(x) || is.null(y)) return(NULL)
-  if (!(is.integer64(x) || is.integer64(y)))
-    return(base::intersect(x, y))
-  
   target_class = target_class(list(x, y))
   x = unique(x)
   class_x = class(x)[1L]
@@ -84,12 +97,18 @@ intersect = function(x, y) {
   x[match(x, y, 0L) > 0L]
 }
 
-#' @export
+#' @importFrom generics setequal
+#' @exportS3Method setequal default
+#' @aliases setequal
 #' @rdname sets
-setequal = function(x, y) {
-  if (!(is.integer64(x) || is.integer64(y)))
-    return(base::setequal(x, y))
-  
+setequal.default = function(x, y, ...) {
+  if (is.integer64(y)) return(setequal.integer64(x, y))
+  base::setequal(x, y)
+}
+
+#' @exportS3Method setequal integer64
+#' @rdname sets
+setequal.integer64 = function(x, y, ...) {
   x = unique(x)
   y = unique(y)
   length_x = length(x)
@@ -106,12 +125,18 @@ setequal = function(x, y) {
   !anyNA(match(x, y))
 }
 
-#' @export
+#' @importFrom generics setdiff
+#' @exportS3Method setdiff default
+#' @aliases setdiff
 #' @rdname sets
-setdiff = function(x, y) {
-  if (!(is.integer64(x) || is.integer64(y)))
-    return(base::setdiff(x, y))
-  
+setdiff.default = function(x, y, ...) {
+  if (is.integer64(y)) return(setdiff.integer64(x, y))
+  base::setdiff(x, y)
+}
+
+#' @exportS3Method setdiff integer64
+#' @rdname sets
+setdiff.integer64 = function(x, y, ...) {
   class_x = class(x)[1L]
   if (class_x %in% c("POSIXct", "Date"))
     x = unclass(x)
@@ -135,12 +160,18 @@ setdiff = function(x, y) {
   x[match(x_match, y, 0L) == 0L]
 }
 
-#' @export
+#' @importFrom generics is.element
+#' @exportS3Method is.element default
+#' @aliases is.element
 #' @rdname sets
-is.element = function(el, set) {
-  if (!(is.integer64(el) || is.integer64(set)))
-    return(base::is.element(el, set))
-  
+is.element.default = function(el, set, ...) {
+  if (is.integer64(set)) return(is.element.integer64(el, set))
+  base::is.element(el, set)
+}
+
+#' @exportS3Method is.element integer64
+#' @rdname sets
+is.element.integer64 = function(el, set, ...) {
   target_class = target_class(list(el, set))
   class_el = class(el)[1L]
   if (class_el != target_class) {
