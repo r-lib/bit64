@@ -228,41 +228,41 @@ coerced to double and the R base method for the other class is called.
 coerce their first argument to `integer64` and coerce internally their
 second argument to 'long double', they return as `double`
 
-|               |        |               |         |              |        |              |         |            |
-|---------------|--------|---------------|---------|--------------|--------|--------------|---------|------------|
+|  |  |  |  |  |  |  |  |  |
+|----|----|----|----|----|----|----|----|----|
 | **argument1** | **op** | **argument2** | **-\>** | **coerced1** | **op** | **coerced2** | **-\>** | **result** |
-| integer64     | \+     | double        | -\>     | integer64    | \+     | integer64    | -\>     | integer64  |
-| double        | \+     | integer64     | -\>     | integer64    | \+     | integer64    | -\>     | integer64  |
-| integer64     | \+     | complex       | -\>     | double       | \+     | complex      | -\>     | complex    |
-| complex       | \+     | integer64     | -\>     | complex      | \+     | double       | -\>     | complex    |
-| integer64     | \-     | double        | -\>     | integer64    | \-     | integer64    | -\>     | integer64  |
-| double        | \-     | integer64     | -\>     | integer64    | \-     | integer64    | -\>     | integer64  |
-| integer64     | \-     | complex       | -\>     | double       | \-     | complex      | -\>     | complex    |
-| complex       | \-     | integer64     | -\>     | complex      | \-     | double       | -\>     | complex    |
-| integer64     | %/%    | double        | -\>     | integer64    | %/%    | integer64    | -\>     | integer64  |
-| double        | %/%    | integer64     | -\>     | integer64    | %/%    | integer64    | -\>     | integer64  |
-| integer64     | %/%    | complex       | -\>     | double       | %/%    | complex      | -\>     | complex    |
-| complex       | %/%    | integer64     | -\>     | complex      | %/%    | double       | -\>     | complex    |
-| integer64     | %%     | double        | -\>     | integer64    | %%     | integer64    | -\>     | integer64  |
-| double        | %%     | integer64     | -\>     | integer64    | %%     | integer64    | -\>     | integer64  |
-| integer64     | %%     | complex       | -\>     | double       | %%     | complex      | -\>     | complex    |
-| complex       | %%     | integer64     | -\>     | complex      | %%     | double       | -\>     | complex    |
-| integer64     | \*     | double        | -\>     | integer64    | \*     | long double  | -\>     | integer64  |
-| double        | \*     | integer64     | -\>     | integer64    | \*     | integer64    | -\>     | integer64  |
-| integer64     | \*     | complex       | -\>     | double       | \*     | complex      | -\>     | complex    |
-| complex       | \*     | integer64     | -\>     | complex      | \*     | double       | -\>     | complex    |
-| integer64     | /      | double        | -\>     | integer64    | /      | long double  | -\>     | double     |
-| double        | /      | integer64     | -\>     | integer64    | /      | long double  | -\>     | double     |
-| integer64     | /      | complex       | -\>     | double       | /      | complex      | -\>     | complex    |
-| complex       | /      | integer64     | -\>     | complex      | /      | double       | -\>     | complex    |
-| integer64     | ^      | double        | -\>     | integer64    | ^      | long double  | -\>     | double     |
-| double        | ^      | integer64     | -\>     | integer64    | ^      | long double  | -\>     | double     |
-| integer64     | ^      | complex       | -\>     | double       | ^      | complex      | -\>     | complex    |
-| complex       | ^      | integer64     | -\>     | complex      | ^      | double       | -\>     | complex    |
-| integer64     | %\*%   | double        | -\>     | integer64    | %\*%   | integer64    | -\>     | integer64  |
-| double        | %\*%   | integer64     | -\>     | integer64    | %\*%   | integer64    | -\>     | integer64  |
-| integer64     | %\*%   | complex       | -\>     | double       | %\*%   | complex      | -\>     | complex    |
-| complex       | %\*%   | integer64     | -\>     | complex      | %\*%   | double       | -\>     | complex    |
+| integer64 | \+ | double | -\> | integer64 | \+ | integer64 | -\> | integer64 |
+| double | \+ | integer64 | -\> | integer64 | \+ | integer64 | -\> | integer64 |
+| integer64 | \+ | complex | -\> | double | \+ | complex | -\> | complex |
+| complex | \+ | integer64 | -\> | complex | \+ | double | -\> | complex |
+| integer64 | \- | double | -\> | integer64 | \- | integer64 | -\> | integer64 |
+| double | \- | integer64 | -\> | integer64 | \- | integer64 | -\> | integer64 |
+| integer64 | \- | complex | -\> | double | \- | complex | -\> | complex |
+| complex | \- | integer64 | -\> | complex | \- | double | -\> | complex |
+| integer64 | %/% | double | -\> | integer64 | %/% | integer64 | -\> | integer64 |
+| double | %/% | integer64 | -\> | integer64 | %/% | integer64 | -\> | integer64 |
+| integer64 | %/% | complex | -\> | double | %/% | complex | -\> | complex |
+| complex | %/% | integer64 | -\> | complex | %/% | double | -\> | complex |
+| integer64 | %% | double | -\> | integer64 | %% | integer64 | -\> | integer64 |
+| double | %% | integer64 | -\> | integer64 | %% | integer64 | -\> | integer64 |
+| integer64 | %% | complex | -\> | double | %% | complex | -\> | complex |
+| complex | %% | integer64 | -\> | complex | %% | double | -\> | complex |
+| integer64 | \* | double | -\> | integer64 | \* | long double | -\> | integer64 |
+| double | \* | integer64 | -\> | integer64 | \* | integer64 | -\> | integer64 |
+| integer64 | \* | complex | -\> | double | \* | complex | -\> | complex |
+| complex | \* | integer64 | -\> | complex | \* | double | -\> | complex |
+| integer64 | / | double | -\> | integer64 | / | long double | -\> | double |
+| double | / | integer64 | -\> | integer64 | / | long double | -\> | double |
+| integer64 | / | complex | -\> | double | / | complex | -\> | complex |
+| complex | / | integer64 | -\> | complex | / | double | -\> | complex |
+| integer64 | ^ | double | -\> | integer64 | ^ | long double | -\> | double |
+| double | ^ | integer64 | -\> | integer64 | ^ | long double | -\> | double |
+| integer64 | ^ | complex | -\> | double | ^ | complex | -\> | complex |
+| complex | ^ | integer64 | -\> | complex | ^ | double | -\> | complex |
+| integer64 | %\*% | double | -\> | integer64 | %\*% | integer64 | -\> | integer64 |
+| double | %\*% | integer64 | -\> | integer64 | %\*% | integer64 | -\> | integer64 |
+| integer64 | %\*% | complex | -\> | double | %\*% | complex | -\> | complex |
+| complex | %\*% | integer64 | -\> | complex | %\*% | double | -\> | complex |
 
 ## Creating and testing S3 class 'integer64'
 
@@ -301,173 +301,173 @@ the examples.
 
 ## Index of implemented methods
 
-|                                                                                     |                                                        |                                                        |
-|-------------------------------------------------------------------------------------|--------------------------------------------------------|--------------------------------------------------------|
-| **creating, testing, printing**                                                     | **see also**                                           | **description**                                        |
-| `NA_integer64_`                                                                     | [`NA_integer_`](https://rdrr.io/r/base/NA.html)        | NA constant                                            |
-| `integer64`                                                                         | [`integer`](https://rdrr.io/r/base/integer.html)       | create zero atomic vector                              |
-| [`runif64()`](https://bit64.r-lib.org/reference/runif64.md)                         | [`runif()`](https://rdrr.io/r/stats/Uniform.html)      | create random vector                                   |
-| [`rep.integer64()`](https://bit64.r-lib.org/reference/rep.integer64.md)             | [`rep()`](https://rdrr.io/r/base/rep.html)             |                                                        |
-| [`seq.integer64()`](https://bit64.r-lib.org/reference/seq.integer64.md)             | [`seq()`](https://rdrr.io/r/base/seq.html)             |                                                        |
-| `is.integer64()`                                                                    | `is()`                                                 |                                                        |
-|                                                                                     | [`is.integer()`](https://rdrr.io/r/base/integer.html)  | inherited from Base R                                  |
-| `is.vector.integer64()`                                                             | [`is.vector()`](https://rdrr.io/r/base/vector.html)    |                                                        |
-| [`identical.integer64()`](https://bit64.r-lib.org/reference/identical.integer64.md) | [`identical()`](https://rdrr.io/r/base/identical.html) |                                                        |
-| `length<-.integer64`                                                                | `length<-`                                             |                                                        |
-|                                                                                     | [`length()`](https://rdrr.io/r/base/length.html)       | inherited from Base R                                  |
-| `names<-`                                                                           | inherited from Base R                                  |                                                        |
-|                                                                                     | [`names()`](https://rdrr.io/r/base/names.html)         | inherited from Base R                                  |
-|                                                                                     | `dim<-`                                                | inherited from Base R                                  |
-|                                                                                     | [`dim()`](https://rdrr.io/r/base/dim.html)             | inherited from Base R                                  |
-|                                                                                     | `dimnames<-`                                           | inherited from Base R                                  |
-|                                                                                     | [`dimnames()`](https://rdrr.io/r/base/dimnames.html)   | inherited from Base R                                  |
-|                                                                                     | [`str()`](https://rdrr.io/r/utils/str.html)            | inherited from Base R, does not print values correctly |
-| `print.integer64()`                                                                 | [`print()`](https://rdrr.io/r/base/print.html)         |                                                        |
-| `str.integer64()`                                                                   | [`str()`](https://rdrr.io/r/utils/str.html)            |                                                        |
+|  |  |  |
+|----|----|----|
+| **creating, testing, printing** | **see also** | **description** |
+| `NA_integer64_` | [`NA_integer_`](https://rdrr.io/r/base/NA.html) | NA constant |
+| `integer64` | [`integer`](https://rdrr.io/r/base/integer.html) | create zero atomic vector |
+| [`runif64()`](https://bit64.r-lib.org/reference/runif64.md) | [`runif()`](https://rdrr.io/r/stats/Uniform.html) | create random vector |
+| [`rep.integer64()`](https://bit64.r-lib.org/reference/rep.integer64.md) | [`rep()`](https://rdrr.io/r/base/rep.html) |  |
+| [`seq.integer64()`](https://bit64.r-lib.org/reference/seq.integer64.md) | [`seq()`](https://rdrr.io/r/base/seq.html) |  |
+| `is.integer64()` | `is()` |  |
+|  | [`is.integer()`](https://rdrr.io/r/base/integer.html) | inherited from Base R |
+| `is.vector.integer64()` | [`is.vector()`](https://rdrr.io/r/base/vector.html) |  |
+| [`identical.integer64()`](https://bit64.r-lib.org/reference/identical.integer64.md) | [`identical()`](https://rdrr.io/r/base/identical.html) |  |
+| `length<-.integer64` | `length<-` |  |
+|  | [`length()`](https://rdrr.io/r/base/length.html) | inherited from Base R |
+| `names<-` | inherited from Base R |  |
+|  | [`names()`](https://rdrr.io/r/base/names.html) | inherited from Base R |
+|  | `dim<-` | inherited from Base R |
+|  | [`dim()`](https://rdrr.io/r/base/dim.html) | inherited from Base R |
+|  | `dimnames<-` | inherited from Base R |
+|  | [`dimnames()`](https://rdrr.io/r/base/dimnames.html) | inherited from Base R |
+|  | [`str()`](https://rdrr.io/r/utils/str.html) | inherited from Base R, does not print values correctly |
+| `print.integer64()` | [`print()`](https://rdrr.io/r/base/print.html) |  |
+| `str.integer64()` | [`str()`](https://rdrr.io/r/utils/str.html) |  |
 
-|                                                                                           |                                                                                 |                 |
-|-------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|-----------------|
-| **coercing to integer64**                                                                 | **see also**                                                                    | **description** |
-| [`as.integer64()`](https://bit64.r-lib.org/reference/as.integer64.character.md)           |                                                                                 | generic         |
-| [`as.integer64.bitstring()`](https://bit64.r-lib.org/reference/as.integer64.character.md) | [`as.bitstring()`](https://bit64.r-lib.org/reference/as.character.integer64.md) |                 |
-| [`as.integer64.character()`](https://bit64.r-lib.org/reference/as.integer64.character.md) | [`character()`](https://rdrr.io/r/base/character.html)                          |                 |
-| [`as.integer64.double()`](https://bit64.r-lib.org/reference/as.integer64.character.md)    | [`double()`](https://rdrr.io/r/base/double.html)                                |                 |
-| [`as.integer64.integer()`](https://bit64.r-lib.org/reference/as.integer64.character.md)   | [`integer()`](https://rdrr.io/r/base/integer.html)                              |                 |
-| [`as.integer64.integer64()`](https://bit64.r-lib.org/reference/as.integer64.character.md) | `integer64`                                                                     |                 |
-| [`as.integer64.logical()`](https://bit64.r-lib.org/reference/as.integer64.character.md)   | [`logical()`](https://rdrr.io/r/base/logical.html)                              |                 |
-| [`as.integer64.NULL()`](https://bit64.r-lib.org/reference/as.integer64.character.md)      | [`NULL()`](https://rdrr.io/r/base/NULL.html)                                    |                 |
+|  |  |  |
+|----|----|----|
+| **coercing to integer64** | **see also** | **description** |
+| [`as.integer64()`](https://bit64.r-lib.org/reference/as.integer64.character.md) |  | generic |
+| [`as.integer64.bitstring()`](https://bit64.r-lib.org/reference/as.integer64.character.md) | [`as.bitstring()`](https://bit64.r-lib.org/reference/as.character.integer64.md) |  |
+| [`as.integer64.character()`](https://bit64.r-lib.org/reference/as.integer64.character.md) | [`character()`](https://rdrr.io/r/base/character.html) |  |
+| [`as.integer64.double()`](https://bit64.r-lib.org/reference/as.integer64.character.md) | [`double()`](https://rdrr.io/r/base/double.html) |  |
+| [`as.integer64.integer()`](https://bit64.r-lib.org/reference/as.integer64.character.md) | [`integer()`](https://rdrr.io/r/base/integer.html) |  |
+| [`as.integer64.integer64()`](https://bit64.r-lib.org/reference/as.integer64.character.md) | `integer64` |  |
+| [`as.integer64.logical()`](https://bit64.r-lib.org/reference/as.integer64.character.md) | [`logical()`](https://rdrr.io/r/base/logical.html) |  |
+| [`as.integer64.NULL()`](https://bit64.r-lib.org/reference/as.integer64.character.md) | [`NULL()`](https://rdrr.io/r/base/NULL.html) |  |
 
-|                                                                                           |                                                                                 |                 |
-|-------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|-----------------|
-| **coercing from integer64**                                                               | **see also**                                                                    | **description** |
-| [`as.list.integer64()`](https://bit64.r-lib.org/reference/as.character.integer64.md)      | [`as.list()`](https://rdrr.io/r/base/list.html)                                 | generic         |
-| [`as.bitstring()`](https://bit64.r-lib.org/reference/as.character.integer64.md)           | [`as.bitstring()`](https://bit64.r-lib.org/reference/as.character.integer64.md) | generic         |
-| [`as.bitstring.integer64()`](https://bit64.r-lib.org/reference/as.character.integer64.md) |                                                                                 |                 |
-| [`as.character.integer64()`](https://bit64.r-lib.org/reference/as.character.integer64.md) | [`as.character()`](https://rdrr.io/r/base/character.html)                       |                 |
-| [`as.double.integer64()`](https://bit64.r-lib.org/reference/as.character.integer64.md)    | [`as.double()`](https://rdrr.io/r/base/double.html)                             |                 |
-| [`as.integer.integer64()`](https://bit64.r-lib.org/reference/as.character.integer64.md)   | [`as.integer()`](https://rdrr.io/r/base/integer.html)                           |                 |
-| [`as.logical.integer64()`](https://bit64.r-lib.org/reference/as.character.integer64.md)   | [`as.logical()`](https://rdrr.io/r/base/logical.html)                           |                 |
+|  |  |  |
+|----|----|----|
+| **coercing from integer64** | **see also** | **description** |
+| [`as.list.integer64()`](https://bit64.r-lib.org/reference/as.character.integer64.md) | [`as.list()`](https://rdrr.io/r/base/list.html) | generic |
+| [`as.bitstring()`](https://bit64.r-lib.org/reference/as.character.integer64.md) | [`as.bitstring()`](https://bit64.r-lib.org/reference/as.character.integer64.md) | generic |
+| [`as.bitstring.integer64()`](https://bit64.r-lib.org/reference/as.character.integer64.md) |  |  |
+| [`as.character.integer64()`](https://bit64.r-lib.org/reference/as.character.integer64.md) | [`as.character()`](https://rdrr.io/r/base/character.html) |  |
+| [`as.double.integer64()`](https://bit64.r-lib.org/reference/as.character.integer64.md) | [`as.double()`](https://rdrr.io/r/base/double.html) |  |
+| [`as.integer.integer64()`](https://bit64.r-lib.org/reference/as.character.integer64.md) | [`as.integer()`](https://rdrr.io/r/base/integer.html) |  |
+| [`as.logical.integer64()`](https://bit64.r-lib.org/reference/as.character.integer64.md) | [`as.logical()`](https://rdrr.io/r/base/logical.html) |  |
 
-|                                                                                             |                                                                |                                              |
-|---------------------------------------------------------------------------------------------|----------------------------------------------------------------|----------------------------------------------|
-| **data structures**                                                                         | **see also**                                                   | **description**                              |
-| [`c.integer64()`](https://bit64.r-lib.org/reference/c.integer64.md)                         | [`c()`](https://rdrr.io/r/base/c.html)                         | vector concatenate                           |
-| [`cbind.integer64()`](https://bit64.r-lib.org/reference/c.integer64.md)                     | [`cbind()`](https://rdrr.io/r/base/cbind.html)                 | column bind                                  |
-| [`rbind.integer64()`](https://bit64.r-lib.org/reference/c.integer64.md)                     | [`rbind()`](https://rdrr.io/r/base/cbind.html)                 | row bind                                     |
-| [`as.data.frame.integer64()`](https://bit64.r-lib.org/reference/as.data.frame.integer64.md) | [`as.data.frame()`](https://rdrr.io/r/base/as.data.frame.html) | coerce atomic object to data.frame           |
-|                                                                                             | [`data.frame()`](https://rdrr.io/r/base/data.frame.html)       | inherited from Base R since we have coercion |
+|  |  |  |
+|----|----|----|
+| **data structures** | **see also** | **description** |
+| [`c.integer64()`](https://bit64.r-lib.org/reference/c.integer64.md) | [`c()`](https://rdrr.io/r/base/c.html) | vector concatenate |
+| [`cbind.integer64()`](https://bit64.r-lib.org/reference/c.integer64.md) | [`cbind()`](https://rdrr.io/r/base/cbind.html) | column bind |
+| [`rbind.integer64()`](https://bit64.r-lib.org/reference/c.integer64.md) | [`rbind()`](https://rdrr.io/r/base/cbind.html) | row bind |
+| [`as.data.frame.integer64()`](https://bit64.r-lib.org/reference/as.data.frame.integer64.md) | [`as.data.frame()`](https://rdrr.io/r/base/as.data.frame.html) | coerce atomic object to data.frame |
+|  | [`data.frame()`](https://rdrr.io/r/base/data.frame.html) | inherited from Base R since we have coercion |
 
-|                                                                                    |                                               |                          |
-|------------------------------------------------------------------------------------|-----------------------------------------------|--------------------------|
-| **subscripting**                                                                   | **see also**                                  | **description**          |
-| [`[.integer64`](https://bit64.r-lib.org/reference/extract.replace.integer64.md)    | [`[`](https://rdrr.io/r/base/Extract.html)    | vector and array extract |
-| [`[<-.integer64`](https://bit64.r-lib.org/reference/extract.replace.integer64.md)  | [`[<-`](https://rdrr.io/r/base/Extract.html)  | vector and array assign  |
-| [`[[.integer64`](https://bit64.r-lib.org/reference/extract.replace.integer64.md)   | [`[[`](https://rdrr.io/r/base/Extract.html)   | scalar extract           |
-| [`[[<-.integer64`](https://bit64.r-lib.org/reference/extract.replace.integer64.md) | [`[[<-`](https://rdrr.io/r/base/Extract.html) | scalar assign            |
+|  |  |  |
+|----|----|----|
+| **subscripting** | **see also** | **description** |
+| [`[.integer64`](https://bit64.r-lib.org/reference/extract.replace.integer64.md) | [`[`](https://rdrr.io/r/base/Extract.html) | vector and array extract |
+| [`[<-.integer64`](https://bit64.r-lib.org/reference/extract.replace.integer64.md) | [`[<-`](https://rdrr.io/r/base/Extract.html) | vector and array assign |
+| [`[[.integer64`](https://bit64.r-lib.org/reference/extract.replace.integer64.md) | [`[[`](https://rdrr.io/r/base/Extract.html) | scalar extract |
+| [`[[<-.integer64`](https://bit64.r-lib.org/reference/extract.replace.integer64.md) | [`[[<-`](https://rdrr.io/r/base/Extract.html) | scalar assign |
 
-|                                                             |                                                 |                   |
-|-------------------------------------------------------------|-------------------------------------------------|-------------------|
-| **binary operators**                                        | **see also**                                    | **description**   |
-| [`+.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`+`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
-| [`-.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`-`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
-| [`*.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`*`](https://rdrr.io/r/base/Arithmetic.html)   | returns integer64 |
-| [`^.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`^`](https://rdrr.io/r/base/Arithmetic.html)   | returns double    |
-| [`/.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`/`](https://rdrr.io/r/base/Arithmetic.html)   | returns double    |
-| [`%/%`](https://bit64.r-lib.org/reference/ops64.md)         | [`%/%`](https://rdrr.io/r/base/Arithmetic.html) | returns integer64 |
-| [`%%`](https://bit64.r-lib.org/reference/ops64.md)          | [`%%`](https://rdrr.io/r/base/Arithmetic.html)  | returns integer64 |
+|  |  |  |
+|----|----|----|
+| **binary operators** | **see also** | **description** |
+| [`+.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`+`](https://rdrr.io/r/base/Arithmetic.html) | returns integer64 |
+| [`-.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`-`](https://rdrr.io/r/base/Arithmetic.html) | returns integer64 |
+| [`*.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`*`](https://rdrr.io/r/base/Arithmetic.html) | returns integer64 |
+| [`^.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`^`](https://rdrr.io/r/base/Arithmetic.html) | returns double |
+| [`/.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`/`](https://rdrr.io/r/base/Arithmetic.html) | returns double |
+| [`%/%`](https://bit64.r-lib.org/reference/ops64.md) | [`%/%`](https://rdrr.io/r/base/Arithmetic.html) | returns integer64 |
+| [`%%`](https://bit64.r-lib.org/reference/ops64.md) | [`%%`](https://rdrr.io/r/base/Arithmetic.html) | returns integer64 |
 
-|                                                              |                                                |                 |
-|--------------------------------------------------------------|------------------------------------------------|-----------------|
-| **comparison operators**                                     | **see also**                                   | **description** |
-| [`==.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`==`](https://rdrr.io/r/base/Comparison.html) |                 |
-| [`!=.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`!=`](https://rdrr.io/r/base/Comparison.html) |                 |
-| `<.integer64`                                                | `<`                                            |                 |
-| `<=.integer64`                                               | `<=`                                           |                 |
-| `>.integer64`                                                | `>`                                            |                 |
-| `>=.integer64`                                               | `>=`                                           |                 |
+|  |  |  |
+|----|----|----|
+| **comparison operators** | **see also** | **description** |
+| [`==.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`==`](https://rdrr.io/r/base/Comparison.html) |  |
+| [`!=.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`!=`](https://rdrr.io/r/base/Comparison.html) |  |
+| `<.integer64` | `<` |  |
+| `<=.integer64` | `<=` |  |
+| `>.integer64` | `>` |  |
+| `>=.integer64` | `>=` |  |
 
-|                                                             |                                          |                 |
-|-------------------------------------------------------------|------------------------------------------|-----------------|
-| **logical operators**                                       | **see also**                             | **description** |
-| [`!.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`!`](https://rdrr.io/r/base/Logic.html) |                 |
-| `&.integer64`                                               | `&`                                      |                 |
-| [`|.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`|`](https://rdrr.io/r/base/Logic.html) |                 |
+|  |  |  |
+|----|----|----|
+| **logical operators** | **see also** | **description** |
+| [`!.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`!`](https://rdrr.io/r/base/Logic.html) |  |
+| `&.integer64` | `&` |  |
+| [`|.integer64`](https://bit64.r-lib.org/reference/ops64.md) | [`|`](https://rdrr.io/r/base/Logic.html) |  |
 
-|                                                                                |                                                  |                              |
-|--------------------------------------------------------------------------------|--------------------------------------------------|------------------------------|
-| **math functions**                                                             | **see also**                                     | **description**              |
-| [`is.na.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md)   | [`is.na()`](https://rdrr.io/r/base/NA.html)      | returns logical              |
-| [`format.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md)  | [`format()`](https://rdrr.io/r/base/format.html) | returns character            |
-| [`abs.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md)     | [`abs()`](https://rdrr.io/r/base/MathFun.html)   | returns integer64            |
-| [`sign.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md)    | [`sign()`](https://rdrr.io/r/base/sign.html)     | returns integer64            |
-| [`log.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md)     | [`log()`](https://rdrr.io/r/base/Log.html)       | returns double               |
-| [`log10.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md)   | [`log10()`](https://rdrr.io/r/base/Log.html)     | returns double               |
-| [`log2.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md)    | [`log2()`](https://rdrr.io/r/base/Log.html)      | returns double               |
-| [`sqrt.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md)    | [`sqrt()`](https://rdrr.io/r/base/MathFun.html)  | returns double               |
+|  |  |  |
+|----|----|----|
+| **math functions** | **see also** | **description** |
+| [`is.na.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md) | [`is.na()`](https://rdrr.io/r/base/NA.html) | returns logical |
+| [`format.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md) | [`format()`](https://rdrr.io/r/base/format.html) | returns character |
+| [`abs.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md) | [`abs()`](https://rdrr.io/r/base/MathFun.html) | returns integer64 |
+| [`sign.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md) | [`sign()`](https://rdrr.io/r/base/sign.html) | returns integer64 |
+| [`log.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md) | [`log()`](https://rdrr.io/r/base/Log.html) | returns double |
+| [`log10.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md) | [`log10()`](https://rdrr.io/r/base/Log.html) | returns double |
+| [`log2.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md) | [`log2()`](https://rdrr.io/r/base/Log.html) | returns double |
+| [`sqrt.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md) | [`sqrt()`](https://rdrr.io/r/base/MathFun.html) | returns double |
 | [`ceiling.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md) | [`ceiling()`](https://rdrr.io/r/base/Round.html) | dummy returning its argument |
-| [`floor.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md)   | [`floor()`](https://rdrr.io/r/base/Round.html)   | dummy returning its argument |
-| [`trunc.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md)   | [`trunc()`](https://rdrr.io/r/base/Round.html)   | dummy returning its argument |
-| [`round.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md)   | [`round()`](https://rdrr.io/r/base/Round.html)   | dummy returning its argument |
-| [`signif.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md)  | [`signif()`](https://rdrr.io/r/base/Round.html)  | dummy returning its argument |
+| [`floor.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md) | [`floor()`](https://rdrr.io/r/base/Round.html) | dummy returning its argument |
+| [`trunc.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md) | [`trunc()`](https://rdrr.io/r/base/Round.html) | dummy returning its argument |
+| [`round.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md) | [`round()`](https://rdrr.io/r/base/Round.html) | dummy returning its argument |
+| [`signif.integer64()`](https://bit64.r-lib.org/reference/format.integer64.md) | [`signif()`](https://rdrr.io/r/base/Round.html) | dummy returning its argument |
 
-|                                                                                |                                                   |                 |
-|--------------------------------------------------------------------------------|---------------------------------------------------|-----------------|
-| **cumulative functions**                                                       | **see also**                                      | **description** |
-| [`cummin.integer64()`](https://bit64.r-lib.org/reference/cumsum.integer64.md)  | [`cummin()`](https://rdrr.io/r/base/cumsum.html)  |                 |
-| [`cummax.integer64()`](https://bit64.r-lib.org/reference/cumsum.integer64.md)  | [`cummax()`](https://rdrr.io/r/base/cumsum.html)  |                 |
-| [`cumsum.integer64()`](https://bit64.r-lib.org/reference/cumsum.integer64.md)  | [`cumsum()`](https://rdrr.io/r/base/cumsum.html)  |                 |
-| [`cumprod.integer64()`](https://bit64.r-lib.org/reference/cumsum.integer64.md) | [`cumprod()`](https://rdrr.io/r/base/cumsum.html) |                 |
-| [`diff.integer64()`](https://bit64.r-lib.org/reference/cumsum.integer64.md)    | [`diff()`](https://rdrr.io/r/base/diff.html)      |                 |
+|  |  |  |
+|----|----|----|
+| **cumulative functions** | **see also** | **description** |
+| [`cummin.integer64()`](https://bit64.r-lib.org/reference/cumsum.integer64.md) | [`cummin()`](https://rdrr.io/r/base/cumsum.html) |  |
+| [`cummax.integer64()`](https://bit64.r-lib.org/reference/cumsum.integer64.md) | [`cummax()`](https://rdrr.io/r/base/cumsum.html) |  |
+| [`cumsum.integer64()`](https://bit64.r-lib.org/reference/cumsum.integer64.md) | [`cumsum()`](https://rdrr.io/r/base/cumsum.html) |  |
+| [`cumprod.integer64()`](https://bit64.r-lib.org/reference/cumsum.integer64.md) | [`cumprod()`](https://rdrr.io/r/base/cumsum.html) |  |
+| [`diff.integer64()`](https://bit64.r-lib.org/reference/cumsum.integer64.md) | [`diff()`](https://rdrr.io/r/base/diff.html) |  |
 
-|                                                                           |                                                 |                 |
-|---------------------------------------------------------------------------|-------------------------------------------------|-----------------|
-| **summary functions**                                                     | **see also**                                    | **description** |
-| [`range.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md) | [`range()`](https://rdrr.io/r/base/range.html)  |                 |
-| [`min.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md)   | [`min()`](https://rdrr.io/r/base/Extremes.html) |                 |
-| [`max.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md)   | [`max()`](https://rdrr.io/r/base/Extremes.html) |                 |
-| [`sum.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md)   | [`sum()`](https://rdrr.io/r/base/sum.html)      |                 |
-| [`mean.integer64()`](https://bit64.r-lib.org/reference/qtile.md)          | [`mean()`](https://rdrr.io/r/base/mean.html)    |                 |
-| [`prod.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md)  | [`prod()`](https://rdrr.io/r/base/prod.html)    |                 |
-| [`all.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md)   | [`all()`](https://rdrr.io/r/base/all.html)      |                 |
-| [`any.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md)   | [`any()`](https://rdrr.io/r/base/any.html)      |                 |
+|  |  |  |
+|----|----|----|
+| **summary functions** | **see also** | **description** |
+| [`range.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md) | [`range()`](https://rdrr.io/r/base/range.html) |  |
+| [`min.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md) | [`min()`](https://rdrr.io/r/base/Extremes.html) |  |
+| [`max.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md) | [`max()`](https://rdrr.io/r/base/Extremes.html) |  |
+| [`sum.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md) | [`sum()`](https://rdrr.io/r/base/sum.html) |  |
+| [`mean.integer64()`](https://bit64.r-lib.org/reference/qtile.md) | [`mean()`](https://rdrr.io/r/base/mean.html) |  |
+| [`prod.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md) | [`prod()`](https://rdrr.io/r/base/prod.html) |  |
+| [`all.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md) | [`all()`](https://rdrr.io/r/base/all.html) |  |
+| [`any.integer64()`](https://bit64.r-lib.org/reference/sum.integer64.md) | [`any()`](https://rdrr.io/r/base/any.html) |  |
 
-|                                                                                       |                                                           |                                                                    |
-|---------------------------------------------------------------------------------------|-----------------------------------------------------------|--------------------------------------------------------------------|
-| **algorithmically complex functions**                                                 | **see also**                                              | **description (caching)**                                          |
-| [`match.integer64()`](https://bit64.r-lib.org/reference/match.integer64.md)           | [`match()`](https://bit64.r-lib.org/reference/bit64S3.md) | position of x in table (h//o/so)                                   |
-| [`%in%.integer64`](https://bit64.r-lib.org/reference/match.integer64.md)              | [`%in%`](https://bit64.r-lib.org/reference/bit64S3.md)    | is x in table? (h//o/so)                                           |
-| [`duplicated.integer64()`](https://bit64.r-lib.org/reference/duplicated.integer64.md) | [`duplicated()`](https://rdrr.io/r/base/duplicated.html)  | is current element duplicate of previous one? (h//o/so)            |
-| [`unique.integer64()`](https://bit64.r-lib.org/reference/unique.integer64.md)         | [`unique()`](https://rdrr.io/r/base/unique.html)          | (shorter) vector of unique values only (h/s/o/so)                  |
-| [`unipos.integer64()`](https://bit64.r-lib.org/reference/unipos.md)                   | [`unipos()`](https://bit64.r-lib.org/reference/unipos.md) | positions corresponding to unique values (h/s/o/so)                |
-| [`tiepos.integer64()`](https://bit64.r-lib.org/reference/tiepos.md)                   | [`tiepos()`](https://bit64.r-lib.org/reference/tiepos.md) | positions of values that are tied (//o/so)                         |
-| [`keypos.integer64()`](https://bit64.r-lib.org/reference/keypos.md)                   | [`keypos()`](https://bit64.r-lib.org/reference/keypos.md) | position of current value in sorted list of unique values (//o/so) |
-| [`table.integer64()`](https://bit64.r-lib.org/reference/table.md)                     | [`table()`](https://bit64.r-lib.org/reference/table.md)   | unique values and their frequencies (h/s/o/so)                     |
-| [`sort.integer64()`](https://bit64.r-lib.org/reference/sort.integer64.md)             | [`sort()`](https://rdrr.io/r/base/sort.html)              | sorted vector (/s/o/so)                                            |
-| [`order.integer64()`](https://bit64.r-lib.org/reference/sort.integer64.md)            | [`order()`](https://bit64.r-lib.org/reference/bit64S3.md) | positions of elements that would create sorted vector (//o/so)     |
-| [`rank.integer64()`](https://bit64.r-lib.org/reference/rank.integer64.md)             | [`rank()`](https://bit64.r-lib.org/reference/bit64S3.md)  | (average) ranks of non-NAs, NAs kept in place (/s/o/so)            |
-| [`quantile.integer64()`](https://bit64.r-lib.org/reference/qtile.md)                  | [`quantile()`](https://rdrr.io/r/stats/quantile.html)     | (existing) values at specified percentiles (/s/o/so)               |
-| [`median.integer64()`](https://bit64.r-lib.org/reference/qtile.md)                    | [`median()`](https://rdrr.io/r/stats/median.html)         | (existing) value at percentile 0.5 (/s/o/so)                       |
-| [`summary.integer64()`](https://bit64.r-lib.org/reference/qtile.md)                   | [`summary()`](https://rdrr.io/r/base/summary.html)        | (/s/o/so)                                                          |
-| [`all.equal.integer64()`](https://bit64.r-lib.org/reference/all.equal.integer64.md)   | [`all.equal()`](https://rdrr.io/r/base/all.equal.html)    | test if two objects are (nearly) equal (/s/o/so)                   |
+|  |  |  |
+|----|----|----|
+| **algorithmically complex functions** | **see also** | **description (caching)** |
+| [`match.integer64()`](https://bit64.r-lib.org/reference/match.integer64.md) | [`match()`](https://bit64.r-lib.org/reference/bit64S3.md) | position of x in table (h//o/so) |
+| [`%in%.integer64`](https://bit64.r-lib.org/reference/match.integer64.md) | [`%in%`](https://bit64.r-lib.org/reference/bit64S3.md) | is x in table? (h//o/so) |
+| [`duplicated.integer64()`](https://bit64.r-lib.org/reference/duplicated.integer64.md) | [`duplicated()`](https://rdrr.io/r/base/duplicated.html) | is current element duplicate of previous one? (h//o/so) |
+| [`unique.integer64()`](https://bit64.r-lib.org/reference/unique.integer64.md) | [`unique()`](https://rdrr.io/r/base/unique.html) | (shorter) vector of unique values only (h/s/o/so) |
+| [`unipos.integer64()`](https://bit64.r-lib.org/reference/unipos.md) | [`unipos()`](https://bit64.r-lib.org/reference/unipos.md) | positions corresponding to unique values (h/s/o/so) |
+| [`tiepos.integer64()`](https://bit64.r-lib.org/reference/tiepos.md) | [`tiepos()`](https://bit64.r-lib.org/reference/tiepos.md) | positions of values that are tied (//o/so) |
+| [`keypos.integer64()`](https://bit64.r-lib.org/reference/keypos.md) | [`keypos()`](https://bit64.r-lib.org/reference/keypos.md) | position of current value in sorted list of unique values (//o/so) |
+| [`table.integer64()`](https://bit64.r-lib.org/reference/table.md) | [`table()`](https://bit64.r-lib.org/reference/table.md) | unique values and their frequencies (h/s/o/so) |
+| [`sort.integer64()`](https://bit64.r-lib.org/reference/sort.integer64.md) | [`sort()`](https://rdrr.io/r/base/sort.html) | sorted vector (/s/o/so) |
+| [`order.integer64()`](https://bit64.r-lib.org/reference/sort.integer64.md) | [`order()`](https://bit64.r-lib.org/reference/bit64S3.md) | positions of elements that would create sorted vector (//o/so) |
+| [`rank.integer64()`](https://bit64.r-lib.org/reference/rank.integer64.md) | [`rank()`](https://bit64.r-lib.org/reference/bit64S3.md) | (average) ranks of non-NAs, NAs kept in place (/s/o/so) |
+| [`quantile.integer64()`](https://bit64.r-lib.org/reference/qtile.md) | [`quantile()`](https://rdrr.io/r/stats/quantile.html) | (existing) values at specified percentiles (/s/o/so) |
+| [`median.integer64()`](https://bit64.r-lib.org/reference/qtile.md) | [`median()`](https://rdrr.io/r/stats/median.html) | (existing) value at percentile 0.5 (/s/o/so) |
+| [`summary.integer64()`](https://bit64.r-lib.org/reference/qtile.md) | [`summary()`](https://rdrr.io/r/base/summary.html) | (/s/o/so) |
+| [`all.equal.integer64()`](https://bit64.r-lib.org/reference/all.equal.integer64.md) | [`all.equal()`](https://rdrr.io/r/base/all.equal.html) | test if two objects are (nearly) equal (/s/o/so) |
 
-|                                                                  |                                                                  |                            |
-|------------------------------------------------------------------|------------------------------------------------------------------|----------------------------|
-| **helper functions**                                             | **see also**                                                     | **description**            |
-| [`minusclass()`](https://bit64.r-lib.org/reference/plusclass.md) | [`minusclass()`](https://bit64.r-lib.org/reference/plusclass.md) | removing class attritbute  |
-| [`plusclass()`](https://bit64.r-lib.org/reference/plusclass.md)  | [`plusclass()`](https://bit64.r-lib.org/reference/plusclass.md)  | inserting class attribute  |
-| [`binattr()`](https://bit64.r-lib.org/reference/ops64.md)        | [`binattr()`](https://bit64.r-lib.org/reference/ops64.md)        | define binary op behaviour |
+|  |  |  |
+|----|----|----|
+| **helper functions** | **see also** | **description** |
+| [`minusclass()`](https://bit64.r-lib.org/reference/plusclass.md) | [`minusclass()`](https://bit64.r-lib.org/reference/plusclass.md) | removing class attritbute |
+| [`plusclass()`](https://bit64.r-lib.org/reference/plusclass.md) | [`plusclass()`](https://bit64.r-lib.org/reference/plusclass.md) | inserting class attribute |
+| [`binattr()`](https://bit64.r-lib.org/reference/ops64.md) | [`binattr()`](https://bit64.r-lib.org/reference/ops64.md) | define binary op behaviour |
 
-|                          |                                                             |                       |
-|--------------------------|-------------------------------------------------------------|-----------------------|
-| **tested I/O functions** | **see also**                                                | **description**       |
-|                          | [`read.table()`](https://rdrr.io/r/utils/read.table.html)   | inherited from Base R |
-|                          | [`write.table()`](https://rdrr.io/r/utils/write.table.html) | inherited from Base R |
-|                          | [`serialize()`](https://rdrr.io/r/base/serialize.html)      | inherited from Base R |
-|                          | [`unserialize()`](https://rdrr.io/r/base/serialize.html)    | inherited from Base R |
-|                          | [`save()`](https://rdrr.io/r/base/save.html)                | inherited from Base R |
-|                          | [`load()`](https://rdrr.io/r/base/load.html)                | inherited from Base R |
-|                          | [`dput()`](https://rdrr.io/r/base/dput.html)                | inherited from Base R |
-|                          | [`dget()`](https://rdrr.io/r/base/dput.html)                | inherited from Base R |
+|  |  |  |
+|----|----|----|
+| **tested I/O functions** | **see also** | **description** |
+|  | [`read.table()`](https://rdrr.io/r/utils/read.table.html) | inherited from Base R |
+|  | [`write.table()`](https://rdrr.io/r/utils/write.table.html) | inherited from Base R |
+|  | [`serialize()`](https://rdrr.io/r/base/serialize.html) | inherited from Base R |
+|  | [`unserialize()`](https://rdrr.io/r/base/serialize.html) | inherited from Base R |
+|  | [`save()`](https://rdrr.io/r/base/save.html) | inherited from Base R |
+|  | [`load()`](https://rdrr.io/r/base/load.html) | inherited from Base R |
+|  | [`dput()`](https://rdrr.io/r/base/dput.html) | inherited from Base R |
+|  | [`dget()`](https://rdrr.io/r/base/dput.html) | inherited from Base R |
 
 ## Limitations inherited from implementing 64 bit integers via an external package
 

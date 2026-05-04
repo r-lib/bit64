@@ -202,20 +202,20 @@ see details
 
 ## Details
 
-|             |              |                  |                                                                             |                                                                          |
-|-------------|--------------|------------------|-----------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| **sortfun** | **orderfun** | **sortorderfun** | **see also**                                                                | **description**                                                          |
-| `sortnut`   | `ordernut`   |                  |                                                                             | return number of tied and of unique values                               |
-| `sortfin`   | `orderfin`   |                  | [`%in%.integer64`](https://bit64.r-lib.org/reference/match.integer64.md)    | return logical whether `x` is in `table`                                 |
-|             | `orderpos`   | `sortorderpos`   | [`match()`](https://bit64.r-lib.org/reference/match.integer64.md)           | return positions of `x` in `table`                                       |
-|             | `orderdup`   | `sortorderdup`   | [`duplicated()`](https://bit64.r-lib.org/reference/duplicated.integer64.md) | return logical whether values are duplicated                             |
-| `sortuni`   | `orderuni`   | `sortorderuni`   | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md)         | return unique values (=dimensiontable)                                   |
-|             | `orderupo`   | `sortorderupo`   | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md)         | return positions of unique values                                        |
-|             | `ordertie`   | `sortordertie`   |                                                                             | return positions of tied values                                          |
-|             | `orderkey`   | `sortorderkey`   |                                                                             | positions of values in vector of unique values (match in dimensiontable) |
-| `sorttab`   | `ordertab`   | `sortordertab`   | [`table()`](https://bit64.r-lib.org/reference/table.md)                     | tabulate frequency of values                                             |
-|             | `orderrnk`   | `sortorderrnk`   |                                                                             | rank averaging ties                                                      |
-| `sortqtl`   | `orderqtl`   |                  |                                                                             | return quantiles given probabilities                                     |
+|  |  |  |  |  |
+|----|----|----|----|----|
+| **sortfun** | **orderfun** | **sortorderfun** | **see also** | **description** |
+| `sortnut` | `ordernut` |  |  | return number of tied and of unique values |
+| `sortfin` | `orderfin` |  | [`%in%.integer64`](https://bit64.r-lib.org/reference/match.integer64.md) | return logical whether `x` is in `table` |
+|  | `orderpos` | `sortorderpos` | [`match()`](https://bit64.r-lib.org/reference/match.integer64.md) | return positions of `x` in `table` |
+|  | `orderdup` | `sortorderdup` | [`duplicated()`](https://bit64.r-lib.org/reference/duplicated.integer64.md) | return logical whether values are duplicated |
+| `sortuni` | `orderuni` | `sortorderuni` | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md) | return unique values (=dimensiontable) |
+|  | `orderupo` | `sortorderupo` | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md) | return positions of unique values |
+|  | `ordertie` | `sortordertie` |  | return positions of tied values |
+|  | `orderkey` | `sortorderkey` |  | positions of values in vector of unique values (match in dimensiontable) |
+| `sorttab` | `ordertab` | `sortordertab` | [`table()`](https://bit64.r-lib.org/reference/table.md) | tabulate frequency of values |
+|  | `orderrnk` | `sortorderrnk` |  | rank averaging ties |
+| `sortqtl` | `orderqtl` |  |  | return quantiles given probabilities |
 
 The functions `sortfin`, `orderfin`, `orderpos` and `sortorderpos` each
 offer three algorithms for finding `x` in `table`.
@@ -1042,6 +1042,6 @@ fastest algorithm.
 #>     }
 #>     ret
 #> }
-#> <bytecode: 0x5608d0262260>
+#> <bytecode: 0x557e414200e8>
 #> <environment: namespace:bit64>
 ```

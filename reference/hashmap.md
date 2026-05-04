@@ -121,22 +121,22 @@ See Details
 
 ## Details
 
-|              |                                                                             |                                                                         |
-|--------------|-----------------------------------------------------------------------------|-------------------------------------------------------------------------|
-| **function** | **see also**                                                                | **description**                                                         |
-| `hashfun`    | `digest`                                                                    | export of the hash function used in `hashmap`                           |
-| `hashmap`    | [`match()`](https://bit64.r-lib.org/reference/match.integer64.md)           | return hashmap                                                          |
-| `hashpos`    | [`match()`](https://bit64.r-lib.org/reference/match.integer64.md)           | return positions of `x` in `hashmap`                                    |
-| `hashrev`    | [`match()`](https://bit64.r-lib.org/reference/match.integer64.md)           | return positions of `hashmap` in `x`                                    |
-| `hashfin`    | [`%in%.integer64`](https://bit64.r-lib.org/reference/match.integer64.md)    | return logical whether `x` is in `hashmap`                              |
-| `hashrin`    | [`%in%.integer64`](https://bit64.r-lib.org/reference/match.integer64.md)    | return logical whether `hashmap` is in `x`                              |
-| `hashdup`    | [`duplicated()`](https://bit64.r-lib.org/reference/duplicated.integer64.md) | return logical whether hashdat is duplicated using hashmap              |
-| `hashuni`    | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md)         | return unique values of hashmap                                         |
-| `hashmapuni` | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md)         | return unique values of `x`                                             |
-| `hashupo`    | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md)         | return positions of unique values in hashdat                            |
-| `hashmapupo` | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md)         | return positions of unique values in `x`                                |
-| `hashtab`    | [`table()`](https://bit64.r-lib.org/reference/table.md)                     | tabulate values of hashdat using hashmap in `keep.order=FALSE`          |
-| `hashmaptab` | [`table()`](https://bit64.r-lib.org/reference/table.md)                     | tabulate values of `x` building hasmap on the fly in `keep.order=FALSE` |
+|  |  |  |
+|----|----|----|
+| **function** | **see also** | **description** |
+| `hashfun` | `digest` | export of the hash function used in `hashmap` |
+| `hashmap` | [`match()`](https://bit64.r-lib.org/reference/match.integer64.md) | return hashmap |
+| `hashpos` | [`match()`](https://bit64.r-lib.org/reference/match.integer64.md) | return positions of `x` in `hashmap` |
+| `hashrev` | [`match()`](https://bit64.r-lib.org/reference/match.integer64.md) | return positions of `hashmap` in `x` |
+| `hashfin` | [`%in%.integer64`](https://bit64.r-lib.org/reference/match.integer64.md) | return logical whether `x` is in `hashmap` |
+| `hashrin` | [`%in%.integer64`](https://bit64.r-lib.org/reference/match.integer64.md) | return logical whether `hashmap` is in `x` |
+| `hashdup` | [`duplicated()`](https://bit64.r-lib.org/reference/duplicated.integer64.md) | return logical whether hashdat is duplicated using hashmap |
+| `hashuni` | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md) | return unique values of hashmap |
+| `hashmapuni` | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md) | return unique values of `x` |
+| `hashupo` | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md) | return positions of unique values in hashdat |
+| `hashmapupo` | [`unique()`](https://bit64.r-lib.org/reference/unique.integer64.md) | return positions of unique values in `x` |
+| `hashtab` | [`table()`](https://bit64.r-lib.org/reference/table.md) | tabulate values of hashdat using hashmap in `keep.order=FALSE` |
+| `hashmaptab` | [`table()`](https://bit64.r-lib.org/reference/table.md) | tabulate values of `x` building hasmap on the fly in `keep.order=FALSE` |
 
 ## See also
 
