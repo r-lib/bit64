@@ -111,7 +111,6 @@ binattr = function(e1, e2) {
   if (is.complex(x)) return(invisible())
   if (inherits(x, "POSIXt")) return(invisible())
   if (is.character(x)) return(invisible())
-  if (is.factor(x)) return(invisible())
   stop(errorCondition(gettext("non-numeric argument to binary operator", domain="R"), call=sys.call(sys.nframe() - 2L)))
 }
 
