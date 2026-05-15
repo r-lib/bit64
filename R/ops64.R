@@ -105,6 +105,16 @@ binattr = function(e1, e2) {
   }
 }
 
+.validate_binary_operator_argument = function(x) {
+  if (is.numeric(unclass(x)) return(invisible())
+  if (is.logical(x)) return(invisible())
+  if (is.complex(x)) return(invisible())
+  if (inherits(x, "POSIXt")) return(invisible())
+  if (is.character(x)) return(invisible())
+  if (is.factor(x)) return(invisible())
+  stop(errorCondition(gettext("non-numeric argument to binary operator", domain="R"), call=sys.call(sys.nframe() - 2L)))
+}
+
 # helper for determining the target class for Ops methods
 target_class_for_Ops = function(e1, e2) {
   convert_to_integer64 = function(el) is.numeric(el) || is.logical(el)
@@ -118,10 +128,8 @@ target_class_for_Ops = function(e1, e2) {
       class(e1)[1L]
     }
   } else {
-    if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1) && !inherits(e1, "POSIXt") && !is.character(e1) && !is.factor(e1))
-      stop(errorCondition(gettext("non-numeric argument to binary operator", domain="R"), call=sys.call(sys.nframe() - 1L)))
-    if (!is.numeric(unclass(e2)) && !is.logical(e2) && !is.complex(e2) && !inherits(e2, "POSIXt") && !is.character(e2) && !is.factor(e2))
-      stop(errorCondition(gettext("non-numeric argument to binary operator", domain="R"), call=sys.call(sys.nframe() - 1L)))
+    .validate_binary_operator_argument(e1)
+    .validate_binary_operator_argument(e2)
 
     if (is.factor(e1) || is.factor(e2)) {
       "factor"
