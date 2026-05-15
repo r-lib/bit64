@@ -97,6 +97,9 @@ aperm.integer64 = function(a, perm, ...) {
     return(x%*%y)
 
   target_class = target_class_for_Ops(x, y)
+  if (target_class == "character" || target_class == "factor") {
+    stop(errorCondition(gettext("non-numeric argument to binary operator", domain="R"), call=sys.call(sys.nframe() - 1L)))
+  }
   if (target_class != "integer64") {
     if (is.integer64(x)) {
       for (cc in class(y)) {

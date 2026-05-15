@@ -4,6 +4,8 @@
 
 1. Fix some potential segfaults from shellsort algorithms (#315). The culprit code has been faulty for many years, but only newly caught by CRAN's rigorous environment with extensive new test coverage.
 
+1. `==` and other comparators (`!=`, `>`, `<`, `>=`, `<=`) correctly match integer behavior when comparing integer64 and character/factor, e.g. `as.integer64(1) == "1"` (#323).
+
 # bit64 4.8.0 (2025-04-19)
 
 ## NOTICE OF PLANNED BREAKING CHANGES

@@ -118,18 +118,24 @@ target_class_for_Ops = function(e1, e2) {
       class(e1)[1L]
     }
   } else {
-    if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1) && !inherits(e1, "POSIXt"))
+    if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1) && !inherits(e1, "POSIXt") && !is.character(e1) && !is.factor(e1))
       stop(errorCondition(gettext("non-numeric argument to binary operator", domain="R"), call=sys.call(sys.nframe() - 1L)))
-    if (!is.numeric(unclass(e2)) && !is.logical(e2) && !is.complex(e2) && !inherits(e2, "POSIXt"))
+    if (!is.numeric(unclass(e2)) && !is.logical(e2) && !is.complex(e2) && !inherits(e2, "POSIXt") && !is.character(e2) && !is.factor(e2))
       stop(errorCondition(gettext("non-numeric argument to binary operator", domain="R"), call=sys.call(sys.nframe() - 1L)))
 
-    conv_to_int1 = convert_to_integer64(e1)
-    if (conv_to_int1 && convert_to_integer64(e2)) {
-      "integer64"
-    } else if (conv_to_int1) {
-      class(e2)[1L]
+    if (is.factor(e1) || is.factor(e2)) {
+      "factor"
+    } else if (is.character(e1) || is.character(e2)) {
+      "character"
     } else {
-      class(e1)[1L]
+      conv_to_int1 = convert_to_integer64(e1)
+      if (conv_to_int1 && convert_to_integer64(e2)) {
+        "integer64"
+      } else if (conv_to_int1) {
+        class(e2)[1L]
+      } else {
+        class(e1)[1L]
+      }
     }
   }
 }
@@ -337,6 +343,9 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @export
 `==.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
+  if (target_class == "character" || target_class == "factor") {
+    return(as.character(e1) == as.character(e2))
+  }
   if (target_class != "integer64") {
     if (is.integer64(e1))
       e1 = .as_double_integer64(e1, keep.attributes=TRUE)
@@ -358,6 +367,9 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @export
 `!=.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
+  if (target_class == "character" || target_class == "factor") {
+    return(as.character(e1) != as.character(e2))
+  }
   if (target_class != "integer64") {
     if (is.integer64(e1))
       e1 = .as_double_integer64(e1, keep.attributes=TRUE)
@@ -379,6 +391,11 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @export
 `<.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
+  if (target_class == "character") {
+    return(as.character(e1) < as.character(e2))
+  } else if (target_class == "factor") {
+    stop(gettextf("%s not meaningful for factors", sQuote("<"), domain = "R"))
+  }
   if (target_class != "integer64") {
     if (is.integer64(e1))
       e1 = .as_double_integer64(e1, keep.attributes=TRUE)
@@ -400,6 +417,11 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @export
 `<=.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
+  if (target_class == "character") {
+    return(as.character(e1) <= as.character(e2))
+  } else if (target_class == "factor") {
+    stop(gettextf("%s not meaningful for factors", sQuote("<="), domain = "R"))
+  }
   if (target_class != "integer64") {
     if (is.integer64(e1))
       e1 = .as_double_integer64(e1, keep.attributes=TRUE)
@@ -421,6 +443,11 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @export
 `>.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
+  if (target_class == "character") {
+    return(as.character(e1) > as.character(e2))
+  } else if (target_class == "factor") {
+    stop(gettextf("%s not meaningful for factors", sQuote(">"), domain = "R"))
+  }
   if (target_class != "integer64") {
     if (is.integer64(e1))
       e1 = .as_double_integer64(e1, keep.attributes=TRUE)
@@ -442,6 +469,11 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @export
 `>=.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
+  if (target_class == "character") {
+    return(as.character(e1) >= as.character(e2))
+  } else if (target_class == "factor") {
+    stop(gettextf("%s not meaningful for factors", sQuote(">="), domain = "R"))
+  }
   if (target_class != "integer64") {
     if (is.integer64(e1))
       e1 = .as_double_integer64(e1, keep.attributes=TRUE)
