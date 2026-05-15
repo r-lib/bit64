@@ -254,24 +254,23 @@ with_parameters_test_that("{operator} with integer64 vs. {class} (not returning 
 with_parameters_test_that(
   "integer64 vs character/factor comparisons work",
   {
-    x = as.integer64(c(1, 2, 10))
+    x32 = c(1L, 2L, 10L)
+    x64 = as.integer64(x32)
     y = c("1", "2", "10")
     if (type == "factor") y = as.factor(y)
 
     op = match.fun(operator)
 
     if (type == "factor" && operator %in% c("<", "<=", ">", ">=")) {
-      expect_error(op(x, y), "not meaningful for factors")
-      expect_error(op(y, x), "not meaningful for factors")
+      expect_same_error(op(x64, y), op(x32, y))
+      expect_same_error(op(y, x64), op(y, x32))
     } else {
-      x32 = c(1L, 2L, 10L)
-
       expected_xy = op(x32, y)
-      actual_xy = op(x, y)
+      actual_xy = op(x64, y)
       expect_identical(actual_xy, expected_xy)
 
       expected_yx = op(y, x32)
-      actual_yx = op(y, x)
+      actual_yx = op(y, x64)
       expect_identical(actual_yx, expected_yx)
     }
   },
