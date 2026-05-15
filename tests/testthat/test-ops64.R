@@ -262,8 +262,14 @@ with_parameters_test_that(
     op = match.fun(operator)
 
     if (type == "factor" && operator %in% c("<", "<=", ">", ">=")) {
-      expect_same_error(op(x64, y), op(x32, y))
-      expect_same_error(op(y, x64), op(y, x32))
+      expect_warning(
+        expect_identical(op(x64, y), rep(NA, 3L)),
+        "not meaningful for factors", fixed = TRUE
+      )
+      expect_warning(
+        expect_identical(op(y, x64), rep(NA, 3L)),
+        "not meaningful for factors", fixed = TRUE
+      )
     } else {
       expected_xy = op(x32, y)
       actual_xy = op(x64, y)

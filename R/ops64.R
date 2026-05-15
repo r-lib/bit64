@@ -148,6 +148,14 @@ target_class_for_Ops = function(e1, e2) {
   }
 }
 
+factor_op_warning_na = function(op, e1, e2) {
+  warning(gettextf("%s not meaningful for factors", sQuote(op), domain = "R"), domain = NA)
+  l1 = length(e1)
+  l2 = length(e2)
+  l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
+  rep(NA, l)
+}
+
 #' @rawNamespace if (getRversion() >= "4.3.0") S3method(chooseOpsMethod,integer64)
 chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
   TRUE
@@ -402,7 +410,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
   if (target_class == "character") {
     return(as.character(e1) < as.character(e2))
   } else if (target_class == "factor") {
-    stop(gettextf("%s not meaningful for factors", sQuote("<"), domain = "R"))
+    return(factor_op_warning_na("<", e1, e2))
   }
   if (target_class != "integer64") {
     if (is.integer64(e1))
@@ -428,7 +436,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
   if (target_class == "character") {
     return(as.character(e1) <= as.character(e2))
   } else if (target_class == "factor") {
-    stop(gettextf("%s not meaningful for factors", sQuote("<="), domain = "R"))
+    return(factor_op_warning_na("<=", e1, e2))
   }
   if (target_class != "integer64") {
     if (is.integer64(e1))
@@ -454,7 +462,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
   if (target_class == "character") {
     return(as.character(e1) > as.character(e2))
   } else if (target_class == "factor") {
-    stop(gettextf("%s not meaningful for factors", sQuote(">"), domain = "R"))
+    return(factor_op_warning_na(">", e1, e2))
   }
   if (target_class != "integer64") {
     if (is.integer64(e1))
@@ -480,7 +488,7 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
   if (target_class == "character") {
     return(as.character(e1) >= as.character(e2))
   } else if (target_class == "factor") {
-    stop(gettextf("%s not meaningful for factors", sQuote(">="), domain = "R"))
+    return(factor_op_warning_na(">=", e1, e2))
   }
   if (target_class != "integer64") {
     if (is.integer64(e1))
