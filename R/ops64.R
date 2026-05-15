@@ -106,7 +106,7 @@ binattr = function(e1, e2) {
 }
 
 .validate_binary_operator_argument = function(x) {
-  if (is.numeric(unclass(x)) return(invisible())
+  if (is.numeric(unclass(x))) return(invisible())
   if (is.logical(x)) return(invisible())
   if (is.complex(x)) return(invisible())
   if (inherits(x, "POSIXt")) return(invisible())
