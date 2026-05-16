@@ -262,10 +262,6 @@ with_parameters_test_that(
     op = match.fun(operator)
 
     if (type == "factor" && operator %in% c("<", "<=", ">", ">=")) {
-      skip_if(
-        tryCatch(1L == factor("2"), error=function(e) TRUE),
-        "base version doesn't support comparing number and factor"
-      )
       expect_warning(
         expect_identical(op(x64, y), rep(NA, 3L)),
         "not meaningful for factors", fixed = TRUE
@@ -275,6 +271,10 @@ with_parameters_test_that(
         "not meaningful for factors", fixed = TRUE
       )
     } else {
+      skip_if(
+        type == "factor" && tryCatch(1L == factor("2"), error=function(e) TRUE),
+        "base version doesn't support comparing number and factor"
+      )
       expected_xy = op(x32, y)
       actual_xy = op(x64, y)
       expect_identical(actual_xy, expected_xy)
