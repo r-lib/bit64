@@ -262,6 +262,10 @@ with_parameters_test_that(
     op = match.fun(operator)
 
     if (type == "factor" && operator %in% c("<", "<=", ">", ">=")) {
+      skip_if(
+        tryCatch(1L == factor("2"), error=function(e) TRUE,
+        "base version doesn't support comparing number and factor"
+      )
       expect_warning(
         expect_identical(op(x64, y), rep(NA, 3L)),
         "not meaningful for factors", fixed = TRUE
