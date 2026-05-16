@@ -272,7 +272,7 @@ with_parameters_test_that(
       )
     } else {
       skip_if(
-        type == "factor" && tryCatch(1L == factor("2"), error=function(e) TRUE),
+        type == "factor" && tryCatch(1L == factor("2"), condition=function(e) TRUE),
         "base version doesn't support comparing number and factor"
       )
       expected_xy = op(x32, y)
