@@ -263,7 +263,7 @@ with_parameters_test_that(
 
     if (type == "factor" && operator %in% c("<", "<=", ">", ">=")) {
       skip_if(
-        tryCatch(1L == factor("2"), error=function(e) TRUE,
+        tryCatch(1L == factor("2"), error=function(e) TRUE),
         "base version doesn't support comparing number and factor"
       )
       expect_warning(
