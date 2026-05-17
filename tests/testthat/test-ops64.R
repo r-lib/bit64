@@ -293,5 +293,9 @@ with_parameters_test_that(
 
 test_that("Edge cases for character/factor comparisons work", {
   expect_true(as.integer64("999999999999999") == "999999999999999")
+  skip_if(
+    type == "factor" && tryCatch(x64[1L] == factor("2"), condition=function(e) TRUE),
+    "base version doesn't support comparing integer64 and factor"
+  )
   expect_true(as.integer64("999999999999999999") == as.factor("999999999999999999"))
 })
