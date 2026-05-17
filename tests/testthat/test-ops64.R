@@ -261,6 +261,10 @@ with_parameters_test_that(
 
     op = match.fun(operator)
 
+    skip_if(
+      type == "factor" && tryCatch(x64[1L] == factor("2"), condition=function(e) TRUE),
+      "base version doesn't support comparing integer64 and factor"
+    )
     if (type == "factor" && operator %in% c("<", "<=", ">", ">=")) {
       expect_warning(
         expect_identical(op(x64, y), rep(NA, 3L)),
@@ -271,10 +275,6 @@ with_parameters_test_that(
         "not meaningful for factors", fixed = TRUE
       )
     } else {
-      skip_if(
-        type == "factor" && tryCatch(x64[1L] == factor("2"), condition=function(e) TRUE),
-        "base version doesn't support comparing integer64 and factor"
-      )
       expected_xy = op(x32, y)
       actual_xy = op(x64, y)
       expect_identical(actual_xy, expected_xy)
