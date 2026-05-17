@@ -261,10 +261,6 @@ with_parameters_test_that(
 
     op = match.fun(operator)
 
-    skip_if(
-      type == "factor" && tryCatch(x64[1L] == factor("2"), condition=function(e) TRUE),
-      "base version doesn't support comparing integer64 and factor"
-    )
     if (type == "factor" && operator %in% c("<", "<=", ">", ">=")) {
       expect_warning(
         expect_identical(op(x64, y), rep(NA, 3L)),
@@ -286,16 +282,13 @@ with_parameters_test_that(
   },
   .cases = expand.grid(
     operator = c("==", "!=", "<", "<=", ">", ">="),
-    type = c("character", "factor"),
+    type = c("character", if (getRversion() >= "4.3.0") "factor"),
     stringsAsFactors = FALSE
   )
 )
 
 test_that("Edge cases for character/factor comparisons work", {
   expect_true(as.integer64("999999999999999") == "999999999999999")
-  skip_if(
-    tryCatch(x64[1L] == factor("2"), condition=function(e) TRUE),
-    "base version doesn't support comparing integer64 and factor"
-  )
+  skip_unless_r(">= 4.3.0")
   expect_true(as.integer64("999999999999999999") == as.factor("999999999999999999"))
 })
