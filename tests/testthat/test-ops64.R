@@ -272,8 +272,8 @@ with_parameters_test_that(
       )
     } else {
       skip_if(
-        type == "factor" && tryCatch(1L == factor("2"), condition=function(e) TRUE),
-        "base version doesn't support comparing number and factor"
+        type == "factor" && tryCatch(x64[1L] == factor("2"), condition=function(e) TRUE),
+        "base version doesn't support comparing integer64 and factor"
       )
       expected_xy = op(x32, y)
       actual_xy = op(x64, y)
