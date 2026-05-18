@@ -9,6 +9,11 @@
     code has been faulty for many years, but only newly caught by CRAN’s
     rigorous environment with extensive new test coverage.
 
+2.  `==` and other comparators (`!=`, `>`, `<`, `>=`, `<=`) correctly
+    match integer behavior when comparing integer64 and
+    character/factor, e.g. `as.integer64(1) == "1"`
+    ([\#323](https://github.com/r-lib/bit64/issues/323)).
+
 ## bit64 4.8.0 (2025-04-19)
 
 CRAN release: 2026-04-21
