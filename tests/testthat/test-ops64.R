@@ -250,3 +250,45 @@ with_parameters_test_that("{operator} with integer64 vs. {class} (not returning 
     class = c("complex", "Date", "POSIXct", "POSIXlt", "difftime")
   )
 )
+
+with_parameters_test_that(
+  "integer64 vs character/factor comparisons work",
+  {
+    x32 = c(1L, 2L, 10L)
+    x64 = as.integer64(x32)
+    y = c("1", "2", "10")
+    if (type == "factor") y = as.factor(y)
+
+    op = match.fun(operator)
+
+    if (type == "factor" && operator %in% c("<", "<=", ">", ">=")) {
+      expect_warning(
+        expect_identical(op(x64, y), rep(NA, 3L)),
+        "not meaningful for factors", fixed = TRUE
+      )
+      expect_warning(
+        expect_identical(op(y, x64), rep(NA, 3L)),
+        "not meaningful for factors", fixed = TRUE
+      )
+    } else {
+      expected_xy = op(x32, y)
+      actual_xy = op(x64, y)
+      expect_identical(actual_xy, expected_xy)
+
+      expected_yx = op(y, x32)
+      actual_yx = op(y, x64)
+      expect_identical(actual_yx, expected_yx)
+    }
+  },
+  .cases = expand.grid(
+    operator = c("==", "!=", "<", "<=", ">", ">="),
+    type = c("character", if (getRversion() >= "4.3.0") "factor"),
+    stringsAsFactors = FALSE
+  )
+)
+
+test_that("Edge cases for character/factor comparisons work", {
+  expect_true(as.integer64("999999999999999") == "999999999999999")
+  skip_unless_r(">= 4.3.0")
+  expect_true(as.integer64("999999999999999999") == as.factor("999999999999999999"))
+})

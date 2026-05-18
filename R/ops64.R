@@ -105,6 +105,15 @@ binattr = function(e1, e2) {
   }
 }
 
+.validate_binary_operator_argument = function(x) {
+  if (is.numeric(unclass(x))) return(invisible())
+  if (is.logical(x)) return(invisible())
+  if (is.complex(x)) return(invisible())
+  if (inherits(x, "POSIXt")) return(invisible())
+  if (is.character(x)) return(invisible())
+  stop(errorCondition(gettext("non-numeric argument to binary operator", domain="R"), call=sys.call(sys.nframe() - 2L)))
+}
+
 # helper for determining the target class for Ops methods
 target_class_for_Ops = function(e1, e2) {
   convert_to_integer64 = function(el) is.numeric(el) || is.logical(el)
@@ -118,20 +127,32 @@ target_class_for_Ops = function(e1, e2) {
       class(e1)[1L]
     }
   } else {
-    if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1) && !inherits(e1, "POSIXt"))
-      stop(errorCondition(gettext("non-numeric argument to binary operator", domain="R"), call=sys.call(sys.nframe() - 1L)))
-    if (!is.numeric(unclass(e2)) && !is.logical(e2) && !is.complex(e2) && !inherits(e2, "POSIXt"))
-      stop(errorCondition(gettext("non-numeric argument to binary operator", domain="R"), call=sys.call(sys.nframe() - 1L)))
+    .validate_binary_operator_argument(e1)
+    .validate_binary_operator_argument(e2)
 
-    conv_to_int1 = convert_to_integer64(e1)
-    if (conv_to_int1 && convert_to_integer64(e2)) {
-      "integer64"
-    } else if (conv_to_int1) {
-      class(e2)[1L]
+    if (is.factor(e1) || is.factor(e2)) {
+      "factor"
+    } else if (is.character(e1) || is.character(e2)) {
+      "character"
     } else {
-      class(e1)[1L]
+      conv_to_int1 = convert_to_integer64(e1)
+      if (conv_to_int1 && convert_to_integer64(e2)) {
+        "integer64"
+      } else if (conv_to_int1) {
+        class(e2)[1L]
+      } else {
+        class(e1)[1L]
+      }
     }
   }
+}
+
+factor_op_warning_na = function(op, e1, e2) {
+  warning(gettextf("%s not meaningful for factors", sQuote(op), domain = "R"), domain = NA)
+  l1 = length(e1)
+  l2 = length(e2)
+  l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
+  rep(NA, l)
 }
 
 #' @rawNamespace if (getRversion() >= "4.3.0") S3method(chooseOpsMethod,integer64)
@@ -337,6 +358,9 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @export
 `==.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
+  if (target_class == "character" || target_class == "factor") {
+    return(as.character(e1) == as.character(e2))
+  }
   if (target_class != "integer64") {
     if (is.integer64(e1))
       e1 = .as_double_integer64(e1, keep.attributes=TRUE)
@@ -358,6 +382,9 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @export
 `!=.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
+  if (target_class == "character" || target_class == "factor") {
+    return(as.character(e1) != as.character(e2))
+  }
   if (target_class != "integer64") {
     if (is.integer64(e1))
       e1 = .as_double_integer64(e1, keep.attributes=TRUE)
@@ -379,6 +406,11 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @export
 `<.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
+  if (target_class == "character") {
+    return(as.character(e1) < as.character(e2))
+  } else if (target_class == "factor") {
+    return(factor_op_warning_na("<", e1, e2))
+  }
   if (target_class != "integer64") {
     if (is.integer64(e1))
       e1 = .as_double_integer64(e1, keep.attributes=TRUE)
@@ -400,6 +432,11 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @export
 `<=.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
+  if (target_class == "character") {
+    return(as.character(e1) <= as.character(e2))
+  } else if (target_class == "factor") {
+    return(factor_op_warning_na("<=", e1, e2))
+  }
   if (target_class != "integer64") {
     if (is.integer64(e1))
       e1 = .as_double_integer64(e1, keep.attributes=TRUE)
@@ -421,6 +458,11 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @export
 `>.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
+  if (target_class == "character") {
+    return(as.character(e1) > as.character(e2))
+  } else if (target_class == "factor") {
+    return(factor_op_warning_na(">", e1, e2))
+  }
   if (target_class != "integer64") {
     if (is.integer64(e1))
       e1 = .as_double_integer64(e1, keep.attributes=TRUE)
@@ -442,6 +484,11 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @export
 `>=.integer64` = function(e1, e2) {
   target_class = target_class_for_Ops(e1, e2)
+  if (target_class == "character") {
+    return(as.character(e1) >= as.character(e2))
+  } else if (target_class == "factor") {
+    return(factor_op_warning_na(">=", e1, e2))
+  }
   if (target_class != "integer64") {
     if (is.integer64(e1))
       e1 = .as_double_integer64(e1, keep.attributes=TRUE)

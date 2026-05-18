@@ -5,14 +5,25 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-    paths:
-      - 'src/**'
 
 name: R-CMD-check.yaml
 
 permissions: read-all
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      src: ${{ steps.filter.outputs.src }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          src:
+            - 'src/**'
+
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
 
@@ -54,6 +65,8 @@ jobs:
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
 
   clang-ASAN:
+    needs: changes
+    if: ${{ needs.changes.outputs.src == 'true' }}
     name: "Minimal clang-ASAN"
     runs-on: ubuntu-latest
     container: rocker/r-devel-ubsan-clang

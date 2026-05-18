@@ -246,7 +246,8 @@ test_that("matrix multiplication", {
   expect_identical(m64%*%t(mCo), matrix(as.complex(m32%*%t(m32)), nrow=nrow(m32)))
   expect_identical(mCo%*%t(m64), matrix(as.complex(m32%*%t(m32)), nrow=nrow(m32)))
 
-  expect_error(m64%*%LETTERS[1:5], "non-numeric argument to binary operator", fixed=TRUE)
+  expect_same_error(m64 %*% LETTERS[1:5], m32 %*% LETTERS[1:5])
+  expect_same_error(m64 %*% as.factor(LETTERS[1:5]), m32 %*% as.factor(LETTERS[1:5]))
   expect_error(m64%*%as.raw(1:5), "non-numeric argument to binary operator", fixed=TRUE)
   
   # warning in multiplication part
