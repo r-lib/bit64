@@ -61,6 +61,10 @@ rowSums(x, na.rm = FALSE, dims = 1L)
 
   Passed on to [`aperm()`](https://rdrr.io/r/base/aperm.html).
 
+## Value
+
+A matrix of integer64 values with the appropriate dimension
+
 ## Details
 
 As of now, the `colSums()` and `rowSums()` methods are implemented as
