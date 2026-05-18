@@ -782,6 +782,14 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
 #' @export
 ordered = function(x=character(), ...) factor(x, ..., ordered=TRUE)
 
+#' @rawNamespace if (getRversion() < "4.6.0") S3method(print,bitstring)
+print.bitstring = function(x, ...) {
+  reset_class = minusclass(class(x), 'bitstring')
+  attributes(x) = NULL
+  oldClass(x) = reset_class
+  NextMethod(x)
+}
+
 #' @rdname as.integer64.character
 #' @export
 as.integer64.bitstring = function(x, ...) {

@@ -27,6 +27,7 @@
 #' rowSums(A)
 #' aperm(A, 2:1)
 #' @name matrix64
+#' @return A matrix of integer64 values with the appropriate dimension
 NULL
 
 

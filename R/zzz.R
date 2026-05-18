@@ -23,18 +23,6 @@ if (getRversion() < "3.6.0") {
   }
 }
 
-.onLoad = function(libname, pkgname) {
-  # TODO(R >= 4.6.0): remove this.
-  if (!utils::isS3method("print.bitstring")) {
-    registerS3method("print", "bitstring", function(x, ...) {
-      reset_class = minusclass(class(x), 'bitstring')
-      attributes(x) = NULL
-      oldClass(x) = reset_class
-      NextMethod(x)
-    })
-  }
-}
-
 # nocov start
 .onUnload = function(libpath) {
   library.dynam.unload("bit64", libpath)

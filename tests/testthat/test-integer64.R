@@ -653,7 +653,11 @@ with_parameters_test_that(
       }
     }
   },
-  .cases = expand.grid(n1=c(0L, 5L, -1L), n2=c(0.0, 5.0, -1.0, 1.5), n3=c(0.0, 5.0, -1.0, 1.5))
+  # TODO(#211): restore these cases which currently result in 'empty test'
+  .cases = subset(
+    expand.grid(n1=c(0L, 5L, -1L), n2=c(0.0, 5.0, -1.0, 1.5), n3=c(0.0, 5.0, -1.0, 1.5)),
+    !(n1 <= 0 & n2 == 1.5 & n3 == 5)
+  )
 )
 
 test_that("seq method works analogously to integer: 4 arguments", {
@@ -1575,5 +1579,5 @@ test_that("back-compatible keep.names=TRUE is supported for limited input classe
 })
 
 test_that("bitstring class meshes with R's own (from 4.6.0)", {
-  expect_no_error(print(as.bitstring(lim.integer64())))
+  expect_output(print(as.bitstring(lim.integer64())), '0000')
 })
