@@ -97,7 +97,7 @@ aperm.integer64 = function(a, perm, ...) {
     return(x%*%y)
 
   target_class = target_class_for_Ops(x, y)
-  if (target_class == "character" || target_class == "factor") {
+  if (target_class %in% c("character", "factor")) {
     stop(errorCondition(gettext("requires numeric/complex matrix/vector arguments", domain="R"), call=sys.call(sys.nframe() - 1L)))
   }
   if (target_class != "integer64") {
