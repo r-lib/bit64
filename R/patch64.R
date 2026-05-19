@@ -20,8 +20,8 @@
 #' rank(x, ...)
 #' order(...)
 #' @aliases bit64S3 : :.default :.integer64 is.double is.double.default
-#'   is.double.integer64 match match.default %in% %in%.default rank
-#'   rank.default order order.default
+#' @aliases is.double.integer64 match match.default %in% %in%.default rank
+#' @aliases rank.default order order.default
 #  @aliases table table.default
 #' @param x integer64 vector: the values to be matched, optionally carrying a
 #'   cache created with [hashcache()]
