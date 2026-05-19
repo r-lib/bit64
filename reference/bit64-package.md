@@ -578,6 +578,8 @@ the examples.
 
 Authors:
 
+- Michael Chirico <michaelchirico4@gmail.com>
+
 - Jens Oehlschlägel
 
 Other contributors:

@@ -40,7 +40,7 @@ is.element.
 
 ## See also
 
-base::union
+[base::union](https://rdrr.io/r/base/sets.html)
 
 ## Examples
 

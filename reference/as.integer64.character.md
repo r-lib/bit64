@@ -52,10 +52,6 @@ as.integer64(x, ...)
 NA_integer64_
 ```
 
-## Format
-
-An object of class `integer64` of length 1.
-
 ## Arguments
 
 - x:
