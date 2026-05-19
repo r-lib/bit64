@@ -699,10 +699,10 @@
 
 ## usethis namespace: start
 #' @importFrom bit clone is.sorted keyorder keysort keysortorder mergeorder
-#'   mergesort mergesortorder na.count nties nunique nvalid quickorder
-#'   quicksort quicksortorder radixorder radixsort radixsortorder ramorder
-#'   ramsort ramsortorder repeat.time setattr shellorder shellsort
-#'   shellsortorder still.identical
+#' @importFrom bit mergesort mergesortorder na.count nties nunique nvalid quickorder
+#' @importFrom bit quicksort quicksortorder radixorder radixsort radixsortorder ramorder
+#' @importFrom bit ramsort ramsortorder repeat.time setattr shellorder shellsort
+#' @importFrom bit shellsortorder still.identical
 #' @importFrom graphics barplot par title
 #' @importFrom methods as is
 #' @importFrom stats cor median quantile
