@@ -1,4 +1,4 @@
-# bit64 4.8.99 (in development)
+# bit64 4.8.2 (2026-05-19)
 
 ## BUG FIXES
 
