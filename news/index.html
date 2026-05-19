@@ -34,8 +34,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="4.8.99" id="bit64-4899-in-development">bit64 4.8.99 (in development)<a class="anchor" aria-label="anchor" href="#bit64-4899-in-development"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="4.8.2" id="bit64-482-2026-05-19">bit64 4.8.2 (2026-05-19)<a class="anchor" aria-label="anchor" href="#bit64-482-2026-05-19"></a></h2><p class="text-muted">CRAN release: 2026-05-19</p>
 <div class="section level3">
-<h3 id="bug-fixes-4-8-99">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-8-99"></a></h3>
+<h3 id="bug-fixes-4-8-2">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-8-2"></a></h3>
 <ol style="list-style-type: decimal"><li><p>Fix some potential segfaults from shellsort algorithms (<a href="https://github.com/r-lib/bit64/issues/315" class="external-link">#315</a>). The culprit code has been faulty for many years, but only newly caught by CRAN’s rigorous environment with extensive new test coverage.</p></li>
 <li><p><code>==</code> and other comparators (<code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>) correctly match integer behavior when comparing integer64 and character/factor, e.g. <code>as.integer64(1) == "1"</code> (<a href="https://github.com/r-lib/bit64/issues/323" class="external-link">#323</a>).</p></li>
 </ol></div>
