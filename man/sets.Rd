@@ -45,5 +45,5 @@ is.element(x, y)
 
 }
 \seealso{
-\link[base:sets]{base::union}
+\link[base:union]{base::union}
 }

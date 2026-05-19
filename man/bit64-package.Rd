@@ -142,7 +142,7 @@ copying and unnecessary garbage collection. Prior to 0.93 \emph{within} our R fu
 we also deviated from conventional R programming by not using \code{\link{attr<-}} and
 \code{\link{attributes<-}} because they always did new memory allocation and copying in older
 R versions. If we wanted to set attributes of return values that we have freshly
-created, we instead used functions \code{\link[bit:getsetattr]{bit::setattr()}} and \code{\link[bit:getsetattr]{bit::setattributes()}}.
+created, we instead used functions \code{\link[bit:setattr]{bit::setattr()}} and \code{\link[bit:setattributes]{bit::setattributes()}}.
 From version 0.93 \code{bit::setattr()} is only used for manipulating \code{\link{cache}} objects,
 in \code{\link[=ramsort.integer64]{ramsort.integer64()}}, \code{\link[=sort.integer64]{sort.integer64()}}, and \code{\link[=as.data.frame.integer64]{as.data.frame.integer64()}}.
 }
@@ -741,6 +741,7 @@ matplot(1:21, cbind(td32, t64), pch=c("d","i"), log="y")
 
 Authors:
 \itemize{
+  \item Michael Chirico \email{michaelchirico4@gmail.com}
   \item Jens Oehlschlägel
 }
 
