@@ -605,7 +605,7 @@ test_that("implicit tests from ?unipos and ?keypos work", {
 test_that("implicit test from ?rank.integer64 works", {
   x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   expect_identical(
-    rank.integer64(x),
+    rank(x),
     rank(as.integer(x), na.last="keep", ties.method="average")
   )
 })
