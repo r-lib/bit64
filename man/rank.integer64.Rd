@@ -32,10 +32,7 @@ Suitable methods are
 }
 \examples{
 x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-rank.integer64(x)
-
-stopifnot(identical(rank.integer64(x),  rank(as.integer(x)
-, na.last="keep", ties.method = "average")))
+rank(x)
 
 }
 \seealso{

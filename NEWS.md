@@ -1,5 +1,11 @@
 # bit64 4.8.99 (in development)
 
+## BREAKING CHANGES
+
+1. The remaining S3 methods are un-exported and no longer available to call directly:
+
+   `[<-.integer64`, `abs.integer64`, `all.integer64`, `any.integer64`, `as.character.integer64`, `as.data.frame.integer64`, `as.double.integer64`, `as.integer.integer64`, `as.integer64.character`, `as.integer64.double`, `as.integer64.integer`, `as.integer64.logical`, `c.integer64`, `format.integer64`, `is.na.integer64`, `log.integer64`, `max.integer64`, `min.integer64`, `print.integer64`, `rank.integer64`, `rep.integer64`, `seq.integer64`, `str.integer64`, `sum.integer64`, `unique.integer64`
+
 ## NOTES
 
 1. The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0 (2019).

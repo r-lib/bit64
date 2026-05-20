@@ -375,8 +375,9 @@
 #'
 #'  - **[c()]** only dispatches [c.integer64()] if the first argument is `integer64`
 #'    and it does not recursively dispatch the proper method when called with argument
-#'    `recursive=TRUE`. Therefore `c(list(integer64, integer64))` does not work and
-#'    for now you can only call `c.integer64(list(x, x))`.
+#'    `recursive=TRUE`. Therefore `c(list(integer64, integer64), recursive=TRUE)` does
+#'    not work. You can always force integer64 dispatch by prepending `integer64()`:
+#'    `c(integer64(), list(integer64, integer64), recursive=TRUE)`.
 #'
 #'  - **[unlist()]** is not generic and if it were, we would face similar problems as
 #'    with [c()]
@@ -446,9 +447,9 @@
 #' rep(x, 2)            # replicate as usual
 #' seq(as.integer64(1), 10)     # seq.integer64 is dispatched on first given argument
 #' seq(to=as.integer64(10), 1)  # seq.integer64 is dispatched on first given argument
-#' seq.integer64(along.with=x)  # or call seq.integer64 directly
+#'
 #' # c.integer64 is dispatched only if *first* argument is integer64 ...
-#' x <- c(x,runif(length(x), max=100))
+#' x <- c(x, runif(length(x), max=100))
 #' # ... and coerces everything to integer64 - including double
 #' x
 #' names(x) <- letters  # use names as usual
@@ -708,13 +709,5 @@
 #' @importFrom stats cor median quantile
 #' @importFrom utils head packageDescription strOptions tail getS3method
 #' @export : %in% is.double match order print.cache rank
-# TODO(>=4.9.0): un-export these
-#' @export [<-.integer64 abs.integer64 all.integer64 any.integer64
-#' @export as.character.integer64 as.data.frame.integer64 as.double.integer64
-#' @export as.integer.integer64 as.integer64.character as.integer64.double
-#' @export as.integer64.integer as.integer64.logical c.integer64
-#' @export format.integer64 is.na.integer64 log.integer64 max.integer64
-#' @export min.integer64 print.integer64 rank.integer64 rep.integer64
-#' @export seq.integer64 str.integer64 sum.integer64 unique.integer64
 ## usethis namespace: end
 NULL

@@ -1041,8 +1041,6 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
 #' @rdname c.integer64
 #' @export
 c.integer64 = function(..., recursive=FALSE) {
-  # This check can be dropped in the future when c.integer64 is not exported anymore
-  if (...length() == 0L) return(NULL)
   dots = list(...)
   
   if (!isTRUE(recursive) && any(vapply(dots, is.list, FALSE))) {
