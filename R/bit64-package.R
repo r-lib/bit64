@@ -375,8 +375,9 @@
 #'
 #'  - **[c()]** only dispatches [c.integer64()] if the first argument is `integer64`
 #'    and it does not recursively dispatch the proper method when called with argument
-#'    `recursive=TRUE`. Therefore `c(list(integer64, integer64))` does not work and
-#'    for now you can only call `c.integer64(list(x, x))`.
+#'    `recursive=TRUE`. Therefore `c(list(integer64, integer64), recursive=TRUE)` does
+#'    not work. You can always force integer64 dispatch by prepending `integer64()`:
+#'    `c(integer64(), list(integer64, integer64), recursive=TRUE)`.
 #'
 #'  - **[unlist()]** is not generic and if it were, we would face similar problems as
 #'    with [c()]
@@ -448,7 +449,7 @@
 #' seq(to=as.integer64(10), 1)  # seq.integer64 is dispatched on first given argument
 #' seq.integer64(along.with=x)  # or call seq.integer64 directly
 #' # c.integer64 is dispatched only if *first* argument is integer64 ...
-#' x <- c(x,runif(length(x), max=100))
+#' x <- c(x, runif(length(x), max=100))
 #' # ... and coerces everything to integer64 - including double
 #' x
 #' names(x) <- letters  # use names as usual

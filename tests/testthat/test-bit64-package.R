@@ -104,7 +104,7 @@ test_that("c and rep", {
   x = x + -1:1
   expect_true(identical.integer64(rep(x, 3L), c(x, x, x)))
   expect_true(identical.integer64(
-    c.integer64(list(x, x, x), recursive=TRUE),
+    c(integer64(), list(x, x, x), recursive=TRUE),
     c(x, x, x)
   ))
 })
