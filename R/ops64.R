@@ -156,6 +156,7 @@ factor_op_warning_na = function(op, e1, e2) {
 }
 
 #' @rawNamespace if (getRversion() >= "4.3.0") S3method(chooseOpsMethod,integer64)
+#' @exportS3Method NULL
 chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
   TRUE
 }
