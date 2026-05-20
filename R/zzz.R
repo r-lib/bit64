@@ -7,22 +7,6 @@
 # Created: 2011-12-11
 # */
 
-# backports
-# R < 3.6.0
-if (getRversion() < "3.6.0") {
-  errorCondition = function(message, ..., class = NULL, call = NULL) {
-    obj <- list(message = as.character(message), call = call, ...)
-    class(obj) = c(class, "error", "condition")
-    obj
-  }
-
-  warningCondition = function(message, ..., class = NULL, call = NULL) {
-    obj <- list(message = as.character(message), call = call, ...)
-    class(obj) = c(class, "warning", "condition")
-    obj
-  }
-}
-
 # nocov start
 .onUnload = function(libpath) {
   library.dynam.unload("bit64", libpath)
