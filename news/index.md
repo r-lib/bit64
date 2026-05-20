@@ -2,6 +2,11 @@
 
 ## bit64 4.8.99 (in development)
 
+### NOTES
+
+1.  The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0
+    (2019).
+
 ## bit64 4.8.2 (2026-05-19)
 
 CRAN release: 2026-05-19
