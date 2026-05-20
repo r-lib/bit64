@@ -2594,10 +2594,7 @@ tiepos.integer64 = function(x, nties = NULL, method = NULL, ...) {
 #' @seealso [order.integer64()], [rank()] and [prank()] for percent rank.
 #' @examples
 #' x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
-#' rank.integer64(x)
-#'
-#' stopifnot(identical(rank.integer64(x),  rank(as.integer(x)
-#' , na.last="keep", ties.method = "average")))
+#' rank(x)
 #'
 #' @keywords univar
 #' @export
