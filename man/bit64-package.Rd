@@ -488,7 +488,7 @@ x
 rep(x, 2)            # replicate as usual
 seq(as.integer64(1), 10)     # seq.integer64 is dispatched on first given argument
 seq(to=as.integer64(10), 1)  # seq.integer64 is dispatched on first given argument
-seq.integer64(along.with=x)  # or call seq.integer64 directly
+
 # c.integer64 is dispatched only if *first* argument is integer64 ...
 x <- c(x, runif(length(x), max=100))
 # ... and coerces everything to integer64 - including double

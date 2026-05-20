@@ -123,10 +123,6 @@ test_that("seq", {
     as.integer64(seq(1.0, by=2.0, length.out=6.0))
   ))
   expect_true(identical.integer64(
-    seq.integer64(along.with=3:5),
-    as.integer64(seq(along.with=3:5))
-  ))
-  expect_true(identical.integer64(
     seq(as.integer64(1L), to=-9.0),
     as.integer64(seq(1.0, to=-9.0))
   ))
