@@ -40,6 +40,10 @@ apt_get_packages = c(
   "libfftw3-dev",
   "libmagick++-dev",
   "libuv1-dev",
+  "libcairo2-dev",
+  "rustc",
+  "libssh-dev",
+  "librsvg2-dev",
   NULL
 )
 
@@ -57,15 +61,32 @@ system(cmd_update)
 system(cmd_apt)
 system(cmd_apt_get)
 
-cat(sprintf("Installing downstreams with --install-tests\n"))
+cat("Installing downstreams with --install-tests\n")
 
-message("Installing all revdeps with --install-tests")
+makevars = "~/.R/Makevars"
+if (
+  !dir.exists(dirname(makevars))
+  || !file.exists(makevars)
+  || !any(grepl("ignored-attributes", readLines(makevars)))
+) {
+  dir.create(dirname(makevars), showWarnings=FALSE)
+  # suppress extremely noisy compiler warnings
+  cat(
+    paste0("CXX", c("", 11, 14, 17), "FLAGS+=-Wno-ignored-attributes"),
+    file=makevars, sep="\n", append=TRUE
+  )
+}
+Sys.setenv(DOWNLOAD_STATIC_LIBV8=1)
+system("R CMD javareconf")
 install(rev_deps, INSTALL_opts="--install-tests", dependencies=TRUE)
 
-if (!all(rev_deps %in% rownames(installed.packages())))
-  stop("Some packages failed to install, necessitating some manual intervention...")
+if (length(failed_to_install <- setdiff(rev_deps, rownames(installed.packages()))))
+  stop(sprintf(
+    "%d packages failed to install, e.g. %s, necessitating some manual intervention, see `failed_to_install`...",
+    length(failed_to_install), toString(head(failed_to_install))
+  ))
 
-if (!basename(getwd()) == "bit64")
+if (basename(getwd()) != "bit64")
   stop("The proceeding assumes you're in the bit64 package directory.")
 
 run_revdep_tests = function(pkgs) {
