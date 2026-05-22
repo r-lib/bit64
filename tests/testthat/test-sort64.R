@@ -443,7 +443,7 @@ test_that("ramsort/ramsortorder/ramorder dispatch and VERBOSE", {
   # ramsort optimize="memory" (dispatches to quicksort)
   x1 = bit::clone(x)
   expect_output(
-    ramsort(x1, optimize="memory", VERBOSE=TRUE),
+    bit::ramsort(x1, optimize="memory", VERBOSE=TRUE),
     "ramsort selected quicksort"
   )
   expect_identical(x1, as.integer64(c(1L, 2L, 3L)))
@@ -454,7 +454,7 @@ test_that("ramsort/ramsortorder/ramorder dispatch and VERBOSE", {
   
   x2 = bit::clone(x_names)
   expect_output(
-    ramsort(x2, stable=TRUE, VERBOSE=TRUE),
+    bit::ramsort(x2, stable=TRUE, VERBOSE=TRUE),
     "ramsortorder selected mergesortorder"
   )
   expected_x2 = as.integer64(c(1L, 2L, 3L))
@@ -463,7 +463,7 @@ test_that("ramsort/ramsortorder/ramorder dispatch and VERBOSE", {
   
   x3 = bit::clone(x_names)
   expect_output(
-    ramsort(x3, stable=FALSE, optimize="memory", VERBOSE=TRUE),
+    bit::ramsort(x3, stable=FALSE, optimize="memory", VERBOSE=TRUE),
     "ramsort selected quicksortorder"
   )
   expect_identical(x3, expected_x2)
@@ -472,7 +472,7 @@ test_that("ramsort/ramsortorder/ramorder dispatch and VERBOSE", {
   x4 = bit::clone(x)
   i4 = seq_along(x4)
   expect_output(
-    ramsortorder(x4, i4, stable=FALSE, optimize="memory", VERBOSE=TRUE),
+    bit::ramsortorder(x4, i4, stable=FALSE, optimize="memory", VERBOSE=TRUE),
     "ramsortorder selected quicksortorder"
   )
   
@@ -480,7 +480,7 @@ test_that("ramsort/ramsortorder/ramorder dispatch and VERBOSE", {
   x5 = bit::clone(x)
   i5 = seq_along(x5)
   expect_output(
-    ramorder(x5, i5, stable=FALSE, VERBOSE=TRUE),
+    bit::ramorder(x5, i5, stable=FALSE, VERBOSE=TRUE),
     "ramorder selected quickorder"
   )
 })
