@@ -32,7 +32,10 @@ For setdiff, a vector of the same mode or class as x.
 A logical scalar for setequal and a logical of the same length as x for is.element.
 }
 \description{
-Performs set union, intersection, (asymmetric!) difference, equality and membership on two vectors. As soon as an integer64 vector is involved, the operations are performed using integer64 semantics. Otherwise the \code{base} package functions are called.
+Performs set union, intersection, (asymmetric!) difference,
+equality and membership on two vectors. As soon as an integer64 vector
+is involved, the operations are performed using integer64 semantics.
+Otherwise the \code{base} package functions are called.
 }
 \examples{
 x <- as.integer64(1:5)

@@ -18,7 +18,7 @@
 # adhered to. The complete call of the function name of the last match is returned. If no match exists, the top call
 # is returned. It is also possible to change the function name of the matched return value by providing its new name
 # with name_to_display.
-# Examples: 
+# Examples:
 # * call stack: [A, B, C, D, E]; function_names = c("C", "D") returns C
 # * call stack: [A, B, C, D, E]; function_names = c("E", "D") returns D
 # * call stack: [A, B, C, D, E]; function_names = c("E", "X") returns A
@@ -70,14 +70,13 @@ getClassesOfElements = function(x, recursive) {
 }
 
 target_class = function(x, recursive=FALSE, POSIXltAsCharacter=FALSE) {
-
   classes = getClassesOfElements(x, recursive=isTRUE(recursive))
-  
+
   if ("POSIXlt" %in% classes && isTRUE(POSIXltAsCharacter)) return("character")
   if ("complex" %in% classes) return("complex")
   if (any(c("character", "factor", "ordered") %in% classes)) {
-    # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option
-    if (isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) return("character")
+    # TODO(#44): next Release: Add warning for "TRUE"; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
+    if (isTRUE(getOption("bit64.promoteInteger64ToCharacter", TRUE))) return("character")
   }
   "integer64"
 }

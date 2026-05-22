@@ -984,9 +984,9 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   sc = sys.call()
   pf = parent.frame()
   args = position_args_with_int64_to_int_coercion(sc, pf, skipLast=TRUE)
-  
-  # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
-  if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
+
+  # TODO(#44): next Release: Add warning for "TRUE"; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
+  if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", TRUE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     args$value = value
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
     ret = withCallingHandlers_and_choose_call(do.call(`[<-`, c(list(x=x), args)), c("[<-", "[<-.integer64"))  
@@ -1023,8 +1023,8 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
       el = as.integer(el)
     el
   })
-  # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
-  if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
+  # TODO(#44): next Release: Add warning for "TRUE"; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
+  if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", TRUE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     args$value = value
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
     withCallingHandlers_and_choose_call({ret = do.call(`[[<-`, c(list(x=x), args))}, c("[[<-", "[[<-.integer64"))  
