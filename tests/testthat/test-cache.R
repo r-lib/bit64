@@ -76,12 +76,14 @@ test_that("basic cache operations and outdating", {
   expect_null(getcache(x4, "nonexistent"))
   
   # getcache on outdated cache
-  x4[1] = 4
-  expect_warning(g_out <- getcache(x4, "testkey"), "removed outdated cache")
+  x4[1L] = 4
+  expect_warning({
+    g_out <- getcache(x4, "testkey")
+  }, "removed outdated cache")
   expect_null(g_out)
   
   # remcache
-  x5 = as.integer64(c(1, 2, 3))
+  x5 = as.integer64(1:3)
   jamcache(x5)
   expect_false(is.null(attr(x5, "cache")))
   remcache(x5)
@@ -89,17 +91,16 @@ test_that("basic cache operations and outdating", {
 })
 
 test_that("print.cache works", {
-  x = as.integer64(c(1, 2, 3))
+  x = as.integer64(1:3)
   ch = jamcache(x)
   setcache(x, "a", 1)
   setcache(x, "b", 2)
   
-  out = capture.output(print(ch))
-  expect_match(out, "cache_integer64: a - b - x")
+  expect_output(print(ch), "cache_integer64: a - b - x")
 })
 
 test_that("hashcache works", {
-  x = as.integer64(c(1, 2, 3, 2, 1))
+  x = as.integer64(c(1:3, 2:1))
   hashcache(x)
   ch = cache(x)
   expect_false(is.null(ch))
@@ -111,7 +112,7 @@ test_that("hashcache works", {
 })
 
 test_that("S3 methods benefit from cache", {
-  x = as.integer64(c(3, 1, 2, 2, NA))
+  x = as.integer64(c(3L, 1L, 2L, 2L, NA))
   
   # Without cache
   expect_identical(na.count(x), 1L)
@@ -121,7 +122,7 @@ test_that("S3 methods benefit from cache", {
   expect_identical(nties(x), 2L)
   
   # With cache (empty) - use fresh x to avoid side effects
-  x_cached = as.integer64(c(3, 1, 2, 2, NA))
+  x_cached = as.integer64(c(3L, 1L, 2L, 2L, NA))
   jamcache(x_cached)
   ch = cache(x_cached)
   expect_false(is.null(ch))
@@ -146,7 +147,7 @@ test_that("S3 methods benefit from cache", {
 })
 
 test_that("S3 methods with sorted x", {
-  x = as.integer64(c(1, 2, 2, 3))
+  x = as.integer64(c(1L, 2L, 2L, 3L))
   jamcache(x)
   ch = cache(x)
   
@@ -155,5 +156,3 @@ test_that("S3 methods with sorted x", {
   expect_identical(getcache(x, "nunique"), 3L)
   expect_identical(getcache(x, "nties"), 2L)
 })
-
-
