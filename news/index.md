@@ -17,6 +17,10 @@
     `rank.integer64`, `rep.integer64`, `seq.integer64`, `str.integer64`,
     `sum.integer64`, `unique.integer64`
 
+2.  Supplying `keep.names=` to
+    [`as.integer64()`](https://bit64.r-lib.org/reference/as.integer64.character.md)
+    now emits a warning, which will become an error in the next release.
+
 ### NOTES
 
 1.  The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0
