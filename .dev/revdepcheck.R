@@ -44,6 +44,7 @@ apt_get_packages = c(
   "rustc",
   "libssh-dev",
   "librsvg2-dev",
+  "libjq-dev",
   NULL
 )
 
