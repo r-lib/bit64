@@ -117,7 +117,7 @@ test_that("S3 methods benefit from cache", {
   # Without cache
   expect_identical(bit::na.count(x), 1L)
   expect_identical(bit::nvalid(x), 4L)
-  expect_false(is.sorted(x))
+  expect_false(bit::is.sorted(x))
   expect_identical(bit::nunique(x), 4L)
   expect_identical(bit::nties(x), 2L)
   
@@ -135,7 +135,7 @@ test_that("S3 methods benefit from cache", {
   expect_true(exists("na.count", envir=ch, inherits=FALSE))
   expect_identical(getcache(x_cached, "na.count"), 1L)
   
-  expect_false(is.sorted(x_cached))
+  expect_false(bit::is.sorted(x_cached))
   expect_true(exists("is.sorted", envir=ch, inherits=FALSE))
   
   expect_false(exists("nunique", envir=ch, inherits=FALSE))
@@ -151,7 +151,7 @@ test_that("S3 methods with sorted x", {
   jamcache(x)
   ch = cache(x)
   
-  expect_true(is.sorted(x))
+  expect_true(bit::is.sorted(x))
   expect_identical(bit::nunique(x), 3L)
   expect_identical(getcache(x, "nunique"), 3L)
   expect_identical(getcache(x, "nties"), 2L)
