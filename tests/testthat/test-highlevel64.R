@@ -717,9 +717,9 @@ test_that("mean.integer64 works", {
 
 test_that("highlevel S3 methods incomparables error", {
   x = as.integer64(1:3)
-  expect_error(unique(x, incomparables=TRUE))
-  expect_error(unipos(x, incomparables=TRUE))
-  expect_error(duplicated(x, incomparables=TRUE))
+  expect_error(unique(x, incomparables=TRUE), '`incomparables=TRUE`.*not yet supported')
+  expect_error(unipos(x, incomparables=TRUE), '`incomparables=TRUE`.*not yet supported')
+  expect_error(duplicated(x, incomparables=TRUE), '`incomparables=TRUE`.*not yet supported')
 })
 
 test_that("qtile invalid probs error", {
