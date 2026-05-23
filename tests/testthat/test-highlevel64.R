@@ -476,6 +476,11 @@ test_that("unique.integer64 covers various cache states and order arguments", {
   expect_identical(unique(x2, order="values"), as.integer64(1L))
   remcache(x2)
 
+  # order="values" + ordercache (triggers orderuni)
+  ordercache(x)
+  expect_identical(unique(x, order="values"), as.integer64(c(1L, 3L)))
+  remcache(x)
+
   # order="any" + hashcache
   hashcache(x)
   res = unique(x, order="any")
@@ -496,6 +501,17 @@ test_that("unipos.integer64 covers various cache states", {
   sortcache(x)
   expect_identical(unipos(x, order="values"), c(2L, 1L))
   remcache(x)
+
+  # order="values" + ordercache (triggers orderupo)
+  ordercache(x)
+  expect_identical(unipos(x, order="values"), c(2L, 1L))
+  remcache(x)
+
+  # order="values" + hashcache (with nunique < length/2, triggers hashupo)
+  x_many_dups = as.integer64(c(1, 1, 1, 1, 1, 2))
+  hashcache(x_many_dups)
+  expect_identical(unipos(x_many_dups, order="values"), c(1L, 6L))
+  remcache(x_many_dups)
 
   # order="any" + sortordercache
   sortordercache(x)
@@ -601,3 +617,47 @@ test_that("implicit tests from ?unipos and ?keypos work", {
   x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
   expect_identical(keypos(x),  match(x, sort(unique(x), na.last=FALSE)))
 })
+
+test_that("implicit test from ?rank.integer64 works", {
+  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  expect_identical(
+    rank(x),
+    rank(as.integer(x), na.last="keep", ties.method="average")
+  )
+})
+
+test_that("implicit test from ?rank.integer64 works", {
+  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  expect_identical(
+    rank(x),
+    rank(as.integer(x), na.last="keep", ties.method="average")
+  )
+})
+
+test_that("keypos, tiepos, rank, qtile with ordercache", {
+  x = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
+  
+  # Populate ordercache (has 'order' but not 'sort')
+  ordercache(x)
+  
+  # 1. keypos (should use orderkey path)
+  x_keypos = c(4L, 1L, 4L, 2L, 1L, 3L)
+  expect_identical(keypos(x), x_keypos)
+  
+  # 2. tiepos (should use ordertie path)
+  expect_identical(tiepos(x), c(1L, 2L, 3L, 5L))
+  
+  # 3. rank (should use orderrnk path)
+  expect_identical(rank(x), c(5.5, 1.5, 5.5, 3.0, 1.5, 4.0))
+  
+  # 4. qtile (should use orderqtl path)
+  expected_q = qtile(x, probs=seq(0, 1, 0.25), names=FALSE)
+  
+  # Reset cache and use sortqtl to get expected
+  x_no_cache = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
+  expected_q_sort = qtile(x_no_cache, probs=seq(0, 1, 0.25), names=FALSE)
+  expect_identical(expected_q, expected_q_sort)
+  
+  remcache(x)
+})
+>>>>>>> conflict 1 of 1 ends

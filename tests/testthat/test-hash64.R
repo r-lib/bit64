@@ -127,3 +127,35 @@ test_that("implicit tests from ?hashmap continue working", {
   # system.time(runif(n))
   # system.time(runif64(n))
 
+test_that("hashfun works", {
+  x = as.integer64(c(1:3, 1:2))
+  hf = hashfun(x)
+  expect_length(hf, length(x))
+  expect_true(all(hf >= 0))
+  expect_identical(hf[1], hf[4])
+  expect_identical(hf[2], hf[5])
+})
+
+test_that("hashmap cache dissociation error", {
+  x = as.integer64(1:3)
+  ch = newcache(x)
+  y = as.integer64(1:3)
+  expect_error(hashmap(y, cache=ch), "vector 'x' dissociated from cache")
+})
+
+test_that("runif64 replace=FALSE edge cases", {
+  expect_error(
+    runif64(10L, 1, 5, replace=FALSE),
+    "cannot take a sample larger than the population"
+  )
+  
+  r1 = runif64(10L, 1, 100, replace=FALSE)
+  expect_length(r1, 10L)
+  expect_length(unique(r1), 10L)
+  expect_true(all(r1 >= 1 & r1 <= 100))
+  
+  r2 = runif64(5L, 1, 1000, replace=FALSE)
+  expect_length(r2, 5L)
+  expect_length(unique(r2), 5L)
+  expect_true(all(r2 >= 1 & r2 <= 1000))
+})

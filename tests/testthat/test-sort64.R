@@ -436,3 +436,79 @@ local({
     )
   )
 })
+
+test_that("ramsort/ramsortorder/ramorder dispatch and VERBOSE", {
+  x = as.integer64(c(2L, 1L, 3L))
+  
+  # ramsort optimize="memory" (dispatches to quicksort)
+  x1 = bit::clone(x)
+  expect_output(
+    bit::ramsort(x1, optimize="memory", VERBOSE=TRUE),
+    "ramsort selected quicksort"
+  )
+  expect_identical(x1, as.integer64(c(1L, 2L, 3L)))
+  
+  # ramsort with names (dispatches to ramsortorder or quicksortorder)
+  x_names = as.integer64(c(2L, 1L, 3L))
+  names(x_names) = c("b", "a", "c")
+  
+  x2 = bit::clone(x_names)
+  expect_output(
+    bit::ramsort(x2, stable=TRUE, VERBOSE=TRUE),
+    "ramsortorder selected mergesortorder"
+  )
+  expected_x2 = as.integer64(c(1L, 2L, 3L))
+  names(expected_x2) = c("a", "b", "c")
+  expect_identical(x2, expected_x2)
+  
+  x3 = bit::clone(x_names)
+  expect_output(
+    bit::ramsort(x3, stable=FALSE, optimize="memory", VERBOSE=TRUE),
+    "ramsort selected quicksortorder"
+  )
+  expect_identical(x3, expected_x2)
+  
+  # ramsortorder stable=FALSE, optimize="memory" (dispatches to quicksortorder)
+  x4 = bit::clone(x)
+  i4 = seq_along(x4)
+  expect_output(
+    bit::ramsortorder(x4, i4, stable=FALSE, optimize="memory", VERBOSE=TRUE),
+    "ramsortorder selected quicksortorder"
+  )
+  
+  # ramorder stable=FALSE (dispatches to quickorder)
+  x5 = bit::clone(x)
+  i5 = seq_along(x5)
+  expect_output(
+    bit::ramorder(x5, i5, stable=FALSE, VERBOSE=TRUE),
+    "ramorder selected quickorder"
+  )
+})
+
+test_that("sort.integer64 and order.integer64 with cache", {
+  x = as.integer64(c(3L, 1L, 2L))
+  
+  # 1. sort with sortcache
+  x_sort_cached = bit::clone(x)
+  sortcache(x_sort_cached)
+  expect_identical(sort(x_sort_cached), as.integer64(1:3))
+  expect_identical(sort(x_sort_cached, decreasing=TRUE), as.integer64(3:1))
+  
+  # 2. sort with ordercache (has 'order' but not 'sort')
+  x_order_cached = bit::clone(x)
+  ordercache(x_order_cached)
+  expect_identical(sort(x_order_cached), as.integer64(1:3))
+  expect_identical(sort(x_order_cached, decreasing=TRUE), as.integer64(3:1))
+  
+  # 3a. order with ordercache only (has order, no sort)
+  x_oc = bit::clone(x)
+  ordercache(x_oc)
+  expect_identical(order(x_oc), c(2L, 3L, 1L))
+  expect_identical(order(x_oc, decreasing=TRUE), c(1L, 3L, 2L))
+  
+  # 3b. order with sortordercache (has both order and sort)
+  x_soc = bit::clone(x)
+  sortordercache(x_soc)
+  expect_identical(order(x_soc), c(2L, 3L, 1L))
+  expect_identical(order(x_soc, decreasing=TRUE), c(1L, 3L, 2L))
+})

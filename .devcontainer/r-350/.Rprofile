@@ -63,6 +63,8 @@ expect_identical = function(x, y, tolerance = NULL, ignore_attr = NULL, info = c
 expect_true = function(x) expect_identical(x, TRUE)
 expect_false = function(x) expect_identical(x, FALSE)
 
+expect_null = function(x) expect_identical(x, NULL)
+
 expect_setequal = function(x, y) expect_true(setequal(x, y))
 
 expect_named = function(x, y) expect_identical(names(x), y)
@@ -154,7 +156,6 @@ with_parameters_test_that <- function(desc, code, .cases = NULL, .interpret_glue
   for (i in seq_len(nrow(.cases))) {
     # Create env for this specific case
     case_env <- new.env(parent = parent.frame())
-
     # Assign parameters into the environment
     row_vals <- .cases[i, , drop = FALSE]
     for (var_name in names(row_vals)) {
@@ -175,11 +176,9 @@ with_parameters_test_that <- function(desc, code, .cases = NULL, .interpret_glue
   }
   cat("\n")
 }
-
 })
 
 with(withr_shim_env, {
-
 with_options <- function(new_opts, code) {
   old_opts <- options(new_opts)
   on.exit(options(old_opts))
@@ -204,7 +203,7 @@ with_seed <- function(seed, expr) {
     # Cleanup: remove the seed if it didn't exist
     cleanup <- quote(rm(".Random.seed", envir = .GlobalEnv))
   }
-  
+
   set.seed(seed)
   do.call(on.exit, list(cleanup, add = TRUE))
   expr
