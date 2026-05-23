@@ -512,3 +512,125 @@ test_that("sort.integer64 and order.integer64 with cache", {
   expect_identical(order(x_soc), c(2L, 3L, 1L))
   expect_identical(order(x_soc, decreasing=TRUE), c(1L, 3L, 2L))
 })
+
+test_that("ramsort/ramsortorder/ramorder correctness with stable and optimize", {
+  withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
+  
+  for (n in c(200, 3000)) {
+    x_base = as.integer64(sample(c(1:100, NA, 10L), n, replace=TRUE))
+    
+    for (stable in c(TRUE, FALSE)) {
+      for (optimize in c("time", "memory")) {
+        # 1. ramsort
+        x = bit::clone(x_base)
+        ramsort(x, stable=stable, optimize=optimize)
+        expect_true(bit::is.sorted(x))
+        
+        # 2. ramsortorder
+        x = bit::clone(x_base)
+        i = seq_along(x)
+        ramsortorder(x, i, stable=stable, optimize=optimize)
+        expect_true(bit::is.sorted(x))
+        expect_identical(x_base[i], x)
+        
+        # 3. ramorder
+        x = bit::clone(x_base)
+        i = seq_along(x)
+        ramorder(x, i, stable=stable, optimize=optimize)
+        expect_true(bit::is.sorted(x_base[i]))
+      }
+    }
+  }
+})
+
+test_that("sort and order correctness with stable and optimize", {
+  for (n in c(200, 3000)) {
+    x_base = as.integer64(sample(c(1:100, NA, 10L), n, replace=TRUE))
+    
+    for (stable in c(TRUE, FALSE)) {
+      for (optimize in c("time", "memory")) {
+        # sort (NAs first to match is.sorted)
+        s = sort(x_base, stable=stable, optimize=optimize, na.last=FALSE)
+        expect_true(bit::is.sorted(s))
+        
+        # order (NAs first to match is.sorted)
+        o = order(x_base, stable=stable, optimize=optimize, na.last=FALSE)
+        expect_true(bit::is.sorted(x_base[o]))
+      }
+    }
+  }
+})
+
+test_that("ramsort with names radix4sortorder dispatch", {
+  withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
+  
+  n = 2100000L
+  x_base = as.integer64(sample(1:100, n, replace=TRUE))
+  names(x_base) = as.character(seq_len(n))
+  
+  x = bit::clone(x_base)
+  out = capture.output(invisible(ramsort(x, stable=TRUE, optimize="time", VERBOSE=TRUE)))
+  expect_match(out, "ramsortorder selected radix4sortorder")
+  expect_true(bit::is.sorted(x))
+})
+
+test_that("ramsort and ramsortorder radix4 dispatch (large vector)", {
+  withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
+  
+  n = 16800000L
+  x_base = as.integer64(sample(1:100, n, replace=TRUE))
+  
+  # 1. ramsort (should trigger radix4sort)
+  x = bit::clone(x_base)
+  out1 = capture.output(invisible(ramsort(x, stable=TRUE, optimize="time", VERBOSE=TRUE)))
+  expect_match(out1, "ramsort selected radix4sort")
+  expect_true(bit::is.sorted(x))
+  
+  # 2. ramsortorder (should trigger radix4sortorder)
+  x = bit::clone(x_base)
+  i = seq_along(x)
+  out2 = capture.output(invisible(ramsortorder(x, i, stable=TRUE, optimize="time", VERBOSE=TRUE)))
+  expect_match(out2, "ramsortorder selected radix4sortorder")
+  expect_true(bit::is.sorted(x))
+})
+
+test_that("sorting/ordering S3 methods error handling", {
+  x = as.integer64(c(1, 2, 3))
+  i_wrong_len = c(1L, 2L)
+  i_not_int = c(1.0, 2.0, 3.0)
+  
+  # 1. Wrong length of i
+  expect_error(shellsortorder(x, i_wrong_len), "lengths of x and i don't match")
+  expect_error(shellorder(x, i_wrong_len), "lengths of x and i don't match")
+  expect_error(mergeorder(x, i_wrong_len), "lengths of x and i don't match")
+  expect_error(mergesortorder(x, i_wrong_len), "lengths of x and i don't match")
+  expect_error(quicksortorder(x, i_wrong_len), "lengths of x and i don't match")
+  expect_error(quickorder(x, i_wrong_len), "lengths of x and i don't match")
+  expect_error(radixsortorder(x, i_wrong_len), "lengths of x and i don't match")
+  expect_error(radixorder(x, i_wrong_len), "lengths of x and i don't match")
+  
+  # 2. i is not integer
+  expect_error(shellsortorder(x, i_not_int), "i must be integer")
+  expect_error(shellorder(x, i_not_int), "i must be integer")
+  expect_error(mergeorder(x, i_not_int), "i must be integer")
+  expect_error(mergesortorder(x, i_not_int), "i must be integer")
+  expect_error(quicksortorder(x, i_not_int), "i must be integer")
+  expect_error(quickorder(x, i_not_int), "i must be integer")
+  expect_error(radixsortorder(x, i_not_int), "i must be integer")
+  expect_error(radixorder(x, i_not_int), "i must be integer")
+  
+  # 3. Invalid radixbits
+  expect_error(radixsort(x, radixbits=3L))
+  expect_error(radixsortorder(x, seq_along(x), radixbits=3L))
+  expect_error(radixorder(x, seq_along(x), radixbits=3L))
+  
+  # 4. Names checks in ramsortorder and ramorder
+  x_names = x
+  names(x_names) = c("a", "b", "c")
+  i_names = seq_along(x)
+  names(i_names) = c("a", "b", "c")
+  
+  expect_error(ramsortorder(x_names, i_names), "names not supported")
+  expect_error(ramorder(x_names, seq_along(x)), "names not supported")
+  expect_error(ramorder(x, i_names), "names not supported")
+})

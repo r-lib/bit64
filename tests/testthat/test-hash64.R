@@ -158,9 +158,38 @@ test_that("runif64 replace=FALSE edge cases", {
   expect_length(r2, 5L)
   expect_length(unique(r2), 5L)
   expect_true(all(r2 >= 1 & r2 <= 1000))
+  
+  r3 = runif64(10L, 1, 10, replace=FALSE)
+  expect_length(r3, 10L)
+  expect_length(unique(r3), 10L)
+  expect_true(all(r3 >= 1 & r3 <= 10))
 
   r3 = runif64(20L, 1, 20, replace=FALSE)
   expect_length(r3, 20L)
   expect_length(unique(r3), 20L)
   expect_true(all(r3 >= 1 & r3 <= 20))
+})
+
+test_that("hashmap with forced collisions", {
+  x = as.integer64(c(1, 2, 3, 4, 5, 6, 7))
+  h = hashcache(x, hashbits=3L)
+  expect_s3_class(h, "cache_integer64")
+  expect_equal(getcache(x, "nunique"), 7)
+  
+  # Trigger collisions in various C functions
+  expect_equal(hashpos(h, x), 1:7)
+  expect_equal(hashrev(h, x), 1:7)
+  expect_equal(hashfin(h, x), rep(TRUE, 7))
+  expect_equal(hashrin(h, x), rep(TRUE, 7))
+  expect_equal(hashdup(h), rep(FALSE, 7))
+  expect_setequal(hashuni(h), x)
+  expect_setequal(x[hashupo(h)], x)
+  expect_equal(length(hashtab(h)$counts), 7)
+  
+  # For hashmaptab, hashmapuni, hashmapupo (they build their own hashmap)
+  expect_equal(length(hashmaptab(x, hashbits=3L)$counts), 7)
+  expect_setequal(hashmapuni(x, hashbits=3L), x)
+  expect_setequal(x[hashmapupo(x, hashbits=3L)], x)
+  
+  remcache(x)
 })
