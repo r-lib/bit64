@@ -63,6 +63,8 @@ expect_identical = function(x, y, tolerance = NULL, ignore_attr = NULL, info = c
 expect_true = function(x) expect_identical(x, TRUE)
 expect_false = function(x) expect_identical(x, FALSE)
 
+expect_null = function(x) expect_identical(x, NULL)
+
 expect_setequal = function(x, y) expect_true(setequal(x, y))
 
 expect_named = function(x, y) expect_identical(names(x), y)
