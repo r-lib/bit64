@@ -1,3 +1,9 @@
+# bit64 4.8.4
+
+## BUG FIXES
+
+1. `runif64(replace=FALSE)` no longer generates any duplicates (#337).
+
 # bit64 4.8.2 (2026-05-19)
 
 ## BUG FIXES
