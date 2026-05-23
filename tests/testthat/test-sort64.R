@@ -34,7 +34,6 @@ local({
 with_parameters_test_that(
   "sorting methods for integer64 work",
   {
-    withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
     x = as.integer64(1:10)
 
     na_entries = rep(NA_integer64_, n_missing)
@@ -67,7 +66,6 @@ with_parameters_test_that(
 with_parameters_test_that(
   "order methods for integer64 work",
   {
-    withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
     x = as.integer64(1:10)
 
     na_entries = rep(NA_integer64_, n_missing)
@@ -101,7 +99,6 @@ with_parameters_test_that(
 with_parameters_test_that(
   "sortorder methods for integer64 work",
   {
-    withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
     x = as.integer64(1:10)
 
     na_entries = rep(NA_integer64_, n_missing)
@@ -513,9 +510,7 @@ test_that("sort.integer64 and order.integer64 with cache", {
   expect_identical(order(x_soc, decreasing=TRUE), c(1L, 3L, 2L))
 })
 
-test_that("ramsort/ramsortorder/ramorder correctness with stable and optimize", {
-  withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
-  
+test_that("ramsort/ramsortorder/ramorder correctness with stable and optimize", {  
   for (n in c(200, 3000)) {
     x_base = as.integer64(sample(c(1:100, NA, 10L), n, replace=TRUE))
     
@@ -561,9 +556,7 @@ test_that("sort and order correctness with stable and optimize", {
   }
 })
 
-test_that("ramsort with names radix4sortorder dispatch", {
-  withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
-  
+test_that("ramsort with names radix4sortorder dispatch", {  
   n = 2100000L
   x_base = as.integer64(sample(1:100, n, replace=TRUE))
   names(x_base) = as.character(seq_len(n))
@@ -574,9 +567,7 @@ test_that("ramsort with names radix4sortorder dispatch", {
   expect_true(bit::is.sorted(x))
 })
 
-test_that("ramsort and ramsortorder radix4 dispatch (large vector)", {
-  withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
-  
+test_that("ramsort and ramsortorder radix4 dispatch (large vector)", {  
   n = 16800000L
   x_base = as.integer64(sample(1:100, n, replace=TRUE))
   

@@ -654,9 +654,9 @@ test_that("keypos, tiepos, rank, qtile with ordercache", {
 })
 
 test_that("table.integer64 multidimensional cache states", {
-  a = as.integer64(c(1, 2, 1))
-  b = as.integer64(c(2, 1, 2))
-  c = as.integer64(c(1, 1, 2))
+  a = as.integer64(c(1L, 2L, 1L))
+  b = as.integer64(c(2L, 1L, 2L))
+  c = as.integer64(c(1L, 1L, 2L))
   
   # a: no cache (triggers ramsortorder)
   # b: ordercache (triggers order only)
@@ -710,34 +710,32 @@ test_that("qtile with sortcache", {
 })
 
 test_that("mean.integer64 works", {
-  x = as.integer64(c(1, 2, 3, NA))
+  x = as.integer64(c(1:3, NA))
   expect_identical(mean(x, na.rm=TRUE), as.integer64(2))
   expect_identical(mean(x, na.rm=FALSE), NA_integer64_)
 })
 
 test_that("highlevel S3 methods incomparables error", {
-  x = as.integer64(c(1, 2, 3))
+  x = as.integer64(1:3)
   expect_error(unique(x, incomparables=TRUE))
   expect_error(unipos(x, incomparables=TRUE))
   expect_error(duplicated(x, incomparables=TRUE))
 })
 
 test_that("qtile invalid probs error", {
-  x = as.integer64(c(1, 2, 3))
+  x = as.integer64(1:3)
   expect_error(qtile(x, probs=-0.1), "p outside")
   expect_error(qtile(x, probs=1.1), "p outside")
   expect_error(qtile(x, probs=NA_real_), "p outside")
 })
 
 test_that("order.integer64 multiple vectors error", {
-  x = as.integer64(c(1, 2, 3))
-  y = as.integer64(c(3, 2, 1))
+  x = as.integer64(1:3)
+  y = as.integer64(3:1)
   expect_error(order(x, y), "can only order one vector")
 })
 
-test_that("factor and ordered with large vectors (length >= 4000)", {
-  withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
-  
+test_that("factor and ordered with large vectors (length >= 4000)", {  
   n = 4005L
   x = as.integer64(sample(1:5, n, replace=TRUE))
   
@@ -773,8 +771,8 @@ test_that("match.integer64 hashrev with sortordercache on x", {
 })
 
 test_that("table.integer64 multidimensional return formats", {
-  a = as.integer64(c(1, 2, 1))
-  b = as.integer64(c(2, 1, 2))
+  a = as.integer64(c(1L, 2L, 1L))
+  b = as.integer64(c(2L, 1L, 2L))
   
   # 1. return="data.frame"
   df = table(a, b, return="data.frame")
