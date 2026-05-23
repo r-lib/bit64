@@ -743,15 +743,15 @@ test_that("factor and ordered with large vectors (length >= 4000)", {
   f1 = factor(x)
   expect_s3_class(f1, "factor")
   expect_length(f1, n)
-  expect_equal(levels(f1), as.character(1:5))
+  expect_identical(levels(f1), as.character(1:5))
   
   # 2. custom labels (length(labels) == length(levels))
   f2 = factor(x, labels=c("A", "B", "C", "D", "E"))
-  expect_equal(levels(f2), c("A", "B", "C", "D", "E"))
+  expect_identical(levels(f2), c("A", "B", "C", "D", "E"))
   
   # 3. single label (length(labels) == 1)
   f3 = factor(x, labels="L")
-  expect_equal(levels(f3), paste0("L", 1:5))
+  expect_identical(levels(f3), paste0("L", 1:5))
   
   # 4. invalid labels length
   expect_error(factor(x, labels=c("A", "B")), "invalid 'labels'")
@@ -777,14 +777,13 @@ test_that("table.integer64 multidimensional return formats", {
   # 1. return="data.frame"
   df = table(a, b, return="data.frame")
   expect_s3_class(df, "data.frame")
-  expect_equal(ncol(df), 3L)
-  expect_equal(nrow(df), 2L)
+  expect_shape(df, dim=2:3)
   
   # 2. return="list"
   lst = table(a, b, return="list")
   expect_type(lst, "list")
   expect_named(lst, c("values", "counts", "dims"))
-  expect_equal(length(lst$dims), 2L)
+  expect_length(lst$dims, 2L)
 })
 
 test_that("table.integer64 exclude and useNA work", {

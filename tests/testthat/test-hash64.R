@@ -158,7 +158,7 @@ test_that("runif64 replace=FALSE edge cases", {
   expect_length(r2, 5L)
   expect_length(unique(r2), 5L)
   expect_true(all(r2 >= 1 & r2 <= 1000))
-  
+
   r3 = runif64(20L, 1, 20, replace=FALSE)
   expect_length(r3, 20L)
   expect_length(unique(r3), 20L)
@@ -169,14 +169,14 @@ test_that("hashmap with forced collisions", {
   x = as.integer64(1:7)
   h = hashcache(x, hashbits=3L)
   expect_s3_class(h, "cache_integer64")
-  expect_equal(getcache(x, "nunique"), 7L)
+  expect_identical(getcache(x, "nunique"), 7L)
   
   # Trigger collisions in various C functions
-  expect_equal(hashpos(h, x), 1:7)
-  expect_equal(hashrev(h, x), 1:7)
-  expect_equal(hashfin(h, x), rep(TRUE, 7L))
-  expect_equal(hashrin(h, x), rep(TRUE, 7L))
-  expect_equal(hashdup(h), rep(FALSE, 7L))
+  expect_identical(hashpos(h, x), 1:7)
+  expect_identical(hashrev(h, x), 1:7)
+  expect_identical(hashfin(h, x), rep(TRUE, 7L))
+  expect_identical(hashrin(h, x), rep(TRUE, 7L))
+  expect_identical(hashdup(h), rep(FALSE, 7L))
   expect_setequal(hashuni(h), x)
   expect_setequal(x[hashupo(h)], x)
   expect_length(hashtab(h)$counts, 7L)
