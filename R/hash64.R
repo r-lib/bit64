@@ -390,7 +390,7 @@ runif64 <- function(n, min=lim.integer64()[1L], max=lim.integer64()[2L], replace
     if (!is.na(d) && N > d)
       stop("cannot take a sample larger than the population when 'replace = FALSE'")
     if (!is.na(d) && n > d  / (2.0*log(n, 64.0))) {
-      ret <- .Call(C_runif_integer64, as.integer(d), as.integer64(min), as.integer64(max))
+      ret <- .Call(C_seq_integer64, min, as.integer64(1L), double(as.integer(d)))
       oldClass(ret) <- "integer64"
       ret <- sample(ret, n, FALSE)
     } else {
