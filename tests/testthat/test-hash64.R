@@ -159,11 +159,6 @@ test_that("runif64 replace=FALSE edge cases", {
   expect_length(unique(r2), 5L)
   expect_true(all(r2 >= 1 & r2 <= 1000))
   
-  r3 = runif64(10L, 1, 10, replace=FALSE)
-  expect_length(r3, 10L)
-  expect_length(unique(r3), 10L)
-  expect_true(all(r3 >= 1 & r3 <= 10))
-
   r3 = runif64(20L, 1, 20, replace=FALSE)
   expect_length(r3, 20L)
   expect_length(unique(r3), 20L)
