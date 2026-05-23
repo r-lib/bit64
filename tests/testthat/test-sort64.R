@@ -510,51 +510,59 @@ test_that("sort.integer64 and order.integer64 with cache", {
   expect_identical(order(x_soc, decreasing=TRUE), c(1L, 3L, 2L))
 })
 
-test_that("ramsort/ramsortorder/ramorder correctness with stable and optimize", {  
-  for (n in c(200, 3000)) {
+with_parameters_test_that(
+  "ramsort/ramsortorder/ramorder correctness with stable={stable}, optimize={optimize}, n={n}",
+  {
+    withr::local_options(list(bit64.warn.exported.s3.method = FALSE))
+    
     x_base = as.integer64(sample(c(1:100, NA, 10L), n, replace=TRUE))
     
-    for (stable in c(TRUE, FALSE)) {
-      for (optimize in c("time", "memory")) {
-        # 1. ramsort
-        x = bit::clone(x_base)
-        ramsort(x, stable=stable, optimize=optimize)
-        expect_true(bit::is.sorted(x))
-        
-        # 2. ramsortorder
-        x = bit::clone(x_base)
-        i = seq_along(x)
-        ramsortorder(x, i, stable=stable, optimize=optimize)
-        expect_true(bit::is.sorted(x))
-        expect_identical(x_base[i], x)
-        
-        # 3. ramorder
-        x = bit::clone(x_base)
-        i = seq_along(x)
-        ramorder(x, i, stable=stable, optimize=optimize)
-        expect_true(bit::is.sorted(x_base[i]))
-      }
-    }
-  }
-})
+    # 1. ramsort
+    x = bit::clone(x_base)
+    ramsort(x, stable=stable, optimize=optimize)
+    expect_true(bit::is.sorted(x))
+    
+    # 2. ramsortorder
+    x = bit::clone(x_base)
+    i = seq_along(x)
+    ramsortorder(x, i, stable=stable, optimize=optimize)
+    expect_true(bit::is.sorted(x))
+    expect_identical(x_base[i], x)
+    
+    # 3. ramorder
+    x = bit::clone(x_base)
+    i = seq_along(x)
+    ramorder(x, i, stable=stable, optimize=optimize)
+    expect_true(bit::is.sorted(x_base[i]))
+  },
+  .cases = expand.grid(
+    n = c(200L, 3000L),
+    stable = c(TRUE, FALSE),
+    optimize = c("time", "memory"),
+    stringsAsFactors = FALSE
+  )
+)
 
-test_that("sort and order correctness with stable and optimize", {
-  for (n in c(200, 3000)) {
+with_parameters_test_that(
+  "sort and order correctness with stable={stable}, optimize={optimize}, n={n}",
+  {
     x_base = as.integer64(sample(c(1:100, NA, 10L), n, replace=TRUE))
     
-    for (stable in c(TRUE, FALSE)) {
-      for (optimize in c("time", "memory")) {
-        # sort (NAs first to match is.sorted)
-        s = sort(x_base, stable=stable, optimize=optimize, na.last=FALSE)
-        expect_true(bit::is.sorted(s))
-        
-        # order (NAs first to match is.sorted)
-        o = order(x_base, stable=stable, optimize=optimize, na.last=FALSE)
-        expect_true(bit::is.sorted(x_base[o]))
-      }
-    }
-  }
-})
+    # sort (NAs first to match is.sorted)
+    s = sort(x_base, stable=stable, optimize=optimize, na.last=FALSE)
+    expect_true(bit::is.sorted(s))
+    
+    # order (NAs first to match is.sorted)
+    o = order(x_base, stable=stable, optimize=optimize, na.last=FALSE)
+    expect_true(bit::is.sorted(x_base[o]))
+  },
+  .cases = expand.grid(
+    n = c(200L, 3000L),
+    stable = c(TRUE, FALSE),
+    optimize = c("time", "memory"),
+    stringsAsFactors = FALSE
+  )
+)
 
 test_that("ramsort with names radix4sortorder dispatch", {  
   n = 2100000L
