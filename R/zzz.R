@@ -13,12 +13,12 @@
 }
 # nocov end
 
-# The call stack is searched for a given sequence of function names. If the last element of function_names is found, 
-# we try to match as many elements in function_names with the function names in the call stack. The sequence must be 
+# The call stack is searched for a given sequence of function names. If the last element of function_names is found,
+# we try to match as many elements in function_names with the function names in the call stack. The sequence must be
 # adhered to. The complete call of the function name of the last match is returned. If no match exists, the top call
 # is returned. It is also possible to change the function name of the matched return value by providing its new name
 # with name_to_display.
-# Examples: 
+# Examples:
 # * call stack: [A, B, C, D, E]; function_names = c("C", "D") returns C
 # * call stack: [A, B, C, D, E]; function_names = c("E", "D") returns D
 # * call stack: [A, B, C, D, E]; function_names = c("E", "X") returns A
@@ -72,7 +72,7 @@ getClassesOfElements = function(x, recursive) {
 target_class = function(x, recursive=FALSE, POSIXltAsCharacter=FALSE) {
 
   classes = getClassesOfElements(x, recursive=isTRUE(recursive))
-  
+
   if ("POSIXlt" %in% classes && isTRUE(POSIXltAsCharacter)) return("character")
   if ("complex" %in% classes) return("complex")
   if (any(c("character", "factor", "ordered") %in% classes)) {

@@ -2015,7 +2015,7 @@ unipos.integer64 = function(x,
 #'
 #' `table.integer64` uses the cross-classifying integer64 vectors to build a
 #'   contingency table of the counts at each combination of vector values.
-#'   
+#'
 #' @param ... one or more objects which can be interpreted as factors
 #'   (including character strings), or a list (or data frame) whose
 #'   components can be so interpreted.  (For `as.table` and `as.data.frame`,
@@ -2027,10 +2027,10 @@ unipos.integer64 = function(x,
 #' @param deparse.level controls how the default `dnn` is constructed. See Details.
 #'
 #' @details
-#' If at least one argument of `...` is integer64 and the remaining arguments of `...` 
-#' are integer64 or integer the `table.integer64` method is used. Only this method 
+#' If at least one argument of `...` is integer64 and the remaining arguments of `...`
+#' are integer64 or integer the `table.integer64` method is used. Only this method
 #' supports the arguments `return`, `order`, `nunique`, and `method`.
-#' 
+#'
 #' This function automatically chooses from several low-level functions considering
 #'   the size of `x` and the availability of a cache.
 #'
@@ -2220,7 +2220,7 @@ table.integer64 = function(...,
   # table(as.integer64(1L), "a") is dispatched to table.integer64, but should be handled by table.default
   if (!all(vapply(seq_len(N), function(ii) {el = A(ii); is.integer64(el) || is.integer(el)}, logical(1L))))
     return(NextMethod())
-  
+
   if (N == 1L && is.list(A(1L))) {
     args = A(1L) # nolint: object_overwrite_linter. This code should probably be refactored anyway.
     if (length(dnn) != length(args))
@@ -2277,7 +2277,7 @@ table.integer64 = function(...,
       if (i == 1L)
         x = sortorderkey(s, o) - 1L
       else
-        x = x + d[[i]]*(sortorderkey(s, o) - 1L)
+        x = x + d[[i]] * (sortorderkey(s, o) - 1L)
     }
   }
   cache_env = cache(x)

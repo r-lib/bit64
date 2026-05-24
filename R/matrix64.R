@@ -36,7 +36,7 @@ NULL
 matrix.integer64 = function(data=NA_integer64_, ...) {
   if (!length(data)) data = NA_integer64_
   ret = withCallingHandlers_and_choose_call(
-      base::matrix(data=data, ...), 
+      base::matrix(data=data, ...),
       c("matrix", "matrix.integer64")
     )
   class(ret) = class(data)
@@ -48,7 +48,7 @@ matrix.integer64 = function(data=NA_integer64_, ...) {
 array.integer64 = function(data=NA_integer64_, ...) {
   if (!length(data)) data = NA_integer64_
   ret = withCallingHandlers_and_choose_call(
-      base::array(data=data, ...), 
+      base::array(data=data, ...),
       c("array", "array.integer64")
     )
   class(ret) = class(data)
@@ -59,11 +59,11 @@ array.integer64 = function(data=NA_integer64_, ...) {
 #' @export
 colSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
   dn = dim(x)
-  if (!is.array(x) || length(dn) < 2L) 
+  if (!is.array(x) || length(dn) < 2L)
     stop(errorCondition(gettext("'x' must be an array of at least two dimensions", domain="R-base"), call=choose_sys_call(c("colSums", "colSums.integer64"))))
-  if (length(dims) != 1L || dims < 1L || dims > length(dn) - 1L) 
+  if (length(dims) != 1L || dims < 1L || dims > length(dn) - 1L)
     stop(errorCondition(gettext("invalid 'dims'", domain="R-base"), call=choose_sys_call(c("colSums", "colSums.integer64"))))
-  
+
   ret = apply(x, seq_along(dn)[-seq_len(dims)], sum, na.rm=na.rm)
   class(ret) = class(x)
   ret
@@ -73,11 +73,11 @@ colSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
 #' @export
 rowSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
   dn = dim(x)
-  if (!is.array(x) || length(dn) < 2L) 
+  if (!is.array(x) || length(dn) < 2L)
     stop(errorCondition(gettext("'x' must be an array of at least two dimensions", domain="R-base"), call=choose_sys_call(c("rowSums", "rowSums.integer64"))))
-  if (length(dims) != 1L || dims < 1L || dims > length(dn) - 1L) 
+  if (length(dims) != 1L || dims < 1L || dims > length(dn) - 1L)
     stop(errorCondition(gettext("invalid 'dims'", domain="R-base"), call=choose_sys_call(c("rowSums", "rowSums.integer64"))))
-  
+
   ret = apply(x, seq_len(dims), sum, na.rm=na.rm)
   class(ret) = class(x)
   ret
@@ -94,7 +94,7 @@ aperm.integer64 = function(a, perm, ...) {
 
 #' @exportS3Method `%*%` integer64
 `%*%.integer64` = function(x, y) {
-  if (!is.integer64(x) && !is.integer64(y)) 
+  if (!is.integer64(x) && !is.integer64(y))
     return(x%*%y)
 
   target_class = target_class_for_Ops(x, y)

@@ -239,7 +239,7 @@ test_that("our overwrite of table() is consistent with base::table", {
     withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(1:10))),
     expected_result
   )
-  
+
   expected_result = withr::with_seed(1L, base::table(useNA=sample(c("no", "ifany", "always"), 1), sample(1:10)))
   expect_identical(
     withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))),
@@ -735,7 +735,7 @@ test_that("order.integer64 multiple vectors error", {
   expect_error(order(x, y), "can only order one vector")
 })
 
-test_that("factor and ordered with large vectors (length >= 4000)", {  
+test_that("factor and ordered with large vectors (length >= 4000)", {
   n = 4005L
   x = as.integer64(sample(1:5, n, replace=TRUE))
 

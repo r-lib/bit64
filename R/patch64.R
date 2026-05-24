@@ -138,7 +138,7 @@ matrix = function(data=NA, nrow=1L, ncol=1L, byrow=FALSE, dimnames=NULL) UseMeth
 #' @exportS3Method matrix default
 matrix.default = function(...) {
   withCallingHandlers_and_choose_call(
-    base::matrix(...), 
+    base::matrix(...),
     c("matrix", "matrix.default")
   )
 }
@@ -149,7 +149,7 @@ array = function(data=NA, dim=length(data), dimnames=NULL) UseMethod("array")
 #' @exportS3Method array default
 array.default = function(...) {
   withCallingHandlers_and_choose_call(
-    base::array(...), 
+    base::array(...),
     c("array", "array.default")
   )
 }
@@ -159,9 +159,9 @@ array.default = function(...) {
 colSums = function(x, na.rm=FALSE, dims=1L) UseMethod("colSums")
 #' @rdname matrix64
 #' @export
-colSums.default = function(x, na.rm=FALSE, dims=1L) 
+colSums.default = function(x, na.rm=FALSE, dims=1L)
   withCallingHandlers_and_choose_call(
-    base::colSums(x=x, na.rm=na.rm, dims=dims), 
+    base::colSums(x=x, na.rm=na.rm, dims=dims),
     c("colSums", "colSums.default")
   )
 
@@ -170,9 +170,8 @@ colSums.default = function(x, na.rm=FALSE, dims=1L)
 rowSums = function(x, na.rm=FALSE, dims=1L) UseMethod("rowSums")
 #' @rdname matrix64
 #' @export
-rowSums.default = function(x, na.rm=FALSE, dims=1L) 
+rowSums.default = function(x, na.rm=FALSE, dims=1L)
   withCallingHandlers_and_choose_call(
-    base::rowSums(x=x, na.rm=na.rm, dims=dims), 
+    base::rowSums(x=x, na.rm=na.rm, dims=dims),
     c("rowSums", "rowSums.default")
   )
-

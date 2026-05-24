@@ -148,12 +148,12 @@ test_that("runif64 replace=FALSE edge cases", {
     runif64(10L, 1, 5, replace=FALSE),
     "cannot take a sample larger than the population"
   )
-  
+
   r1 = runif64(10L, 1, 100, replace=FALSE)
   expect_length(r1, 10L)
   expect_length(unique(r1), 10L)
   expect_true(all(r1 >= 1 & r1 <= 100))
-  
+
   r2 = runif64(5L, 1, 1000, replace=FALSE)
   expect_length(r2, 5L)
   expect_length(unique(r2), 5L)
@@ -170,7 +170,7 @@ test_that("hashmap with forced collisions", {
   h = hashcache(x, hashbits=3L)
   expect_s3_class(h, "cache_integer64")
   expect_identical(getcache(x, "nunique"), 7L)
-  
+
   # Trigger collisions in various C functions
   expect_identical(hashpos(h, x), 1:7)
   expect_identical(hashrev(h, x), 1:7)
@@ -180,11 +180,11 @@ test_that("hashmap with forced collisions", {
   expect_setequal(hashuni(h), x)
   expect_setequal(x[hashupo(h)], x)
   expect_length(hashtab(h)$counts, 7L)
-  
+
   # For hashmaptab, hashmapuni, hashmapupo (they build their own hashmap)
   expect_length(hashmaptab(x, hashbits=3L)$counts, 7L)
   expect_setequal(hashmapuni(x, hashbits=3L), x)
   expect_setequal(x[hashmapupo(x, hashbits=3L)], x)
-  
+
   remcache(x)
 })

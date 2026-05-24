@@ -436,7 +436,7 @@ local({
 
 test_that("ramsort/ramsortorder/ramorder dispatch and VERBOSE", {
   x = as.integer64(c(2L, 1L, 3L))
-  
+
   # ramsort optimize="memory" (dispatches to quicksort)
   x1 = bit::clone(x)
   expect_output(
@@ -444,11 +444,11 @@ test_that("ramsort/ramsortorder/ramorder dispatch and VERBOSE", {
     "ramsort selected quicksort"
   )
   expect_identical(x1, as.integer64(c(1L, 2L, 3L)))
-  
+
   # ramsort with names (dispatches to ramsortorder or quicksortorder)
   x_names = as.integer64(c(2L, 1L, 3L))
   names(x_names) = c("b", "a", "c")
-  
+
   x2 = bit::clone(x_names)
   expect_output(
     bit::ramsort(x2, stable=TRUE, VERBOSE=TRUE),
@@ -457,14 +457,14 @@ test_that("ramsort/ramsortorder/ramorder dispatch and VERBOSE", {
   expected_x2 = as.integer64(c(1L, 2L, 3L))
   names(expected_x2) = c("a", "b", "c")
   expect_identical(x2, expected_x2)
-  
+
   x3 = bit::clone(x_names)
   expect_output(
     bit::ramsort(x3, stable=FALSE, optimize="memory", VERBOSE=TRUE),
     "ramsort selected quicksortorder"
   )
   expect_identical(x3, expected_x2)
-  
+
   # ramsortorder stable=FALSE, optimize="memory" (dispatches to quicksortorder)
   x4 = bit::clone(x)
   i4 = seq_along(x4)
@@ -472,7 +472,7 @@ test_that("ramsort/ramsortorder/ramorder dispatch and VERBOSE", {
     bit::ramsortorder(x4, i4, stable=FALSE, optimize="memory", VERBOSE=TRUE),
     "ramsortorder selected quicksortorder"
   )
-  
+
   # ramorder stable=FALSE (dispatches to quickorder)
   x5 = bit::clone(x)
   i5 = seq_along(x5)
@@ -484,25 +484,25 @@ test_that("ramsort/ramsortorder/ramorder dispatch and VERBOSE", {
 
 test_that("sort.integer64 and order.integer64 with cache", {
   x = as.integer64(c(3L, 1L, 2L))
-  
+
   # 1. sort with sortcache
   x_sort_cached = bit::clone(x)
   sortcache(x_sort_cached)
   expect_identical(sort(x_sort_cached), as.integer64(1:3))
   expect_identical(sort(x_sort_cached, decreasing=TRUE), as.integer64(3:1))
-  
+
   # 2. sort with ordercache (has 'order' but not 'sort')
   x_order_cached = bit::clone(x)
   ordercache(x_order_cached)
   expect_identical(sort(x_order_cached), as.integer64(1:3))
   expect_identical(sort(x_order_cached, decreasing=TRUE), as.integer64(3:1))
-  
+
   # 3a. order with ordercache only (has order, no sort)
   x_oc = bit::clone(x)
   ordercache(x_oc)
   expect_identical(order(x_oc), c(2L, 3L, 1L))
   expect_identical(order(x_oc, decreasing=TRUE), c(1L, 3L, 2L))
-  
+
   # 3c. order with ordercache only (has order, no sort) - with NAs (Issue #340)
   x_na = as.integer64(c(3L, NA, 1L, NA, 2L))
   x_na_oc = bit::clone(x_na)
@@ -519,21 +519,21 @@ test_that("sort.integer64 and order.integer64 with cache", {
 with_parameters_test_that(
   "ramsort/ramsortorder/ramorder correctness with stable={stable}, optimize={optimize}, n={n}",
   {
-    
+
     x_base = as.integer64(sample(c(1:100, NA, 10L), n, replace=TRUE))
-    
+
     # 1. ramsort
     x = bit::clone(x_base)
     bit::ramsort(x, stable=stable, optimize=optimize)
     expect_true(bit::is.sorted(x))
-    
+
     # 2. ramsortorder
     x = bit::clone(x_base)
     i = seq_along(x)
     bit::ramsortorder(x, i, stable=stable, optimize=optimize)
     expect_true(bit::is.sorted(x))
     expect_identical(x_base[i], x)
-    
+
     # 3. ramorder
     x = bit::clone(x_base)
     i = seq_along(x)
@@ -552,11 +552,11 @@ with_parameters_test_that(
   "sort and order correctness with stable={stable}, optimize={optimize}, n={n}",
   {
     x_base = as.integer64(sample(c(1:100, NA, 10L), n, replace=TRUE))
-    
+
     # sort (NAs first to match is.sorted)
     s = sort(x_base, stable=stable, optimize=optimize, na.last=FALSE)
     expect_true(bit::is.sorted(s))
-    
+
     # order (NAs first to match is.sorted)
     o = order(x_base, stable=stable, optimize=optimize, na.last=FALSE)
     expect_true(bit::is.sorted(x_base[o]))
@@ -569,11 +569,11 @@ with_parameters_test_that(
   )
 )
 
-test_that("ramsort with names radix4sortorder dispatch", {  
+test_that("ramsort with names radix4sortorder dispatch", {
   n = 2100000L
   x_base = as.integer64(sample(1:100, n, replace=TRUE))
   names(x_base) = as.character(seq_len(n))
-  
+
   x = bit::clone(x_base)
   expect_output(
     bit::ramsort(x, stable=TRUE, optimize="time", VERBOSE=TRUE),
@@ -582,10 +582,10 @@ test_that("ramsort with names radix4sortorder dispatch", {
   expect_true(bit::is.sorted(x))
 })
 
-test_that("ramsort and ramsortorder radix4 dispatch (large vector)", {  
+test_that("ramsort and ramsortorder radix4 dispatch (large vector)", {
   n = 16800000L
   x_base = as.integer64(sample(1:100, n, replace=TRUE))
-  
+
   # 1. ramsort (should trigger radix4sort)
   x = bit::clone(x_base)
   expect_output(
@@ -593,7 +593,7 @@ test_that("ramsort and ramsortorder radix4 dispatch (large vector)", {
     "ramsort selected radix4sort"
   )
   expect_true(bit::is.sorted(x))
-  
+
   # 2. ramsortorder (should trigger radix4sortorder)
   x = bit::clone(x_base)
   i = seq_along(x)
@@ -645,7 +645,7 @@ test_that("ramsortorder and ramorder throw error on unsupported names", {
   names(x_names) = c("a", "b", "c")
   i_names = seq_along(x)
   names(i_names) = c("a", "b", "c")
-  
+
   expect_error(bit::ramsortorder(x_names, i_names), "names not supported")
   expect_error(bit::ramorder(x_names, seq_along(x)), "names not supported")
   expect_error(bit::ramorder(x, i_names), "names not supported")

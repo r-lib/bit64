@@ -132,7 +132,7 @@ test_that("sortorderuni and sortorderupo work", {
   # These functions allow retrieving unique values or their positions from sorted inputs
   # They share similar bitflag logic in C that needs covering
 
-  # Data setup: 
+  # Data setup:
   # original: 3, 1, 2, 1, 3
   # sorted:   1, 1, 2, 3, 3
   # order:    2, 4, 3, 1, 5
@@ -152,7 +152,7 @@ test_that("sortorderuni and sortorderupo work", {
   expect_identical(sortorderuni(val, s, o, nunique=nu), as.integer64(c(3, 1, 2)))
 
   # sortorderupo returns the positions (indices) of the unique values
-  # indices in 'val': 1 (3), 2 (1), 3 (2) -> c(1, 2, 3) 
+  # indices in 'val': 1 (3), 2 (1), 3 (2) -> c(1, 2, 3)
   # (Note: it picks the first occurrence in the original vector if keep.order=TRUE implicit logic matches)
   expect_identical(sortorderupo(s, o, nunique=nu, keep.order=TRUE), 1:3)
 })
@@ -179,20 +179,20 @@ with_parameters_test_that("sortorderpos works", method=1:3, {
   sorted = bit::clone(table)
   order = seq_along(sorted)
   bit::ramsortorder(sorted, order, na.last=FALSE)
-  
+
   x_search = as.integer64(c(5L, 10L, 15L, 20L, 25L, 30L, 99L))
   expected_pos = c(4L, 1L, 5L, 2L, 6L, 3L, NA_integer_)
-  
+
   expect_identical(sortorderpos(sorted, order, x_search, method=method), expected_pos)
 })
 
 test_that("orderdup and sortorderdup edge cases", {
   table = as.integer64(c(1L, 2L, 1L, 3L, 2L))
   order = order(table)
-  
+
   # orderdup method=1L
   expect_identical(orderdup(table, order, method=1L), c(FALSE, FALSE, TRUE, FALSE, TRUE))
-  
+
   # sortorderdup method=NULL (heuristic)
   sorted = table[order]
   expect_identical(sortorderdup(sorted, seq_along(sorted)), c(FALSE, TRUE, FALSE, TRUE, FALSE))

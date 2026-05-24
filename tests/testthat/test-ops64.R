@@ -214,11 +214,11 @@ with_parameters_test_that("{operator} with integer64 vs {class} (returning integ
   expected = tryCatch(maybe_cast(op(x32, y)), error=conditionMessage)
   actual = tryCatch(op(x64, y), error=conditionMessage)
   expect_identical(actual, expected)
-  
+
   expected = tryCatch(maybe_cast(op(y, x32)), error=conditionMessage)
   actual = tryCatch(op(y, x64), error=conditionMessage)
   expect_identical(actual, expected)
-}, 
+},
   .cases = expand.grid(
     operator=c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"),
     class=c("integer", "double", "logical"),
@@ -234,17 +234,17 @@ with_parameters_test_that("{operator} with integer64 vs. {class} (not returning 
   x64 = as.integer64(x32)
   y = sample(x32)
   eval(parse(text=paste0("y = as.", class, "(as.double(y)", if (class == "difftime") ', units = "secs"', ")")))
-    
+
   op = match.fun(as.character(operator))
   test_e = tryCatch(op(x32, y), error=conditionMessage)
   test_a = tryCatch(op(x64, y), error=conditionMessage)
   expect_identical(test_a, test_e)
-  
+
   test_e = tryCatch(op(y, x32), error=conditionMessage)
   test_a = tryCatch(op(y, x64), error=conditionMessage)
   expect_identical(test_a, test_e)
 
-  }, 
+  },
   .cases = expand.grid(
     operator = c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"),
     class = c("complex", "Date", "POSIXct", "POSIXlt", "difftime")
