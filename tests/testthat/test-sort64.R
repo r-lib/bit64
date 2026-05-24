@@ -613,7 +613,7 @@ with_parameters_test_that(
   },
   .cases = data.frame(
     fun_name = c("shellsortorder", "shellorder", "mergeorder", "mergesortorder", "quicksortorder", "quickorder", "radixsortorder", "radixorder"),
-    fun = list(bit::shellsortorder, bit::shellorder, bit::mergeorder, bit::mergesortorder, bit::quicksortorder, bit::quickorder, bit::radixsortorder, bit::radixorder),
+    fun = I(list(bit::shellsortorder, bit::shellorder, bit::mergeorder, bit::mergesortorder, bit::quicksortorder, bit::quickorder, bit::radixsortorder, bit::radixorder)),
     stringsAsFactors = FALSE
   )
 )
@@ -627,7 +627,7 @@ with_parameters_test_that(
   },
   .cases = data.frame(
     fun_name = c("shellsortorder", "shellorder", "mergeorder", "mergesortorder", "quicksortorder", "quickorder", "radixsortorder", "radixorder"),
-    fun = list(bit::shellsortorder, bit::shellorder, bit::mergeorder, bit::mergesortorder, bit::quicksortorder, bit::quickorder, bit::radixsortorder, bit::radixorder),
+    fun = I(list(bit::shellsortorder, bit::shellorder, bit::mergeorder, bit::mergesortorder, bit::quicksortorder, bit::quickorder, bit::radixsortorder, bit::radixorder)),
     stringsAsFactors = FALSE
   )
 )
