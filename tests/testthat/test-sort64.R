@@ -506,6 +506,12 @@ test_that("sort.integer64 and order.integer64 with cache", {
   expect_identical(order(x_oc), c(2L, 3L, 1L))
   expect_identical(order(x_oc, decreasing=TRUE), c(1L, 3L, 2L))
   
+  # 3c. order with ordercache only (has order, no sort) - with NAs (Issue #340)
+  x_na = as.integer64(c(3L, NA, 1L, NA, 2L))
+  x_na_oc = bit::clone(x_na)
+  ordercache(x_na_oc)
+  expect_identical(order(x_na_oc, decreasing=TRUE), c(1L, 5L, 3L, 2L, 4L))
+
   # 3b. order with sortordercache (has both order and sort)
   x_soc = bit::clone(x)
   sortordercache(x_soc)
