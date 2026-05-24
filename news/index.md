@@ -21,6 +21,11 @@
     [`as.integer64()`](https://bit64.r-lib.org/reference/as.integer64.character.md)
     now emits a warning, which will become an error in the next release.
 
+3.  Fix logical errors in the implementation of `order(decreasing=TRUE)`
+    on inputs with missing elements and
+    [`ordercache()`](https://bit64.r-lib.org/reference/hashcache.md) set
+    ([\#340](https://github.com/r-lib/bit64/issues/340)).
+
 ### BUG FIXES
 
 1.  `runif64(replace=FALSE)` no longer generates any duplicates
