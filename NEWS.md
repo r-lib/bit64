@@ -8,6 +8,8 @@
 
 1. Supplying `keep.names=` to `as.integer64()` now emits a warning, which will become an error in the next release.
 
+1. Fix logical errors in the implementation of `order(decreasing=TRUE)` on inputs with missing elements and `ordercache()` set (#340).
+
 ## BUG FIXES
 
 1. `runif64(replace=FALSE)` no longer generates any duplicates (#337).
