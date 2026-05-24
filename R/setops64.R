@@ -37,7 +37,7 @@ union = function(x, y) {
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::union(x, y))
 
-  target_class = target_class(list(x, y))
+  target_class = target_class(list(x, y), forSetOps=TRUE)
   # try using the benefit of integer64 caching, if possible. I.e. call unique() before as().
   x = unique(x)
   class_x = class(x)[1L]
@@ -66,7 +66,7 @@ intersect = function(x, y) {
   if (!(is.integer64(x) || is.integer64(y)))
     return(base::intersect(x, y))
 
-  target_class = target_class(list(x, y))
+  target_class = target_class(list(x, y), forSetOps=TRUE)
   x = unique(x)
   class_x = class(x)[1L]
   if (class_x != target_class) {
@@ -100,7 +100,7 @@ setequal = function(x, y) {
   if (length_x != length_y) return(FALSE)
   if (length_x + length_y == 0L) return(TRUE)
 
-  target_class = target_class(list(x, y))
+  target_class = target_class(list(x, y), forSetOps=TRUE)
   if (class(x)[1L] != target_class)
     x = as(x, target_class)
   if (class(y)[1L] != target_class)
@@ -120,7 +120,7 @@ setdiff = function(x, y) {
     x = unclass(x)
   if (class_x %in% c("factor", "ordered"))
     x = as.character(x)
-  target_class = target_class(list(x, y))
+  target_class = target_class(list(x, y), forSetOps=TRUE)
   x = unique(x)
   if (class(x)[1L] != target_class)
     x_match = as(x, target_class)
@@ -129,10 +129,10 @@ setdiff = function(x, y) {
   y = unique(y)
   class_y = class(y)[1L]
   if (class_y != target_class) {
-    # TODO(#44): remove this special coercion for factor and ordered
-    if (target_class == "integer64" && class_y %in% c("factor", "ordered") && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE)))
-      y = as.character(y)
-    y = as(y, target_class)
+    if (target_class == "integer64" && class_y %in% c("factor", "ordered"))
+      y = suppressWarnings(as.integer64(levels(y)))
+    else
+      y = as(y, target_class)
   }
 
   x[match(x_match, y, 0L) == 0L]
@@ -144,7 +144,7 @@ is.element = function(el, set) {
   if (!(is.integer64(el) || is.integer64(set)))
     return(base::is.element(el, set))
 
-  target_class = target_class(list(el, set))
+  target_class = target_class(list(el, set), forSetOps=TRUE)
   class_el = class(el)[1L]
   if (class_el != target_class) {
     # TODO(#44): remove this special coercion for factor and ordered
