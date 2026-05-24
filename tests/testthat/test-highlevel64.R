@@ -636,28 +636,235 @@ test_that("implicit test from ?rank.integer64 works", {
 
 test_that("keypos, tiepos, rank, qtile with ordercache", {
   x = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
-  
+
   # Populate ordercache (has 'order' but not 'sort')
   ordercache(x)
-  
+
   # 1. keypos (should use orderkey path)
   x_keypos = c(4L, 1L, 4L, 2L, 1L, 3L)
   expect_identical(keypos(x), x_keypos)
-  
+
   # 2. tiepos (should use ordertie path)
   expect_identical(tiepos(x), c(1L, 2L, 3L, 5L))
-  
+
   # 3. rank (should use orderrnk path)
   expect_identical(rank(x), c(5.5, 1.5, 5.5, 3.0, 1.5, 4.0))
-  
+
   # 4. qtile (should use orderqtl path)
   expected_q = qtile(x, probs=seq(0, 1, 0.25), names=FALSE)
-  
+
   # Reset cache and use sortqtl to get expected
   x_no_cache = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
   expected_q_sort = qtile(x_no_cache, probs=seq(0, 1, 0.25), names=FALSE)
   expect_identical(expected_q, expected_q_sort)
-  
+
+  remcache(x)
+})
+
+test_that("table.integer64 multidimensional cache states", {
+  a = as.integer64(c(1L, 2L, 1L))
+  b = as.integer64(c(2L, 1L, 2L))
+  c = as.integer64(c(1L, 1L, 2L))
+
+  # a: no cache (triggers ramsortorder)
+  # b: ordercache (triggers order only)
+  ordercache(b)
+  # c: sortordercache (triggers sort and order)
+  sortordercache(c)
+
+  t = table(a, b, c, return="data.frame")
+  expect_s3_class(t, "data.frame")
+
+  remcache(b)
+  remcache(c)
+})
+
+test_that("keypos, tiepos, rank, qtile with sortordercache", {
+  x = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
+
+  sortordercache(x)
+
+  # 1. keypos (should use sortorderkey path from cache)
+  x_keypos = c(4L, 1L, 4L, 2L, 1L, 3L)
+  expect_identical(keypos(x), x_keypos)
+
+  # 2. tiepos (should use sortordertie path from cache)
+  expect_identical(tiepos(x), c(1L, 2L, 3L, 5L))
+
+  # 3. rank (should use sortorderrnk path from cache)
+  expect_identical(rank(x), c(5.5, 1.5, 5.5, 3.0, 1.5, 4.0))
+
+  # 4. qtile (should use sortqtl path from cache)
+  expected_q = qtile(x, probs=seq(0, 1, 0.25), names=FALSE)
+
+  x_no_cache = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
+  expected_q_sort = qtile(x_no_cache, probs=seq(0, 1, 0.25), names=FALSE)
+  expect_identical(expected_q, expected_q_sort)
+
+  remcache(x)
+})
+
+test_that("qtile with sortcache", {
+  x = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
+  sortcache(x)
+
+  expected_q = qtile(x, probs=seq(0, 1, 0.25), names=FALSE)
+
+  x_no_cache = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
+  expected_q_sort = qtile(x_no_cache, probs=seq(0, 1, 0.25), names=FALSE)
+  expect_identical(expected_q, expected_q_sort)
+
+  remcache(x)
+})
+
+test_that("mean.integer64 works", {
+  x = as.integer64(c(1:3, NA))
+  expect_identical(mean(x, na.rm=TRUE), as.integer64(2))
+  expect_identical(mean(x, na.rm=FALSE), NA_integer64_)
+})
+
+test_that("highlevel S3 methods incomparables error", {
+  x = as.integer64(1:3)
+  expect_error(unique(x, incomparables=TRUE), '`incomparables=TRUE`.*not yet supported')
+  expect_error(unipos(x, incomparables=TRUE), '`incomparables=TRUE`.*not yet supported')
+  expect_error(duplicated(x, incomparables=TRUE), '`incomparables=TRUE`.*not yet supported')
+})
+
+test_that("qtile invalid probs error", {
+  x = as.integer64(1:3)
+  expect_error(qtile(x, probs=-0.1), "p outside")
+  expect_error(qtile(x, probs=1.1), "p outside")
+  expect_error(qtile(x, probs=NA_real_), "p outside")
+})
+
+test_that("order.integer64 multiple vectors error", {
+  x = as.integer64(1:3)
+  y = as.integer64(3:1)
+  expect_error(order(x, y), "can only order one vector")
+})
+
+test_that("factor and ordered with large vectors (length >= 4000)", {  
+  n = 4005L
+  x = as.integer64(sample(1:5, n, replace=TRUE))
+
+  # 1. default labels (missing)
+  f1 = factor(x)
+  expect_s3_class(f1, "factor")
+  expect_length(f1, n)
+  expect_identical(levels(f1), as.character(1:5))
+
+  # 2. custom labels (length(labels) == length(levels))
+  f2 = factor(x, labels=c("A", "B", "C", "D", "E"))
+  expect_identical(levels(f2), c("A", "B", "C", "D", "E"))
+
+  # 3. single label (length(labels) == 1)
+  f3 = factor(x, labels="L")
+  expect_identical(levels(f3), paste0("L", 1:5))
+
+  # 4. invalid labels length
+  expect_error(factor(x, labels=c("A", "B")), "invalid 'labels'")
+
+  # 5. ordered factor
+  o1 = ordered(x)
+  expect_s3_class(o1, c("ordered", "factor"))
+})
+
+test_that("match.integer64 hashrev with sortordercache on x", {
+  x = as.integer64(c(1L, 3L, 5L))
+  table = as.integer64(c(2L, 4L, 3L, 1L))
+
+  sortordercache(x)
+  expect_identical(match(x, table, method="hashrev"), c(4L, 3L, NA_integer_))
+  remcache(x)
+})
+
+test_that("table.integer64 multidimensional return formats", {
+  a = as.integer64(c(1L, 2L, 1L))
+  b = as.integer64(c(2L, 1L, 2L))
+
+  # 1. return="data.frame"
+  df = table(a, b, return="data.frame")
+  expect_s3_class(df, "data.frame")
+  expect_shape(df, dim=2:3)
+
+  # 2. return="list"
+  lst = table(a, b, return="list")
+  expect_type(lst, "list")
+  expect_named(lst, c("values", "counts", "dims"))
+  expect_length(lst$dims, 2L)
+})
+
+test_that("table.integer64 exclude and useNA work", {
+  a = as.integer64(c(1L, 1L, 2L, NA))
+  b = as.integer64(c(2L, 2L, 1L, NA))
+
+  # 1D table
+  t1 = table(a, exclude=1L)
+  expect_named(t1, c("2", NA_character_))
+
+  t2 = table(a, useNA="always")
+  expect_named(t2, c("1", "2", NA_character_))
+
+  # 2D table
+  t3 = table(a, b, exclude=1L, useNA="always")
+  expect_s3_class(t3, "table")
+  expect_identical(dimnames(t3)[[1L]], c("2", NA_character_))
+  expect_identical(dimnames(t3)[[2L]], c("2", NA_character_))
+})
+
+test_that("duplicated.integer64 with sortcache", {
+  x = as.integer64(c(1L, 2L, 1L))
+  sortcache(x)
+  expect_identical(duplicated(x), c(FALSE, FALSE, TRUE))
+  remcache(x)
+})
+
+test_that("unipos.integer64 sortcache permutations", {
+  x = as.integer64(c(3L, 1L, 3L))
+
+  # 1. order="original" + sortcache (triggers hashmapupo)
+  sortcache(x)
+  expect_identical(unipos(x, order="original"), c(1L, 2L))
+  remcache(x)
+
+  # 2. order="any" + sortcache (triggers sortorderupo)
+  sortcache(x)
+  res = unipos(x, order="any")
+  expect_true(setequal(res, c(1L, 2L)))
+  remcache(x)
+})
+
+test_that("unique.integer64 sortcache permutations", {
+  x = as.integer64(c(3L, 1L, 3L))
+
+  # 1. order="original" + sortcache (triggers hashmapuni)
+  sortcache(x)
+  expect_identical(unique(x, order="original"), x[1:2])
+  remcache(x)
+
+  # 2. order="any" + sortcache (triggers sortuni)
+  sortcache(x)
+  res = unique(x, order="any")
+  expect_setequal(res, as.integer64(c(1L, 3L)))
+  remcache(x)
+})
+
+test_that("table.integer64 with list argument", {
+  a = as.integer64(c(1L, 2L, 1L))
+  b = as.integer64(c(2L, 1L, 2L))
+
+  t = table(list(a=a, b=b))
+  expect_s3_class(t, "table")
+  expect_shape(t, dim=c(2L, 2L))
+})
+
+test_that("unique and unipos with nunique < length/2", {
+  x = as.integer64(c(2L, 2L, 2L, 1L, 1L))
+  hashcache(x)
+
+  expect_identical(unique(x, order="values"), as.integer64(1:2))
+  expect_identical(unipos(x, order="values"), c(4L, 1L))
+
   remcache(x)
 })
 >>>>>>> conflict 1 of 1 ends
