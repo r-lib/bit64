@@ -2133,7 +2133,7 @@ table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifan
       n = rep("", length(sys_call))
       n[sel] = s
     } else {
-      n_idx = !nzchar(n[sel] == "")
+      n_idx = !nzchar(n[sel])
       idx = sel[n_idx]
       n[idx] = s[n_idx]
     }
@@ -2219,7 +2219,14 @@ table.integer64 = function(...,
     stop("nothing to tabulate", domain="R-base")
 
   # table(as.integer64(1L), "a") is dispatched to table.integer64, but should be handled by table.default
-  if (!all(vapply(seq_len(N), function(ii) {arg = A(ii); is.integer64(arg) || is.integer(arg)}, logical(1L))))
+  if (!all(vapply(
+    seq_len(N),
+    function(ii) {
+      arg = A(ii)
+      is.integer64(arg) || is.integer(arg)
+    },
+    logical(1L))
+  ))
     return(NextMethod())
 
   if (N == 1L && is.list(A(1L))) {

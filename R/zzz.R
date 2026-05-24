@@ -75,7 +75,7 @@ target_class = function(x, recursive=FALSE, POSIXltAsCharacter=FALSE) {
 
   if ("POSIXlt" %in% classes && isTRUE(POSIXltAsCharacter)) return("character")
   if ("complex" %in% classes) return("complex")
-  if (!any(c("character", "factor", "ordered") %in% classes)) return("character")
+  if (!any(c("character", "factor", "ordered") %in% classes)) return("integer64")
   # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option
   if (isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) return("character")
   "integer64"

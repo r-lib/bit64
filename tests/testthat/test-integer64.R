@@ -827,26 +827,26 @@ with_parameters_test_that("factor and order work analogously to integer:", {
 
 test_that("factor() overwrite doesn't oversample (#274)", {
   expect_identical(
-    withr::with_seed(1, factor(sample(10))),
-    withr::with_seed(1, base::factor(sample(10)))
+    withr::with_seed(1, factor(sample.int(10))),
+    withr::with_seed(1, base::factor(sample.int(10)))
   )
-  expected_result = withr::with_seed(1, base::factor(exclude = sample(1:10, 1L), sample(1:10)))
+  expected_result = withr::with_seed(1, base::factor(exclude = sample.int(10, 1L), sample.int(10)))
   expect_identical(
-    withr::with_seed(1, factor(exclude = sample(1:10, 1L), sample(as.integer64(1:10)))),
+    withr::with_seed(1, factor(exclude = sample.int(10, 1L), sample(as.integer64(1:10)))),
     expected_result
   )
   expect_identical(
-    withr::with_seed(1, factor(exclude = sample(1:10, 1L), sample(1:10))),
+    withr::with_seed(1, factor(exclude = sample.int(10, 1L), sample.int(10))),
     expected_result
   )
 
-  expected_result = withr::with_seed(1, base::factor(sample(1:10), exclude = sample(1:10, 1L)))
+  expected_result = withr::with_seed(1, base::factor(sample.int(10), exclude = sample.int(10, 1L)))
   expect_identical(
-    withr::with_seed(1, factor(sample(as.integer64(1:10)), exclude = sample(1:10, 1L))),
+    withr::with_seed(1, factor(sample(as.integer64(1:10)), exclude = sample.int(10, 1L))),
     expected_result
   )
   expect_identical(
-    withr::with_seed(1, factor(sample(1:10), exclude = sample(1:10, 1L))),
+    withr::with_seed(1, factor(sample.int(10), exclude = sample.int(10, 1L))),
     expected_result
   )
 })
@@ -1278,7 +1278,10 @@ test_that("c works on extended integer64 objects (#298)", {
 
 replace_dimnames = function(x, old, new) {
   if (!is.null(dn <- dimnames(x)))
-    dimnames(x) = lapply(dn, function(el) {el[el == old] = new; el})
+    dimnames(x) = lapply(dn, function(el) {
+      el[el == old] = new
+      el
+    })
   x
 }
 test_that("cbind works consistent to R", {

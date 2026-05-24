@@ -159,19 +159,21 @@ array.default = function(...) {
 colSums = function(x, na.rm=FALSE, dims=1L) UseMethod("colSums")
 #' @rdname matrix64
 #' @export
-colSums.default = function(x, na.rm=FALSE, dims=1L)
+colSums.default = function(x, na.rm=FALSE, dims=1L) {
   withCallingHandlers_and_choose_call(
     base::colSums(x=x, na.rm=na.rm, dims=dims),
     c("colSums", "colSums.default")
   )
+}
 
 #' @rdname matrix64
 #' @export
 rowSums = function(x, na.rm=FALSE, dims=1L) UseMethod("rowSums")
 #' @rdname matrix64
 #' @export
-rowSums.default = function(x, na.rm=FALSE, dims=1L)
+rowSums.default = function(x, na.rm=FALSE, dims=1L) {
   withCallingHandlers_and_choose_call(
     base::rowSums(x=x, na.rm=na.rm, dims=dims),
     c("rowSums", "rowSums.default")
   )
+}

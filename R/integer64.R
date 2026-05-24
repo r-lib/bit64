@@ -619,28 +619,25 @@ as.integer64.character = function(x, ...) {
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.factor = function(x, ...)
-  as.integer64(unclass(x), ...)
+as.integer64.factor = function(x, ...) as.integer64(unclass(x), ...)
 
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 Date
-as.integer64.Date = function(x, ...)
-  as.integer64(as.double(x))
+as.integer64.Date = function(x, ...) as.integer64(as.double(x))
 
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 POSIXct
-as.integer64.POSIXct = function(x, ...)
-  as.integer64(as.double(x))
+as.integer64.POSIXct = function(x, ...) as.integer64(as.double(x))
 
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 POSIXlt
-as.integer64.POSIXlt = function(x, ...)
-  as.integer64(as.POSIXct(x))
+as.integer64.POSIXlt = function(x, ...) as.integer64(as.POSIXct(x))
 
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 difftime
-as.integer64.difftime = function(x, units="auto", ...)
+as.integer64.difftime = function(x, units="auto", ...) {
   as.integer64(as.double(x, units=units, ...))
+}
 
 .as_double_integer64 = function(x, keep.attributes=FALSE, ...) {
   ret = .Call(C_as_double_integer64, x, double(length(x)))
@@ -655,8 +652,7 @@ as.integer64.difftime = function(x, units="auto", ...)
 
 #' @rdname as.character.integer64
 #' @export
-as.double.integer64 = function(x, ...)
-  .as_double_integer64(x, keep.attributes=FALSE, ...)
+as.double.integer64 = function(x, ...) .as_double_integer64(x, keep.attributes=FALSE, ...)
 
 #' @rdname as.character.integer64
 #' @exportS3Method as.numeric integer64
@@ -668,8 +664,9 @@ as.complex.integer64 = function(x, ...) as.complex(as.double(x), ...)
 
 #' @rdname as.character.integer64
 #' @export
-as.integer.integer64 = function(x, ...)
+as.integer.integer64 = function(x, ...) {
   .Call(C_as_integer_integer64, x, integer(length(x)))
+}
 
 #' @rdname as.character.integer64
 #' @exportS3Method as.raw integer64
@@ -685,13 +682,15 @@ as.raw.integer64 = function(x, ...) {
 
 #' @rdname as.character.integer64
 #' @export
-as.logical.integer64 = function(x, ...)
+as.logical.integer64 = function(x, ...) {
   .Call(C_as_logical_integer64, x, logical(length(x)))
+}
 
 #' @rdname as.character.integer64
 #' @export
-as.character.integer64 = function(x, ...)
+as.character.integer64 = function(x, ...) {
   .Call(C_as_character_integer64, x, rep(NA_character_, length(x)))
+}
 
 #' @rdname as.character.integer64
 #' @export
@@ -705,18 +704,21 @@ as.bitstring.integer64 = function(x, ...) {
 
 #' @rdname as.character.integer64
 #' @exportS3Method as.Date integer64
-as.Date.integer64 = function(x, origin, ...)
+as.Date.integer64 = function(x, origin, ...) {
   as.Date(as.double(x), origin=origin, ...)
+}
 
 #' @rdname as.character.integer64
 #' @exportS3Method as.POSIXct integer64
-as.POSIXct.integer64 = function(x, tz="", origin, ...)
+as.POSIXct.integer64 = function(x, tz="", origin, ...) {
   as.POSIXct(as.double(x), tz=tz, origin=origin, ...)
+}
 
 #' @rdname as.character.integer64
 #' @exportS3Method as.POSIXlt integer64
-as.POSIXlt.integer64 = function(x, tz="", origin, ...)
+as.POSIXlt.integer64 = function(x, tz="", origin, ...) {
   as.POSIXlt(as.double(x, ...), tz=tz, origin=origin, ...)
+}
 
 #' @rdname as.character.integer64
 #' @export as.factor

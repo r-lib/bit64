@@ -211,43 +211,43 @@ test_that("our overwrite of table() is consistent with base::table", {
   expect_same_error(table(a=1L, b=NULL), base::table(a=1L, b=NULL))
 
   skip_unless_r("> 3.6.0") # unclear what's going on
-  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(1:10)))
+  expected_result = withr::with_seed(1L, base::table(exclude=sample.int(10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample.int(2, 1), sample.int(10)))
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(as.integer64(1:10)))),
+    withr::with_seed(1L, table(exclude=sample.int(10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample.int(2, 1), sample(as.integer64(1:10)))),
     expected_result
   )
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(1:10))),
-    expected_result
-  )
-
-  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(1:10)))
-  expect_identical(
-    withr::with_seed(1L, table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(as.integer64(1:10)))),
-    expected_result
-  )
-  expect_identical(
-    withr::with_seed(1L, table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(1:10))),
+    withr::with_seed(1L, table(exclude=sample.int(10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample.int(2, 1), sample.int(10))),
     expected_result
   )
 
-  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(1:10)))
+  expected_result = withr::with_seed(1L, base::table(exclude=sample.int(10, 1), deparse.level=sample.int(2, 1), sample.int(10)))
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))),
+    withr::with_seed(1L, table(exclude=sample.int(10, 1), deparse.level=sample.int(2, 1), sample(as.integer64(1:10)))),
     expected_result
   )
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(1:10))),
+    withr::with_seed(1L, table(exclude=sample.int(10, 1), deparse.level=sample.int(2, 1), sample.int(10))),
     expected_result
   )
 
-  expected_result = withr::with_seed(1L, base::table(useNA=sample(c("no", "ifany", "always"), 1), sample(1:10)))
+  expected_result = withr::with_seed(1L, base::table(exclude=sample.int(10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample.int(10)))
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample.int(10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))),
+    expected_result
+  )
+  expect_identical(
+    withr::with_seed(1L, table(exclude=sample.int(10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample.int(10))),
+    expected_result
+  )
+
+  expected_result = withr::with_seed(1L, base::table(useNA=sample(c("no", "ifany", "always"), 1), sample.int(10)))
   expect_identical(
     withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))),
     expected_result
   )
   expect_identical(
-    withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample(1:10))),
+    withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample.int(10))),
     expected_result
   )
 })
@@ -738,7 +738,7 @@ test_that("order.integer64 multiple vectors error", {
 
 test_that("factor and ordered with large vectors (length >= 4000)", {
   n = 4005L
-  x = as.integer64(sample(1:5, n, replace=TRUE))
+  x = as.integer64(sample.int(5, n, replace=TRUE))
 
   # 1. default labels (missing)
   f1 = factor(x)

@@ -215,7 +215,7 @@ test_that("Explicit algorithm dispatch hits C-level fallbacks and edge cases", {
 
 test_that("Specific sortorder/order variants for Quicksort coverage", {
   # Covering ram_integer64_quickorderpart_... and insertion fallbacks
-  x_base = as.integer64(sample(100, 50))
+  x_base = as.integer64(sample.int(100, 50))
 
   # quicksortorder descending
   x = bit::clone(x_base)
@@ -233,7 +233,7 @@ test_that("Specific sortorder/order variants for Quicksort coverage", {
 test_that("Shellsort direct invocation", {
   # While quicksort falls back to shellsort, we can also invoke it directly
   # to ensure the 'shellsort_desc' and 'shellsortorder' paths are clean.
-  x_base = as.integer64(sample(100, 50))
+  x_base = as.integer64(sample.int(100, 50))
 
   x = bit::clone(x_base)
   bit::shellsort(x, decreasing=TRUE)
@@ -298,7 +298,7 @@ local({
     {
       x = bit::clone(x_base)
       i = seq_along(x)
-      fun(x, i, radixbits = radixbits)
+      getExportedValue(fun_name, ns="bit")(x, i, radixbits = radixbits)
 
       # Check x (sortorder modifies x, order does not)
       if (fun_name == "radixsortorder") {
@@ -312,15 +312,14 @@ local({
     .cases = expand.grid(
       radixbits = c(1L, 2L, 4L, 8L, 16L),
       fun_name = c("radixorder", "radixsortorder"),
-      fun = I(list(bit::radixorder, bit::radixsortorder)),
       stringsAsFactors = FALSE
     )
   )
 })
 
 local({
-  x_small = as.integer64(sample(15))
-  x_large = as.integer64(sample(100))
+  x_small = as.integer64(sample.int(15))
+  x_large = as.integer64(sample.int(100))
 
   # Group 1: quicksort (takes x)
   with_parameters_test_that(
@@ -355,7 +354,7 @@ local({
       args = list(x = x, i = i, decreasing = decreasing)
       if (!is.na(restlevel)) args$restlevel = restlevel
 
-      do.call(fun, args)
+      do.call(getExportedValue(fun_name, ns="bit"), args)
 
       if (fun_name == "quicksortorder") {
         # quicksortorder: x is modified in-place to be sorted
@@ -371,7 +370,6 @@ local({
       decreasing = c(TRUE, FALSE),
       restlevel = c(NA_integer_, 0L),
       fun_name = c("quicksortorder", "quickorder"),
-      fun = I(list(bit::quicksortorder, bit::quickorder)),
       stringsAsFactors = FALSE
     )
   )
@@ -567,7 +565,7 @@ with_parameters_test_that(
 
 test_that("ramsort with names radix4sortorder dispatch", {
   n = 2100000L
-  x_base = as.integer64(sample(1:100, n, replace=TRUE))
+  x_base = as.integer64(sample.int(100, n, replace=TRUE))
   names(x_base) = as.character(seq_len(n))
 
   x = bit::clone(x_base)
@@ -580,7 +578,7 @@ test_that("ramsort with names radix4sortorder dispatch", {
 
 test_that("ramsort and ramsortorder radix4 dispatch (large vector)", {
   n = 16800000L
-  x_base = as.integer64(sample(1:100, n, replace=TRUE))
+  x_base = as.integer64(sample.int(100, n, replace=TRUE))
 
   # 1. ramsort (should trigger radix4sort)
   x = bit::clone(x_base)

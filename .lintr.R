@@ -24,3 +24,6 @@ linters = all_linters(
   quotes_linter = NULL,
   todo_comment_linter = NULL
 )
+exclusions = list(
+  `tests/testthat.R` = list(unused_import_linter = Inf)
+)
