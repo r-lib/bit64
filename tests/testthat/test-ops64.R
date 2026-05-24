@@ -288,7 +288,9 @@ with_parameters_test_that(
 )
 
 test_that("Edge cases for character/factor comparisons work", {
+  # nolint next: expect_comparison_linter. Checking '==' method
   expect_true(as.integer64("999999999999999") == "999999999999999")
   skip_unless_r(">= 4.3.0")
+  # nolint next: expect_comparison_linter. Checking '==' method
   expect_true(as.integer64("999999999999999999") == as.factor("999999999999999999"))
 })

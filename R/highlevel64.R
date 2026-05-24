@@ -2133,8 +2133,9 @@ table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifan
       n = rep("", length(sys_call))
       n[sel] = s
     } else {
-      idx = sel[n[sel] == ""]
-      n[idx] = s[n[sel] == ""]
+      n_idx = !nzchar(n[sel] == "")
+      idx = sel[n_idx]
+      n[idx] = s[n_idx]
     }
     names(sys_call) = n
   }
@@ -2142,15 +2143,15 @@ table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifan
     sys_call[[ii + 1L]] = dots[[ii]]
   if (!missing(useNA)) sys_call$useNA = useNA
   if (!missing(exclude)) sys_call$exclude = exclude
-  pf = parent.frame()
+  parent = parent.frame()
   # add unused function `list.names` to eliminate CMD check NOTE about missing function definition.
   list.names = function(...) {}
   if (length(dots) && any(is_int64) && all(is_int64 | is_int)) {
     sys_call[[1L]] = table.integer64
-    withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"), "table.integer64")
+    withCallingHandlers_and_choose_call(eval(sys_call, envir=parent), c("table", "table.default"), "table.integer64")
   } else {
     sys_call[[1L]] = base::table
-    withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"))
+    withCallingHandlers_and_choose_call(eval(sys_call, envir=parent), c("table", "table.default"))
   }
 }
 #' @exportS3Method table default
@@ -2158,10 +2159,10 @@ table.default = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no
   # avoid condition messages with `table.default`
   sys_call = sys.call()
   sys_call[[1L]] = base::table
-  pf = parent.frame()
+  parent = parent.frame()
   # add unused function `list.names` to eliminate CMD check NOTE about missing function definition.
   list.names = function(...) {}
-  withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), c("table", "table.default"))
+  withCallingHandlers_and_choose_call(eval(sys_call, envir=parent), c("table", "table.default"))
 }
 
 #' @method table integer64
@@ -2218,14 +2219,13 @@ table.integer64 = function(...,
     stop("nothing to tabulate", domain="R-base")
 
   # table(as.integer64(1L), "a") is dispatched to table.integer64, but should be handled by table.default
-  if (!all(vapply(seq_len(N), function(ii) {el = A(ii); is.integer64(el) || is.integer(el)}, logical(1L))))
+  if (!all(vapply(seq_len(N), function(ii) {arg = A(ii); is.integer64(arg) || is.integer(arg)}, logical(1L))))
     return(NextMethod())
 
   if (N == 1L && is.list(A(1L))) {
     args = A(1L) # nolint: object_overwrite_linter. This code should probably be refactored anyway.
     if (length(dnn) != length(args))
-      # TODO(R>=4.4.0): names(args) %||% paste(dnn[1L], seq_along(args), sep=".")
-      dnn = if (!is.null(argn <- names(args))) argn else paste(dnn[1L], seq_along(args), sep=".")
+      dnn = names(args) %||% paste(dnn[1L], seq_along(args), sep=".")
     N = length(args)
     A = function(i) args[[i]]
   }
@@ -2392,7 +2392,7 @@ table.integer64 = function(...,
       }
       if (useNA == "always") {
         dimnames_new = lapply(dimnames(cnt), function(el) c(el, if (!anyNA(el)) NA))
-        cnt_new = array(0L, as.integer(vapply(dimnames_new, length, 0L)))
+        cnt_new = array(0L, lengths(dimnames_new))
         dimnames(cnt_new) = dimnames_new
         cnt = do.call(`[<-`, c(list(x=cnt_new), lapply(dim(cnt), seq_len), list(value=cnt)))
       }

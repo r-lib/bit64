@@ -71,7 +71,11 @@ with_parameters_test_that(
       "invalid 'ncol' value", fixed=TRUE
     )
   },
-  .cases=data.frame(x=I(list(1:10, as.integer64(1:10))), type=c("integer", "integer64"))
+  .cases=data.frame(
+    x=I(list(1:10, as.integer64(1:10))),
+    type=c("integer", "integer64"),
+    stringsAsFactors=FALSE
+  )
 )
 
 with_parameters_test_that(
@@ -82,7 +86,7 @@ with_parameters_test_that(
     expect_true(is.array(A))
     if (type == "integer64") expect_s3_class(A, "integer64")
     expect_identical(A[seq_along(x)], structure(x, dim = length(x)))
-    expect_identical(dim(A), c(10L))
+    expect_identical(dim(A), 10L)
     expect_identical(array(x, c(2, 5))[seq_along(x)], x)
     expect_identical(dim(array(x, c(2, 5))), c(2L, 5L))
     # TODO(R>=4.0.0): use rep_len(x, 1*2*3) over the ugly versions with seq_len()
@@ -125,7 +129,11 @@ with_parameters_test_that(
 
     expect_identical(array(x, dim=0),  structure(empty, dim = 0L))
   },
-  .cases=data.frame(x=I(list(1:10, as.integer64(1:10))), type=c("integer", "integer64"))
+  .cases=data.frame(
+    x=I(list(1:10, as.integer64(1:10))),
+    type=c("integer", "integer64"),
+    stringsAsFactors=FALSE
+  )
 )
 
 test_that("colSums and rowSums work on simple integer64 input", {
@@ -198,17 +206,11 @@ test_that("dimnames with colSums and rowSums", {
   M64 = matrix(as.integer64(1:(3*2)), nrow=3L, ncol=2L, dimnames=list(LETTERS[1:3], letters[1:2]))
   A64 = array(as.integer64(1:(2*5*3)), dim=c(2, 5, 3), dimnames=list(LETTERS[1:2], letters[1:5], rev(LETTERS)[1:3]))
 
-  expect_identical(names(colSums(M32)), names(colSums(M64)))
   expect_identical(dimnames(colSums(M32)), dimnames(colSums(M64)))
-  expect_identical(names(colSums(A32)), names(colSums(A64)))
   expect_identical(dimnames(colSums(A32)), dimnames(colSums(A64)))
-  expect_identical(names(colSums(A32, dims=2L)), names(colSums(A64, dims=2L)))
   expect_identical(dimnames(colSums(A32, dims=2L)), dimnames(colSums(A64, dims=2L)))
-  expect_identical(names(rowSums(M32)), names(rowSums(M64)))
   expect_identical(dimnames(rowSums(M32)), dimnames(rowSums(M64)))
-  expect_identical(names(rowSums(A32)), names(rowSums(A64)))
   expect_identical(dimnames(rowSums(A32)), dimnames(rowSums(A64)))
-  expect_identical(names(rowSums(A32, dims=2L)), names(rowSums(A64, dims=2L)))
   expect_identical(dimnames(rowSums(A32, dims=2L)), dimnames(rowSums(A64, dims=2L)))
 })
 

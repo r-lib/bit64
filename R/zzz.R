@@ -23,19 +23,19 @@
 # * call stack: [A, B, C, D, E]; function_names = c("E", "D") returns D
 # * call stack: [A, B, C, D, E]; function_names = c("E", "X") returns A
 choose_sys_call = function(function_names, name_to_display=NULL, callStack=NULL) {
-  calls = if (is.null(callStack)) sys.calls() else callStack
+  calls = callStack %||% sys.calls()
   if (length(calls) == 1L || length(function_names) == 0L) return(calls[[1L]])
   # find last occurrence of last name in function_names
   function_names_rev = rev(as.character(function_names))
   for (sel in rev(seq_along(calls))) {
-    el = calls[[sel]]
-    if (!is.function(el[[1L]]) && rev(as.character(el[[1L]]))[1L] == function_names_rev[1L]) break
+    call_obj = calls[[sel]]
+    if (!is.function(call_obj[[1L]]) && rev(as.character(call_obj[[1L]]))[1L] == function_names_rev[1L]) break
   }
   # now check further backwards to match as far as possible
   for (fn in function_names_rev[-1L]) {
     if (sel == 1L) break
-    el = calls[[sel - 1L]]
-    if (is.function(el[[1L]]) || rev(as.character(el[[1L]]))[[1L]] != fn) break
+    call_obj = calls[[sel - 1L]]
+    if (is.function(call_obj[[1L]]) || rev(as.character(call_obj[[1L]]))[[1L]] != fn) break
     sel = sel - 1L
   }
   ret = calls[[sel]]
@@ -63,7 +63,7 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
 getClassesOfElements = function(x, recursive) {
   classes = vapply(x, function(el) if (inherits(el, c("list", "data.frame"))) "list" else class(el)[1L], character(1L))
   if (recursive) {
-    union(classes[classes != "list"], unlist(lapply(x[classes == "list"], function(el) getClassesOfElements(el, recursive=TRUE))))
+    union(classes[classes != "list"], unlist(lapply(x[classes == "list"], getClassesOfElements, recursive=TRUE)))
   } else {
     unique(classes)
   }
@@ -75,10 +75,9 @@ target_class = function(x, recursive=FALSE, POSIXltAsCharacter=FALSE) {
 
   if ("POSIXlt" %in% classes && isTRUE(POSIXltAsCharacter)) return("character")
   if ("complex" %in% classes) return("complex")
-  if (any(c("character", "factor", "ordered") %in% classes)) {
-    # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option
-    if (isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) return("character")
-  }
+  if (!any(c("character", "factor", "ordered") %in% classes)) return("character")
+  # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option
+  if (isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) return("character")
   "integer64"
 }
 

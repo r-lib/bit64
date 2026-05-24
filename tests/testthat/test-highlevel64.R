@@ -24,6 +24,7 @@ test_that("match & %in% basics work", {
   table_nm <- as.integer64(2:4)
   expect_identical(match(x_nm, table_nm, nomatch = -1L), c(-1L, 2L))
 
+  # nolint next: scalar_in_linter. Testing '%in%'.
   expect_identical(integer64() %in% 1L, integer() %in% 1L)
   expect_identical(as.integer64(1L) %in% double(), 1L %in% double())
 })

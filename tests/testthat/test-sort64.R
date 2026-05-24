@@ -309,13 +309,11 @@ local({
       # Check i
       expect_identical(x_base[i], as.integer64(sort(x_base)))
     },
-    .cases = within(
-      expand.grid(
-        radixbits = c(1L, 2L, 4L, 8L, 16L),
-        fun_name = c("radixorder", "radixsortorder"),
-        stringsAsFactors = FALSE
-      ),
-      fun <- lapply(fun_name, getExportedValue, ns="bit")
+    .cases = expand.grid(
+      radixbits = c(1L, 2L, 4L, 8L, 16L),
+      fun_name = c("radixorder", "radixsortorder"),
+      fun = I(list(bit::radixorder, bit::radixsortorder)),
+      stringsAsFactors = FALSE
     )
   )
 })
@@ -369,14 +367,12 @@ local({
         expect_identical(x[i], sorted_target)
       }
     },
-    .cases = within(
-      expand.grid(
-        decreasing = c(TRUE, FALSE),
-        restlevel = c(NA_integer_, 0L),
-        fun_name = c("quicksortorder", "quickorder"),
-        stringsAsFactors = FALSE
-      ),
-      fun <- lapply(fun_name, getExportedValue, ns="bit")
+    .cases = expand.grid(
+      decreasing = c(TRUE, FALSE),
+      restlevel = c(NA_integer_, 0L),
+      fun_name = c("quicksortorder", "quickorder"),
+      fun = I(list(bit::quicksortorder, bit::quickorder)),
+      stringsAsFactors = FALSE
     )
   )
 })
