@@ -69,6 +69,13 @@ expect_setequal = function(x, y) expect_true(setequal(x, y))
 
 expect_named = function(x, y) expect_identical(names(x), y)
 
+expect_shape = function(x, ..., nrow=NULL, ncol=NULL, dim=NULL) {
+  true_dim <- dim(x)
+  if (!is.null(dim)) return(expect_identical(true_dim, dim))
+  if (!is.null(ncol)) return(expect_identical(true_dim[2L], ncol))
+  if (!is.null(nrow)) return(expect_identical(true_dim[1L], nrow))
+}
+
 expect_warning <- function(object, regexp = NULL, ...) {
   warnings <- character()
   e <- environment()
