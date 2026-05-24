@@ -621,7 +621,7 @@ with_parameters_test_that(
 with_parameters_test_that(
   "sorting/ordering S3 methods throw error if i is not integer for {fun_name}",
   {
-    x = as.integer64(c(1, 2, 3))
+    x = as.integer64(1:3)
     i_not_int = c(1.0, 2.0, 3.0)
     expect_error(fun(x, i_not_int), "i must be integer")
   },
@@ -633,14 +633,14 @@ with_parameters_test_that(
 )
 
 test_that("radix S3 methods throw error on invalid radixbits", {
-  x = as.integer64(c(1, 2, 3))
-  expect_error(bit::radixsort(x, radixbits=3L))
-  expect_error(bit::radixsortorder(x, seq_along(x), radixbits=3L))
-  expect_error(bit::radixorder(x, seq_along(x), radixbits=3L))
+  x = as.integer64(1:3)
+  expect_error(bit::radixsort(x, radixbits=3L), "radixbits.*%in%.*not TRUE")
+  expect_error(bit::radixsortorder(x, seq_along(x), radixbits=3L), "radixbits.*%in%.*not TRUE")
+  expect_error(bit::radixorder(x, seq_along(x), radixbits=3L), "radixbits.*%in%.*not TRUE")
 })
 
 test_that("ramsortorder and ramorder throw error on unsupported names", {
-  x = as.integer64(c(1, 2, 3))
+  x = as.integer64(1:3)
   x_names = x
   names(x_names) = c("a", "b", "c")
   i_names = seq_along(x)
