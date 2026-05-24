@@ -792,10 +792,10 @@ test_that("table.integer64 exclude and useNA work", {
   
   # 1D table
   t1 = table(a, exclude=1L)
-  expect_identical(names(t1), c("2", NA_character_))
+  expect_named(t1, c("2", NA_character_))
   
   t2 = table(a, useNA="always")
-  expect_identical(names(t2), c("1", "2", NA_character_))
+  expect_named(t2, c("1", "2", NA_character_))
   
   # 2D table
   t3 = table(a, b, exclude=1L, useNA="always")

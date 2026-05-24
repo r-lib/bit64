@@ -76,6 +76,8 @@ expect_shape = function(x, ..., nrow=NULL, ncol=NULL, dim=NULL) {
   if (!is.null(nrow)) return(expect_identical(true_dim[1L], nrow))
 }
 
+expect_type = function(x, tp) expect_identical(typeof(x), tp)
+
 expect_warning <- function(object, regexp = NULL, ...) {
   warnings <- character()
   e <- environment()
