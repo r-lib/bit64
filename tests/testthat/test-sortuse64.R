@@ -176,7 +176,7 @@ test_that("sortorderkey works", {
 
 with_parameters_test_that("sortorderpos works", method=1:3, {
   table = as.integer64(c(10L, 20L, 30L, 5L, 15L, 25L))
-  sorted = clone(table)
+  sorted = bit::clone(table)
   order = seq_along(sorted)
   ramsortorder(sorted, order, na.last=FALSE)
   
