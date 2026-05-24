@@ -56,7 +56,7 @@ NA_integer64_
 
 \item{..., units}{further arguments to the \code{\link[=NextMethod]{NextMethod()}}}
 
-\item{keep.names}{Logical, default \code{FALSE}. If \code{TRUE}, the input's names are retained.}
+\item{keep.names}{(Deprecated) Logical, default \code{FALSE}. If \code{TRUE}, the input's names are retained.}
 }
 \value{
 The other methods return atomic vectors of the expected types

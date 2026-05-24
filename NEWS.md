@@ -6,7 +6,15 @@
 
    `[<-.integer64`, `abs.integer64`, `all.integer64`, `any.integer64`, `as.character.integer64`, `as.data.frame.integer64`, `as.double.integer64`, `as.integer.integer64`, `as.integer64.character`, `as.integer64.double`, `as.integer64.integer`, `as.integer64.logical`, `c.integer64`, `format.integer64`, `is.na.integer64`, `log.integer64`, `max.integer64`, `min.integer64`, `print.integer64`, `rank.integer64`, `rep.integer64`, `seq.integer64`, `str.integer64`, `sum.integer64`, `unique.integer64`
 
+1. Supplying `keep.names=` to `as.integer64()` now emits a warning, which will become an error in the next release.
+
+1. Fix logical errors in the implementation of `order(decreasing=TRUE)` on inputs with missing elements and `ordercache()` set (#340).
+
 1. The default value of option `bit64.promoteInteger64ToCharacter` is now `TRUE`, meaning that `c(as.integer64(1L), "a")` is `c("1", "a")`. See the release notes for 4.8.0. In the next release, it will be a warning to use `FALSE` for this option.
+
+## BUG FIXES
+
+1. `runif64(replace=FALSE)` no longer generates any duplicates (#337).
 
 ## NOTES
 

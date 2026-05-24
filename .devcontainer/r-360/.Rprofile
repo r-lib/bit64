@@ -63,9 +63,20 @@ expect_identical = function(x, y, tolerance = NULL, ignore_attr = NULL, info = c
 expect_true = function(x) expect_identical(x, TRUE)
 expect_false = function(x) expect_identical(x, FALSE)
 
+expect_null = function(x) expect_identical(x, NULL)
+
 expect_setequal = function(x, y) expect_true(setequal(x, y))
 
 expect_named = function(x, y) expect_identical(names(x), y)
+
+expect_shape = function(x, ..., nrow=NULL, ncol=NULL, dim=NULL) {
+  true_dim <- dim(x)
+  if (!is.null(dim)) return(expect_identical(true_dim, dim))
+  if (!is.null(ncol)) return(expect_identical(true_dim[2L], ncol))
+  if (!is.null(nrow)) return(expect_identical(true_dim[1L], nrow))
+}
+
+expect_type = function(x, tp) expect_identical(typeof(x), tp)
 
 expect_warning <- function(object, regexp = NULL, ...) {
   warnings <- character()

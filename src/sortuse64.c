@@ -1346,9 +1346,8 @@ SEXP r_ram_integer64_orderord(
   n = n - na_count;
 
   if (decreasing){
-      data += na_count;
       for(l=n-2,r=n-1,j=0;l>=0;l--)
-        if (data[index[l]]!=data[index[r]]){
+        if (data[index[l] - 1]!=data[index[r] - 1]){
             for (i=l+1;i<=r;i++,j++)
                 ret[j] = index[i];
             r=l;

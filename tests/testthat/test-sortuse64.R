@@ -173,3 +173,27 @@ test_that("sortorderkey works", {
   # Note: NA_integer_ is used for NAs in the key vector
   expect_identical(sortorderkey(x_na, o_na, na.skip.num=2L), c(NA_integer_, NA_integer_, 1L, 2L))
 })
+
+with_parameters_test_that("sortorderpos works", method=1:3, {
+  table = as.integer64(c(10L, 20L, 30L, 5L, 15L, 25L))
+  sorted = bit::clone(table)
+  order = seq_along(sorted)
+  bit::ramsortorder(sorted, order, na.last=FALSE)
+  
+  x_search = as.integer64(c(5L, 10L, 15L, 20L, 25L, 30L, 99L))
+  expected_pos = c(4L, 1L, 5L, 2L, 6L, 3L, NA_integer_)
+  
+  expect_identical(sortorderpos(sorted, order, x_search, method=method), expected_pos)
+})
+
+test_that("orderdup and sortorderdup edge cases", {
+  table = as.integer64(c(1L, 2L, 1L, 3L, 2L))
+  order = order(table)
+  
+  # orderdup method=1L
+  expect_identical(orderdup(table, order, method=1L), c(FALSE, FALSE, TRUE, FALSE, TRUE))
+  
+  # sortorderdup method=NULL (heuristic)
+  sorted = table[order]
+  expect_identical(sortorderdup(sorted, seq_along(sorted)), c(FALSE, TRUE, FALSE, TRUE, FALSE))
+})

@@ -1568,10 +1568,16 @@ test_that("seq.integer64 works with S4 subclasses inheriting from integer64", {
 test_that("back-compatible keep.names=TRUE is supported for limited input classes", {
   x = as.integer64(1L)
   names(x) = "a"
-  expect_named(as.integer64(x, keep.names=TRUE), "a")
+  expect_warning(
+    expect_named(as.integer64(x, keep.names=TRUE), "a"),
+    "keep.names will be removed in a future version"
+  )
 
   y = c(a = 1.0)
-  expect_named(as.integer64(y, keep.names=TRUE), "a")
+  expect_warning(
+    expect_named(as.integer64(y, keep.names=TRUE), "a"),
+    "keep.names will be removed in a future version"
+  )
 })
 
 test_that("bitstring class meshes with R's own (from 4.6.0)", {
