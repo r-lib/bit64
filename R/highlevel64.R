@@ -1641,7 +1641,9 @@ match.integer64 = function(x, table, nomatch = NA_integer_, nunique=NULL, method
 #' @keywords logic manip
 #' @export
 duplicated.integer64 = function(x, incomparables = FALSE, nunique = NULL, method = NULL, ...) {
-  stopifnot(identical(incomparables, FALSE))
+  if (!isFALSE(incomparables)) {
+    stop("`incomparables=TRUE` not yet supported")
+  }
   cache_env = cache(x)
   if (is.null(nunique) && !is.null(cache_env))
     nunique = cache_env$nunique
@@ -1755,7 +1757,9 @@ unique.integer64 = function(x,
                              nunique=NULL,
                              method=NULL,
                              ...) {
-  stopifnot(identical(incomparables, FALSE))
+  if (!isFALSE(incomparables)) {
+    stop("`incomparables=TRUE` not yet supported")
+  }
   order = match.arg(order)
   cache_env = cache(x)
   keep.order = order == "original"
@@ -1905,12 +1909,14 @@ unipos = function(x, incomparables = FALSE, order = c("original", "values", "any
 #' @rdname unipos
 #' @export
 unipos.integer64 = function(x,
-                             incomparables=FALSE,
-                             order=c("original", "values", "any"),
-                             nunique=NULL,
-                             method=NULL,
-                             ...) {
-  stopifnot(identical(incomparables, FALSE))
+                            incomparables=FALSE,
+                            order=c("original", "values", "any"),
+                            nunique=NULL,
+                            method=NULL,
+                            ...) {
+  if (!isFALSE(incomparables)) {
+    stop("`incomparables=TRUE` not yet supported")
+  }
   order = match.arg(order)
   cache_env = cache(x)
   keep.order = order == "original"
