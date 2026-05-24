@@ -198,7 +198,7 @@ test_that("Comparison operators", {
 })
 
 with_parameters_test_that("{operator} with integer64 vs {class} (returning integer64):", {
-  withr::local_seed(42)
+  withr::local_seed(42L)
 
   if (getRversion() <= "3.6.0" && operator == "^")
     x32 = 1:10 # there seems to be an issue with negative values with the `^` operator in ancient
@@ -228,7 +228,7 @@ with_parameters_test_that("{operator} with integer64 vs {class} (returning integ
 
 with_parameters_test_that("{operator} with integer64 vs. {class} (not returning integer64):", {
   skip_unless_r(">= 4.3.0")
-  withr::local_seed(42)
+  withr::local_seed(42L)
 
   x32 = c(-10:-1, 1:10)
   x64 = as.integer64(x32)

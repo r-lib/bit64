@@ -1,5 +1,5 @@
 test_that("runif64 behaves as expected", {
-  withr::local_seed(3478)
+  withr::local_seed(3478L)
 
   expect_identical(
     runif64(10L),
@@ -23,7 +23,7 @@ test_that("runif64 behaves as expected", {
 
 test_that("implicit tests from ?hashmap continue working", {
   x = as.integer64(sample(c(NA, 0:9)))
-  y = as.integer64(sample(c(NA, 1:9), 10, TRUE))
+  y = as.integer64(sample(c(NA, 1:9), 10L, TRUE))
   hx = hashmap(x)
   hy = hashmap(y)
 
@@ -131,9 +131,9 @@ test_that("hashfun works", {
   x = as.integer64(c(1:3, 1:2))
   hf = hashfun(x)
   expect_length(hf, length(x))
-  expect_true(all(hf >= 0))
-  expect_identical(hf[1], hf[4])
-  expect_identical(hf[2], hf[5])
+  expect_true(all(hf >= 0L))
+  expect_identical(hf[1L], hf[4L])
+  expect_identical(hf[2L], hf[5L])
 })
 
 test_that("hashmap cache dissociation error", {
@@ -145,24 +145,24 @@ test_that("hashmap cache dissociation error", {
 
 test_that("runif64 replace=FALSE edge cases", {
   expect_error(
-    runif64(10L, 1, 5, replace=FALSE),
+    runif64(10L, 1L, 5L, replace=FALSE),
     "cannot take a sample larger than the population"
   )
 
-  r1 = runif64(10L, 1, 100, replace=FALSE)
+  r1 = runif64(10L, 1L, 100L, replace=FALSE)
   expect_length(r1, 10L)
   expect_length(unique(r1), 10L)
-  expect_true(all(r1 >= 1 & r1 <= 100))
+  expect_true(all(r1 >= 1L & r1 <= 100L))
 
-  r2 = runif64(5L, 1, 1000, replace=FALSE)
+  r2 = runif64(5L, 1L, 1000L, replace=FALSE)
   expect_length(r2, 5L)
   expect_length(unique(r2), 5L)
-  expect_true(all(r2 >= 1 & r2 <= 1000))
+  expect_true(all(r2 >= 1L & r2 <= 1000L))
 
-  r3 = runif64(20L, 1, 20, replace=FALSE)
+  r3 = runif64(20L, 1L, 20L, replace=FALSE)
   expect_length(r3, 20L)
   expect_length(unique(r3), 20L)
-  expect_true(all(r3 >= 1 & r3 <= 20))
+  expect_true(all(r3 >= 1L & r3 <= 20L))
 })
 
 test_that("hashmap with forced collisions", {

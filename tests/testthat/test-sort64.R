@@ -143,7 +143,7 @@ test_that("Explicit algorithm dispatch hits C-level fallbacks and edge cases", {
 
   # We use a vector size likely to trigger partition loops but small enough to
   # be manageable.
-  set.seed(42)
+  set.seed(42L)
   x_base = as.integer64(sample.int(1000L, 500L))
   x_dups = as.integer64(sample(c(1:5, NA), 500L, replace=TRUE)) # High duplicate count for pivot logic
 
@@ -202,7 +202,7 @@ test_that("Explicit algorithm dispatch hits C-level fallbacks and edge cases", {
   expect_identical(x, x_sorted)
 
   # Case: All duplicates (High stress on partitioning equal values)
-  x_all_dups = as.integer64(rep(10L, 50))
+  x_all_dups = as.integer64(rep(10L, 50L))
   x = bit::clone(x_all_dups)
   bit::quicksort(x, optimize="memory")
   expect_identical(x, x_all_dups)
@@ -215,7 +215,7 @@ test_that("Explicit algorithm dispatch hits C-level fallbacks and edge cases", {
 
 test_that("Specific sortorder/order variants for Quicksort coverage", {
   # Covering ram_integer64_quickorderpart_... and insertion fallbacks
-  x_base = as.integer64(sample.int(100, 50))
+  x_base = as.integer64(sample.int(100L, 50L))
 
   # quicksortorder descending
   x = bit::clone(x_base)
@@ -233,7 +233,7 @@ test_that("Specific sortorder/order variants for Quicksort coverage", {
 test_that("Shellsort direct invocation", {
   # While quicksort falls back to shellsort, we can also invoke it directly
   # to ensure the 'shellsort_desc' and 'shellsortorder' paths are clean.
-  x_base = as.integer64(sample.int(100, 50))
+  x_base = as.integer64(sample.int(100L, 50L))
 
   x = bit::clone(x_base)
   bit::shellsort(x, decreasing=TRUE)
@@ -260,10 +260,10 @@ test_that("Corner cases for partitioning logic", {
   # Add explicit tests for shellsort variants with empty vectors
   expect_identical(bit::shellsort(x_empty), 0L)
   expect_identical(bit::shellsort(x_empty, decreasing = TRUE), 0L)
-  expect_identical(bit::shellsortorder(x_empty, integer(0)), 0L)
-  expect_identical(bit::shellsortorder(x_empty, integer(0), decreasing = TRUE), 0L)
-  expect_identical(bit::shellorder(x_empty, integer(0)), 0L)
-  expect_identical(bit::shellorder(x_empty, integer(0), decreasing = TRUE), 0L)
+  expect_identical(bit::shellsortorder(x_empty, integer(0L)), 0L)
+  expect_identical(bit::shellsortorder(x_empty, integer(0L), decreasing = TRUE), 0L)
+  expect_identical(bit::shellorder(x_empty, integer(0L)), 0L)
+  expect_identical(bit::shellorder(x_empty, integer(0L), decreasing = TRUE), 0L)
 
   # Case 2: Single Element
   x_single = as.integer64(1L)
@@ -279,7 +279,7 @@ test_that("Corner cases for partitioning logic", {
 })
 
 local({
-  x_base = as.integer64(sample(c(1:100, 2^30, 2^60), 200, replace = TRUE))
+  x_base = as.integer64(sample(c(1:100, 2L^30L, 2L^60L), 200L, replace = TRUE))
 
   # Group 1: sort (takes x)
   with_parameters_test_that(
@@ -318,8 +318,8 @@ local({
 })
 
 local({
-  x_small = as.integer64(sample.int(15))
-  x_large = as.integer64(sample.int(100))
+  x_small = as.integer64(sample.int(15L))
+  x_large = as.integer64(sample.int(100L))
 
   # Group 1: quicksort (takes x)
   with_parameters_test_that(
@@ -388,8 +388,8 @@ with_parameters_test_that(
   .cases = data.frame(
     # List columns are tricky in data.frame, constructing manually or via list wrapping
     perm = I(list(
-      c(1, 2, 3), c(1, 3, 2), c(2, 1, 3),
-      c(2, 3, 1), c(3, 1, 2), c(3, 2, 1)
+      c(1L, 2L, 3L), c(1L, 3L, 2L), c(2L, 1L, 3L),
+      c(2L, 3L, 1L), c(3L, 1L, 2L), c(3L, 2L, 1L)
     ))
   )
 )
@@ -399,7 +399,7 @@ local({
   cases_list = list(
     sorted = as.integer64(1:50),
     rev_sorted = as.integer64(50:1),
-    all_equal = as.integer64(rep(10, 50))
+    all_equal = as.integer64(rep(10L, 50L))
   )
 
   with_parameters_test_that(
@@ -565,7 +565,7 @@ with_parameters_test_that(
 
 test_that("ramsort with names radix4sortorder dispatch", {
   n = 2100000L
-  x_base = as.integer64(sample.int(100, n, replace=TRUE))
+  x_base = as.integer64(sample.int(100L, n, replace=TRUE))
   names(x_base) = as.character(seq_len(n))
 
   x = bit::clone(x_base)
@@ -578,7 +578,7 @@ test_that("ramsort with names radix4sortorder dispatch", {
 
 test_that("ramsort and ramsortorder radix4 dispatch (large vector)", {
   n = 16800000L
-  x_base = as.integer64(sample.int(100, n, replace=TRUE))
+  x_base = as.integer64(sample.int(100L, n, replace=TRUE))
 
   # 1. ramsort (should trigger radix4sort)
   x = bit::clone(x_base)
@@ -601,7 +601,7 @@ test_that("ramsort and ramsortorder radix4 dispatch (large vector)", {
 with_parameters_test_that(
   "sorting/ordering S3 methods throw error on wrong length of i for {fun_name}",
   {
-    x = as.integer64(c(1, 2, 3))
+    x = as.integer64(c(1L, 2L, 3L))
     i_wrong_len = c(1L, 2L)
     expect_error(fun(x, i_wrong_len), "lengths of x and i don't match")
   },

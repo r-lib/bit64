@@ -743,11 +743,11 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
   nx = names(x)
   if (missing(levels)) {
     levels = sort(unique(x))
-  } else if (length(x) >= 4000) {
+  } else if (length(x) >= 4000L) {
     levels = as.integer64(levels)
   }
   # use base::factor for short vectors because it is faster
-  if (length(x) < 4000) {
+  if (length(x) < 4000L) {
     force(ordered)
     x = as.character(x)
     levels = as.character(levels)
@@ -948,7 +948,7 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
       } else if (is.character(arg1Value)) {
         ret[is.na(arg1Value) | !nzchar(arg1Value) | !arg1Value %in% names(x)] = NA_integer64_real
       } else if (anyNA(arg1Value) || suppressWarnings(max(arg1Value, na.rm=TRUE)) > length(x)) {
-        arg1Value = arg1Value[arg1Value != 0]
+        arg1Value = arg1Value[arg1Value != 0L]
         ret[which(is.na(arg1Value) | arg1Value > length(x))] = NA_integer64_real
       }
     }
@@ -1101,7 +1101,7 @@ c.integer64 = function(..., recursive=FALSE) {
 }
 
 # helper function to generate names for cbind/rbind if missing; it is not intended to be exported
-make_names_for_cbind = function(sys_call, dots, deparse.level=1) {
+make_names_for_cbind = function(sys_call, dots, deparse.level=1L) {
   nd = names(dots)
   if (!deparse.level %in% c(1L, 2L)) return(nd)
   if (is.null(nd))
@@ -1118,7 +1118,7 @@ make_names_for_cbind = function(sys_call, dots, deparse.level=1) {
 
 #' @rdname c.integer64
 #' @export
-cbind.integer64 = function(..., deparse.level=1) {
+cbind.integer64 = function(..., deparse.level=1L) {
   dots = list(...)
   value_class = target_class(dots, recursive=FALSE)
 
@@ -1187,7 +1187,7 @@ cbind.integer64 = function(..., deparse.level=1) {
 
 #' @rdname c.integer64
 #' @export
-rbind.integer64 = function(..., deparse.level=1) {
+rbind.integer64 = function(..., deparse.level=1L) {
   dots = list(...)
   value_class = target_class(dots, recursive=TRUE)
 
@@ -1594,7 +1594,7 @@ min.integer64 = function(..., na.rm=FALSE) {
   no_values = NULL
 
   if (length(l) == 1L) {
-    if (length(l[[1]]) > 0L) {
+    if (length(l[[1L]]) > 0L) {
       ret = .Call(C_min_integer64, l[[1L]], na.rm, double(1L))
       oldClass(ret) = "integer64"
     }
@@ -1631,7 +1631,7 @@ max.integer64 = function(..., na.rm=FALSE) {
   no_values = NULL
 
   if (length(l) == 1L) {
-    if (length(l[[1]]) > 0L) {
+    if (length(l[[1L]]) > 0L) {
       ret = .Call(C_max_integer64, l[[1L]], na.rm, double(1L))
       oldClass(ret) = "integer64"
     }
@@ -1672,7 +1672,7 @@ range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
   no_values = NULL
 
   if (length(l) == 1L) {
-    if (length(l[[1]]) > 0L) {
+    if (length(l[[1L]]) > 0L) {
       ret = .Call(C_range_integer64, l[[1L]], na.rm, double(2L))
       oldClass(ret) = "integer64"
     }

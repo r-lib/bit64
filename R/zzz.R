@@ -14,6 +14,7 @@
 # nocov end
 
 if (getRversion() < "4.4.0") {
+  # nolint next: coalesce_linter.
   `%||%` = function(x, y) if (is.null(x)) y else x
 }
 

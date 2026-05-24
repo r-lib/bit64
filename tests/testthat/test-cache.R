@@ -76,7 +76,7 @@ test_that("basic cache operations and outdating", {
   expect_null(getcache(x4, "nonexistent"))
 
   # getcache on outdated cache
-  x4[1L] = 4
+  x4[1L] = 4L
   expect_warning({
     g_out <- getcache(x4, "testkey")
   }, "removed outdated cache")
@@ -93,8 +93,8 @@ test_that("basic cache operations and outdating", {
 test_that("print.cache works", {
   x = as.integer64(1:3)
   ch = jamcache(x)
-  setcache(x, "a", 1)
-  setcache(x, "b", 2)
+  setcache(x, "a", 1L)
+  setcache(x, "b", 2L)
 
   expect_output(print(ch), "cache_integer64: a - b - x")
 })
