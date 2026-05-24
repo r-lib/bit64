@@ -1015,7 +1015,9 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   })
   old_class = oldClass(x)
   oldClass(x) = NULL
-  withCallingHandlers_and_choose_call({ret = do.call(`[[`, c(list(x=x), coerced_args))}, c("[[", "[[.integer64"))
+  withCallingHandlers_and_choose_call({
+    ret = do.call(`[[`, c(list(x=x), coerced_args))
+  }, c("[[", "[[.integer64"))
   oldClass(ret) = old_class
   ret
 }
@@ -1032,12 +1034,16 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     coerced_args$value = value
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
-    withCallingHandlers_and_choose_call({ret = do.call(`[[<-`, c(list(x=x), coerced_args))}, c("[[<-", "[[<-.integer64"))
+    withCallingHandlers_and_choose_call({
+      ret = do.call(`[[<-`, c(list(x=x), coerced_args))
+    }, c("[[<-", "[[<-.integer64"))
   } else {
     coerced_args$value = as.integer64(value)
     old_class = oldClass(x)
     oldClass(x) = NULL
-    withCallingHandlers_and_choose_call({ret = do.call(`[[<-`, c(list(x=x), coerced_args))}, c("[[<-", "[[<-.integer64"))
+    withCallingHandlers_and_choose_call({
+      ret = do.call(`[[<-`, c(list(x=x), coerced_args))
+    }, c("[[<-", "[[<-.integer64"))
     oldClass(ret) = old_class
   }
   ret
