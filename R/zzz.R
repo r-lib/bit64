@@ -13,6 +13,10 @@
 }
 # nocov end
 
+if (getRversion() < "4.4.0") {
+  `%||%` = function(x, y) if (is.null(x)) y else x
+}
+
 # The call stack is searched for a given sequence of function names. If the last element of function_names is found,
 # we try to match as many elements in function_names with the function names in the call stack. The sequence must be
 # adhered to. The complete call of the function name of the last match is returned. If no match exists, the top call
