@@ -85,7 +85,7 @@ with_parameters_test_that(
 
     expect_true(is.array(A))
     if (type == "integer64") expect_s3_class(A, "integer64")
-    expect_identical(A[seq_along(x)], structure(x, dim = length(x)))
+    expect_identical(A[seq_along(x)], array(x, length(x)))
     expect_identical(dim(A), 10L)
     expect_identical(array(x, c(2, 5))[seq_along(x)], x)
     expect_identical(dim(array(x, c(2, 5))), c(2L, 5L))
@@ -127,7 +127,7 @@ with_parameters_test_that(
       "negative length vectors are not allowed"
     )
 
-    expect_identical(array(x, dim=0),  structure(empty, dim = 0L))
+    expect_identical(array(x, dim=0),  array(empty, dim = 0L))
   },
   .cases=data.frame(
     x=I(list(1:10, as.integer64(1:10))),
@@ -269,9 +269,9 @@ test_that("coercion to matrix and array", {
   i64 = as.integer64(i32)
   m64 = matrix(as.integer64(i32), 2L)
 
-  expect_identical(as.matrix(i64), structure(i64, dim = c(length(i64), 1L)), ignore_attr=if (getRversion() < "4.0.0") "class" else FALSE)
+  expect_identical(as.matrix(i64), matrix(i64, length(i64), 1L), ignore_attr=if (getRversion() < "4.0.0") "class" else FALSE)
   expect_identical(as.matrix(m64), m64)
 
-  expect_identical(as.array(i64), structure(i64, dim = c(length(i64))), ignore_attr=if (getRversion() < "4.0.0") "class" else FALSE)
+  expect_identical(as.array(i64), array(i64, dim = c(length(i64))), ignore_attr=if (getRversion() < "4.0.0") "class" else FALSE)
   expect_identical(as.array(m64), m64)
 })

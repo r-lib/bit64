@@ -96,6 +96,7 @@ test_that("integer64 coercion to/from time types works", {
 })
 
 test_that("integer64 coercion from generic object works", {
+  # nolint next: undesirable_function_linter.
   x = structure(
     as.integer64(1:10),
     class=c("otherClass", "integer64"),
@@ -304,7 +305,7 @@ test_that("indexing works: get", {
   expect_identical(x[["d"]], x[[4L]])
 
   expect_no_warning(expect_identical(integer64()[integer()], integer64()))
-  expect_no_warning(expect_identical(structure(as.integer64(1L), dim=1L)[1L], as.integer64(1L)))
+  expect_no_warning(expect_identical(array(as.integer64(1L), dim=1L)[1L], as.integer64(1L)))
 
   expect_no_warning(expect_identical(as.integer64(1L)[NA_integer_], NA_integer64_))
   expect_no_warning(expect_identical(as.integer64(1L)[NA_integer64_], NA_integer64_))
@@ -945,20 +946,20 @@ test_that("extraction works consistent to integer: matrix[", {
   m32 = matrix(1:10, nrow=2L)
   m64 = matrix64(as.integer64(m32), nrow=dim(m32)[1L], ncol=dim(m32)[2L])
 
-  expect_identical(m32[integer(), 1:2, drop=TRUE], structure(integer(), dim=c(0L, 2L)))
-  expect_identical(m64[integer(), 1:2, drop=TRUE], structure(integer64(), dim=c(0L, 2L)))
+  expect_identical(m32[integer(), 1:2, drop=TRUE], array(integer(), dim=c(0L, 2L)))
+  expect_identical(m64[integer(), 1:2, drop=TRUE], array(integer64(), dim=c(0L, 2L)))
 
-  expect_identical(m32[1:2, integer(), drop=TRUE], structure(integer(), dim=c(2L, 0L)))
-  expect_identical(m64[1:2, integer(), drop=TRUE], structure(integer64(), dim=c(2L, 0L)))
+  expect_identical(m32[1:2, integer(), drop=TRUE], array(integer(), dim=c(2L, 0L)))
+  expect_identical(m64[1:2, integer(), drop=TRUE], array(integer64(), dim=c(2L, 0L)))
 
-  expect_identical(m32[integer(), 1:2, drop=FALSE], structure(integer(), dim=c(0L, 2L)))
-  expect_identical(m64[integer(), 1:2, drop=FALSE], structure(integer64(), dim=c(0L, 2L)))
+  expect_identical(m32[integer(), 1:2, drop=FALSE], array(integer(), dim=c(0L, 2L)))
+  expect_identical(m64[integer(), 1:2, drop=FALSE], array(integer64(), dim=c(0L, 2L)))
 
-  expect_identical(m32[1:2, integer(), drop=FALSE], structure(integer(), dim=c(2L, 0L)))
-  expect_identical(m64[1:2, integer(), drop=FALSE], structure(integer64(), dim=c(2L, 0L)))
+  expect_identical(m32[1:2, integer(), drop=FALSE], array(integer(), dim=c(2L, 0L)))
+  expect_identical(m64[1:2, integer(), drop=FALSE], array(integer64(), dim=c(2L, 0L)))
 
-  expect_identical(m32[1:2, 1:3, drop=TRUE], structure(1:6, dim=c(2L, 3L)))
-  expect_identical(m64[1:2, 1:3, drop=TRUE], structure(as.integer64(1:6), dim=c(2L, 3L)))
+  expect_identical(m32[1:2, 1:3, drop=TRUE], array(1:6, dim=c(2L, 3L)))
+  expect_identical(m64[1:2, 1:3, drop=TRUE], array(as.integer64(1:6), dim=c(2L, 3L)))
 
   expect_identical(m32[1:2], 1:2)
   expect_identical(m64[1:2], as.integer64(1:2))
@@ -969,36 +970,36 @@ test_that("extraction works consistent to integer: matrix[", {
   expect_identical(m32[j = 1:3, drop=TRUE], 1:3)
   expect_identical(m64[j = 1:3, drop=TRUE], as.integer64(1:3))
 
-  expect_identical(m32[1:2, , drop=TRUE], structure(as.integer(1:10), dim=c(2L, 5L)))
-  expect_identical(m64[1:2, , drop=TRUE], structure(as.integer64(1:10), dim=c(2L, 5L)))
+  expect_identical(m32[1:2, , drop=TRUE], array(as.integer(1:10), dim=c(2L, 5L)))
+  expect_identical(m64[1:2, , drop=TRUE], array(as.integer64(1:10), dim=c(2L, 5L)))
 
-  expect_identical(m32[, 1:3, drop=TRUE], structure(as.integer(1:6), dim=c(2L, 3L)))
-  expect_identical(m64[, 1:3, drop=TRUE], structure(as.integer64(1:6), dim=c(2L, 3L)))
+  expect_identical(m32[, 1:3, drop=TRUE], array(as.integer(1:6), dim=c(2L, 3L)))
+  expect_identical(m64[, 1:3, drop=TRUE], array(as.integer64(1:6), dim=c(2L, 3L)))
 
   expect_identical(m32[1, , drop=TRUE], c(1L, 3L, 5L, 7L, 9L))
   expect_identical(m64[1, , drop=TRUE], as.integer64(c(1L, 3L, 5L, 7L, 9L)))
 
-  expect_identical(m32[1, , drop=FALSE], structure(c(1L, 3L, 5L, 7L, 9L), dim=c(1L, 5L)))
-  expect_identical(m64[1, , drop=FALSE], structure(as.integer64(c(1L, 3L, 5L, 7L, 9L)), dim=c(1L, 5L)))
+  expect_identical(m32[1, , drop=FALSE], array(c(1L, 3L, 5L, 7L, 9L), dim=c(1L, 5L)))
+  expect_identical(m64[1, , drop=FALSE], array(as.integer64(c(1L, 3L, 5L, 7L, 9L)), dim=c(1L, 5L)))
 
   expect_identical(m32[, 1, drop=TRUE], 1:2)
   expect_identical(m64[, 1, drop=TRUE], as.integer64(1:2))
 
-  expect_identical(m32[, 1, drop=FALSE], structure(1:2, dim=2:1))
-  expect_identical(m64[, 1, drop=FALSE], structure(as.integer64(1:2), dim=2:1))
+  expect_identical(m32[, 1, drop=FALSE], array(1:2, dim=2:1))
+  expect_identical(m64[, 1, drop=FALSE], array(as.integer64(1:2), dim=2:1))
 
   expect_identical(m32[c(9, NA, 11, 12), drop=FALSE], c(9L, NA, NA, NA))
   expect_identical(m64[c(9, NA, 11, 12), drop=FALSE], as.integer64(c(9L, NA, NA, NA)))
 
-  expect_identical(m32[integer(), c(1:2, 0, NA), drop=TRUE], structure(integer(), dim=c(0L, 3L)))
-  expect_identical(m64[integer(), c(1:2, 0, NA), drop=TRUE], structure(integer64(), dim=c(0L, 3L)))
-  expect_identical(m64[integer64(), c(1:2, 0, NA), drop=TRUE], structure(integer64(), dim=c(0L, 3L)))
+  expect_identical(m32[integer(), c(1:2, 0, NA), drop=TRUE], array(integer(), dim=c(0L, 3L)))
+  expect_identical(m64[integer(), c(1:2, 0, NA), drop=TRUE], array(integer64(), dim=c(0L, 3L)))
+  expect_identical(m64[integer64(), c(1:2, 0, NA), drop=TRUE], array(integer64(), dim=c(0L, 3L)))
 
-  expect_identical(m32[, c(1:2, 0, NA), drop=TRUE], structure(c(1:4, NA, NA), dim=c(2L, 3L)))
-  expect_identical(m64[, c(1:2, 0, NA), drop=TRUE], structure(as.integer64(c(1:4, NA, NA)), dim=c(2L, 3L)))
+  expect_identical(m32[, c(1:2, 0, NA), drop=TRUE], array(c(1:4, NA, NA), dim=c(2L, 3L)))
+  expect_identical(m64[, c(1:2, 0, NA), drop=TRUE], array(as.integer64(c(1:4, NA, NA)), dim=c(2L, 3L)))
 
-  expect_identical(m32[c(1, NA, 2), 1:3, drop=TRUE], structure(c(1L, NA, 2L, 3L, NA, 4L, 5L, NA, 6L), dim=c(3L, 3L)))
-  expect_identical(m64[c(1, NA, 2), 1:3, drop=TRUE], structure(as.integer64(c(1L, NA, 2L, 3L, NA, 4L, 5L, NA, 6L)), dim=c(3L, 3L)))
+  expect_identical(m32[c(1, NA, 2), 1:3, drop=TRUE], array(c(1L, NA, 2L, 3L, NA, 4L, 5L, NA, 6L), dim=c(3L, 3L)))
+  expect_identical(m64[c(1, NA, 2), 1:3, drop=TRUE], array(as.integer64(c(1L, NA, 2L, 3L, NA, 4L, 5L, NA, 6L)), dim=c(3L, 3L)))
 
   m32 = matrix(1:10, 2L, dimnames = list(LETTERS[1:2], letters[1:5]))
   m64 = matrix64(as.integer64(1:10), nrow=2L, ncol=5L, dimnames = list(LETTERS[1:2], letters[1:5]))
@@ -1020,17 +1021,17 @@ test_that("replacement works consistent to integer: matrix[<-", {
   local({
     m32[1, c(1, 3, NA)] = 100L
     m64[1, c(1, 3, NA)] = as.integer64(100L)
-    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
+    expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     m32[1, c(1, 4, NA)] = 101L
     m64[1, c(1, 4, NA)] = 101L
-    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
+    expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     m32[1, c(1, 5, NA)] = 102
     m64[1, c(1, 5, NA)] = 102
-    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
+    expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     m32[1, c(1, 5, NA)] = 102.0 + 0.0i
@@ -1041,7 +1042,7 @@ test_that("replacement works consistent to integer: matrix[<-", {
   local({
     m32[1, c(1, 3, NA)] = 103L
     m64[1, c(1, 3, NA)] = "103"
-    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
+    expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     # TODO(#44): remove `withr::local_options`
@@ -1053,12 +1054,12 @@ test_that("replacement works consistent to integer: matrix[<-", {
   local({
     m32[1, c(1, 3, NA)] = 101L
     m64[1, as.integer64(c(1, 3, NA))] = 101L
-    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
+    expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     m32[, -(1:3)] = 102L
     m64[, -(1:3)] = 102L
-    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
+    expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
 })
 
@@ -1093,17 +1094,17 @@ test_that("replacement works consistent to integer: matrix[[<-", {
   local({
     m32[[1, 3]] = 110L
     m64[[1, 3]] = 110L
-    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
+    expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     m32[["A", "e"]] = 112L
     m64[["A", "e"]] = 112L
-    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
+    expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     m32[[1, 3]] = 111
     m64[[1, 3]] = 111
-    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
+    expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
     local({
     m32[[1, 3]] = 111.0 + 0.0i
@@ -1114,7 +1115,7 @@ test_that("replacement works consistent to integer: matrix[[<-", {
   local({
     m32[[1, 4]] = 112L
     m64[[1, 4]] = "112"
-    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
+    expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     # TODO(#44): remove `withr::local_options`
@@ -1130,20 +1131,20 @@ test_that("extraction consistent to integer: array[", {
   a32 = array(1:27, c(3, 3, 3))
   a64 = array64(as.integer64(1:27), c(3, 3, 3))
 
-  expect_identical(a32[2, , 3, drop=FALSE], structure(c(20L, 23L, 26L), dim = c(1L, 3L, 1L)))
-  expect_identical(a64[2, , 3, drop=FALSE], structure(as.integer64(c(20L, 23L, 26L)), dim = c(1L, 3L, 1L)))
+  expect_identical(a32[2, , 3, drop=FALSE], array(c(20L, 23L, 26L), dim = c(1L, 3L, 1L)))
+  expect_identical(a64[2, , 3, drop=FALSE], array(as.integer64(c(20L, 23L, 26L)), dim = c(1L, 3L, 1L)))
 
   expect_identical(a32[2, , 3, drop=TRUE], c(20L, 23L, 26L))
   expect_identical(a64[2, , 3, drop=TRUE], as.integer64(c(20L, 23L, 26L)))
 
-  expect_identical(a32[1, c(1, 3, 2), 2:3, drop=TRUE], structure(c(10L, 16L, 13L, 19L, 25L, 22L), dim = 3:2))
-  expect_identical(a64[1, c(1, 3, 2), 2:3, drop=TRUE], structure(as.integer64(c(10L, 16L, 13L, 19L, 25L, 22L)), dim = 3:2))
+  expect_identical(a32[1, c(1, 3, 2), 2:3, drop=TRUE], array(c(10L, 16L, 13L, 19L, 25L, 22L), dim = 3:2))
+  expect_identical(a64[1, c(1, 3, 2), 2:3, drop=TRUE], array(as.integer64(c(10L, 16L, 13L, 19L, 25L, 22L)), dim = 3:2))
 
-  expect_identical(a32[, c(1, 2, 0, 3, NA, 1), c(TRUE, FALSE, NA), drop=FALSE], structure(c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, NA, NA, NA, 1L, 2L, 3L, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), dim = c(3L, 5L, 2L)))
-  expect_identical(a64[, c(1, 2, 0, 3, NA, 1), c(TRUE, FALSE, NA), drop=FALSE], structure(as.integer64(c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, NA, NA, NA, 1L, 2L, 3L, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)), dim = c(3L, 5L, 2L)))
+  expect_identical(a32[, c(1, 2, 0, 3, NA, 1), c(TRUE, FALSE, NA), drop=FALSE], array(c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, NA, NA, NA, 1L, 2L, 3L, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), dim = c(3L, 5L, 2L)))
+  expect_identical(a64[, c(1, 2, 0, 3, NA, 1), c(TRUE, FALSE, NA), drop=FALSE], array(as.integer64(c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, NA, NA, NA, 1L, 2L, 3L, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)), dim = c(3L, 5L, 2L)))
 
-  expect_identical(a32[, c(1, 2, 0, 3, NA, 1), c(TRUE, FALSE, NA), drop=TRUE], structure(c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, NA, NA, NA, 1L, 2L, 3L, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), dim = c(3L, 5L, 2L)))
-  expect_identical(a64[, c(1, 2, 0, 3, NA, 1), c(TRUE, FALSE, NA), drop=TRUE], structure(as.integer64(c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, NA, NA, NA, 1L, 2L, 3L, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)), dim = c(3L, 5L, 2L)))
+  expect_identical(a32[, c(1, 2, 0, 3, NA, 1), c(TRUE, FALSE, NA), drop=TRUE], array(c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, NA, NA, NA, 1L, 2L, 3L, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), dim = c(3L, 5L, 2L)))
+  expect_identical(a64[, c(1, 2, 0, 3, NA, 1), c(TRUE, FALSE, NA), drop=TRUE], array(as.integer64(c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, NA, NA, NA, 1L, 2L, 3L, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)), dim = c(3L, 5L, 2L)))
 
   expect_identical(a32[c(1, 0, 7, NA, 27, 28), drop=FALSE], c(1L, 7L, NA, 27L, NA))
   expect_identical(a64[c(1, 0, 7, NA, 27, 28), drop=FALSE], as.integer64(c(1L, 7L, NA, 27L, NA)))
@@ -1151,11 +1152,11 @@ test_that("extraction consistent to integer: array[", {
   expect_identical(a32[c(TRUE, FALSE, NA, TRUE), drop=FALSE], c(1L, NA, 4L, 5L, NA, 8L, 9L, NA, 12L, 13L, NA, 16L, 17L, NA, 20L, 21L, NA, 24L, 25L, NA))
   expect_identical(a64[c(TRUE, FALSE, NA, TRUE), drop=FALSE], as.integer64(c(1L, NA, 4L, 5L, NA, 8L, 9L, NA, 12L, 13L, NA, 16L, 17L, NA, 20L, 21L, NA, 24L, 25L, NA)))
 
-  expect_identical(a32[-1, , -c(0, 2:3), drop=FALSE], structure(c(2L, 3L, 5L, 6L, 8L, 9L), dim = c(2L, 3L, 1L)))
-  expect_identical(a64[-1, , -c(0, 2:3), drop=FALSE], structure(as.integer64(c(2L, 3L, 5L, 6L, 8L, 9L)), dim = c(2L, 3L, 1L)))
+  expect_identical(a32[-1, , -c(0, 2:3), drop=FALSE], array(c(2L, 3L, 5L, 6L, 8L, 9L), dim = c(2L, 3L, 1L)))
+  expect_identical(a64[-1, , -c(0, 2:3), drop=FALSE], array(as.integer64(c(2L, 3L, 5L, 6L, 8L, 9L)), dim = c(2L, 3L, 1L)))
 
-  expect_identical(a32[-1, 2, -c(0, 2:3), drop=FALSE], structure(5:6, dim = c(2L, 1L, 1L)))
-  expect_identical(a64[-1, 2, -c(0, 2:3), drop=FALSE], structure(as.integer64(5:6), dim = c(2L, 1L, 1L)))
+  expect_identical(a32[-1, 2, -c(0, 2:3), drop=FALSE], array(5:6, dim = c(2L, 1L, 1L)))
+  expect_identical(a64[-1, 2, -c(0, 2:3), drop=FALSE], array(as.integer64(5:6), dim = c(2L, 1L, 1L)))
 
   expect_identical(a32[-1, 2, -c(0, 2:3), drop=TRUE], 5:6)
   expect_identical(a64[-1, 2, -c(0, 2:3), drop=TRUE], as.integer64(5:6))
@@ -1169,12 +1170,15 @@ test_that("extraction from subclass retains inheritance structure", {
 
   y = x
   y[2L] = as.integer64(3L)
+  # nolint next: undesirable_function_linter.
   expect_identical(y, structure(unclass(as.integer64(c(1L, 3L))), class=class(x)))
 
   x1 = x[[1L]]
+  # nolint next: undesirable_function_linter.
   expect_identical(x1, structure(unclass(x)[1L], class=class(x)))
 
   y[[2L]] = as.integer64(4L)
+  # nolint next: undesirable_function_linter.
   expect_identical(y, structure(unclass(as.integer64(c(1L, 4L))), class=class(x)))
 })
 
@@ -1404,7 +1408,7 @@ with_parameters_test_that("cbind deparse.level works consistent to R", {
   skip_unless_r(">= 4.0.0")
   x = 1L
   expected_result = base::cbind(a=x, x, x + 1L, deparse.level=deparse.level)
-  expected_result = structure(as.integer64(expected_result), dim = dim(expected_result), dimnames = dimnames(expected_result))
+  expected_result = array(as.integer64(expected_result), dim = dim(expected_result), dimnames = dimnames(expected_result))
 
   FUN = cbind
   x = as.integer64(x)
@@ -1547,7 +1551,7 @@ with_parameters_test_that("rbind deparse.level works consistent to R", {
   skip_unless_r(">= 4.0.0")
   x = 1L
   expected_result = base::rbind(a=x, x, x + 1L, deparse.level=deparse.level)
-  expected_result = structure(as.integer64(expected_result), dim = dim(expected_result), dimnames = dimnames(expected_result))
+  expected_result = array(as.integer64(expected_result), dim = dim(expected_result), dimnames = dimnames(expected_result))
 
   FUN = rbind
   x = as.integer64(x)

@@ -993,6 +993,7 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
   if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     coerced_args$value = value
+    # nolint next: undesirable_function_linter.
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
     ret = withCallingHandlers_and_choose_call(do.call(`[<-`, c(list(x=x), coerced_args)), c("[<-", "[<-.integer64"))
   } else {
@@ -1033,6 +1034,7 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
   if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
     coerced_args$value = value
+    # nolint next: undesirable_function_linter.
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
     withCallingHandlers_and_choose_call({
       ret = do.call(`[[<-`, c(list(x=x), coerced_args))
@@ -1136,9 +1138,11 @@ cbind.integer64 = function(..., deparse.level=1) {
     val = dots[[idx]]
     # NB: as(, "integer64") may not work, #298
     if (value_class == "integer64") {
+      # nolint next: undesirable_function_linter.
       val = structure(as.integer64(val), dim=dim(val), dimnames=dimnames(val), names=names(val))
       oldClass(val) = NULL
     }else {
+      # nolint next: undesirable_function_linter.
       val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
     }
     dots[[idx]] = val
@@ -1214,9 +1218,11 @@ rbind.integer64 = function(..., deparse.level=1) {
     val = dots[[idx]]
     # NB: as(, "integer64") may not work, #298
     if (value_class == "integer64") {
+      # nolint next: undesirable_function_linter.
       val = structure(as.integer64(val), dim=dim(val), dimnames=dimnames(val), names=names(val))
       oldClass(val) = NULL
     } else {
+      # nolint next: undesirable_function_linter.
       val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
     }
     dots[[idx]] = val
