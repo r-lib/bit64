@@ -848,7 +848,8 @@ test_that("factor and order for integer64 are still necessary", {
   expect_identical(formals(ordered), formals(base::ordered))
   expect_identical(body(ordered), body(base::ordered))
 
-  x_named = as.integer64(c(a=1L, b=2L))
+  x_named = as.integer64(1:2)
+  names(x_named) = c("a", "b")
   expect_named(factor(x_named), c("a", "b"))
 })
 

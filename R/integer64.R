@@ -751,16 +751,20 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
     force(ordered)
     x = as.character(x)
     levels = as.character(levels)
-    if (missing(labels))
-      return(withCallingHandlers_and_choose_call(
+    if (missing(labels)) {
+      ret = withCallingHandlers_and_choose_call(
         base::factor(x=x, levels=levels, exclude=exclude, ordered=ordered, nmax=nmax),
         "factor"
-      ))
-    else
-      return(withCallingHandlers_and_choose_call(
+      )
+    } else {
+      ret = withCallingHandlers_and_choose_call(
         base::factor(x=x, levels=levels, labels=labels, exclude=exclude, ordered=ordered, nmax=nmax),
         "factor"
-      ))
+      )
+    }
+    if (!is.null(nx))
+      names(ret) = nx
+    return(ret)
   }
 
   # basically copied from base::factor, but using the benefit from caching
