@@ -25,5 +25,6 @@ linters = all_linters(
   todo_comment_linter = NULL
 )
 exclusions = list(
-  `tests/testthat.R` = list(unused_import_linter = Inf)
+  `tests/testthat.R` = list(unused_import_linter = Inf),
+  `tests/testthat/helper.R` = list(object_usage_linter = Inf)
 )
