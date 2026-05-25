@@ -2411,7 +2411,7 @@ table.integer64 = function(...,
       }
       if (useNA == "always") {
         dimnames_new = lapply(dimnames(cnt), function(el) c(el, if (!anyNA(el)) NA))
-        cnt_new = array(0L, lengths(dimnames_new))
+        cnt_new = array(0L, unname(lengths(dimnames_new)))
         dimnames(cnt_new) = dimnames_new
         cnt = do.call(`[<-`, c(list(x=cnt_new), lapply(dim(cnt), seq_len), list(value=cnt)))
       }
