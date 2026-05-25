@@ -29,7 +29,6 @@ if (getRversion() < "4.4.0") {
 # * call stack: [A, B, C, D, E]; function_names = c("E", "X") returns A
 choose_sys_call = function(function_names, name_to_display=NULL, callStack=NULL) {
   calls = callStack %||% sys.calls()
-  if (length(calls) == 1L || length(function_names) == 0L) return(calls[[1L]])
   # find last occurrence of last name in function_names
   function_names_rev = rev(as.character(function_names))
   for (sel in rev(seq_along(calls))) {

@@ -1713,7 +1713,9 @@ test_that("cbind works consistent to R", {
   expect_s3_class(err1, "error")
   expect_identical(err1$call, quote(cbind(matrix(as.integer64(1:4), 2L), matrix(1:6, 3L))))
 
-  foo = function() cbind(matrix(as.integer64(1:4), 2L), matrix(1:6, 3L))
+  foo = function() {
+    (function() cbind(matrix(as.integer64(1:4), 2L), matrix(1:6, 3L)))()
+  }
   err2 = tryCatch(foo(), error=identity)
   expect_s3_class(err2, "error")
   expect_identical(err2$call, quote(cbind(matrix(as.integer64(1:4), 2L), matrix(1:6, 3L))))
