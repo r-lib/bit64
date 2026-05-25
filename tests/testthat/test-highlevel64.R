@@ -24,6 +24,7 @@ test_that("match & %in% basics work", {
   table_nm <- as.integer64(2:4)
   expect_identical(match(x_nm, table_nm, nomatch = -1L), c(-1L, 2L))
 
+  # nolint next: scalar_in_linter. Testing '%in%'.
   expect_identical(integer64() %in% 1L, integer() %in% 1L)
   expect_identical(as.integer64(1L) %in% double(), 1L %in% double())
 })
@@ -180,22 +181,22 @@ test_that("duplicated, unique, table methods work", {
 test_that("exclude, useNA arguments work for integer64 method of table", {
   a32 = c(1L, 1L, 2L)
   a64 = as.integer64(a32)
-  c = c(2, NA, 4)
+  c = c(2L, NA, 4L)
 
   expect_identical(
-    table(a=a64, b=1:3, c=c, exclude=1, useNA="no"),
-    table(a=a32, b=1:3, c=c, exclude=1, useNA="no")
+    table(a=a64, b=1:3, c=c, exclude=1L, useNA="no"),
+    table(a=a32, b=1:3, c=c, exclude=1L, useNA="no")
   )
 
   skip_unless_r("> 3.6.0") # unclear what's going on
   expect_identical(
-    table(a=a64, b=1:3, c=c, exclude=1, useNA="ifany"),
-    table(a=a32, b=1:3, c=c, exclude=1, useNA="ifany")
+    table(a=a64, b=1:3, c=c, exclude=1L, useNA="ifany"),
+    table(a=a32, b=1:3, c=c, exclude=1L, useNA="ifany")
   )
 
   expect_identical(
-    table(a=a64, b=1:3, c=c, exclude=1, useNA="always"),
-    table(a=a32, b=1:3, c=c, exclude=1, useNA="always")
+    table(a=a64, b=1:3, c=c, exclude=1L, useNA="always"),
+    table(a=a32, b=1:3, c=c, exclude=1L, useNA="always")
   )
 })
 
@@ -210,43 +211,82 @@ test_that("our overwrite of table() is consistent with base::table", {
   expect_same_error(table(a=1L, b=NULL), base::table(a=1L, b=NULL))
 
   skip_unless_r("> 3.6.0") # unclear what's going on
-  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(1:10)))
+  expected_result = withr::with_seed(1L, base::table(
+    exclude = sample.int(10L, 1L),
+    useNA = sample(c("no", "ifany", "always"), 1L),
+    deparse.level = sample.int(2L, 1L),
+    sample.int(10L)
+  ))
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(as.integer64(1:10)))),
+    withr::with_seed(1L, table(
+      exclude = sample.int(10L, 1L),
+      useNA = sample(c("no", "ifany", "always"), 1L),
+      deparse.level = sample.int(2L, 1L),
+      sample(as.integer64(1:10))
+    )),
     expected_result
   )
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), deparse.level=sample(1:2, 1), sample(1:10))),
+    withr::with_seed(1L, table(
+      exclude = sample.int(10L, 1L),
+      useNA = sample(c("no", "ifany", "always"), 1L),
+      deparse.level = sample.int(2L, 1L),
+      sample.int(10L)
+    )),
     expected_result
   )
 
-  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(1:10)))
+  expected_result = withr::with_seed(1L, base::table(
+    exclude = sample.int(10L, 1L),
+    deparse.level = sample.int(2L, 1L),
+    sample.int(10L)
+  ))
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(as.integer64(1:10)))),
+    withr::with_seed(1L, table(
+      exclude = sample.int(10L, 1L),
+      deparse.level = sample.int(2L, 1L),
+      sample(as.integer64(1:10))
+    )),
     expected_result
   )
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample(1:10, 1), deparse.level=sample(1:2, 1), sample(1:10))),
+    withr::with_seed(1L, table(
+      exclude = sample.int(10L, 1L),
+      deparse.level = sample.int(2L, 1L),
+      sample.int(10L)
+    )),
     expected_result
   )
 
-  expected_result = withr::with_seed(1L, base::table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(1:10)))
+  expected_result = withr::with_seed(1L, base::table(
+    exclude = sample.int(10L, 1L),
+    useNA = sample(c("no", "ifany", "always"), 1L),
+    sample.int(10L)
+  ))
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))),
+    withr::with_seed(1L, table(
+      exclude = sample.int(10L, 1L),
+      useNA = sample(c("no", "ifany", "always"), 1L),
+      sample(as.integer64(1:10))
+    )),
     expected_result
   )
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample(1:10, 1), useNA=sample(c("no", "ifany", "always"), 1), sample(1:10))),
+    withr::with_seed(1L, table(
+      exclude = sample.int(10L, 1L),
+      useNA = sample(c("no", "ifany", "always"), 1L),
+      sample.int(10L)
+    )),
     expected_result
   )
-  
-  expected_result = withr::with_seed(1L, base::table(useNA=sample(c("no", "ifany", "always"), 1), sample(1:10)))
+
+  expected_result = withr::with_seed(1L, base::table(useNA=sample(c("no", "ifany", "always"), 1L), sample.int(10L)))
   expect_identical(
-    withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample(as.integer64(1:10)))),
+    withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1L), sample(as.integer64(1:10)))),
     expected_result
   )
   expect_identical(
-    withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1), sample(1:10))),
+    withr::with_seed(1L, table(useNA=sample(c("no", "ifany", "always"), 1L), sample.int(10L))),
     expected_result
   )
 })
@@ -471,7 +511,7 @@ test_that("unique.integer64 covers various cache states and order arguments", {
   remcache(x)
 
   # order="values" + hashcache (triggers hashuni if nunique < length/2)
-  x2 = as.integer64(c(1, 1, 1, 1, 1))
+  x2 = as.integer64(rep(1L, 5L))
   hashcache(x2)
   expect_identical(unique(x2, order="values"), as.integer64(1L))
   remcache(x2)
@@ -508,7 +548,7 @@ test_that("unipos.integer64 covers various cache states", {
   remcache(x)
 
   # order="values" + hashcache (with nunique < length/2, triggers hashupo)
-  x_many_dups = as.integer64(c(1, 1, 1, 1, 1, 2))
+  x_many_dups = as.integer64(c(rep(1L, 5L), 2L))
   hashcache(x_many_dups)
   expect_identical(unipos(x_many_dups, order="values"), c(1L, 6L))
   remcache(x_many_dups)
@@ -534,13 +574,13 @@ test_that("table.integer64 covers inputs, cache states, and return types", {
 
   # return="data.frame"
   df = table(x, return="data.frame")
-  expect_identical(df, data.frame(x=as.integer64(c(1, 2)), Freq=as.integer(c(2, 1))))
+  expect_identical(df, data.frame(x=as.integer64(1:2), Freq=as.integer(c(2L, 1L))))
 
   # return="list"
   lst = table(x, return="list")
-  expect_identical(lst$values, as.integer64(c(1, 2)))
+  expect_identical(lst$values, as.integer64(1:2))
   # Fix: Counts are standard integer
-  expect_identical(lst$counts, as.integer(c(2, 1)))
+  expect_identical(lst$counts, as.integer(c(2L, 1L)))
 
   # order="counts"
   tbl_cnt = table(x, order="counts")
@@ -570,7 +610,7 @@ test_that("table.integer64 covers inputs, cache states, and return types", {
 
   # Potential overflow check for combinations > 2^63
   # We construct a list of many small vectors.
-  args = rep(list(as.integer64(1:2)), 65)
+  args = rep(list(as.integer64(1:2)), 65L)
   # Suppress warning about overflow ("NAs produced by integer64 overflow")
   #   to verify the explicit stop error cleanly.
   expect_error(suppressWarnings(do.call(table, args)), "attempt to make a table from more than")
@@ -593,8 +633,8 @@ test_that("table dispatch integer64 and 'higher' types and factors", {
 })
 
 test_that("implicit tests from ?match work", {
-  x = as.integer64(sample(c(rep(NA, 9), 0:9), 32, TRUE))
-  table = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  x = as.integer64(sample(c(rep(NA, 9L), 0:9), 32L, TRUE))
+  table = as.integer64(sample(c(rep(NA, 9L), 1:9), 32L, TRUE))
 
   expect_identical(
     match(x, table),
@@ -607,19 +647,19 @@ test_that("implicit tests from ?match work", {
 })
 
 test_that("implicit tests from ?unipos and ?keypos work", {
-  x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  x = as.integer64(sample(c(rep(NA, 9L), 1:9), 32L, TRUE))
   expect_identical(unipos(x),  seq_along(x)[!duplicated(x)])
   expect_identical(unipos(x),  match(unique(x), x))
   expect_identical(unipos(x, order="values"),  match(unique(x, order="values"), x))
   expect_identical(unique(x),  x[unipos(x)])
   expect_identical(unique(x, order="values"),  x[unipos(x, order="values")])
 
-  x = as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  x = as.integer64(sample(c(rep(NA, 9L), 1:9), 32L, TRUE))
   expect_identical(keypos(x),  match(x, sort(unique(x), na.last=FALSE)))
 })
 
 test_that("implicit test from ?rank.integer64 works", {
-  x <- as.integer64(sample(c(rep(NA, 9), 1:9), 32, TRUE))
+  x <- as.integer64(sample(c(rep(NA, 9L), 1:9), 32L, TRUE))
   expect_identical(
     rank(x),
     rank(as.integer(x), na.last="keep", ties.method="average")
@@ -643,11 +683,11 @@ test_that("keypos, tiepos, rank, qtile with ordercache", {
   expect_identical(rank(x), c(5.5, 1.5, 5.5, 3.0, 1.5, 4.0))
 
   # 4. qtile (should use orderqtl path)
-  expected_q = qtile(x, probs=seq(0, 1, 0.25), names=FALSE)
+  expected_q = qtile(x, probs=seq(0.0, 1.0, 0.25), names=FALSE)
 
   # Reset cache and use sortqtl to get expected
   x_no_cache = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
-  expected_q_sort = qtile(x_no_cache, probs=seq(0, 1, 0.25), names=FALSE)
+  expected_q_sort = qtile(x_no_cache, probs=seq(0.0, 1.0, 0.25), names=FALSE)
   expect_identical(expected_q, expected_q_sort)
 
   remcache(x)
@@ -687,10 +727,10 @@ test_that("keypos, tiepos, rank, qtile with sortordercache", {
   expect_identical(rank(x), c(5.5, 1.5, 5.5, 3.0, 1.5, 4.0))
 
   # 4. qtile (should use sortqtl path from cache)
-  expected_q = qtile(x, probs=seq(0, 1, 0.25), names=FALSE)
+  expected_q = qtile(x, probs=seq(0.0, 1.0, 0.25), names=FALSE)
 
   x_no_cache = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
-  expected_q_sort = qtile(x_no_cache, probs=seq(0, 1, 0.25), names=FALSE)
+  expected_q_sort = qtile(x_no_cache, probs=seq(0.0, 1.0, 0.25), names=FALSE)
   expect_identical(expected_q, expected_q_sort)
 
   remcache(x)
@@ -700,10 +740,10 @@ test_that("qtile with sortcache", {
   x = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
   sortcache(x)
 
-  expected_q = qtile(x, probs=seq(0, 1, 0.25), names=FALSE)
+  expected_q = qtile(x, probs=seq(0.0, 1.0, 0.25), names=FALSE)
 
   x_no_cache = as.integer64(c(5L, 2L, 5L, 3L, 2L, 4L))
-  expected_q_sort = qtile(x_no_cache, probs=seq(0, 1, 0.25), names=FALSE)
+  expected_q_sort = qtile(x_no_cache, probs=seq(0.0, 1.0, 0.25), names=FALSE)
   expect_identical(expected_q, expected_q_sort)
 
   remcache(x)
@@ -711,7 +751,7 @@ test_that("qtile with sortcache", {
 
 test_that("mean.integer64 works", {
   x = as.integer64(c(1:3, NA))
-  expect_identical(mean(x, na.rm=TRUE), as.integer64(2))
+  expect_identical(mean(x, na.rm=TRUE), as.integer64(2L))
   expect_identical(mean(x, na.rm=FALSE), NA_integer64_)
 })
 
@@ -735,9 +775,9 @@ test_that("order.integer64 multiple vectors error", {
   expect_error(order(x, y), "can only order one vector")
 })
 
-test_that("factor and ordered with large vectors (length >= 4000)", {  
+test_that("factor and ordered with large vectors (length >= 4000)", {
   n = 4005L
-  x = as.integer64(sample(1:5, n, replace=TRUE))
+  x = as.integer64(sample.int(5L, n, replace=TRUE))
 
   # 1. default labels (missing)
   f1 = factor(x)

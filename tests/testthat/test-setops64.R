@@ -55,12 +55,12 @@ test_that("union works with special logic for double", {
 test_that("union works (additional cases)", {
 
   expect_identical(
-    union(c(5, 3, 5), c(0, 2, 1, 3, 6)),
-    base::union(c(5, 3, 5), c(0, 2, 1, 3, 6))
+    union(c(5L, 3L, 5L), c(0L, 2L, 1L, 3L, 6L)),
+    base::union(c(5L, 3L, 5L), c(0L, 2L, 1L, 3L, 6L))
   )
   expect_identical(
-    union(c(5L, 3L, 5L), as.integer64(c(0, 2, 1, 3, 6))),
-    as.integer64(c(5, 3, 0, 2, 1, 6))
+    union(c(5L, 3L, 5L), as.integer64(c(0L, 2L, 1L, 3L, 6L))),
+    as.integer64(c(5L, 3L, 0L, 2L, 1L, 6L))
   )
 
   expect_identical(union(NA, NA_integer_), base::union(NA, NA_integer_))
@@ -87,7 +87,7 @@ with_parameters_test_that(
       expected_result_x_y = base::intersect(x, y)
       if (getRversion() <= "3.6.0" && type_y == "integer64") {
         if (type_x %in% c("character", "factor", "ordered")) expected_result_x_y = as.character(expected_result_x_y)
-        else if (type_x %in% "complex") expected_result_x_y = as.complex(expected_result_x_y)
+        else if (!is.na(type_x) && type_x == "complex") expected_result_x_y = as.complex(expected_result_x_y)
         else if (is.na(type_x) && is.null(x)) expected_result_x_y = NULL
       }
       if (getRversion() <= "3.6.0" && type_y == "integer" && is.na(type_x) && is.null(x)) {
@@ -127,11 +127,11 @@ test_that("intersect works with special logic for double", {
 test_that("intersect works (additional cases)", {
 
   expect_identical(
-    intersect(c(5, 3, 5), c(0, 2, 1, 3, 6)),
-    base::intersect(c(5, 3, 5), c(0, 2, 1, 3, 6))
+    intersect(c(5L, 3L, 5L), c(0L, 2L, 1L, 3L, 6L)),
+    base::intersect(c(5L, 3L, 5L), c(0L, 2L, 1L, 3L, 6L))
   )
   expect_identical(
-    intersect(as.integer64(c(5, 3, 5)), as.integer64(c(0, 2, 1, 3, 6))),
+    intersect(as.integer64(c(5L, 3L, 5L)), as.integer64(c(0L, 2L, 1L, 3L, 6L))),
     as.integer64(3L)
   )
 
@@ -188,11 +188,11 @@ test_that("setdiff works with special logic for double", {
 test_that("setdiff works (additional cases)", {
 
   expect_identical(
-    setdiff(c(5, 3, 5), c(0, 2, 1, 3, 6)),
-    base::setdiff(c(5, 3, 5), c(0, 2, 1, 3, 6))
+    setdiff(c(5L, 3L, 5L), c(0L, 2L, 1L, 3L, 6L)),
+    base::setdiff(c(5L, 3L, 5L), c(0L, 2L, 1L, 3L, 6L))
   )
   expect_identical(
-    setdiff(as.integer64(c(5, 3, 5)), as.integer64(c(0, 2, 1, 3, 6))),
+    setdiff(as.integer64(c(5L, 3L, 5L)), as.integer64(c(0L, 2L, 1L, 3L, 6L))),
     as.integer64(5L)
   )
 
@@ -243,16 +243,16 @@ test_that("setequal works with special logic for double", {
 test_that("setequal works (additional cases)", {
 
   expect_identical(
-    setequal(c(5, 3, 5), c(0, 2, 1, 3, 6)),
-    base::setequal(c(5, 3, 5), c(0, 2, 1, 3, 6))
+    setequal(c(5L, 3L, 5L), c(0L, 2L, 1L, 3L, 6L)),
+    base::setequal(c(5L, 3L, 5L), c(0L, 2L, 1L, 3L, 6L))
   )
   expect_false(setequal(
-    as.integer64(c(5, 3, 5)),
-    as.integer64(c(0, 2, 1, 3, 6))
+    as.integer64(c(5L, 3L, 5L)),
+    as.integer64(c(0L, 2L, 1L, 3L, 6L))
   ))
   expect_true(setequal(
-    as.integer64(c(5, 3, 5)),
-    as.integer64(c(3, 3, 3, 3, 5))
+    as.integer64(c(5L, 3L, 5L)),
+    as.integer64(c(3L, 3L, 3L, 3L, 5L))
   ))
 
   expect_true(setequal(NA, NA_integer_))
@@ -294,24 +294,24 @@ with_parameters_test_that(
 test_that("is.element works with special logic for double", {
 
   expect_identical(is.element(1.5:7, 5:10), base::is.element(1.5:7, 5:10))
-  expect_identical(is.element(1.5:7, as.integer64(6:1)), rep(TRUE, 6))
-  expect_identical(is.element(as.integer64(6:1), 1.5:7), rep(TRUE, 6))
+  expect_identical(is.element(1.5:7, as.integer64(6:1)), rep(TRUE, 6L))
+  expect_identical(is.element(as.integer64(6:1), 1.5:7), rep(TRUE, 6L))
 
 })
 
 test_that("is.element works (additional cases)", {
 
   expect_identical(
-    is.element(c(5, 3, 5), c(0, 2, 1, 3, 6)),
-    base::is.element(c(5, 3, 5), c(0, 2, 1, 3, 6))
+    is.element(c(5L, 3L, 5L), c(0L, 2L, 1L, 3L, 6L)),
+    base::is.element(c(5L, 3L, 5L), c(0L, 2L, 1L, 3L, 6L))
   )
   expect_identical(
-    is.element(as.integer64(c(5, 3, 5)), as.integer64(c(0, 2, 1, 3, 6))),
+    is.element(as.integer64(c(5L, 3L, 5L)), as.integer64(c(0L, 2L, 1L, 3L, 6L))),
     c(FALSE, TRUE, FALSE)
   )
   expect_identical(
-    is.element(as.integer64(c(5, 3, 5)), as.integer64(c(3, 3, 3, 3, 5))),
-    rep(TRUE, 3)
+    is.element(as.integer64(c(5L, 3L, 5L)), as.integer64(c(3L, 3L, 3L, 3L, 5L))),
+    rep(TRUE, 3L)
   )
 
   expect_true(is.element(NA, NA_integer_))
