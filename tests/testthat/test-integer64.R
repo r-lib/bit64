@@ -513,15 +513,15 @@ test_that("display methods work", {
   expect_output(str(x, give.length=FALSE), "integer64  1 2 3", fixed=TRUE)
 
   # 1D array str
-  x1d = array(as.integer64(1:4), dim=4)
+  x1d = array(as.integer64(1:4), dim=4L)
   expect_output(str(x1d), "integer64 [4(1d)] 1 2 3 4", fixed=TRUE)
 
   # Multi-D array (matrix) str
-  x2d = matrix(as.integer64(1:4), 2)
+  x2d = matrix(as.integer64(1:4), 2L)
   expect_output(str(x2d), "integer64 [1:2, 1:2] 1 2 3 4", fixed=TRUE)
 
   # Matrix with dim < 2 str
-  x2d_small = matrix(as.integer64(1:2), 1)
+  x2d_small = matrix(as.integer64(1:2), 1L)
   expect_output(str(x2d_small), "integer64 [1, 1:2] 1 2", fixed=TRUE)
 
   # Mock mismatching dim to trigger defensive check
@@ -848,7 +848,7 @@ test_that("factor and order for integer64 are still necessary", {
   expect_identical(formals(ordered), formals(base::ordered))
   expect_identical(body(ordered), body(base::ordered))
 
-  x_named = as.integer64(c(a=1, b=2))
+  x_named = as.integer64(c(a=1L, b=2L))
   expect_named(factor(x_named), c("a", "b"))
 })
 
@@ -1708,14 +1708,14 @@ test_that("cbind works consistent to R", {
     convert_x32_result_to_integer64(cbind(1:2, matrix(x32, 5L)))
   ))
 
-  err1 = tryCatch(cbind(matrix(as.integer64(1:4), 2), matrix(1:6, 3)), error=identity)
+  err1 = tryCatch(cbind(matrix(as.integer64(1:4), 2L), matrix(1:6, 3L)), error=identity)
   expect_s3_class(err1, "error")
-  expect_identical(err1$call, quote(cbind(matrix(as.integer64(1:4), 2), matrix(1:6, 3))))
+  expect_identical(err1$call, quote(cbind(matrix(as.integer64(1:4), 2L), matrix(1:6, 3L))))
 
-  foo = function() cbind(matrix(as.integer64(1:4), 2), matrix(1:6, 3))
+  foo = function() cbind(matrix(as.integer64(1:4), 2L), matrix(1:6, 3L))
   err2 = tryCatch(foo(), error=identity)
   expect_s3_class(err2, "error")
-  expect_identical(err2$call, quote(cbind(matrix(as.integer64(1:4), 2), matrix(1:6, 3))))
+  expect_identical(err2$call, quote(cbind(matrix(as.integer64(1:4), 2L), matrix(1:6, 3L))))
 })
 
 with_parameters_test_that("cbind deparse.level works consistent to R", {
