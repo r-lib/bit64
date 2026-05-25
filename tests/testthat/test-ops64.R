@@ -198,7 +198,7 @@ test_that("Comparison operators", {
 })
 
 with_parameters_test_that("{operator} with integer64 vs {class} (returning integer64):", {
-  withr::local_seed(42)
+  withr::local_seed(42L)
 
   if (getRversion() <= "3.6.0" && operator == "^")
     x32 = 1:10 # there seems to be an issue with negative values with the `^` operator in ancient
@@ -214,11 +214,11 @@ with_parameters_test_that("{operator} with integer64 vs {class} (returning integ
   expected = tryCatch(maybe_cast(op(x32, y)), error=conditionMessage)
   actual = tryCatch(op(x64, y), error=conditionMessage)
   expect_identical(actual, expected)
-  
+
   expected = tryCatch(maybe_cast(op(y, x32)), error=conditionMessage)
   actual = tryCatch(op(y, x64), error=conditionMessage)
   expect_identical(actual, expected)
-}, 
+},
   .cases = expand.grid(
     operator=c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"),
     class=c("integer", "double", "logical"),
@@ -228,23 +228,23 @@ with_parameters_test_that("{operator} with integer64 vs {class} (returning integ
 
 with_parameters_test_that("{operator} with integer64 vs. {class} (not returning integer64):", {
   skip_unless_r(">= 4.3.0")
-  withr::local_seed(42)
+  withr::local_seed(42L)
 
   x32 = c(-10:-1, 1:10)
   x64 = as.integer64(x32)
   y = sample(x32)
   eval(parse(text=paste0("y = as.", class, "(as.double(y)", if (class == "difftime") ', units = "secs"', ")")))
-    
+
   op = match.fun(as.character(operator))
   test_e = tryCatch(op(x32, y), error=conditionMessage)
   test_a = tryCatch(op(x64, y), error=conditionMessage)
   expect_identical(test_a, test_e)
-  
+
   test_e = tryCatch(op(y, x32), error=conditionMessage)
   test_a = tryCatch(op(y, x64), error=conditionMessage)
   expect_identical(test_a, test_e)
 
-  }, 
+  },
   .cases = expand.grid(
     operator = c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"),
     class = c("complex", "Date", "POSIXct", "POSIXlt", "difftime")
@@ -288,7 +288,9 @@ with_parameters_test_that(
 )
 
 test_that("Edge cases for character/factor comparisons work", {
+  # nolint next: expect_comparison_linter. Checking '==' method
   expect_true(as.integer64("999999999999999") == "999999999999999")
   skip_unless_r(">= 4.3.0")
+  # nolint next: expect_comparison_linter. Checking '==' method
   expect_true(as.integer64("999999999999999999") == as.factor("999999999999999999"))
 })

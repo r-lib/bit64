@@ -56,14 +56,16 @@ binattr(e1, e2)
 \method{!}{integer64}(x)
 }
 \arguments{
-\item{e1, e2, x}{numeric or complex vectors or objects which can be coerced to such, or other objects for which methods have been written for - especially 'integer64' vectors.}
+\item{e1, e2, x}{numeric or complex vectors or objects which can be coerced to such,
+or other objects for which methods have been written for - especially 'integer64' vectors.}
 }
 \value{
-\code{\link{&}}, \code{\link{|}}, \code{\link{!}}, \code{\link{!=}}, \code{\link{==}}, \code{\link{<}}, \code{\link{<=}}, \code{\link{>}}, \code{\link{>=}} return a logical vector
-
-\code{\link{/}} returns a double vector
-
-\code{\link{+}}, \code{\link{-}}, \code{\link{*}}, \code{\link[=Arithmetic]{\%/\%}}, \code{\link[=Arithmetic]{\%\%}}, \code{\link{^}} return a vector of class 'integer64' or different class depending on the operands
+\itemize{
+\item \code{\link{&}}, \code{\link{|}}, \code{\link{!}}, \code{\link{!=}}, \code{\link{==}}, \code{\link{<}}, \code{\link{<=}}, \code{\link{>}}, \code{\link{>=}} return a logical vector
+\item \code{\link{/}} returns a double vector
+\item \code{\link{+}}, \code{\link{-}}, \code{\link{*}}, \code{\link[=Arithmetic]{\%/\%}}, \code{\link[=Arithmetic]{\%\%}}, \code{\link{^}} return a vector of class
+'integer64' or different class depending on the operands
+}
 }
 \description{
 Binary operators for integer64 vectors.

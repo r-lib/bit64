@@ -8,9 +8,9 @@
 \usage{
 \method{c}{integer64}(..., recursive = FALSE)
 
-\method{cbind}{integer64}(..., deparse.level = 1)
+\method{cbind}{integer64}(..., deparse.level = 1L)
 
-\method{rbind}{integer64}(..., deparse.level = 1)
+\method{rbind}{integer64}(..., deparse.level = 1L)
 }
 \arguments{
 \item{...}{two or more arguments coerced to 'integer64' and

@@ -225,10 +225,8 @@ test_that("Coercion to integer64 with as() works as intended", {
 })
 
 test_that("Coercion from integer64 with as() works as intended", {
-  expect_identical(
-    as(as.integer64(1L), "logical"),
-    TRUE
-  )
+  expect_true(as(as.integer64(1L), "logical"))
+
   expect_identical(
     as(as.integer64(111L), "integer"),
     111L

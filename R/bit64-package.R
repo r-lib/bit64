@@ -85,25 +85,25 @@
 #' example in [`c()`][c.integer64], [`cbind()`][cbind.integer64], and
 #' [`rbind()`][rbind.integer64]
 #'
-#' Our operators [`+`][ops64], [`-`][ops64], [`%/%`][ops64], and [`%%`][ops64] coerce 
-#' their arguments to `integer64` and return `integer64` if they are `integer`, 
-#' `double` or `logical`. Otherwise the `integer64` argument is coerced to double and 
+#' Our operators [`+`][ops64], [`-`][ops64], [`%/%`][ops64], and [`%%`][ops64] coerce
+#' their arguments to `integer64` and return `integer64` if they are `integer`,
+#' `double` or `logical`. Otherwise the `integer64` argument is coerced to double and
 #' the R base method for the other class is called.
 #'
-#' Our operators [`*`][ops64] and [`^`][ops64] coerce their first argument to 
-#' `integer64` and possibly the second to `integer64` if it is not `double` and 
-#' return `integer64` if they are `integer`, `double` or `logical`. Otherwise the 
-#' `integer64` argument is coerced to double and the R base method for the other 
+#' Our operators [`*`][ops64] and [`^`][ops64] coerce their first argument to
+#' `integer64` and possibly the second to `integer64` if it is not `double` and
+#' return `integer64` if they are `integer`, `double` or `logical`. Otherwise the
+#' `integer64` argument is coerced to double and the R base method for the other
 #' class is called.
-#' 
-#' The division [`/`][ops64] operator also coerces its first argument to `integer64` 
-#' and possibly the second to `integer64` if it is not `double` and returns 
-#' `integer64` if they are `integer`, `double` or `logical`. Otherwise the `integer64` 
+#'
+#' The division [`/`][ops64] operator also coerces its first argument to `integer64`
+#' and possibly the second to `integer64` if it is not `double` and returns
+#' `integer64` if they are `integer`, `double` or `logical`. Otherwise the `integer64`
 #' argument is coerced to double and the R base method for the other class is called.
-#' 
+#'
 #' [`sqrt()`][sqrt.integer64], [`log()`][log.integer64],
-#' [`log2()`][log2.integer64], and [`log10()`][log10.integer64] coerce their first 
-#' argument to `integer64` and coerce internally their second argument to 
+#' [`log2()`][log2.integer64], and [`log10()`][log10.integer64] coerce their first
+#' argument to `integer64` and coerce internally their second argument to
 #' 'long double', they return as `double`
 #'
 #' | **argument1** | **op** | **argument2** | **->** | **coerced1** | **op** | **coerced2** | **->** | **result** |

@@ -61,7 +61,7 @@ NULL
 #'
 #' @param x an atomic vector
 #' @param ...,units further arguments to the [NextMethod()]
-#' 
+#'
 #' @details
 #' `as.integer64.character` is realized using C function `strtoll` which
 #'   does not support scientific notation. Instead of '1e6' use '1000000'.
@@ -227,7 +227,7 @@ NULL
 #' @param deparse.level integer controlling the construction of labels in the case of non-matrix-like arguments
 #'
 #' @returns
-#'   [c()] returns a vector of the appropriate mode. This could be a integer64 vector or a list of objects  
+#'   [c()] returns a vector of the appropriate mode. This could be a integer64 vector or a list of objects
 #'
 #'   [cbind()] and [rbind()] return a matrix, data.frame or list with dimensions
 #'
@@ -362,7 +362,7 @@ NULL
 #' Factors
 #'
 #' The function [factor] is used to encode a vector as a factor.
-#' 
+#'
 #' @inheritParams base::factor
 #' @param nmax an upper bound on the number of levels.
 #'
@@ -442,8 +442,7 @@ all.equal.integer64  <- function(target, current,
   }
   out = out | target == current
   if (all(out))
-    # TODO(R>=4.4.0): msg %||% TRUE
-    return(if (is.null(msg)) TRUE else msg)
+    return(msg %||% TRUE)
   anyO = any(out)
   sabst0 = if (countEQ && anyO) mean(abs(target[out])) else 0.0
   if (anyO) {
@@ -476,8 +475,7 @@ all.equal.integer64  <- function(target, current,
   xy = sum(abs(target - current) / (N*scale))
   if (is.na(xy) || xy > tolerance)
     msg <- c(msg, paste("Mean", what, "difference:", formatFUN(xy, what)))
-  # TODO(R>=4.4.0): msg %||% TRUE
-  if (is.null(msg)) TRUE else msg
+  msg %||% TRUE
 }
 
 # TODO(R>=4.2.0): Consider restoring extptr.as.ref= to the signature.
@@ -616,28 +614,25 @@ as.integer64.character = function(x, ...) {
 
 #' @rdname as.integer64.character
 #' @export
-as.integer64.factor = function(x, ...) 
-  as.integer64(unclass(x), ...)
+as.integer64.factor = function(x, ...) as.integer64(unclass(x), ...)
 
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 Date
-as.integer64.Date = function(x, ...)
-  as.integer64(as.double(x))
+as.integer64.Date = function(x, ...) as.integer64(as.double(x))
 
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 POSIXct
-as.integer64.POSIXct = function(x, ...)
-  as.integer64(as.double(x))
+as.integer64.POSIXct = function(x, ...) as.integer64(as.double(x))
 
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 POSIXlt
-as.integer64.POSIXlt = function(x, ...)
-  as.integer64(as.POSIXct(x))
+as.integer64.POSIXlt = function(x, ...) as.integer64(as.POSIXct(x))
 
 #' @rdname as.integer64.character
 #' @exportS3Method as.integer64 difftime
-as.integer64.difftime = function(x, units="auto", ...)
+as.integer64.difftime = function(x, units="auto", ...) {
   as.integer64(as.double(x, units=units, ...))
+}
 
 .as_double_integer64 = function(x, keep.attributes=FALSE, ...) {
   ret = .Call(C_as_double_integer64, x, double(length(x)))
@@ -652,8 +647,7 @@ as.integer64.difftime = function(x, units="auto", ...)
 
 #' @rdname as.character.integer64
 #' @export
-as.double.integer64 = function(x, ...) 
-  .as_double_integer64(x, keep.attributes=FALSE, ...)
+as.double.integer64 = function(x, ...) .as_double_integer64(x, keep.attributes=FALSE, ...)
 
 #' @rdname as.character.integer64
 #' @exportS3Method as.numeric integer64
@@ -665,8 +659,9 @@ as.complex.integer64 = function(x, ...) as.complex(as.double(x), ...)
 
 #' @rdname as.character.integer64
 #' @export
-as.integer.integer64 = function(x, ...) 
+as.integer.integer64 = function(x, ...) {
   .Call(C_as_integer_integer64, x, integer(length(x)))
+}
 
 #' @rdname as.character.integer64
 #' @exportS3Method as.raw integer64
@@ -682,13 +677,15 @@ as.raw.integer64 = function(x, ...) {
 
 #' @rdname as.character.integer64
 #' @export
-as.logical.integer64 = function(x, ...)
+as.logical.integer64 = function(x, ...) {
   .Call(C_as_logical_integer64, x, logical(length(x)))
+}
 
 #' @rdname as.character.integer64
 #' @export
-as.character.integer64 = function(x, ...)
+as.character.integer64 = function(x, ...) {
   .Call(C_as_character_integer64, x, rep(NA_character_, length(x)))
+}
 
 #' @rdname as.character.integer64
 #' @export
@@ -702,18 +699,21 @@ as.bitstring.integer64 = function(x, ...) {
 
 #' @rdname as.character.integer64
 #' @exportS3Method as.Date integer64
-as.Date.integer64 = function(x, origin, ...)
+as.Date.integer64 = function(x, origin, ...) {
   as.Date(as.double(x), origin=origin, ...)
+}
 
 #' @rdname as.character.integer64
 #' @exportS3Method as.POSIXct integer64
-as.POSIXct.integer64 = function(x, tz="", origin, ...)
+as.POSIXct.integer64 = function(x, tz="", origin, ...) {
   as.POSIXct(as.double(x), tz=tz, origin=origin, ...)
+}
 
 #' @rdname as.character.integer64
 #' @exportS3Method as.POSIXlt integer64
-as.POSIXlt.integer64 = function(x, tz="", origin, ...)
+as.POSIXlt.integer64 = function(x, tz="", origin, ...) {
   as.POSIXlt(as.double(x, ...), tz=tz, origin=origin, ...)
+}
 
 #' @rdname as.character.integer64
 #' @export as.factor
@@ -731,18 +731,18 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
     sys_call = match.call()
     sys_call[[1L]] = base::factor
     sys_call$x = x
-    pf = parent.frame()
-    return(withCallingHandlers_and_choose_call(eval(sys_call, envir=pf), "factor"))
+    parent = parent.frame()
+    return(withCallingHandlers_and_choose_call(eval(sys_call, envir=parent), "factor"))
   }
-  
+
   nx = names(x)
   if (missing(levels)) {
     levels = sort(unique(x))
-  } else if (length(x) >= 4000) {
+  } else if (length(x) >= 4000L) {
     levels = as.integer64(levels)
   }
   # use base::factor for short vectors because it is faster
-  if (length(x) < 4000) {
+  if (length(x) < 4000L) {
     force(ordered)
     x = as.character(x)
     levels = as.character(levels)
@@ -765,7 +765,7 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
   # basically copied from base::factor, but using the benefit from caching
   levels = levels[is.na(match(levels, exclude))]
   ret = match(x, levels)
-  if (!is.null(nx)) 
+  if (!is.null(nx))
     names(ret) = nx
   if (missing(labels)) {
     levels(ret) = as.character(levels)
@@ -894,11 +894,16 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
             if (isTRUE(give.length)) paste0("[1:", n, "] ") else " "
           } else if (!is.null(obj_dim <- dim(object))) {
             if (prod(obj_dim) != n)
-              stop(gettextf("dims [product %d] do not match the length of object [%d]", prod(obj_dim), n, domain="R"), domain=NA)
+              stop(domain=NA, gettextf(
+                "dims [product %d] do not match the length of object [%d]",
+                prod(obj_dim), n,
+                domain="R"
+              ))
             if (length(obj_dim) == 1L) {
               paste0("[", n, "(1d)] ")
             } else {
-              paste0("[", toString(vapply(obj_dim, function(el) if (el < 2L) as.character(el) else paste0("1:", el), "")), "] ")
+              dim_summary = vapply(obj_dim, function(el) if (el < 2L) as.character(el) else paste0("1:", el), "")
+              paste0("[", toString(dim_summary), "] ")
             }
           }
         )
@@ -918,8 +923,8 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   if (isTRUE(skipLast))
     sc = sc[-length(sc)]
   lapply(sc, function(el) {
-    if(missing_or_dots(el)) return(el)
-    el = eval(el, eval_frame)   
+    if (missing_or_dots(el)) return(el)
+    el = eval(el, eval_frame)
     if (is.integer64(el))
       el = as.integer(el)
     el
@@ -932,34 +937,34 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   old_class = oldClass(x)
 
   sc = sys.call() # NB: not match.call(), which eats a missing argument in x[1, , 3]
-  pf = parent.frame()
-  args = position_args_with_int64_to_int_coercion(sc, pf)
-  args$drop = FALSE
-  if (length(args) == 1L && isFALSE(drop)) return(x)
+  parent = parent.frame()
+  coerced_args = position_args_with_int64_to_int_coercion(sc, parent)
+  coerced_args$drop = FALSE
+  if (length(coerced_args) == 1L && isFALSE(drop)) return(x)
   oldClass(x) = NULL
-  ret = withCallingHandlers_and_choose_call(do.call(`[`, c(list(x=x), args)), c("[", "[.integer64"))
+  ret = withCallingHandlers_and_choose_call(do.call(`[`, c(list(x=x), coerced_args)), c("[", "[.integer64"))
   NA_integer64_real = NA_integer64_
   oldClass(NA_integer64_real) = NULL
   # drop is not relevant anymore for NA handling
-  args$drop = NULL
+  coerced_args$drop = NULL
 
   # NA handling
   if (length(dim(ret)) <= 1L) {
     # vector mode
-    if (!missing_or_dots(args[[1L]])) {
-      arg1Value = args[[1L]]
+    if (!missing_or_dots(coerced_args[[1L]])) {
+      arg1Value = coerced_args[[1L]]
       if (is.logical(arg1Value)) {
         ret[is.na(arg1Value[arg1Value])] = NA_integer64_real
       } else if (is.character(arg1Value)) {
-        ret[is.na(arg1Value) | arg1Value == "" | !arg1Value %in% names(x)] = NA_integer64_real
+        ret[is.na(arg1Value) | !nzchar(arg1Value) | !arg1Value %in% names(x)] = NA_integer64_real
       } else if (anyNA(arg1Value) || suppressWarnings(max(arg1Value, na.rm=TRUE)) > length(x)) {
-        arg1Value = arg1Value[arg1Value != 0]
+        arg1Value = arg1Value[arg1Value != 0L]
         ret[which(is.na(arg1Value) | arg1Value > length(x))] = NA_integer64_real
       }
     }
   } else {
     # array/matrix mode
-    dimSelect = args[seq_along(dim(x))]
+    dimSelect = coerced_args[seq_along(dim(x))]
     for (ii in seq_along(dimSelect)) {
       if (missing_or_dots(dimSelect[[ii]])) next
       dsValue = dimSelect[[ii]]
@@ -979,7 +984,7 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   # dimension handling
   if (!isFALSE(drop) && !is.null(dim(ret))) {
     newDim = dim(ret)[dim(ret) != 1L]
-    if(length(newDim) == 1L && !(length(dim(x)) == 1L && newDim != 1L))
+    if (length(newDim) == 1L && !(length(dim(x)) == 1L && newDim != 1L))
       newDim = NULL
     dim(ret) = if (length(newDim)) newDim else NULL
   }
@@ -992,19 +997,28 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
 #' @export
 `[<-.integer64` = function(x, ..., value) {
   sc = sys.call()
-  pf = parent.frame()
-  args = position_args_with_int64_to_int_coercion(sc, pf, skipLast=TRUE)
-  
-  # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
-  if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
-    args$value = value
+  parent = parent.frame()
+  coerced_args = position_args_with_int64_to_int_coercion(sc, parent, skipLast=TRUE)
+
+  # TODO(#44): change default coercion to character
+  #         next Release: change default behavior
+  #   subsequent Release: change from message to warning
+  #   subsequent Release: change from warning to error
+  #   subsequent Release: remove option and promote_to_char
+  if (
+    (is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE)))
+    || is.complex(value)
+    || (is.double(value) && class(value)[1L] != "numeric")
+  ) {
+    coerced_args$value = value
+    # nolint next: undesirable_function_linter.
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
-    ret = withCallingHandlers_and_choose_call(do.call(`[<-`, c(list(x=x), args)), c("[<-", "[<-.integer64"))  
+    ret = withCallingHandlers_and_choose_call(do.call(`[<-`, c(list(x=x), coerced_args)), c("[<-", "[<-.integer64"))
   } else {
-    args$value = as.integer64(value)
+    coerced_args$value = as.integer64(value)
     old_class = oldClass(x)
     oldClass(x) = NULL
-    ret = withCallingHandlers_and_choose_call(do.call(`[<-`, c(list(x=x), args)), c("[<-", "[<-.integer64"))  
+    ret = withCallingHandlers_and_choose_call(do.call(`[<-`, c(list(x=x), coerced_args)), c("[<-", "[<-.integer64"))
     oldClass(ret) = old_class
   }
   ret
@@ -1013,14 +1027,16 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
 #' @rdname extract.replace.integer64
 #' @export
 `[[.integer64` = function(x, ...) {
-  args = lapply(list(...), function(el) {
+  coerced_args = lapply(list(...), function(el) {
     if (is.integer64(el))
       el = as.integer(el)
     el
   })
   old_class = oldClass(x)
   oldClass(x) = NULL
-  withCallingHandlers_and_choose_call({ret = do.call(`[[`, c(list(x=x), args))}, c("[[", "[[.integer64"))  
+  withCallingHandlers_and_choose_call({
+    ret = do.call(`[[`, c(list(x=x), coerced_args))
+  }, c("[[", "[[.integer64"))
   oldClass(ret) = old_class
   ret
 }
@@ -1028,21 +1044,34 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
 #' @rdname extract.replace.integer64
 #' @export
 `[[<-.integer64` = function(x, ..., value) {
-  args = lapply(list(...), function(el) {
+  coerced_args = lapply(list(...), function(el) {
     if (is.integer64(el))
       el = as.integer(el)
     el
   })
-  # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
-  if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
-    args$value = value
+  # TODO(#44): change default coercion to character
+  #         next Release: change default behavior
+  #   subsequent Release: change from message to warning
+  #   subsequent Release: change from warning to error
+  #   subsequent Release: remove option and promote_to_char
+  if (
+    (is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE)))
+    || is.complex(value)
+    || (is.double(value) && class(value)[1L] != "numeric")
+  ) {
+    coerced_args$value = value
+    # nolint next: undesirable_function_linter.
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
-    withCallingHandlers_and_choose_call({ret = do.call(`[[<-`, c(list(x=x), args))}, c("[[<-", "[[<-.integer64"))  
+    withCallingHandlers_and_choose_call({
+      ret = do.call(`[[<-`, c(list(x=x), coerced_args))
+    }, c("[[<-", "[[<-.integer64"))
   } else {
-    args$value = as.integer64(value)
+    coerced_args$value = as.integer64(value)
     old_class = oldClass(x)
     oldClass(x) = NULL
-    withCallingHandlers_and_choose_call({ret = do.call(`[[<-`, c(list(x=x), args))}, c("[[<-", "[[<-.integer64"))  
+    withCallingHandlers_and_choose_call({
+      ret = do.call(`[[<-`, c(list(x=x), coerced_args))
+    }, c("[[<-", "[[<-.integer64"))
     oldClass(ret) = old_class
   }
   ret
@@ -1054,14 +1083,14 @@ c.integer64 = function(..., recursive=FALSE) {
   # This check can be dropped in the future when c.integer64 is not exported anymore
   if (...length() == 0L) return(NULL)
   dots = list(...)
-  
+
   if (!isTRUE(recursive) && any(vapply(dots, is.list, FALSE))) {
     return(unlist(lapply(dots, function(el) if (inherits(el, "POSIXlt")) el else as.list(el)), recursive=FALSE))
   }
-  
+
   value_class = target_class(dots, recursive=recursive, POSIXltAsCharacter=TRUE)
   # find positions of elements to be converted
-  if(value_class == "integer64") {
+  if (value_class == "integer64") {
     # integer64 doesn't have to be converted, but `oldClass(val) = NULL` has to be applied
     checkFunc = Negate(is.null)
   } else {
@@ -1100,29 +1129,29 @@ c.integer64 = function(..., recursive=FALSE) {
 }
 
 # helper function to generate names for cbind/rbind if missing; it is not intended to be exported
-make_names_for_cbind = function(sys_call, dots, deparse.level=1) {
+make_names_for_cbind = function(sys_call, dots, deparse.level=1L) {
   nd = names(dots)
   if (!deparse.level %in% c(1L, 2L)) return(nd)
-  if (is.null(nd)) 
+  if (is.null(nd))
     nd = character(length(dots))
-  
+
   sys_call_dots = sys_call[-1L][seq_along(dots)]
   sel = !logical(length(sys_call_dots))
   if (deparse.level == 1L)
     sel = vapply(sys_call_dots, is.symbol, FALSE)
-  sel = sel & nd == "" & !vapply(dots, function(el) length(el) == 1L && is.na(el), FALSE)
+  sel = sel & !nzchar(nd) & !vapply(dots, function(el) length(el) == 1L && is.na(el), FALSE)
   nd[sel] = as.character(sys_call_dots[sel])
   nd
 }
 
 #' @rdname c.integer64
 #' @export
-cbind.integer64 = function(..., deparse.level=1) {
+cbind.integer64 = function(..., deparse.level=1L) {
   dots = list(...)
   value_class = target_class(dots, recursive=FALSE)
-  
+
   # find positions of elements to be converted
-  if(value_class == "integer64") {
+  if (value_class == "integer64") {
     # integer64 doesn't have to be converted, but `oldClass(val) = NULL` has to be applied
     checkFunc = Negate(is.null)
   } else {
@@ -1130,32 +1159,34 @@ cbind.integer64 = function(..., deparse.level=1) {
   }
   positionsOfItemsToConvert = which(vapply(dots, function(el) !is.list(el) && checkFunc(el), FALSE, USE.NAMES=FALSE))
 
-  # set names if missing  
+  # set names if missing
   names(dots) = make_names_for_cbind(sys.call(sys.nframe() - 1L), dots, deparse.level)
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
     val = dots[[idx]]
     # NB: as(, "integer64") may not work, #298
     if (value_class == "integer64") {
+      # nolint next: undesirable_function_linter.
       val = structure(as.integer64(val), dim=dim(val), dimnames=dimnames(val), names=names(val))
       oldClass(val) = NULL
     }else {
+      # nolint next: undesirable_function_linter.
       val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
     }
     dots[[idx]] = val
   }
   ret = withCallingHandlers_and_choose_call(
-    do.call(cbind, c(dots, list(deparse.level=deparse.level))), 
+    do.call(cbind, c(dots, list(deparse.level=deparse.level))),
     c("cbind", "cbind"),
     callStack = sys.calls()
   )
-  
+
   # restore integer64 class
   if (value_class == "integer64") {
     if (is.list(ret)) {
       estimatedColumnIndices = lapply(dots, function(el) {
         res = ncol(el)
-        if (is.null(res)) 
+        if (is.null(res))
           res = as.integer(length(el) > 0L)
         res
       })
@@ -1184,12 +1215,12 @@ cbind.integer64 = function(..., deparse.level=1) {
 
 #' @rdname c.integer64
 #' @export
-rbind.integer64 = function(..., deparse.level=1) {
+rbind.integer64 = function(..., deparse.level=1L) {
   dots = list(...)
   value_class = target_class(dots, recursive=TRUE)
-  
+
   # find positions of elements to be converted
-  if(value_class == "integer64") {
+  if (value_class == "integer64") {
     # integer64 doesn't have to be converted, but `oldClass(val) = NULL` has to be applied
     checkFunc = Negate(is.null)
   } else {
@@ -1208,26 +1239,28 @@ rbind.integer64 = function(..., deparse.level=1) {
   }
   positionsOfItemsToConvert = findPositionsOfItemsToConvert(dots)
 
-  # set names if missing  
+  # set names if missing
   names(dots) = make_names_for_cbind(sys.call(sys.nframe() - 1L), dots, deparse.level)
   # convert relevant items
   for (idx in positionsOfItemsToConvert) {
     val = dots[[idx]]
     # NB: as(, "integer64") may not work, #298
     if (value_class == "integer64") {
+      # nolint next: undesirable_function_linter.
       val = structure(as.integer64(val), dim=dim(val), dimnames=dimnames(val), names=names(val))
       oldClass(val) = NULL
     } else {
+      # nolint next: undesirable_function_linter.
       val = structure(as(val, value_class), dim=dim(val), dimnames=dimnames(val), names=names(val))
     }
     dots[[idx]] = val
   }
   ret = withCallingHandlers_and_choose_call(
-    do.call(rbind, c(dots, list(deparse.level=deparse.level))), 
+    do.call(rbind, c(dots, list(deparse.level=deparse.level))),
     c("rbind", "rbind"),
     callStack = sys.calls()
   )
-  
+
   # restore integer64 class
   if (value_class == "integer64") {
     if (is.list(ret)) {
@@ -1239,7 +1272,7 @@ rbind.integer64 = function(..., deparse.level=1) {
         # this is mainly for POSIXlt
         estimatedRowIndices = lapply(dots, function(el) {
           res = nrow(el)
-          if (is.null(res)) 
+          if (is.null(res))
             res = as.integer(length(el) > 0L)
           res
         })
@@ -1490,7 +1523,7 @@ round.integer64 = function(x, digits=0L) {
   a = attributes(x)
   b = as.integer64(10L^round(-digits))
   b2 = b%/%2L
-  ret = ((x + b2 - (((x - b2)%%(2L*b)) == 0L)) %/% b)*b
+  ret = ((x + b2 - (((x - b2) %% (2L*b)) == 0L)) %/% b)*b
   attributes(ret) = a
   ret
 }
@@ -1587,9 +1620,9 @@ min.integer64 = function(..., na.rm=FALSE) {
   na.rm = isTRUE(na.rm)
   ret = NULL
   no_values = NULL
-  
+
   if (length(l) == 1L) {
-    if (length(l[[1]]) > 0L) {
+    if (length(l[[1L]]) > 0L) {
       ret = .Call(C_min_integer64, l[[1L]], na.rm, double(1L))
       oldClass(ret) = "integer64"
     }
@@ -1626,7 +1659,7 @@ max.integer64 = function(..., na.rm=FALSE) {
   no_values = NULL
 
   if (length(l) == 1L) {
-    if (length(l[[1]]) > 0L) {
+    if (length(l[[1L]]) > 0L) {
       ret = .Call(C_max_integer64, l[[1L]], na.rm, double(1L))
       oldClass(ret) = "integer64"
     }
@@ -1665,9 +1698,9 @@ range.integer64 = function(..., na.rm=FALSE, finite=FALSE) {
   }
   ret = NULL
   no_values = NULL
-  
+
   if (length(l) == 1L) {
-    if (length(l[[1]]) > 0L) {
+    if (length(l[[1L]]) > 0L) {
       ret = .Call(C_range_integer64, l[[1L]], na.rm, double(2L))
       oldClass(ret) = "integer64"
     }
