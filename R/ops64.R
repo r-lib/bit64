@@ -116,36 +116,26 @@ binattr = function(e1, e2) {
 
 # helper for determining the target class for Ops methods
 target_class_for_Ops = function(e1, e2) {
-  convert_to_integer64 = function(el) is.numeric(el) || is.logical(el)
   if (missing(e2)) {
-    if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1) && !inherits(e1, "POSIXt"))
-      stop(errorCondition(
-        gettext("non-numeric argument to mathematical function", domain="R"),
-        call=sys.call(sys.nframe() - 1L)
-      ))
+    stop("internal error in target_class_for_Ops: e2 is missing") # nocov
+  }
 
-    if (convert_to_integer64(e1)) {
+  .validate_binary_operator_argument(e1)
+  .validate_binary_operator_argument(e2)
+
+  if (is.factor(e1) || is.factor(e2)) {
+    "factor"
+  } else if (is.character(e1) || is.character(e2)) {
+    "character"
+  } else {
+    convert_to_integer64 = function(el) is.numeric(el) || is.logical(el)
+    conv_to_int1 = convert_to_integer64(e1)
+    if (conv_to_int1 && convert_to_integer64(e2)) {
       "integer64"
+    } else if (conv_to_int1) {
+      class(e2)[1L]
     } else {
       class(e1)[1L]
-    }
-  } else {
-    .validate_binary_operator_argument(e1)
-    .validate_binary_operator_argument(e2)
-
-    if (is.factor(e1) || is.factor(e2)) {
-      "factor"
-    } else if (is.character(e1) || is.character(e2)) {
-      "character"
-    } else {
-      conv_to_int1 = convert_to_integer64(e1)
-      if (conv_to_int1 && convert_to_integer64(e2)) {
-        "integer64"
-      } else if (conv_to_int1) {
-        class(e2)[1L]
-      } else {
-        class(e1)[1L]
-      }
     }
   }
 }
@@ -193,8 +183,9 @@ chooseOpsMethod.integer64 = function(x, y, mx, my, cl, reverse) {
 #' @export
 `-.integer64` = function(e1, e2) {
   if (missing(e2)) {
-    if (!is.integer64(e1))
-      return(-e1)
+    if (!is.integer64(e1)) {
+      stop("internal error in -.integer64: e1 is not integer64") # nocov
+    }
     e2 = e1
     e1 = as.integer64(0L)
   } else {

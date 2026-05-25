@@ -2160,22 +2160,7 @@ table = function(
     withCallingHandlers_and_choose_call(eval(sys_call, envir=parent), c("table", "table.default"))
   }
 }
-#' @exportS3Method table default
-table.default = function(
-  ...,
-  exclude=if (useNA == "no") c(NA, NaN),
-  useNA=c("no", "ifany", "always"),
-  dnn=list.names(...),
-  deparse.level=1L
-) {
-  # avoid condition messages with `table.default`
-  sys_call = sys.call()
-  sys_call[[1L]] = base::table
-  parent = parent.frame()
-  # add unused function `list.names` to eliminate CMD check NOTE about missing function definition.
-  list.names = function(...) {}
-  withCallingHandlers_and_choose_call(eval(sys_call, envir=parent), c("table", "table.default"))
-}
+
 
 #' @method table integer64
 #' @param return choose the return format, see details
@@ -2230,24 +2215,9 @@ table.integer64 = function(...,
   if (!N)
     stop("nothing to tabulate", domain="R-base")
 
-  # table(as.integer64(1L), "a") is dispatched to table.integer64, but should be handled by table.default
-  if (!all(vapply(
-    seq_len(N),
-    function(ii) {
-      arg = A(ii)
-      is.integer64(arg) || is.integer(arg)
-    },
-    logical(1L))
-  ))
-    return(NextMethod())
 
-  if (N == 1L && is.list(A(1L))) {
-    args = A(1L) # nolint: object_overwrite_linter. This code should probably be refactored anyway.
-    if (length(dnn) != length(args))
-      dnn = names(args) %||% paste(dnn[1L], seq_along(args), sep=".")
-    N = length(args)
-    A = function(i) args[[i]]
-  }
+
+
   force(dnn)
 
   if (N == 1L) {

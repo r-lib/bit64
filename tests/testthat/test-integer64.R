@@ -290,6 +290,11 @@ test_that("indexing works: [[<-", {
     x[[2L]] = "4"
     expect_identical(x, as.character(c(3:4, 3:10)))
   })
+  local({
+    x[[as.integer64(1L)]] = 3.0
+    x[[as.integer64(2L)]] = 4L
+    expect_identical(x, x_updated)
+  })
 
   # local writes didn't edit 'x'
   expect_identical(x[1L], as.integer64(1L))
@@ -505,6 +510,28 @@ test_that("display methods work", {
   expect_output(print(x), "integer64.*\\s*1\\s*2\\s*3")
   expect_output(print(x[0L]), "integer64(0)", fixed=TRUE)
   expect_output(str(x), "integer64 [1:3] 1 2 3", fixed=TRUE)
+  expect_output(str(x, give.length=FALSE), "integer64  1 2 3", fixed=TRUE)
+
+  # 1D array str
+  x1d = array(as.integer64(1:4), dim=4)
+  expect_output(str(x1d), "integer64 [4(1d)] 1 2 3 4", fixed=TRUE)
+
+  # Multi-D array (matrix) str
+  x2d = matrix(as.integer64(1:4), 2)
+  expect_output(str(x2d), "integer64 [1:2, 1:2] 1 2 3 4", fixed=TRUE)
+
+  # Matrix with dim < 2 str
+  x2d_small = matrix(as.integer64(1:2), 1)
+  expect_output(str(x2d_small), "integer64 [1, 1:2] 1 2", fixed=TRUE)
+
+  # Mock mismatching dim to trigger defensive check
+  registerS3method("dim", "mock", function(x) c(2L, 3L))
+  x_mock = as.integer64(1:4)
+  class(x_mock) = c("mock", "integer64")
+  expect_error(
+    str(x_mock),
+    "dims [product 6] do not match the length of object [4]", fixed=TRUE
+  )
 })
 
 test_that("vector builders of integer64 work", {
@@ -820,6 +847,9 @@ test_that("factor and order for integer64 are still necessary", {
   expect_identical(formals(factor), formals(base::factor))
   expect_identical(formals(ordered), formals(base::ordered))
   expect_identical(body(ordered), body(base::ordered))
+
+  x_named = as.integer64(c(a=1, b=2))
+  expect_named(factor(x_named), c("a", "b"))
 })
 
 with_parameters_test_that("factor and order work analogously to integer:", {
@@ -886,6 +916,8 @@ test_that("extraction works consistent to integer: vector[", {
   names(x) = letters[seq_along(x)]
   y = as.integer64(x)
   names(y) = letters[seq_along(y)]
+
+  expect_identical(y[drop=FALSE], y)
 
   sel = c(TRUE, FALSE, NA, TRUE)
   expect_identical(y[sel], setNames(as.integer64(x[sel]), names(x)[sel]))
@@ -1675,6 +1707,15 @@ test_that("cbind works consistent to R", {
     cbind(as.integer64(1:2), matrix(x64, 5L)),
     convert_x32_result_to_integer64(cbind(1:2, matrix(x32, 5L)))
   ))
+
+  err1 = tryCatch(cbind(matrix(as.integer64(1:4), 2), matrix(1:6, 3)), error=identity)
+  expect_s3_class(err1, "error")
+  expect_identical(err1$call, quote(cbind(matrix(as.integer64(1:4), 2), matrix(1:6, 3))))
+
+  foo = function() cbind(matrix(as.integer64(1:4), 2), matrix(1:6, 3))
+  err2 = tryCatch(foo(), error=identity)
+  expect_s3_class(err2, "error")
+  expect_identical(err2$call, quote(cbind(matrix(as.integer64(1:4), 2), matrix(1:6, 3))))
 })
 
 with_parameters_test_that("cbind deparse.level works consistent to R", {

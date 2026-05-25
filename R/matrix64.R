@@ -106,8 +106,9 @@ aperm.integer64 = function(a, perm, ...) {
 
 #' @exportS3Method `%*%` integer64
 `%*%.integer64` = function(x, y) {
-  if (!is.integer64(x) && !is.integer64(y))
-    return(x%*%y)
+  if (!is.integer64(x) && !is.integer64(y)) {
+    stop("internal error in %*%.integer64: neither x nor y is integer64") # nocov
+  }
 
   target_class = target_class_for_Ops(x, y)
   if (target_class %in% c("character", "factor")) {
