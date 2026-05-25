@@ -159,6 +159,11 @@ test_that("colSums and rowSums work on simple integer64 input", {
     fixed = TRUE
   )
   expect_error(
+    colSums(A64, dims=4L),
+    "invalid 'dims'",
+    fixed = TRUE
+  )
+  expect_error(
     rowSums(as.integer64(1:10)),
     "'x' must be an array of at least two dimensions",
     fixed = TRUE
