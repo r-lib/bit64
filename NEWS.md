@@ -6,6 +6,8 @@
 
 1. `runif64(replace=FALSE)` no longer generates any duplicates (#337).
 
+1. `factor()` retains the names of short integer64 inputs (#343).
+
 # bit64 4.8.2 (2026-05-19)
 
 ## BUG FIXES
