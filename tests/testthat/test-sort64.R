@@ -606,8 +606,14 @@ with_parameters_test_that(
     expect_error(fun(x, i_wrong_len), "lengths of x and i don't match")
   },
   .cases = data.frame(
-    fun_name = c("shellsortorder", "shellorder", "mergeorder", "mergesortorder", "quicksortorder", "quickorder", "radixsortorder", "radixorder"),
-    fun = I(list(bit::shellsortorder, bit::shellorder, bit::mergeorder, bit::mergesortorder, bit::quicksortorder, bit::quickorder, bit::radixsortorder, bit::radixorder)),
+    fun_name = c(
+      "shellsortorder", "shellorder", "mergeorder", "mergesortorder",
+      "quicksortorder", "quickorder", "radixsortorder", "radixorder"
+    ),
+    fun = I(list(
+      bit::shellsortorder, bit::shellorder, bit::mergeorder, bit::mergesortorder,
+      bit::quicksortorder, bit::quickorder, bit::radixsortorder, bit::radixorder
+    )),
     stringsAsFactors = FALSE
   )
 )
@@ -620,8 +626,14 @@ with_parameters_test_that(
     expect_error(fun(x, i_not_int), "i must be integer")
   },
   .cases = data.frame(
-    fun_name = c("shellsortorder", "shellorder", "mergeorder", "mergesortorder", "quicksortorder", "quickorder", "radixsortorder", "radixorder"),
-    fun = I(list(bit::shellsortorder, bit::shellorder, bit::mergeorder, bit::mergesortorder, bit::quicksortorder, bit::quickorder, bit::radixsortorder, bit::radixorder)),
+    fun_name = c(
+      "shellsortorder", "shellorder", "mergeorder", "mergesortorder",
+      "quicksortorder", "quickorder", "radixsortorder", "radixorder"
+    ),
+    fun = I(list(
+      bit::shellsortorder, bit::shellorder, bit::mergeorder, bit::mergesortorder,
+      bit::quicksortorder, bit::quickorder, bit::radixsortorder, bit::radixorder
+    )),
     stringsAsFactors = FALSE
   )
 )

@@ -204,7 +204,11 @@ test_that("dimnames with colSums and rowSums", {
   M32 = matrix(1:(3L*2L), nrow=3L, ncol=2L, dimnames=list(LETTERS[1:3], letters[1:2]))
   A32 = array(1:(2L*5L*3L), dim=c(2L, 5L, 3L), dimnames=list(LETTERS[1:2], letters[1:5], rev(LETTERS)[1:3]))
   M64 = matrix(as.integer64(1:(3L*2L)), nrow=3L, ncol=2L, dimnames=list(LETTERS[1:3], letters[1:2]))
-  A64 = array(as.integer64(1:(2L*5L*3L)), dim=c(2L, 5L, 3L), dimnames=list(LETTERS[1:2], letters[1:5], rev(LETTERS)[1:3]))
+  A64 = array(
+    as.integer64(1:(2L*5L*3L)),
+    dim = c(2L, 5L, 3L),
+    dimnames = list(LETTERS[1:2], letters[1:5], rev(LETTERS)[1:3])
+  )
 
   expect_identical(dimnames(colSums(M32)), dimnames(colSums(M64)))
   expect_identical(dimnames(colSums(A32)), dimnames(colSums(A64)))
@@ -254,11 +258,17 @@ test_that("matrix multiplication", {
 
   # warning in multiplication part
   x = as.integer64("4000000000") # x**2 > 2^63
-  expect_warning(expect_identical(matrix(x, 1L)%*%matrix(x, ncol=1L), matrix(NA_integer64_, 1L, 1L)), "NAs produced by integer64 overflow")
+  expect_warning(
+    expect_identical(matrix(x, 1L)%*%matrix(x, ncol=1L), matrix(NA_integer64_, 1L, 1L)),
+    "NAs produced by integer64 overflow"
+  )
 
   # warning in summation part
   x = rep_len(as.integer64("3000000000"), 2L) # x**2 < 2^63, but 2 * x**2 > 2^63
-  expect_warning(expect_identical(matrix(x, 1L)%*%matrix(x, ncol=1L), matrix(NA_integer64_, 1L, 1L)), "NAs produced by integer64 overflow")
+  expect_warning(
+    expect_identical(matrix(x, 1L)%*%matrix(x, ncol=1L), matrix(NA_integer64_, 1L, 1L)),
+    "NAs produced by integer64 overflow"
+  )
 
 })
 
@@ -269,9 +279,17 @@ test_that("coercion to matrix and array", {
   i64 = as.integer64(i32)
   m64 = matrix(as.integer64(i32), 2L)
 
-  expect_identical(as.matrix(i64), matrix(i64, length(i64), 1L), ignore_attr=if (getRversion() < "4.0.0") "class" else FALSE)
+  expect_identical(
+    as.matrix(i64),
+    matrix(i64, length(i64), 1L),
+    ignore_attr = if (getRversion() < "4.0.0") "class" else FALSE
+  )
   expect_identical(as.matrix(m64), m64)
 
-  expect_identical(as.array(i64), array(i64, dim = c(length(i64))), ignore_attr=if (getRversion() < "4.0.0") "class" else FALSE)
+  expect_identical(
+    as.array(i64),
+    array(i64, dim = c(length(i64))),
+    ignore_attr = if (getRversion() < "4.0.0") "class" else FALSE
+  )
   expect_identical(as.array(m64), m64)
 })

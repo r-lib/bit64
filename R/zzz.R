@@ -54,9 +54,13 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
     withCallingHandlers(expr, error=error, warning=warning),
     list(
       expr = sys.call()[[2L]],
-      error = function(e) stop(errorCondition(e$message, call=choose_sys_call(function_names, name_to_display, callStack=callStack))),
+      error = function(e) {
+        stop(errorCondition(e$message, call=choose_sys_call(function_names, name_to_display, callStack=callStack)))
+      },
       warning = function(w) {
-        warning(warningCondition(w$message, call=choose_sys_call(function_names, name_to_display, callStack=callStack)))
+        warning(
+          warningCondition(w$message, call=choose_sys_call(function_names, name_to_display, callStack=callStack))
+        )
         invokeRestart("muffleWarning")
       }
     )
@@ -64,7 +68,8 @@ withCallingHandlers_and_choose_call = function(expr, function_names, name_to_dis
   eval(wch, envir=parent.frame())
 }
 
-# function to determine target class and sample value for union, intersect, setdiff, setequal, min, max, range, sum, prod, c, cbind and rbind functions
+# function to determine target class and sample value for the following functions:
+#   union, intersect, setdiff, setequal, min, max, range, sum, prod, c, cbind and rbind
 getClassesOfElements = function(x, recursive) {
   classes = vapply(x, function(el) if (inherits(el, c("list", "data.frame"))) "list" else class(el)[1L], character(1L))
   if (recursive) {
@@ -81,7 +86,11 @@ target_class = function(x, recursive=FALSE, POSIXltAsCharacter=FALSE) {
   if ("POSIXlt" %in% classes && isTRUE(POSIXltAsCharacter)) return("character")
   if ("complex" %in% classes) return("complex")
   if (!any(c("character", "factor", "ordered") %in% classes)) return("integer64")
-  # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option
+  # TODO(#44): change default coercion to character
+  #         next Release: change default behavior
+  #   subsequent Release: change from message to warning
+  #   subsequent Release: change from warning to error
+  #   subsequent Release: remove option
   if (isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) return("character")
   "integer64"
 }

@@ -211,33 +211,72 @@ test_that("our overwrite of table() is consistent with base::table", {
   expect_same_error(table(a=1L, b=NULL), base::table(a=1L, b=NULL))
 
   skip_unless_r("> 3.6.0") # unclear what's going on
-  expected_result = withr::with_seed(1L, base::table(exclude=sample.int(10L, 1L), useNA=sample(c("no", "ifany", "always"), 1L), deparse.level=sample.int(2L, 1L), sample.int(10L)))
+  expected_result = withr::with_seed(1L, base::table(
+    exclude = sample.int(10L, 1L),
+    useNA = sample(c("no", "ifany", "always"), 1L),
+    deparse.level = sample.int(2L, 1L),
+    sample.int(10L)
+  ))
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample.int(10L, 1L), useNA=sample(c("no", "ifany", "always"), 1L), deparse.level=sample.int(2L, 1L), sample(as.integer64(1:10)))),
+    withr::with_seed(1L, table(
+      exclude = sample.int(10L, 1L),
+      useNA = sample(c("no", "ifany", "always"), 1L),
+      deparse.level = sample.int(2L, 1L),
+      sample(as.integer64(1:10))
+    )),
     expected_result
   )
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample.int(10L, 1L), useNA=sample(c("no", "ifany", "always"), 1L), deparse.level=sample.int(2L, 1L), sample.int(10L))),
+    withr::with_seed(1L, table(
+      exclude = sample.int(10L, 1L),
+      useNA = sample(c("no", "ifany", "always"), 1L),
+      deparse.level = sample.int(2L, 1L),
+      sample.int(10L)
+    )),
     expected_result
   )
 
-  expected_result = withr::with_seed(1L, base::table(exclude=sample.int(10L, 1L), deparse.level=sample.int(2L, 1L), sample.int(10L)))
+  expected_result = withr::with_seed(1L, base::table(
+    exclude = sample.int(10L, 1L),
+    deparse.level = sample.int(2L, 1L),
+    sample.int(10L)
+  ))
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample.int(10L, 1L), deparse.level=sample.int(2L, 1L), sample(as.integer64(1:10)))),
+    withr::with_seed(1L, table(
+      exclude = sample.int(10L, 1L),
+      deparse.level = sample.int(2L, 1L),
+      sample(as.integer64(1:10))
+    )),
     expected_result
   )
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample.int(10L, 1L), deparse.level=sample.int(2L, 1L), sample.int(10L))),
+    withr::with_seed(1L, table(
+      exclude = sample.int(10L, 1L),
+      deparse.level = sample.int(2L, 1L),
+      sample.int(10L)
+    )),
     expected_result
   )
 
-  expected_result = withr::with_seed(1L, base::table(exclude=sample.int(10L, 1L), useNA=sample(c("no", "ifany", "always"), 1L), sample.int(10L)))
+  expected_result = withr::with_seed(1L, base::table(
+    exclude = sample.int(10L, 1L),
+    useNA = sample(c("no", "ifany", "always"), 1L),
+    sample.int(10L)
+  ))
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample.int(10L, 1L), useNA=sample(c("no", "ifany", "always"), 1L), sample(as.integer64(1:10)))),
+    withr::with_seed(1L, table(
+      exclude = sample.int(10L, 1L),
+      useNA = sample(c("no", "ifany", "always"), 1L),
+      sample(as.integer64(1:10))
+    )),
     expected_result
   )
   expect_identical(
-    withr::with_seed(1L, table(exclude=sample.int(10L, 1L), useNA=sample(c("no", "ifany", "always"), 1L), sample.int(10L))),
+    withr::with_seed(1L, table(
+      exclude = sample.int(10L, 1L),
+      useNA = sample(c("no", "ifany", "always"), 1L),
+      sample.int(10L)
+    )),
     expected_result
   )
 

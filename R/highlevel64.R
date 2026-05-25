@@ -2104,7 +2104,13 @@ unipos.integer64 = function(x,
 #' @concept occurrences
 #' @concept contingency table
 #' @export
-table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifany", "always"), dnn=list.names(...), deparse.level=1L) {
+table = function(
+  ...,
+  exclude=if (useNA == "no") c(NA, NaN),
+  useNA=c("no", "ifany", "always"),
+  dnn=list.names(...),
+  deparse.level=1L
+) {
   # assure order of evaluation to match base::table()
   if (!missing(useNA) && !missing(exclude)) {
     force(useNA)
@@ -2155,7 +2161,13 @@ table = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifan
   }
 }
 #' @exportS3Method table default
-table.default = function(..., exclude=if (useNA == "no") c(NA, NaN), useNA=c("no", "ifany", "always"), dnn=list.names(...), deparse.level=1L) {
+table.default = function(
+  ...,
+  exclude=if (useNA == "no") c(NA, NaN),
+  useNA=c("no", "ifany", "always"),
+  dnn=list.names(...),
+  deparse.level=1L
+) {
   # avoid condition messages with `table.default`
   sys_call = sys.call()
   sys_call[[1L]] = base::table

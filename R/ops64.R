@@ -12,14 +12,14 @@
 #'
 #' Binary operators for integer64 vectors.
 #'
-#' @param e1,e2,x numeric or complex vectors or objects which can be coerced to such, or other objects for which methods have been written for - especially 'integer64' vectors.
+#' @param e1,e2,x numeric or complex vectors or objects which can be coerced to such,
+#'   or other objects for which methods have been written for - especially 'integer64' vectors.
 #'
 #' @returns
-#'   [`&`], [`|`], [`!`], [`!=`], [`==`], [`<`], [`<=`], [`>`], [`>=`] return a logical vector
-#'
-#'   [`/`] returns a double vector
-#'
-#'   [`+`], [`-`], [`*`], [`%/%`][Arithmetic], [`%%`][Arithmetic], [`^`] return a vector of class 'integer64' or different class depending on the operands
+#'   - [`&`], [`|`], [`!`], [`!=`], [`==`], [`<`], [`<=`], [`>`], [`>=`] return a logical vector
+#'   - [`/`] returns a double vector
+#'   - [`+`], [`-`], [`*`], [`%/%`][Arithmetic], [`%%`][Arithmetic], [`^`] return a vector of class
+#'     'integer64' or different class depending on the operands
 #'
 #' @keywords classes manip
 #' @seealso [integer64()]
@@ -119,7 +119,10 @@ target_class_for_Ops = function(e1, e2) {
   convert_to_integer64 = function(el) is.numeric(el) || is.logical(el)
   if (missing(e2)) {
     if (!is.numeric(unclass(e1)) && !is.logical(e1) && !is.complex(e1) && !inherits(e1, "POSIXt"))
-      stop(errorCondition(gettext("non-numeric argument to mathematical function", domain="R"), call=sys.call(sys.nframe() - 1L)))
+      stop(errorCondition(
+        gettext("non-numeric argument to mathematical function", domain="R"),
+        call=sys.call(sys.nframe() - 1L)
+      ))
 
     if (convert_to_integer64(e1)) {
       "integer64"

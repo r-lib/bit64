@@ -752,9 +752,15 @@ factor = function(x=character(), levels, labels=levels, exclude=NA, ordered=is.o
     x = as.character(x)
     levels = as.character(levels)
     if (missing(labels))
-      return(withCallingHandlers_and_choose_call(base::factor(x=x, levels=levels, exclude=exclude, ordered=ordered, nmax=nmax), "factor"))
+      return(withCallingHandlers_and_choose_call(
+        base::factor(x=x, levels=levels, exclude=exclude, ordered=ordered, nmax=nmax),
+        "factor"
+      ))
     else
-      return(withCallingHandlers_and_choose_call(base::factor(x=x, levels=levels, labels=labels, exclude=exclude, ordered=ordered, nmax=nmax), "factor"))
+      return(withCallingHandlers_and_choose_call(
+        base::factor(x=x, levels=levels, labels=labels, exclude=exclude, ordered=ordered, nmax=nmax),
+        "factor"
+      ))
   }
 
   # basically copied from base::factor, but using the benefit from caching
@@ -889,11 +895,16 @@ str.integer64 = function(object, vec.len=strO$vec.len, give.head=TRUE, give.leng
             if (isTRUE(give.length)) paste0("[1:", n, "] ") else " "
           } else if (!is.null(obj_dim <- dim(object))) {
             if (prod(obj_dim) != n)
-              stop(gettextf("dims [product %d] do not match the length of object [%d]", prod(obj_dim), n, domain="R"), domain=NA)
+              stop(domain=NA, gettextf(
+                "dims [product %d] do not match the length of object [%d]",
+                prod(obj_dim), n,
+                domain="R"
+              ))
             if (length(obj_dim) == 1L) {
               paste0("[", n, "(1d)] ")
             } else {
-              paste0("[", toString(vapply(obj_dim, function(el) if (el < 2L) as.character(el) else paste0("1:", el), "")), "] ")
+              dim_summary = vapply(obj_dim, function(el) if (el < 2L) as.character(el) else paste0("1:", el), "")
+              paste0("[", toString(dim_summary), "] ")
             }
           }
         )
@@ -990,8 +1001,16 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   parent = parent.frame()
   coerced_args = position_args_with_int64_to_int_coercion(sc, parent, skipLast=TRUE)
 
-  # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
-  if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
+  # TODO(#44): change default coercion to character
+  #         next Release: change default behavior
+  #   subsequent Release: change from message to warning
+  #   subsequent Release: change from warning to error
+  #   subsequent Release: remove option and promote_to_char
+  if (
+    (is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE)))
+    || is.complex(value)
+    || (is.double(value) && class(value)[1L] != "numeric")
+  ) {
     coerced_args$value = value
     # nolint next: undesirable_function_linter.
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))
@@ -1031,8 +1050,16 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
       el = as.integer(el)
     el
   })
-  # TODO(#44): next Release: change default behavior; subsequent Release: change from message to warning; subsequent Release: change from warning to error; subsequent Release: remove option and promote_to_char
-  if ((is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) || is.complex(value) || (is.double(value) && class(value)[1L] != "numeric")) {
+  # TODO(#44): change default coercion to character
+  #         next Release: change default behavior
+  #   subsequent Release: change from message to warning
+  #   subsequent Release: change from warning to error
+  #   subsequent Release: remove option and promote_to_char
+  if (
+    (is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE)))
+    || is.complex(value)
+    || (is.double(value) && class(value)[1L] != "numeric")
+  ) {
     coerced_args$value = value
     # nolint next: undesirable_function_linter.
     x = structure(as(x, class(value)[1L]), dim = dim(x), dimnames = dimnames(x))

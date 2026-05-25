@@ -60,9 +60,15 @@ array.integer64 = function(data=NA_integer64_, ...) {
 colSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
   dn = dim(x)
   if (!is.array(x) || length(dn) < 2L)
-    stop(errorCondition(gettext("'x' must be an array of at least two dimensions", domain="R-base"), call=choose_sys_call(c("colSums", "colSums.integer64"))))
+    stop(errorCondition(
+      gettext("'x' must be an array of at least two dimensions", domain="R-base"),
+      call=choose_sys_call(c("colSums", "colSums.integer64"))
+    ))
   if (length(dims) != 1L || dims < 1L || dims > length(dn) - 1L)
-    stop(errorCondition(gettext("invalid 'dims'", domain="R-base"), call=choose_sys_call(c("colSums", "colSums.integer64"))))
+    stop(errorCondition(
+      gettext("invalid 'dims'", domain="R-base"),
+      call=choose_sys_call(c("colSums", "colSums.integer64"))
+    ))
 
   ret = apply(x, seq_along(dn)[-seq_len(dims)], sum, na.rm=na.rm)
   class(ret) = class(x)
@@ -74,9 +80,15 @@ colSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
 rowSums.integer64 = function(x, na.rm=FALSE, dims=1L) {
   dn = dim(x)
   if (!is.array(x) || length(dn) < 2L)
-    stop(errorCondition(gettext("'x' must be an array of at least two dimensions", domain="R-base"), call=choose_sys_call(c("rowSums", "rowSums.integer64"))))
+    stop(errorCondition(
+      gettext("'x' must be an array of at least two dimensions", domain="R-base"),
+      call=choose_sys_call(c("rowSums", "rowSums.integer64"))
+    ))
   if (length(dims) != 1L || dims < 1L || dims > length(dn) - 1L)
-    stop(errorCondition(gettext("invalid 'dims'", domain="R-base"), call=choose_sys_call(c("rowSums", "rowSums.integer64"))))
+    stop(errorCondition(
+      gettext("invalid 'dims'", domain="R-base"),
+      call=choose_sys_call(c("rowSums", "rowSums.integer64"))
+    ))
 
   ret = apply(x, seq_len(dims), sum, na.rm=na.rm)
   class(ret) = class(x)
@@ -99,7 +111,10 @@ aperm.integer64 = function(a, perm, ...) {
 
   target_class = target_class_for_Ops(x, y)
   if (target_class %in% c("character", "factor")) {
-    stop(errorCondition(gettext("requires numeric/complex matrix/vector arguments", domain="R"), call=sys.call(sys.nframe() - 1L)))
+    stop(errorCondition(
+      gettext("requires numeric/complex matrix/vector arguments", domain="R"),
+      call=sys.call(sys.nframe() - 1L)
+    ))
   }
   if (target_class != "integer64") {
     if (is.integer64(x)) {
@@ -144,7 +159,12 @@ aperm.integer64 = function(a, perm, ...) {
     ret = .Call(C_matmult_integer64_double, structure(as.integer64(x), dim=dx), y, double(dx[1L]*dy[2L]))
   } else {
     # nolint next: undesirable_function_linter.
-    ret = .Call(C_matmult_integer64_integer64, structure(as.integer64(x), dim=dx), structure(as.integer64(y), dim=dy), double(dx[1L]*dy[2L]))
+    ret = .Call(
+      C_matmult_integer64_integer64,
+      structure(as.integer64(x), dim=dx),
+      structure(as.integer64(y), dim=dy),
+      double(dx[1L]*dy[2L])
+    )
   }
   dim(ret) = c(dx[1L], dy[2L])
   oldClass(ret) = "integer64"
