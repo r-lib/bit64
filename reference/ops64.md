@@ -66,21 +66,21 @@ e1 | e2
 
 ## Value
 
-`&`, [`|`](https://rdrr.io/r/base/Logic.html),
-[`!`](https://rdrr.io/r/base/Logic.html),
-[`!=`](https://rdrr.io/r/base/Comparison.html),
-[`==`](https://rdrr.io/r/base/Comparison.html), `<`, `<=`, `>`, `>=`
-return a logical vector
+- `&`, [`|`](https://rdrr.io/r/base/Logic.html),
+  [`!`](https://rdrr.io/r/base/Logic.html),
+  [`!=`](https://rdrr.io/r/base/Comparison.html),
+  [`==`](https://rdrr.io/r/base/Comparison.html), `<`, `<=`, `>`, `>=`
+  return a logical vector
 
-[`/`](https://rdrr.io/r/base/Arithmetic.html) returns a double vector
+- [`/`](https://rdrr.io/r/base/Arithmetic.html) returns a double vector
 
-[`+`](https://rdrr.io/r/base/Arithmetic.html),
-[`-`](https://rdrr.io/r/base/Arithmetic.html),
-[`*`](https://rdrr.io/r/base/Arithmetic.html),
-[`%/%`](https://rdrr.io/r/base/Arithmetic.html),
-[`%%`](https://rdrr.io/r/base/Arithmetic.html),
-[`^`](https://rdrr.io/r/base/Arithmetic.html) return a vector of class
-'integer64' or different class depending on the operands
+- [`+`](https://rdrr.io/r/base/Arithmetic.html),
+  [`-`](https://rdrr.io/r/base/Arithmetic.html),
+  [`*`](https://rdrr.io/r/base/Arithmetic.html),
+  [`%/%`](https://rdrr.io/r/base/Arithmetic.html),
+  [`%%`](https://rdrr.io/r/base/Arithmetic.html),
+  [`^`](https://rdrr.io/r/base/Arithmetic.html) return a vector of class
+  'integer64' or different class depending on the operands
 
 ## See also
 

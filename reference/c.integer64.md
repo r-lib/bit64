@@ -9,10 +9,10 @@ The ususal functions 'c', 'cbind' and 'rbind'
 c(..., recursive = FALSE)
 
 # S3 method for class 'integer64'
-cbind(..., deparse.level = 1)
+cbind(..., deparse.level = 1L)
 
 # S3 method for class 'integer64'
-rbind(..., deparse.level = 1)
+rbind(..., deparse.level = 1L)
 ```
 
 ## Arguments
