@@ -151,14 +151,12 @@ aperm.integer64 = function(a, perm, ...) {
   dim(x) = dx
   dim(y) = dy
 
+  # nolint start: undesirable_function_linter.
   if (is.double(x)) {
-    # nolint next: undesirable_function_linter.
     ret = .Call(C_matmult_double_integer64, x, structure(as.integer64(y), dim=dy), double(dx[1L]*dy[2L]))
   } else if (is.double(y)) {
-    # nolint next: undesirable_function_linter.
     ret = .Call(C_matmult_integer64_double, structure(as.integer64(x), dim=dx), y, double(dx[1L]*dy[2L]))
   } else {
-    # nolint next: undesirable_function_linter.
     ret = .Call(
       C_matmult_integer64_integer64,
       structure(as.integer64(x), dim=dx),
@@ -166,6 +164,7 @@ aperm.integer64 = function(a, perm, ...) {
       double(dx[1L]*dy[2L])
     )
   }
+  # nolint end: undesirable_function_linter.
   dim(ret) = c(dx[1L], dy[2L])
   oldClass(ret) = "integer64"
   ret
