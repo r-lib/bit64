@@ -82,7 +82,7 @@ target_class = function(x, recursive=FALSE, POSIXltAsCharacter=FALSE, forSetOps=
   classes = getClassesOfElements(x, recursive=isTRUE(recursive))
 
   # TODO(#44): change default coercion to character
-  #         next Release: throw a warning
+  #         next Release: throw a warning for using FALSE
   #   subsequent Release: change from warning to error
   #   subsequent Release: remove option
   if (isTRUE(getOption("bit64.promoteInteger64ToCharacter", TRUE))) {
