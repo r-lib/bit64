@@ -8,10 +8,9 @@
 #*/
 
 #' @title Set Operations
-#' @description Performs set union, intersection, (asymmetric!) difference,
-#'   equality and membership on two vectors. As soon as an integer64 vector
-#'   is involved, the operations are performed using integer64 semantics.
-#'   Otherwise the \code{base} package functions are called.
+#' @description Performs set union, intersection, (asymmetric!) difference, equality and membership on two vectors.
+#'   As soon as an integer64 vector is involved, the operations are performed using integer64 semantics. Otherwise
+#'   the \code{base} package functions are called.
 #' @inheritParams base::union
 #' @return
 #' For union, a vector of a common mode or class.
@@ -30,7 +29,7 @@
 #' setdiff(x, y)
 #' setequal(x, y)
 #' is.element(x, y)
-#' 
+#'
 #' @export
 #' @rdname sets
 union = function(x, y) {
@@ -43,7 +42,11 @@ union = function(x, y) {
   class_x = class(x)[1L]
   if (class_x != target_class) {
     # TODO(#44): remove this special coercion for factor and ordered
-    if (target_class == "integer64" && class_x %in% c("factor", "ordered") && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE)))
+    if (
+      target_class == "integer64"
+      && class_x %in% c("factor", "ordered")
+      && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE))
+    )
       x = as.character(x)
     x = as(x, target_class)
   }
@@ -51,7 +54,11 @@ union = function(x, y) {
   class_y = class(y)[1L]
   if (class_y != target_class) {
     # TODO(#44): remove this special coercion for factor and ordered
-    if (target_class == "integer64" && class_y %in% c("factor", "ordered") && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE)))
+    if (
+      target_class == "integer64"
+      && class_y %in% c("factor", "ordered")
+      && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE))
+    )
       y = as.character(y)
     y = as(y, target_class)
   }
@@ -71,7 +78,11 @@ intersect = function(x, y) {
   class_x = class(x)[1L]
   if (class_x != target_class) {
     # TODO(#44): remove this special coercion for factor and ordered
-    if (target_class == "integer64" && class_x %in% c("factor", "ordered") && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE)))
+    if (
+      target_class == "integer64"
+      && class_x %in% c("factor", "ordered")
+      && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE))
+   )
       x = as.character(x)
     x = as(x, target_class)
   }
@@ -79,7 +90,11 @@ intersect = function(x, y) {
   class_y = class(y)[1L]
   if (class_y != target_class) {
     # TODO(#44): remove this special coercion for factor and ordered
-    if (target_class == "integer64" && class_y %in% c("factor", "ordered") && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE)))
+    if (
+      target_class == "integer64"
+      && class_y %in% c("factor", "ordered")
+      && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE))
+    )
       y = as.character(y)
     y = as(y, target_class)
   }
@@ -148,7 +163,11 @@ is.element = function(el, set) {
   class_el = class(el)[1L]
   if (class_el != target_class) {
     # TODO(#44): remove this special coercion for factor and ordered
-    if (target_class == "integer64" && class_el %in% c("factor", "ordered") && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE)))
+    if (
+      target_class == "integer64"
+      && class_el %in% c("factor", "ordered")
+      && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE))
+    )
       el = as.character(el)
     el = as(el, target_class)
   }
@@ -156,7 +175,11 @@ is.element = function(el, set) {
   class_set = class(set)[1L]
   if (class_set != target_class) {
     # TODO(#44): remove this special coercion for factor and ordered
-    if (target_class == "integer64" && class_set %in% c("factor", "ordered") && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE)))
+    if (
+      target_class == "integer64"
+      && class_set %in% c("factor", "ordered")
+      && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE))
+    )
       set = as.character(set)
     set = as(set, target_class)
   }

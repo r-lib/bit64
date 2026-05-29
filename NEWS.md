@@ -16,6 +16,8 @@
 
 1. `runif64(replace=FALSE)` no longer generates any duplicates (#337).
 
+1. `factor()` retains the names of short integer64 inputs (#343).
+
 ## NOTES
 
 1. The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0 (2019).
