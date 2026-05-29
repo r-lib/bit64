@@ -1109,11 +1109,11 @@ test_that("replacement works consistent to integer: matrix[<-", {
     withr::local_options(list(bit64.promoteInteger64ToCharacter=FALSE))
     m32[1L, c(1L, 3L, NA)] = 103L
     m64[1L, c(1L, 3L, NA)] = "103"
-    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
+    expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
-    m32[1, c(1, 3, NA)] = "103"
-    m64[1, c(1, 3, NA)] = "103"
+    m32[1L, c(1L, 3L, NA)] = "103"
+    m64[1L, c(1L, 3L, NA)] = "103"
     expect_identical(m64, m32)
   })
   local({
@@ -1181,7 +1181,7 @@ test_that("replacement works consistent to integer: matrix[[<-", {
     withr::local_options(list(bit64.promoteInteger64ToCharacter=FALSE))
     m32[[1L, 4L]] = 112L
     m64[[1L, 4L]] = "112"
-    expect_identical(m64, structure(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
+    expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
     m32[[1L, 4L]] = "112"
@@ -1297,15 +1297,42 @@ test_that("c works consistent to R", {
   x32 = 1:10
   x64 = as.integer64(x32)
 
-  expect_identical(c(A=integer64(), B=as.raw(x32)), convert_x32_result_to_integer64(c(A=integer(), B=as.raw(x32)), recursive=TRUE))
-  expect_identical(c(A=integer64(), B=as.logical(x32)), convert_x32_result_to_integer64(c(A=integer(), B=as.logical(x32)), recursive=TRUE))
-  expect_identical(c(A=integer64(), B=as.difftime(x32, units="secs")), convert_x32_result_to_integer64(c(A=integer(), B=as.difftime(x32, units="secs")), recursive=TRUE))
-  expect_identical(c(A=integer64(), B=as.POSIXct(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(A=integer(), B=as.POSIXct(x32, origin="2026-01-27")), recursive=TRUE))
-  expect_identical(c(A=integer64(), B=as.Date(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(A=integer(), B=as.Date(x32, origin="2026-01-27")), recursive=TRUE))
-  expect_identical(c(A=integer64(), B=as.factor(x32)), convert_x32_result_to_integer64(c(A=integer(), B=as.factor(x32)), recursive=TRUE))
-  expect_identical(c(A=integer64(), B=as.ordered(x32)), convert_x32_result_to_integer64(c(A=integer(), B=as.ordered(x32)), recursive=TRUE))
-  expect_identical(c(A=integer64(), B=as.double(x32)), convert_x32_result_to_integer64(c(A=integer(), B=as.double(x32)), recursive=TRUE))
-  expect_identical(c(A=integer64(), B=x32), convert_x32_result_to_integer64(c(A=integer(), B=x32), recursive=TRUE))
+  expect_identical(
+    c(A=integer64(), B=as.raw(x32)),
+    convert_x32_result_to_integer64(c(A=integer(), B=as.raw(x32)), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=integer64(), B=as.logical(x32)),
+    convert_x32_result_to_integer64(c(A=integer(), B=as.logical(x32)), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=integer64(), B=as.difftime(x32, units="secs")),
+    convert_x32_result_to_integer64(c(A=integer(), B=as.difftime(x32, units="secs")), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=integer64(), B=as.POSIXct(x32, origin="2026-01-27")),
+    convert_x32_result_to_integer64(c(A=integer(), B=as.POSIXct(x32, origin="2026-01-27")), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=integer64(), B=as.Date(x32, origin="2026-01-27")),
+    convert_x32_result_to_integer64(c(A=integer(), B=as.Date(x32, origin="2026-01-27")), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=integer64(), B=as.factor(x32)),
+    convert_x32_result_to_integer64(c(A=integer(), B=as.factor(x32)), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=integer64(), B=as.ordered(x32)),
+    convert_x32_result_to_integer64(c(A=integer(), B=as.ordered(x32)), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=integer64(), B=as.double(x32)),
+    convert_x32_result_to_integer64(c(A=integer(), B=as.double(x32)), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=integer64(), B=x32),
+    convert_x32_result_to_integer64(c(A=integer(), B=x32), recursive=TRUE)
+  )
   expect_identical(c(A=integer64(), B=as.complex(x32)), c(A=integer(), B=as.complex(x32)))
   # TODO(#44): adjust tests accordingly
   withr::with_options(list(bit64.promoteInteger64ToCharacter=FALSE), {
@@ -1313,15 +1340,42 @@ test_that("c works consistent to R", {
   })
   expect_identical(c(A=integer64(), B=as.character(x32)), c(A=integer(), B=as.character(x32)))
 
-  expect_identical(c(A=x64, B=as.raw(x32)), convert_x32_result_to_integer64(c(A=x32, B=as.raw(x32)), recursive=TRUE))
-  expect_identical(c(A=x64, B=as.logical(x32)), convert_x32_result_to_integer64(c(A=x32, B=as.logical(x32)), recursive=TRUE))
-  expect_identical(c(A=x64, B=as.difftime(x32, units="secs")), convert_x32_result_to_integer64(c(A=x32, B=as.difftime(x32, units="secs")), recursive=TRUE))
-  expect_identical(c(A=x64, B=as.POSIXct(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(A=x32, B=as.POSIXct(x32, origin="2026-01-27")), recursive=TRUE))
-  expect_identical(c(A=x64, B=as.Date(x32, origin="2026-01-27")), convert_x32_result_to_integer64(c(A=x32, B=as.Date(x32, origin="2026-01-27")), recursive=TRUE))
-  expect_identical(c(A=x64, B=as.factor(x32)), convert_x32_result_to_integer64(c(A=x32, B=as.factor(x32)), recursive=TRUE))
-  expect_identical(c(A=x64, B=as.ordered(x32)), convert_x32_result_to_integer64(c(A=x32, B=as.ordered(x32)), recursive=TRUE))
-  expect_identical(c(A=x64, B=as.double(x32)), convert_x32_result_to_integer64(c(A=x32, B=as.double(x32)), recursive=TRUE))
-  expect_identical(c(A=x64, B=x32), convert_x32_result_to_integer64(c(A=x32, B=x32), recursive=TRUE))
+  expect_identical(
+    c(A=x64, B=as.raw(x32)),
+    convert_x32_result_to_integer64(c(A=x32, B=as.raw(x32)), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=x64, B=as.logical(x32)),
+    convert_x32_result_to_integer64(c(A=x32, B=as.logical(x32)), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=x64, B=as.difftime(x32, units="secs")),
+    convert_x32_result_to_integer64(c(A=x32, B=as.difftime(x32, units="secs")), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=x64, B=as.POSIXct(x32, origin="2026-01-27")),
+    convert_x32_result_to_integer64(c(A=x32, B=as.POSIXct(x32, origin="2026-01-27")), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=x64, B=as.Date(x32, origin="2026-01-27")),
+    convert_x32_result_to_integer64(c(A=x32, B=as.Date(x32, origin="2026-01-27")), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=x64, B=as.factor(x32)),
+    convert_x32_result_to_integer64(c(A=x32, B=as.factor(x32)), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=x64, B=as.ordered(x32)),
+    convert_x32_result_to_integer64(c(A=x32, B=as.ordered(x32)), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=x64, B=as.double(x32)),
+    convert_x32_result_to_integer64(c(A=x32, B=as.double(x32)), recursive=TRUE)
+  )
+  expect_identical(
+    c(A=x64, B=x32),
+    convert_x32_result_to_integer64(c(A=x32, B=x32), recursive=TRUE)
+  )
   expect_identical(c(A=x64, B=as.complex(x32)), c(A=x32, B=as.complex(x32)))
   # TODO(#44): adjust tests accordingly
   withr::with_options(list(bit64.promoteInteger64ToCharacter=FALSE), {
