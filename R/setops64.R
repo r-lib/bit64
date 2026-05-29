@@ -82,7 +82,7 @@ intersect = function(x, y) {
       target_class == "integer64"
       && class_x %in% c("factor", "ordered")
       && isFALSE(getOption("bit64.promoteInteger64ToCharacter", TRUE))
-   )
+    )
       x = as.character(x)
     x = as(x, target_class)
   }
