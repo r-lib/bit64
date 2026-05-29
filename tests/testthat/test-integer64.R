@@ -1390,7 +1390,10 @@ test_that("c works consistent to R", {
   expect_identical(c(A=x64, B=as.character(x32)), c(A=x32, B=as.character(x32)))
 
   # regarding lists
-  expect_identical(c(A=integer64(), B=list()), convert_x32_result_to_integer64(c(A=integer(), B=list()), integer()))
+  expect_identical(
+    c(A=integer64(), B=list()),
+    convert_x32_result_to_integer64(c(A=integer(), B=list()), integer())
+  )
   expect_identical(
     c(A=integer64(), B=list(), recursive=TRUE),
     convert_x32_result_to_integer64(c(A=integer64(), B=list(), recursive=TRUE), integer(), recursive=TRUE)
@@ -1404,7 +1407,10 @@ test_that("c works consistent to R", {
     convert_x32_result_to_integer64(c(A=integer(), B=list(), C=1:2, recursive=TRUE), integer(), recursive=TRUE)
   )
 
-  expect_identical(c(A=x64, B=list()), convert_x32_result_to_integer64(c(A=x32, B=list()), x32))
+  expect_identical(
+    c(A=x64, B=list()),
+    convert_x32_result_to_integer64(c(A=x32, B=list()), x32)
+  )
   expect_identical(
     c(A=x64, B=list(), recursive=TRUE),
     convert_x32_result_to_integer64(c(A=x32, B=list(), recursive=TRUE), x32, recursive=TRUE)
