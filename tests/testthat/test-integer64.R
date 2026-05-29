@@ -1415,20 +1415,23 @@ test_that("c works consistent to R", {
     c(A=x64, B=list(), recursive=TRUE),
     convert_x32_result_to_integer64(c(A=x32, B=list(), recursive=TRUE), x32, recursive=TRUE)
   )
-  expect_identical(c(A=x64, B=list(), C=1:2), convert_x32_result_to_integer64(c(A=x32, B=list(), C=1:2), x32))
+  expect_identical(
+    c(A=x64, B=list(), C=1:2),
+    convert_x32_result_to_integer64(c(A=x32, B=list(), C=1:2), x32)
+  )
   expect_identical(
     c(A=x64, B=list(), C=1:2, recursive=TRUE),
     convert_x32_result_to_integer64(c(A=x32, B=list(), C=1:2, recursive=TRUE), x32, recursive=TRUE)
   )
   expect_identical(
     c(A=x64, B=list(a=1:2, b=3L, c="4")),
-    convert_x32_result_to_integer64(c(A=x32, B=list(a=1:2, b=3, c="4")), x32)
+    convert_x32_result_to_integer64(c(A=x32, B=list(a=1:2, b=3L, c="4")), x32)
   )
   # TODO(#44): adjust tests accordingly
   withr::with_options(list(bit64.promoteInteger64ToCharacter=FALSE), {
     expect_identical(
       c(A=x64, B=list(a=1:2, b=3L, c="4"), recursive=TRUE),
-      convert_x32_result_to_integer64(c(A=x32, B=list(a=1:2, b=3, c="4"), recursive=TRUE), x32, recursive=TRUE)
+      convert_x32_result_to_integer64(c(A=x32, B=list(a=1:2, b=3L, c="4"), recursive=TRUE), x32, recursive=TRUE)
     )
   })
   expect_identical(
@@ -1437,7 +1440,7 @@ test_that("c works consistent to R", {
   )
   expect_identical(
     c(A=x64, B=data.frame(a=1:2, b=3L, c="4", stringsAsFactors=FALSE)),
-    convert_x32_result_to_integer64(c(A=x32, B=data.frame(a=1:2, b=3, c="4", stringsAsFactors=FALSE)), x32)
+    convert_x32_result_to_integer64(c(A=x32, B=data.frame(a=1:2, b=3L, c="4", stringsAsFactors=FALSE)), x32)
   )
   # TODO(#44): adjust tests accordingly
   withr::with_options(list(bit64.promoteInteger64ToCharacter=FALSE), {
@@ -1456,7 +1459,8 @@ test_that("c works consistent to R", {
 
   expect_identical(
     c(x64, as.POSIXlt(x32, origin="2026-01-27")),
-    convert_x32_result_to_integer64(c(x32, as.POSIXlt(x32, origin="2026-01-27")), x32))
+    convert_x32_result_to_integer64(c(x32, as.POSIXlt(x32, origin="2026-01-27")), x32)
+  )
   if (getRversion() >= "4.0.0") # in my tests on R 3.5.0 this is identical
     expect_identical(
       c(x64, as.POSIXlt(x32, origin="2026-01-27"), recursive=TRUE),
@@ -1495,16 +1499,16 @@ test_that("c works consistent to R", {
         A = x64,
         B = list(aa=x64, bb=list(bba=x64, bbb=x32, bbc=as.character(x32))),
         C = data.frame(a=x64, b=x32),
-        recursive=TRUE
+        recursive = TRUE
       ),
       convert_x32_result_to_integer64(
         c(
           A = x32,
           B = list(aa=x32, bb=list(bba=x32, bbb=x32, bbc=as.character(x32))),
           C = data.frame(a=x32, b=x32),
-          recursive=TRUE
+          recursive = TRUE
         ),
-        recursive=TRUE
+        recursive = TRUE
       )
     )
   })
@@ -1513,13 +1517,13 @@ test_that("c works consistent to R", {
       A = x64,
       B = list(aa=x64, bb=list(bba=x64, bbb=x32, bbc=as.character(x32))),
       C = data.frame(a=x64, b=x32),
-      recursive=TRUE
+      recursive = TRUE
     ),
     c(
       A = x32,
       B = list(aa=x32, bb=list(bba=x32, bbb=x32, bbc=as.character(x32))),
       C = data.frame(a=x32, b=x32),
-      recursive=TRUE
+      recursive = TRUE
     )
   )
 })
@@ -1843,11 +1847,14 @@ test_that("rbind works consistent to R", {
     # TODO(#44): adjust tests accordingly
     expect_identical(
       rbind(
-        matrix(x64, 5L, dimnames=list(NULL, c("a", "b"))),
+        matrix(x64, 5L, dimnames = list(NULL, c("a", "b"))),
         data.frame(a=5:1, b=as.character(1:5), stringsAsFactors=FALSE)
       ),
       convert_x32_result_to_integer64(
-        rbind(matrix(x32, 5L, dimnames=list(NULL, c("a", "b"))), data.frame(a=5:1, b=1:5)),
+        rbind(
+          matrix(x32, 5L, dimnames = list(NULL, c("a", "b"))),
+          data.frame(a=5:1, b=1:5)
+        ),
         1:2
       )
     )
