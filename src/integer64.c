@@ -1047,12 +1047,12 @@ SEXP as_list_integer64(SEXP x_){
   long long i, n = LENGTH(x_);
   if (n){
     SEXP class;
+    PROTECT(class = allocVector(STRSXP, 1));
+    SET_STRING_ELT(class, 0, mkChar("integer64"));
     for (i=0; i<n; i++){
-      PROTECT(class = allocVector(STRSXP, 1));
-      SET_STRING_ELT(class, 0, mkChar("integer64"));
       classgets(VECTOR_ELT(x_, i), class);
     }
-    UNPROTECT(n);
+    UNPROTECT(1);
   }
   return x_;
 }
