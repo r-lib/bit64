@@ -22,7 +22,7 @@ test_that("as.list() does not overflow the protection stack", {
   n = 60000L
   x = as.integer64(seq_len(n))
   # This used to throw a protection stack overflow
-  expect_no_error(l <- as.list(x))
+  l = as.list(x)
   expect_length(l, n)
   expect_s3_class(l[[1L]], "integer64")
   expect_identical(l[[1L]], as.integer64(1L))
