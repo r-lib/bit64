@@ -1309,6 +1309,7 @@ as.data.frame.integer64 = function(x, row.names=NULL, optional=FALSE, ...) {
   ret
 }
 
+#' @rdname rep.integer64
 #' @export
 rep.integer64 = function(x, ...) {
   cl = oldClass(x)
