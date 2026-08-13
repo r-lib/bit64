@@ -16,6 +16,8 @@
 
 1. `factor()` retains the names of short integer64 inputs (#343).
 
+1. `as.list()` doesn't overflow the protection stack for integer64 inputs (#345). Thanks @NicChr for the report and fix.
+
 ## NOTES
 
 1. The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0 (2019).
