@@ -35,6 +35,11 @@
     the names of short integer64 inputs
     ([\#343](https://github.com/r-lib/bit64/issues/343)).
 
+3.  [`as.list()`](https://rdrr.io/r/base/list.html) doesn’t overflow the
+    protection stack for integer64 inputs
+    ([\#345](https://github.com/r-lib/bit64/issues/345)). Thanks
+    [@NicChr](https://github.com/NicChr) for the report and fix.
+
 ### NOTES
 
 1.  The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0

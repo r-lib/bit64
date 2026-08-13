@@ -47,6 +47,7 @@
 <h3 id="bug-fixes-4-8-99">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-8-99"></a></h3>
 <ol style="list-style-type: decimal"><li><p><code>runif64(replace=FALSE)</code> no longer generates any duplicates (<a href="https://github.com/r-lib/bit64/issues/337" class="external-link">#337</a>).</p></li>
 <li><p><code><a href="../reference/factor.html">factor()</a></code> retains the names of short integer64 inputs (<a href="https://github.com/r-lib/bit64/issues/343" class="external-link">#343</a>).</p></li>
+<li><p><code><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list()</a></code> doesn’t overflow the protection stack for integer64 inputs (<a href="https://github.com/r-lib/bit64/issues/345" class="external-link">#345</a>). Thanks <a href="https://github.com/NicChr" class="external-link">@NicChr</a> for the report and fix.</p></li>
 </ol></div>
 <div class="section level3">
 <h3 id="notes-4-8-99">NOTES<a class="anchor" aria-label="anchor" href="#notes-4-8-99"></a></h3>
