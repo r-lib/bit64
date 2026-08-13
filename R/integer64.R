@@ -376,7 +376,9 @@ NULL
 NULL
 
 methods::setOldClass("integer64")
-methods::setOldClass("difftime")
+# TODO(R>=4.6.0): remove this.
+if (!"difftime" %in% unlist(methods::.OldClassesList))
+  methods::setOldClass("difftime")
 
 # contributed by Leonardo Silvestri with modifications of JO
 #' @rdname all.equal.integer64
