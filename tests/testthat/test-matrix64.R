@@ -124,7 +124,7 @@ with_parameters_test_that(
     )
     expect_error(
       array(x, dim=-1L),
-      "negative length vectors are not allowed"
+      "negative length vectors are not allowed|dims contain negative values"
     )
 
     expect_identical(array(x, dim=0L),  array(empty, dim = 0L))
