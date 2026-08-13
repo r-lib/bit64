@@ -567,7 +567,7 @@ test_that("table.integer64 covers inputs, cache states, and return types", {
   t_list = table(list(x))
   t_vec = table(x)
   expect_identical(as.vector(t_list), as.vector(t_vec))
-  expect_identical(dim(t_list), dim(t_vec))
+  expect_shape(t_list, dim=dim(t_vec))
 
   # Error: length mismatch
   expect_error(table(x, as.integer64(1:2)), "all arguments must have the same length")
@@ -606,7 +606,7 @@ test_that("table.integer64 covers inputs, cache states, and return types", {
   y = as.integer64(c(1L, 2L, 1L))
   t2 = table(x, y, return="data.frame")
   # Unique pairs are (1,1) and (2,2) --> 2 rows
-  expect_identical(nrow(t2), 2L)
+  expect_shape(t2, nrow=2L)
 
   # Potential overflow check for combinations > 2^63
   # We construct a list of many small vectors.
