@@ -169,7 +169,7 @@
   : Low-level intger64 methods for in-RAM sorting and ordering
 - [`rank(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/rank.integer64.md)
   : Sample Ranks from integer64
-- [`rep.integer64`](https://bit64.r-lib.org/reference/rep.integer64.md)
+- [`rep(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/rep.integer64.md)
   : Replicate elements of integer64 vectors
 - [`runif64()`](https://bit64.r-lib.org/reference/runif64.md) :
   integer64: random numbers

@@ -2,6 +2,13 @@
 
 Replicate elements of integer64 vectors
 
+## Usage
+
+``` r
+# S3 method for class 'integer64'
+rep(x, ...)
+```
+
 ## Arguments
 
 - x:
