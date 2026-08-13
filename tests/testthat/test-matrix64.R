@@ -6,14 +6,14 @@ with_parameters_test_that(
     expect_true(is.matrix(M))
     if (type == "integer64") expect_s3_class(M, "integer64")
     expect_identical(M[seq_along(x)], x)
-    expect_identical(dim(M), c(10L, 1L))
+    expect_shape(M, dim=c(10L, 1L))
     expect_identical(matrix(x, byrow=TRUE)[seq_along(x)], x)
-    expect_identical(dim(matrix(x, byrow=TRUE)), c(10L, 1L))
+    expect_shape(matrix(x, byrow=TRUE), dim=c(10L, 1L))
 
     expect_identical(matrix(x, nrow=2L)[seq_along(x)], x)
-    expect_identical(dim(matrix(x, nrow=2L)), c(2L, 5L))
+    expect_shape(matrix(x, nrow=2L), dim=c(2L, 5L))
     expect_identical(matrix(x, nrow=2L, byrow=TRUE)[seq_along(x)], x[c(1L, 6L, 2L, 7L, 3L, 8L, 4L, 9L, 5L, 10L)])
-    expect_identical(dim(matrix(x, nrow=2L, byrow=TRUE)), c(2L, 5L))
+    expect_shape(matrix(x, nrow=2L, byrow=TRUE), dim=c(2L, 5L))
 
     if (type == "integer64") {
       missing = NA_integer64_
@@ -24,9 +24,9 @@ with_parameters_test_that(
     }
 
     expect_identical(matrix(missing, nrow=2L, ncol=1L)[1:2], c(missing, missing))
-    expect_identical(dim(matrix(missing, nrow=2L, ncol=1L)), c(2L, 1L))
+    expect_shape(matrix(missing, nrow=2L, ncol=1L), dim=c(2L, 1L))
     expect_identical(matrix(empty, nrow=2L, ncol=1L)[1:2], c(missing, missing))
-    expect_identical(dim(matrix(empty, nrow=2L, ncol=1L)), c(2L, 1L))
+    expect_shape(matrix(empty, nrow=2L, ncol=1L), dim=c(2L, 1L))
 
     expect_identical(
       dimnames(matrix(x, 2L, dimnames=list(NULL, letters[1:5]))),
@@ -47,6 +47,7 @@ with_parameters_test_that(
       paste(warning_stub, "columns [6]"), fixed=TRUE
     )
     expect_warning(
+      # nolint next: expect_shape_linter. https://github.com/r-lib/testthat/issues/2345.
       expect_identical(dim(matrix(x, nrow=2L, ncol=6L)), c(2L, 6L)),
       paste(warning_stub, "columns [6]"), fixed=TRUE
     )
@@ -55,6 +56,7 @@ with_parameters_test_that(
       paste(warning_stub, "columns [3]"), fixed=TRUE
     )
     expect_warning(
+      # nolint next: expect_shape_linter. https://github.com/r-lib/testthat/issues/2345.
       expect_identical(dim(matrix(x, nrow=2L, ncol=3L)), c(2L, 3L)),
       paste(warning_stub, "columns [3]"), fixed=TRUE
     )
@@ -86,12 +88,12 @@ with_parameters_test_that(
     expect_true(is.array(A))
     if (type == "integer64") expect_s3_class(A, "integer64")
     expect_identical(A[seq_along(x)], array(x, length(x)))
-    expect_identical(dim(A), 10L)
+    expect_shape(A, dim=10L)
     expect_identical(array(x, c(2L, 5L))[seq_along(x)], x)
-    expect_identical(dim(array(x, c(2L, 5L))), c(2L, 5L))
+    expect_shape(array(x, c(2L, 5L)), dim=c(2L, 5L))
     # TODO(R>=4.0.0): use rep_len(x, 1*2*3) over the ugly versions with seq_len()
     expect_identical(array(x, c(1L, 2L, 3L))[seq_len(1L*2L*3L)], x[seq_len(1L*2L*3L)])
-    expect_identical(dim(array(x, c(1L, 2L, 3L))), c(1L, 2L, 3L))
+    expect_shape(array(x, c(1L, 2L, 3L)), dim=c(1L, 2L, 3L))
     expect_identical(array(x, c(3L, 2L, 3L))[seq_len(3L*2L*3L)], x[(seq_len(3L*2L*3L)-1L) %% length(x) + 1L])
 
     if (type == "integer64") {
@@ -124,7 +126,7 @@ with_parameters_test_that(
     )
     expect_error(
       array(x, dim=-1L),
-      "negative length vectors are not allowed"
+      "negative length vectors are not allowed|dims contain negative values"
     )
 
     expect_identical(array(x, dim=0L),  array(empty, dim = 0L))
