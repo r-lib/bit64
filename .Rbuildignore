@@ -1,5 +1,6 @@
 ^\.github$
 ^\.gitignore
+^\.jj
 ^\.lintr
 \.Rproj$
 ^\.Rproj\.user$
