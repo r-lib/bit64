@@ -8,6 +8,8 @@
 
 1. `factor()` retains the names of short integer64 inputs (#343).
 
+1. `as.list()` doesn't overflow the protection stack for integer64 inputs (#345). Thanks @NicChr for the report and fix.
+
 # bit64 4.8.2 (2026-05-19)
 
 ## BUG FIXES

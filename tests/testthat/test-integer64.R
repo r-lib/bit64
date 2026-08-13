@@ -18,6 +18,18 @@ test_that("integer64 coercion to/from other types work for atomic vectors", {
   expect_identical(as.integer64(i64), i64)
 })
 
+# NB: assumes the session has default --max-ppsize (50000), but there's no way to query that
+test_that("as.list() does not overflow the protection stack", {
+  n = 60000L
+  x = as.integer64(seq_len(n))
+  # This used to throw a protection stack overflow
+  l = as.list(x)
+  expect_length(l, n)
+  expect_s3_class(l[[1L]], "integer64")
+  expect_identical(l[[1L]], as.integer64(1L))
+  expect_identical(l[[n]], as.integer64(n))
+})
+
 test_that("integer64 coercion to/from other types works via S4 coercion", {
   expect_identical(methods::as(as.character(1:10), "integer64"), as.integer64(1:10))
   expect_identical(methods::as(as.factor(11:20), "integer64"), as.integer64(1:10))
