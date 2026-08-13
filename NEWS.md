@@ -1,4 +1,4 @@
-# bit64 4.8.4
+# bit64 4.8.4 (2026-08-19)
 
 1. Fix logical errors in the implementation of `order(decreasing=TRUE)` on inputs with missing elements and `ordercache()` set (#340).
 
