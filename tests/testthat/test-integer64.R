@@ -336,8 +336,11 @@ test_that("arithmetic & basic math works", {
   expect_identical(sqrt(as.integer64(c(0L, 1L, 4L, 9L))), as.numeric(0:3))
   expect_identical(log(x), log(as.numeric(x)))
   expect_identical(log(as.integer64(c(1L, 2L, 4L, 8L)), base=2L), as.numeric(0:3))
+  expect_identical(log(as.integer64(c(1L, 2L, 4L, 8L)), base=c(2L, 2L, 2L, 2L)), as.numeric(0:3))
+  expect_identical(log(as.integer64(c(8L, 1000L)), base=c(2L, 10L)), c(3.0, 3.0))
   expect_identical(log2(as.integer64(c(1L, 2L, 4L, 8L))), as.numeric(0:3))
-  expect_identical(log10(as.integer64(c(1L, 10L, 100L, 1000L))), as.numeric(0:3), tolerance=1e-7)
+  expect_identical(log10(as.integer64(c(1L, 10L, 100L, 1000L))), as.numeric(0:3))
+  expect_identical(log(as.integer64(c(1L, 10L, 100L, 1000L)), base=10L), as.numeric(0:3))
 
   expect_identical(trunc(x), x)
   expect_identical(floor(x), x)
@@ -346,6 +349,10 @@ test_that("arithmetic & basic math works", {
   expect_identical(round(x), x)
 
   expect_identical(round(x, -1L), as.integer64(rep(c(0L, 10L), each=5L)))
+  # Halfway round-to-even tests
+  expect_identical(round(as.integer64(c(-25, -15, -5, 5, 15, 25)), -1L), as.integer64(c(-20, -20, 0, 0, 20, 20)))
+  expect_identical(round(as.integer64(c(-250, -150, -50, 50, 150, 250)), -2L), as.integer64(c(-200, -200, 0, 0, 200, 200)))
+  expect_identical(round(as.integer64(c(-2500, -1500, -500, 500, 1500, 2500)), -3L), as.integer64(c(-2000, -2000, 0, 0, 2000, 2000)))
 })
 
 test_that("basic statistics work", {
@@ -757,6 +764,9 @@ local({
   with_parameters_test_that(
     "Old \\dontshow{} tests in ?format.integer64 continue working",
     {
+      # base::round() for negative digits uses floating-point approximations in fround.c
+      # which can fail round-half-to-even on platforms with x87 FPUs (e.g. i686) (#180).
+      skip_if(s < 0L && round(5 * 10^(-s - 1L), s) != 0, "base::round() does not round to even on this platform")
       r <- as.integer64(round(as.integer(i), s))
       r64 <- round(as.integer64(i), s)
       expect_identical(r, r64)

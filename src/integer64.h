@@ -225,7 +225,7 @@ else {                                                   \
     else { \
         if (e1 < 0) \
             naflag = TRUE; \
-        ret = (double) sqrt((long double)e1); \
+        ret = (double) sqrtl((long double)e1); \
     }
 
 #define LOG64(e1, ret, naflag) \
@@ -241,7 +241,7 @@ else {                                                   \
     if (e1 == NA_INTEGER64) \
         ret = NA_REAL; \
     else { \
-        ret = (double) logl((long double)e1) / log(e2); \
+        ret = (double) (logl((long double)e1) / logl((long double)e2)); \
         if (isnan(ret)) \
             naflag = TRUE; \
     }
@@ -250,7 +250,7 @@ else {                                                   \
     if (e1 == NA_INTEGER64) \
         ret = NA_REAL; \
     else { \
-        ret = (double) logl((long double)e1) / e2; \
+        ret = (double) (logl((long double)e1) / e2); \
         if (isnan(ret)) \
             naflag = TRUE; \
     }
