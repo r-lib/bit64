@@ -467,30 +467,6 @@ SEXP sqrt_integer64(SEXP e1_, SEXP ret_){
   return ret_;
 }
 
-SEXP log10_integer64(SEXP e1_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
-  long long * e1 = (long long *) REAL(e1_);
-  double * ret = REAL(ret_);
-  Rboolean naflag = FALSE;
-  for(i=0; i<n; i++) {
-    LOG1064(e1[i], ret[i], naflag)
-  }
-  if (naflag)warning(INTEGER64_NAN_CREATED_WARNING);
-  return ret_;
-}
-
-SEXP log2_integer64(SEXP e1_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
-  long long * e1 = (long long *) REAL(e1_);
-  double * ret = REAL(ret_);
-  Rboolean naflag = FALSE;
-  for(i=0; i<n; i++) {
-    LOG264(e1[i], ret[i], naflag)
-  }
-  if (naflag)warning(INTEGER64_NAN_CREATED_WARNING);
-  return ret_;
-}
-
 SEXP log_integer64(SEXP e1_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
@@ -525,20 +501,48 @@ SEXP logvect_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
 }
 
 SEXP logbase_integer64(SEXP e1_, SEXP base_, SEXP ret_){
-  double base = asReal(base_);
-  if (base == 2.0) {
-    return log2_integer64(e1_, ret_);
-  }
-  if (base == 10.0) {
-    return log10_integer64(e1_, ret_);
-  }
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
-  long double logbase = (long double) logl((long double)base);
+  double base = asReal(base_);
   double * ret = REAL(ret_);
   Rboolean naflag = (base > 0) ? FALSE : TRUE;
+  if (base == 2.0) {
+    for(i=0; i<n; i++) {
+      LOG264(e1[i], ret[i], naflag)
+    }
+  } else if (base == 10.0) {
+    for(i=0; i<n; i++) {
+      LOG1064(e1[i], ret[i], naflag)
+    }
+  } else {
+    long double logbase = (long double) logl((long double)base);
+    for(i=0; i<n; i++) {
+      LOGBASE64(e1[i], logbase, ret[i], naflag)
+    }
+  }
+  if (naflag) warning(INTEGER64_NAN_CREATED_WARNING);
+  return ret_;
+}
+
+SEXP log10_integer64(SEXP e1_, SEXP ret_){
+  long long i, n = LENGTH(ret_);
+  long long * e1 = (long long *) REAL(e1_);
+  double * ret = REAL(ret_);
+  Rboolean naflag = FALSE;
   for(i=0; i<n; i++) {
-    LOGBASE64(e1[i], logbase, ret[i], naflag)
+    LOG1064(e1[i], ret[i], naflag)
+  }
+  if (naflag) warning(INTEGER64_NAN_CREATED_WARNING);
+  return ret_;
+}
+
+SEXP log2_integer64(SEXP e1_, SEXP ret_){
+  long long i, n = LENGTH(ret_);
+  long long * e1 = (long long *) REAL(e1_);
+  double * ret = REAL(ret_);
+  Rboolean naflag = FALSE;
+  for(i=0; i<n; i++) {
+    LOG264(e1[i], ret[i], naflag)
   }
   if (naflag) warning(INTEGER64_NAN_CREATED_WARNING);
   return ret_;
