@@ -529,7 +529,6 @@ SEXP logbase_integer64(SEXP e1_, SEXP base_, SEXP ret_){
   return ret_;
 }
 
-// Base-10 logarithm: called by log10.integer64(x).
 SEXP log10_integer64(SEXP e1_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
@@ -542,7 +541,6 @@ SEXP log10_integer64(SEXP e1_, SEXP ret_){
   return ret_;
 }
 
-// Base-2 logarithm: called by log2.integer64(x).
 SEXP log2_integer64(SEXP e1_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
