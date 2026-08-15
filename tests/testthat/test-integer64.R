@@ -350,9 +350,18 @@ test_that("arithmetic & basic math works", {
 
   expect_identical(round(x, -1L), as.integer64(rep(c(0L, 10L), each=5L)))
   # Halfway round-to-even tests
-  expect_identical(round(as.integer64(c(-25, -15, -5, 5, 15, 25)), -1L), as.integer64(c(-20, -20, 0, 0, 20, 20)))
-  expect_identical(round(as.integer64(c(-250, -150, -50, 50, 150, 250)), -2L), as.integer64(c(-200, -200, 0, 0, 200, 200)))
-  expect_identical(round(as.integer64(c(-2500, -1500, -500, 500, 1500, 2500)), -3L), as.integer64(c(-2000, -2000, 0, 0, 2000, 2000)))
+  expect_identical(
+    round(as.integer64(c(-25L, -15L, -5L, 5L, 15L, 25L)), -1L),
+    as.integer64(c(-20L, -20L, 0L, 0L, 20L, 20L))
+  )
+  expect_identical(
+    round(as.integer64(c(-250L, -150L, -50L, 50L, 150L, 250L)), -2L),
+    as.integer64(c(-200L, -200L, 0L, 0L, 200L, 200L))
+  )
+  expect_identical(
+    round(as.integer64(c(-2500L, -1500L, -500L, 500L, 1500L, 2500L)), -3L),
+    as.integer64(c(-2000L, -2000L, 0L, 0L, 2000L, 2000L))
+  )
 })
 
 test_that("basic statistics work", {
@@ -766,7 +775,7 @@ local({
     {
       # base::round() for negative digits uses floating-point approximations in fround.c
       # which can fail round-half-to-even on platforms with x87 FPUs (e.g. i686) (#180).
-      skip_if(s < 0L && round(5 * 10^(-s - 1L), s) != 0, "base::round() does not round to even on this platform")
+      skip_if(s < 0L && round(5.0 * 10.0^(-s - 1L), s) != 0.0, "base::round() does not round to even on this platform")
       r <- as.integer64(round(as.integer(i), s))
       r64 <- round(as.integer64(i), s)
       expect_identical(r, r64)
