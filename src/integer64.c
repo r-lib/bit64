@@ -467,6 +467,7 @@ SEXP sqrt_integer64(SEXP e1_, SEXP ret_){
   return ret_;
 }
 
+// Natural logarithm: called when base is NULL (i.e. log(x)).
 SEXP log_integer64(SEXP e1_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
@@ -479,6 +480,8 @@ SEXP log_integer64(SEXP e1_, SEXP ret_){
   return ret_;
 }
 
+// Vector base: called when length(base) > 1 (e.g. log(x, base=c(2, 10))).
+// Recycles x and base; dispatches to LOG264/LOG1064 if base element is 2 or 10.
 SEXP logvect_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
@@ -488,20 +491,39 @@ SEXP logvect_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   double * ret = REAL(ret_);
   Rboolean naflag = FALSE;
   mod_iterate(n1, n2, i1, i2) {
-    LOGVECT64(e1[i], e2[i], ret[i], naflag)
+    if (e2[i2] == 2.0) {
+      LOG264(e1[i1], ret[i], naflag)
+    } else if (e2[i2] == 10.0) {
+      LOG1064(e1[i1], ret[i], naflag)
+    } else {
+      LOGVECT64(e1[i1], e2[i2], ret[i], naflag)
+    }
   }
   if (naflag) warning(INTEGER64_NAN_CREATED_WARNING);
   return ret_;
 }
 
+// Scalar base: called when length(base) == 1 (e.g. log(x, base=2), log(x, base=10)).
+// Dispatches to LOG264/LOG1064 (matching base R's logbase), or precomputes logl(base) once.
 SEXP logbase_integer64(SEXP e1_, SEXP base_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
-  long double logbase = (long double) log(asReal(base_));
+  double base = asReal(base_);
   double * ret = REAL(ret_);
-  Rboolean naflag = (asReal(base_)>0) ? FALSE : TRUE;
-  for(i=0; i<n; i++) {
-    LOGBASE64(e1[i], logbase, ret[i], naflag)
+  Rboolean naflag = (base > 0) ? FALSE : TRUE;
+  if (base == 2.0) {
+    for(i=0; i<n; i++) {
+      LOG264(e1[i], ret[i], naflag)
+    }
+  } else if (base == 10.0) {
+    for(i=0; i<n; i++) {
+      LOG1064(e1[i], ret[i], naflag)
+    }
+  } else {
+    long double logbase = (long double) logl((long double)base);
+    for(i=0; i<n; i++) {
+      LOGBASE64(e1[i], logbase, ret[i], naflag)
+    }
   }
   if (naflag) warning(INTEGER64_NAN_CREATED_WARNING);
   return ret_;
