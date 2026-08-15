@@ -338,6 +338,8 @@ test_that("arithmetic & basic math works", {
   expect_identical(log(as.integer64(c(1L, 2L, 4L, 8L)), base=2L), as.numeric(0:3))
   expect_identical(log(as.integer64(c(1L, 2L, 4L, 8L)), base=c(2L, 2L, 2L, 2L)), as.numeric(0:3))
   expect_identical(log(as.integer64(c(8L, 1000L)), base=c(2L, 10L)), c(3.0, 3.0))
+  expect_identical(log(as.integer64(c(8L, 27L, 1000L, 25L)), base=c(2L, 3L, 10L, 5L)), c(3.0, 3.0, 3.0, 2.0))
+  expect_identical(log(as.integer64(c(1L, 3L, 9L, 27L)), base=3L), as.numeric(0:3))
   expect_identical(log2(as.integer64(c(1L, 2L, 4L, 8L))), as.numeric(0:3))
   expect_identical(log10(as.integer64(c(1L, 10L, 100L, 1000L))), as.numeric(0:3))
   expect_identical(log(as.integer64(c(1L, 10L, 100L, 1000L)), base=10L), as.numeric(0:3))
