@@ -237,6 +237,8 @@ else {                                                   \
             naflag = TRUE; \
     }
 
+// Group division (logl(...) / ...) so the long double numerator is not truncated
+// to double before dividing (due to cast operator precedence), avoiding precision loss.
 #define LOGVECT64(e1, e2, ret, naflag) \
     if (e1 == NA_INTEGER64) \
         ret = NA_REAL; \

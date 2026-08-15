@@ -467,6 +467,7 @@ SEXP sqrt_integer64(SEXP e1_, SEXP ret_){
   return ret_;
 }
 
+// Natural logarithm: called when base is NULL (i.e. log(x)).
 SEXP log_integer64(SEXP e1_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
@@ -479,6 +480,8 @@ SEXP log_integer64(SEXP e1_, SEXP ret_){
   return ret_;
 }
 
+// Vector base: called when length(base) > 1 (e.g. log(x, base=c(2, 10))).
+// Recycles x and base; dispatches to LOG264/LOG1064 if base element is 2 or 10.
 SEXP logvect_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
@@ -500,6 +503,8 @@ SEXP logvect_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   return ret_;
 }
 
+// Scalar base: called when length(base) == 1 (e.g. log(x, base=2), log(x, base=10)).
+// Dispatches to LOG264/LOG1064 (matching base R's logbase), or precomputes logl(base) once.
 SEXP logbase_integer64(SEXP e1_, SEXP base_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
@@ -524,6 +529,7 @@ SEXP logbase_integer64(SEXP e1_, SEXP base_, SEXP ret_){
   return ret_;
 }
 
+// Base-10 logarithm: called by log10.integer64(x).
 SEXP log10_integer64(SEXP e1_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
@@ -536,6 +542,7 @@ SEXP log10_integer64(SEXP e1_, SEXP ret_){
   return ret_;
 }
 
+// Base-2 logarithm: called by log2.integer64(x).
 SEXP log2_integer64(SEXP e1_, SEXP ret_){
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
