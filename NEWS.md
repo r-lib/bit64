@@ -18,6 +18,8 @@
 
 1. `as.list()` doesn't overflow the protection stack for integer64 inputs (#345). Thanks @NicChr for the report and fix.
 
+1. `log()` operations, especially for `log(x, base=10)` and `log(x, base=2)`, have better precision and consistency (#180).
+
 ## NOTES
 
 1. The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0 (2019).
