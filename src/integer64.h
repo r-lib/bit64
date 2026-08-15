@@ -241,7 +241,7 @@ else {                                                   \
     if (e1 == NA_INTEGER64) \
         ret = NA_REAL; \
     else { \
-        ret = (double) logl((long double)e1)/log(e2); \
+        ret = (double) logl((long double)e1) / log(e2); \
         if (isnan(ret)) \
             naflag = TRUE; \
     }
@@ -250,7 +250,7 @@ else {                                                   \
     if (e1 == NA_INTEGER64) \
         ret = NA_REAL; \
     else { \
-        ret = (double) logl((long double)e1)/e2; \
+        ret = (double) logl((long double)e1) / e2; \
         if (isnan(ret)) \
             naflag = TRUE; \
     }
@@ -259,19 +259,19 @@ else {                                                   \
     if (e1 == NA_INTEGER64) \
         ret = NA_REAL; \
     else { \
-        ret =(double)  log10l((long double)e1); \
+        ret = (double) log10l((long double)e1); \
         if (isnan(ret)) \
             naflag = TRUE; \
     }
 
 #define LOG264(e1, ret, naflag) \
-if (e1 == NA_INTEGER64) \
-    ret = NA_REAL; \
-else { \
-    ret = (double) log2l((long double)e1); \
+    if (e1 == NA_INTEGER64) \
+        ret = NA_REAL; \
+    else { \
+        ret = (double) log2l((long double)e1); \
         if (isnan(ret)) \
             naflag = TRUE; \
-}
+    }
 
 
 #define SIGN64(e1,ret) \
