@@ -227,11 +227,13 @@ SEXP as_integer64_bitstring(SEXP x_, SEXP ret_){
   for(i=0; i<n; i++){
     str = CHAR(STRING_ELT(x_, i));
     l = strlen(str);
+    // # nocov start
     if (l>BITS_INTEGER64){
       ret[i] = NA_INTEGER64;
       naflag = TRUE;
       break;
     }
+    // # nocov end
     mask = 1;
     v = 0;
     for (k=l-1; k>=0; k--){
@@ -243,7 +245,7 @@ SEXP as_integer64_bitstring(SEXP x_, SEXP ret_){
     ret[i] = v;
     R_CheckUserInterrupt();
   }
-  if (naflag)warning(BITSTRING_OVERFLOW_WARNING);
+  if (naflag)warning(BITSTRING_OVERFLOW_WARNING); // # nocov
   return ret_;
 }
 

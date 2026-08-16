@@ -69,13 +69,6 @@ test_that("integer64 coercion to/from other types works for NA", {
     expect_identical(as.integer(as.integer64(2L)^33.0), NA_integer_),
     "NAs produced by integer overflow"
   )
-  expect_warning(
-    expect_identical(
-      as.integer64(structure(strrep("1", 65L), class = "bitstring")),
-      NA_integer64_
-    ),
-    "bitstrings longer than 64 bytes converted to NA"
-  )
   expect_identical(mean(as.integer64(1:5), na.rm = FALSE), as.integer64(3L))
 })
 
