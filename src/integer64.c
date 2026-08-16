@@ -227,8 +227,8 @@ SEXP as_integer64_bitstring(SEXP x_, SEXP ret_){
   for(i=0; i<n; i++){
     str = CHAR(STRING_ELT(x_, i));
     l = strlen(str);
-    // # nocov start
-    if (l>BITS_INTEGER64){
+    // # nocov start: only reachable with invalid bitstring input
+    if (l > BITS_INTEGER64){
       ret[i] = NA_INTEGER64;
       naflag = TRUE;
       break;
