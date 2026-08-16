@@ -173,7 +173,7 @@ test_that("Overflow edge cases for arithmetic and summary functions", {
 
   overflow_warning = "NAs produced by integer64 overflow"
 
-  # 1. C-level overflow (exceeds LLONG_MAX or below LLONG_MIN)
+  # True C-level overflow (above LLONG_MAX or below LLONG_MIN)
   expect_warning(expect_identical(max_val + 1L, NA_integer64_), overflow_warning)
   expect_warning(expect_identical(min_val + (-2L), NA_integer64_), overflow_warning)
   expect_warning(expect_identical(max_val - (-1L), NA_integer64_), overflow_warning)
@@ -183,23 +183,27 @@ test_that("Overflow edge cases for arithmetic and summary functions", {
   expect_warning(expect_identical(min_val * (-2L), NA_integer64_), overflow_warning)
   expect_warning(expect_identical(diff(c(max_val, min_val - 1L)), NA_integer64_), overflow_warning)
 
-  # 2. NA_INTEGER64 sentinel collision: mathematical result is exactly LLONG_MIN (-2^63).
-  #    C-level __builtin_*_overflow does NOT overflow, but bit64 treats LLONG_MIN as NA.
-  #    These must produce NA_integer64_ with an overflow warning.
+  # R-specific overflow (result is exactly LLONG_MIN == NA_INTEGER64, so C arithmetic
+  #   works, but overflow is nevertheless reported as R's integer64 class has narrower range
   expect_warning(expect_identical(min_val + (-1L), NA_integer64_), overflow_warning)
   expect_warning(expect_identical(half_min + half_min, NA_integer64_), overflow_warning)
   expect_warning(expect_identical(min_val - 1L, NA_integer64_), overflow_warning)
   expect_warning(expect_identical(as.integer64(-2L) * half_max, NA_integer64_), overflow_warning)
-  expect_warning(expect_identical(as.integer64("-2147483648") * as.integer64("4294967296"), NA_integer64_), overflow_warning)
+  expect_warning(
+    expect_identical(as.integer64("-2147483648") * as.integer64("4294967296"), NA_integer64_),
+    overflow_warning
+  )
   expect_warning(expect_identical(diff(c(as.integer64(1L), min_val)), NA_integer64_), overflow_warning)
   expect_warning(expect_identical(sum(min_val, -1L), NA_integer64_), overflow_warning)
   expect_warning(expect_identical(sum(c(half_min, half_min)), NA_integer64_), overflow_warning)
   expect_warning(expect_identical(prod(as.integer64(-2L), half_max), NA_integer64_), overflow_warning)
   expect_warning(expect_identical(cumsum(c(min_val, -1L)), c(min_val, NA_integer64_)), overflow_warning)
-  expect_warning(expect_identical(cumprod(c(as.integer64(-2L), half_max)), c(as.integer64(-2L), NA_integer64_)), overflow_warning)
+  expect_warning(
+    expect_identical(cumprod(c(as.integer64(-2L), half_max)), c(as.integer64(-2L), NA_integer64_)),
+    overflow_warning
+  )
 
-  # 3. Boundary cases that are exactly on the representable range [-2^63 + 1, 2^63 - 1]
-  #    These must NOT overflow or warn.
+  # Boundary cases that _don't_ overflow
   expect_identical(min_val + 0L, min_val)
   expect_identical(min_val + 1L, as.integer64("-9223372036854775806"))
   expect_identical(half_min + (half_min + 1L), min_val)
@@ -211,7 +215,7 @@ test_that("Overflow edge cases for arithmetic and summary functions", {
   expect_identical(sum(min_val, 0L), min_val)
   expect_identical(prod(min_val, 1L), min_val)
 
-  # 4. NA propagation: when NA_INTEGER64 is an input, it should return NA without warning
+  # If NA is present, NA is returned without overflow
   expect_no_warning(expect_identical(NA_integer64_ + 1L, NA_integer64_))
   expect_no_warning(expect_identical(1L + NA_integer64_, NA_integer64_))
   expect_no_warning(expect_identical(NA_integer64_ - 1L, NA_integer64_))
