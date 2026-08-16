@@ -304,13 +304,13 @@ with_parameters_test_that("{operator} with integer64 vs {class} (returning integ
   expected = tryCatch(maybe_cast(op(x32, y)), error=conditionMessage)
   actual = tryCatch(op(x64, maybe_cast_argument(y)), error=conditionMessage)
   expect_identical(actual, expected)
-  
+
   if (operator != "^") {
     expected = tryCatch(maybe_cast(op(y, x32)), error=conditionMessage)
     actual = tryCatch(op(y, x64), error=conditionMessage)
     expect_identical(actual, expected)
   }
-}, 
+},
   .cases = expand.grid(
     operator=c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"),
     class=c("integer", "double", "logical"),
@@ -392,12 +392,12 @@ test_that("power with integer64", {
   x = as.integer(sqrt(.Machine$integer.max))
   x = seq(-x, x)
   expect_identical(as.integer64(x)^2L, as.integer64(x^2L))
-  expect_identical(as.integer64(x)^2, as.integer64(x^2))
+  expect_identical(as.integer64(x)^2.0, as.integer64(x^2.0))
 
   # within integer64 range, which fails with double exponent
   expect_identical(as.integer64("2147483650")^2L, as.integer64("4611686027017322500"))
   expect_identical(as.integer64("-2147483650")^2L, as.integer64("4611686027017322500"))
   expect_identical(as.integer64("94906267")^2L, as.integer64("94906267")*as.integer64("94906267"))
-  
+
   expect_warning(expect_identical(as.integer64("2147483650")^3L, NA_integer64_), "NAs produced by integer64 overflow")
 })
