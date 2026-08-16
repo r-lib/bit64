@@ -366,10 +366,10 @@ SEXP power_integer64_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   long long * e1 = (long long *) REAL(e1_);
   long long * e2 = (long long *) REAL(e2_);
   long long * ret = (long long *) REAL(ret_);
-  long long base, exp, intermediate;
+  long long base, exp;
   Rboolean naflag = FALSE;
     mod_iterate(n1, n2, i1, i2) {
-        POW64(e1[i1],e2[i2],ret[i],naflag,base,exp,intermediate)
+        POW64(e1[i1],e2[i2],ret[i],naflag,base,exp)
     }
     if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
