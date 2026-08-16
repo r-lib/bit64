@@ -103,6 +103,7 @@ with_parameters_test_that(
 
     na_entries = rep(NA_integer64_, n_missing)
     y = sample(c(x, if (duplicates) x[1L], na_entries))
+    y_orig = bit::clone(y)
     i = seq_along(y)
     expect_identical(sortorder_function(y, i, decreasing=decreasing, na.last=na.last), n_missing)
     expected_value = c(
@@ -112,13 +113,12 @@ with_parameters_test_that(
       if (duplicates && decreasing) x[1L],
       if (na.last) na_entries else integer64()
     )
-    # TODO(#159): Also add expectations for the update to i
-    expect_identical(y, expected_value,
-      info=sprintf(
-        "(na.last, decreasing, duplicates, n_missing)=(%s, %s, %s, %d)",
-        na.last, decreasing, duplicates, n_missing
-      )
+    info = sprintf(
+      "(na.last, decreasing, duplicates, n_missing)=(%s, %s, %s, %d)",
+      na.last, decreasing, duplicates, n_missing
     )
+    expect_identical(y, expected_value, info=info)
+    expect_identical(y_orig[i], expected_value, info=info)
   },
   .cases = expand.grid(
     sortorder_function = list(
@@ -163,6 +163,7 @@ test_that("Explicit algorithm dispatch hits C-level fallbacks and edge cases", {
   i = seq_along(x)
   bit::mergesortorder(x, i, decreasing=TRUE)
   expect_identical(x, as.integer64(sort(as.integer(x_base), decreasing=TRUE)))
+  expect_identical(x_base[i], as.integer64(sort(as.integer(x_base), decreasing=TRUE)))
 
   x = bit::clone(x_base)
   i = seq_along(x)
@@ -222,6 +223,7 @@ test_that("Specific sortorder/order variants for Quicksort coverage", {
   i = seq_along(x)
   bit::quicksortorder(x, i, decreasing=TRUE)
   expect_identical(x, as.integer64(sort(as.integer(x_base), decreasing=TRUE)))
+  expect_identical(x_base[i], as.integer64(sort(as.integer(x_base), decreasing=TRUE)))
 
   # quickorder descending (modifies i, not x)
   x = bit::clone(x_base)
@@ -243,6 +245,18 @@ test_that("Shellsort direct invocation", {
   i = seq_along(x)
   bit::shellorder(x, i, decreasing=FALSE)
   expect_identical(x[i], as.integer64(sort(as.integer(x_base))))
+
+  x = bit::clone(x_base)
+  i = seq_along(x)
+  bit::shellsortorder(x, i, decreasing=FALSE)
+  expect_identical(x, as.integer64(sort(as.integer(x_base))))
+  expect_identical(x_base[i], as.integer64(sort(as.integer(x_base))))
+
+  x = bit::clone(x_base)
+  i = seq_along(x)
+  bit::shellsortorder(x, i, decreasing=TRUE)
+  expect_identical(x, as.integer64(sort(as.integer(x_base), decreasing=TRUE)))
+  expect_identical(x_base[i], as.integer64(sort(as.integer(x_base), decreasing=TRUE)))
 })
 
 test_that("Corner cases for partitioning logic", {
