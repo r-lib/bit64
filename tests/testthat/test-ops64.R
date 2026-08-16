@@ -147,8 +147,6 @@ test_that("Minus and plus", {
 })
 
 test_that("Minus and plus edge cases and 'rev'", {
-  # UBSAN signed integer overflow expected for type 'long long int'
-  # This is a false UBSAN alarm because overflow is detected and NA returned
   expect_warning(
     expect_true(identical.integer64(
       lim.integer64() + 1.0 - 1.0,
@@ -162,6 +160,103 @@ test_that("Minus and plus edge cases and 'rev'", {
       rev(lim.integer64()) - 1.0 + 1.0,
       c(lim.integer64()[2L], NA)
     )),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+})
+
+test_that("Overflow edge cases for arithmetic and summary functions", {
+  max_val = lim.integer64()[2L]
+  min_val = lim.integer64()[1L]
+
+  # Addition overflow
+  expect_warning(
+    expect_identical(max_val + 1L, NA_integer64_),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_identical(min_val + (-1L), NA_integer64_),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+
+  # Subtraction overflow
+  expect_warning(
+    expect_identical(min_val - 1L, NA_integer64_),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_identical(max_val - (-1L), NA_integer64_),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+
+  # Multiplication overflow
+  expect_warning(
+    expect_identical(max_val * 2L, NA_integer64_),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_identical(min_val * 2L, NA_integer64_),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_identical(min_val * (-2L), NA_integer64_),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+  expect_identical(min_val * (-1L), max_val)
+
+  # sum() overflow
+  expect_warning(
+    expect_identical(sum(max_val, 1L), NA_integer64_),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_identical(sum(c(max_val, 1L)), NA_integer64_),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_identical(sum(c(min_val, -1L), na.rm = TRUE), NA_integer64_),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+
+  # prod() overflow
+  expect_warning(
+    expect_identical(prod(c(max_val, 2L)), NA_integer64_),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_identical(prod(c(min_val, 2L), na.rm = TRUE), NA_integer64_),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+
+  # cumsum() overflow
+  expect_warning(
+    expect_identical(cumsum(c(max_val, 1L)), c(max_val, NA_integer64_)),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+
+  # cumprod() overflow
+  expect_warning(
+    expect_identical(cumprod(c(max_val, 2L)), c(max_val, NA_integer64_)),
+    "NAs produced by integer64 overflow",
+    fixed = TRUE
+  )
+
+  # diff() overflow
+  expect_warning(
+    expect_identical(diff(c(max_val, min_val)), NA_integer64_),
     "NAs produced by integer64 overflow",
     fixed = TRUE
   )
