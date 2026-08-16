@@ -307,7 +307,9 @@ test_that("matrix multiplication", {
   expect_no_warning(expect_identical(m_na64 %*% m_val64, matrix(NA_integer64_, 1L, 1L)))
   expect_no_warning(expect_identical(m_na_dbl %*% m_val64, matrix(NA_integer64_, 1L, 1L)))
   expect_no_warning(expect_identical(m_na64 %*% m_val_dbl, matrix(NA_integer64_, 1L, 1L)))
-  expect_no_warning(expect_identical(t(m_val_dbl) %*% matrix(c(as.integer64(1L), NA_integer64_), 2L, 1L), matrix(NA_integer64_, 1L, 1L)))
+  expect_no_warning(
+    expect_identical(t(m_val_dbl) %*% matrix(c(as.integer64(1L), NA_integer64_), 2L, 1L), matrix(NA_integer64_, 1L, 1L))
+  )
   expect_no_warning(expect_identical(t(m_val64) %*% matrix(c(1.0, NA_real_), 2L, 1L), matrix(NA_integer64_, 1L, 1L)))
 
 })

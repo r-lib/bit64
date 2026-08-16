@@ -66,12 +66,12 @@ test_that("integer64 coercion to/from other types works for NA", {
     "integer precision lost while converting to double"
   )
   expect_warning(
-    expect_identical(as.integer(as.integer64(2)^33), NA_integer_),
+    expect_identical(as.integer(as.integer64(2L)^33.0), NA_integer_),
     "NAs produced by integer overflow"
   )
   expect_warning(
     expect_identical(
-      as.integer64(structure(paste(rep("1", 65), collapse = ""), class = "bitstring")),
+      as.integer64(structure(strrep("1", 65L), class = "bitstring")),
       NA_integer64_
     ),
     "bitstrings longer than 64 bytes converted to NA"
