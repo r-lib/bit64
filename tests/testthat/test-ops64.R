@@ -223,11 +223,22 @@ test_that("Overflow edge cases for arithmetic and summary functions", {
   expect_no_warning(expect_identical(NA_integer64_ * 2L, NA_integer64_))
   expect_no_warning(expect_identical(2L * NA_integer64_, NA_integer64_))
   expect_no_warning(expect_identical(sum(NA_integer64_), NA_integer64_))
+  expect_no_warning(expect_identical(sum(c(as.integer64(1L), NA_integer64_), na.rm = FALSE), NA_integer64_))
+  expect_no_warning(expect_identical(sum(c(as.integer64(1:2), NA_integer64_), na.rm = TRUE), as.integer64(3L)))
+  expect_warning(expect_identical(sum(c(max_val, as.integer64(1L), NA_integer64_), na.rm = TRUE), NA_integer64_), overflow_warning)
   expect_no_warning(expect_identical(prod(NA_integer64_), NA_integer64_))
+  expect_no_warning(expect_identical(prod(c(as.integer64(1L), NA_integer64_), na.rm = FALSE), NA_integer64_))
+  expect_no_warning(expect_identical(prod(c(as.integer64(2:3), NA_integer64_), na.rm = TRUE), as.integer64(6L)))
+  expect_warning(expect_identical(prod(c(max_val, as.integer64(2L), NA_integer64_), na.rm = TRUE), NA_integer64_), overflow_warning)
   expect_no_warning(expect_identical(cumsum(c(NA_integer64_, 1L)), c(NA_integer64_, NA_integer64_)))
   expect_no_warning(expect_identical(cumprod(c(NA_integer64_, 1L)), c(NA_integer64_, NA_integer64_)))
   expect_no_warning(expect_identical(diff(c(NA_integer64_, as.integer64(1L))), NA_integer64_))
   expect_no_warning(expect_identical(diff(c(as.integer64(1L), NA_integer64_)), NA_integer64_))
+
+  # Vectorized operations with partial overflow
+  expect_warning(expect_identical(c(max_val, as.integer64(1L)) + 1L, c(NA_integer64_, as.integer64(2L))), overflow_warning)
+  expect_warning(expect_identical(c(min_val, as.integer64(1L)) - 1L, c(NA_integer64_, as.integer64(0L))), overflow_warning)
+  expect_warning(expect_identical(c(max_val, as.integer64(1L)) * 2L, c(NA_integer64_, as.integer64(2L))), overflow_warning)
 })
 
 test_that("Logical operators", {
