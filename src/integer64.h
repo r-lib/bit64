@@ -157,22 +157,20 @@ static inline bool mul64_overflow(long long a, long long b, long long *res) {
 #define POW64(e1,e2,ret,naflag,base,exp) \
     if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
         ret = NA_INTEGER64; \
-    else { \
-        if (e2 >= 0 || e1 == 1 || e1 == -1) { \
-            ret = 1; \
-            base = e1; \
-            exp = e2; \
-            while (exp > 0) { \
-                if (exp % 2 == 1) { \
-                    if (mul64_overflow(ret, base, &ret)) { \
-                        ret = NA_INTEGER64; \
-                        naflag = TRUE; \
-                        break; \
-                    } \
+    else if (e2 >= 0 || e1 == 1 || e1 == -1) { \
+        ret = 1; \
+        base = e1; \
+        exp = e2; \
+        while (exp > 0) { \
+            if (exp % 2 == 1) { \
+                if (mul64_overflow(ret, base, &ret)) { \
+                    ret = NA_INTEGER64; \
+                    naflag = TRUE; \
+                    break; \
                 } \
-                base *= base; \
-                exp >>= 1; \
             } \
+            base *= base; \
+            exp >>= 1; \
         } \
     }
 
