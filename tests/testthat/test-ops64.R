@@ -147,8 +147,6 @@ test_that("Minus and plus", {
 })
 
 test_that("Minus and plus edge cases and 'rev'", {
-  # UBSAN signed integer overflow expected for type 'long long int'
-  # This is a false UBSAN alarm because overflow is detected and NA returned
   expect_warning(
     expect_true(identical.integer64(
       lim.integer64() + 1.0 - 1.0,
@@ -164,6 +162,97 @@ test_that("Minus and plus edge cases and 'rev'", {
     )),
     "NAs produced by integer64 overflow",
     fixed = TRUE
+  )
+})
+
+test_that("Overflow edge cases for arithmetic and summary functions", {
+  max_val = lim.integer64()[2L]
+  min_val = lim.integer64()[1L]
+  half_min = as.integer64("-4611686018427387904") # -2^62
+  half_max = as.integer64("4611686018427387904")  #  2^62
+
+  overflow_warning = "NAs produced by integer64 overflow"
+
+  # True C-level overflow (above LLONG_MAX or below LLONG_MIN)
+  expect_warning(expect_identical(max_val + 1L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(min_val + (-2L), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(max_val - (-1L), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(min_val - 2L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(max_val * 2L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(min_val * 2L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(min_val * (-2L), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(diff(c(max_val, min_val - 1L)), NA_integer64_), overflow_warning)
+
+  # R-specific overflow (result is exactly LLONG_MIN == NA_INTEGER64, so C arithmetic
+  #   works, but overflow is nevertheless reported as R's integer64 class has narrower range
+  expect_warning(expect_identical(min_val + (-1L), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(half_min + half_min, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(min_val - 1L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(as.integer64(-2L) * half_max, NA_integer64_), overflow_warning)
+  expect_warning(
+    expect_identical(as.integer64("-2147483648") * as.integer64("4294967296"), NA_integer64_),
+    overflow_warning
+  )
+  expect_warning(expect_identical(diff(c(as.integer64(1L), min_val)), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(sum(min_val, -1L), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(sum(c(half_min, half_min)), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(prod(as.integer64(-2L), half_max), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(cumsum(c(min_val, -1L)), c(min_val, NA_integer64_)), overflow_warning)
+  expect_warning(
+    expect_identical(cumprod(c(as.integer64(-2L), half_max)), c(as.integer64(-2L), NA_integer64_)),
+    overflow_warning
+  )
+
+  # Boundary cases that _don't_ overflow
+  expect_identical(min_val + 0L, min_val)
+  expect_identical(min_val + 1L, as.integer64("-9223372036854775806"))
+  expect_identical(half_min + (half_min + 1L), min_val)
+  expect_identical(min_val - 0L, min_val)
+  expect_identical(max_val - 0L, max_val)
+  expect_identical(min_val * 1L, min_val)
+  expect_identical(min_val * (-1L), max_val)
+  expect_identical(max_val * (-1L), min_val)
+  expect_identical(sum(min_val, 0L), min_val)
+  expect_identical(prod(min_val, 1L), min_val)
+
+  # If NA is present, NA is returned without overflow
+  expect_no_warning(expect_identical(NA_integer64_ + 1L, NA_integer64_))
+  expect_no_warning(expect_identical(1L + NA_integer64_, NA_integer64_))
+  expect_no_warning(expect_identical(NA_integer64_ - 1L, NA_integer64_))
+  expect_no_warning(expect_identical(1L - NA_integer64_, NA_integer64_))
+  expect_no_warning(expect_identical(NA_integer64_ * 2L, NA_integer64_))
+  expect_no_warning(expect_identical(2L * NA_integer64_, NA_integer64_))
+  expect_no_warning(expect_identical(sum(NA_integer64_), NA_integer64_))
+  expect_no_warning(expect_identical(sum(c(as.integer64(1L), NA_integer64_), na.rm = FALSE), NA_integer64_))
+  expect_no_warning(expect_identical(sum(c(as.integer64(1:2), NA_integer64_), na.rm = TRUE), as.integer64(3L)))
+  expect_warning(
+    expect_identical(sum(c(max_val, as.integer64(1L), NA_integer64_), na.rm = TRUE), NA_integer64_),
+    overflow_warning
+  )
+  expect_no_warning(expect_identical(prod(NA_integer64_), NA_integer64_))
+  expect_no_warning(expect_identical(prod(c(as.integer64(1L), NA_integer64_), na.rm = FALSE), NA_integer64_))
+  expect_no_warning(expect_identical(prod(c(as.integer64(2:3), NA_integer64_), na.rm = TRUE), as.integer64(6L)))
+  expect_warning(
+    expect_identical(prod(c(max_val, as.integer64(2L), NA_integer64_), na.rm = TRUE), NA_integer64_),
+    overflow_warning
+  )
+  expect_no_warning(expect_identical(cumsum(c(NA_integer64_, 1L)), c(NA_integer64_, NA_integer64_)))
+  expect_no_warning(expect_identical(cumprod(c(NA_integer64_, 1L)), c(NA_integer64_, NA_integer64_)))
+  expect_no_warning(expect_identical(diff(c(NA_integer64_, as.integer64(1L))), NA_integer64_))
+  expect_no_warning(expect_identical(diff(c(as.integer64(1L), NA_integer64_)), NA_integer64_))
+
+  # Vectorized operations with partial overflow
+  expect_warning(
+    expect_identical(c(max_val, as.integer64(1L)) + 1L, c(NA_integer64_, as.integer64(2L))),
+    overflow_warning
+  )
+  expect_warning(
+    expect_identical(c(min_val, as.integer64(1L)) - 1L, c(NA_integer64_, as.integer64(0L))),
+    overflow_warning
+  )
+  expect_warning(
+    expect_identical(c(max_val, as.integer64(1L)) * 2L, c(NA_integer64_, as.integer64(2L))),
+    overflow_warning
   )
 })
 

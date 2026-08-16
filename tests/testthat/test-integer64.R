@@ -59,6 +59,17 @@ test_that("integer64 coercion to/from other types works for NA", {
   expect_identical(as.integer64(NA_integer_), NA_integer64_)
   expect_identical(as.integer64(NA_real_), NA_integer64_)
   expect_identical(as.integer64(NA_character_), NA_integer64_)
+
+  # Boundary and warning conditions for conversions
+  expect_warning(
+    expect_identical(as.double(as.integer64("18014398509481984")), 18014398509481984.0),
+    "integer precision lost while converting to double"
+  )
+  expect_warning(
+    expect_identical(as.integer(as.integer64(2L)^33.0), NA_integer_),
+    "NAs produced by integer overflow"
+  )
+  expect_identical(mean(as.integer64(1:5), na.rm = FALSE), as.integer64(3L))
 })
 
 test_that("integer64 coercion to/from factor types works", {

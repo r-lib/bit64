@@ -24,12 +24,15 @@
 /**                                                                         **/
 /*****************************************************************************/
 
+#include <limits.h>
+#include <stdbool.h>
+
 #define NA_INTEGER64 LLONG_MIN
 #define ISNA_INTEGER64(X)((X)==NA_INTEGER64)
 
-#define MIN_INTEGER64 LLONG_MIN+1
+#define MIN_INTEGER64 (LLONG_MIN+1)
 #define MAX_INTEGER64 LLONG_MAX
-#define MIN_INTEGER32 INT_MIN+1
+#define MIN_INTEGER32 (INT_MIN+1)
 #define MAX_INTEGER32 INT_MAX
 #define LEFTBIT_INTEGER64 ((unsigned long long int)0x8000000000000000)
 #define RIGHTBIT_INTEGER64 ((unsigned long long int)0x0000000000000001)
@@ -38,10 +41,6 @@
 #define COERCE_INTEGER64 "%lli"
 #define BITS_INTEGER64 64
 
-#define OPPOSITE_SIGNS(x, y) ((x < 0) ^ (y < 0))
-#define GOODISUM64(x, y, z) (((x) > 0) ? ((y) < (z)) : ! ((y) < (z)))
-#define GOODIDIFF64(x, y, z) (!(OPPOSITE_SIGNS(x, y) && OPPOSITE_SIGNS(x, z)))
-#define GOODIPROD64(x, y, z) ((long double) (x) * (long double) (y) == (z))
 #define INTEGER32_OVERFLOW_WARNING "NAs produced by integer overflow"
 #define INTEGER64_OVERFLOW_WARNING "NAs produced by integer64 overflow"
 #define INTEGER64_DIVISION_BY_ZERO_WARNING "NAs produced due to division by zero"
@@ -50,37 +49,97 @@
 #define BITSTRING_OVERFLOW_WARNING "bitstrings longer than 64 bytes converted to NA, multibyte-characters not allowed"
 #define INTEGER64_NA_COERCION_WARNING "NAs introduced by coercion to integer64 range"
 
+#if (defined(__GNUC__) && __GNUC__ >= 5) || (defined(__has_builtin) && __has_builtin(__builtin_add_overflow))
+#define HAVE_BUILTIN_OVERFLOW 1
+#endif
+
+static inline bool add64_overflow(long long a, long long b, long long *res) {
+#ifdef HAVE_BUILTIN_OVERFLOW
+  long long r;
+  if (__builtin_add_overflow(a, b, &r) || r == NA_INTEGER64) {
+    return true;
+  }
+  *res = r;
+  return false;
+#else
+  if ((b > 0 && a > MAX_INTEGER64 - b) || (b < 0 && a < MIN_INTEGER64 - b)) {
+    return true;
+  }
+  *res = a + b;
+  return false;
+#endif
+}
+
+static inline bool sub64_overflow(long long a, long long b, long long *res) {
+#ifdef HAVE_BUILTIN_OVERFLOW
+  long long r;
+  if (__builtin_sub_overflow(a, b, &r) || r == NA_INTEGER64) {
+    return true;
+  }
+  *res = r;
+  return false;
+#else
+  if ((b > 0 && a < MIN_INTEGER64 + b) || (b < 0 && a > MAX_INTEGER64 + b)) {
+    return true;
+  }
+  *res = a - b;
+  return false;
+#endif
+}
+
+static inline bool mul64_overflow(long long a, long long b, long long *res) {
+#ifdef HAVE_BUILTIN_OVERFLOW
+  long long r;
+  if (__builtin_mul_overflow(a, b, &r) || r == NA_INTEGER64) {
+    return true;
+  }
+  *res = r;
+  return false;
+#else
+  if (a == 0 || b == 0) {
+    *res = 0;
+    return false;
+  }
+  if (a > 0) {
+    if (b > 0) {
+      if (a > MAX_INTEGER64 / b) return true;
+    } else {
+      if (b < MIN_INTEGER64 / a) return true;
+    }
+  } else {
+    if (b > 0) {
+      if (a < MIN_INTEGER64 / b) return true;
+    } else {
+      if (a < MAX_INTEGER64 / b) return true;
+    }
+  }
+  *res = a * b;
+  return false;
+#endif
+}
+
 #define PLUS64(e1,e2,ret,naflag) \
     if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
         ret = NA_INTEGER64; \
-    else { \
-        ret = e1 + e2; \
-        if (!GOODISUM64(e1, e2, ret)) \
-          ret = NA_INTEGER64; \
-        if (ret == NA_INTEGER64) \
-            naflag = TRUE; \
+    else if (add64_overflow(e1, e2, &ret)) { \
+        ret = NA_INTEGER64; \
+        naflag = TRUE; \
     }
 
 #define MINUS64(e1,e2,ret,naflag) \
     if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
         ret = NA_INTEGER64; \
-    else { \
-        ret = e1 - e2; \
-        if (!GOODIDIFF64(e1, e2, ret)) \
-          ret = NA_INTEGER64; \
-        if (ret == NA_INTEGER64) \
-            naflag = TRUE; \
+    else if (sub64_overflow(e1, e2, &ret)) { \
+        ret = NA_INTEGER64; \
+        naflag = TRUE; \
     }
 
 #define PROD64(e1,e2,ret,naflag) \
     if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
         ret = NA_INTEGER64; \
-    else { \
-        ret = e1 * e2; \
-        if (!GOODIPROD64(e1, e2, ret)) \
-          ret = NA_INTEGER64; \
-        if (ret == NA_INTEGER64) \
-            naflag = TRUE; \
+    else if (mul64_overflow(e1, e2, &ret)) { \
+        ret = NA_INTEGER64; \
+        naflag = TRUE; \
     }
 
 #define PROD64REAL(e1,e2,ret,naflag,longret) \
