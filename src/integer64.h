@@ -1,11 +1,10 @@
 /*
 # Header-Code
 # S3 atomic 64bit integers for R
-# (c) 2011 Jens Oehlschägel
+# (c) 2011-2024 Jens Oehlschägel
+# (c) 2025-2026 Michael Chirico
 # Licence: GPL2
 # Provided 'as is', use at your own risk
-# Created: 2011-12-11
-# Last changed:  2011-12-11
 #*/
 
 
@@ -37,17 +36,11 @@
 #define NCHARS_BITS_INTEGER64 65
 #define NCHARS_DECS_INTEGER64 22
 #define COERCE_INTEGER64 "%lli"
-#define USES_TWOS_COMPLEMENT 1
 #define BITS_INTEGER64 64
 
-#if USES_TWOS_COMPLEMENT
-# define OPPOSITE_SIGNS(x, y) ((x < 0) ^ (y < 0))
-# define GOODISUM64(x, y, z) (((x) > 0) ? ((y) < (z)) : ! ((y) < (z)))
-# define GOODIDIFF64(x, y, z) (!(OPPOSITE_SIGNS(x, y) && OPPOSITE_SIGNS(x, z)))
-#else
-# define GOODISUM64(x, y, z) ((long double) (x) + (long double) (y) == (z))
-# define GOODIDIFF64(x, y, z) ((long double) (x) - (long double) (y) == (z))
-#endif
+#define OPPOSITE_SIGNS(x, y) ((x < 0) ^ (y < 0))
+#define GOODISUM64(x, y, z) (((x) > 0) ? ((y) < (z)) : ! ((y) < (z)))
+#define GOODIDIFF64(x, y, z) (!(OPPOSITE_SIGNS(x, y) && OPPOSITE_SIGNS(x, z)))
 #define GOODIPROD64(x, y, z) ((long double) (x) * (long double) (y) == (z))
 #define INTEGER32_OVERFLOW_WARNING "NAs produced by integer overflow"
 #define INTEGER64_OVERFLOW_WARNING "NAs produced by integer64 overflow"
@@ -324,36 +317,4 @@ else {                                                   \
         ret = (e1 >= e2) ? TRUE : FALSE; \
     }
 
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                      TYPEDEFS AND STRUCTURES                            **/
-/**                                                                         **/
-/*****************************************************************************/
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                        EXPORTED VARIABLES                               **/
-/**                                                                         **/
-/*****************************************************************************/
-
-
-#ifndef _INTEGER64_C_SRC
-
-#endif
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                        EXPORTED FUNCTIONS                               **/
-/**                                                                         **/
-/*****************************************************************************/
-
-
-#endif
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                                EOF                                      **/
-/**                                                                         **/
-/*****************************************************************************/
-
+#endif  // _INTEGER64_INLCUDED
