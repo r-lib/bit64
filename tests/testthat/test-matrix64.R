@@ -274,6 +274,14 @@ test_that("matrix multiplication", {
     expect_identical(matrix(x, 1L)%*%matrix(x, ncol=1L), matrix(NA_integer64_, 1L, 1L)),
     "NAs produced by integer64 overflow"
   )
+  expect_warning(
+    expect_identical(matrix(4e9, 1L, 1L)%*%matrix(x, ncol=1L), matrix(NA_integer64_, 1L, 1L)),
+    "NAs produced by integer64 overflow"
+  )
+  expect_warning(
+    expect_identical(matrix(x, 1L)%*%matrix(4e9, ncol=1L), matrix(NA_integer64_, 1L, 1L)),
+    "NAs produced by integer64 overflow"
+  )
 
   # warning in summation part
   x = rep_len(as.integer64("3000000000"), 2L) # x**2 < 2^63, but 2 * x**2 > 2^63
@@ -281,6 +289,28 @@ test_that("matrix multiplication", {
     expect_identical(matrix(x, 1L)%*%matrix(x, ncol=1L), matrix(NA_integer64_, 1L, 1L)),
     "NAs produced by integer64 overflow"
   )
+  expect_warning(
+    expect_identical(matrix(c(3e9, 3e9), 1L, 2L)%*%matrix(x, ncol=1L), matrix(NA_integer64_, 1L, 1L)),
+    "NAs produced by integer64 overflow"
+  )
+  expect_warning(
+    expect_identical(matrix(x, 1L)%*%matrix(c(3e9, 3e9), ncol=1L), matrix(NA_integer64_, 1L, 1L)),
+    "NAs produced by integer64 overflow"
+  )
+
+  # NA propagation in matrix multiplication
+  m_na64 = matrix(c(as.integer64(1L), NA_integer64_), 1L, 2L)
+  m_val64 = matrix(as.integer64(c(1L, 1L)), 2L, 1L)
+  m_na_dbl = matrix(c(1.0, NA_real_), 1L, 2L)
+  m_val_dbl = matrix(c(1.0, 1.0), 2L, 1L)
+
+  expect_no_warning(expect_identical(m_na64 %*% m_val64, matrix(NA_integer64_, 1L, 1L)))
+  expect_no_warning(expect_identical(m_na_dbl %*% m_val64, matrix(NA_integer64_, 1L, 1L)))
+  expect_no_warning(expect_identical(m_na64 %*% m_val_dbl, matrix(NA_integer64_, 1L, 1L)))
+  expect_no_warning(
+    expect_identical(t(m_val_dbl) %*% matrix(c(as.integer64(1L), NA_integer64_), 2L, 1L), matrix(NA_integer64_, 1L, 1L))
+  )
+  expect_no_warning(expect_identical(t(m_val64) %*% matrix(c(1.0, NA_real_), 2L, 1L), matrix(NA_integer64_, 1L, 1L)))
 
 })
 
