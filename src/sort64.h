@@ -1,11 +1,10 @@
 /*
 # C-Header for sorting and ordering
 # S3 atomic 64bit integers for R
-# (c) 2011, 2012 Jens Oehlschägel
+# (c) 2011-2024 Jens Oehlschägel
+# (c) 2025-2026 Michael Chirico
 # Licence: GPL2
 # Provided 'as is', use at your own risk
-# Created: 2011-12-11
-# Last changed:  2012-10-03
 */
 
 
@@ -40,19 +39,6 @@
 #define DEBUG_RETURN ret;
 // #define DEBUG_RETURN move_counter;
 #define DEBUG_DONE Rprintf("compare_counter=%d  move_counter=%d\n", compare_counter, move_counter); R_FlushConsole(); //doneTicks();
-
-#if defined(WIN32) || defined(WIN64) || defined(_WIN32_) || defined(_WIN64_) || defined(__WIN32__) || defined(__WIN64__)
-  #define MULTI_THREADING 0
-#else
-  #define MULTI_THREADING 1
-#endif
-
-#if MULTI_THREADING
-#include <pthread.h>
-#endif
-
-// dummy for counting comp ops
-#define COUNTLESS
 
 #define LESS(A,B) ((A)<(B))
 #define GREATER(A, B) LESS((B), (A))
