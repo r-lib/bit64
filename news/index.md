@@ -45,6 +45,10 @@
     and consistency
     ([\#180](https://github.com/r-lib/bit64/issues/180)).
 
+5.  `^.integer64` with integer or integer64 exponent now calculates the
+    power precisely and returns an overflow warning, if an overflow
+    appears ([\#288](https://github.com/r-lib/bit64/issues/288)).
+
 ### NOTES
 
 1.  The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0

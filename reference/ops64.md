@@ -82,6 +82,12 @@ e1 | e2
   [`^`](https://rdrr.io/r/base/Arithmetic.html) return a vector of class
   'integer64' or different class depending on the operands
 
+## Details
+
+[`^`](https://rdrr.io/r/base/Arithmetic.html) with 'integer' or
+'integer64' exponent now calculates the power precisely and returns an
+overflow warning, if an overflow appears.
+
 ## See also
 
 [`integer64()`](https://bit64.r-lib.org/reference/bit64-package.md)
