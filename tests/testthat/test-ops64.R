@@ -299,17 +299,14 @@ with_parameters_test_that("{operator} with integer64 vs {class} (returning integ
 
   op = match.fun(operator)
   maybe_cast = if (operator %in% c("+", "-", "*", "^", "%%", "%/%")) as.integer64 else identity
-  maybe_cast_argument = if (operator == "^") as.double else identity
 
   expected = tryCatch(maybe_cast(op(x32, y)), error=conditionMessage)
-  actual = tryCatch(op(x64, maybe_cast_argument(y)), error=conditionMessage)
+  actual = tryCatch(op(x64, y), error=conditionMessage)
   expect_identical(actual, expected)
 
-  if (operator != "^") {
-    expected = tryCatch(maybe_cast(op(y, x32)), error=conditionMessage)
-    actual = tryCatch(op(y, x64), error=conditionMessage)
-    expect_identical(actual, expected)
-  }
+  expected = tryCatch(maybe_cast(op(y, x32)), error=conditionMessage)
+  actual = tryCatch(op(y, x64), error=conditionMessage)
+  expect_identical(actual, expected)
 },
   .cases = expand.grid(
     operator=c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"),
@@ -412,12 +409,14 @@ test_that("power with integer64", {
   expect_identical(as.integer64(0L) ^ 0L, as.integer64(1L))
   expect_identical(as.integer64(0L) ^ 1L, as.integer64(0L))
   expect_identical(as.integer64(0L) ^ 5L, as.integer64(0L))
-  expect_warning(expect_identical(as.integer64(0L) ^ (-1L), NA_integer64_))
+  expect_warning(expect_identical(as.integer64(0L) ^ (-1L), NA_integer64_), overflow_warning)
 
   expect_identical(as.integer64(1L) ^ 0L, as.integer64(1L))
   expect_identical(as.integer64(1L) ^ 100L, as.integer64(1L))
   expect_identical(as.integer64(1L) ^ (-5L), as.integer64(1L))
   expect_identical(as.integer64(1L) ^ lim.integer64()[2L], as.integer64(1L))
+  expect_identical(as.integer64(1L) ^ NA_integer64_, as.integer64(1L))
+  expect_identical(as.integer64(1L) ^ NA_integer_, as.integer64(1L))
 
   expect_identical(as.integer64(-1L) ^ 0L, as.integer64(1L))
   expect_identical(as.integer64(-1L) ^ 1L, as.integer64(-1L))
@@ -426,12 +425,18 @@ test_that("power with integer64", {
   expect_identical(as.integer64(-1L) ^ (-1L), as.integer64(-1L))
   expect_identical(as.integer64(-1L) ^ (-2L), as.integer64(1L))
   expect_identical(as.integer64(-1L) ^ (-3L), as.integer64(-1L))
+  expect_identical(as.integer64(-1L) ^ lim.integer64()[1L], as.integer64(-1L))
   expect_identical(as.integer64(-1L) ^ lim.integer64()[2L], as.integer64(-1L))
 
   # Negative exponents with |base| >= 2
   expect_identical(as.integer64(2L) ^ (-1L), as.integer64(0L))
   expect_identical(as.integer64(2L) ^ (-5L), as.integer64(0L))
   expect_identical(as.integer64(-2L) ^ (-1L), as.integer64(0L))
+  expect_identical(as.integer64(-2L) ^ (-2L), as.integer64(0L))
+
+  # Boundary base values with exponent 1
+  expect_identical(lim.integer64()[1L] ^ 1L, lim.integer64()[1L])
+  expect_identical(lim.integer64()[2L] ^ 1L, lim.integer64()[2L])
 
   # Overflow detection with both odd and even exponents
   expect_warning(expect_identical(as.integer64(2147483650) ^ 3L, NA_integer64_), overflow_warning)
@@ -444,10 +449,23 @@ test_that("power with integer64", {
   expect_warning(expect_identical(lim.integer64()[2L] ^ 2L, NA_integer64_), overflow_warning)
 
   # Missing values and empty inputs
+  expect_no_warning(expect_identical(NA_integer64_ ^ 0L, as.integer64(1L)))
   expect_no_warning(expect_identical(NA_integer64_ ^ 2L, NA_integer64_))
+  expect_true(is.na(NA_integer64_ ^ 2L))
+  expect_no_warning(expect_identical(NA_integer64_ ^ (-1L), NA_integer64_))
+  expect_true(is.na(NA_integer64_ ^ (-1L)))
+  expect_no_warning(expect_identical(NA_integer64_ ^ NA_integer64_, NA_integer64_))
+  expect_true(is.na(NA_integer64_ ^ NA_integer64_))
+  expect_no_warning(expect_identical(as.integer64(0L) ^ NA_integer64_, NA_integer64_))
+  expect_true(is.na(as.integer64(0L) ^ NA_integer64_))
+  expect_no_warning(expect_identical(as.integer64(-1L) ^ NA_integer64_, NA_integer64_))
+  expect_true(is.na(as.integer64(-1L) ^ NA_integer64_))
   expect_no_warning(expect_identical(as.integer64(2L) ^ NA_integer_, NA_integer64_))
+  expect_true(is.na(as.integer64(2L) ^ NA_integer_))
   expect_no_warning(expect_identical(as.integer64(2L) ^ NA_integer64_, NA_integer64_))
+  expect_true(is.na(as.integer64(2L) ^ NA_integer64_))
   expect_no_warning(expect_identical(as.integer64(2L) ^ NA_real_, NA_integer64_))
+  expect_true(is.na(as.integer64(2L) ^ NA_real_))
   expect_identical(integer64() ^ 2L, integer64())
   expect_identical(as.integer64(2L) ^ integer(), integer64())
   expect_identical(integer64() ^ integer(), integer64())
