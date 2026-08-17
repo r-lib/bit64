@@ -119,7 +119,7 @@ static inline bool mul64_overflow(long long a, long long b, long long *res) {
 }
 
 static inline bool pow64_overflow(long long base, long long exp, long long *res) {
-  // special cases: n^0, 1^m, 0^m, -1^m, n^-m, NA^m, n^NA
+  // special cases: n^0, 1^m, NA^m, n^NA, n^1, n^2, 0^m, -1^m, n^-m
   if (exp == 0) {
     *res = 1;
     return false;
