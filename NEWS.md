@@ -14,6 +14,10 @@
 
 1. `^.integer64` with integer or integer64 exponent now calculates the power precisely and returns an overflow warning, if an overflow appears (#288).
 
+## NOTES
+
+1. R Core is considering adding native support for 64-bit integer vectors. `library(bit64)` will temporarily flash a request for use cases of 64-bit integers as posed by Luke Tierney: https://stat.ethz.ch/pipermail/r-devel/2026-July/084631.html. 
+
 # bit64 4.8.2 (2026-05-19)
 
 ## BUG FIXES
