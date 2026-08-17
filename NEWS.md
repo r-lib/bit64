@@ -20,6 +20,8 @@
 
 1. `log()` operations, especially for `log(x, base=10)` and `log(x, base=2)`, have better precision and consistency (#180).
 
+1. `^.integer64` with integer or integer64 exponent now calculates the power precisely and returns an overflow warning, if an overflow appears (#288).
+
 ## NOTES
 
 1. The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0 (2019).

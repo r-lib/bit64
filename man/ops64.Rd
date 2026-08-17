@@ -70,6 +70,10 @@ or other objects for which methods have been written for - especially 'integer64
 \description{
 Binary operators for integer64 vectors.
 }
+\details{
+\code{\link{^}} with 'integer' or 'integer64' exponent now calculates the power precisely and returns
+an overflow warning, if an overflow appears.
+}
 \examples{
   as.integer64(1:12) - 1
   options(integer64_semantics="new")
