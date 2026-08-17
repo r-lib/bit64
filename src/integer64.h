@@ -132,6 +132,17 @@ static inline bool pow64_overflow(long long base, long long exp, long long *res)
     *res = NA_INTEGER64;
     return false;
   }
+  if (exp == 1) {
+    *res = base;
+    return false;
+  }
+  if (exp == 2) {
+    if (mul64_overflow(base, base, res)) {
+      *res = NA_INTEGER64;
+      return true;
+    }
+    return false;
+  }
   if (base == 0) {
     if (exp < 0) {
       *res = NA_INTEGER64;
@@ -149,13 +160,14 @@ static inline bool pow64_overflow(long long base, long long exp, long long *res)
     return false;
   }
   long long r = 1;
-  while (exp > 0) {
+  while (1) {
     if (exp & 1 && mul64_overflow(r, base, &r)) {
       *res = NA_INTEGER64;
       return true;
     }
     exp >>= 1;
-    if (exp > 0 && mul64_overflow(base, base, &base)) {
+    if (!exp) break;
+    if (mul64_overflow(base, base, &base)) {
       *res = NA_INTEGER64;
       return true;
     }
