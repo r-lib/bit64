@@ -118,6 +118,52 @@ static inline bool mul64_overflow(long long a, long long b, long long *res) {
 #endif
 }
 
+static inline bool pow64_overflow(long long base, long long exp, long long *res) {
+  // special cases: n^0, 1^m, 0^m, -1^m, n^-m, NA^m, n^NA
+  if (exp == 0) {
+    *res = 1;
+    return false;
+  }
+  if (base == 1) {
+    *res = 1;
+    return false;
+  }
+  if (base == 0) {
+    if (exp < 0) {
+      *res = NA_INTEGER64;
+      return true;
+    }
+    *res = 0;
+    return false;
+  }
+  if (base == -1) {
+    *res = exp & 1 ? -1 : 1;
+    return false;
+  }
+  if (exp < 0) {
+    *res = 0;
+    return false;
+  }
+  if (base == NA_INTEGER64 || exp == NA_INTEGER64) {
+    *res = NA_INTEGER64;
+    return false;
+  }
+  long long r = 1;
+  while (exp > 0) {
+    if (exp & 1 && mul64_overflow(r, base, &r)) {
+      *res = NA_INTEGER64;
+      return true;
+    }
+    exp >>= 1;
+    if (exp > 0 && mul64_overflow(base, base, &base)) {
+      *res = NA_INTEGER64;
+      return true;
+    }
+  }
+  *res = r;
+  return false;
+}
+
 #define PLUS64(e1,e2,ret,naflag) \
     if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
         ret = NA_INTEGER64; \
@@ -152,26 +198,6 @@ static inline bool mul64_overflow(long long a, long long b, long long *res) {
           ret = NA_INTEGER64; \
         }else \
           ret = llroundl(longret); \
-    }
-
-#define POW64(e1,e2,ret,naflag,base,exp) \
-    if (e1 == NA_INTEGER64 || e2 == NA_INTEGER64) \
-        ret = NA_INTEGER64; \
-    else if (e2 >= 0 || e1 == 1 || e1 == -1) { \
-        ret = 1; \
-        base = e1; \
-        exp = e2; \
-        while (exp > 0) { \
-            if (exp % 2 == 1) { \
-                if (mul64_overflow(ret, base, &ret)) { \
-                    ret = NA_INTEGER64; \
-                    naflag = TRUE; \
-                    break; \
-                } \
-            } \
-            base *= base; \
-            exp >>= 1; \
-        } \
     }
 
 #define POW64REAL(e1,e2,ret,naflag,longret) \
