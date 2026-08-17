@@ -18,7 +18,7 @@
 #' @details
 #' [`^`] with 'integer' or 'integer64' exponent now calculates the power precisely and returns
 #'   an overflow warning, if an overflow appears.
-#' 
+#'
 #' @returns
 #'   - [`&`], [`|`], [`!`], [`!=`], [`==`], [`<`], [`<=`], [`>`], [`>=`] return a logical vector
 #'   - [`/`] returns a double vector
