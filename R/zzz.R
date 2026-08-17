@@ -13,6 +13,15 @@
 }
 # nocov end
 
+.onAttach = function(libname, pkgname) {
+  packageStartupMessage(
+    strrep("*", .7*getOption("width")), "\n",
+    "R-core is collecting use cases for 64-bit integers as they explore native support for these vectors.\n\n",
+    "See https://stat.ethz.ch/pipermail/r-devel/2026-July/084631.html and reach out to Luke Tierney (luke-tierney@uiowa.edu).\n",
+    strrep("*", .7*getOption("width")), "\n"
+  )
+}
+
 if (getRversion() < "4.4.0") {
   # nolint next: coalesce_linter.
   `%||%` = function(x, y) if (is.null(x)) y else x

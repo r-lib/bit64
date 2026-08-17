@@ -26,6 +26,8 @@
 
 1. The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0 (2019).
 
+1. R Core is considering adding native support for 64-bit integer vectors. `library(bit64)` will temporarily flash a request for use cases of 64-bit integers as posed by Luke Tierney: https://stat.ethz.ch/pipermail/r-devel/2026-July/084631.html. 
+
 # bit64 4.8.2 (2026-05-19)
 
 ## BUG FIXES
