@@ -397,13 +397,13 @@ test_that("power with integer64", {
   expect_identical(as.integer64(x)^2.0, as.integer64(x^2.0))
 
   # within integer64 range, which fails with double exponent
-  expect_identical(as.integer64("2147483650")^2L, as.integer64("4611686027017322500"))
-  expect_identical(as.integer64("-2147483650")^2L, as.integer64("4611686027017322500"))
-  expect_identical(as.integer64("94906267")^2L, as.integer64("94906267") * as.integer64("94906267"))
+  expect_identical(as.integer64(2147483650)^2L, as.integer64("4611686027017322500"))
+  expect_identical(as.integer64(-2147483650)^2L, as.integer64("4611686027017322500"))
+  expect_identical(as.integer64(94906267L)^2L, as.integer64(94906267L) * as.integer64(94906267L))
 
   # integer64 base with integer64 exponent
   expect_identical(as.integer64(10L) ^ as.integer64(3L), as.integer64(1000L))
-  expect_identical(as.integer64("2147483650") ^ as.integer64(2L), as.integer64("4611686027017322500"))
+  expect_identical(as.integer64(2147483650) ^ as.integer64(2L), as.integer64("4611686027017322500"))
   expect_identical(as.integer64(2L) ^ 62L, as.integer64("4611686018427387904"))
   expect_identical(as.integer64(2L) ^ as.integer64(62L), as.integer64("4611686018427387904"))
   expect_identical(as.integer64(3L) ^ 39L, as.integer64("4052555153018976267"))
@@ -434,7 +434,7 @@ test_that("power with integer64", {
   expect_identical(as.integer64(-2L) ^ (-1L), as.integer64(0L))
 
   # Overflow detection with both odd and even exponents
-  expect_warning(expect_identical(as.integer64("2147483650") ^ 3L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(as.integer64(2147483650) ^ 3L, NA_integer64_), overflow_warning)
   expect_warning(expect_identical(as.integer64(100000L) ^ 8L, NA_integer64_), overflow_warning)
   expect_warning(expect_identical(as.integer64(2L) ^ 63L, NA_integer64_), overflow_warning)
   expect_warning(expect_identical(as.integer64(2L) ^ 64L, NA_integer64_), overflow_warning)
