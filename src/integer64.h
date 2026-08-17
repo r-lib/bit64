@@ -128,6 +128,10 @@ static inline bool pow64_overflow(long long base, long long exp, long long *res)
     *res = 1;
     return false;
   }
+  if (base == NA_INTEGER64 || exp == NA_INTEGER64) {
+    *res = NA_INTEGER64;
+    return false;
+  }
   if (base == 0) {
     if (exp < 0) {
       *res = NA_INTEGER64;
@@ -142,10 +146,6 @@ static inline bool pow64_overflow(long long base, long long exp, long long *res)
   }
   if (exp < 0) {
     *res = 0;
-    return false;
-  }
-  if (base == NA_INTEGER64 || exp == NA_INTEGER64) {
-    *res = NA_INTEGER64;
     return false;
   }
   long long r = 1;
