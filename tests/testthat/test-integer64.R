@@ -262,15 +262,14 @@ test_that("indexing works: [<-", {
     x[2L] = 3.0 + 0.0i
     expect_identical(x, as.complex(c(2:3, 3:10)))
   })
-  # TODO(#44): remove this deprecated test
   local({
+    # TODO(#44): remove the option
+    withr::local_options(list(bit64.promoteInteger64ToCharacter=FALSE))
     x[1.0] = 2L
     x[2L] = "3"
     expect_identical(x, x_updated)
   })
   local({
-    # TODO(#44): remove the option
-    withr::local_options(list(bit64.promoteInteger64ToCharacter=TRUE))
     x[1.0] = 2L
     x[2L] = "3"
     expect_identical(x, as.character(c(2:3, 3:10)))
@@ -300,15 +299,14 @@ test_that("indexing works: [[<-", {
     x[[2L]] = 4.0 + 0.0i
     expect_identical(x, as.complex(c(3:4, 3:10)))
   })
-  # TODO(#44): remove this deprecated test
   local({
+    # TODO(#44): remove the option
+    withr::local_options(list(bit64.promoteInteger64ToCharacter=FALSE))
     x[[1.0]] = 3L
     x[[2L]] = "4"
     expect_identical(x, x_updated)
   })
   local({
-    # TODO(#44): remove `withr::local_options`
-    withr::local_options(list(bit64.promoteInteger64ToCharacter=TRUE))
     x[[1.0]] = 3L
     x[[2L]] = "4"
     expect_identical(x, as.character(c(3:4, 3:10)))
@@ -1150,15 +1148,14 @@ test_that("replacement works consistent to integer: matrix[<-", {
     m64[1L, c(1L, 5L, NA)] = 102.0 + 0.0i
     expect_identical(m64, m32)
   })
-  # TODO(#44): remove this deprecated test
   local({
+    # TODO(#44): remove the option
+    withr::local_options(list(bit64.promoteInteger64ToCharacter=FALSE))
     m32[1L, c(1L, 3L, NA)] = 103L
     m64[1L, c(1L, 3L, NA)] = "103"
     expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
-    # TODO(#44): remove `withr::local_options`
-    withr::local_options(list(bit64.promoteInteger64ToCharacter=TRUE))
     m32[1L, c(1L, 3L, NA)] = "103"
     m64[1L, c(1L, 3L, NA)] = "103"
     expect_identical(m64, m32)
@@ -1223,15 +1220,14 @@ test_that("replacement works consistent to integer: matrix[[<-", {
     m64[[1L, 3L]] = 111.0 + 0.0i
     expect_identical(m64, m32)
   })
-  # TODO(#44): remove this deprecated test
   local({
+    # TODO(#44): remove the option
+    withr::local_options(list(bit64.promoteInteger64ToCharacter=FALSE))
     m32[[1L, 4L]] = 112L
     m64[[1L, 4L]] = "112"
     expect_identical(m64, array(as.integer64(m32), dim=dim(m32), dimnames=dimnames(m32)))
   })
   local({
-    # TODO(#44): remove `withr::local_options`
-    withr::local_options(list(bit64.promoteInteger64ToCharacter=TRUE))
     m32[[1L, 4L]] = "112"
     m64[[1L, 4L]] = "112"
     expect_identical(m64, m32)
@@ -1383,13 +1379,13 @@ test_that("c works consistent to R", {
   )
   expect_identical(c(A=integer64(), B=as.complex(x32)), c(A=integer(), B=as.complex(x32)))
   # TODO(#44): adjust tests accordingly
-  expect_identical(
-    c(A=integer64(), B=as.character(x32)),
-    convert_x32_result_to_integer64(c(A=integer(), B=as.character(x32)), recursive=TRUE)
-  )
-  withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
-    expect_identical(c(A=integer64(), B=as.character(x32)), c(A=integer(), B=as.character(x32)))
+  withr::with_options(list(bit64.promoteInteger64ToCharacter=FALSE), {
+    expect_identical(
+      c(A=integer64(), B=as.character(x32)),
+      convert_x32_result_to_integer64(c(A=integer(), B=as.character(x32)), recursive=TRUE)
+    )
   })
+  expect_identical(c(A=integer64(), B=as.character(x32)), c(A=integer(), B=as.character(x32)))
 
   expect_identical(
     c(A=x64, B=as.raw(x32)),
@@ -1429,13 +1425,13 @@ test_that("c works consistent to R", {
   )
   expect_identical(c(A=x64, B=as.complex(x32)), c(A=x32, B=as.complex(x32)))
   # TODO(#44): adjust tests accordingly
-  expect_identical(
-    c(A=x64, B=as.character(x32)),
-    convert_x32_result_to_integer64(c(A=x32, B=as.character(x32)), recursive=TRUE)
-  )
-  withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
-    expect_identical(c(A=x64, B=as.character(x32)), c(A=x32, B=as.character(x32)))
+  withr::with_options(list(bit64.promoteInteger64ToCharacter=FALSE), {
+    expect_identical(
+      c(A=x64, B=as.character(x32)),
+      convert_x32_result_to_integer64(c(A=x32, B=as.character(x32)), recursive=TRUE)
+    )
   })
+  expect_identical(c(A=x64, B=as.character(x32)), c(A=x32, B=as.character(x32)))
 
   # regarding lists
   expect_identical(
@@ -1476,38 +1472,44 @@ test_that("c works consistent to R", {
     convert_x32_result_to_integer64(c(A=x32, B=list(a=1:2, b=3L, c="4")), x32)
   )
   # TODO(#44): adjust tests accordingly
-  expect_identical(
-    c(A=x64, B=list(a=1:2, b=3L, c="4"), recursive=TRUE),
-    convert_x32_result_to_integer64(c(A=x32, B=list(a=1:2, b=3L, c="4"), recursive=TRUE), x32, recursive=TRUE)
-  )
-  withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
+  withr::with_options(list(bit64.promoteInteger64ToCharacter=FALSE), {
     expect_identical(
       c(A=x64, B=list(a=1:2, b=3L, c="4"), recursive=TRUE),
-      c(A=x32, B=list(a=1:2, b=3L, c="4"), recursive=TRUE)
+      convert_x32_result_to_integer64(c(A=x32, B=list(a=1:2, b=3L, c="4"), recursive=TRUE), x32, recursive=TRUE)
     )
   })
+  expect_identical(
+    c(A=x64, B=list(a=1:2, b=3L, c="4"), recursive=TRUE),
+    c(A=x32, B=list(a=1:2, b=3L, c="4"), recursive=TRUE)
+  )
   expect_identical(
     c(A=x64, B=data.frame(a=1:2, b=3L, c="4", stringsAsFactors=FALSE)),
-    convert_x32_result_to_integer64(
-      c(A=x32, B=data.frame(a=1:2, b=3L, c="4", stringsAsFactors=FALSE)),
-      x32
-    )
+    convert_x32_result_to_integer64(c(A=x32, B=data.frame(a=1:2, b=3L, c="4", stringsAsFactors=FALSE)), x32)
   )
   # TODO(#44): adjust tests accordingly
-  expect_identical(
-    c(A=x64, B=data.frame(a=1:2, b=3L, c="4", stringsAsFactors=FALSE), recursive=TRUE),
-    convert_x32_result_to_integer64(
-      c(A=x32, B=data.frame(a=1:2, b=3L, c="4", stringsAsFactors=FALSE), recursive=TRUE),
-      x32,
-      recursive = TRUE
-    )
-  )
-  withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
+  withr::with_options(list(bit64.promoteInteger64ToCharacter=FALSE), {
     expect_identical(
       c(A=x64, B=data.frame(a=1:2, b=3L, c="4", stringsAsFactors=FALSE), recursive=TRUE),
-      c(A=x32, B=data.frame(a=1:2, b=3L, c="4", stringsAsFactors=FALSE), recursive=TRUE)
+      convert_x32_result_to_integer64(
+        c(A=x32, B=data.frame(a=1:2, b=3L, c="4", stringsAsFactors=FALSE), recursive=TRUE),
+        x32, recursive=TRUE
+      )
     )
   })
+  expect_identical(
+    c(A=x64, B=data.frame(a=1:2, b=3L, c="4", stringsAsFactors=FALSE), recursive=TRUE),
+    c(A=x32, B=data.frame(a=1:2, b=3L, c="4", stringsAsFactors=FALSE), recursive=TRUE)
+  )
+
+  expect_identical(
+    c(x64, as.POSIXlt(x32, origin="2026-01-27")),
+    convert_x32_result_to_integer64(c(x32, as.POSIXlt(x32, origin="2026-01-27")), x32)
+  )
+  if (getRversion() >= "4.0.0") # in my tests on R 3.5.0 this is identical
+    expect_identical(
+      c(x64, as.POSIXlt(x32, origin="2026-01-27"), recursive=TRUE),
+      c(x32, as.POSIXlt(x32, origin="2026-01-27"), recursive=TRUE)
+    )
 
   expect_identical(
     c(x64, as.POSIXlt(x32, origin="2026-01-27")),
@@ -1535,24 +1537,7 @@ test_that("c works consistent to R", {
     )
   )
   # TODO(#44): adjust tests accordingly
-  expect_identical(
-    c(
-      A = x64,
-      B = list(aa=x64, bb=list(bba=x64, bbb=x32, bbc=as.character(x32))),
-      C = data.frame(a=x64, b=x32),
-      recursive = TRUE
-    ),
-    convert_x32_result_to_integer64(
-      c(
-        A = x32,
-        B = list(aa=x32, bb=list(bba=x32, bbb=x32, bbc=as.character(x32))),
-        C = data.frame(a=x32, b=x32),
-        recursive = TRUE
-      ),
-      recursive = TRUE
-    )
-  )
-  withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
+  withr::with_options(list(bit64.promoteInteger64ToCharacter=FALSE), {
     expect_identical(
       c(
         A = x64,
@@ -1560,14 +1545,31 @@ test_that("c works consistent to R", {
         C = data.frame(a=x64, b=x32),
         recursive = TRUE
       ),
-      c(
-        A = x32,
-        B = list(aa=x32, bb=list(bba=x32, bbb=x32, bbc=as.character(x32))),
-        C = data.frame(a=x32, b=x32),
+      convert_x32_result_to_integer64(
+        c(
+          A = x32,
+          B = list(aa=x32, bb=list(bba=x32, bbb=x32, bbc=as.character(x32))),
+          C = data.frame(a=x32, b=x32),
+          recursive = TRUE
+        ),
         recursive = TRUE
       )
     )
   })
+  expect_identical(
+    c(
+      A = x64,
+      B = list(aa=x64, bb=list(bba=x64, bbb=x32, bbc=as.character(x32))),
+      C = data.frame(a=x64, b=x32),
+      recursive = TRUE
+    ),
+    c(
+      A = x32,
+      B = list(aa=x32, bb=list(bba=x32, bbb=x32, bbc=as.character(x32))),
+      C = data.frame(a=x32, b=x32),
+      recursive = TRUE
+    )
+  )
 })
 
 test_that("c works on extended integer64 objects (#298)", {
@@ -1644,12 +1646,12 @@ test_that("cbind works consistent to R", {
   expect_identical(cbind(x64, c(42.0, NA)), convert_x32_result_to_integer64(cbind(x32, c(42.0, NA))))
   expect_identical(cbind(x64, c(42.0+42.0i, NA)), replace_dimnames(cbind(x32, c(42.0+42.0i, NA)), "x32", "x64"))
   # TODO(#44): adjust tests accordingly
-  expect_identical(cbind(x64, c("42", NA)), convert_x32_result_to_integer64(cbind(x32, c("42", NA))))
-  expect_identical(cbind(x64, character()), convert_x32_result_to_integer64(cbind(x32, character())))
-  withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
-    expect_identical(cbind(x64, c("42", NA)), replace_dimnames(cbind(x32, c("42", NA)), "x32", "x64"))
-    expect_identical(cbind(x64, character()), replace_dimnames(cbind(x32, character()), "x32", "x64"))
+  withr::with_options(list(bit64.promoteInteger64ToCharacter=FALSE), {
+    expect_identical(cbind(x64, c("42", NA)), convert_x32_result_to_integer64(cbind(x32, c("42", NA))))
+    expect_identical(cbind(x64, character()), convert_x32_result_to_integer64(cbind(x32, character())))
   })
+  expect_identical(cbind(x64, c("42", NA)), replace_dimnames(cbind(x32, c("42", NA)), "x32", "x64"))
+  expect_identical(cbind(x64, character()), replace_dimnames(cbind(x32, character()), "x32", "x64"))
   expect_identical(cbind(x64, complex()), replace_dimnames(cbind(x32, complex()), "x32", "x64"))
 
   expect_identical(
@@ -1838,12 +1840,12 @@ test_that("rbind works consistent to R", {
   expect_identical(rbind(x64, c(42.0, NA)), convert_x32_result_to_integer64(rbind(x32, c(42.0, NA))))
   expect_identical(rbind(x64, c(42.0+42.0i, NA)), replace_dimnames(rbind(x32, c(42.0+42.0i, NA)), "x32", "x64"))
   # TODO(#44): adjust tests accordingly
-  expect_identical(rbind(x64, c("42", NA)), convert_x32_result_to_integer64(rbind(x32, c("42", NA))))
-  expect_identical(rbind(x64, character()), convert_x32_result_to_integer64(rbind(x32, character())))
-  withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
-    expect_identical(rbind(x64, c("42", NA)), replace_dimnames(rbind(x32, c("42", NA)), "x32", "x64"))
-    expect_identical(rbind(x64, character()), replace_dimnames(rbind(x32, character()), "x32", "x64"))
+  withr::with_options(list(bit64.promoteInteger64ToCharacter=FALSE), {
+    expect_identical(rbind(x64, c("42", NA)), convert_x32_result_to_integer64(rbind(x32, c("42", NA))))
+    expect_identical(rbind(x64, character()), convert_x32_result_to_integer64(rbind(x32, character())))
   })
+  expect_identical(rbind(x64, c("42", NA)), replace_dimnames(rbind(x32, c("42", NA)), "x32", "x64"))
+  expect_identical(rbind(x64, character()), replace_dimnames(rbind(x32, character()), "x32", "x64"))
   expect_identical(rbind(x64, complex()), replace_dimnames(rbind(x32, complex()), "x32", "x64"))
 
   expect_identical(
@@ -1875,40 +1877,49 @@ test_that("rbind works consistent to R", {
   )
   # suppressWarnings(): character->integer64 coercion because of bit64.promoteInteger64ToCharacter=FALSE prior to error.
   #   TODO(#44): remove suppression.
-  expect_same_error( # no column names in matrix
-    suppressWarnings(rbind(matrix(x64, 5L), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE))),
-    rbind(matrix(x32, 5L), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE))
-  )
-  expect_same_error( # ditto w/o intermediate empty inputs
-    suppressWarnings(rbind(matrix(x64, 5L), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE))),
-    rbind(matrix(x32, 5L), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE))
-  )
-  # TODO(#44): adjust tests accordingly
-  expect_identical(
-    rbind(
-      matrix(x64, 5L, dimnames = list(NULL, c("a", "b"))),
-      data.frame(a=5:1, b=as.character(1:5), stringsAsFactors=FALSE)
-    ),
-    convert_x32_result_to_integer64(
-      rbind(
-        matrix(x32, 5L, dimnames = list(NULL, c("a", "b"))),
-        data.frame(a=5:1, b=1:5)
+  withr::with_options(list(bit64.promoteInteger64ToCharacter=FALSE), {
+    expect_same_error( # no column names in matrix
+      suppressWarnings(
+        rbind(matrix(x64, 5L), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE))
       ),
-      1:2
+      rbind(matrix(x32, 5L), list(), NULL, data.frame(a=10:1, b=LETTERS[1:10], stringsAsFactors=FALSE))
     )
-  )
-  withr::with_options(list(bit64.promoteInteger64ToCharacter=TRUE), {
+    expect_same_error( # ditto w/o intermediate empty inputs
+      suppressWarnings(rbind(matrix(x64, 5L), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE))),
+      rbind(matrix(x32, 5L), data.frame(a=5:1, b=LETTERS[1:5], stringsAsFactors=FALSE))
+    )
+    # TODO(#44): adjust tests accordingly
     expect_identical(
       rbind(
         matrix(x64, 5L, dimnames = list(NULL, c("a", "b"))),
         data.frame(a=5:1, b=as.character(1:5), stringsAsFactors=FALSE)
       ),
-      rbind(
-        matrix(x32, 5L, dimnames = list(NULL, c("a", "b"))),
-        data.frame(a=as.character(5:1), b=as.character(1:5), stringsAsFactors=FALSE)
+      convert_x32_result_to_integer64(
+        rbind(
+          matrix(x32, 5L, dimnames = list(NULL, c("a", "b"))),
+          data.frame(a=5:1, b=1:5)
+        ),
+        1:2
       )
     )
   })
+  expect_identical(
+    rbind(
+      matrix(x64, 5L, dimnames=list(NULL, c("a", "b"))),
+      data.frame(a=5:1, b=as.character(1:5), stringsAsFactors=FALSE)
+    ),
+    rbind(
+      matrix(x32, 5L, dimnames=list(NULL, c("a", "b"))),
+      data.frame(a=as.character(5:1), b=as.character(1:5), stringsAsFactors=FALSE)
+    )
+    # This would be consistent with base R, but it requires additional logic to determine the columns
+    #   to convert from the input in advance to have them coerced accordingly.
+    # convert_x32_result_to_integer64(
+    #   rbind(
+    #     matrix(x32, 5, dimnames=list(NULL, c("a", "b"))),
+    #     data.frame(a=5:1, b=as.character(1:5), stringsAsFactors=FALSE)),
+    #   1L)
+  )
   expect_identical(
     rbind(matrix(x64, 5L, dimnames=list(NULL, c("a", "b"))), data.frame(a=5:1, b=as.complex(1:5))),
     rbind(matrix(x32, 5L, dimnames=list(NULL, c("a", "b"))), data.frame(a=as.complex(5:1), b=as.complex(1:5)))

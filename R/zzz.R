@@ -87,19 +87,19 @@ getClassesOfElements = function(x, recursive) {
   }
 }
 
-target_class = function(x, recursive=FALSE, POSIXltAsCharacter=FALSE) {
-
+target_class = function(x, recursive=FALSE, POSIXltAsCharacter=FALSE, forSetOps=FALSE) {
   classes = getClassesOfElements(x, recursive=isTRUE(recursive))
 
-  if ("POSIXlt" %in% classes && isTRUE(POSIXltAsCharacter)) return("character")
-  if ("complex" %in% classes) return("complex")
-  if (!any(c("character", "factor", "ordered") %in% classes)) return("integer64")
   # TODO(#44): change default coercion to character
-  #         next Release: change default behavior
-  #   subsequent Release: change from message to warning
+  #         next Release: throw a warning for using FALSE
   #   subsequent Release: change from warning to error
   #   subsequent Release: remove option
-  if (isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE))) return("character")
+  if (isTRUE(getOption("bit64.promoteInteger64ToCharacter", TRUE))) {
+    if ("character" %in% classes) return("character")
+    if (isTRUE(forSetOps) && any(c("factor", "ordered") %in% classes)) return("character")
+  }
+  if ("POSIXlt" %in% classes && isTRUE(POSIXltAsCharacter)) return("character")
+  if ("complex" %in% classes) return("complex")
   "integer64"
 }
 

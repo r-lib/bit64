@@ -10,6 +10,8 @@
 
 1. Fix logical errors in the implementation of `order(decreasing=TRUE)` on inputs with missing elements and `ordercache()` set (#340).
 
+1. The default value of option `bit64.promoteInteger64ToCharacter` is now `TRUE`, meaning that `c(as.integer64(1L), "a")` is `c("1", "a")`. See the release notes for 4.8.0. In the next release, it will be a warning to use `FALSE` for this option.
+
 ## BUG FIXES
 
 1. `runif64(replace=FALSE)` no longer generates any duplicates (#337).

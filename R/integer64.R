@@ -1008,12 +1008,11 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
   coerced_args = position_args_with_int64_to_int_coercion(sc, parent, skipLast=TRUE)
 
   # TODO(#44): change default coercion to character
-  #         next Release: change default behavior
-  #   subsequent Release: change from message to warning
+  #         next Release: throw a warning for using FALSE
   #   subsequent Release: change from warning to error
   #   subsequent Release: remove option and promote_to_char
   if (
-    (is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE)))
+    (is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", TRUE)))
     || is.complex(value)
     || (is.double(value) && class(value)[1L] != "numeric")
   ) {
@@ -1057,12 +1056,11 @@ position_args_with_int64_to_int_coercion = function(sys_call, eval_frame, skipLa
     el
   })
   # TODO(#44): change default coercion to character
-  #         next Release: change default behavior
-  #   subsequent Release: change from message to warning
+  #         next Release: throw a warning
   #   subsequent Release: change from warning to error
   #   subsequent Release: remove option and promote_to_char
   if (
-    (is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", FALSE)))
+    (is.character(value) && isTRUE(getOption("bit64.promoteInteger64ToCharacter", TRUE)))
     || is.complex(value)
     || (is.double(value) && class(value)[1L] != "numeric")
   ) {

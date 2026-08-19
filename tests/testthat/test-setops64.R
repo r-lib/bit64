@@ -292,15 +292,12 @@ with_parameters_test_that(
 )
 
 test_that("is.element works with special logic for double", {
-
   expect_identical(is.element(1.5:7, 5:10), base::is.element(1.5:7, 5:10))
   expect_identical(is.element(1.5:7, as.integer64(6:1)), rep(TRUE, 6L))
   expect_identical(is.element(as.integer64(6:1), 1.5:7), rep(TRUE, 6L))
-
 })
 
 test_that("is.element works (additional cases)", {
-
   expect_identical(
     is.element(c(5L, 3L, 5L), c(0L, 2L, 1L, 3L, 6L)),
     base::is.element(c(5L, 3L, 5L), c(0L, 2L, 1L, 3L, 6L))
@@ -318,5 +315,4 @@ test_that("is.element works (additional cases)", {
   expect_true(is.element(NA_integer_, NA))
   expect_true(is.element(NA, NA_integer64_))
   expect_true(is.element(NA_integer64_, NA))
-
 })
