@@ -907,4 +907,3 @@ test_that("unique and unipos with nunique < length/2", {
 
   remcache(x)
 })
->>>>>>> conflict 1 of 1 ends
