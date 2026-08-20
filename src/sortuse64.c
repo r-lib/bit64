@@ -31,7 +31,7 @@ SEXP r_ram_integer64_nacount(
   if (n) {
     R_Busy(1);
     for (i = 0; i < n; i++)
-        if (x[i]==NA_INTEGER64)
+        if (is_na64(x[i]))
             ret++;
   }
   INTEGER(ret_)[0]=ret;
@@ -52,7 +52,7 @@ SEXP r_ram_integer64_all_na(
   if (n) {
     R_Busy(1);
     for (i = 0; i < n; i++)
-        if (x[i]!=NA_INTEGER64) {
+        if (!is_na64(x[i])) {
             ret = FALSE;
             break;
         }
@@ -75,7 +75,7 @@ SEXP r_ram_integer64_any_na(
   if (n) {
     R_Busy(1);
     for (i = 0; i < n; i++)
-        if (x[i]==NA_INTEGER64) {
+        if (is_na64(x[i])) {
             ret = TRUE;
             break;
         }

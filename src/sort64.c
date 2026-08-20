@@ -55,7 +55,7 @@ int ram_integer64_fixsortNA(ValueT *data, IndexT n, int has_na, int na_last, int
   IndexT i, nNA = 0;
   if (decreasing) {
     for (i = n - 1; i >= 0; i--) {
-      if (ISNA_INTEGER64(data[i]))
+      if (is_na64(data[i]))
         nNA++;
       else
         break;
@@ -68,7 +68,7 @@ int ram_integer64_fixsortNA(ValueT *data, IndexT n, int has_na, int na_last, int
     }
   } else {
     for (i = 0; i < n; i++) {
-      if (ISNA_INTEGER64(data[i]))
+      if (is_na64(data[i]))
         nNA++;
       else
         break;
@@ -98,7 +98,7 @@ int ram_integer64_fixsortorderNA(
     IndexT i,offset, nNA = 0 ;
     if (decreasing) {
     for (i = n - 1; i >= 0; i--) {
-      if (ISNA_INTEGER64(data[i]))
+      if (is_na64(data[i]))
       nNA++;
     else
       break;
@@ -120,7 +120,7 @@ int ram_integer64_fixsortorderNA(
     }
   } else{
     for (i = 0; i < n; i++) {
-      if (ISNA_INTEGER64(data[i]))
+      if (is_na64(data[i]))
       nNA++;
     else
       break;
@@ -162,7 +162,7 @@ int ram_integer64_fixorderNA(
     IndexT i,offset, nNA = 0 ;
     if (decreasing) {
     for (i = n - 1; i >= 0; i--) {
-      if (ISNA_INTEGER64(data[index[i]]))
+      if (is_na64(data[index[i]]))
       nNA++;
     else
       break;
@@ -182,7 +182,7 @@ int ram_integer64_fixorderNA(
     }
   } else{
     for (i = 0; i < n; i++) {
-      if (ISNA_INTEGER64(data[index[i]]))
+      if (is_na64(data[index[i]]))
       nNA++;
     else
       break;
