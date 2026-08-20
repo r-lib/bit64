@@ -7,8 +7,6 @@
 # Provided 'as is', use at your own risk
 #*/
 
-#define _INTEGER64_C_SRC
-
 // this define before stdio.h removes the warnings
 // warning: unknown conversion type character 'l' in format [-Wformat]
 // warning: too many arguments for format [-Wformat-extra-args]
