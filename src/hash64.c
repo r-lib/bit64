@@ -14,14 +14,14 @@
 // This multiplicator was used in Simon Urbanek's package fastmatch for 32-bit integers
 //   (314159265358979323ULL * ((unsigned long long)(X)) >> (SHIFT))
 // This multiplicator seems to work fine with 64bit integers
-static inline unsigned int hash64(unsigned long long x, int shift) {
-  return (unsigned int) ((0x9e3779b97f4a7c13ULL * x) >> shift);
+static inline int hash64(unsigned long long x, int shift) {
+  return (int) ((0x9e3779b97f4a7c13ULL * x) >> shift);
 }
 
 SEXP hashfun_integer64(SEXP x_, SEXP bits_, SEXP ret_) {
   int i, n = LENGTH(x_);
   long long * x = (long long *) REAL(x_);
-  unsigned int * ret = (unsigned int *) INTEGER(ret_);
+  int * ret = INTEGER(ret_);
   int shift = 64 - asInteger(bits_);
   for (i = 0; i < n; i++) {
     ret[i] = hash64(x[i], shift);
