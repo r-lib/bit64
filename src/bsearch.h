@@ -19,7 +19,7 @@ IndexT m; \
     else \
       r = m; \
   } \
-}
+  }
 #define INTEGER64_BSEARCH_ASC_UP(data, l, r, value) \
 { \
 IndexT m; \
@@ -61,7 +61,7 @@ IndexT m; \
     else \
       r = m; \
   } \
-}
+      }
 #define INTEGER64_LSEARCH_ASC_UP(data, l, r, value) \
 { \
   IndexT m,g,d=1; \
@@ -123,7 +123,7 @@ IndexT m; \
     else \
       r = m; \
   } \
-}
+  }
 #define INTEGER64_RSEARCH_ASC_UP(data, l, r, value) \
 { \
   IndexT m,g,d=1; \
@@ -167,7 +167,7 @@ IndexT m; \
     else \
       r = m; \
   } \
-}
+      }
 #define INTEGER64_BSEARCH_DESC_UP(data, l, r, value) \
 { \
 IndexT m; \

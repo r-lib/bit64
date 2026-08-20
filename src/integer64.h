@@ -261,7 +261,7 @@ else {                                                   \
             ret = (double)((long double) e1 / (long double) e2); \
         if (ISNAN(ret)) \
             naflag = TRUE; \
-    }
+}
 
 /* int division truncate to lower */
 #define INTDIV64(e1,e2,ret,naflag) \
@@ -276,7 +276,7 @@ else {                                                   \
             naflag = TRUE; \
         else if ((e1^e2) < 0 && ret*e2 != e1) \
             ret -= 1; \
-    }
+}
 
 /* int division truncate to lower */
 #define MOD64(e1,e2,ret,naflag) \
@@ -333,7 +333,7 @@ else {                                                   \
         ret = (double) logl((long double)e1); \
         if (isnan(ret)) \
             naflag = TRUE; \
-    }
+}
 
 // NB: cast to double _after_ dividing in 'long double' for max precision.
 #define LOGVECT64(e1, e2, ret, naflag) \

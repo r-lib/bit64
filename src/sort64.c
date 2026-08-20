@@ -231,7 +231,7 @@ void ram_integer64_insertionsort_asc(
     MOVE(v, data[i])
     while (LESS(v,data[j-1])){
       MOVE(data[j], data[j-1])
-    j--;
+      j--;
     }
     MOVE(data[j], v)
   }
@@ -258,7 +258,7 @@ void ram_integer64_insertionsortorder_asc(
     while (LESS(v,data[j-1])){
       MOVE(index[j], index[j-1])
       MOVE(data[j], data[j-1])
-    j--;
+      j--;
     }
     MOVE(index[j], vi)
     MOVE(data[j], v)
@@ -284,7 +284,7 @@ void ram_integer64_insertionorder_asc(
     MOVE(v, data[vi])
     while (LESS(v,data[index[j-1]])){
       MOVE(index[j], index[j-1])
-    j--;
+      j--;
     }
     MOVE(index[j], vi)
   }
@@ -336,7 +336,7 @@ void ram_integer64_insertionsortorder_desc(
     while (LESS(v,data[j+1])){
       MOVE(index[j], index[j+1])
       MOVE(data[j], data[j+1])
-    j++;
+      j++;
     }
     MOVE(index[j], vi)
     MOVE(data[j], v)
@@ -362,7 +362,7 @@ void ram_integer64_insertionorder_desc(
     MOVE(v, data[vi])
     while (LESS(v,data[index[j+1]])){
       MOVE(index[j], index[j+1])
-    j++;
+      j++;
     }
     MOVE(index[j], vi)
   }
@@ -388,11 +388,11 @@ void ram_integer64_shellsort_asc(ValueT *data, IndexT l, IndexT r)
       lh = l+h;
       for (i = lh; i <= r; i++) {
       MOVE(v, data[i])
-          j = i;
+        j = i;
           while (j >= lh && LESS(v, data[j - h])){
         MOVE(data[j], data[j - h])
-            j -= h;
-          }
+          j -= h;
+        }
       MOVE(data[j], v)
       }
     }
@@ -408,11 +408,11 @@ void ram_integer64_shellsort_desc(ValueT *data, IndexT l, IndexT r)
       lh = l+h;
       for (i = lh; i <= r; i++) {
       MOVE(v, data[i])
-          j = i;
+        j = i;
           while (j >= lh && LESS(data[j - h], v)){
         MOVE(data[j], data[j - h])
-            j -= h;
-          }
+          j -= h;
+        }
       MOVE(data[j], v)
       }
     }
@@ -430,12 +430,12 @@ void ram_integer64_shellsortorder_asc(ValueT *data, IndexT *index, IndexT l, Ind
       for (i = lh; i <= r; i++) {
       MOVE(vi, index[i])
       MOVE(v, data[i])
-          j = i;
+        j = i;
           while (j >= lh && LESS(v, data[j - h])){
         MOVE(index[j], index[j - h])
         MOVE(data[j], data[j - h])
-            j -= h;
-          }
+          j -= h;
+        }
       MOVE(index[j], vi)
       MOVE(data[j], v)
       }
@@ -453,12 +453,12 @@ void ram_integer64_shellsortorder_desc(ValueT *data, IndexT *index, IndexT l, In
       for (i = lh; i <= r; i++) {
       MOVE(vi, index[i])
       MOVE(v, data[i])
-          j = i;
+        j = i;
           while (j >= lh && LESS(data[j - h], v)){
         MOVE(index[j], index[j - h])
         MOVE(data[j], data[j - h])
-            j -= h;
-          }
+          j -= h;
+        }
       MOVE(index[j], vi)
       MOVE(data[j], v)
       }
@@ -477,11 +477,11 @@ void ram_integer64_shellorder_asc(ValueT *data, IndexT *index, IndexT l, IndexT 
       for (i = lh; i <= r; i++) {
       MOVE(vi, index[i])
       MOVE(v, data[vi])
-          j = i;
+        j = i;
           while (j >= lh && LESS(v, data[index[j - h]])){
         MOVE(index[j], index[j - h])
-            j -= h;
-          }
+          j -= h;
+        }
       MOVE(index[j], vi)
       }
     }
@@ -498,11 +498,11 @@ void ram_integer64_shellorder_desc(ValueT *data, IndexT *index, IndexT l, IndexT
       for (i = lh; i <= r; i++) {
       MOVE(vi, index[i])
       MOVE(v, data[vi])
-          j = i;
+        j = i;
           while (j >= lh && LESS(data[index[j - h]], v)){
         MOVE(index[j], index[j - h])
-            j -= h;
-          }
+          j -= h;
+        }
       MOVE(index[j], vi)
       }
     }
@@ -542,7 +542,7 @@ void ram_integer64_sortmerge_asc(
     }
   if (LESS(b[j],a[i]))
     MOVE(c[k],b[j++])
-  else
+    else
     MOVE(c[k],a[i++])
   }
 }
@@ -571,7 +571,7 @@ ValueT *data  // data vector
     }
   if (KEYLESS(b[j],a[i]))
     MOVE(c[k],b[j++])
-  else
+    else
     MOVE(c[k],a[i++])
   }
 }
@@ -594,14 +594,14 @@ void ram_integer64_sortordermerge_asc(
       for (;k<K;k++){
         MOVE(ci[k],bi[j])
         MOVE(c[k],b[j++])
-    }
+      }
       break;
     }
     if (j==nb){
       for (;k<K;k++){
         MOVE(ci[k],ai[i])
         MOVE(c[k],a[i++])
-    }
+      }
       break;
     }
   if (LESS(b[j],a[i])){
@@ -610,7 +610,7 @@ void ram_integer64_sortordermerge_asc(
   }else{
     MOVE(ci[k],ai[i])
     MOVE(c[k],a[i++])
-  }
+    }
   }
 }
 
@@ -630,7 +630,7 @@ void ram_integer64_sortmerge_desc(ValueT *c, ValueT *a, ValueT *b, IndexT na, In
     }
   if (LESS(a[i],b[j]))
     MOVE(c[k],a[i--])
-  else
+    else
     MOVE(c[k],b[j--])
   }
 }
@@ -651,7 +651,7 @@ void ram_integer64_ordermerge_desc(ValueT *data, IndexT *c, IndexT *a, IndexT *b
     }
   if (KEYLESS(a[i],b[j]))
     MOVE(c[k],a[i--])
-  else
+    else
     MOVE(c[k],b[j--])
   }
 }
@@ -664,14 +664,14 @@ void ram_integer64_sortordermerge_desc(ValueT *c, ValueT *a, ValueT *b, IndexT *
       for (;k>=0;k--){
         MOVE(ci[k],bi[j])
         MOVE(c[k],b[j--])
-    }
+      }
       break;
     }
     if (j<0){
       for (;k>=0;k--){
         MOVE(ci[k],ai[i])
         MOVE(c[k],a[i--])
-    }
+      }
       break;
     }
   if (LESS(a[i],b[j])){
@@ -680,7 +680,7 @@ void ram_integer64_sortordermerge_desc(ValueT *c, ValueT *a, ValueT *b, IndexT *
   }else{
     MOVE(ci[k],bi[j])
     MOVE(c[k],b[j--])
-  }
+    }
   }
 }
 
@@ -974,13 +974,13 @@ void ram_integer64_quicksort_asc_intro(ValueT *data, IndexT l, IndexT r, int res
       m = ram_integer64_median3(data, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
     EXCH(data[m], data[r], t)
       m = ram_integer64_quicksortpart_asc_no_sentinels(data, l, r);
-    restlevel--;
-    ram_integer64_quicksort_asc_intro(data, l, m-1, restlevel);
-    ram_integer64_quicksort_asc_intro(data, m+1, r, restlevel);
+      restlevel--;
+      ram_integer64_quicksort_asc_intro(data, l, m-1, restlevel);
+      ram_integer64_quicksort_asc_intro(data, m+1, r, restlevel);
     }
     else  ram_integer64_insertionsort_asc(data, l, r);
   }else{
-  ram_integer64_shellsort_asc(data, l, r);
+    ram_integer64_shellsort_asc(data, l, r);
   }
 }
 void ram_integer64_quicksortorder_asc_intro(ValueT *data, IndexT *index, IndexT l, IndexT r, int restlevel)
@@ -995,13 +995,13 @@ void ram_integer64_quicksortorder_asc_intro(ValueT *data, IndexT *index, IndexT 
     EXCH(index[m], index[r], ti)
     EXCH(data[m], data[r], t)
       m = ram_integer64_quicksortorderpart_asc_no_sentinels(data, index, l, r);
-    restlevel--;
-    ram_integer64_quicksortorder_asc_intro(data, index, l, m-1, restlevel);
-    ram_integer64_quicksortorder_asc_intro(data, index, m+1, r, restlevel);
+      restlevel--;
+      ram_integer64_quicksortorder_asc_intro(data, index, l, m-1, restlevel);
+      ram_integer64_quicksortorder_asc_intro(data, index, m+1, r, restlevel);
     }
     else  ram_integer64_insertionsortorder_asc(data, index, l, r);
   }else{
-  ram_integer64_shellsortorder_asc(data, index, l, r);
+    ram_integer64_shellsortorder_asc(data, index, l, r);
   }
 }
 void ram_integer64_quickorder_asc_intro(ValueT *data, IndexT *index, IndexT l, IndexT r, int restlevel)
@@ -1014,13 +1014,13 @@ void ram_integer64_quickorder_asc_intro(ValueT *data, IndexT *index, IndexT l, I
       m = ram_integer64_median3index(data, index, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
     EXCH(index[m], index[r], ti)
       m = ram_integer64_quickorderpart_asc_no_sentinels(data, index, l, r);
-    restlevel--;
-    ram_integer64_quickorder_asc_intro(data, index, l, m-1, restlevel);
-    ram_integer64_quickorder_asc_intro(data, index, m+1, r, restlevel);
+      restlevel--;
+      ram_integer64_quickorder_asc_intro(data, index, l, m-1, restlevel);
+      ram_integer64_quickorder_asc_intro(data, index, m+1, r, restlevel);
     }
     else  ram_integer64_insertionorder_asc(data, index, l, r);
   }else{
-  ram_integer64_shellorder_asc(data, index, l, r);
+    ram_integer64_shellorder_asc(data, index, l, r);
   }
 }
 
@@ -1034,13 +1034,13 @@ void ram_integer64_quicksort_desc_intro(ValueT *data, IndexT l, IndexT r, int re
       m = ram_integer64_median3(data, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
     EXCH(data[m], data[r], t)
       m = ram_integer64_quicksortpart_desc_no_sentinels(data, l, r);
-    restlevel--;
-    ram_integer64_quicksort_desc_intro(data, l, m-1, restlevel);
-    ram_integer64_quicksort_desc_intro(data, m+1, r, restlevel);
+      restlevel--;
+      ram_integer64_quicksort_desc_intro(data, l, m-1, restlevel);
+      ram_integer64_quicksort_desc_intro(data, m+1, r, restlevel);
     }
     else  ram_integer64_insertionsort_desc(data, l, r);
   }else{
-  ram_integer64_shellsort_desc(data, l, r);
+    ram_integer64_shellsort_desc(data, l, r);
   }
 }
 void ram_integer64_quicksortorder_desc_intro(ValueT *data, IndexT *index, IndexT l, IndexT r, int restlevel)
@@ -1055,13 +1055,13 @@ void ram_integer64_quicksortorder_desc_intro(ValueT *data, IndexT *index, IndexT
     EXCH(index[m], index[r], ti)
     EXCH(data[m], data[r], t)
       m = ram_integer64_quicksortorderpart_desc_no_sentinels(data, index, l, r);
-    restlevel--;
-    ram_integer64_quicksortorder_desc_intro(data, index, l, m-1, restlevel);
-    ram_integer64_quicksortorder_desc_intro(data, index, m+1, r, restlevel);
+      restlevel--;
+      ram_integer64_quicksortorder_desc_intro(data, index, l, m-1, restlevel);
+      ram_integer64_quicksortorder_desc_intro(data, index, m+1, r, restlevel);
     }
     else  ram_integer64_insertionsortorder_desc(data, index, l, r);
   }else{
-  ram_integer64_shellsortorder_desc(data, index, l, r);
+    ram_integer64_shellsortorder_desc(data, index, l, r);
   }
 }
 void ram_integer64_quickorder_desc_intro(ValueT *data, IndexT *index, IndexT l, IndexT r, int restlevel)
@@ -1074,13 +1074,13 @@ void ram_integer64_quickorder_desc_intro(ValueT *data, IndexT *index, IndexT l, 
       m = ram_integer64_median3(data, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
     EXCH(index[m], index[r], ti)
       m = ram_integer64_quickorderpart_desc_no_sentinels(data, index, l, r);
-    restlevel--;
-    ram_integer64_quickorder_desc_intro(data, index, l, m-1, restlevel);
-    ram_integer64_quickorder_desc_intro(data, index, m+1, r, restlevel);
+      restlevel--;
+      ram_integer64_quickorder_desc_intro(data, index, l, m-1, restlevel);
+      ram_integer64_quickorder_desc_intro(data, index, m+1, r, restlevel);
     }
     else  ram_integer64_insertionorder_desc(data, index, l, r);
   }else{
-  ram_integer64_shellorder_desc(data, index, l, r);
+    ram_integer64_shellorder_desc(data, index, l, r);
   }
 }
 
@@ -1553,8 +1553,8 @@ SEXP r_ram_integer64_shellsort(
 
   R_Busy(1);
   DEBUG_INIT
-    ValueT *data;
-    data = (ValueT *) REAL(x_);
+  ValueT *data;
+  data = (ValueT *) REAL(x_);
 
   if (decreasing)
       ram_integer64_shellsort_desc(data, 0, n-1);
@@ -1592,8 +1592,8 @@ SEXP r_ram_integer64_shellsortorder(
 
     R_Busy(1);
     DEBUG_INIT
-      ValueT *data;
-      data = (ValueT *) REAL(x_);
+    ValueT *data;
+    data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
 
     if (decreasing)
@@ -1634,8 +1634,8 @@ SEXP r_ram_integer64_shellorder(
 
     R_Busy(1);
     DEBUG_INIT
-      ValueT *data;
-      data = (ValueT *) REAL(x_);
+    ValueT *data;
+    data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
 
     for (i=0;i<n;i++)
@@ -1683,24 +1683,24 @@ SEXP r_ram_integer64_mergesort(
 
   R_Busy(1);
   DEBUG_INIT
-    ValueT *data;
-      data = (ValueT *) REAL(x_);
-      ValueT *auxdata;
-      auxdata = (ValueT *) R_alloc(n, sizeof(ValueT));
+  ValueT *data;
+  data = (ValueT *) REAL(x_);
+  ValueT *auxdata;
+  auxdata = (ValueT *) R_alloc(n, sizeof(ValueT));
 
-    for(i=0;i<n;i++){
+  for(i=0;i<n;i++){
       MOVE(auxdata[i], data[i])
-    }
+  }
 
-    if (decreasing)
-        ram_integer64_mergesort_desc_rec(data, auxdata, 0, n-1);
-    else
-        ram_integer64_mergesort_asc_rec(data, auxdata, 0, n-1);
-    ret = ram_integer64_fixsortNA(data, n
-    , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
-    , na_last    // 0 for NA NaN left, 1 for NA NaN right
-    , decreasing // 0 for ascending, 1 for descending
-    );
+  if (decreasing)
+      ram_integer64_mergesort_desc_rec(data, auxdata, 0, n-1);
+  else
+      ram_integer64_mergesort_asc_rec(data, auxdata, 0, n-1);
+  ret = ram_integer64_fixsortNA(data, n
+  , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
+  , na_last    // 0 for NA NaN left, 1 for NA NaN right
+  , decreasing // 0 for ascending, 1 for descending
+  );
 
   INTEGER(ret_)[0] = DEBUG_RETURN;
   R_Busy(0);
@@ -1874,8 +1874,8 @@ SEXP r_ram_integer64_quicksortorder(
 
     R_Busy(1);
     DEBUG_INIT
-      ValueT *data;
-      data = (ValueT *) REAL(x_);
+    ValueT *data;
+    data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
 
     if (decreasing)
@@ -1918,8 +1918,8 @@ SEXP r_ram_integer64_quickorder(
 
     R_Busy(1);
     DEBUG_INIT
-      ValueT *data;
-      data = (ValueT *) REAL(x_);
+    ValueT *data;
+    data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
 
     for (i=0;i<n;i++)
