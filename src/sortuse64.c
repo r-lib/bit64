@@ -17,7 +17,7 @@
 #include "integer64.h"
 #include "sort64.h"
 
-void R_Busy (int which);
+void R_Busy(int which);
 
 SEXP r_ram_integer64_nacount(
   SEXP x_
@@ -517,31 +517,31 @@ SEXP r_ram_integer64_sortorderuni_asc(
 , SEXP ret_
 )
 {
-  int i,pos,n = LENGTH(table_);
+  int i, pos, n = LENGTH(table_);
   ValueT *table = (ValueT *) REAL(table_);
   ValueT *sorted = (ValueT *) REAL(sorted_);
   IndexT *index = INTEGER(order_);
-  ValueT * ret = (ValueT *) REAL(ret_);
+  ValueT *ret = (ValueT *) REAL(ret_);
   ValueT lastval;
   if (n) {
-      R_Busy(1);
-      IndexT nbitflags = n/BITS_INTEGER64+(n%BITS_INTEGER64 ? 1 : 0);
-      ValueT *bitflags;
-      bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
-      for (i=0;i<nbitflags;i++)
-        bitflags[i]=0;
-      lastval = sorted[0];
-      bitflags[(index[0]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0]-1) % BITS_INTEGER64));
-      for(i=1;i<n;i++)
-        if (sorted[i]!=lastval) {
-            bitflags[(index[i]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[i]-1) % BITS_INTEGER64));
-            lastval = sorted[i];
-        }
-      pos = 0;
-      for (i = 0; i < n; i++)
-        if ((bitflags[i/BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64))))
-            ret[pos++] = table[i];
-      R_Busy(0);
+    R_Busy(1);
+    IndexT nbitflags = n / BITS_INTEGER64 + (n % BITS_INTEGER64 ? 1 : 0);
+    ValueT *bitflags;
+    bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
+    for (i = 0; i < nbitflags; i++)
+      bitflags[i] = 0;
+    lastval = sorted[0];
+    bitflags[(index[0] - 1) / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0] - 1) % BITS_INTEGER64));
+    for (i = 1; i < n; i++)
+      if (sorted[i] != lastval) {
+        bitflags[(index[i] - 1) / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[i] - 1) % BITS_INTEGER64));
+        lastval = sorted[i];
+      }
+    pos = 0;
+    for (i = 0; i < n; i++)
+      if ((bitflags[i / BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64))))
+        ret[pos++] = table[i];
+    R_Busy(0);
   }
   return ret_;
 }
@@ -554,45 +554,45 @@ SEXP r_ram_integer64_orderuni_asc(
 , SEXP ret_
 )
 {
-  int i,pos,n = LENGTH(table_);
+  int i, pos, n = LENGTH(table_);
   ValueT *table = (ValueT *) REAL(table_);
   IndexT *index = INTEGER(order_);
-  ValueT * ret = (ValueT *) REAL(ret_);
+  ValueT *ret = (ValueT *) REAL(ret_);
   ValueT val, lastval;
   if (n) {
-      R_Busy(1);
-      if (asLogical(keep_order_)) {
-          IndexT nbitflags = n/BITS_INTEGER64+(n%BITS_INTEGER64 ? 1 : 0);
-          ValueT *bitflags;
-          bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
-          for (i=0;i<nbitflags;i++)
-            bitflags[i]=0;
-          lastval = table[index[0]-1];
-          bitflags[(index[0]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0]-1) % BITS_INTEGER64));
-          for(i=1;i<n;i++) {
-            pos = index[i]-1;
-            if (table[pos]!=lastval) {
-                bitflags[pos/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << (pos % BITS_INTEGER64));
-                lastval = table[pos];
-            }
-          }
-          pos = 0;
-          for (i = 0; i < n; i++)
-            if ((bitflags[i/BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64))))
-                ret[pos++] = table[i];
-      } else{
-          lastval = table[index[0]-1];
-          ret[0] = lastval;
-          pos=1;
-          for(i=1;i<n;i++) {
-            val = table[index[i] - 1];
-            if (val!=lastval) {
-                ret[pos++] = val;
-                lastval = val;
-            }
-          }
+    R_Busy(1);
+    if (asLogical(keep_order_)) {
+      IndexT nbitflags = n / BITS_INTEGER64 + (n % BITS_INTEGER64 ? 1 : 0);
+      ValueT *bitflags;
+      bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
+      for (i = 0; i < nbitflags; i++)
+        bitflags[i] = 0;
+      lastval = table[index[0] - 1];
+      bitflags[(index[0] - 1) / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0] - 1) % BITS_INTEGER64));
+      for (i = 1; i < n; i++) {
+        pos = index[i] - 1;
+        if (table[pos] != lastval) {
+          bitflags[pos / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << (pos % BITS_INTEGER64));
+          lastval = table[pos];
+        }
       }
-      R_Busy(0);
+      pos = 0;
+      for (i = 0; i < n; i++)
+        if ((bitflags[i / BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64))))
+          ret[pos++] = table[i];
+    } else {
+      lastval = table[index[0] - 1];
+      ret[0] = lastval;
+      pos = 1;
+      for (i = 1; i < n; i++) {
+        val = table[index[i] - 1];
+        if (val != lastval) {
+          ret[pos++] = val;
+          lastval = val;
+        }
+      }
+    }
+    R_Busy(0);
   }
   return ret_;
 }
@@ -605,7 +605,7 @@ SEXP r_ram_integer64_sortorderupo_asc(
 , SEXP ret_
 )
 {
-  int i,pos,n = LENGTH(sorted_);
+  int i, pos, n = LENGTH(sorted_);
   ValueT *sorted = (ValueT *) REAL(sorted_);
   IndexT *index = INTEGER(order_);
   IndexT *ret = INTEGER(ret_);
@@ -614,30 +614,30 @@ SEXP r_ram_integer64_sortorderupo_asc(
   if (n) {
     R_Busy(1);
     if (asLogical(keep_order_)) {
-        IndexT nbitflags = n/BITS_INTEGER64+(n%BITS_INTEGER64 ? 1 : 0);
-        ValueT *bitflags;
-        bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
-        for (i=0;i<nbitflags;i++)
-            bitflags[i]=0;
-        lastval = sorted[0];
-        bitflags[(index[0]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0]-1) % BITS_INTEGER64));
-        for(i=1;i<n;i++)
-            if (sorted[i]!=lastval) {
-                bitflags[(index[i]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[i]-1) % BITS_INTEGER64));
-                lastval = sorted[i];
-            }
-        pos = 0;
-        for (i = 0; i < n; i++)
-            if ((bitflags[i/BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64))))
-                ret[pos++] = i+1;
-    } else{
-        ret[0] = index[0];
-        pos=1;
-        for(i=1;i<n;i++) {
-            if (sorted[i]!=sorted[i-1]) {
-                ret[pos++] = index[i];
-            }
+      IndexT nbitflags = n / BITS_INTEGER64 + (n % BITS_INTEGER64 ? 1 : 0);
+      ValueT *bitflags;
+      bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
+      for (i = 0; i < nbitflags; i++)
+        bitflags[i] = 0;
+      lastval = sorted[0];
+      bitflags[(index[0] - 1) / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0] - 1) % BITS_INTEGER64));
+      for (i = 1; i < n; i++)
+        if (sorted[i] != lastval) {
+          bitflags[(index[i] - 1) / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[i] - 1) % BITS_INTEGER64));
+          lastval = sorted[i];
         }
+      pos = 0;
+      for (i = 0; i < n; i++)
+        if ((bitflags[i / BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64))))
+          ret[pos++] = i + 1;
+    } else {
+      ret[0] = index[0];
+      pos = 1;
+      for (i = 1; i < n; i++) {
+        if (sorted[i] != sorted[i - 1]) {
+          ret[pos++] = index[i];
+        }
+      }
     }
     R_Busy(0);
   }
@@ -652,42 +652,42 @@ SEXP r_ram_integer64_orderupo_asc(
 , SEXP ret_
 )
 {
-  int i,pos,n = LENGTH(table_);
+  int i, pos, n = LENGTH(table_);
   ValueT *table = (ValueT *) REAL(table_);
   IndexT *index = INTEGER(order_);
-  IndexT * ret = INTEGER(ret_);
+  IndexT *ret = INTEGER(ret_);
   ValueT lastval;
   if (n) {
-      R_Busy(1);
-      if (asLogical(keep_order_)) {
-          IndexT nbitflags = n/BITS_INTEGER64+(n%BITS_INTEGER64 ? 1 : 0);
-          ValueT *bitflags;
-          bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
-          for (i=0;i<nbitflags;i++)
-            bitflags[i]=0;
-          lastval = table[index[0]-1];
-          bitflags[(index[0]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0]-1) % BITS_INTEGER64));
-          for(i=1;i<n;i++) {
-            pos = index[i]-1;
-            if (table[pos]!=lastval) {
-                bitflags[pos/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << (pos % BITS_INTEGER64));
-                lastval = table[pos];
-            }
-          }
-          pos = 0;
-          for (i = 0; i < n; i++)
-            if ((bitflags[i/BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64))))
-                ret[pos++] = i+1;
-      } else{
-          ret[0] = index[0];
-          pos=1;
-          for(i=1;i<n;i++) {
-            if ((table[index[i] - 1])!=(table[index[i - 1] - 1])) {
-                ret[pos++] = index[i];
-            }
-          }
+    R_Busy(1);
+    if (asLogical(keep_order_)) {
+      IndexT nbitflags = n / BITS_INTEGER64 + (n % BITS_INTEGER64 ? 1 : 0);
+      ValueT *bitflags;
+      bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
+      for (i = 0; i < nbitflags; i++)
+        bitflags[i] = 0;
+      lastval = table[index[0] - 1];
+      bitflags[(index[0] - 1) / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0] - 1) % BITS_INTEGER64));
+      for (i = 1; i < n; i++) {
+        pos = index[i] - 1;
+        if (table[pos] != lastval) {
+          bitflags[pos / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << (pos % BITS_INTEGER64));
+          lastval = table[pos];
+        }
       }
-      R_Busy(0);
+      pos = 0;
+      for (i = 0; i < n; i++)
+        if ((bitflags[i / BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64))))
+          ret[pos++] = i + 1;
+    } else {
+      ret[0] = index[0];
+      pos = 1;
+      for (i = 1; i < n; i++) {
+        if ((table[index[i] - 1]) != (table[index[i - 1] - 1])) {
+          ret[pos++] = index[i];
+        }
+      }
+    }
+    R_Busy(0);
   }
   return ret_;
 }
@@ -1036,23 +1036,23 @@ SEXP r_ram_integer64_orderdup_asc(
           }
           break;
         }
-        case 2:{
-          IndexT nbitflags = n/BITS_INTEGER64+(n%BITS_INTEGER64 ? 1 : 0);
+        case 2: {
+          IndexT nbitflags = n / BITS_INTEGER64 + (n % BITS_INTEGER64 ? 1 : 0);
           ValueT *bitflags;
           bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
-          for (i=0;i<nbitflags;i++)
-            bitflags[i]=0;
-          lastval = table[index[0]-1];
-          bitflags[(index[0]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0]-1) % BITS_INTEGER64));
-          for(i=1;i<n;i++) {
-            pos = index[i]-1;
-            if (table[pos]!=lastval) {
-                bitflags[pos/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << (pos % BITS_INTEGER64));
-                lastval = table[pos];
+          for (i = 0; i < nbitflags; i++)
+            bitflags[i] = 0;
+          lastval = table[index[0] - 1];
+          bitflags[(index[0] - 1) / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0] - 1) % BITS_INTEGER64));
+          for (i = 1; i < n; i++) {
+            pos = index[i] - 1;
+            if (table[pos] != lastval) {
+              bitflags[pos / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << (pos % BITS_INTEGER64));
+              lastval = table[pos];
             }
           }
           for (i = 0; i < n; i++)
-            ret[i] = !(bitflags[i/BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64)));
+            ret[i] = !(bitflags[i / BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64)));
           break;
         }
         default:
@@ -1092,20 +1092,20 @@ SEXP r_ram_integer64_sortorderdup_asc(
           }
           break;
         }
-        case 2:{
-          IndexT nbitflags = n/BITS_INTEGER64+(n%BITS_INTEGER64 ? 1 : 0);
+        case 2: {
+          IndexT nbitflags = n / BITS_INTEGER64 + (n % BITS_INTEGER64 ? 1 : 0);
           ValueT *bitflags;
           bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
-          for (i=0;i<nbitflags;i++)
-            bitflags[i]=0;
-          bitflags[(index[0]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0]-1) % BITS_INTEGER64));
-          for(i=1;i<n;i++) {
-            if (sorted[i]!=sorted[i-1]) {
-                bitflags[(index[i]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[i]-1) % BITS_INTEGER64));
+          for (i = 0; i < nbitflags; i++)
+            bitflags[i] = 0;
+          bitflags[(index[0] - 1) / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[0] - 1) % BITS_INTEGER64));
+          for (i = 1; i < n; i++) {
+            if (sorted[i] != sorted[i - 1]) {
+              bitflags[(index[i] - 1) / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[i] - 1) % BITS_INTEGER64));
             }
           }
           for (i = 0; i < n; i++)
-            ret[i] = !(bitflags[i/BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64)));
+            ret[i] = !(bitflags[i / BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64)));
           break;
         }
         default:
@@ -1126,37 +1126,37 @@ SEXP r_ram_integer64_sortordertie_asc(
 , SEXP ret_
 )
 {
-  int i,j,n = LENGTH(sorted_);
+  int i, j, n = LENGTH(sorted_);
   ValueT *sorted = (ValueT *) REAL(sorted_);
   IndexT *index = INTEGER(order_);
-  IndexT * ret = INTEGER(ret_);
+  IndexT *ret = INTEGER(ret_);
 
   if (n) {
-      R_Busy(1);
-      IndexT nbitflags = n/BITS_INTEGER64+(n%BITS_INTEGER64 ? 1 : 0);
-      ValueT *bitflags;
-      bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
-      for (i=0;i<nbitflags;i++)
-        bitflags[i]=0;
-      j = 0;
-      for(i=1;i<n;i++)
-        if (sorted[i]!=sorted[j]) {
-            if (i>j+1) {
-                for (;j<i;j++)
-                    bitflags[(index[j]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[j]-1) % BITS_INTEGER64));
-            } else{
-                j = i;
-            }
+    R_Busy(1);
+    IndexT nbitflags = n / BITS_INTEGER64 + (n % BITS_INTEGER64 ? 1 : 0);
+    ValueT *bitflags;
+    bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
+    for (i = 0; i < nbitflags; i++)
+      bitflags[i] = 0;
+    j = 0;
+    for (i = 1; i < n; i++)
+      if (sorted[i] != sorted[j]) {
+        if (i > j + 1) {
+          for (; j < i; j++)
+            bitflags[(index[j] - 1) / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[j] - 1) % BITS_INTEGER64));
+        } else {
+          j = i;
         }
-            if (i>j+1) {
-                for (;j<i;j++)
-                    bitflags[(index[j]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[j]-1) % BITS_INTEGER64));
-            }
-      j = 0;
-      for (i = 0; i < n; i++)
-        if ((bitflags[i/BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64))))
-            ret[j++] = i+1;
-      R_Busy(0);
+      }
+    if (i > j + 1) {
+      for (; j < i; j++)
+        bitflags[(index[j] - 1) / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[j] - 1) % BITS_INTEGER64));
+    }
+    j = 0;
+    for (i = 0; i < n; i++)
+      if ((bitflags[i / BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64))))
+        ret[j++] = i + 1;
+    R_Busy(0);
   }
   return ret_;
 }
@@ -1168,39 +1168,39 @@ SEXP r_ram_integer64_ordertie_asc(
 , SEXP ret_
 )
 {
-  int i,j,pos,n = LENGTH(table_);
+  int i, j, pos, n = LENGTH(table_);
   ValueT *table = (ValueT *) REAL(table_);
   IndexT *index = INTEGER(order_);
-  IndexT * ret = INTEGER(ret_);
+  IndexT *ret = INTEGER(ret_);
   if (n) {
-      R_Busy(1);
-      IndexT nbitflags = n/BITS_INTEGER64+(n%BITS_INTEGER64 ? 1 : 0);
-      ValueT *bitflags;
-      bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
-      for (i=0;i<nbitflags;i++)
-        bitflags[i]=0;
-      j = 0;
-      pos = index[0]-1;
-      for(i=1;i<n;i++)
-        if (table[index[i] - 1]!=table[pos]) {
-            if (i>j+1) {
-                for (;j<i;j++)
-                    bitflags[(index[j]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[j]-1) % BITS_INTEGER64));
-            } else{
-                j = i;
-            }
-        pos = index[i]-1;
+    R_Busy(1);
+    IndexT nbitflags = n / BITS_INTEGER64 + (n % BITS_INTEGER64 ? 1 : 0);
+    ValueT *bitflags;
+    bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
+    for (i = 0; i < nbitflags; i++)
+      bitflags[i] = 0;
+    j = 0;
+    pos = index[0] - 1;
+    for (i = 1; i < n; i++)
+      if (table[index[i] - 1] != table[pos]) {
+        if (i > j + 1) {
+          for (; j < i; j++)
+            bitflags[(index[j] - 1) / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[j] - 1) % BITS_INTEGER64));
+        } else {
+          j = i;
         }
-            if (i>j+1) {
-                for (;j<i;j++)
-                    bitflags[(index[j]-1)/BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[j]-1) % BITS_INTEGER64));
-            }
-      j = 0;
-      for (i = 0; i < n; i++)
-        if ((bitflags[i/BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64))))
-            ret[j++] = i+1;
+        pos = index[i] - 1;
+      }
+    if (i > j + 1) {
+      for (; j < i; j++)
+        bitflags[(index[j] - 1) / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << ((index[j] - 1) % BITS_INTEGER64));
+    }
+    j = 0;
+    for (i = 0; i < n; i++)
+      if ((bitflags[i / BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64))))
+        ret[j++] = i + 1;
 
-      R_Busy(0);
+    R_Busy(0);
   }
   return ret_;
 }
