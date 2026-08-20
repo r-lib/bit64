@@ -28,19 +28,8 @@
 /**                                                                         **/
 /*****************************************************************************/
 
-
-#define EXCH(A,B,t) {t = (A); (A) = (B); (B) = t;}
-#define COMPEXCH(A,B,t) if ((B) < (A)) EXCH(A,B,t)
-
-#define KEY(A) (data[A])
-#define KEYLESS(A,B) (KEY(A) < KEY(B))
-#define KEYCOMPEXCH(A,B,t) if (KEYLESS(B,A)) EXCH(A,B,t)
-
-#define COMPEXCHi(A,B,t,Ai,Bi,ti) if ((B) < (A)) {EXCH(A,B,t) EXCH(Ai,Bi,ti)}
-
 #define INSERTIONSORT_LIMIT_MERGE 16
 #define INSERTIONSORT_LIMIT_QUICK 16
-
 
 /*****************************************************************************/
 /**                                                                         **/
@@ -52,20 +41,17 @@ typedef int IndexT;
 typedef long long ValueT;
 typedef unsigned long long UValueT;
 
+static inline void exch64(ValueT *a, ValueT *b) {
+  ValueT t = *a;
+  *a = *b;
+  *b = t;
+}
 
-/*****************************************************************************/
-/**                                                                         **/
-/**                        EXPORTED VARIABLES                               **/
-/**                                                                         **/
-/*****************************************************************************/
-
-
-#ifndef _SORT64_C_SRC
-
-extern IndexT compare_counter;
-extern IndexT move_counter;
-
-#endif
+static inline void exch_idx(IndexT *a, IndexT *b) {
+  IndexT t = *a;
+  *a = *b;
+  *b = t;
+}
 
 /*****************************************************************************/
 /**                                                                         **/
