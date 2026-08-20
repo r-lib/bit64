@@ -43,9 +43,6 @@ static inline bool is_na64(long long x) {
 #define MAX_INTEGER32 INT_MAX
 #define LEFTBIT_INTEGER64 0x8000000000000000ULL
 #define RIGHTBIT_INTEGER64 0x0000000000000001ULL
-#define NCHARS_BITS_INTEGER64 65
-#define NCHARS_DECS_INTEGER64 22
-#define BITS_INTEGER64 64
 
 #define INTEGER32_OVERFLOW_WARNING "NAs produced by integer overflow"
 #define INTEGER64_OVERFLOW_WARNING "NAs produced by integer64 overflow"

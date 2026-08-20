@@ -132,12 +132,13 @@ SEXP as_logical_integer64(SEXP x_, SEXP ret_) {
 SEXP as_character_integer64(SEXP x_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * x = (long long *) REAL(x_);
-  static char buff[NCHARS_DECS_INTEGER64];
+  // max width 20 before null terminator: -9223372036854775808
+  static char buff[21];
   for (i = 0; i < n; i++) {
     if (is_na64(x[i])) {
       SET_STRING_ELT(ret_, i, NA_STRING);
     } else{
-      snprintf(buff, NCHARS_DECS_INTEGER64, "%lli", x[i]);
+      snprintf(buff, 21, "%lli", x[i]);
       SET_STRING_ELT(ret_, i, mkChar(buff));
     }
   }
@@ -190,7 +191,7 @@ SEXP as_bitstring_integer64(SEXP x_, SEXP ret_) {
   long long * x = (long long *) REAL(x_);
   unsigned long long mask;
   long long v;
-  static char buff[NCHARS_BITS_INTEGER64];
+  static char buff[64+1];
   char * str;
   for (i = 0; i < n; i++) {
     v = x[i];
@@ -222,7 +223,7 @@ SEXP as_integer64_bitstring(SEXP x_, SEXP ret_) {
     str = CHAR(STRING_ELT(x_, i));
     l = strlen(str);
     // # nocov start: only reachable with invalid bitstring input
-    if (l > BITS_INTEGER64) {
+    if (l > 64) {
       ret[i] = NA_INTEGER64;
       naflag = TRUE;
       break;
