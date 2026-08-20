@@ -59,7 +59,7 @@ static inline void exch_idx(IndexT *a, IndexT *b) {
 /**                                                                         **/
 /*****************************************************************************/
 
-void R_Busy (int which);
+void R_Busy(int which);
 
 // post sorting NA handling
 int ram_integer64_fixsortNA(

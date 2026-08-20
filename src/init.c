@@ -23,7 +23,7 @@ extern SEXP cumprod_integer64(SEXP, SEXP);
 extern SEXP cumsum_integer64(SEXP, SEXP);
 extern SEXP diff_integer64(SEXP, SEXP, SEXP, SEXP);
 extern SEXP divide_integer64_double(SEXP, SEXP, SEXP);
-extern SEXP divide_double_integer64(SEXP, SEXP, SEXP);     /* Ofek Shilon */
+extern SEXP divide_double_integer64(SEXP, SEXP, SEXP); /* Ofek Shilon */
 extern SEXP divide_integer64_integer64(SEXP, SEXP, SEXP);
 extern SEXP EQ_integer64(SEXP, SEXP, SEXP);
 extern SEXP GE_integer64(SEXP, SEXP, SEXP);
@@ -244,7 +244,7 @@ static const R_CallMethodDef CallEntries[] = {
 
 void R_init_bit64(DllInfo *dll)
 {
-    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
-    R_useDynamicSymbols(dll, FALSE);
-    R_forceSymbols(dll, TRUE);
+  R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+  R_useDynamicSymbols(dll, FALSE);
+  R_forceSymbols(dll, TRUE);
 }
