@@ -9,7 +9,6 @@
 
 #include <R.h>
 #include <Rinternals.h> // asLogical
-#include <Rdefines.h>
 #include <R_ext/Arith.h> // NA_INTEGER, NA_REAL
 #include <R_ext/Memory.h> // R_alloc
 
@@ -768,7 +767,7 @@ SEXP r_ram_integer64_ordertab_asc(
           for (i = 0; i < n; i++)
             if (ret[i])
               ret[pos++] = ret[i];
-          SET_LENGTH(ret_, pos); /* re-allocates ret_ */
+          ret_ = lengthgets(ret_, pos); /* re-allocates ret_ */
       } else{
         int n_ret = LENGTH(ret_); // allow bailing if user mis-specified nunique (#168)
         if (n_ret > 0) {
@@ -839,7 +838,7 @@ SEXP r_ram_integer64_sortordertab_asc(
               for (i = 0; i < n; i++)
                 if (ret[i])
                   ret[pos++] = ret[i];
-              SET_LENGTH(ret_, pos); /* re-allocates ret_ */
+              ret_ = lengthgets(ret_, pos); /* re-allocates ret_ */
       }
     PROTECT(ret_);  /* Thanks to Tomas Kalibera */
       R_Busy(0);

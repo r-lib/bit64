@@ -12,15 +12,14 @@
 // warning: too many arguments for format [-Wformat-extra-args]
 #define __USE_MINGW_ANSI_STDIO 1
 
-#include "ctype.h"
-#include "stdio.h"
+#include <ctype.h>
+#include <stdio.h>
 #include <math.h> // floor
 #include <stdint.h>
 #include <stdlib.h> // strtoll
 #include <errno.h> // ERANGE
 
 #include <R.h>
-#include <Rdefines.h>
 #include <R_ext/Arith.h> // NA_LOGICAL
 #include <R_ext/Error.h>
 #include <R_ext/Random.h> // unif_rand
