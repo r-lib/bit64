@@ -83,7 +83,7 @@ test_that("ordertab handles nunique smaller than actual", {
 test_that("sortorderdup works with both methods", {
   # sortorderdup requires a sorted vector and an order vector
   # Case 1: Simple duplicates
-  x = as.integer64(c(1, 1, 2, 3, 3, 3))
+  x = as.integer64(c(1L, 1L, 2L, 3L, 3L, 3L))
   o = seq_along(x)
 
   # FALSE for the first occurrence, TRUE for subsequent
@@ -96,19 +96,19 @@ test_that("sortorderdup works with both methods", {
   expect_identical(sortorderdup(x, o, method=2L), expected)
 
   # Case 2: All duplicates
-  x_all = as.integer64(c(1, 1, 1))
+  x_all = as.integer64(c(1L, 1L, 1L))
   o_all = seq_along(x_all)
   expect_identical(sortorderdup(x_all, o_all, method=2L), c(FALSE, TRUE, TRUE))
 
   # Case 3: No duplicates
-  x_none = as.integer64(c(1, 2, 3))
+  x_none = as.integer64(c(1L, 2L, 3L))
   o_none = seq_along(x_none)
   expect_identical(sortorderdup(x_none, o_none, method=2L), c(FALSE, FALSE, FALSE))
 })
 
 test_that("sortordertab works with normalization options", {
   # sortordertab calculates frequencies based on a sorted vector
-  x = as.integer64(c(1, 1, 2, 3, 3, 3))
+  x = as.integer64(c(1L, 1L, 2L, 3L, 3L, 3L))
   o = seq_along(x)
 
   # denormalize = FALSE: Returns counts for unique values
@@ -122,7 +122,7 @@ test_that("sortordertab works with normalization options", {
   expect_identical(sortordertab(x, o, denormalize=TRUE), c(2L, 2L, 1L, 3L, 3L, 3L))
 
   # Edge case: Single element
-  x_single = as.integer64(1)
+  x_single = as.integer64(1L)
   o_single = 1L
   expect_identical(sortordertab(x_single, o_single, denormalize=FALSE), 1L)
   expect_identical(sortordertab(x_single, o_single, denormalize=TRUE), 1L)
@@ -132,11 +132,11 @@ test_that("sortorderuni and sortorderupo work", {
   # These functions allow retrieving unique values or their positions from sorted inputs
   # They share similar bitflag logic in C that needs covering
 
-  # Data setup: 
+  # Data setup:
   # original: 3, 1, 2, 1, 3
   # sorted:   1, 1, 2, 3, 3
   # order:    2, 4, 3, 1, 5
-  val = as.integer64(c(3, 1, 2, 1, 3))
+  val = as.integer64(c(3L, 1L, 2L, 1L, 3L))
   o = order(val)
   s = val[o]
 
@@ -149,27 +149,51 @@ test_that("sortorderuni and sortorderupo work", {
   nu = 3L
 
   # sortorderuni returns the unique values
-  expect_identical(sortorderuni(val, s, o, nunique=nu), as.integer64(c(3, 1, 2)))
+  expect_identical(sortorderuni(val, s, o, nunique=nu), as.integer64(c(3L, 1L, 2L)))
 
   # sortorderupo returns the positions (indices) of the unique values
-  # indices in 'val': 1 (3), 2 (1), 3 (2) -> c(1, 2, 3) 
+  # indices in 'val': 1 (3), 2 (1), 3 (2) -> c(1, 2, 3)
   # (Note: it picks the first occurrence in the original vector if keep.order=TRUE implicit logic matches)
   expect_identical(sortorderupo(s, o, nunique=nu, keep.order=TRUE), 1:3)
 })
 
 test_that("sortorderkey works", {
   # This targets r_ram_integer64_sortorderkey_asc
-  x = as.integer64(c(10, 10, 20, 30, 30))
+  x = as.integer64(c(10L, 10L, 20L, 30L, 30L))
   o = seq_along(x)
 
   # Keys should be assigned sequentially: 1, 1, 2, 3, 3
   expect_identical(sortorderkey(x, o), c(1L, 1L, 2L, 3L, 3L))
 
   # With NA skipping (na.skip.num)
-  x_na = as.integer64(c(NA, NA, 10, 20))
+  x_na = as.integer64(c(NA, NA, 10L, 20L))
   o_na = seq_along(x_na)
 
   # If we skip 2 NAs: NA, NA, 1, 2
   # Note: NA_integer_ is used for NAs in the key vector
   expect_identical(sortorderkey(x_na, o_na, na.skip.num=2L), c(NA_integer_, NA_integer_, 1L, 2L))
+})
+
+with_parameters_test_that("sortorderpos works", method=1:3, {
+  table = as.integer64(c(10L, 20L, 30L, 5L, 15L, 25L))
+  sorted = bit::clone(table)
+  order = seq_along(sorted)
+  bit::ramsortorder(sorted, order, na.last=FALSE)
+
+  x_search = as.integer64(c(5L, 10L, 15L, 20L, 25L, 30L, 99L))
+  expected_pos = c(4L, 1L, 5L, 2L, 6L, 3L, NA_integer_)
+
+  expect_identical(sortorderpos(sorted, order, x_search, method=method), expected_pos)
+})
+
+test_that("orderdup and sortorderdup edge cases", {
+  table = as.integer64(c(1L, 2L, 1L, 3L, 2L))
+  order = order(table)
+
+  # orderdup method=1L
+  expect_identical(orderdup(table, order, method=1L), c(FALSE, FALSE, TRUE, FALSE, TRUE))
+
+  # sortorderdup method=NULL (heuristic)
+  sorted = table[order]
+  expect_identical(sortorderdup(sorted, seq_along(sorted)), c(FALSE, TRUE, FALSE, TRUE, FALSE))
 })

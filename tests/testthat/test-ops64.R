@@ -147,8 +147,6 @@ test_that("Minus and plus", {
 })
 
 test_that("Minus and plus edge cases and 'rev'", {
-  # UBSAN signed integer overflow expected for type 'long long int'
-  # This is a false UBSAN alarm because overflow is detected and NA returned
   expect_warning(
     expect_true(identical.integer64(
       lim.integer64() + 1.0 - 1.0,
@@ -164,6 +162,97 @@ test_that("Minus and plus edge cases and 'rev'", {
     )),
     "NAs produced by integer64 overflow",
     fixed = TRUE
+  )
+})
+
+test_that("Overflow edge cases for arithmetic and summary functions", {
+  max_val = lim.integer64()[2L]
+  min_val = lim.integer64()[1L]
+  half_min = as.integer64("-4611686018427387904") # -2^62
+  half_max = as.integer64("4611686018427387904")  #  2^62
+
+  overflow_warning = "NAs produced by integer64 overflow"
+
+  # True C-level overflow (above LLONG_MAX or below LLONG_MIN)
+  expect_warning(expect_identical(max_val + 1L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(min_val + (-2L), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(max_val - (-1L), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(min_val - 2L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(max_val * 2L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(min_val * 2L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(min_val * (-2L), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(diff(c(max_val, min_val - 1L)), NA_integer64_), overflow_warning)
+
+  # R-specific overflow (result is exactly LLONG_MIN == NA_INTEGER64, so C arithmetic
+  #   works, but overflow is nevertheless reported as R's integer64 class has narrower range
+  expect_warning(expect_identical(min_val + (-1L), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(half_min + half_min, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(min_val - 1L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(as.integer64(-2L) * half_max, NA_integer64_), overflow_warning)
+  expect_warning(
+    expect_identical(as.integer64("-2147483648") * as.integer64("4294967296"), NA_integer64_),
+    overflow_warning
+  )
+  expect_warning(expect_identical(diff(c(as.integer64(1L), min_val)), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(sum(min_val, -1L), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(sum(c(half_min, half_min)), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(prod(as.integer64(-2L), half_max), NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(cumsum(c(min_val, -1L)), c(min_val, NA_integer64_)), overflow_warning)
+  expect_warning(
+    expect_identical(cumprod(c(as.integer64(-2L), half_max)), c(as.integer64(-2L), NA_integer64_)),
+    overflow_warning
+  )
+
+  # Boundary cases that _don't_ overflow
+  expect_identical(min_val + 0L, min_val)
+  expect_identical(min_val + 1L, as.integer64("-9223372036854775806"))
+  expect_identical(half_min + (half_min + 1L), min_val)
+  expect_identical(min_val - 0L, min_val)
+  expect_identical(max_val - 0L, max_val)
+  expect_identical(min_val * 1L, min_val)
+  expect_identical(min_val * (-1L), max_val)
+  expect_identical(max_val * (-1L), min_val)
+  expect_identical(sum(min_val, 0L), min_val)
+  expect_identical(prod(min_val, 1L), min_val)
+
+  # If NA is present, NA is returned without overflow
+  expect_no_warning(expect_identical(NA_integer64_ + 1L, NA_integer64_))
+  expect_no_warning(expect_identical(1L + NA_integer64_, NA_integer64_))
+  expect_no_warning(expect_identical(NA_integer64_ - 1L, NA_integer64_))
+  expect_no_warning(expect_identical(1L - NA_integer64_, NA_integer64_))
+  expect_no_warning(expect_identical(NA_integer64_ * 2L, NA_integer64_))
+  expect_no_warning(expect_identical(2L * NA_integer64_, NA_integer64_))
+  expect_no_warning(expect_identical(sum(NA_integer64_), NA_integer64_))
+  expect_no_warning(expect_identical(sum(c(as.integer64(1L), NA_integer64_), na.rm = FALSE), NA_integer64_))
+  expect_no_warning(expect_identical(sum(c(as.integer64(1:2), NA_integer64_), na.rm = TRUE), as.integer64(3L)))
+  expect_warning(
+    expect_identical(sum(c(max_val, as.integer64(1L), NA_integer64_), na.rm = TRUE), NA_integer64_),
+    overflow_warning
+  )
+  expect_no_warning(expect_identical(prod(NA_integer64_), NA_integer64_))
+  expect_no_warning(expect_identical(prod(c(as.integer64(1L), NA_integer64_), na.rm = FALSE), NA_integer64_))
+  expect_no_warning(expect_identical(prod(c(as.integer64(2:3), NA_integer64_), na.rm = TRUE), as.integer64(6L)))
+  expect_warning(
+    expect_identical(prod(c(max_val, as.integer64(2L), NA_integer64_), na.rm = TRUE), NA_integer64_),
+    overflow_warning
+  )
+  expect_no_warning(expect_identical(cumsum(c(NA_integer64_, 1L)), c(NA_integer64_, NA_integer64_)))
+  expect_no_warning(expect_identical(cumprod(c(NA_integer64_, 1L)), c(NA_integer64_, NA_integer64_)))
+  expect_no_warning(expect_identical(diff(c(NA_integer64_, as.integer64(1L))), NA_integer64_))
+  expect_no_warning(expect_identical(diff(c(as.integer64(1L), NA_integer64_)), NA_integer64_))
+
+  # Vectorized operations with partial overflow
+  expect_warning(
+    expect_identical(c(max_val, as.integer64(1L)) + 1L, c(NA_integer64_, as.integer64(2L))),
+    overflow_warning
+  )
+  expect_warning(
+    expect_identical(c(min_val, as.integer64(1L)) - 1L, c(NA_integer64_, as.integer64(0L))),
+    overflow_warning
+  )
+  expect_warning(
+    expect_identical(c(max_val, as.integer64(1L)) * 2L, c(NA_integer64_, as.integer64(2L))),
+    overflow_warning
   )
 })
 
@@ -198,7 +287,7 @@ test_that("Comparison operators", {
 })
 
 with_parameters_test_that("{operator} with integer64 vs {class} (returning integer64):", {
-  withr::local_seed(42)
+  withr::local_seed(42L)
 
   if (getRversion() <= "3.6.0" && operator == "^")
     x32 = 1:10 # there seems to be an issue with negative values with the `^` operator in ancient
@@ -214,11 +303,11 @@ with_parameters_test_that("{operator} with integer64 vs {class} (returning integ
   expected = tryCatch(maybe_cast(op(x32, y)), error=conditionMessage)
   actual = tryCatch(op(x64, y), error=conditionMessage)
   expect_identical(actual, expected)
-  
+
   expected = tryCatch(maybe_cast(op(y, x32)), error=conditionMessage)
   actual = tryCatch(op(y, x64), error=conditionMessage)
   expect_identical(actual, expected)
-}, 
+},
   .cases = expand.grid(
     operator=c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"),
     class=c("integer", "double", "logical"),
@@ -228,25 +317,164 @@ with_parameters_test_that("{operator} with integer64 vs {class} (returning integ
 
 with_parameters_test_that("{operator} with integer64 vs. {class} (not returning integer64):", {
   skip_unless_r(">= 4.3.0")
-  withr::local_seed(42)
+  withr::local_seed(42L)
 
   x32 = c(-10:-1, 1:10)
   x64 = as.integer64(x32)
   y = sample(x32)
   eval(parse(text=paste0("y = as.", class, "(as.double(y)", if (class == "difftime") ', units = "secs"', ")")))
-    
+
   op = match.fun(as.character(operator))
   test_e = tryCatch(op(x32, y), error=conditionMessage)
   test_a = tryCatch(op(x64, y), error=conditionMessage)
   expect_identical(test_a, test_e)
-  
+
   test_e = tryCatch(op(y, x32), error=conditionMessage)
   test_a = tryCatch(op(y, x64), error=conditionMessage)
   expect_identical(test_a, test_e)
 
-  }, 
+  },
   .cases = expand.grid(
     operator = c("+", "-", "*", "/", "^", "%%", "%/%", "<", "<=", "==", ">=", ">", "!=", "&", "|", "xor"),
     class = c("complex", "Date", "POSIXct", "POSIXlt", "difftime")
   )
 )
+
+with_parameters_test_that(
+  "integer64 vs character/factor comparisons work",
+  {
+    x32 = c(1L, 2L, 10L)
+    x64 = as.integer64(x32)
+    y = c("1", "2", "10")
+    if (type == "factor") y = as.factor(y)
+
+    op = match.fun(operator)
+
+    if (type == "factor" && operator %in% c("<", "<=", ">", ">=")) {
+      expect_warning(
+        expect_identical(op(x64, y), rep(NA, 3L)),
+        "not meaningful for factors", fixed = TRUE
+      )
+      expect_warning(
+        expect_identical(op(y, x64), rep(NA, 3L)),
+        "not meaningful for factors", fixed = TRUE
+      )
+    } else {
+      expected_xy = op(x32, y)
+      actual_xy = op(x64, y)
+      expect_identical(actual_xy, expected_xy)
+
+      expected_yx = op(y, x32)
+      actual_yx = op(y, x64)
+      expect_identical(actual_yx, expected_yx)
+    }
+  },
+  .cases = expand.grid(
+    operator = c("==", "!=", "<", "<=", ">", ">="),
+    type = c("character", if (getRversion() >= "4.3.0") "factor"),
+    stringsAsFactors = FALSE
+  )
+)
+
+test_that("Edge cases for character/factor comparisons work", {
+  # nolint next: expect_comparison_linter. Checking '==' method
+  expect_true(as.integer64("999999999999999") == "999999999999999")
+  skip_unless_r(">= 4.3.0")
+  # nolint next: expect_comparison_linter. Checking '==' method
+  expect_true(as.integer64("999999999999999999") == as.factor("999999999999999999"))
+})
+
+test_that("power with integer64", {
+  overflow_warning = "NAs produced by integer64 overflow"
+
+  # within integer range
+  x = as.integer(sqrt(.Machine$integer.max))
+  x = seq(-x, x)
+  expect_identical(as.integer64(x)^2L, as.integer64(x^2L))
+  expect_identical(as.integer64(x)^2.0, as.integer64(x^2.0))
+
+  # within integer64 range, which fails with double exponent
+  expect_identical(as.integer64(2147483650)^2L, as.integer64("4611686027017322500"))
+  expect_identical(as.integer64(-2147483650)^2L, as.integer64("4611686027017322500"))
+  expect_identical(as.integer64(94906267L)^2L, as.integer64(94906267L) * as.integer64(94906267L))
+
+  # integer64 base with integer64 exponent
+  expect_identical(as.integer64(10L) ^ as.integer64(3L), as.integer64(1000L))
+  expect_identical(as.integer64(2147483650) ^ as.integer64(2L), as.integer64("4611686027017322500"))
+  expect_identical(as.integer64(2L) ^ 62L, as.integer64("4611686018427387904"))
+  expect_identical(as.integer64(2L) ^ as.integer64(62L), as.integer64("4611686018427387904"))
+  expect_identical(as.integer64(3L) ^ 39L, as.integer64("4052555153018976267"))
+
+  # Special bases: 0, 1, -1
+  expect_identical(as.integer64(0L) ^ 0L, as.integer64(1L))
+  expect_identical(as.integer64(0L) ^ 1L, as.integer64(0L))
+  expect_identical(as.integer64(0L) ^ 5L, as.integer64(0L))
+  expect_warning(expect_identical(as.integer64(0L) ^ (-1L), NA_integer64_), overflow_warning)
+
+  expect_identical(as.integer64(1L) ^ 0L, as.integer64(1L))
+  expect_identical(as.integer64(1L) ^ 100L, as.integer64(1L))
+  expect_identical(as.integer64(1L) ^ (-5L), as.integer64(1L))
+  expect_identical(as.integer64(1L) ^ lim.integer64()[2L], as.integer64(1L))
+  expect_identical(as.integer64(1L) ^ NA_integer64_, as.integer64(1L))
+  expect_identical(as.integer64(1L) ^ NA_integer_, as.integer64(1L))
+
+  expect_identical(as.integer64(-1L) ^ 0L, as.integer64(1L))
+  expect_identical(as.integer64(-1L) ^ 1L, as.integer64(-1L))
+  expect_identical(as.integer64(-1L) ^ 2L, as.integer64(1L))
+  expect_identical(as.integer64(-1L) ^ 3L, as.integer64(-1L))
+  expect_identical(as.integer64(-1L) ^ (-1L), as.integer64(-1L))
+  expect_identical(as.integer64(-1L) ^ (-2L), as.integer64(1L))
+  expect_identical(as.integer64(-1L) ^ (-3L), as.integer64(-1L))
+  expect_identical(as.integer64(-1L) ^ lim.integer64()[1L], as.integer64(-1L))
+  expect_identical(as.integer64(-1L) ^ lim.integer64()[2L], as.integer64(-1L))
+
+  # Negative exponents with |base| >= 2
+  expect_identical(as.integer64(2L) ^ (-1L), as.integer64(0L))
+  expect_identical(as.integer64(2L) ^ (-5L), as.integer64(0L))
+  expect_identical(as.integer64(-2L) ^ (-1L), as.integer64(0L))
+  expect_identical(as.integer64(-2L) ^ (-2L), as.integer64(0L))
+
+  # Boundary base values with exponent 1
+  expect_identical(lim.integer64()[1L] ^ 1L, lim.integer64()[1L])
+  expect_identical(lim.integer64()[2L] ^ 1L, lim.integer64()[2L])
+
+  # Overflow detection with both odd and even exponents
+  expect_warning(expect_identical(as.integer64(2147483650) ^ 3L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(as.integer64(100000L) ^ 8L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(as.integer64(2L) ^ 63L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(as.integer64(2L) ^ 64L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(as.integer64(3L) ^ 40L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(as.integer64(3L) ^ 64L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(lim.integer64()[1L] ^ 2L, NA_integer64_), overflow_warning)
+  expect_warning(expect_identical(lim.integer64()[2L] ^ 2L, NA_integer64_), overflow_warning)
+
+  # Missing values and empty inputs
+  expect_no_warning(expect_identical(NA_integer64_ ^ 0L, as.integer64(1L)))
+  expect_no_warning(expect_identical(NA_integer64_ ^ 2L, NA_integer64_))
+  expect_identical(NA_integer64_ ^ 2L, NA_integer64_)
+  expect_no_warning(expect_identical(NA_integer64_ ^ (-1L), NA_integer64_))
+  expect_identical(NA_integer64_ ^ (-1L), NA_integer64_)
+  expect_no_warning(expect_identical(NA_integer64_ ^ NA_integer64_, NA_integer64_))
+  expect_identical(NA_integer64_ ^ NA_integer64_, NA_integer64_)
+  expect_no_warning(expect_identical(as.integer64(0L) ^ NA_integer64_, NA_integer64_))
+  expect_identical(as.integer64(0L) ^ NA_integer64_, NA_integer64_)
+  expect_no_warning(expect_identical(as.integer64(-1L) ^ NA_integer64_, NA_integer64_))
+  expect_identical(as.integer64(-1L) ^ NA_integer64_, NA_integer64_)
+  expect_no_warning(expect_identical(as.integer64(2L) ^ NA_integer_, NA_integer64_))
+  expect_identical(as.integer64(2L) ^ NA_integer_, NA_integer64_)
+  expect_no_warning(expect_identical(as.integer64(2L) ^ NA_integer64_, NA_integer64_))
+  expect_identical(as.integer64(2L) ^ NA_integer64_, NA_integer64_)
+  expect_no_warning(expect_identical(as.integer64(2L) ^ NA_real_, NA_integer64_))
+  expect_identical(as.integer64(2L) ^ NA_real_, NA_integer64_)
+  expect_identical(integer64() ^ 2L, integer64())
+  expect_identical(as.integer64(2L) ^ integer(), integer64())
+  expect_identical(integer64() ^ integer(), integer64())
+
+  # Vectorization and recycling
+  expect_identical(c(as.integer64(2L), as.integer64(3L)) ^ 2L, as.integer64(c(4L, 9L)))
+  expect_identical(as.integer64(2L) ^ c(1L, 2L, 3L), as.integer64(c(2L, 4L, 8L)))
+  expect_warning(
+    expect_identical(c(as.integer64(2L), as.integer64(2L)) ^ c(2L, 64L), c(as.integer64(4L), NA_integer64_)),
+    overflow_warning
+  )
+})

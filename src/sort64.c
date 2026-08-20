@@ -11,6 +11,8 @@
 #define _SORT64_C_SRC
 
 #include <R_ext/Random.h> // unif_rand
+#include <Rinternals.h> // asLogical
+#include "integer64.h" // NA_INTEGER64
 #include "sort64.h"
 
 #define SHELLARRAYSIZE 16
@@ -53,29 +55,29 @@ int ram_integer64_fixsortNA(ValueT *data, IndexT n, int has_na, int na_last, int
     return 0;
   IndexT i, nNA = 0;
   if (decreasing) {
-    for (i=n-1; i>=0; i--) {
+    for (i = n - 1; i >= 0; i--) {
       if (ISNA_INTEGER64(data[i]))
         nNA++;
       else
         break;
     }
     if (!na_last) {
-      for (; i>=0; i--)
-        data[i+nNA] = data[i];
-      for (i=nNA-1;i>=0; i--)
+      for (; i >= 0; i--)
+        data[i + nNA] = data[i];
+      for (i = nNA - 1; i >= 0; i--)
         data[i] = NA_INTEGER64;
     }
   } else {
-    for (i=0; i<n; i++) {
+    for (i = 0; i < n; i++) {
       if (ISNA_INTEGER64(data[i]))
         nNA++;
       else
         break;
     }
     if (na_last) {
-      for (; i<n; i++)
-        data[i-nNA] = data[i];
-      for (i=n-nNA; i<n; i++)
+      for (; i < n; i++)
+        data[i - nNA] = data[i];
+      for (i = n - nNA; i < n; i++)
         data[i] = NA_INTEGER64;
     }
   }
@@ -93,55 +95,55 @@ int ram_integer64_fixsortorderNA(
 , IndexT *auxindex  // MODIFIED: pointer to auxilliary index vector
 )
 {
-  if (has_na){
+  if (has_na) {
     IndexT i,offset, nNA = 0 ;
-    if (decreasing){
-    for (i=n-1; i>=0; i--){
+    if (decreasing) {
+    for (i = n - 1; i >= 0; i--) {
       if (ISNA_INTEGER64(data[i]))
       nNA++;
     else
       break;
     }
-    if (!na_last){
+    if (!na_last) {
       if (!auxindex)
          auxindex = (IndexT *) R_alloc(nNA, sizeof(IndexT));
        offset = n-nNA;
-       for (i=nNA-1;i>=0;i--)
+       for (i = nNA - 1; i >= 0; i--)
          auxindex[i] = index[offset + i];
-       for (i=offset-1;i>=0;i--){
-       index[i+nNA] = index[i];
-       data[i+nNA] = data[i];
+       for (i=offset-1;i>=0;i--) {
+       index[i + nNA] = index[i];
+       data[i + nNA] = data[i];
        }
-       for (i=nNA-1;i>=0;i--){
+       for (i = nNA - 1; i >= 0; i--) {
          index[i] = auxindex[i];
        data[i] = NA_INTEGER64;
        }
     }
-  }else{
-    for (i=0; i<n; i++){
+  } else{
+    for (i = 0; i < n; i++) {
       if (ISNA_INTEGER64(data[i]))
       nNA++;
     else
       break;
     }
-    if (na_last){
+    if (na_last) {
       if (!auxindex)
          auxindex = (IndexT *) R_alloc(nNA, sizeof(IndexT));
        for (i=0;i<nNA;i++)
          auxindex[i] = index[i];
-       for (i=nNA;i<n; i++){
-       index[i-nNA] = index[i];
-       data[i-nNA] = data[i];
+       for (i=nNA;i<n; i++) {
+       index[i - nNA] = index[i];
+       data[i - nNA] = data[i];
        }
        offset = n-nNA;
-       for (i=offset;i<n; i++){
+       for (i=offset;i<n; i++) {
          index[i] = auxindex[i-offset];
        data[i] = NA_INTEGER64;
        }
     }
   }
   return nNA;
-  }else{
+  } else{
     return 0;
   }
 }
@@ -157,49 +159,49 @@ int ram_integer64_fixorderNA(
 , IndexT *auxindex      // MODIFIED: pointer to auxilliary index vector
 )
 {
-  if (has_na){
+  if (has_na) {
     IndexT i,offset, nNA = 0 ;
-    if (decreasing){
-    for (i=n-1; i>=0; i--){
+    if (decreasing) {
+    for (i = n - 1; i >= 0; i--) {
       if (ISNA_INTEGER64(data[index[i]]))
       nNA++;
     else
       break;
     }
-    if (!na_last){
+    if (!na_last) {
       if (!auxindex)
          auxindex = (IndexT *) R_alloc(nNA, sizeof(IndexT));
        offset = n-nNA;
-       for (i=nNA-1;i>=0;i--)
+       for (i = nNA - 1; i >= 0; i--)
          auxindex[i] = index[offset + i];
-       for (i=offset-1;i>=0;i--){
-       index[i+nNA] = index[i];
+       for (i=offset-1;i>=0;i--) {
+       index[i + nNA] = index[i];
        }
-       for (i=nNA-1;i>=0;i--){
+       for (i = nNA - 1; i >= 0; i--) {
          index[i] = auxindex[i];
        }
     }
-  }else{
-    for (i=0; i<n; i++){
+  } else{
+    for (i = 0; i < n; i++) {
       if (ISNA_INTEGER64(data[index[i]]))
       nNA++;
     else
       break;
     }
-    if (na_last){
+    if (na_last) {
       if (!auxindex)
          auxindex = (IndexT *) R_alloc(nNA, sizeof(IndexT));
        for (i=0;i<nNA;i++)
          auxindex[i] = index[i];
        for (i=nNA;i<n; i++)
-       index[i-nNA] = index[i];
+       index[i - nNA] = index[i];
        offset = n-nNA;
        for (i=offset;i<n; i++)
          index[i] = auxindex[i-offset];
     }
   }
   return nNA;
-  }else{
+  } else{
     return 0;
   }
 }
@@ -220,16 +222,16 @@ void ram_integer64_insertionsort_asc(
 {
   IndexT i;
   ValueT t;
-  for (i=r;i>l;i--){
-    COMPEXCH(data[i-1], data[i], t)
+  for (i = r; i > l; i--) {
+    COMPEXCH(data[i - 1], data[i], t)
   }
-  for (i=l+2;i<=r;i++){
-    IndexT j=i;
+  for (i = l + 2; i <= r; i++) {
+    IndexT j = i;
     ValueT v;
     MOVE(v, data[i])
-    while (LESS(v,data[j-1])){
-      MOVE(data[j], data[j-1])
-    j--;
+    while (LESS(v, data[j - 1])) {
+      MOVE(data[j], data[j - 1])
+      j--;
     }
     MOVE(data[j], v)
   }
@@ -245,18 +247,18 @@ void ram_integer64_insertionsortorder_asc(
 {
   IndexT i, ti;
   ValueT t;
-  for (i=r;i>l;i--){
-    COMPEXCHi(data[i-1], data[i], t, index[i-1], index[i], ti)
+  for (i = r; i > l; i--) {
+    COMPEXCHi(data[i - 1], data[i], t, index[i - 1], index[i], ti)
   }
-  for (i=l+2;i<=r;i++){
+  for (i = l + 2; i <= r; i++) {
     IndexT j=i, vi;
     ValueT v;
     MOVE(vi, index[i])
     MOVE(v, data[i])
-    while (LESS(v,data[j-1])){
-      MOVE(index[j], index[j-1])
-      MOVE(data[j], data[j-1])
-    j--;
+    while (LESS(v, data[j - 1])) {
+      MOVE(index[j], index[j - 1])
+      MOVE(data[j], data[j - 1])
+      j--;
     }
     MOVE(index[j], vi)
     MOVE(data[j], v)
@@ -272,17 +274,17 @@ void ram_integer64_insertionorder_asc(
 )
 {
   IndexT i, ti;
-  for (i=r;i>l;i--){
-    KEYCOMPEXCH(index[i-1], index[i], ti)
+  for (i = r; i > l; i--) {
+    KEYCOMPEXCH(index[i - 1], index[i], ti)
   }
-  for (i=l+2;i<=r;i++){
+  for (i = l + 2; i <= r; i++) {
     IndexT j=i, vi;
     ValueT v;
     MOVE(vi, index[i])
     MOVE(v, data[vi])
-    while (LESS(v,data[index[j-1]])){
-      MOVE(index[j], index[j-1])
-    j--;
+    while (LESS(v, data[index[j - 1]])) {
+      MOVE(index[j], index[j - 1])
+      j--;
     }
     MOVE(index[j], vi)
   }
@@ -299,14 +301,14 @@ void ram_integer64_insertionsort_desc(
 {
   IndexT i;
   ValueT t;
-  for (i=l;i<r;i++){
+  for (i = l; i < r; i++) {
     COMPEXCH(data[i+1], data[i], t)
   }
-  for (i=r-2;i>=l;i--){
-    IndexT j=i;
+  for (i = r - 2; i >= l; i--) {
+    IndexT j = i;
     ValueT v;
     MOVE(v, data[i])
-    while (LESS(v,data[j+1])){
+    while (LESS(v, data[j+1])) {
       MOVE(data[j], data[j+1]) j++;
     }
     MOVE(data[j], v)
@@ -323,18 +325,18 @@ void ram_integer64_insertionsortorder_desc(
 {
   IndexT i, ti;
   ValueT t;
-  for (i=l;i<r;i++){
+  for (i = l; i < r; i++) {
     COMPEXCHi(data[i+1], data[i], t, index[i+1], index[i], ti)
   }
-  for (i=r-2;i>=l;i--){
+  for (i = r - 2; i >= l; i--) {
     IndexT j=i, vi;
     ValueT v;
     MOVE(vi, index[i])
     MOVE(v, data[i])
-    while (LESS(v,data[j+1])){
+    while (LESS(v, data[j+1])) {
       MOVE(index[j], index[j+1])
       MOVE(data[j], data[j+1])
-    j++;
+      j++;
     }
     MOVE(index[j], vi)
     MOVE(data[j], v)
@@ -350,17 +352,17 @@ void ram_integer64_insertionorder_desc(
 )
 {
   IndexT i, ti;
-  for (i=l;i<r;i++){
+  for (i = l; i < r; i++) {
     KEYCOMPEXCH(index[i+1], index[i], ti)
   }
-  for (i=r-2;i>=l;i--){
+  for (i = r - 2; i >= l; i--) {
     IndexT j=i, vi;
     ValueT v;
     MOVE(vi, index[i])
     MOVE(v, data[vi])
-    while (LESS(v,data[index[j+1]])){
+    while (LESS(v, data[index[j+1]])) {
       MOVE(index[j], index[j+1])
-    j++;
+      j++;
     }
     MOVE(index[j], vi)
   }
@@ -381,15 +383,16 @@ void ram_integer64_shellsort_asc(ValueT *data, IndexT l, IndexT r)
     IndexT i, j, h, lh, t, n=r-l+1;
     if (n < 2) return;
     for (t = 0; shellincs[t] > n; t++);
-    for (h = shellincs[t]; t < SHELLARRAYSIZE; h = shellincs[++t]){
+    for (; t < SHELLARRAYSIZE; t++) {
+      h = shellincs[t];
       lh = l+h;
       for (i = lh; i <= r; i++) {
       MOVE(v, data[i])
-          j = i;
-          while (j >= lh && LESS(v, data[j - h])){
+        j = i;
+          while (j >= lh && LESS(v, data[j - h])) {
         MOVE(data[j], data[j - h])
-            j -= h;
-          }
+          j -= h;
+        }
       MOVE(data[j], v)
       }
     }
@@ -400,15 +403,16 @@ void ram_integer64_shellsort_desc(ValueT *data, IndexT l, IndexT r)
     IndexT i, j, h, lh, t, n=r-l+1;
     if (n < 2) return;
     for (t = 0; shellincs[t] > n; t++);
-    for (h = shellincs[t]; t < SHELLARRAYSIZE; h = shellincs[++t]){
+    for (; t < SHELLARRAYSIZE; t++) {
+      h = shellincs[t];
       lh = l+h;
       for (i = lh; i <= r; i++) {
       MOVE(v, data[i])
-          j = i;
-          while (j >= lh && LESS(data[j - h], v)){
+        j = i;
+          while (j >= lh && LESS(data[j - h], v)) {
         MOVE(data[j], data[j - h])
-            j -= h;
-          }
+          j -= h;
+        }
       MOVE(data[j], v)
       }
     }
@@ -420,17 +424,18 @@ void ram_integer64_shellsortorder_asc(ValueT *data, IndexT *index, IndexT l, Ind
     IndexT vi, i, j, h, lh, t, n=r-l+1;
     if (n < 2) return;
     for (t = 0; shellincs[t] > n; t++);
-    for (h = shellincs[t]; t < SHELLARRAYSIZE; h = shellincs[++t]){
+    for (; t < SHELLARRAYSIZE; t++) {
+      h = shellincs[t];
       lh = l+h;
       for (i = lh; i <= r; i++) {
       MOVE(vi, index[i])
       MOVE(v, data[i])
-          j = i;
-          while (j >= lh && LESS(v, data[j - h])){
+        j = i;
+          while (j >= lh && LESS(v, data[j - h])) {
         MOVE(index[j], index[j - h])
         MOVE(data[j], data[j - h])
-            j -= h;
-          }
+          j -= h;
+        }
       MOVE(index[j], vi)
       MOVE(data[j], v)
       }
@@ -442,17 +447,18 @@ void ram_integer64_shellsortorder_desc(ValueT *data, IndexT *index, IndexT l, In
     IndexT vi, i, j, h, lh, t, n=r-l+1;
     if (n < 2) return;
     for (t = 0; shellincs[t] > n; t++);
-    for (h = shellincs[t]; t < SHELLARRAYSIZE; h = shellincs[++t]){
+    for (; t < SHELLARRAYSIZE; t++) {
+      h = shellincs[t];
       lh = l+h;
       for (i = lh; i <= r; i++) {
       MOVE(vi, index[i])
       MOVE(v, data[i])
-          j = i;
-          while (j >= lh && LESS(data[j - h], v)){
+        j = i;
+          while (j >= lh && LESS(data[j - h], v)) {
         MOVE(index[j], index[j - h])
         MOVE(data[j], data[j - h])
-            j -= h;
-          }
+          j -= h;
+        }
       MOVE(index[j], vi)
       MOVE(data[j], v)
       }
@@ -465,16 +471,17 @@ void ram_integer64_shellorder_asc(ValueT *data, IndexT *index, IndexT l, IndexT 
     IndexT vi, i, j, h, lh, t, n=r-l+1;
     if (n < 2) return;
     for (t = 0; shellincs[t] > n; t++);
-    for (h = shellincs[t]; t < SHELLARRAYSIZE; h = shellincs[++t]){
+    for (; t < SHELLARRAYSIZE; t++) {
+      h = shellincs[t];
       lh = l+h;
       for (i = lh; i <= r; i++) {
       MOVE(vi, index[i])
       MOVE(v, data[vi])
-          j = i;
-          while (j >= lh && LESS(v, data[index[j - h]])){
+        j = i;
+          while (j >= lh && LESS(v, data[index[j - h]])) {
         MOVE(index[j], index[j - h])
-            j -= h;
-          }
+          j -= h;
+        }
       MOVE(index[j], vi)
       }
     }
@@ -485,16 +492,17 @@ void ram_integer64_shellorder_desc(ValueT *data, IndexT *index, IndexT l, IndexT
     IndexT vi, i, j, h, lh, t, n=r-l+1;
     if (n < 2) return;
     for (t = 0; shellincs[t] > n; t++);
-    for (h = shellincs[t]; t < SHELLARRAYSIZE; h = shellincs[++t]){
+    for (; t < SHELLARRAYSIZE; t++) {
+      h = shellincs[t];
       lh = l+h;
       for (i = lh; i <= r; i++) {
       MOVE(vi, index[i])
       MOVE(v, data[vi])
-          j = i;
-          while (j >= lh && LESS(data[index[j - h]], v)){
+        j = i;
+          while (j >= lh && LESS(data[index[j - h]], v)) {
         MOVE(index[j], index[j - h])
-            j -= h;
-          }
+          j -= h;
+        }
       MOVE(index[j], vi)
       }
     }
@@ -521,21 +529,21 @@ void ram_integer64_sortmerge_asc(
 )
 {
   IndexT i,j,k,K=na+nb;
-  for (i=0,j=0,k=0;k<K;k++){
-    if (i==na){
+  for (i=0,j=0,k=0;k<K;k++) {
+    if (i==na) {
       for (;k<K;k++)
-        MOVE(c[k],b[j++])
+        MOVE(c[k], b[j++])
       break;
     }
-    if (j==nb){
+    if (j==nb) {
       for (;k<K;k++)
-        MOVE(c[k],a[i++])
+        MOVE(c[k], a[i++])
       break;
     }
-  if (LESS(b[j],a[i]))
-    MOVE(c[k],b[j++])
-  else
-    MOVE(c[k],a[i++])
+  if (LESS(b[j], a[i]))
+    MOVE(c[k], b[j++])
+    else
+    MOVE(c[k], a[i++])
   }
 }
 
@@ -550,21 +558,21 @@ ValueT *data  // data vector
 )
 {
   IndexT i,j,k,K=na+nb;
-  for (i=0,j=0,k=0;k<K;k++){
-    if (i==na){
+  for (i=0,j=0,k=0;k<K;k++) {
+    if (i==na) {
       for (;k<K;k++)
-        MOVE(c[k],b[j++])
+        MOVE(c[k], b[j++])
       break;
     }
-    if (j==nb){
+    if (j==nb) {
       for (;k<K;k++)
-        MOVE(c[k],a[i++])
+        MOVE(c[k], a[i++])
       break;
     }
-  if (KEYLESS(b[j],a[i]))
-    MOVE(c[k],b[j++])
-  else
-    MOVE(c[k],a[i++])
+  if (KEYLESS(b[j], a[i]))
+    MOVE(c[k], b[j++])
+    else
+    MOVE(c[k], a[i++])
   }
 }
 
@@ -581,98 +589,98 @@ void ram_integer64_sortordermerge_asc(
 )
 {
   IndexT i,j,k,K=na+nb;
-  for (i=0,j=0,k=0;k<K;k++){
-    if (i==na){
-      for (;k<K;k++){
-        MOVE(ci[k],bi[j])
-        MOVE(c[k],b[j++])
-    }
+  for (i=0,j=0,k=0;k<K;k++) {
+    if (i==na) {
+      for (;k<K;k++) {
+        MOVE(ci[k], bi[j])
+        MOVE(c[k], b[j++])
+      }
       break;
     }
-    if (j==nb){
-      for (;k<K;k++){
-        MOVE(ci[k],ai[i])
-        MOVE(c[k],a[i++])
-    }
+    if (j==nb) {
+      for (;k<K;k++) {
+        MOVE(ci[k], ai[i])
+        MOVE(c[k], a[i++])
+      }
       break;
     }
-  if (LESS(b[j],a[i])){
-    MOVE(ci[k],bi[j])
-    MOVE(c[k],b[j++])
-  }else{
-    MOVE(ci[k],ai[i])
-    MOVE(c[k],a[i++])
-  }
+  if (LESS(b[j], a[i])) {
+    MOVE(ci[k], bi[j])
+    MOVE(c[k], b[j++])
+  } else{
+    MOVE(ci[k], ai[i])
+    MOVE(c[k], a[i++])
+    }
   }
 }
 
 void ram_integer64_sortmerge_desc(ValueT *c, ValueT *a, ValueT *b, IndexT na, IndexT nb)
 {
   IndexT i,j,k,K=na+nb-1;
-  for (i=na-1,j=nb-1,k=K;k>=0;k--){
-    if (i<0){
+  for (i=na-1,j=nb-1,k=K;k>=0;k--) {
+    if (i<0) {
       for (;k>=0;k--)
-        MOVE(c[k],b[j--])
+        MOVE(c[k], b[j--])
       break;
     }
-    if (j<0){
+    if (j<0) {
       for (;k>=0;k--)
-        MOVE(c[k],a[i--])
+        MOVE(c[k], a[i--])
       break;
     }
-  if (LESS(a[i],b[j]))
-    MOVE(c[k],a[i--])
-  else
-    MOVE(c[k],b[j--])
+  if (LESS(a[i], b[j]))
+    MOVE(c[k], a[i--])
+    else
+    MOVE(c[k], b[j--])
   }
 }
 
 void ram_integer64_ordermerge_desc(ValueT *data, IndexT *c, IndexT *a, IndexT *b, IndexT na, IndexT nb)
 {
   IndexT i,j,k,K=na+nb-1;
-  for (i=na-1,j=nb-1,k=K;k>=0;k--){
-    if (i<0){
+  for (i=na-1,j=nb-1,k=K;k>=0;k--) {
+    if (i<0) {
       for (;k>=0;k--)
-        MOVE(c[k],b[j--])
+        MOVE(c[k], b[j--])
       break;
     }
-    if (j<0){
+    if (j<0) {
       for (;k>=0;k--)
-        MOVE(c[k],a[i--])
+        MOVE(c[k], a[i--])
       break;
     }
-  if (KEYLESS(a[i],b[j]))
-    MOVE(c[k],a[i--])
-  else
-    MOVE(c[k],b[j--])
+  if (KEYLESS(a[i], b[j]))
+    MOVE(c[k], a[i--])
+    else
+    MOVE(c[k], b[j--])
   }
 }
 
 void ram_integer64_sortordermerge_desc(ValueT *c, ValueT *a, ValueT *b, IndexT *ci, IndexT *ai, IndexT *bi, IndexT na, IndexT nb)
 {
   IndexT i,j,k,K=na+nb-1;
-  for (i=na-1,j=nb-1,k=K;k>=0;k--){
-    if (i<0){
-      for (;k>=0;k--){
-        MOVE(ci[k],bi[j])
-        MOVE(c[k],b[j--])
-    }
+  for (i=na-1,j=nb-1,k=K;k>=0;k--) {
+    if (i<0) {
+      for (;k>=0;k--) {
+        MOVE(ci[k], bi[j])
+        MOVE(c[k], b[j--])
+      }
       break;
     }
-    if (j<0){
-      for (;k>=0;k--){
-        MOVE(ci[k],ai[i])
-        MOVE(c[k],a[i--])
-    }
+    if (j<0) {
+      for (;k>=0;k--) {
+        MOVE(ci[k], ai[i])
+        MOVE(c[k], a[i--])
+      }
       break;
     }
-  if (LESS(a[i],b[j])){
-    MOVE(ci[k],ai[i])
-    MOVE(c[k],a[i--])
-  }else{
-    MOVE(ci[k],bi[j])
-    MOVE(c[k],b[j--])
-  }
+  if (LESS(a[i], b[j])) {
+    MOVE(ci[k], ai[i])
+    MOVE(c[k], a[i--])
+  } else{
+    MOVE(ci[k], bi[j])
+    MOVE(c[k], b[j--])
+    }
   }
 }
 
@@ -686,7 +694,7 @@ void ram_integer64_mergesort_asc_rec(
 )
 {
   IndexT m;
-  if (r-l <= INSERTIONSORT_LIMIT_MERGE){
+  if (r-l <= INSERTIONSORT_LIMIT_MERGE) {
     ram_integer64_insertionsort_asc(a, l, r);
     return;
   }
@@ -705,7 +713,7 @@ ValueT *data  // pointer to data vector
 )
 {
   IndexT m;
-  if (r-l <= INSERTIONSORT_LIMIT_MERGE){
+  if (r-l <= INSERTIONSORT_LIMIT_MERGE) {
     ram_integer64_insertionorder_asc(data, a, l, r);
     return;
   }
@@ -725,7 +733,7 @@ void ram_integer64_mergesortorder_asc_rec(
 )
 {
   IndexT m;
-  if (r-l <= INSERTIONSORT_LIMIT_MERGE){
+  if (r-l <= INSERTIONSORT_LIMIT_MERGE) {
     ram_integer64_insertionsortorder_asc(a, ai, l, r);
     return;
   }
@@ -739,7 +747,7 @@ void ram_integer64_mergesortorder_asc_rec(
 void ram_integer64_mergesort_desc_rec(ValueT *a, ValueT *b, IndexT l, IndexT r)
 {
   IndexT m;
-  if (r-l <= INSERTIONSORT_LIMIT_MERGE){
+  if (r-l <= INSERTIONSORT_LIMIT_MERGE) {
     ram_integer64_insertionsort_desc(a, l, r);
     return;
   }
@@ -752,7 +760,7 @@ void ram_integer64_mergesort_desc_rec(ValueT *a, ValueT *b, IndexT l, IndexT r)
 void ram_integer64_mergeorder_desc_rec(ValueT *data, IndexT *a, IndexT *b, IndexT l, IndexT r)
 {
   IndexT m;
-  if (r-l <= INSERTIONSORT_LIMIT_MERGE){
+  if (r-l <= INSERTIONSORT_LIMIT_MERGE) {
     ram_integer64_insertionorder_desc(data, a, l, r);
     return;
   }
@@ -765,7 +773,7 @@ void ram_integer64_mergeorder_desc_rec(ValueT *data, IndexT *a, IndexT *b, Index
 void ram_integer64_mergesortorder_desc_rec(ValueT *a, ValueT *b, IndexT *ai, IndexT *bi, IndexT l, IndexT r)
 {
   IndexT m;
-  if (r-l <= INSERTIONSORT_LIMIT_MERGE){
+  if (r-l <= INSERTIONSORT_LIMIT_MERGE) {
     ram_integer64_insertionsortorder_desc(a, ai, l, r);
     return;
   }
@@ -789,38 +797,38 @@ ValueT *data    // pointer to data
 , IndexT r      // rightmost position to be sorted
 )
 {
-  IndexT i = l-1, j = r;
+  IndexT i = l - 1, j = r;
   ValueT t,v;
   MOVE(v, data[r])
-  for (;;){
-    ++i; while(LESS(data[i], v)){if (j<=i)break; ++i;}; // explicit stop condition
-    --j; while(LESS(v, data[j])){if (j<=i)break; --j;};  // explicit stop condition
+  for (;;) {
+    ++i; while (LESS(data[i], v)) {if (j<=i)break; ++i;}; // explicit stop condition
+    --j; while (LESS(v, data[j])) {if (j<=i)break; --j;};  // explicit stop condition
     if (j<=i)break;
     EXCH(data[i], data[j], t)
   }
   EXCH(data[i], data[r], t)
   return i;
 }
-IndexT ram_integer64_quicksortpart_desc_no_sentinels(ValueT *data, IndexT l, IndexT r){
-  IndexT i = l-1, j = r;
+IndexT ram_integer64_quicksortpart_desc_no_sentinels(ValueT *data, IndexT l, IndexT r) {
+  IndexT i = l - 1, j = r;
   ValueT t,v;
   MOVE(v, data[r])
-  for (;;){
-    ++i; while(LESS(v, data[i])){if (j<=i)break; ++i;}; // explicit stop condition
-    --j; while(LESS(data[j], v)){if (j<=i)break; --j;};  // explicit stop condition
+  for (;;) {
+    ++i; while (LESS(v, data[i])) {if (j<=i)break; ++i;}; // explicit stop condition
+    --j; while (LESS(data[j], v)) {if (j<=i)break; --j;};  // explicit stop condition
     if (j<=i)break;
     EXCH(data[i], data[j], t)
   }
   EXCH(data[i], data[r], t)
   return i;
 }
-IndexT ram_integer64_quicksortorderpart_asc_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r){
+IndexT ram_integer64_quicksortorderpart_asc_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r) {
   IndexT ti, i = l-1, j = r;
   ValueT t,v;
   MOVE(v, data[r])
-  for (;;){
-    ++i; while(LESS(data[i], v)){if (j<=i)break; ++i;}; // explicit stop condition
-    --j; while(LESS(v, data[j])){if (j<=i)break; --j;};  // explicit stop condition
+  for (;;) {
+    ++i; while (LESS(data[i], v)) {if (j<=i)break; ++i;}; // explicit stop condition
+    --j; while (LESS(v, data[j])) {if (j<=i)break; --j;};  // explicit stop condition
     if (j<=i)break;
     EXCH(index[i], index[j], ti)
     EXCH(data[i], data[j], t)
@@ -829,13 +837,13 @@ IndexT ram_integer64_quicksortorderpart_asc_no_sentinels(ValueT *data, IndexT *i
   EXCH(data[i], data[r], t)
   return i;
 }
-IndexT ram_integer64_quicksortorderpart_desc_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r){
+IndexT ram_integer64_quicksortorderpart_desc_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r) {
   IndexT ti,i = l-1, j = r;
   ValueT t,v;
   MOVE(v, data[r])
-  for (;;){
-    ++i; while(LESS(v, data[i])){if (j<=i)break; ++i;}; // explicit stop condition
-    --j; while(LESS(data[j], v)){if (j<=i)break; --j;};  // explicit stop condition
+  for (;;) {
+    ++i; while (LESS(v, data[i])) {if (j<=i)break; ++i;}; // explicit stop condition
+    --j; while (LESS(data[j], v)) {if (j<=i)break; --j;};  // explicit stop condition
     if (j<=i)break;
     EXCH(index[i], index[j], ti)
     EXCH(data[i], data[j], t)
@@ -844,26 +852,26 @@ IndexT ram_integer64_quicksortorderpart_desc_no_sentinels(ValueT *data, IndexT *
   EXCH(data[i], data[r], t)
   return i;
 }
-IndexT ram_integer64_quickorderpart_asc_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r){
+IndexT ram_integer64_quickorderpart_asc_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r) {
   IndexT ti,i = l-1, j = r;
   ValueT v;
   MOVE(v, data[index[r]])
-  for (;;){
-    ++i; while(LESS(data[index[i]], v)){if (j<=i)break; ++i;}; // explicit stop condition
-    --j; while(LESS(v, data[index[j]])){if (j<=i)break; --j;};  // explicit stop condition
+  for (;;) {
+    ++i; while (LESS(data[index[i]], v)) {if (j<=i)break; ++i;}; // explicit stop condition
+    --j; while (LESS(v, data[index[j]])) {if (j<=i)break; --j;};  // explicit stop condition
     if (j<=i)break;
     EXCH(index[i], index[j], ti)
   }
   EXCH(index[i], index[r], ti)
   return i;
 }
-IndexT ram_integer64_quickorderpart_desc_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r){
+IndexT ram_integer64_quickorderpart_desc_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r) {
   IndexT ti, i = l-1, j = r;
   ValueT v;
   MOVE(v, data[index[r]])
-  for (;;){
-    ++i; while(LESS(v, data[index[i]])){if (j<=i)break; ++i;}; // explicit stop condition
-    --j; while(LESS(data[index[j]], v)){if (j<=i)break; --j;};  // explicit stop condition
+  for (;;) {
+    ++i; while (LESS(v, data[index[i]])) {if (j<=i)break; ++i;}; // explicit stop condition
+    --j; while (LESS(data[index[j]], v)) {if (j<=i)break; --j;};  // explicit stop condition
     if (j<=i)break;
     EXCH(index[i], index[j], ti)
   }
@@ -877,8 +885,8 @@ IndexT ram_integer64_quickorderpart_desc_no_sentinels(ValueT *data, IndexT *inde
 void ram_integer64_quicksort_asc_mdr3_no_sentinels(
 ValueT *data
 , IndexT l, IndexT r
-){
-  if (INSERTIONSORT_LIMIT_QUICK < r-l){
+) {
+  if (INSERTIONSORT_LIMIT_QUICK < r-l) {
     ValueT t;
       IndexT m=(l+r)/2;
       m = ram_integer64_median3(data, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
@@ -889,8 +897,8 @@ ValueT *data
   }
   else  ram_integer64_insertionsort_asc(data, l, r);
 }
-void ram_integer64_quicksortorder_asc_mdr3_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r){
-  if (INSERTIONSORT_LIMIT_QUICK < r-l){
+void ram_integer64_quicksortorder_asc_mdr3_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r) {
+  if (INSERTIONSORT_LIMIT_QUICK < r-l) {
     ValueT t;
       IndexT ti, m=(l+r)/2;
       m = ram_integer64_median3(data, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
@@ -902,8 +910,8 @@ void ram_integer64_quicksortorder_asc_mdr3_no_sentinels(ValueT *data, IndexT *in
   }
   else  ram_integer64_insertionsortorder_asc(data, index, l, r);
 }
-void ram_integer64_quickorder_asc_mdr3_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r){
-  if (INSERTIONSORT_LIMIT_QUICK < r-l){
+void ram_integer64_quickorder_asc_mdr3_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r) {
+  if (INSERTIONSORT_LIMIT_QUICK < r-l) {
     ValueT t;
       IndexT ti, m=(l+r)/2;
       m = ram_integer64_median3(data, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
@@ -916,8 +924,8 @@ void ram_integer64_quickorder_asc_mdr3_no_sentinels(ValueT *data, IndexT *index,
   else  ram_integer64_insertionorder_asc(data, index, l, r);
 }
 
-void ram_integer64_quicksort_desc_mdr3_no_sentinels(ValueT *data, IndexT l, IndexT r){
-  if (INSERTIONSORT_LIMIT_QUICK < r-l){
+void ram_integer64_quicksort_desc_mdr3_no_sentinels(ValueT *data, IndexT l, IndexT r) {
+  if (INSERTIONSORT_LIMIT_QUICK < r-l) {
     ValueT t;
       IndexT m=(l+r)/2;
       m = ram_integer64_median3(data, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
@@ -928,8 +936,8 @@ void ram_integer64_quicksort_desc_mdr3_no_sentinels(ValueT *data, IndexT l, Inde
   }
   else  ram_integer64_insertionsort_desc(data, l, r);
 }
-void ram_integer64_quicksortorder_desc_mdr3_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r){
-  if (INSERTIONSORT_LIMIT_QUICK < r-l){
+void ram_integer64_quicksortorder_desc_mdr3_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r) {
+  if (INSERTIONSORT_LIMIT_QUICK < r-l) {
     ValueT t;
       IndexT ti, m=(l+r)/2;
       m = ram_integer64_median3(data, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
@@ -941,8 +949,8 @@ void ram_integer64_quicksortorder_desc_mdr3_no_sentinels(ValueT *data, IndexT *i
   }
   else  ram_integer64_insertionsortorder_desc(data, index, l, r);
 }
-void ram_integer64_quickorder_desc_mdr3_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r){
-  if (INSERTIONSORT_LIMIT_QUICK < r-l){
+void ram_integer64_quickorder_desc_mdr3_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r) {
+  if (INSERTIONSORT_LIMIT_QUICK < r-l) {
     ValueT t;
       IndexT ti, m=(l+r)/2;
       m = ram_integer64_median3(data, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
@@ -959,27 +967,27 @@ void ram_integer64_quickorder_desc_mdr3_no_sentinels(ValueT *data, IndexT *index
 void ram_integer64_quicksort_asc_intro(ValueT *data, IndexT l, IndexT r, int restlevel)
 {
   IndexT m;
-  if (restlevel>0){
-    if (INSERTIONSORT_LIMIT_QUICK < r-l){
+  if (restlevel>0) {
+    if (INSERTIONSORT_LIMIT_QUICK < r-l) {
     ValueT t;
       m=(l+r)/2;
       m = ram_integer64_median3(data, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
     EXCH(data[m], data[r], t)
       m = ram_integer64_quicksortpart_asc_no_sentinels(data, l, r);
-    restlevel--;
-    ram_integer64_quicksort_asc_intro(data, l, m-1, restlevel);
-    ram_integer64_quicksort_asc_intro(data, m+1, r, restlevel);
+      restlevel--;
+      ram_integer64_quicksort_asc_intro(data, l, m-1, restlevel);
+      ram_integer64_quicksort_asc_intro(data, m+1, r, restlevel);
     }
     else  ram_integer64_insertionsort_asc(data, l, r);
-  }else{
-  ram_integer64_shellsort_asc(data, l, r);
+  } else{
+    ram_integer64_shellsort_asc(data, l, r);
   }
 }
 void ram_integer64_quicksortorder_asc_intro(ValueT *data, IndexT *index, IndexT l, IndexT r, int restlevel)
 {
   IndexT m;
-  if (restlevel>0){
-    if (INSERTIONSORT_LIMIT_QUICK < r-l){
+  if (restlevel>0) {
+    if (INSERTIONSORT_LIMIT_QUICK < r-l) {
     IndexT ti;
     ValueT t;
       m=(l+r)/2;
@@ -987,59 +995,59 @@ void ram_integer64_quicksortorder_asc_intro(ValueT *data, IndexT *index, IndexT 
     EXCH(index[m], index[r], ti)
     EXCH(data[m], data[r], t)
       m = ram_integer64_quicksortorderpart_asc_no_sentinels(data, index, l, r);
-    restlevel--;
-    ram_integer64_quicksortorder_asc_intro(data, index, l, m-1, restlevel);
-    ram_integer64_quicksortorder_asc_intro(data, index, m+1, r, restlevel);
+      restlevel--;
+      ram_integer64_quicksortorder_asc_intro(data, index, l, m-1, restlevel);
+      ram_integer64_quicksortorder_asc_intro(data, index, m+1, r, restlevel);
     }
     else  ram_integer64_insertionsortorder_asc(data, index, l, r);
-  }else{
-  ram_integer64_shellsortorder_asc(data, index, l, r);
+  } else{
+    ram_integer64_shellsortorder_asc(data, index, l, r);
   }
 }
 void ram_integer64_quickorder_asc_intro(ValueT *data, IndexT *index, IndexT l, IndexT r, int restlevel)
 {
   IndexT m;
-  if (restlevel>0){
-    if (INSERTIONSORT_LIMIT_QUICK < r-l){
+  if (restlevel>0) {
+    if (INSERTIONSORT_LIMIT_QUICK < r-l) {
     IndexT ti;
       m=(l+r)/2;
       m = ram_integer64_median3index(data, index, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
     EXCH(index[m], index[r], ti)
       m = ram_integer64_quickorderpart_asc_no_sentinels(data, index, l, r);
-    restlevel--;
-    ram_integer64_quickorder_asc_intro(data, index, l, m-1, restlevel);
-    ram_integer64_quickorder_asc_intro(data, index, m+1, r, restlevel);
+      restlevel--;
+      ram_integer64_quickorder_asc_intro(data, index, l, m-1, restlevel);
+      ram_integer64_quickorder_asc_intro(data, index, m+1, r, restlevel);
     }
     else  ram_integer64_insertionorder_asc(data, index, l, r);
-  }else{
-  ram_integer64_shellorder_asc(data, index, l, r);
+  } else{
+    ram_integer64_shellorder_asc(data, index, l, r);
   }
 }
 
 void ram_integer64_quicksort_desc_intro(ValueT *data, IndexT l, IndexT r, int restlevel)
 {
   IndexT m;
-  if (restlevel>0){
-    if (INSERTIONSORT_LIMIT_QUICK < r-l){
+  if (restlevel>0) {
+    if (INSERTIONSORT_LIMIT_QUICK < r-l) {
     ValueT t;
       m=(l+r)/2;
       m = ram_integer64_median3(data, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
     EXCH(data[m], data[r], t)
       m = ram_integer64_quicksortpart_desc_no_sentinels(data, l, r);
-    restlevel--;
-    ram_integer64_quicksort_desc_intro(data, l, m-1, restlevel);
-    ram_integer64_quicksort_desc_intro(data, m+1, r, restlevel);
+      restlevel--;
+      ram_integer64_quicksort_desc_intro(data, l, m-1, restlevel);
+      ram_integer64_quicksort_desc_intro(data, m+1, r, restlevel);
     }
     else  ram_integer64_insertionsort_desc(data, l, r);
-  }else{
-  ram_integer64_shellsort_desc(data, l, r);
+  } else{
+    ram_integer64_shellsort_desc(data, l, r);
   }
 }
 void ram_integer64_quicksortorder_desc_intro(ValueT *data, IndexT *index, IndexT l, IndexT r, int restlevel)
 {
   IndexT m;
-  if (restlevel>0){
-    if (INSERTIONSORT_LIMIT_QUICK < r-l){
+  if (restlevel>0) {
+    if (INSERTIONSORT_LIMIT_QUICK < r-l) {
     IndexT ti;
     ValueT t;
       m=(l+r)/2;
@@ -1047,32 +1055,32 @@ void ram_integer64_quicksortorder_desc_intro(ValueT *data, IndexT *index, IndexT
     EXCH(index[m], index[r], ti)
     EXCH(data[m], data[r], t)
       m = ram_integer64_quicksortorderpart_desc_no_sentinels(data, index, l, r);
-    restlevel--;
-    ram_integer64_quicksortorder_desc_intro(data, index, l, m-1, restlevel);
-    ram_integer64_quicksortorder_desc_intro(data, index, m+1, r, restlevel);
+      restlevel--;
+      ram_integer64_quicksortorder_desc_intro(data, index, l, m-1, restlevel);
+      ram_integer64_quicksortorder_desc_intro(data, index, m+1, r, restlevel);
     }
     else  ram_integer64_insertionsortorder_desc(data, index, l, r);
-  }else{
-  ram_integer64_shellsortorder_desc(data, index, l, r);
+  } else{
+    ram_integer64_shellsortorder_desc(data, index, l, r);
   }
 }
 void ram_integer64_quickorder_desc_intro(ValueT *data, IndexT *index, IndexT l, IndexT r, int restlevel)
 {
   IndexT m;
-  if (restlevel>0){
-    if (INSERTIONSORT_LIMIT_QUICK < r-l){
+  if (restlevel>0) {
+    if (INSERTIONSORT_LIMIT_QUICK < r-l) {
     IndexT ti;
       m=(l+r)/2;
       m = ram_integer64_median3(data, l+randIndex((r-l)/2), m, r-randIndex((r-l)/2));
     EXCH(index[m], index[r], ti)
       m = ram_integer64_quickorderpart_desc_no_sentinels(data, index, l, r);
-    restlevel--;
-    ram_integer64_quickorder_desc_intro(data, index, l, m-1, restlevel);
-    ram_integer64_quickorder_desc_intro(data, index, m+1, r, restlevel);
+      restlevel--;
+      ram_integer64_quickorder_desc_intro(data, index, l, m-1, restlevel);
+      ram_integer64_quickorder_desc_intro(data, index, m+1, r, restlevel);
     }
     else  ram_integer64_insertionorder_desc(data, index, l, r);
-  }else{
-  ram_integer64_shellorder_desc(data, index, l, r);
+  } else{
+    ram_integer64_shellorder_desc(data, index, l, r);
   }
 }
 
@@ -1107,14 +1115,14 @@ void ram_integer64_radixsort(
   for (w=0;w<nradixes;w++)
     pstats[w] = stats + w * (nbuckets+1);
   // initialize stats
-  for (w=0;w<nradixes;w++){
+  for (w=0;w<nradixes;w++) {
     stats = pstats[w];
-    for (i=0; i<nbuckets; i++)
+    for (i = 0; i < nbuckets; i++)
     stats[i] = 0;
     stats[nbuckets] = 1; // radix-noskip-flag
   }
   // count all buckets
-  for (i=0; i<n; i++){
+  for (i = 0; i < n; i++) {
     tmppatt = data[i];
     pstats[0][tmppatt & bitmask]++;
     for (w=1;w<nradixes1;w++)
@@ -1122,14 +1130,14 @@ void ram_integer64_radixsort(
     pstats[nradixes1][ (((tmppatt >> radixbits) & bitmask) ^ signmask) ]++;
   }
   // cumulate stats and set skip-radix-flag
-  if (decreasing){
-    for (w=0;w<nradixes;w++){
+  if (decreasing) {
+    for (w=0;w<nradixes;w++) {
       stats = pstats[w];
       b = stats[nbuckets1];
       if (b==n)
       stats[nbuckets] = 0; // radix-noskip-flag
       stats[nbuckets1] = 0;
-      for (i=nbuckets1-1; i>=0; i--){
+      for (i=nbuckets1-1; i>=0; i--) {
       b2 = stats[i];
       if (b2==n)
         stats[nbuckets] = 0; // radix-noskip-flag
@@ -1137,14 +1145,14 @@ void ram_integer64_radixsort(
       b += b2;
       }
     }
-  }else{
-    for (w=0;w<nradixes;w++){
+  } else{
+    for (w=0;w<nradixes;w++) {
       stats = pstats[w];
       b = stats[0];
       if (b==n)
       stats[nbuckets] = 0; // radix-noskip-flag
       stats[0] = 0;
-      for (i=1; i<nbuckets; i++){
+      for (i=1; i<nbuckets; i++) {
       b2 = stats[i];
       if (b2==n)
         stats[nbuckets] = 0; // radix-noskip-flag
@@ -1154,36 +1162,36 @@ void ram_integer64_radixsort(
     }
   }
   // move the data
-  for (b=0,w=0;w<nradixes;w++){
+  for (b=0,w=0;w<nradixes;w++) {
     stats=pstats[w];
     // Rprintf("w=%d need=%d\n", w, stats[nbuckets]); R_FlushConsole();
-    if (stats[nbuckets]){ // radix-noskip-flag
+    if (stats[nbuckets]) { // radix-noskip-flag
       wradixbits = w*radixbits;
-      if (b%2){
-          if (w==0){
-          for (i=0; i<n; i++){
+      if (b % 2) {
+          if (w == 0) {
+          for (i = 0; i < n; i++) {
           MOVE(data[stats[ auxdata[i] & bitmask]++ ], auxdata[i])
           }
-        }else if (w<nradixes1){
-          for (i=0; i<n; i++){
+        } else if (w < nradixes1) {
+          for (i = 0; i < n; i++) {
           MOVE(data[stats[ auxdata[i]>>wradixbits & bitmask ]++], auxdata[i])
           }
-        }else{
-          for (i=0; i<n; i++){
+        } else{
+          for (i = 0; i < n; i++) {
           MOVE(data[stats[ (((auxdata[i] >> wradixbits) & bitmask) ^ signmask) ]++], auxdata[i])
           }
         }
-      }else{
-          if (w==0){
-          for (i=0; i<n; i++){
+      } else{
+          if (w == 0) {
+          for (i = 0; i < n; i++) {
           MOVE(auxdata[stats[ data[i] & bitmask ]++], data[i])
           }
-        }else if (w<nradixes1){
-          for (i=0; i<n; i++){
+        } else if (w < nradixes1) {
+          for (i = 0; i < n; i++) {
           MOVE(auxdata[stats[ data[i]>>wradixbits & bitmask ]++], data[i])
           }
-        }else{
-          for (i=0; i<n; i++){
+        } else{
+          for (i = 0; i < n; i++) {
           MOVE(auxdata[stats[ (((data[i] >> wradixbits) & bitmask) ^ signmask) ]++], data[i])
           }
         }
@@ -1192,8 +1200,8 @@ void ram_integer64_radixsort(
     }
   }
   // copy back in case of odd number of copies
-    if (b%2){
-    for (i=0; i<n; i++)
+    if (b % 2) {
+    for (i = 0; i < n; i++)
     MOVE(data[i], auxdata[i])
     b++;
   }
@@ -1233,14 +1241,14 @@ void ram_integer64_radixsortorder(
   for (w=0;w<nradixes;w++)
     pstats[w] = stats + w * (nbuckets+1);
   // initialize stats
-  for (w=0;w<nradixes;w++){
+  for (w=0;w<nradixes;w++) {
     stats = pstats[w];
-    for (i=0; i<nbuckets; i++)
+    for (i = 0; i < nbuckets; i++)
     stats[i] = 0;
     stats[nbuckets] = 1; // radix-noskip-flag
   }
   // count all buckets
-  for (i=0; i<n; i++){
+  for (i = 0; i < n; i++) {
     tmppatt = data[i];
     pstats[0][tmppatt & bitmask]++;
     for (w=1;w<nradixes1;w++)
@@ -1248,14 +1256,14 @@ void ram_integer64_radixsortorder(
     pstats[nradixes1][ (((tmppatt >> radixbits) & bitmask) ^ signmask) ]++;
   }
   // cumulate stats and set skip-radix-flag
-  if (decreasing){
-    for (w=0;w<nradixes;w++){
+  if (decreasing) {
+    for (w=0;w<nradixes;w++) {
       stats = pstats[w];
       b = stats[nbuckets1];
       if (b==n)
       stats[nbuckets] = 0; // radix-noskip-flag
       stats[nbuckets1] = 0;
-      for (i=nbuckets1-1; i>=0; i--){
+      for (i=nbuckets1-1; i>=0; i--) {
       b2 = stats[i];
       if (b2==n)
         stats[nbuckets] = 0; // radix-noskip-flag
@@ -1263,14 +1271,14 @@ void ram_integer64_radixsortorder(
       b += b2;
       }
     }
-  }else{
-    for (w=0;w<nradixes;w++){
+  } else{
+    for (w=0;w<nradixes;w++) {
       stats = pstats[w];
       b = stats[0];
       if (b==n)
       stats[nbuckets] = 0; // radix-noskip-flag
       stats[0] = 0;
-      for (i=1; i<nbuckets; i++){
+      for (i=1; i<nbuckets; i++) {
       b2 = stats[i];
       if (b2==n)
         stats[nbuckets] = 0; // radix-noskip-flag
@@ -1280,45 +1288,45 @@ void ram_integer64_radixsortorder(
     }
   }
   // move the data
-  for (b=0,w=0;w<nradixes;w++){
+  for (b=0,w=0;w<nradixes;w++) {
     stats=pstats[w];
-    if (stats[nbuckets]){ // radix-noskip-flag
+    if (stats[nbuckets]) { // radix-noskip-flag
       wradixbits = w*radixbits;
-      if (b%2){
-          if (w==0){
-          for (i=0; i<n; i++){
+      if (b % 2) {
+          if (w == 0) {
+          for (i = 0; i < n; i++) {
             b2 = stats[ auxdata[i] & bitmask ]++;
           MOVE(index[b2], auxindex[i])
           MOVE(data[b2], auxdata[i])
           }
-        }else if (w<nradixes1){
-          for (i=0; i<n; i++){
+        } else if (w < nradixes1) {
+          for (i = 0; i < n; i++) {
             b2 = stats[ auxdata[i]>>wradixbits & bitmask ]++;
           MOVE(index[b2], auxindex[i])
           MOVE(data[b2], auxdata[i])
           }
-        }else{
-          for (i=0; i<n; i++){
+        } else{
+          for (i = 0; i < n; i++) {
             b2 = stats[ (((auxdata[i] >> wradixbits) & bitmask) ^ signmask) ]++;
           MOVE(index[b2], auxindex[i])
           MOVE(data[b2], auxdata[i])
           }
         }
-      }else{
-          if (w==0){
-          for (i=0; i<n; i++){
+      } else{
+          if (w == 0) {
+          for (i = 0; i < n; i++) {
             b2 = stats[ data[i] & bitmask ]++;
           MOVE(auxindex[b2], index[i])
           MOVE(auxdata[b2], data[i])
           }
-        }else if (w<nradixes1){
-          for (i=0; i<n; i++){
+        } else if (w < nradixes1) {
+          for (i = 0; i < n; i++) {
             b2 = stats[ data[i]>>wradixbits & bitmask ]++;
           MOVE(auxindex[b2], index[i])
           MOVE(auxdata[b2], data[i])
           }
-        }else{
-          for (i=0; i<n; i++){
+        } else{
+          for (i = 0; i < n; i++) {
             b2 = stats[ (((data[i] >> wradixbits) & bitmask) ^ signmask) ]++;
           MOVE(auxindex[b2], index[i])
           MOVE(auxdata[b2], data[i])
@@ -1329,8 +1337,8 @@ void ram_integer64_radixsortorder(
     }
   }
   // copy back in case of odd number of copies
-    if (b%2){
-    for (i=0; i<n; i++){
+    if (b % 2) {
+    for (i = 0; i < n; i++) {
     MOVE(index[i], auxindex[i])
     MOVE(data[i], auxdata[i])
     }
@@ -1371,14 +1379,14 @@ void ram_integer64_radixorder(
   for (w=0;w<nradixes;w++)
     pstats[w] = stats + w * (nbuckets+1);
   // initialize stats
-  for (w=0;w<nradixes;w++){
+  for (w=0;w<nradixes;w++) {
     stats = pstats[w];
-    for (i=0; i<nbuckets; i++)
+    for (i = 0; i < nbuckets; i++)
     stats[i] = 0;
     stats[nbuckets] = 1; // radix-noskip-flag
   }
   // count all buckets
-  for (i=0; i<n; i++){
+  for (i = 0; i < n; i++) {
     tmppatt = data[i];  // xx here we save the indirection through index
     pstats[0][tmppatt & bitmask]++;
     for (w=1;w<nradixes1;w++)
@@ -1386,14 +1394,14 @@ void ram_integer64_radixorder(
     pstats[nradixes1][ (((tmppatt >> radixbits) & bitmask) ^ signmask) ]++;
   }
   // cumulate stats and set skip-radix-flag
-  if (decreasing){
-    for (w=0;w<nradixes;w++){
+  if (decreasing) {
+    for (w=0;w<nradixes;w++) {
       stats = pstats[w];
       b = stats[nbuckets1];
       if (b==n)
       stats[nbuckets] = 0; // radix-noskip-flag
       stats[nbuckets1] = 0;
-      for (i=nbuckets1-1; i>=0; i--){
+      for (i=nbuckets1-1; i>=0; i--) {
       b2 = stats[i];
       if (b2==n)
         stats[nbuckets] = 0; // radix-noskip-flag
@@ -1401,14 +1409,14 @@ void ram_integer64_radixorder(
       b += b2;
       }
     }
-  }else{
-    for (w=0;w<nradixes;w++){
+  } else{
+    for (w=0;w<nradixes;w++) {
       stats = pstats[w];
       b = stats[0];
       if (b==n)
       stats[nbuckets] = 0; // radix-noskip-flag
       stats[0] = 0;
-      for (i=1; i<nbuckets; i++){
+      for (i=1; i<nbuckets; i++) {
       b2 = stats[i];
       if (b2==n)
         stats[nbuckets] = 0; // radix-noskip-flag
@@ -1418,40 +1426,40 @@ void ram_integer64_radixorder(
     }
   }
   // move the data
-  for (b=0,w=0;w<nradixes;w++){
+  for (b=0,w=0;w<nradixes;w++) {
     stats=pstats[w];
-    if (stats[nbuckets]){ // radix-noskip-flag
+    if (stats[nbuckets]) { // radix-noskip-flag
       wradixbits = w*radixbits;
-      if (b%2){
-          if (w==0){
-          for (i=0; i<n; i++){
+      if (b % 2) {
+          if (w == 0) {
+          for (i = 0; i < n; i++) {
             b2 = stats[ data[auxindex[i]] & bitmask ]++;
           MOVE(index[b2], auxindex[i])
           }
-        }else if (w<nradixes1){
-          for (i=0; i<n; i++){
+        } else if (w < nradixes1) {
+          for (i = 0; i < n; i++) {
             b2 = stats[ data[auxindex[i]]>>wradixbits & bitmask ]++;
           MOVE(index[b2], auxindex[i])
           }
-        }else{
-          for (i=0; i<n; i++){
+        } else{
+          for (i = 0; i < n; i++) {
             b2 = stats[ (((data[auxindex[i]] >> wradixbits) & bitmask) ^ signmask) ]++;
           MOVE(index[b2], auxindex[i])
           }
         }
-      }else{
-          if (w==0){
-          for (i=0; i<n; i++){
+      } else{
+          if (w == 0) {
+          for (i = 0; i < n; i++) {
             b2 = stats[ data[index[i]] & bitmask ]++;
           MOVE(auxindex[b2], index[i])
           }
-        }else if (w<nradixes1){
-          for (i=0; i<n; i++){
+        } else if (w < nradixes1) {
+          for (i = 0; i < n; i++) {
             b2 = stats[ data[index[i]]>>wradixbits & bitmask ]++;
           MOVE(auxindex[b2], index[i])
           }
-        }else{
-          for (i=0; i<n; i++){
+        } else{
+          for (i = 0; i < n; i++) {
             b2 = stats[ (((data[index[i]] >> wradixbits) & bitmask) ^ signmask) ]++;
           MOVE(auxindex[b2], index[i])
           }
@@ -1461,8 +1469,8 @@ void ram_integer64_radixorder(
     }
   }
   // copy back in case of odd number of copies
-    if (b%2){
-    for (i=0; i<n; i++){
+    if (b % 2) {
+    for (i = 0; i < n; i++) {
     MOVE(index[i], auxindex[i])
     }
     b++;
@@ -1483,12 +1491,12 @@ void ram_integer64_radixorder(
 // returns uniform random index in range 0..(n-1)
 static IndexT randIndex(
   IndexT n    // number of positions to random select from
-){
+) {
   IndexT r;
   //CRAN disallows rand: while(n <= (r=(((double)rand())*n) /RAND_MAX));
   // this is by factor 3 slower as long as we keep GetRNGstate(); PutRNGstate(); here.
   GetRNGstate();
-    while((r = ((IndexT)(unif_rand()*n))) >= n){}
+    while((r = ((IndexT)(unif_rand()*n))) >= n) {}
     ;
   PutRNGstate();
   return r;
@@ -1545,8 +1553,8 @@ SEXP r_ram_integer64_shellsort(
 
   R_Busy(1);
   DEBUG_INIT
-    ValueT *data;
-    data = (ValueT *) REAL(x_);
+  ValueT *data;
+  data = (ValueT *) REAL(x_);
 
   if (decreasing)
       ram_integer64_shellsort_desc(data, 0, n-1);
@@ -1584,8 +1592,8 @@ SEXP r_ram_integer64_shellsortorder(
 
     R_Busy(1);
     DEBUG_INIT
-      ValueT *data;
-      data = (ValueT *) REAL(x_);
+    ValueT *data;
+    data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
 
     if (decreasing)
@@ -1626,11 +1634,11 @@ SEXP r_ram_integer64_shellorder(
 
     R_Busy(1);
     DEBUG_INIT
-      ValueT *data;
-      data = (ValueT *) REAL(x_);
+    ValueT *data;
+    data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
 
-    for (i=0;i<n;i++)
+    for (i = 0; i < n; i++)
     index[i]--;
 
     if (decreasing)
@@ -1645,7 +1653,7 @@ SEXP r_ram_integer64_shellorder(
     , 0  // no auxindex
     );
 
-    for (i=0;i<n;i++)
+    for (i = 0; i < n; i++)
     index[i]++;
 
     INTEGER(ret_)[0] = DEBUG_RETURN;
@@ -1675,24 +1683,24 @@ SEXP r_ram_integer64_mergesort(
 
   R_Busy(1);
   DEBUG_INIT
-    ValueT *data;
-      data = (ValueT *) REAL(x_);
-      ValueT *auxdata;
-      auxdata = (ValueT *) R_alloc(n, sizeof(ValueT));
+  ValueT *data;
+  data = (ValueT *) REAL(x_);
+  ValueT *auxdata;
+  auxdata = (ValueT *) R_alloc(n, sizeof(ValueT));
 
-    for(i=0;i<n;i++){
+  for (i = 0; i < n; i++) {
       MOVE(auxdata[i], data[i])
-    }
+  }
 
-    if (decreasing)
-        ram_integer64_mergesort_desc_rec(data, auxdata, 0, n-1);
-    else
-        ram_integer64_mergesort_asc_rec(data, auxdata, 0, n-1);
-    ret = ram_integer64_fixsortNA(data, n
-    , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
-    , na_last    // 0 for NA NaN left, 1 for NA NaN right
-    , decreasing // 0 for ascending, 1 for descending
-    );
+  if (decreasing)
+      ram_integer64_mergesort_desc_rec(data, auxdata, 0, n-1);
+  else
+      ram_integer64_mergesort_asc_rec(data, auxdata, 0, n-1);
+  ret = ram_integer64_fixsortNA(data, n
+  , has_na     // 0 for pure doubles, 1 if NA or NaN can be present
+  , na_last    // 0 for NA NaN left, 1 for NA NaN right
+  , decreasing // 0 for ascending, 1 for descending
+  );
 
   INTEGER(ret_)[0] = DEBUG_RETURN;
   R_Busy(0);
@@ -1729,9 +1737,9 @@ SEXP r_ram_integer64_mergesortorder(
       ValueT *auxdata;
       auxdata = (ValueT *) R_alloc(n, sizeof(ValueT));
 
-    for(i=0;i<n;i++){
+    for (i = 0; i < n; i++) {
       MOVE(auxindex[i], index[i])
-      MOVE(auxdata[i] ,data[i])
+      MOVE(auxdata[i] , data[i])
     }
 
     if (decreasing)
@@ -1777,10 +1785,10 @@ SEXP r_ram_integer64_mergeorder(
   IndexT *auxindex;
   auxindex = (IndexT *) R_alloc(n, sizeof(IndexT));
 
-  for (i=0;i<n;i++)
+  for (i = 0; i < n; i++)
     index[i]--;
 
-  for(i=0;i<n;i++){
+  for (i = 0; i < n; i++) {
     MOVE(auxindex[i], index[i]);
   }
 
@@ -1796,7 +1804,7 @@ SEXP r_ram_integer64_mergeorder(
   , auxindex
   );
 
-  for (i=0;i<n;i++)
+  for (i = 0; i < n; i++)
     index[i]++;
 
   INTEGER(ret_)[0] = DEBUG_RETURN;
@@ -1866,8 +1874,8 @@ SEXP r_ram_integer64_quicksortorder(
 
     R_Busy(1);
     DEBUG_INIT
-      ValueT *data;
-      data = (ValueT *) REAL(x_);
+    ValueT *data;
+    data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
 
     if (decreasing)
@@ -1910,11 +1918,11 @@ SEXP r_ram_integer64_quickorder(
 
     R_Busy(1);
     DEBUG_INIT
-      ValueT *data;
-      data = (ValueT *) REAL(x_);
+    ValueT *data;
+    data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
 
-    for (i=0;i<n;i++)
+    for (i = 0; i < n; i++)
       index[i]--;
 
     if (decreasing)
@@ -1929,7 +1937,7 @@ SEXP r_ram_integer64_quickorder(
     , 0  // no auxindex
     );
 
-    for (i=0;i<n;i++)
+    for (i = 0; i < n; i++)
       index[i]++;
 
     INTEGER(ret_)[0] = DEBUG_RETURN;
@@ -2084,7 +2092,7 @@ SEXP r_ram_integer64_radixorder(
   IndexT **pstats;
   pstats = (IndexT **) R_alloc(nradixes, sizeof(IndexT*));
 
-  for (i=0;i<n;i++){
+  for (i = 0; i < n; i++) {
     index[i]--;
   }
   ram_integer64_radixorder(
@@ -2105,7 +2113,7 @@ SEXP r_ram_integer64_radixorder(
   , auxindex
   );
 
-  for (i=0;i<n;i++)
+  for (i = 0; i < n; i++)
     index[i]++;
 
   INTEGER(ret_)[0] = DEBUG_RETURN;

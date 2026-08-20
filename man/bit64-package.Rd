@@ -142,7 +142,7 @@ copying and unnecessary garbage collection. Prior to 0.93 \emph{within} our R fu
 we also deviated from conventional R programming by not using \code{\link{attr<-}} and
 \code{\link{attributes<-}} because they always did new memory allocation and copying in older
 R versions. If we wanted to set attributes of return values that we have freshly
-created, we instead used functions \code{\link[bit:getsetattr]{bit::setattr()}} and \code{\link[bit:getsetattr]{bit::setattributes()}}.
+created, we instead used functions \code{\link[bit:setattr]{bit::setattr()}} and \code{\link[bit:setattributes]{bit::setattributes()}}.
 From version 0.93 \code{bit::setattr()} is only used for manipulating \code{\link{cache}} objects,
 in \code{\link[=ramsort.integer64]{ramsort.integer64()}}, \code{\link[=sort.integer64]{sort.integer64()}}, and \code{\link[=as.data.frame.integer64]{as.data.frame.integer64()}}.
 }
@@ -437,8 +437,9 @@ not at its second \code{to}.
 and it will return \code{FALSE} on \code{integer64}.
 \item \strong{\code{\link[=c]{c()}}} only dispatches \code{\link[=c.integer64]{c.integer64()}} if the first argument is \code{integer64}
 and it does not recursively dispatch the proper method when called with argument
-\code{recursive=TRUE}. Therefore \code{c(list(integer64, integer64))} does not work and
-for now you can only call \code{c.integer64(list(x, x))}.
+\code{recursive=TRUE}. Therefore \code{c(list(integer64, integer64), recursive=TRUE)} does
+not work. You can always force integer64 dispatch by prepending \code{integer64()}:
+\code{c(integer64(), list(integer64, integer64), recursive=TRUE)}.
 \item \strong{\code{\link[=unlist]{unlist()}}} is not generic and if it were, we would face similar problems as
 with \code{\link[=c]{c()}}
 \item \strong{\code{\link[=vector]{vector()}}} with argument \code{mode='integer64'} cannot work without adjustment
@@ -487,9 +488,9 @@ x
 rep(x, 2)            # replicate as usual
 seq(as.integer64(1), 10)     # seq.integer64 is dispatched on first given argument
 seq(to=as.integer64(10), 1)  # seq.integer64 is dispatched on first given argument
-seq.integer64(along.with=x)  # or call seq.integer64 directly
+
 # c.integer64 is dispatched only if *first* argument is integer64 ...
-x <- c(x,runif(length(x), max=100))
+x <- c(x, runif(length(x), max=100))
 # ... and coerces everything to integer64 - including double
 x
 names(x) <- letters  # use names as usual
@@ -741,6 +742,7 @@ matplot(1:21, cbind(td32, t64), pch=c("d","i"), log="y")
 
 Authors:
 \itemize{
+  \item Michael Chirico \email{michaelchirico4@gmail.com}
   \item Jens Oehlschlägel
 }
 

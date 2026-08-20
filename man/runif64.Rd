@@ -39,9 +39,9 @@ result is not a \code{NA_INTEGER64_}.
   var(runif(1e4))
   var(as.double(runif64(1e4, 0, 2^40))/2^40)  # ~ = 1/12 = .08333
 
-  table(sample(16, replace=FALSE))
+  table(sample.int(16, replace=FALSE))
   table(runif64(16, 1, 16, replace=FALSE))
-  table(sample(16, replace=TRUE))
+  table(sample.int(16, replace=TRUE))
   table(runif64(16, 1, 16, replace=TRUE))
 
 }

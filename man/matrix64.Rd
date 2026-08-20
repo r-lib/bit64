@@ -48,6 +48,9 @@ rowSums(x, na.rm = FALSE, dims = 1L)
 
 \item{a, perm}{Passed on to \code{\link[=aperm]{aperm()}}.}
 }
+\value{
+A matrix of integer64 values with the appropriate dimension
+}
 \description{
 These functions and methods facilitate working with integer64
 objects stored in matrices. As ever, the primary motivation

@@ -104,7 +104,7 @@ test_that("c and rep", {
   x = x + -1:1
   expect_true(identical.integer64(rep(x, 3L), c(x, x, x)))
   expect_true(identical.integer64(
-    c.integer64(list(x, x, x), recursive=TRUE),
+    c(integer64(), list(x, x, x), recursive=TRUE),
     c(x, x, x)
   ))
 })
@@ -121,10 +121,6 @@ test_that("seq", {
   expect_true(identical.integer64(
     seq(as.integer64(1L), by=2.0, length.out=6.0),
     as.integer64(seq(1.0, by=2.0, length.out=6.0))
-  ))
-  expect_true(identical.integer64(
-    seq.integer64(along.with=3:5),
-    as.integer64(seq(along.with=3:5))
   ))
   expect_true(identical.integer64(
     seq(as.integer64(1L), to=-9.0),
@@ -225,10 +221,8 @@ test_that("Coercion to integer64 with as() works as intended", {
 })
 
 test_that("Coercion from integer64 with as() works as intended", {
-  expect_identical(
-    as(as.integer64(1L), "logical"),
-    TRUE
-  )
+  expect_true(as(as.integer64(1L), "logical"))
+
   expect_identical(
     as(as.integer64(111L), "integer"),
     111L

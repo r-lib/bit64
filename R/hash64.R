@@ -371,9 +371,9 @@ hashmapupo.integer64 <- function(x, nunique=NULL, minfac=1.5, hashbits=NULL, ...
 #'   var(runif(1e4))
 #'   var(as.double(runif64(1e4, 0, 2^40))/2^40)  # ~ = 1/12 = .08333
 #'
-#'   table(sample(16, replace=FALSE))
+#'   table(sample.int(16, replace=FALSE))
 #'   table(runif64(16, 1, 16, replace=FALSE))
-#'   table(sample(16, replace=TRUE))
+#'   table(sample.int(16, replace=TRUE))
 #'   table(runif64(16, 1, 16, replace=TRUE))
 #'
 #' @export
@@ -389,8 +389,8 @@ runif64 <- function(n, min=lim.integer64()[1L], max=lim.integer64()[2L], replace
     d <- max - min + 1L
     if (!is.na(d) && N > d)
       stop("cannot take a sample larger than the population when 'replace = FALSE'")
-    if (!is.na(d) && n > d  / (2.0*log(n, 64.0))) {
-      ret <- .Call(C_runif_integer64, as.integer(d), as.integer64(min), as.integer64(max))
+    if (!is.na(d) && d <= .Machine$integer.max && n > d  / (2.0*log(n, 64.0))) {
+      ret <- .Call(C_seq_integer64, min, as.integer64(1L), double(as.integer(d)))
       oldClass(ret) <- "integer64"
       ret <- sample(ret, n, FALSE)
     } else {

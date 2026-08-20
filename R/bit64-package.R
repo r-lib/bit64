@@ -85,25 +85,25 @@
 #' example in [`c()`][c.integer64], [`cbind()`][cbind.integer64], and
 #' [`rbind()`][rbind.integer64]
 #'
-#' Our operators [`+`][ops64], [`-`][ops64], [`%/%`][ops64], and [`%%`][ops64] coerce 
-#' their arguments to `integer64` and return `integer64` if they are `integer`, 
-#' `double` or `logical`. Otherwise the `integer64` argument is coerced to double and 
+#' Our operators [`+`][ops64], [`-`][ops64], [`%/%`][ops64], and [`%%`][ops64] coerce
+#' their arguments to `integer64` and return `integer64` if they are `integer`,
+#' `double` or `logical`. Otherwise the `integer64` argument is coerced to double and
 #' the R base method for the other class is called.
 #'
-#' Our operators [`*`][ops64] and [`^`][ops64] coerce their first argument to 
-#' `integer64` and possibly the second to `integer64` if it is not `double` and 
-#' return `integer64` if they are `integer`, `double` or `logical`. Otherwise the 
-#' `integer64` argument is coerced to double and the R base method for the other 
+#' Our operators [`*`][ops64] and [`^`][ops64] coerce their first argument to
+#' `integer64` and possibly the second to `integer64` if it is not `double` and
+#' return `integer64` if they are `integer`, `double` or `logical`. Otherwise the
+#' `integer64` argument is coerced to double and the R base method for the other
 #' class is called.
-#' 
-#' The division [`/`][ops64] operator also coerces its first argument to `integer64` 
-#' and possibly the second to `integer64` if it is not `double` and returns 
-#' `integer64` if they are `integer`, `double` or `logical`. Otherwise the `integer64` 
+#'
+#' The division [`/`][ops64] operator also coerces its first argument to `integer64`
+#' and possibly the second to `integer64` if it is not `double` and returns
+#' `integer64` if they are `integer`, `double` or `logical`. Otherwise the `integer64`
 #' argument is coerced to double and the R base method for the other class is called.
-#' 
+#'
 #' [`sqrt()`][sqrt.integer64], [`log()`][log.integer64],
-#' [`log2()`][log2.integer64], and [`log10()`][log10.integer64] coerce their first 
-#' argument to `integer64` and coerce internally their second argument to 
+#' [`log2()`][log2.integer64], and [`log10()`][log10.integer64] coerce their first
+#' argument to `integer64` and coerce internally their second argument to
 #' 'long double', they return as `double`
 #'
 #' | **argument1** | **op** | **argument2** | **->** | **coerced1** | **op** | **coerced2** | **->** | **result** |
@@ -375,8 +375,9 @@
 #'
 #'  - **[c()]** only dispatches [c.integer64()] if the first argument is `integer64`
 #'    and it does not recursively dispatch the proper method when called with argument
-#'    `recursive=TRUE`. Therefore `c(list(integer64, integer64))` does not work and
-#'    for now you can only call `c.integer64(list(x, x))`.
+#'    `recursive=TRUE`. Therefore `c(list(integer64, integer64), recursive=TRUE)` does
+#'    not work. You can always force integer64 dispatch by prepending `integer64()`:
+#'    `c(integer64(), list(integer64, integer64), recursive=TRUE)`.
 #'
 #'  - **[unlist()]** is not generic and if it were, we would face similar problems as
 #'    with [c()]
@@ -446,9 +447,9 @@
 #' rep(x, 2)            # replicate as usual
 #' seq(as.integer64(1), 10)     # seq.integer64 is dispatched on first given argument
 #' seq(to=as.integer64(10), 1)  # seq.integer64 is dispatched on first given argument
-#' seq.integer64(along.with=x)  # or call seq.integer64 directly
+#'
 #' # c.integer64 is dispatched only if *first* argument is integer64 ...
-#' x <- c(x,runif(length(x), max=100))
+#' x <- c(x, runif(length(x), max=100))
 #' # ... and coerces everything to integer64 - including double
 #' x
 #' names(x) <- letters  # use names as usual
@@ -699,22 +700,14 @@
 
 ## usethis namespace: start
 #' @importFrom bit clone is.sorted keyorder keysort keysortorder mergeorder
-#'   mergesort mergesortorder na.count nties nunique nvalid quickorder
-#'   quicksort quicksortorder radixorder radixsort radixsortorder ramorder
-#'   ramsort ramsortorder repeat.time setattr shellorder shellsort
-#'   shellsortorder still.identical
+#' @importFrom bit mergesort mergesortorder na.count nties nunique nvalid quickorder
+#' @importFrom bit quicksort quicksortorder radixorder radixsort radixsortorder ramorder
+#' @importFrom bit ramsort ramsortorder repeat.time setattr shellorder shellsort
+#' @importFrom bit shellsortorder still.identical
 #' @importFrom graphics barplot par title
 #' @importFrom methods as is
 #' @importFrom stats cor median quantile
 #' @importFrom utils head packageDescription strOptions tail getS3method
 #' @export : %in% is.double match order print.cache rank
-# TODO(>=4.8.0): un-export these
-#' @export [<-.integer64 abs.integer64 all.integer64 any.integer64
-#' @export as.character.integer64 as.data.frame.integer64 as.double.integer64
-#' @export as.integer.integer64 as.integer64.character as.integer64.double
-#' @export as.integer64.integer as.integer64.logical c.integer64
-#' @export format.integer64 is.na.integer64 log.integer64 max.integer64
-#' @export min.integer64 print.integer64 rank.integer64 rep.integer64
-#' @export seq.integer64 str.integer64 sum.integer64 unique.integer64
 ## usethis namespace: end
 NULL

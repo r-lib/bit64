@@ -88,8 +88,8 @@ found to be outdated
 \code{\link[bit:still.identical]{bit::still.identical()}} for testing whether to symbols point to the same RAM.
 
 Functions that get and set small cache-content automatically when a cache is present:
-\code{\link[bit:Metadata]{bit::na.count()}}, \code{\link[bit:Metadata]{bit::nvalid()}}, \code{\link[bit:Metadata]{bit::is.sorted()}}, \code{\link[bit:Metadata]{bit::nunique()}} and
-\code{\link[bit:Metadata]{bit::nties()}}
+\code{\link[bit:na.count]{bit::na.count()}}, \code{\link[bit:nvalid]{bit::nvalid()}}, \code{\link[bit:is.sorted]{bit::is.sorted()}}, \code{\link[bit:nunique]{bit::nunique()}} and
+\code{\link[bit:nties]{bit::nties()}}
 
 Setting big caches with a relevant memory footprint requires a conscious decision
 of the user: \code{\link{hashcache}}, \code{\link{sortcache}}, \code{\link{ordercache}}, \code{\link{sortordercache}}

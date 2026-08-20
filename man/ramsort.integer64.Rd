@@ -167,7 +167,7 @@ methods do sorting and ordering at once, which requires more RAM
 than ordering but is (almost) as fast as as sorting.
 }
 \details{
-See \code{\link[bit:Sorting]{bit::ramsort()}}
+See \code{\link[bit:ramsort]{bit::ramsort()}}
 }
 \note{
 Note that these methods purposely violate the functional programming
@@ -199,7 +199,7 @@ change \code{i}, and the \code{sortoder}-methods change both \code{x} and \code{
   o
 }
 \seealso{
-\code{\link[bit:Sorting]{bit::ramsort()}} for the generic, \code{ramsort.default} for the methods
+\code{\link[bit:ramsort]{bit::ramsort()}} for the generic, \code{ramsort.default} for the methods
 provided by package ff, \code{\link[=sort.integer64]{sort.integer64()}} for the sort interface and
 \code{\link[=sortcache]{sortcache()}} for caching the work of sorting
 }

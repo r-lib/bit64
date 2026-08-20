@@ -1,6 +1,6 @@
 Package: bit64
 Title: A S3 Class for Vectors of 64bit Integers
-Version: 4.7.99
+Version: 4.8.99
 Authors@R: c(
     person("Michael", "Chirico", email="michaelchirico4@gmail.com", role=c("aut", "cre")),
     person("Jens", "Oehlschlägel", role="aut"),
@@ -8,7 +8,7 @@ Authors@R: c(
     person("Ofek", "Shilon", role="ctb"),
     person("Christian", "Ullerich", role="ctb")
   )
-Depends: R (>= 3.5.0)
+Depends: R (>= 3.6.0)
 Description:
   Package 'bit64' provides serializable S3 atomic 64bit (signed) integers.
   These are useful for handling database keys and exact counting in +-2^63.
@@ -33,5 +33,5 @@ Suggests:
 Config/testthat/edition: 3
 Config/Needs/development: patrick, testthat
 Config/Needs/website: tidyverse/tidytemplate
-RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.0.0

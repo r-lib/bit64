@@ -2,19 +2,19 @@ with_parameters_test_that(
   "matrix() wrapper works for {type}",
   {
     M = matrix(x)
-  
+
     expect_true(is.matrix(M))
     if (type == "integer64") expect_s3_class(M, "integer64")
     expect_identical(M[seq_along(x)], x)
-    expect_identical(dim(M), c(10L, 1L))
+    expect_shape(M, dim=c(10L, 1L))
     expect_identical(matrix(x, byrow=TRUE)[seq_along(x)], x)
-    expect_identical(dim(matrix(x, byrow=TRUE)), c(10L, 1L))
-  
-    expect_identical(matrix(x, nrow=2)[seq_along(x)], x)
-    expect_identical(dim(matrix(x, nrow=2)), c(2L, 5L))
-    expect_identical(matrix(x, nrow=2, byrow=TRUE)[seq_along(x)], x[c(1,6, 2,7, 3,8, 4,9, 5,10)])
-    expect_identical(dim(matrix(x, nrow=2, byrow=TRUE)), c(2L, 5L))
-  
+    expect_shape(matrix(x, byrow=TRUE), dim=c(10L, 1L))
+
+    expect_identical(matrix(x, nrow=2L)[seq_along(x)], x)
+    expect_shape(matrix(x, nrow=2L), dim=c(2L, 5L))
+    expect_identical(matrix(x, nrow=2L, byrow=TRUE)[seq_along(x)], x[c(1L, 6L, 2L, 7L, 3L, 8L, 4L, 9L, 5L, 10L)])
+    expect_shape(matrix(x, nrow=2L, byrow=TRUE), dim=c(2L, 5L))
+
     if (type == "integer64") {
       missing = NA_integer64_
       empty = integer64()
@@ -23,55 +23,61 @@ with_parameters_test_that(
       empty = integer()
     }
 
-    expect_identical(matrix(missing, nrow=2, ncol=1)[1:2], c(missing, missing))
-    expect_identical(dim(matrix(missing, nrow=2, ncol=1)), c(2L, 1L))
-    expect_identical(matrix(empty, nrow=2, ncol=1)[1:2], c(missing, missing))
-    expect_identical(dim(matrix(empty, nrow=2, ncol=1)), c(2L, 1L))
-  
+    expect_identical(matrix(missing, nrow=2L, ncol=1L)[1:2], c(missing, missing))
+    expect_shape(matrix(missing, nrow=2L, ncol=1L), dim=c(2L, 1L))
+    expect_identical(matrix(empty, nrow=2L, ncol=1L)[1:2], c(missing, missing))
+    expect_shape(matrix(empty, nrow=2L, ncol=1L), dim=c(2L, 1L))
+
     expect_identical(
-      dimnames(matrix(x, 2, dimnames=list(NULL, letters[1:5]))),
+      dimnames(matrix(x, 2L, dimnames=list(NULL, letters[1:5]))),
       list(NULL, letters[1:5])
     )
     expect_identical(
-      dimnames(matrix(x, 2, dimnames=list(LETTERS[1:2]))),
+      dimnames(matrix(x, 2L, dimnames=list(LETTERS[1:2]))),
       list(LETTERS[1:2], NULL)
     )
     expect_identical(
-      dimnames(matrix(x, 2, dimnames=list(LETTERS[1:2], letters[1:5]))),
+      dimnames(matrix(x, 2L, dimnames=list(LETTERS[1:2], letters[1:5]))),
       list(LETTERS[1:2], letters[1:5])
     )
 
     warning_stub = "data length [10] is not a sub-multiple or multiple of the number of"
     expect_warning(
-      expect_identical(matrix(x, nrow=2, ncol=6)[seq_len(2*6)], c(x, x[1:2])),
+      expect_identical(matrix(x, nrow=2L, ncol=6L)[seq_len(2L*6L)], c(x, x[1:2])),
       paste(warning_stub, "columns [6]"), fixed=TRUE
     )
     expect_warning(
-      expect_identical(dim(matrix(x, nrow=2, ncol=6)), c(2L, 6L)),
+      # nolint next: expect_shape_linter. https://github.com/r-lib/testthat/issues/2345.
+      expect_identical(dim(matrix(x, nrow=2L, ncol=6L)), c(2L, 6L)),
       paste(warning_stub, "columns [6]"), fixed=TRUE
     )
     expect_warning(
-      expect_identical(matrix(x, nrow=2, ncol=3)[seq_len(2*3)], x[seq_len(2*3)]),
+      expect_identical(matrix(x, nrow=2L, ncol=3L)[seq_len(2L*3L)], x[seq_len(2L*3L)]),
       paste(warning_stub, "columns [3]"), fixed=TRUE
     )
     expect_warning(
-      expect_identical(dim(matrix(x, nrow=2, ncol=3)), c(2L, 3L)),
+      # nolint next: expect_shape_linter. https://github.com/r-lib/testthat/issues/2345.
+      expect_identical(dim(matrix(x, nrow=2L, ncol=3L)), c(2L, 3L)),
       paste(warning_stub, "columns [3]"), fixed=TRUE
     )
     expect_warning(
-      expect_identical(matrix(x, nrow=3, ncol=2)[seq_len(3*2)], x[seq_len(3*2)]),
+      expect_identical(matrix(x, nrow=3L, ncol=2L)[seq_len(3L*2L)], x[seq_len(3L*2L)]),
       paste(warning_stub, "rows [3]"), fixed=TRUE
     )
     expect_error(
-      matrix(x, nrow=-1),
+      matrix(x, nrow=-1L),
       "invalid 'nrow' value", fixed=TRUE
     )
     expect_error(
-      matrix(x, ncol=-1),
+      matrix(x, ncol=-1L),
       "invalid 'ncol' value", fixed=TRUE
     )
   },
-  .cases=data.frame(x=I(list(1:10, as.integer64(1:10))), type=c("integer", "integer64"))
+  .cases=data.frame(
+    x=I(list(1:10, as.integer64(1:10))),
+    type=c("integer", "integer64"),
+    stringsAsFactors=FALSE
+  )
 )
 
 with_parameters_test_that(
@@ -81,14 +87,14 @@ with_parameters_test_that(
 
     expect_true(is.array(A))
     if (type == "integer64") expect_s3_class(A, "integer64")
-    expect_identical(A[seq_along(x)], structure(x, dim = length(x)))
-    expect_identical(dim(A), c(10L))
-    expect_identical(array(x, c(2,5))[seq_along(x)], x)
-    expect_identical(dim(array(x, c(2,5))), c(2L,5L))
+    expect_identical(A[seq_along(x)], array(x, length(x)))
+    expect_shape(A, dim=10L)
+    expect_identical(array(x, c(2L, 5L))[seq_along(x)], x)
+    expect_shape(array(x, c(2L, 5L)), dim=c(2L, 5L))
     # TODO(R>=4.0.0): use rep_len(x, 1*2*3) over the ugly versions with seq_len()
-    expect_identical(array(x, c(1,2,3))[seq_len(1*2*3)], x[seq_len(1*2*3)])
-    expect_identical(dim(array(x, c(1,2,3))), c(1L,2L,3L))
-    expect_identical(array(x, c(3,2,3))[seq_len(3*2*3)], x[(seq_len(3*2*3)-1L) %% length(x) + 1L])
+    expect_identical(array(x, c(1L, 2L, 3L))[seq_len(1L*2L*3L)], x[seq_len(1L*2L*3L)])
+    expect_shape(array(x, c(1L, 2L, 3L)), dim=c(1L, 2L, 3L))
+    expect_identical(array(x, c(3L, 2L, 3L))[seq_len(3L*2L*3L)], x[(seq_len(3L*2L*3L)-1L) %% length(x) + 1L])
 
     if (type == "integer64") {
       missing = NA_integer64_
@@ -98,34 +104,38 @@ with_parameters_test_that(
       empty = integer()
     }
 
-    expect_identical(array(missing, c(2,1))[1:2], c(missing, missing))
-    expect_identical(array(empty, c(2,1))[1:2], c(missing, missing))
+    expect_identical(array(missing, c(2L, 1L))[1:2], c(missing, missing))
+    expect_identical(array(empty, c(2L, 1L))[1:2], c(missing, missing))
 
     expect_identical(
-      dimnames(array(x, c(2,5), dimnames=list(NULL, letters[1:5]))),
+      dimnames(array(x, c(2L, 5L), dimnames=list(NULL, letters[1:5]))),
       list(NULL, letters[1:5])
     )
     expect_identical(
-      dimnames(array(x, c(2,5), dimnames=list(LETTERS[1:2]))),
+      dimnames(array(x, c(2L, 5L), dimnames=list(LETTERS[1:2]))),
       list(LETTERS[1:2], NULL)
     )
     expect_identical(
-      dimnames(array(x, c(2,5), dimnames=list(LETTERS[1:2], letters[1:5]))),
+      dimnames(array(x, c(2L, 5L), dimnames=list(LETTERS[1:2], letters[1:5]))),
       list(LETTERS[1:2], letters[1:5])
     )
-  
+
     expect_error(
-      array(x, dim=NULL), 
+      array(x, dim=NULL),
       "'dims?' cannot be of length 0"
     )
     expect_error(
-      array(x, dim=-1),
-      "negative length vectors are not allowed"
+      array(x, dim=-1L),
+      "negative length vectors are not allowed|dims contain negative values"
     )
 
-    expect_identical(array(x, dim=0),  structure(empty, dim = 0L))
+    expect_identical(array(x, dim=0L),  array(empty, dim = 0L))
   },
-  .cases=data.frame(x=I(list(1:10, as.integer64(1:10))), type=c("integer", "integer64"))
+  .cases=data.frame(
+    x=I(list(1:10, as.integer64(1:10))),
+    type=c("integer", "integer64"),
+    stringsAsFactors=FALSE
+  )
 )
 
 test_that("colSums and rowSums work on simple integer64 input", {
@@ -153,6 +163,16 @@ test_that("colSums and rowSums work on simple integer64 input", {
   expect_error(
     colSums(A64, dims=4L),
     "invalid 'dims'",
+    fixed = TRUE
+  )
+  expect_error(
+    rowSums(as.integer64(1:10)),
+    "'x' must be an array of at least two dimensions",
+    fixed = TRUE
+  )
+  expect_error(
+    colSums(as.integer64(1:10)),
+    "'x' must be an array of at least two dimensions",
     fixed = TRUE
   )
 })
@@ -193,22 +213,20 @@ test_that("out-of-integer-range inputs are handled correctly", {
 })
 
 test_that("dimnames with colSums and rowSums", {
-  M32 = matrix(1:(3*2), nrow=3L, ncol=2L, dimnames=list(LETTERS[1:3], letters[1:2]))
-  A32 = array(1:(2*5*3), dim=c(2, 5, 3), dimnames=list(LETTERS[1:2], letters[1:5], rev(LETTERS)[1:3]))
-  M64 = matrix(as.integer64(1:(3*2)), nrow=3L, ncol=2L, dimnames=list(LETTERS[1:3], letters[1:2]))
-  A64 = array(as.integer64(1:(2*5*3)), dim=c(2, 5, 3), dimnames=list(LETTERS[1:2], letters[1:5], rev(LETTERS)[1:3]))
+  M32 = matrix(1:(3L*2L), nrow=3L, ncol=2L, dimnames=list(LETTERS[1:3], letters[1:2]))
+  A32 = array(1:(2L*5L*3L), dim=c(2L, 5L, 3L), dimnames=list(LETTERS[1:2], letters[1:5], rev(LETTERS)[1:3]))
+  M64 = matrix(as.integer64(1:(3L*2L)), nrow=3L, ncol=2L, dimnames=list(LETTERS[1:3], letters[1:2]))
+  A64 = array(
+    as.integer64(1:(2L*5L*3L)),
+    dim = c(2L, 5L, 3L),
+    dimnames = list(LETTERS[1:2], letters[1:5], rev(LETTERS)[1:3])
+  )
 
-  expect_identical(names(colSums(M32)), names(colSums(M64)))
   expect_identical(dimnames(colSums(M32)), dimnames(colSums(M64)))
-  expect_identical(names(colSums(A32)), names(colSums(A64)))
   expect_identical(dimnames(colSums(A32)), dimnames(colSums(A64)))
-  expect_identical(names(colSums(A32, dims=2L)), names(colSums(A64, dims=2L)))
   expect_identical(dimnames(colSums(A32, dims=2L)), dimnames(colSums(A64, dims=2L)))
-  expect_identical(names(rowSums(M32)), names(rowSums(M64)))
   expect_identical(dimnames(rowSums(M32)), dimnames(rowSums(M64)))
-  expect_identical(names(rowSums(A32)), names(rowSums(A64)))
   expect_identical(dimnames(rowSums(A32)), dimnames(rowSums(A64)))
-  expect_identical(names(rowSums(A32, dims=2L)), names(rowSums(A64, dims=2L)))
   expect_identical(dimnames(rowSums(A32, dims=2L)), dimnames(rowSums(A64, dims=2L)))
 })
 
@@ -224,7 +242,7 @@ test_that("aperm works in simple cases", {
 
 test_that("matrix multiplication", {
   skip_unless_r(">= 4.0.0") # it does not work with ubuntu-latest (3.6), because a double vector is returned
-  m32 = matrix(1:10, 2)
+  m32 = matrix(1:10, 2L)
   m64 = matrix(as.integer64(m32), nrow(m32))
   mDo = matrix(as.numeric(m32), nrow(m32))
   mCo = matrix(as.complex(m32), nrow(m32))
@@ -233,11 +251,11 @@ test_that("matrix multiplication", {
   expect_identical(m64%*%t(m64), matrix(as.integer64(m32%*%t(m32)), nrow=nrow(m32)))
   expect_identical(t(m64)%*%m64, matrix(as.integer64(t(m32)%*%m32), ncol=ncol(m32)))
   expect_identical((1:2)%*%m64, matrix(as.integer64((1:2)%*%m32), ncol=ncol(m32)))
-  expect_identical(m64%*%(1:5), matrix(as.integer64(m32%*%(1:5)), nrow=nrow(m32)))
+  expect_identical(m64 %*% (1:5), matrix(as.integer64(m32 %*% (1:5)), nrow=nrow(m32)))
   expect_error((1:2)%*%3L, "non-conformable arguments")
   expect_error(as.integer64(1:2)%*%as.integer64(3L), "non-conformable arguments")
-  expect_identical(as.integer64(1L)%*%(3:4), matrix(as.integer64(3:4), nrow=1L))
-  expect_identical(as.integer64(1:2)%*%(3:4), matrix(as.integer64(11L), nrow=1L))
+  expect_identical(as.integer64(1L) %*% (3:4), matrix(as.integer64(3:4), nrow=1L))
+  expect_identical(as.integer64(1:2) %*% (3:4), matrix(as.integer64(11L), nrow=1L))
 
   expect_identical(m64%*%t(m32), matrix(as.integer64(m32%*%t(m32)), nrow=nrow(m32)))
   expect_identical(m32%*%t(m64), matrix(as.integer64(m32%*%t(m32)), nrow=nrow(m32)))
@@ -246,29 +264,74 @@ test_that("matrix multiplication", {
   expect_identical(m64%*%t(mCo), matrix(as.complex(m32%*%t(m32)), nrow=nrow(m32)))
   expect_identical(mCo%*%t(m64), matrix(as.complex(m32%*%t(m32)), nrow=nrow(m32)))
 
-  expect_error(m64%*%LETTERS[1:5], "non-numeric argument to binary operator", fixed=TRUE)
+  expect_same_error(m64 %*% LETTERS[1:5], m32 %*% LETTERS[1:5])
+  expect_same_error(m64 %*% as.factor(LETTERS[1:5]), m32 %*% as.factor(LETTERS[1:5]))
   expect_error(m64%*%as.raw(1:5), "non-numeric argument to binary operator", fixed=TRUE)
-  
+
   # warning in multiplication part
   x = as.integer64("4000000000") # x**2 > 2^63
-  expect_warning(expect_identical(matrix(x, 1)%*%matrix(x, ncol=1), matrix(NA_integer64_, 1, 1)), "NAs produced by integer64 overflow")
-  
+  expect_warning(
+    expect_identical(matrix(x, 1L)%*%matrix(x, ncol=1L), matrix(NA_integer64_, 1L, 1L)),
+    "NAs produced by integer64 overflow"
+  )
+  expect_warning(
+    expect_identical(matrix(4e9, 1L, 1L)%*%matrix(x, ncol=1L), matrix(NA_integer64_, 1L, 1L)),
+    "NAs produced by integer64 overflow"
+  )
+  expect_warning(
+    expect_identical(matrix(x, 1L)%*%matrix(4e9, ncol=1L), matrix(NA_integer64_, 1L, 1L)),
+    "NAs produced by integer64 overflow"
+  )
+
   # warning in summation part
-  x = rep_len(as.integer64("3000000000"), 2) # x**2 < 2^63, but 2 * x**2 > 2^63
-  expect_warning(expect_identical(matrix(x, 1)%*%matrix(x, ncol=1), matrix(NA_integer64_, 1, 1)), "NAs produced by integer64 overflow")
-  
+  x = rep_len(as.integer64("3000000000"), 2L) # x**2 < 2^63, but 2 * x**2 > 2^63
+  expect_warning(
+    expect_identical(matrix(x, 1L)%*%matrix(x, ncol=1L), matrix(NA_integer64_, 1L, 1L)),
+    "NAs produced by integer64 overflow"
+  )
+  expect_warning(
+    expect_identical(matrix(c(3e9, 3e9), 1L, 2L)%*%matrix(x, ncol=1L), matrix(NA_integer64_, 1L, 1L)),
+    "NAs produced by integer64 overflow"
+  )
+  expect_warning(
+    expect_identical(matrix(x, 1L)%*%matrix(c(3e9, 3e9), ncol=1L), matrix(NA_integer64_, 1L, 1L)),
+    "NAs produced by integer64 overflow"
+  )
+
+  # NA propagation in matrix multiplication
+  m_na64 = matrix(c(as.integer64(1L), NA_integer64_), 1L, 2L)
+  m_val64 = matrix(as.integer64(c(1L, 1L)), 2L, 1L)
+  m_na_dbl = matrix(c(1.0, NA_real_), 1L, 2L)
+  m_val_dbl = matrix(c(1.0, 1.0), 2L, 1L)
+
+  expect_no_warning(expect_identical(m_na64 %*% m_val64, matrix(NA_integer64_, 1L, 1L)))
+  expect_no_warning(expect_identical(m_na_dbl %*% m_val64, matrix(NA_integer64_, 1L, 1L)))
+  expect_no_warning(expect_identical(m_na64 %*% m_val_dbl, matrix(NA_integer64_, 1L, 1L)))
+  expect_no_warning(
+    expect_identical(t(m_val_dbl) %*% matrix(c(as.integer64(1L), NA_integer64_), 2L, 1L), matrix(NA_integer64_, 1L, 1L))
+  )
+  expect_no_warning(expect_identical(t(m_val64) %*% matrix(c(1.0, NA_real_), 2L, 1L), matrix(NA_integer64_, 1L, 1L)))
+
 })
 
 
 test_that("coercion to matrix and array", {
-  
+
   i32 = 1:10
   i64 = as.integer64(i32)
   m64 = matrix(as.integer64(i32), 2L)
 
-  expect_identical(as.matrix(i64), structure(i64, dim = c(length(i64), 1L)), ignore_attr=if (getRversion() < "4.0.0") "class" else FALSE)
+  expect_identical(
+    as.matrix(i64),
+    matrix(i64, length(i64), 1L),
+    ignore_attr = if (getRversion() < "4.0.0") "class" else FALSE
+  )
   expect_identical(as.matrix(m64), m64)
 
-  expect_identical(as.array(i64), structure(i64, dim = c(length(i64))), ignore_attr=if (getRversion() < "4.0.0") "class" else FALSE)
+  expect_identical(
+    as.array(i64),
+    array(i64, dim = c(length(i64))),
+    ignore_attr = if (getRversion() < "4.0.0") "class" else FALSE
+  )
   expect_identical(as.array(m64), m64)
 })

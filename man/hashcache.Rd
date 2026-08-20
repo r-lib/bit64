@@ -44,8 +44,8 @@ and previously cached results.
 Functions to create cache that accelerates many operations
 }
 \details{
-The result of relative expensive operations \code{\link[=hashmap]{hashmap()}}, \code{\link[bit:Sorting]{bit::ramsort()}},
-\code{\link[bit:Sorting]{bit::ramsortorder()}}, and \code{\link[bit:Sorting]{bit::ramorder()}} can be stored in a cache in
+The result of relative expensive operations \code{\link[=hashmap]{hashmap()}}, \code{\link[bit:ramsort]{bit::ramsort()}},
+\code{\link[bit:ramsortorder]{bit::ramsortorder()}}, and \code{\link[bit:ramorder]{bit::ramorder()}} can be stored in a cache in
 order to avoid multiple excutions. Unless in very specific situations, the
 recommended method is \code{hashsortorder} only.
 }

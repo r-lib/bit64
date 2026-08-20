@@ -12,18 +12,18 @@
 #define INTEGER64_BSEARCH_ASC_DOWN(data, l, r, value) \
 { \
 IndexT m; \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (LESS(data[m], value)) \
       l = m + 1; \
     else \
       r = m; \
   } \
-}
+  }
 #define INTEGER64_BSEARCH_ASC_UP(data, l, r, value) \
 { \
 IndexT m; \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (LESS(value, data[m])) \
       r = m; \
@@ -35,18 +35,18 @@ IndexT m; \
 #define INTEGER64_LSEARCH_ASC_DOWN(data, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = l - 1 + d; \
      m = l + ((r - l) / 2); \
-     if (g<m){ \
-       if (LESS(data[g], value)){ \
+     if (g<m) { \
+       if (LESS(data[g], value)) { \
          l = g + 1; \
          d *= 2; \
-       }else{ \
+       } else{ \
          r = g; \
          break; \
        } \
-     }else{ \
+     } else{ \
        if (LESS(data[m], value)) \
          l = m + 1; \
        else \
@@ -54,29 +54,29 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (LESS(data[m], value)) \
       l = m + 1; \
     else \
       r = m; \
   } \
-}
+      }
 #define INTEGER64_LSEARCH_ASC_UP(data, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = l - 1 + d; \
      m = l + ((r - l) / 2); \
-     if (g<m){ \
-       if (LESS(value, data[g])){ \
+     if (g<m) { \
+       if (LESS(value, data[g])) { \
          r = g; \
          break; \
-       }else{ \
+       } else{ \
          l = g + 1; \
          d *= 2; \
        } \
-     }else{ \
+     } else{ \
        if (LESS(value, data[m])) \
          r = m; \
        else \
@@ -84,7 +84,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (LESS(value, data[m])) \
       r = m; \
@@ -97,18 +97,18 @@ IndexT m; \
 #define INTEGER64_RSEARCH_ASC_DOWN(data, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = r - d; \
      m = l + ((r - l) / 2); \
-     if (g>m){ \
-       if (LESS(data[g], value)){ \
+     if (g>m) { \
+       if (LESS(data[g], value)) { \
          l = g + 1; \
          break; \
-       }else{ \
+       } else{ \
          r = g; \
          d *= 2; \
        } \
-     }else{ \
+     } else{ \
        if (LESS(data[m], value)) \
          l = m + 1; \
        else \
@@ -116,29 +116,29 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (LESS(data[m], value)) \
       l = m + 1; \
     else \
       r = m; \
   } \
-}
+  }
 #define INTEGER64_RSEARCH_ASC_UP(data, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = r - d; \
      m = l + ((r - l) / 2); \
-     if (g>m){ \
-       if (LESS(value, data[g])){ \
+     if (g>m) { \
+       if (LESS(value, data[g])) { \
          r = g; \
          d *= 2; \
-       }else{ \
+       } else{ \
          l = g + 1; \
          break; \
        } \
-     }else{ \
+     } else{ \
        if (LESS(value, data[m])) \
          r = m; \
        else \
@@ -146,7 +146,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (LESS(value, data[m])) \
       r = m; \
@@ -160,18 +160,18 @@ IndexT m; \
 #define INTEGER64_BSEARCH_DESC_DOWN(data, l, r, value) \
 { \
 IndexT m; \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (GREATER(data[m], value)) \
       l = m + 1; \
     else \
       r = m; \
   } \
-}
+      }
 #define INTEGER64_BSEARCH_DESC_UP(data, l, r, value) \
 { \
 IndexT m; \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (GREATER(value, data[m])) \
       r = m; \
@@ -183,18 +183,18 @@ IndexT m; \
 #define INTEGER64_LSEARCH_DESC_DOWN(data, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = l - 1 + d; \
      m = l + ((r - l) / 2); \
-     if (g<m){ \
-       if (GREATER(data[g], value)){ \
+     if (g<m) { \
+       if (GREATER(data[g], value)) { \
          l = g + 1; \
          d *= 2; \
-       }else{ \
+       } else{ \
          r = g; \
          break; \
        } \
-     }else{ \
+     } else{ \
        if (GREATER(data[m], value)) \
          l = m + 1; \
        else \
@@ -202,7 +202,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (GREATER(data[m], value)) \
       l = m + 1; \
@@ -213,18 +213,18 @@ IndexT m; \
 #define INTEGER64_LSEARCH_DESC_UP(data, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = l - 1 + d; \
      m = l + ((r - l) / 2); \
-     if (g<m){ \
-       if (GREATER(value, data[g])){ \
+     if (g<m) { \
+       if (GREATER(value, data[g])) { \
          r = g; \
          break; \
-       }else{ \
+       } else{ \
          l = g + 1; \
          d *= 2; \
        } \
-     }else{ \
+     } else{ \
        if (GREATER(value, data[m])) \
          r = m; \
        else \
@@ -232,7 +232,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (GREATER(value, data[m])) \
       r = m; \
@@ -245,18 +245,18 @@ IndexT m; \
 #define INTEGER64_RSEARCH_DESC_DOWN(data, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = r - d; \
      m = l + ((r - l) / 2); \
-     if (g>m){ \
-       if (GREATER(data[g], value)){ \
+     if (g>m) { \
+       if (GREATER(data[g], value)) { \
          l = g + 1; \
          break; \
-       }else{ \
+       } else{ \
          r = g; \
          d *= 2; \
        } \
-     }else{ \
+     } else{ \
        if (GREATER(data[m], value)) \
          l = m + 1; \
        else \
@@ -264,7 +264,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (GREATER(data[m], value)) \
       l = m + 1; \
@@ -275,18 +275,18 @@ IndexT m; \
 #define INTEGER64_RSEARCH_DESC_UP(data, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = r - d; \
      m = l + ((r - l) / 2); \
-     if (g>m){ \
-       if (GREATER(value, data[g])){ \
+     if (g>m) { \
+       if (GREATER(value, data[g])) { \
          r = g; \
          d *= 2; \
-       }else{ \
+       } else{ \
          l = g + 1; \
          break; \
        } \
-     }else{ \
+     } else{ \
        if (GREATER(value, data[m])) \
          r = m; \
        else \
@@ -294,7 +294,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (GREATER(value, data[m])) \
       r = m; \
@@ -631,7 +631,7 @@ IndexT integer64_rsearch_desc_LT(ValueT *data, IndexT l, IndexT r, ValueT value)
 #define INTEGER64_BOSEARCH_ASC_DOWN(data, index, l, r, value) \
 { \
 IndexT m; \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (LESS(data[index[m]], value)) \
       l = m + 1; \
@@ -642,7 +642,7 @@ IndexT m; \
 #define INTEGER64_BOSEARCH_ASC_UP(data, index, l, r, value) \
 { \
 IndexT m; \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (LESS(value, data[index[m]])) \
       r = m; \
@@ -654,18 +654,18 @@ IndexT m; \
 #define INTEGER64_LOSEARCH_ASC_DOWN(data, index, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = l - 1 + d; \
      m = l + ((r - l) / 2); \
-     if (g<m){ \
-       if (LESS(data[index[g]], value)){ \
+     if (g<m) { \
+       if (LESS(data[index[g]], value)) { \
          l = g + 1; \
          d *= 2; \
-       }else{ \
+       } else{ \
          r = g; \
          break; \
        } \
-     }else{ \
+     } else{ \
        if (LESS(data[index[m]], value)) \
          l = m + 1; \
        else \
@@ -673,7 +673,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (LESS(data[index[m]], value)) \
       l = m + 1; \
@@ -684,18 +684,18 @@ IndexT m; \
 #define INTEGER64_LOSEARCH_ASC_UP(data, index, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = l - 1 + d; \
      m = l + ((r - l) / 2); \
-     if (g<m){ \
-       if (LESS(value, data[index[g]])){ \
+     if (g<m) { \
+       if (LESS(value, data[index[g]])) { \
          r = g; \
          break; \
-       }else{ \
+       } else{ \
          l = g + 1; \
          d *= 2; \
        } \
-     }else{ \
+     } else{ \
        if (LESS(value, data[index[m]])) \
          r = m; \
        else \
@@ -703,7 +703,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (LESS(value, data[index[m]])) \
       r = m; \
@@ -716,18 +716,18 @@ IndexT m; \
 #define INTEGER64_ROSEARCH_ASC_DOWN(data, index, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = r - d; \
      m = l + ((r - l) / 2); \
-     if (g>m){ \
-       if (LESS(data[index[g]], value)){ \
+     if (g>m) { \
+       if (LESS(data[index[g]], value)) { \
          l = g + 1; \
          break; \
-       }else{ \
+       } else{ \
          r = g; \
          d *= 2; \
        } \
-     }else{ \
+     } else{ \
        if (LESS(data[index[m]], value)) \
          l = m + 1; \
        else \
@@ -735,7 +735,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (LESS(data[index[m]], value)) \
       l = m + 1; \
@@ -746,18 +746,18 @@ IndexT m; \
 #define INTEGER64_ROSEARCH_ASC_UP(data, index, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = r - d; \
      m = l + ((r - l) / 2); \
-     if (g>m){ \
-       if (LESS(value, data[index[g]])){ \
+     if (g>m) { \
+       if (LESS(value, data[index[g]])) { \
          r = g; \
          d *= 2; \
-       }else{ \
+       } else{ \
          l = g + 1; \
          break; \
        } \
-     }else{ \
+     } else{ \
        if (LESS(value, data[index[m]])) \
          r = m; \
        else \
@@ -765,7 +765,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (LESS(value, data[index[m]])) \
       r = m; \
@@ -779,7 +779,7 @@ IndexT m; \
 #define INTEGER64_BOSEARCH_DESC_DOWN(data, index, l, r, value) \
 { \
 IndexT m; \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (GREATER(data[index[m]], value)) \
       l = m + 1; \
@@ -790,7 +790,7 @@ IndexT m; \
 #define INTEGER64_BOSEARCH_DESC_UP(data, index, l, r, value) \
 { \
 IndexT m; \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (GREATER(value, data[index[m]])) \
       r = m; \
@@ -802,18 +802,18 @@ IndexT m; \
 #define INTEGER64_LOSEARCH_DESC_DOWN(data, index, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = l - 1 + d; \
      m = l + ((r - l) / 2); \
-     if (g<m){ \
-       if (GREATER(data[index[g]], value)){ \
+     if (g<m) { \
+       if (GREATER(data[index[g]], value)) { \
          l = g + 1; \
          d *= 2; \
-       }else{ \
+       } else{ \
          r = g; \
          break; \
        } \
-     }else{ \
+     } else{ \
        if (GREATER(data[index[m]], value)) \
          l = m + 1; \
        else \
@@ -821,7 +821,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (GREATER(data[index[m]], value)) \
       l = m + 1; \
@@ -832,18 +832,18 @@ IndexT m; \
 #define INTEGER64_LOSEARCH_DESC_UP(data, index, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = l - 1 + d; \
      m = l + ((r - l) / 2); \
-     if (g<m){ \
-       if (GREATER(value, data[index[g]])){ \
+     if (g<m) { \
+       if (GREATER(value, data[index[g]])) { \
          r = g; \
          break; \
-       }else{ \
+       } else{ \
          l = g + 1; \
          d *= 2; \
        } \
-     }else{ \
+     } else{ \
        if (GREATER(value, data[index[m]])) \
          r = m; \
        else \
@@ -851,7 +851,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (GREATER(value, data[index[m]])) \
       r = m; \
@@ -864,18 +864,18 @@ IndexT m; \
 #define INTEGER64_ROSEARCH_DESC_DOWN(data, index, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = r - d; \
      m = l + ((r - l) / 2); \
-     if (g>m){ \
-       if (GREATER(data[index[g]], value)){ \
+     if (g>m) { \
+       if (GREATER(data[index[g]], value)) { \
          l = g + 1; \
          break; \
-       }else{ \
+       } else{ \
          r = g; \
          d *= 2; \
        } \
-     }else{ \
+     } else{ \
        if (GREATER(data[index[m]], value)) \
          l = m + 1; \
        else \
@@ -883,7 +883,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (GREATER(data[index[m]], value)) \
       l = m + 1; \
@@ -894,18 +894,18 @@ IndexT m; \
 #define INTEGER64_ROSEARCH_DESC_UP(data, index, l, r, value) \
 { \
   IndexT m,g,d=1; \
-  while (l<r){ \
+  while (l < r) { \
      g = r - d; \
      m = l + ((r - l) / 2); \
-     if (g>m){ \
-       if (GREATER(value, data[index[g]])){ \
+     if (g>m) { \
+       if (GREATER(value, data[index[g]])) { \
          r = g; \
          d *= 2; \
-       }else{ \
+       } else{ \
          l = g + 1; \
          break; \
        } \
-     }else{ \
+     } else{ \
        if (GREATER(value, data[index[m]])) \
          r = m; \
        else \
@@ -913,7 +913,7 @@ IndexT m; \
        break; \
      } \
   } \
-  while (l<r){ \
+  while (l < r) { \
     m = l + ((r - l) / 2); \
     if (GREATER(value, data[index[m]])) \
       r = m; \

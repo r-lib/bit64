@@ -15,7 +15,6 @@
 \alias{as.POSIXlt.integer64}
 \alias{as.factor}
 \alias{as.ordered}
-\alias{print.bitstring}
 \alias{as.list.integer64}
 \title{Coerce from integer64}
 \usage{
@@ -46,8 +45,6 @@ as.bitstring(x, ...)
 as.factor(x)
 
 as.ordered(x)
-
-\method{print}{bitstring}(x, ...)
 
 \method{as.list}{integer64}(x, ...)
 }

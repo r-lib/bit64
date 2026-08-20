@@ -2,7 +2,7 @@
 # C-Code
 # S3 atomic 64bit integers for R
 # (c) 2011-2024 Jens Oehlschägel
-# (c) 2025 Michael Chirico
+# (c) 2025-2026 Michael Chirico
 # Licence: GPL2
 # Provided 'as is', use at your own risk
 # Created: 2011-12-11
@@ -45,33 +45,33 @@ typedef union {
   long long LongLongRepr;
 } PunnedU32x2AndLongLong;
 
-SEXP as_integer64_double(SEXP x_, SEXP ret_){
+SEXP as_integer64_double(SEXP x_, SEXP ret_) {
   long long i, n = LENGTH(x_);
   long long * ret = (long long *) REAL(ret_);
   double * x = REAL(x_);
   double imin = (double) MIN_INTEGER64;
   double imax = (double) MAX_INTEGER64;
   Rboolean naflag = FALSE;
-  for (i=0; i<n; i++){
+  for (i = 0; i < n; i++) {
     if (ISNAN(x[i]))
       ret[i] = NA_INTEGER64;
     else{
-      if (x[i]<imin || x[i]>=imax){
+      if (x[i]<imin || x[i]>=imax) {
         ret[i] = NA_INTEGER64;
         naflag = TRUE;
-      }else
+      } else
         ret[i] = (long long) x[i];
     }
   }
-  if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+  if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
 
-SEXP as_integer64_integer(SEXP x_, SEXP ret_){
+SEXP as_integer64_integer(SEXP x_, SEXP ret_) {
   long long i, n = LENGTH(x_);
   long long * ret = (long long *) REAL(ret_);
   int * x = INTEGER(x_);
-  for (i=0; i<n; i++){
+  for (i = 0; i < n; i++) {
     if (x[i]==NA_INTEGER)
       ret[i] = NA_INTEGER64;
     else
@@ -80,15 +80,15 @@ SEXP as_integer64_integer(SEXP x_, SEXP ret_){
   return ret_;
 }
 
-SEXP as_double_integer64(SEXP x_, SEXP ret_){
+SEXP as_double_integer64(SEXP x_, SEXP ret_) {
   long long i, n = LENGTH(x_);
   long long * x = (long long *) REAL(x_);
   double * ret = REAL(ret_);
   double rmax = pow(FLT_RADIX, DBL_MANT_DIG) - 1;
   double rmin = -rmax;
   Rboolean naflag = FALSE;
-  for (i=0; i<n; i++){
-    if (x[i]==NA_INTEGER64)
+  for (i = 0; i < n; i++) {
+    if (x[i] == NA_INTEGER64)
       ret[i] = NA_REAL;
     else{
       if (x[i]<rmin || x[i]>rmax)
@@ -96,36 +96,36 @@ SEXP as_double_integer64(SEXP x_, SEXP ret_){
       ret[i] = (double) x[i];
     }
   }
-  if (naflag)warning(INTEGER64_TODOUBLE_WARNING);
+  if (naflag) warning(INTEGER64_TODOUBLE_WARNING);
   return ret_;
 }
 
-SEXP as_integer_integer64(SEXP x_, SEXP ret_){
+SEXP as_integer_integer64(SEXP x_, SEXP ret_) {
   long long i, n = LENGTH(x_);
   long long * x = (long long *) REAL(x_);
   int * ret = INTEGER(ret_);
   Rboolean naflag = FALSE;
-  for (i=0; i<n; i++){
-    if (x[i]==NA_INTEGER64)
+  for (i = 0; i < n; i++) {
+    if (x[i] == NA_INTEGER64)
       ret[i] = NA_INTEGER;
     else{
-      if (x[i]<MIN_INTEGER32 || x[i]>MAX_INTEGER32){
+      if (x[i]<MIN_INTEGER32 || x[i]>MAX_INTEGER32) {
         ret[i] = NA_INTEGER;
         naflag = TRUE;
-      }else
+      } else
         ret[i] = (int) x[i];
     }
   }
-  if (naflag)warning(INTEGER32_OVERFLOW_WARNING);
+  if (naflag) warning(INTEGER32_OVERFLOW_WARNING);
   return ret_;
 }
 
-SEXP as_logical_integer64(SEXP x_, SEXP ret_){
+SEXP as_logical_integer64(SEXP x_, SEXP ret_) {
   long long i, n = LENGTH(x_);
   long long * x = (long long *) REAL(x_);
   int * ret = INTEGER(ret_);
-  for (i=0; i<n; i++){
-    if (x[i]==NA_INTEGER64)
+  for (i = 0; i < n; i++) {
+    if (x[i] == NA_INTEGER64)
       ret[i] = NA_INTEGER;
     else{
       ret[i] = x[i]==0 ? 0: 1;
@@ -135,14 +135,14 @@ SEXP as_logical_integer64(SEXP x_, SEXP ret_){
 }
 
 
-SEXP as_character_integer64(SEXP x_, SEXP ret_){
+SEXP as_character_integer64(SEXP x_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * x = (long long *) REAL(x_);
   static char buff[NCHARS_DECS_INTEGER64];
-  for(i=0; i<n; i++){
-    if (x[i]==NA_INTEGER64){
+  for (i = 0; i < n; i++) {
+    if (x[i] == NA_INTEGER64) {
       SET_STRING_ELT(ret_, i, NA_STRING);
-    }else{
+    } else{
       snprintf(buff, NCHARS_DECS_INTEGER64, COERCE_INTEGER64, x[i]);
       SET_STRING_ELT(ret_, i, mkChar(buff));
     }
@@ -150,7 +150,7 @@ SEXP as_character_integer64(SEXP x_, SEXP ret_){
   return ret_;
 }
 
-SEXP as_integer64_character(SEXP x_, SEXP ret_){
+SEXP as_integer64_character(SEXP x_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * ret = (long long *) REAL(ret_);
   const char * str;
@@ -158,9 +158,9 @@ SEXP as_integer64_character(SEXP x_, SEXP ret_){
   char * endpointer;
   Rboolean naflag = FALSE;
   int base;
-  for(i=0; i<n; i++){
+  for (i = 0; i < n; i++) {
     x_el = STRING_ELT(x_, i);
-    if (x_el == NA_STRING){
+    if (x_el == NA_STRING) {
       ret[i] = NA_INTEGER64;
     } else {
       base = 10; // default
@@ -177,32 +177,32 @@ SEXP as_integer64_character(SEXP x_, SEXP ret_){
       while (isspace((unsigned char)*trailing_check)) {
         trailing_check++;
       }
-      if (errno==ERANGE || *trailing_check){
+      if (errno==ERANGE || *trailing_check) {
         ret[i] = NA_INTEGER64;
         naflag = TRUE;
-      } else if (str==endpointer){
+      } else if (str==endpointer) {
         ret[i] = NA_INTEGER64; // "" -> NA without warning
-      } else if(ret[i]==NA_INTEGER64){ // i.e., received exact string value of NA_INTEGER64 sentinel
+      } else if (ret[i] == NA_INTEGER64) { // i.e., received exact string value of NA_INTEGER64 sentinel
         naflag = TRUE;
       }
     }
   }
-  if (naflag)warning(INTEGER64_NA_COERCION_WARNING);
+  if (naflag) warning(INTEGER64_NA_COERCION_WARNING);
   return ret_;
 }
 
-SEXP as_bitstring_integer64(SEXP x_, SEXP ret_){
+SEXP as_bitstring_integer64(SEXP x_, SEXP ret_) {
   int i, n = LENGTH(ret_);
   long long * x = (long long *) REAL(x_);
   unsigned long long mask;
   long long v;
   static char buff[NCHARS_BITS_INTEGER64];
   char * str;
-  for(i=0; i<n; i++){
+  for (i = 0; i < n; i++) {
     v = x[i];
     str = buff;
     mask = LEFTBIT_INTEGER64;
-    while (mask){
+    while (mask) {
         if (v & mask)
               *str = '1';
           else
@@ -217,25 +217,27 @@ SEXP as_bitstring_integer64(SEXP x_, SEXP ret_){
   return ret_;
 }
 
-SEXP as_integer64_bitstring(SEXP x_, SEXP ret_){
+SEXP as_integer64_bitstring(SEXP x_, SEXP ret_) {
   Rboolean naflag = FALSE;
   int i, k, l, n = LENGTH(x_);
   long long * ret = (long long *) REAL(ret_);
   unsigned long long mask;
   long long v;
   const char * str;
-  for(i=0; i<n; i++){
+  for (i = 0; i < n; i++) {
     str = CHAR(STRING_ELT(x_, i));
     l = strlen(str);
-    if (l>BITS_INTEGER64){
+    // # nocov start: only reachable with invalid bitstring input
+    if (l > BITS_INTEGER64) {
       ret[i] = NA_INTEGER64;
       naflag = TRUE;
       break;
     }
+    // # nocov end
     mask = 1;
     v = 0;
-    for (k=l-1; k>=0; k--){
-      if (str[k] != '0' &&  str[k] != ' '){
+    for (k=l-1; k>=0; k--) {
+      if (str[k] != '0' &&  str[k] != ' ') {
         v |= mask;
       }
       mask <<= 1;
@@ -243,13 +245,13 @@ SEXP as_integer64_bitstring(SEXP x_, SEXP ret_){
     ret[i] = v;
     R_CheckUserInterrupt();
   }
-  if (naflag)warning(BITSTRING_OVERFLOW_WARNING);
+  if (naflag) warning(BITSTRING_OVERFLOW_WARNING); // # nocov
   return ret_;
 }
 
 
 
-__attribute__((no_sanitize("signed-integer-overflow"))) SEXP plus_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP plus_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -260,11 +262,11 @@ __attribute__((no_sanitize("signed-integer-overflow"))) SEXP plus_integer64(SEXP
     mod_iterate(n1, n2, i1, i2) {
         PLUS64(e1[i1],e2[i2],ret[i],naflag)
     }
-    if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+    if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
 
-__attribute__((no_sanitize("signed-integer-overflow"))) SEXP minus_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP minus_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -275,11 +277,11 @@ __attribute__((no_sanitize("signed-integer-overflow"))) SEXP minus_integer64(SEX
     mod_iterate(n1, n2, i1, i2) {
         MINUS64(e1[i1],e2[i2],ret[i],naflag)
     }
-    if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+    if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
 
-__attribute__((no_sanitize("signed-integer-overflow"))) SEXP diff_integer64(SEXP x_, SEXP lag_, SEXP n_, SEXP ret_){
+SEXP diff_integer64(SEXP x_, SEXP lag_, SEXP n_, SEXP ret_) {
   long long i, n = *((long long *) REAL(n_));
   long long * x = (long long *) REAL(x_);
   long long * lag = (long long *) REAL(lag_);
@@ -287,15 +289,15 @@ __attribute__((no_sanitize("signed-integer-overflow"))) SEXP diff_integer64(SEXP
   long long vlag = *lag;
   long long v;
   Rboolean naflag = FALSE;
-    for(i=0; i<n; i++) {
-      v = x[i];
+    for (i = 0; i < n; i++) {
+    v = x[i];
       MINUS64(x[i+vlag],v,ret[i],naflag)
     }
-    if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+    if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
 
-SEXP intdiv_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP intdiv_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -306,11 +308,11 @@ SEXP intdiv_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
     mod_iterate(n1, n2, i1, i2) {
         INTDIV64(e1[i1],e2[i2],ret[i],naflag)
     }
-    if (naflag)warning(INTEGER64_DIVISION_BY_ZERO_WARNING);
+    if (naflag) warning(INTEGER64_DIVISION_BY_ZERO_WARNING);
   return ret_;
 }
 
-SEXP mod_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP mod_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -321,12 +323,12 @@ SEXP mod_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
     mod_iterate(n1, n2, i1, i2) {
         MOD64(e1[i1],e2[i2],ret[i],naflag)
     }
-    if (naflag)warning(INTEGER64_DIVISION_BY_ZERO_WARNING);
+    if (naflag) warning(INTEGER64_DIVISION_BY_ZERO_WARNING);
   return ret_;
 }
 
 
-__attribute__((no_sanitize("signed-integer-overflow"))) SEXP times_integer64_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP times_integer64_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -337,11 +339,11 @@ __attribute__((no_sanitize("signed-integer-overflow"))) SEXP times_integer64_int
     mod_iterate(n1, n2, i1, i2) {
         PROD64(e1[i1],e2[i2],ret[i],naflag)
     }
-    if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+    if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
 
-SEXP times_integer64_double(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP times_integer64_double(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -353,27 +355,28 @@ SEXP times_integer64_double(SEXP e1_, SEXP e2_, SEXP ret_){
     mod_iterate(n1, n2, i1, i2) {
         PROD64REAL(e1[i1],e2[i2],ret[i],naflag,longret)
     }
-    if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+    if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
 
-SEXP power_integer64_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP power_integer64_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
   long long * e1 = (long long *) REAL(e1_);
   long long * e2 = (long long *) REAL(e2_);
   long long * ret = (long long *) REAL(ret_);
-  long double longret;
   Rboolean naflag = FALSE;
     mod_iterate(n1, n2, i1, i2) {
-        POW64(e1[i1],e2[i2],ret[i],naflag, longret)
+    if (pow64_overflow(e1[i1], e2[i2], &ret[i])) {
+      naflag = TRUE;
     }
-    if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+    }
+    if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
 
-SEXP power_integer64_double(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP power_integer64_double(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -385,42 +388,42 @@ SEXP power_integer64_double(SEXP e1_, SEXP e2_, SEXP ret_){
     mod_iterate(n1, n2, i1, i2) {
         POW64REAL(e1[i1],e2[i2],ret[i],naflag,longret)
     }
-    if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+    if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
 
-SEXP divide_integer64_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP divide_integer64_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
    long long i, n = LENGTH(ret_);
    long long i1, n1 = LENGTH(e1_);
    long long i2, n2 = LENGTH(e2_);
-   long long * e1 = (long long *) REAL(e1_);
-   long long * e2 = (long long *) REAL(e2_);
-   double * ret = REAL(ret_);
-   Rboolean naflag = FALSE;
-     mod_iterate(n1, n2, i1, i2) {
-         DIVIDE64(e1[i1],e2[i2],ret[i],naflag)
-     }
-     if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
-   return ret_;
+  long long * e1 = (long long *) REAL(e1_);
+  long long * e2 = (long long *) REAL(e2_);
+  double * ret = REAL(ret_);
+  Rboolean naflag = FALSE;
+  mod_iterate(n1, n2, i1, i2) {
+    DIVIDE64(e1[i1],e2[i2],ret[i],naflag)
+  }
+  if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
+  return ret_;
 }
-SEXP divide_integer64_double(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP divide_integer64_double(SEXP e1_, SEXP e2_, SEXP ret_) {
    long long i, n = LENGTH(ret_);
    long long i1, n1 = LENGTH(e1_);
    long long i2, n2 = LENGTH(e2_);
-   long long * e1 = (long long *) REAL(e1_);
-   double * e2 = REAL(e2_);
-   double * ret = REAL(ret_);
-   Rboolean naflag = FALSE;
-     mod_iterate(n1, n2, i1, i2) {
-         DIVIDE64REAL(e1[i1],e2[i2],ret[i],naflag)
-     }
-     if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
-   return ret_;
+  long long * e1 = (long long *) REAL(e1_);
+  double * e2 = REAL(e2_);
+  double * ret = REAL(ret_);
+  Rboolean naflag = FALSE;
+  mod_iterate(n1, n2, i1, i2) {
+    DIVIDE64REAL(e1[i1],e2[i2],ret[i],naflag)
+  }
+  if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
+  return ret_;
 }
 
 
 /* Ofek Shilon */
-SEXP divide_double_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP divide_double_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -431,55 +434,58 @@ SEXP divide_double_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   mod_iterate(n1, n2, i1, i2) {
     DIVIDEREAL64(e1[i1],e2[i2],ret[i],naflag)
   }
-  if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+  if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
 
-SEXP sign_integer64(SEXP e1_, SEXP ret_){
+SEXP sign_integer64(SEXP e1_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
-    for(i=0; i<n; i++) {
+    for (i = 0; i < n; i++) {
         SIGN64(e1[i],ret[i])
-    }
+  }
   return ret_;
 }
 
-SEXP abs_integer64(SEXP e1_, SEXP ret_){
+SEXP abs_integer64(SEXP e1_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
-    for(i=0; i<n; i++) {
+    for (i = 0; i < n; i++) {
         ABS64(e1[i],ret[i])
-    }
+  }
   return ret_;
 }
 
-SEXP sqrt_integer64(SEXP e1_, SEXP ret_){
+SEXP sqrt_integer64(SEXP e1_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
   double * ret = REAL(ret_);
   Rboolean naflag = FALSE;
-  for(i=0; i<n; i++) {
+  for (i = 0; i < n; i++) {
     SQRT64(e1[i],ret[i],naflag)
   }
-  if (naflag)warning(INTEGER64_NAN_CREATED_WARNING);
+  if (naflag) warning(INTEGER64_NAN_CREATED_WARNING);
   return ret_;
 }
 
-SEXP log_integer64(SEXP e1_, SEXP ret_){
+// Natural logarithm: called when base is NULL (i.e. log(x)).
+SEXP log_integer64(SEXP e1_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
   double * ret = REAL(ret_);
   Rboolean naflag = FALSE;
-    for(i=0; i<n; i++) {
-        LOG64(e1[i],ret[i],naflag)
-    }
-    if (naflag)warning(INTEGER64_NAN_CREATED_WARNING);
+  for (i = 0; i < n; i++) {
+    LOG64(e1[i], ret[i], naflag)
+  }
+  if (naflag) warning(INTEGER64_NAN_CREATED_WARNING);
   return ret_;
 }
 
-SEXP logvect_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+// Vector base: called when length(base) > 1 (e.g. log(x, base=c(2, 10))).
+// Recycles x and base; dispatches to LOG264/LOG1064 if base element is 2 or 10.
+SEXP logvect_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -487,82 +493,87 @@ SEXP logvect_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   double * e2 = REAL(e2_);
   double * ret = REAL(ret_);
   Rboolean naflag = FALSE;
-    mod_iterate(n1, n2, i1, i2) {
-        LOGVECT64(e1[i],e2[i],ret[i],naflag)
+  mod_iterate(n1, n2, i1, i2) {
+    if (e2[i2] == 2.0) {
+      LOG264(e1[i1], ret[i], naflag)
+    } else if (e2[i2] == 10.0) {
+      LOG1064(e1[i1], ret[i], naflag)
+    } else {
+      LOGVECT64(e1[i1], e2[i2], ret[i], naflag)
     }
-    if (naflag)warning(INTEGER64_NAN_CREATED_WARNING);
+  }
+  if (naflag) warning(INTEGER64_NAN_CREATED_WARNING);
   return ret_;
 }
 
-SEXP logbase_integer64(SEXP e1_, SEXP base_, SEXP ret_){
+// Scalar base: called when length(base) == 1 (e.g. log(x, base=2), log(x, base=10)).
+// Dispatches to LOG264/LOG1064 (matching base R's logbase), or precomputes logl(base) once.
+SEXP logbase_integer64(SEXP e1_, SEXP base_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
-  long double logbase = (long double) log(asReal(base_));
+  double base = asReal(base_);
   double * ret = REAL(ret_);
-  Rboolean naflag = (asReal(base_)>0) ? FALSE : TRUE;
-    for(i=0; i<n; i++) {
-        LOGBASE64(e1[i],logbase,ret[i],naflag)
+  Rboolean naflag = (base > 0) ? FALSE : TRUE;
+  if (base == 2.0) {
+    for (i = 0; i < n; i++) {
+      LOG264(e1[i], ret[i], naflag)
     }
-    if (naflag)warning(INTEGER64_NAN_CREATED_WARNING);
+  } else if (base == 10.0) {
+    for (i = 0; i < n; i++) {
+      LOG1064(e1[i], ret[i], naflag)
+    }
+  } else {
+    long double logbase = (long double) logl((long double)base);
+    for (i = 0; i < n; i++) {
+      LOGBASE64(e1[i], logbase, ret[i], naflag)
+    }
+  }
+  if (naflag) warning(INTEGER64_NAN_CREATED_WARNING);
   return ret_;
 }
 
-SEXP log10_integer64(SEXP e1_, SEXP ret_){
+SEXP log10_integer64(SEXP e1_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
   double * ret = REAL(ret_);
   Rboolean naflag = FALSE;
-#ifdef HAVE_LOG10
-    for(i=0; i<n; i++) {
-        LOG1064(e1[i],ret[i],naflag)
-    }
-#else
-  long double logbase = (long double) log(10);
-  for(i=0; i<n; i++) {
-    LOGBASE64(e1[i],logbase,ret[i],naflag)
+  for (i = 0; i < n; i++) {
+    LOG1064(e1[i], ret[i], naflag)
   }
-#endif
-  if (naflag)warning(INTEGER64_NAN_CREATED_WARNING);
+  if (naflag) warning(INTEGER64_NAN_CREATED_WARNING);
   return ret_;
 }
 
-SEXP log2_integer64(SEXP e1_, SEXP ret_){
+SEXP log2_integer64(SEXP e1_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
   double * ret = REAL(ret_);
   Rboolean naflag = FALSE;
-#ifdef HAVE_LOG2
-    for(i=0; i<n; i++) {
-        LOG264(e1[i],ret[i],naflag)
-    }
-#else
-  long double logbase = (long double) log(2);
-  for(i=0; i<n; i++) {
-    LOGBASE64(e1[i],logbase,ret[i],naflag)
+  for (i = 0; i < n; i++) {
+    LOG264(e1[i], ret[i], naflag)
   }
-#endif
-  if (naflag)warning(INTEGER64_NAN_CREATED_WARNING);
+  if (naflag) warning(INTEGER64_NAN_CREATED_WARNING);
   return ret_;
 }
 
-SEXP any_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
+SEXP any_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   long long i, n = LENGTH(e1_);
   long long * e1 = (long long *) REAL(e1_);
   int * ret = (int *) LOGICAL(ret_);
   Rboolean hasna=FALSE;
-    if (asLogical(na_rm_)){
-        for(i=0; i<n; i++){
-            if (e1[i]!=NA_INTEGER64 && e1[i]){
+    if (asLogical(na_rm_)) {
+        for (i = 0; i < n; i++) {
+            if (e1[i]!=NA_INTEGER64 && e1[i]) {
                 ret[0] = TRUE;
                 return ret_;
             }
         }
         ret[0] = FALSE;
-    }else{
-        for(i=0; i<n; i++){
-            if (e1[i]==NA_INTEGER64){
+    } else{
+        for (i = 0; i < n; i++) {
+            if (e1[i] == NA_INTEGER64) {
                 hasna = TRUE;
-            }else if (e1[i]){
+            } else if (e1[i]) {
                 ret[0] = TRUE;
                 return ret_;
             }
@@ -572,24 +583,24 @@ SEXP any_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
   return ret_;
 }
 
-SEXP all_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
+SEXP all_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   long long i, n = LENGTH(e1_);
   long long * e1 = (long long *) REAL(e1_);
   int * ret = (int *) LOGICAL(ret_);
   Rboolean hasna=FALSE;
-    if (asLogical(na_rm_)){
-        for(i=0; i<n; i++){
-            if (e1[i]!=NA_INTEGER64 && !e1[i]){
+    if (asLogical(na_rm_)) {
+        for (i = 0; i < n; i++) {
+            if (e1[i]!=NA_INTEGER64 && !e1[i]) {
                 ret[0] = FALSE;
                 return ret_;
             }
         }
         ret[0] = TRUE;
-    }else{
-        for(i=0; i<n; i++){
-            if (e1[i]==NA_INTEGER64){
+    } else{
+        for (i = 0; i < n; i++) {
+            if (e1[i] == NA_INTEGER64) {
                 hasna = TRUE;
-            }else if (!e1[i]){
+            } else if (!e1[i]) {
                 ret[0] = FALSE;
                 return ret_;
             }
@@ -600,64 +611,59 @@ SEXP all_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
 }
 
 
-SEXP sum_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
+SEXP sum_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   long long i, n = LENGTH(e1_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
-  long long cumsum, tempsum;
-  cumsum = 0;
-    if (asLogical(na_rm_)){
-        for(i=0; i<n; i++){
-            if (e1[i]!=NA_INTEGER64){
-                tempsum = cumsum + e1[i];
-                if (!GOODISUM64(cumsum, e1[i], tempsum)){
-                    warning(INTEGER64_OVERFLOW_WARNING);
-                    ret[0] = NA_INTEGER64;
-                    return ret_;
-                }
-                cumsum = tempsum;
-            }
+  long long cumsum = 0;
+  if (asLogical(na_rm_)) {
+    for (i = 0; i < n; i++) {
+      if (e1[i]!=NA_INTEGER64) {
+        if (add64_overflow(cumsum, e1[i], &cumsum)) {
+          warning(INTEGER64_OVERFLOW_WARNING);
+          ret[0] = NA_INTEGER64;
+          return ret_;
         }
-    }else{
-        for(i=0; i<n; i++){
-            if (e1[i]==NA_INTEGER64){
-                ret[0] = NA_INTEGER64;
-                return ret_;
-            }else{
-                tempsum = cumsum + e1[i];
-                if (!GOODISUM64(cumsum, e1[i], tempsum)){
-                    warning(INTEGER64_OVERFLOW_WARNING);
-                    ret[0] = NA_INTEGER64;
-                    return ret_;
-                }
-                cumsum = tempsum;
-            }
-        }
+      }
     }
+  } else{
+    for (i = 0; i < n; i++) {
+      if (e1[i] == NA_INTEGER64) {
+        ret[0] = NA_INTEGER64;
+        return ret_;
+      } else{
+        if (add64_overflow(cumsum, e1[i], &cumsum)) {
+          warning(INTEGER64_OVERFLOW_WARNING);
+          ret[0] = NA_INTEGER64;
+          return ret_;
+        }
+      }
+    }
+  }
   ret[0] = cumsum;
   return ret_;
 }
 
-SEXP mean_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
+SEXP mean_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
     long long i, n = LENGTH(e1_);
     long long * e1 = (long long *) REAL(e1_);
     long long * ret = (long long *) REAL(ret_);
     long double longret = 0;
-    if (asLogical(na_rm_)){
+    if (asLogical(na_rm_)) {
         long long nvalid = 0;
-        for(i=0; i<n; i++){
-            if (e1[i]!=NA_INTEGER64){
+        for (i = 0; i < n; i++) {
+            if (e1[i]!=NA_INTEGER64) {
                 longret += e1[i];
                 nvalid++;
             }
         }
         ret[0] = longret / nvalid;
-    }else{
-        for(i=0; i<n; i++){
-            if (e1[i]==NA_INTEGER64){
+    } else{
+        for (i = 0; i < n; i++) {
+            if (e1[i] == NA_INTEGER64) {
                 ret[0] = NA_INTEGER64;
                 return ret_;
-            }else{
+            } else{
                 longret += e1[i];
             }
         }
@@ -666,120 +672,115 @@ SEXP mean_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
   return ret_;
 }
 
-SEXP prod_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
+SEXP prod_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   long long i, n = LENGTH(e1_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
-  long long cumprod, tempprod;
-  cumprod = 1;
-    if (asLogical(na_rm_)){
-        for(i=0; i<n; i++){
-            if (e1[i]!=NA_INTEGER64){
-                tempprod = cumprod * e1[i];
-                if (!GOODIPROD64(cumprod, e1[i], tempprod)){
-                    warning(INTEGER64_OVERFLOW_WARNING);
-                    ret[0] = NA_INTEGER64;
-                    return ret_;
-                }
-                cumprod = tempprod;
-            }
+  long long cumprod = 1;
+  if (asLogical(na_rm_)) {
+    for (i = 0; i < n; i++) {
+      if (e1[i]!=NA_INTEGER64) {
+        if (mul64_overflow(cumprod, e1[i], &cumprod)) {
+          warning(INTEGER64_OVERFLOW_WARNING);
+          ret[0] = NA_INTEGER64;
+          return ret_;
         }
-    }else{
-        for(i=0; i<n; i++){
-            if (e1[i]==NA_INTEGER64){
-                ret[0] = NA_INTEGER64;
-                return ret_;
-            }else{
-                tempprod = cumprod * e1[i];
-                if (!GOODIPROD64(cumprod, e1[i], tempprod)){
-                    warning(INTEGER64_OVERFLOW_WARNING);
-                    ret[0] = NA_INTEGER64;
-                    return ret_;
-                }
-                cumprod = tempprod;
-            }
-        }
+      }
     }
+  } else{
+    for (i = 0; i < n; i++) {
+      if (e1[i] == NA_INTEGER64) {
+        ret[0] = NA_INTEGER64;
+        return ret_;
+      } else{
+        if (mul64_overflow(cumprod, e1[i], &cumprod)) {
+          warning(INTEGER64_OVERFLOW_WARNING);
+          ret[0] = NA_INTEGER64;
+          return ret_;
+        }
+      }
+    }
+  }
   ret[0] = cumprod;
   return ret_;
 }
 
-SEXP min_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
+SEXP min_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   long long i, n = LENGTH(e1_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
   Rboolean onlyNas = TRUE;
   ret[0] = MAX_INTEGER64;
-    if (asLogical(na_rm_)){
-        for(i=0; i<n; i++){
-            if (e1[i]!=NA_INTEGER64){
+    if (asLogical(na_rm_)) {
+        for (i = 0; i < n; i++) {
+            if (e1[i]!=NA_INTEGER64) {
               onlyNas = FALSE;
-              if (e1[i]<ret[0]){
+              if (e1[i]<ret[0]) {
                 ret[0] = e1[i];
               }
             } 
         }
-    }else{
-        for(i=0; i<n; i++){
-            if (e1[i]==NA_INTEGER64){
+    } else{
+        for (i = 0; i < n; i++) {
+            if (e1[i] == NA_INTEGER64) {
                 ret[0] = NA_INTEGER64;
                 return ret_;
-            }else{
+            } else{
                 onlyNas = FALSE;       
                 if (e1[i]<ret[0])
                     ret[0] = e1[i];
             }
         }
     }
-  if (onlyNas){
+  if (onlyNas) {
     ret[0] = NA_INTEGER64;
   }
   return ret_;
 }
 
-SEXP max_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
+SEXP max_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   long long i, n = LENGTH(e1_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
   Rboolean onlyNas = TRUE;
   ret[0] = MIN_INTEGER64;
-    if (asLogical(na_rm_)){
-        for(i=0; i<n; i++){
-            if (e1[i]!=NA_INTEGER64){
+    if (asLogical(na_rm_)) {
+        for (i = 0; i < n; i++) {
+            if (e1[i]!=NA_INTEGER64) {
               onlyNas = FALSE;
-              if (e1[i]>ret[0]){
+              if (e1[i]>ret[0]) {
                 ret[0] = e1[i];
               }
             } 
         }
-    }else{
-        for(i=0; i<n; i++){
-            if (e1[i]==NA_INTEGER64){
+    } else{
+        for (i = 0; i < n; i++) {
+            if (e1[i] == NA_INTEGER64) {
                 ret[0] = NA_INTEGER64;
                 return ret_;
-            }else{
+            } else{
                 onlyNas = FALSE;       
                 if (e1[i]>ret[0])
                     ret[0] = e1[i];
             }
         }
     }
-  if (onlyNas){
+  if (onlyNas) {
     ret[0] = NA_INTEGER64;
   }
   return ret_;
 }
 
-SEXP range_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
+SEXP range_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   long long i, n = LENGTH(e1_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
   Rboolean onlyNas = TRUE;
   ret[0] = MAX_INTEGER64;
   ret[1] = MIN_INTEGER64;
-    if (asLogical(na_rm_)){
-        for(i=0; i<n; i++){
-            if (e1[i]!=NA_INTEGER64){
+    if (asLogical(na_rm_)) {
+        for (i = 0; i < n; i++) {
+            if (e1[i]!=NA_INTEGER64) {
                 onlyNas = FALSE;
                 if (e1[i]<ret[0])
                     ret[0] = e1[i];
@@ -787,12 +788,12 @@ SEXP range_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
                     ret[1] = e1[i];
             }
         }
-    }else{
-        for(i=0; i<n; i++){
-            if (e1[i]==NA_INTEGER64){
+    } else{
+        for (i = 0; i < n; i++) {
+            if (e1[i] == NA_INTEGER64) {
                 ret[0] = ret[1] = NA_INTEGER64;
                 return ret_;
-            }else{
+            } else{
                 onlyNas = FALSE;
                 if (e1[i]<ret[0])
                     ret[0] = e1[i];
@@ -801,34 +802,34 @@ SEXP range_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_){
             }
         }
     }
-  if (onlyNas){
+  if (onlyNas) {
     ret[0] = NA_INTEGER64;
     ret[1] = NA_INTEGER64;
   }
   return ret_;
 }
 
-SEXP lim_integer64(SEXP ret_){
+SEXP lim_integer64(SEXP ret_) {
   long long * ret = (long long *) REAL(ret_);
   ret[0] = MIN_INTEGER64;
   ret[1] = MAX_INTEGER64;
   return ret_;
 }
 
-SEXP cummin_integer64(SEXP e1_, SEXP ret_){
+SEXP cummin_integer64(SEXP e1_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
-  if (n>0){
+  if (n > 0) {
     i=0;
     ret[i] = e1[i];
     if(e1[i]!=NA_INTEGER64)
-    for(i=1; i<n; i++){
-        if(e1[i]==NA_INTEGER64){
+    for (i = 1; i < n; i++) {
+        if (e1[i] == NA_INTEGER64) {
             ret[i] = e1[i];
             break;
-        }else{
-            ret[i] = e1[i]<ret[i-1] ? e1[i] : ret[i-1];
+        } else{
+            ret[i] = e1[i]<ret[i - 1] ? e1[i] : ret[i - 1];
         }
     }
     for(i++; i<n; i++) {
@@ -838,20 +839,20 @@ SEXP cummin_integer64(SEXP e1_, SEXP ret_){
   return ret_;
 }
 
-SEXP cummax_integer64(SEXP e1_, SEXP ret_){
+SEXP cummax_integer64(SEXP e1_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
-  if (n>0){
+  if (n > 0) {
     i=0;
     ret[i] = e1[i];
     if(e1[i]!=NA_INTEGER64)
-    for(i=1; i<n; i++){
-        if(e1[i]==NA_INTEGER64){
+    for (i = 1; i < n; i++) {
+        if (e1[i] == NA_INTEGER64) {
             ret[i] = e1[i];
             break;
-        }else{
-            ret[i] = e1[i]>ret[i-1] ? e1[i] : ret[i-1];
+        } else{
+            ret[i] = e1[i]>ret[i - 1] ? e1[i] : ret[i - 1];
         }
     }
     for(i++; i<n; i++) {
@@ -861,60 +862,60 @@ SEXP cummax_integer64(SEXP e1_, SEXP ret_){
   return ret_;
 }
 
-SEXP cumsum_integer64(SEXP e1_, SEXP ret_){
+SEXP cumsum_integer64(SEXP e1_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
   Rboolean naflag = FALSE;
-    if (n>0)
-      ret[0] = e1[0];
-    for(i=1; i<n; i++) {
-        PLUS64(e1[i],ret[i-1],ret[i],naflag)
+    if (n > 0)
+    ret[0] = e1[0];
+    for (i = 1; i < n; i++) {
+        PLUS64(e1[i],ret[i - 1],ret[i],naflag)
     }
-    if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+    if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
 
-SEXP cumprod_integer64(SEXP e1_, SEXP ret_){
+SEXP cumprod_integer64(SEXP e1_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
   long long * ret = (long long *) REAL(ret_);
   Rboolean naflag = FALSE;
-    if (n>0)
-      ret[0] = e1[0];
-    for(i=1; i<n; i++) {
-        PROD64(e1[i],ret[i-1],ret[i],naflag)
+    if (n > 0)
+    ret[0] = e1[0];
+    for (i = 1; i < n; i++) {
+        PROD64(e1[i],ret[i - 1],ret[i],naflag)
     }
-    if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+    if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
 
-SEXP seq_integer64(SEXP from_, SEXP by_, SEXP ret_){
+SEXP seq_integer64(SEXP from_, SEXP by_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long * from = (long long *) REAL(from_);
   long long * by1 = (long long *) REAL(by_);
   long long by = by1[0];
   long long * ret = (long long *) REAL(ret_);
-  if (n>0){
+  if (n > 0) {
     ret[0] = from[0];
-    for(i=1; i<n; i++){
-        ret[i] = ret[i-1] + by;
+    for (i = 1; i < n; i++) {
+      ret[i] = ret[i - 1] + by;
     }
   }
   return ret_;
 }
 
-SEXP isna_integer64(SEXP e1_, SEXP ret_){
+SEXP isna_integer64(SEXP e1_, SEXP ret_) {
   long long i, n = XLENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
   int * ret = (int *) LOGICAL(ret_);
-    for(i=0; i<n; i++) {
+    for (i = 0; i < n; i++) {
         ret[i] = (e1[i]==NA_INTEGER64) ? TRUE : FALSE;
-    }
+  }
   return ret_;
 }
 
-SEXP EQ_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP EQ_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -923,11 +924,11 @@ SEXP EQ_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   int * ret = (int *) LOGICAL(ret_);
     mod_iterate(n1, n2, i1, i2) {
         EQ64(e1[i1],e2[i2],ret[i])
-    }
+  }
   return ret_;
 }
 
-SEXP NE_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP NE_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -936,11 +937,11 @@ SEXP NE_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   int * ret = (int *) LOGICAL(ret_);
     mod_iterate(n1, n2, i1, i2) {
         NE64(e1[i1],e2[i2],ret[i])
-    }
+  }
   return ret_;
 }
 
-SEXP LT_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP LT_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -949,11 +950,11 @@ SEXP LT_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   int * ret = (int *) LOGICAL(ret_);
     mod_iterate(n1, n2, i1, i2) {
         LT64(e1[i1],e2[i2],ret[i])
-    }
+  }
   return ret_;
 }
 
-SEXP LE_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP LE_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -962,11 +963,11 @@ SEXP LE_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   int * ret = (int *) LOGICAL(ret_);
     mod_iterate(n1, n2, i1, i2) {
         LE64(e1[i1],e2[i2],ret[i])
-    }
+  }
   return ret_;
 }
 
-SEXP GT_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP GT_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -975,11 +976,11 @@ SEXP GT_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   int * ret = (int *) LOGICAL(ret_);
     mod_iterate(n1, n2, i1, i2) {
         GT64(e1[i1],e2[i2],ret[i])
-    }
+  }
   return ret_;
 }
 
-SEXP GE_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
+SEXP GE_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long i, n = LENGTH(ret_);
   long long i1, n1 = LENGTH(e1_);
   long long i2, n2 = LENGTH(e2_);
@@ -988,7 +989,7 @@ SEXP GE_integer64(SEXP e1_, SEXP e2_, SEXP ret_){
   int * ret = (int *) LOGICAL(ret_);
     mod_iterate(n1, n2, i1, i2) {
         GE64(e1[i1],e2[i2],ret[i])
-    }
+  }
   return ret_;
 }
 
@@ -997,15 +998,15 @@ void draw_u32_twice(PunnedU32x2AndLongLong *x) {
   x->U32x2Repr.high = (unsigned int) floor(unif_rand()*4294967296);
 }
 
-SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
+SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_) {
   int i, n=asInteger(n_);
   long long min = *((long long * ) REAL(min_));
   long long max = *((long long * ) REAL(max_));
   unsigned long long d;
   // max - min can overflow
-  if (min < 0 && max > 0){
+  if (min < 0 && max > 0) {
      d = ((unsigned long long)(-min)) + ((unsigned long long)max) + 1;
-  }else{
+  } else{
     d = (max - min) + 1;
   }
   SEXP ret_;
@@ -1013,7 +1014,7 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
   long long * ret = (long long *) REAL(ret_);
   PunnedU32x2AndLongLong rand_draw;
   GetRNGstate();
-  for (i=0; i<n; i++){
+  for (i = 0; i < n; i++) {
     draw_u32_twice(&rand_draw);
     // Requires exceedingly rare (2^(-64) probability) occurrence.
     //   In principle coverage could be done by finding with the 'perfect' random seed,
@@ -1022,7 +1023,7 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_){
     //   so in principal we could just try and steer draw_u32_twice away from this.
     //   But the transformation becomes non-trivial, the statistics messy, and it's by no means
     //   guaranteed to work across all platforms -- simpler to just leave this simple retry approach.
-    while(rand_draw.LongLongRepr == NA_INTEGER64)
+    while (rand_draw.LongLongRepr == NA_INTEGER64)
       draw_u32_twice(&rand_draw); // # nocov
     ret[i] = min + (rand_draw.LongLongRepr % d);
   }
@@ -1043,21 +1044,21 @@ Unit: milliseconds
  runif64(1e+06) 24.62306 25.60286 25.61903 25.61369 25.62032 26.40202   100
 */
 
-SEXP as_list_integer64(SEXP x_){
+SEXP as_list_integer64(SEXP x_) {
   long long i, n = LENGTH(x_);
-  if (n){
+  if (n) {
     SEXP class;
-    for (i=0; i<n; i++){
-      PROTECT(class = allocVector(STRSXP, 1));
-      SET_STRING_ELT(class, 0, mkChar("integer64"));
+    PROTECT(class = allocVector(STRSXP, 1));
+    SET_STRING_ELT(class, 0, mkChar("integer64"));
+    for (i = 0; i < n; i++) {
       classgets(VECTOR_ELT(x_, i), class);
     }
-    UNPROTECT(n);
+    UNPROTECT(1);
   }
   return x_;
 }
 
-__attribute__((no_sanitize("signed-integer-overflow"))) SEXP matmult_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_){
+SEXP matmult_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_) {
   long long i, j, k;
   // get dimension of x
   SEXP dim1 = getAttrib(x_, R_DimSymbol);
@@ -1072,37 +1073,32 @@ __attribute__((no_sanitize("signed-integer-overflow"))) SEXP matmult_integer64_i
   long long * y = (long long *) REAL(y_);
   long long * ret = (long long *) REAL(ret_);
   Rboolean naflag = FALSE;
-  long long cumsum, tempsum, addValue;
+  long long cumsum, addValue;
 
-  for(i=0; i<nrow1; i++){
-    for(j=0; j<ncol2; j++){
+  for (i = 0; i < nrow1; i++) {
+    for (j = 0; j < ncol2; j++) {
       cumsum = 0;
-      for(k=0; k<ncol1; k++){
+      for (k = 0; k < ncol1; k++) {
         PROD64(x[i + k*nrow1],y[k + j*nrow2],addValue,naflag)
-        if(addValue == NA_INTEGER64){
+        if (addValue == NA_INTEGER64) {
           cumsum = NA_INTEGER64; 
           break;
         }
-        tempsum = cumsum + addValue;
-        // for some reason GOODISUM64(cumsum, addValue, tempsum) does not work properly on macos-latest, compared to the others
-        // therefore a workaround is tried here by adding the GOODISUM64 logic with long double casting
-        if(!GOODISUM64(cumsum, addValue, tempsum) || 
-           !((cumsum > 0) ? (((long double) addValue) < ((long double) tempsum)) : ! (((long double) addValue) < ((long double) tempsum)))){
+        if(add64_overflow(cumsum, addValue, &cumsum)) {
           naflag = TRUE;
           cumsum = NA_INTEGER64;
           break;
         }
-        cumsum = tempsum;
       }
       ret[i + j*nrow1] = cumsum;
     }  
   }
-  if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+  if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
 
 
-SEXP matmult_double_integer64(SEXP x_, SEXP y_, SEXP ret_){
+SEXP matmult_double_integer64(SEXP x_, SEXP y_, SEXP ret_) {
   long long i, j, k;
   // get dimension of x
   SEXP dim1 = getAttrib(x_, R_DimSymbol);
@@ -1117,34 +1113,32 @@ SEXP matmult_double_integer64(SEXP x_, SEXP y_, SEXP ret_){
   long long * y = (long long *) REAL(y_);
   long long * ret = (long long *) REAL(ret_);
   Rboolean naflag = FALSE;
-  long long cumsum, tempsum, addValue;
+  long long cumsum, addValue;
   long double longret;
 
-  for(i=0; i<nrow1; i++){
-    for(j=0; j<ncol2; j++){
+  for (i = 0; i < nrow1; i++) {
+    for (j = 0; j < ncol2; j++) {
       cumsum = 0;
-      for(k=0; k<ncol1; k++){
+      for (k = 0; k < ncol1; k++) {
         PROD64REAL(y[k + j*nrow2],x[i + k*nrow1],addValue,naflag,longret)
-        if(addValue == NA_INTEGER64){
+        if (addValue == NA_INTEGER64) {
           cumsum = NA_INTEGER64; 
           break;
         }
-        tempsum = cumsum + addValue;
-        if(!GOODISUM64(cumsum, addValue, tempsum)){
+        if(add64_overflow(cumsum, addValue, &cumsum)) {
           naflag = TRUE;
           cumsum = NA_INTEGER64;
           break;
         }
-        cumsum = tempsum;
       }
       ret[i + j*nrow1] = cumsum;
     }  
   }
-  if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+  if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
 
-SEXP matmult_integer64_double(SEXP x_, SEXP y_, SEXP ret_){
+SEXP matmult_integer64_double(SEXP x_, SEXP y_, SEXP ret_) {
   long long i, j, k;
   // get dimension of x
   SEXP dim1 = getAttrib(x_, R_DimSymbol);
@@ -1159,29 +1153,27 @@ SEXP matmult_integer64_double(SEXP x_, SEXP y_, SEXP ret_){
   double * y = REAL(y_);
   long long * ret = (long long *) REAL(ret_);
   Rboolean naflag = FALSE;
-  long long cumsum, tempsum, addValue;
+  long long cumsum, addValue;
   long double longret;
 
-  for(i=0; i<nrow1; i++){
-    for(j=0; j<ncol2; j++){
+  for (i = 0; i < nrow1; i++) {
+    for (j = 0; j < ncol2; j++) {
       cumsum = 0;
-      for(k=0; k<ncol1; k++){
+      for (k = 0; k < ncol1; k++) {
         PROD64REAL(x[i + k*nrow1],y[k + j*nrow2],addValue,naflag,longret)
-        if(addValue == NA_INTEGER64){
+        if (addValue == NA_INTEGER64) {
           cumsum = NA_INTEGER64; 
           break;
         }
-        tempsum = cumsum + addValue;
-        if(!GOODISUM64(cumsum, addValue, tempsum)){
+        if(add64_overflow(cumsum, addValue, &cumsum)) {
           naflag = TRUE;
           cumsum = NA_INTEGER64;
           break;
         }
-        cumsum = tempsum;
       }
       ret[i + j*nrow1] = cumsum;
     }  
   }
-  if (naflag)warning(INTEGER64_OVERFLOW_WARNING);
+  if (naflag) warning(INTEGER64_OVERFLOW_WARNING);
   return ret_;
 }
