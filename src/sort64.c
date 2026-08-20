@@ -227,12 +227,12 @@ void ram_integer64_insertionsort_asc(
   for (i = l + 2; i <= r; i++) {
     IndexT j = i;
     ValueT v;
-    MOVE(v, data[i])
-    while (LESS(v, data[j - 1])) {
-      MOVE(data[j], data[j - 1])
+    v = data[i];
+    while (v < data[j - 1]) {
+      data[j] = data[j - 1];
       j--;
     }
-    MOVE(data[j], v)
+    data[j] = v;
   }
 }
 
@@ -252,15 +252,15 @@ void ram_integer64_insertionsortorder_asc(
   for (i = l + 2; i <= r; i++) {
     IndexT j=i, vi;
     ValueT v;
-    MOVE(vi, index[i])
-    MOVE(v, data[i])
-    while (LESS(v, data[j - 1])) {
-      MOVE(index[j], index[j - 1])
-      MOVE(data[j], data[j - 1])
+    vi = index[i];
+    v = data[i];
+    while (v < data[j - 1]) {
+      index[j] = index[j - 1];
+      data[j] = data[j - 1];
       j--;
     }
-    MOVE(index[j], vi)
-    MOVE(data[j], v)
+    index[j] = vi;
+    data[j] = v;
   }
 }
 
@@ -279,13 +279,13 @@ void ram_integer64_insertionorder_asc(
   for (i = l + 2; i <= r; i++) {
     IndexT j=i, vi;
     ValueT v;
-    MOVE(vi, index[i])
-    MOVE(v, data[vi])
-    while (LESS(v, data[index[j - 1]])) {
-      MOVE(index[j], index[j - 1])
+    vi = index[i];
+    v = data[vi];
+    while (v < data[index[j - 1]]) {
+      index[j] = index[j - 1];
       j--;
     }
-    MOVE(index[j], vi)
+    index[j] = vi;
   }
 }
 
@@ -306,11 +306,11 @@ void ram_integer64_insertionsort_desc(
   for (i = r - 2; i >= l; i--) {
     IndexT j = i;
     ValueT v;
-    MOVE(v, data[i])
-    while (LESS(v, data[j+1])) {
-      MOVE(data[j], data[j+1]) j++;
+    v = data[i];
+    while (v < data[j+1]) {
+      data[j] = data[j+1]; j++;
     }
-    MOVE(data[j], v)
+    data[j] = v;
   }
 }
 
@@ -330,15 +330,15 @@ void ram_integer64_insertionsortorder_desc(
   for (i = r - 2; i >= l; i--) {
     IndexT j=i, vi;
     ValueT v;
-    MOVE(vi, index[i])
-    MOVE(v, data[i])
-    while (LESS(v, data[j+1])) {
-      MOVE(index[j], index[j+1])
-      MOVE(data[j], data[j+1])
+    vi = index[i];
+    v = data[i];
+    while (v < data[j+1]) {
+      index[j] = index[j+1];
+      data[j] = data[j+1];
       j++;
     }
-    MOVE(index[j], vi)
-    MOVE(data[j], v)
+    index[j] = vi;
+    data[j] = v;
   }
 }
 
@@ -357,13 +357,13 @@ void ram_integer64_insertionorder_desc(
   for (i = r - 2; i >= l; i--) {
     IndexT j=i, vi;
     ValueT v;
-    MOVE(vi, index[i])
-    MOVE(v, data[vi])
-    while (LESS(v, data[index[j+1]])) {
-      MOVE(index[j], index[j+1])
+    vi = index[i];
+    v = data[vi];
+    while (v < data[index[j+1]]) {
+      index[j] = index[j+1];
       j++;
     }
-    MOVE(index[j], vi)
+    index[j] = vi;
   }
 }
 
@@ -386,13 +386,13 @@ void ram_integer64_shellsort_asc(ValueT *data, IndexT l, IndexT r)
       h = shellincs[t];
       lh = l+h;
       for (i = lh; i <= r; i++) {
-      MOVE(v, data[i])
+      v = data[i];
         j = i;
-          while (j >= lh && LESS(v, data[j - h])) {
-        MOVE(data[j], data[j - h])
+          while (j >= lh && v < data[j - h]) {
+        data[j] = data[j - h];
           j -= h;
         }
-      MOVE(data[j], v)
+      data[j] = v;
       }
     }
 }
@@ -406,13 +406,13 @@ void ram_integer64_shellsort_desc(ValueT *data, IndexT l, IndexT r)
       h = shellincs[t];
       lh = l+h;
       for (i = lh; i <= r; i++) {
-      MOVE(v, data[i])
+      v = data[i];
         j = i;
-          while (j >= lh && LESS(data[j - h], v)) {
-        MOVE(data[j], data[j - h])
+          while (j >= lh && data[j - h] < v) {
+        data[j] = data[j - h];
           j -= h;
         }
-      MOVE(data[j], v)
+      data[j] = v;
       }
     }
 }
@@ -427,16 +427,16 @@ void ram_integer64_shellsortorder_asc(ValueT *data, IndexT *index, IndexT l, Ind
       h = shellincs[t];
       lh = l+h;
       for (i = lh; i <= r; i++) {
-      MOVE(vi, index[i])
-      MOVE(v, data[i])
+      vi = index[i];
+      v = data[i];
         j = i;
-          while (j >= lh && LESS(v, data[j - h])) {
-        MOVE(index[j], index[j - h])
-        MOVE(data[j], data[j - h])
+          while (j >= lh && v < data[j - h]) {
+        index[j] = index[j - h];
+        data[j] = data[j - h];
           j -= h;
         }
-      MOVE(index[j], vi)
-      MOVE(data[j], v)
+      index[j] = vi;
+      data[j] = v;
       }
     }
 }
@@ -450,16 +450,16 @@ void ram_integer64_shellsortorder_desc(ValueT *data, IndexT *index, IndexT l, In
       h = shellincs[t];
       lh = l+h;
       for (i = lh; i <= r; i++) {
-      MOVE(vi, index[i])
-      MOVE(v, data[i])
+      vi = index[i];
+      v = data[i];
         j = i;
-          while (j >= lh && LESS(data[j - h], v)) {
-        MOVE(index[j], index[j - h])
-        MOVE(data[j], data[j - h])
+          while (j >= lh && data[j - h] < v) {
+        index[j] = index[j - h];
+        data[j] = data[j - h];
           j -= h;
         }
-      MOVE(index[j], vi)
-      MOVE(data[j], v)
+      index[j] = vi;
+      data[j] = v;
       }
     }
 }
@@ -474,14 +474,14 @@ void ram_integer64_shellorder_asc(ValueT *data, IndexT *index, IndexT l, IndexT 
       h = shellincs[t];
       lh = l+h;
       for (i = lh; i <= r; i++) {
-      MOVE(vi, index[i])
-      MOVE(v, data[vi])
+      vi = index[i];
+      v = data[vi];
         j = i;
-          while (j >= lh && LESS(v, data[index[j - h]])) {
-        MOVE(index[j], index[j - h])
+          while (j >= lh && v < data[index[j - h]]) {
+        index[j] = index[j - h];
           j -= h;
         }
-      MOVE(index[j], vi)
+      index[j] = vi;
       }
     }
 }
@@ -495,14 +495,14 @@ void ram_integer64_shellorder_desc(ValueT *data, IndexT *index, IndexT l, IndexT
       h = shellincs[t];
       lh = l+h;
       for (i = lh; i <= r; i++) {
-      MOVE(vi, index[i])
-      MOVE(v, data[vi])
+      vi = index[i];
+      v = data[vi];
         j = i;
-          while (j >= lh && LESS(data[index[j - h]], v)) {
-        MOVE(index[j], index[j - h])
+          while (j >= lh && data[index[j - h]] < v) {
+        index[j] = index[j - h];
           j -= h;
         }
-      MOVE(index[j], vi)
+      index[j] = vi;
       }
     }
 }
@@ -531,18 +531,18 @@ void ram_integer64_sortmerge_asc(
   for (i=0,j=0,k=0;k<K;k++) {
     if (i==na) {
       for (;k<K;k++)
-        MOVE(c[k], b[j++])
+        c[k] = b[j++];
       break;
     }
     if (j==nb) {
       for (;k<K;k++)
-        MOVE(c[k], a[i++])
+        c[k] = a[i++];
       break;
     }
-  if (LESS(b[j], a[i]))
-    MOVE(c[k], b[j++])
+  if (b[j] < a[i])
+    c[k] = b[j++];
     else
-    MOVE(c[k], a[i++])
+    c[k] = a[i++];
   }
 }
 
@@ -560,18 +560,18 @@ ValueT *data  // data vector
   for (i=0,j=0,k=0;k<K;k++) {
     if (i==na) {
       for (;k<K;k++)
-        MOVE(c[k], b[j++])
+        c[k] = b[j++];
       break;
     }
     if (j==nb) {
       for (;k<K;k++)
-        MOVE(c[k], a[i++])
+        c[k] = a[i++];
       break;
     }
   if (KEYLESS(b[j], a[i]))
-    MOVE(c[k], b[j++])
+    c[k] = b[j++];
     else
-    MOVE(c[k], a[i++])
+    c[k] = a[i++];
   }
 }
 
@@ -591,24 +591,24 @@ void ram_integer64_sortordermerge_asc(
   for (i=0,j=0,k=0;k<K;k++) {
     if (i==na) {
       for (;k<K;k++) {
-        MOVE(ci[k], bi[j])
-        MOVE(c[k], b[j++])
+        ci[k] = bi[j];
+        c[k] = b[j++];
       }
       break;
     }
     if (j==nb) {
       for (;k<K;k++) {
-        MOVE(ci[k], ai[i])
-        MOVE(c[k], a[i++])
+        ci[k] = ai[i];
+        c[k] = a[i++];
       }
       break;
     }
-  if (LESS(b[j], a[i])) {
-    MOVE(ci[k], bi[j])
-    MOVE(c[k], b[j++])
+  if (b[j] < a[i]) {
+    ci[k] = bi[j];
+    c[k] = b[j++];
   } else{
-    MOVE(ci[k], ai[i])
-    MOVE(c[k], a[i++])
+    ci[k] = ai[i];
+    c[k] = a[i++];
     }
   }
 }
@@ -619,18 +619,18 @@ void ram_integer64_sortmerge_desc(ValueT *c, ValueT *a, ValueT *b, IndexT na, In
   for (i=na-1,j=nb-1,k=K;k>=0;k--) {
     if (i<0) {
       for (;k>=0;k--)
-        MOVE(c[k], b[j--])
+        c[k] = b[j--];
       break;
     }
     if (j<0) {
       for (;k>=0;k--)
-        MOVE(c[k], a[i--])
+        c[k] = a[i--];
       break;
     }
-  if (LESS(a[i], b[j]))
-    MOVE(c[k], a[i--])
+  if (a[i] < b[j])
+    c[k] = a[i--];
     else
-    MOVE(c[k], b[j--])
+    c[k] = b[j--];
   }
 }
 
@@ -640,18 +640,18 @@ void ram_integer64_ordermerge_desc(ValueT *data, IndexT *c, IndexT *a, IndexT *b
   for (i=na-1,j=nb-1,k=K;k>=0;k--) {
     if (i<0) {
       for (;k>=0;k--)
-        MOVE(c[k], b[j--])
+        c[k] = b[j--];
       break;
     }
     if (j<0) {
       for (;k>=0;k--)
-        MOVE(c[k], a[i--])
+        c[k] = a[i--];
       break;
     }
   if (KEYLESS(a[i], b[j]))
-    MOVE(c[k], a[i--])
+    c[k] = a[i--];
     else
-    MOVE(c[k], b[j--])
+    c[k] = b[j--];
   }
 }
 
@@ -661,24 +661,24 @@ void ram_integer64_sortordermerge_desc(ValueT *c, ValueT *a, ValueT *b, IndexT *
   for (i=na-1,j=nb-1,k=K;k>=0;k--) {
     if (i<0) {
       for (;k>=0;k--) {
-        MOVE(ci[k], bi[j])
-        MOVE(c[k], b[j--])
+        ci[k] = bi[j];
+        c[k] = b[j--];
       }
       break;
     }
     if (j<0) {
       for (;k>=0;k--) {
-        MOVE(ci[k], ai[i])
-        MOVE(c[k], a[i--])
+        ci[k] = ai[i];
+        c[k] = a[i--];
       }
       break;
     }
-  if (LESS(a[i], b[j])) {
-    MOVE(ci[k], ai[i])
-    MOVE(c[k], a[i--])
+  if (a[i] < b[j]) {
+    ci[k] = ai[i];
+    c[k] = a[i--];
   } else{
-    MOVE(ci[k], bi[j])
-    MOVE(c[k], b[j--])
+    ci[k] = bi[j];
+    c[k] = b[j--];
     }
   }
 }
@@ -798,10 +798,10 @@ ValueT *data    // pointer to data
 {
   IndexT i = l - 1, j = r;
   ValueT t,v;
-  MOVE(v, data[r])
+  v = data[r];
   for (;;) {
-    ++i; while (LESS(data[i], v)) {if (j<=i)break; ++i;}; // explicit stop condition
-    --j; while (LESS(v, data[j])) {if (j<=i)break; --j;};  // explicit stop condition
+    ++i; while (data[i] < v) {if (j<=i)break; ++i;}; // explicit stop condition
+    --j; while (v < data[j]) {if (j<=i)break; --j;};  // explicit stop condition
     if (j<=i)break;
     EXCH(data[i], data[j], t)
   }
@@ -811,10 +811,10 @@ ValueT *data    // pointer to data
 IndexT ram_integer64_quicksortpart_desc_no_sentinels(ValueT *data, IndexT l, IndexT r) {
   IndexT i = l - 1, j = r;
   ValueT t,v;
-  MOVE(v, data[r])
+  v = data[r];
   for (;;) {
-    ++i; while (LESS(v, data[i])) {if (j<=i)break; ++i;}; // explicit stop condition
-    --j; while (LESS(data[j], v)) {if (j<=i)break; --j;};  // explicit stop condition
+    ++i; while (v < data[i]) {if (j<=i)break; ++i;}; // explicit stop condition
+    --j; while (data[j] < v) {if (j<=i)break; --j;};  // explicit stop condition
     if (j<=i)break;
     EXCH(data[i], data[j], t)
   }
@@ -824,10 +824,10 @@ IndexT ram_integer64_quicksortpart_desc_no_sentinels(ValueT *data, IndexT l, Ind
 IndexT ram_integer64_quicksortorderpart_asc_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r) {
   IndexT ti, i = l-1, j = r;
   ValueT t,v;
-  MOVE(v, data[r])
+  v = data[r];
   for (;;) {
-    ++i; while (LESS(data[i], v)) {if (j<=i)break; ++i;}; // explicit stop condition
-    --j; while (LESS(v, data[j])) {if (j<=i)break; --j;};  // explicit stop condition
+    ++i; while (data[i] < v) {if (j<=i)break; ++i;}; // explicit stop condition
+    --j; while (v < data[j]) {if (j<=i)break; --j;};  // explicit stop condition
     if (j<=i)break;
     EXCH(index[i], index[j], ti)
     EXCH(data[i], data[j], t)
@@ -839,10 +839,10 @@ IndexT ram_integer64_quicksortorderpart_asc_no_sentinels(ValueT *data, IndexT *i
 IndexT ram_integer64_quicksortorderpart_desc_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r) {
   IndexT ti,i = l-1, j = r;
   ValueT t,v;
-  MOVE(v, data[r])
+  v = data[r];
   for (;;) {
-    ++i; while (LESS(v, data[i])) {if (j<=i)break; ++i;}; // explicit stop condition
-    --j; while (LESS(data[j], v)) {if (j<=i)break; --j;};  // explicit stop condition
+    ++i; while (v < data[i]) {if (j<=i)break; ++i;}; // explicit stop condition
+    --j; while (data[j] < v) {if (j<=i)break; --j;};  // explicit stop condition
     if (j<=i)break;
     EXCH(index[i], index[j], ti)
     EXCH(data[i], data[j], t)
@@ -854,10 +854,10 @@ IndexT ram_integer64_quicksortorderpart_desc_no_sentinels(ValueT *data, IndexT *
 IndexT ram_integer64_quickorderpart_asc_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r) {
   IndexT ti,i = l-1, j = r;
   ValueT v;
-  MOVE(v, data[index[r]])
+  v = data[index[r]];
   for (;;) {
-    ++i; while (LESS(data[index[i]], v)) {if (j<=i)break; ++i;}; // explicit stop condition
-    --j; while (LESS(v, data[index[j]])) {if (j<=i)break; --j;};  // explicit stop condition
+    ++i; while (data[index[i]] < v) {if (j<=i)break; ++i;}; // explicit stop condition
+    --j; while (v < data[index[j]]) {if (j<=i)break; --j;};  // explicit stop condition
     if (j<=i)break;
     EXCH(index[i], index[j], ti)
   }
@@ -867,10 +867,10 @@ IndexT ram_integer64_quickorderpart_asc_no_sentinels(ValueT *data, IndexT *index
 IndexT ram_integer64_quickorderpart_desc_no_sentinels(ValueT *data, IndexT *index, IndexT l, IndexT r) {
   IndexT ti, i = l-1, j = r;
   ValueT v;
-  MOVE(v, data[index[r]])
+  v = data[index[r]];
   for (;;) {
-    ++i; while (LESS(v, data[index[i]])) {if (j<=i)break; ++i;}; // explicit stop condition
-    --j; while (LESS(data[index[j]], v)) {if (j<=i)break; --j;};  // explicit stop condition
+    ++i; while (v < data[index[i]]) {if (j<=i)break; ++i;}; // explicit stop condition
+    --j; while (data[index[j]] < v) {if (j<=i)break; --j;};  // explicit stop condition
     if (j<=i)break;
     EXCH(index[i], index[j], ti)
   }
@@ -1169,29 +1169,29 @@ void ram_integer64_radixsort(
       if (b % 2) {
           if (w == 0) {
           for (i = 0; i < n; i++) {
-          MOVE(data[stats[ auxdata[i] & bitmask]++ ], auxdata[i])
+          data[stats[ auxdata[i] & bitmask]++ ] = auxdata[i];
           }
         } else if (w < nradixes1) {
           for (i = 0; i < n; i++) {
-          MOVE(data[stats[ auxdata[i]>>wradixbits & bitmask ]++], auxdata[i])
+          data[stats[ auxdata[i]>>wradixbits & bitmask ]++] = auxdata[i];
           }
         } else{
           for (i = 0; i < n; i++) {
-          MOVE(data[stats[ (((auxdata[i] >> wradixbits) & bitmask) ^ signmask) ]++], auxdata[i])
+          data[stats[ (((auxdata[i] >> wradixbits) & bitmask) ^ signmask) ]++] = auxdata[i];
           }
         }
       } else{
           if (w == 0) {
           for (i = 0; i < n; i++) {
-          MOVE(auxdata[stats[ data[i] & bitmask ]++], data[i])
+          auxdata[stats[ data[i] & bitmask ]++] = data[i];
           }
         } else if (w < nradixes1) {
           for (i = 0; i < n; i++) {
-          MOVE(auxdata[stats[ data[i]>>wradixbits & bitmask ]++], data[i])
+          auxdata[stats[ data[i]>>wradixbits & bitmask ]++] = data[i];
           }
         } else{
           for (i = 0; i < n; i++) {
-          MOVE(auxdata[stats[ (((data[i] >> wradixbits) & bitmask) ^ signmask) ]++], data[i])
+          auxdata[stats[ (((data[i] >> wradixbits) & bitmask) ^ signmask) ]++] = data[i];
           }
         }
       }
@@ -1201,7 +1201,7 @@ void ram_integer64_radixsort(
   // copy back in case of odd number of copies
     if (b % 2) {
     for (i = 0; i < n; i++)
-    MOVE(data[i], auxdata[i])
+    data[i] = auxdata[i];
     b++;
   }
   return;
@@ -1295,40 +1295,40 @@ void ram_integer64_radixsortorder(
           if (w == 0) {
           for (i = 0; i < n; i++) {
             b2 = stats[ auxdata[i] & bitmask ]++;
-          MOVE(index[b2], auxindex[i])
-          MOVE(data[b2], auxdata[i])
+          index[b2] = auxindex[i];
+          data[b2] = auxdata[i];
           }
         } else if (w < nradixes1) {
           for (i = 0; i < n; i++) {
             b2 = stats[ auxdata[i]>>wradixbits & bitmask ]++;
-          MOVE(index[b2], auxindex[i])
-          MOVE(data[b2], auxdata[i])
+          index[b2] = auxindex[i];
+          data[b2] = auxdata[i];
           }
         } else{
           for (i = 0; i < n; i++) {
             b2 = stats[ (((auxdata[i] >> wradixbits) & bitmask) ^ signmask) ]++;
-          MOVE(index[b2], auxindex[i])
-          MOVE(data[b2], auxdata[i])
+          index[b2] = auxindex[i];
+          data[b2] = auxdata[i];
           }
         }
       } else{
           if (w == 0) {
           for (i = 0; i < n; i++) {
             b2 = stats[ data[i] & bitmask ]++;
-          MOVE(auxindex[b2], index[i])
-          MOVE(auxdata[b2], data[i])
+          auxindex[b2] = index[i];
+          auxdata[b2] = data[i];
           }
         } else if (w < nradixes1) {
           for (i = 0; i < n; i++) {
             b2 = stats[ data[i]>>wradixbits & bitmask ]++;
-          MOVE(auxindex[b2], index[i])
-          MOVE(auxdata[b2], data[i])
+          auxindex[b2] = index[i];
+          auxdata[b2] = data[i];
           }
         } else{
           for (i = 0; i < n; i++) {
             b2 = stats[ (((data[i] >> wradixbits) & bitmask) ^ signmask) ]++;
-          MOVE(auxindex[b2], index[i])
-          MOVE(auxdata[b2], data[i])
+          auxindex[b2] = index[i];
+          auxdata[b2] = data[i];
           }
         }
       }
@@ -1338,8 +1338,8 @@ void ram_integer64_radixsortorder(
   // copy back in case of odd number of copies
     if (b % 2) {
     for (i = 0; i < n; i++) {
-    MOVE(index[i], auxindex[i])
-    MOVE(data[i], auxdata[i])
+    index[i] = auxindex[i];
+    data[i] = auxdata[i];
     }
     b++;
   }
@@ -1433,34 +1433,34 @@ void ram_integer64_radixorder(
           if (w == 0) {
           for (i = 0; i < n; i++) {
             b2 = stats[ data[auxindex[i]] & bitmask ]++;
-          MOVE(index[b2], auxindex[i])
+          index[b2] = auxindex[i];
           }
         } else if (w < nradixes1) {
           for (i = 0; i < n; i++) {
             b2 = stats[ data[auxindex[i]]>>wradixbits & bitmask ]++;
-          MOVE(index[b2], auxindex[i])
+          index[b2] = auxindex[i];
           }
         } else{
           for (i = 0; i < n; i++) {
             b2 = stats[ (((data[auxindex[i]] >> wradixbits) & bitmask) ^ signmask) ]++;
-          MOVE(index[b2], auxindex[i])
+          index[b2] = auxindex[i];
           }
         }
       } else{
           if (w == 0) {
           for (i = 0; i < n; i++) {
             b2 = stats[ data[index[i]] & bitmask ]++;
-          MOVE(auxindex[b2], index[i])
+          auxindex[b2] = index[i];
           }
         } else if (w < nradixes1) {
           for (i = 0; i < n; i++) {
             b2 = stats[ data[index[i]]>>wradixbits & bitmask ]++;
-          MOVE(auxindex[b2], index[i])
+          auxindex[b2] = index[i];
           }
         } else{
           for (i = 0; i < n; i++) {
             b2 = stats[ (((data[index[i]] >> wradixbits) & bitmask) ^ signmask) ]++;
-          MOVE(auxindex[b2], index[i])
+          auxindex[b2] = index[i];
           }
         }
       }
@@ -1470,7 +1470,7 @@ void ram_integer64_radixorder(
   // copy back in case of odd number of copies
     if (b % 2) {
     for (i = 0; i < n; i++) {
-    MOVE(index[i], auxindex[i])
+    index[i] = auxindex[i];
     }
     b++;
   }
@@ -1508,9 +1508,9 @@ ValueT *data  // pointer to data
 , IndexT b    // pos in data
 , IndexT c    // pos in data
 )
-{ return LESS(data[a], data[b]) ?
-      (LESS(data[b], data[c]) ? b : LESS(data[a], data[c]) ? c : a)
-    : (LESS(data[c], data[b]) ? b : LESS(data[c], data[a]) ? c : a);
+{ return data[a] < data[b] ?
+      (data[b] < data[c] ? b : data[a] < data[c] ? c : a)
+    : (data[c] < data[b] ? b : data[c] < data[a] ? c : a);
 }
 
 // returns one of {a,b,c} such that it represents the median of data[index[{a,b,c}]]
@@ -1684,7 +1684,7 @@ SEXP r_ram_integer64_mergesort(
   auxdata = (ValueT *) R_alloc(n, sizeof(ValueT));
 
   for (i = 0; i < n; i++) {
-    MOVE(auxdata[i], data[i])
+    auxdata[i] = data[i];
   }
 
   if (decreasing)
@@ -1732,8 +1732,8 @@ SEXP r_ram_integer64_mergesortorder(
       auxdata = (ValueT *) R_alloc(n, sizeof(ValueT));
 
     for (i = 0; i < n; i++) {
-      MOVE(auxindex[i], index[i])
-      MOVE(auxdata[i] , data[i])
+      auxindex[i] = index[i];
+      auxdata[i]  = data[i];
     }
 
     if (decreasing)
@@ -1782,7 +1782,7 @@ SEXP r_ram_integer64_mergeorder(
     index[i]--;
 
   for (i = 0; i < n; i++) {
-    MOVE(auxindex[i], index[i]);
+    auxindex[i] = index[i];
   }
 
   if (decreasing)

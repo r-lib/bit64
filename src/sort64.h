@@ -29,18 +29,14 @@
 /*****************************************************************************/
 
 
-#define LESS(A,B) ((A)<(B))
-#define GREATER(A, B) LESS((B), (A))
-
-#define MOVE(TO,FROM) TO=FROM;
-#define EXCH(A,B,t) {MOVE(t,A) MOVE(A,B) MOVE(B,t)}
-#define COMPEXCH(A,B,t) if (LESS(B,A)) EXCH(A,B,t)
+#define EXCH(A,B,t) {t = (A); (A) = (B); (B) = t;}
+#define COMPEXCH(A,B,t) if ((B) < (A)) EXCH(A,B,t)
 
 #define KEY(A) (data[A])
-#define KEYLESS(A,B) (LESS(KEY(A),KEY(B)))
+#define KEYLESS(A,B) (KEY(A) < KEY(B))
 #define KEYCOMPEXCH(A,B,t) if (KEYLESS(B,A)) EXCH(A,B,t)
 
-#define COMPEXCHi(A,B,t,Ai,Bi,ti) if (LESS(B,A)) {EXCH(A,B,t) EXCH(Ai,Bi,ti)}
+#define COMPEXCHi(A,B,t,Ai,Bi,ti) if ((B) < (A)) {EXCH(A,B,t) EXCH(Ai,Bi,ti)}
 
 #define INSERTIONSORT_LIMIT_MERGE 16
 #define INSERTIONSORT_LIMIT_QUICK 16
