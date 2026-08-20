@@ -17,7 +17,7 @@
 #include "sort64.h"
 
 static inline ValueT *bitflags_alloc(IndexT n) {
-  IndexT nbitflags = n / BITS_INTEGER64 + (n % BITS_INTEGER64 ? 1 : 0);
+  IndexT nbitflags = n / 64 + (n % 64 ? 1 : 0);
   ValueT *bitflags = (ValueT *) R_alloc(nbitflags, sizeof(ValueT));
   for (IndexT i = 0; i < nbitflags; i++) {
     bitflags[i] = 0;
@@ -26,11 +26,11 @@ static inline ValueT *bitflags_alloc(IndexT n) {
 }
 
 static inline void bitflags_set(ValueT *bitflags, IndexT k) {
-  bitflags[k / BITS_INTEGER64] |= (RIGHTBIT_INTEGER64 << (k % BITS_INTEGER64));
+  bitflags[k / 64] |= (RIGHTBIT_INTEGER64 << (k % 64));
 }
 
 static inline bool bitflags_test(const ValueT *bitflags, IndexT k) {
-  return (bitflags[k / BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (k % BITS_INTEGER64))) != 0;
+  return (bitflags[k / 64] & (RIGHTBIT_INTEGER64 << (k % 64))) != 0;
 }
 
 SEXP r_ram_integer64_nacount(
