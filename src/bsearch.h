@@ -11,127 +11,96 @@
 
 #include "sort64.h"
 
-#define INTEGER64_BSEARCH_ASC_DOWN(data, l, r, value) \
-{ \
-IndexT m; \
-  while (l < r) { \
-    m = l + ((r - l) / 2); \
-    if (LESS(data[m], value)) \
-      l = m + 1; \
-    else \
-      r = m; \
-  } \
+static inline IndexT integer64_bsearch_asc_EQ(const ValueT *data, IndexT l, IndexT r, ValueT value) {
+  while (l < r) {
+    IndexT m = l + ((r - l) / 2);
+    if (data[m] < value)
+      l = m + 1;
+    else
+      r = m;
   }
+  if (value < data[l] || data[l] < value)
+    return -1;
+  return l;
+}
 
-#define INTEGER64_BSEARCH_ASC_EQ(data, l, r, value, ret) \
-  INTEGER64_BSEARCH_ASC_DOWN(data, l, r, value) \
-  if (LESS(value, data[l])) \
-    ret -1; \
-  else if (LESS(data[l], value)) \
-    ret -1; \
-  else \
-    ret l;  \
-
-#define INTEGER64_LSEARCH_ASC_DOWN(data, l, r, value) \
-{ \
-  IndexT m,g,d=1; \
-  while (l < r) { \
-     g = l - 1 + d; \
-     m = l + ((r - l) / 2); \
-     if (g<m) { \
-       if (LESS(data[g], value)) { \
-         l = g + 1; \
-         d *= 2; \
-       } else{ \
-         r = g; \
-         break; \
-       } \
-     } else{ \
-       if (LESS(data[m], value)) \
-         l = m + 1; \
-       else \
-         r = m; \
-       break; \
-     } \
-  } \
-  while (l < r) { \
-    m = l + ((r - l) / 2); \
-    if (LESS(data[m], value)) \
-      l = m + 1; \
-    else \
-      r = m; \
-  } \
+static inline IndexT integer64_lsearch_asc_GE(const ValueT *data, IndexT l, IndexT r, ValueT value) {
+  IndexT m, g, d = 1;
+  while (l < r) {
+    g = l - 1 + d;
+    m = l + ((r - l) / 2);
+    if (g < m) {
+      if (data[g] < value) {
+        l = g + 1;
+        d *= 2;
+      } else {
+        r = g;
+        break;
       }
-
-#define INTEGER64_LSEARCH_ASC_GE(data, l, r, value, ret) \
-  INTEGER64_LSEARCH_ASC_DOWN(data, l, r, value) \
-  if (LESS(data[l], value)) \
-    ret r+1; \
-  else \
-    ret l;   \
-
-#define INTEGER64_BOSEARCH_ASC_DOWN(data, index, l, r, value) \
-{ \
-IndexT m; \
-  while (l < r) { \
-    m = l + ((r - l) / 2); \
-    if (LESS(data[index[m]], value)) \
-      l = m + 1; \
-    else \
-      r = m; \
-  } \
+    } else {
+      if (data[m] < value)
+        l = m + 1;
+      else
+        r = m;
+      break;
+    }
+  }
+  while (l < r) {
+    m = l + ((r - l) / 2);
+    if (data[m] < value)
+      l = m + 1;
+    else
+      r = m;
+  }
+  if (data[l] < value)
+    return r + 1;
+  return l;
 }
 
-#define INTEGER64_BOSEARCH_ASC_EQ(data, index, l, r, value, ret) \
-  INTEGER64_BOSEARCH_ASC_DOWN(data, index, l, r, value) \
-  if (LESS(value, data[index[l]])) \
-    ret -1; \
-  else if (LESS(data[index[l]], value)) \
-    ret -1; \
-  else \
-    ret l;  \
-
-#define INTEGER64_LOSEARCH_ASC_DOWN(data, index, l, r, value) \
-{ \
-  IndexT m,g,d=1; \
-  while (l < r) { \
-     g = l - 1 + d; \
-     m = l + ((r - l) / 2); \
-     if (g<m) { \
-       if (LESS(data[index[g]], value)) { \
-         l = g + 1; \
-         d *= 2; \
-       } else{ \
-         r = g; \
-         break; \
-       } \
-     } else{ \
-       if (LESS(data[index[m]], value)) \
-         l = m + 1; \
-       else \
-         r = m; \
-       break; \
-     } \
-  } \
-  while (l < r) { \
-    m = l + ((r - l) / 2); \
-    if (LESS(data[index[m]], value)) \
-      l = m + 1; \
-    else \
-      r = m; \
-  } \
+static inline IndexT integer64_bosearch_asc_EQ(const ValueT *data, const IndexT *index, IndexT l, IndexT r, ValueT value) {
+  while (l < r) {
+    IndexT m = l + ((r - l) / 2);
+    if (data[index[m]] < value)
+      l = m + 1;
+    else
+      r = m;
+  }
+  if (value < data[index[l]] || data[index[l]] < value)
+    return -1;
+  return l;
 }
 
-#define INTEGER64_LOSEARCH_ASC_GE(data, index, l, r, value, ret) \
-  INTEGER64_LOSEARCH_ASC_DOWN(data, index, l, r, value) \
-  if (LESS(data[index[l]], value)) \
-    ret r+1; \
-  else \
-    ret l;   \
-
-IndexT integer64_bsearch_asc_EQ(ValueT *data, IndexT l, IndexT r, ValueT value);
-IndexT integer64_lsearch_asc_GE(ValueT *data, IndexT l, IndexT r, ValueT value);
-IndexT integer64_bosearch_asc_EQ(ValueT *data, IndexT *index, IndexT l, IndexT r, ValueT value);
-IndexT integer64_losearch_asc_GE(ValueT *data, IndexT *index, IndexT l, IndexT r, ValueT value);
+static inline IndexT integer64_losearch_asc_GE(const ValueT *data, const IndexT *index, IndexT l, IndexT r, ValueT value) {
+  IndexT m, g, d = 1;
+  while (l < r) {
+    g = l - 1 + d;
+    m = l + ((r - l) / 2);
+    if (g < m) {
+      if (data[index[g]] < value) {
+        l = g + 1;
+        d *= 2;
+      } else {
+        r = g;
+        break;
+      }
+    } else {
+      if (data[index[m]] < value)
+        l = m + 1;
+      else
+        r = m;
+      break;
+    }
+  }
+  while (l < r) {
+    m = l + ((r - l) / 2);
+    if (data[index[m]] < value)
+      l = m + 1;
+    else
+      r = m;
+  }
+  if (data[index[l]] < value)
+    return r + 1;
+  return l;
+}
 
 #endif  // BIT64_SRC_BSEARCH_H_
