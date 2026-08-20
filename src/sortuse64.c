@@ -17,6 +17,7 @@
 #include "bsearch.h"
 #include "integer64.h"
 #include "sort64.h"
+#include "sortuse64.h"
 
 static inline ValueT *bitflags_alloc(IndexT n) {
   IndexT nbitflags = n / 64 + (n % 64 ? 1 : 0);

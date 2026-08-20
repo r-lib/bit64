@@ -7,9 +7,11 @@
 # Provided 'as is', use at your own risk
 #*/
 
-#include <Rinternals.h>
 #include <R.h>
+#include <Rinternals.h>
 #include <R_ext/Boolean.h> // TRUE,FALSE
+
+#include "hash64.h"
 
 // This multiplicator was used in Simon Urbanek's package fastmatch for 32-bit integers
 //   (314159265358979323ULL * ((unsigned long long)(X)) >> (SHIFT))
@@ -380,48 +382,6 @@ SEXP hashmapupo_integer64(SEXP x_, SEXP bits_, SEXP hashpos_, SEXP nunique_) {
   }
   INTEGER(nunique_)[0] = nu;
   REPROTECT(ret_ = lengthgets(ret_, nu), idx);
-  UNPROTECT(1);
-  return ret_;
-}
-
-
-
-SEXP hashtab_integer641(SEXP hashdat_, SEXP bits_, SEXP hashpos_, SEXP nunique_) {
-  int i, nx = LENGTH(hashdat_);
-  int h, nh = LENGTH(hashpos_);
-  int u;
-  long long * hashdat = (long long *) REAL(hashdat_);
-  unsigned int * hashpos = (unsigned int *) INTEGER(hashpos_);
-  //int * pos = INTEGER(pos_);
-  SEXP ret_;
-  PROTECT_INDEX idx;
-  PROTECT_WITH_INDEX(ret_ = allocVector(INTSXP, nh), &idx);
-  int * ret = INTEGER(ret_);
-  int bits = asInteger(bits_);
-  int shift = 64 - bits;
-  long long v;
-  for(i=0; i<nh; i++)
-    ret[i]=0;
-  for(i=0; i<nx; i++) {
-    v = hashdat[i];
-    h = hash64(v, shift);
-    while(hashpos[h]) {  // this is mostly while(hashpos[h]) but we want to catch failure for the nomatch assignment
-      if (hashdat[hashpos[h] - 1] == v) {
-        ret[h]++;
-        break;
-      }
-      h++;
-      if (h == nh)
-        h = 0;
-    }
-  }
-  for (u=0,h=0;h<nh;h++) {
-    if (hashpos[h]) {
-      //pos[u]=hashpos[h];
-      ret[u++]=ret[h];
-    }
-  }
-  REPROTECT(ret_ = lengthgets(ret_, u), idx);
   UNPROTECT(1);
   return ret_;
 }

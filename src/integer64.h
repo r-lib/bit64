@@ -29,6 +29,7 @@
 #include <stdbool.h>
 
 #include <R.h>
+#include <Rinternals.h>
 #include <R_ext/Arith.h>
 #include <R_ext/Boolean.h>
 
@@ -458,5 +459,67 @@ static inline int ge64(long long e1, long long e2) {
   }
   return e1 >= e2;
 }
+
+/*****************************************************************************/
+/**                                                                         **/
+/**                        EXPORTED SEXP FUNCTIONS                          **/
+/**                                                                         **/
+/*****************************************************************************/
+
+SEXP as_integer64_double(SEXP x_, SEXP ret_);
+SEXP as_integer64_integer(SEXP x_, SEXP ret_);
+SEXP as_double_integer64(SEXP x_, SEXP ret_);
+SEXP as_integer_integer64(SEXP x_, SEXP ret_);
+SEXP as_logical_integer64(SEXP x_, SEXP ret_);
+SEXP as_character_integer64(SEXP x_, SEXP ret_);
+SEXP as_integer64_character(SEXP x_, SEXP ret_);
+SEXP as_bitstring_integer64(SEXP x_, SEXP ret_);
+SEXP as_integer64_bitstring(SEXP x_, SEXP ret_);
+SEXP plus_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP minus_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP diff_integer64(SEXP x_, SEXP lag_, SEXP n_, SEXP ret_);
+SEXP intdiv_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP mod_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP times_integer64_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP times_integer64_double(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP power_integer64_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP power_integer64_double(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP divide_integer64_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP divide_integer64_double(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP divide_double_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP sign_integer64(SEXP e1_, SEXP ret_);
+SEXP abs_integer64(SEXP e1_, SEXP ret_);
+SEXP sqrt_integer64(SEXP e1_, SEXP ret_);
+SEXP log_integer64(SEXP e1_, SEXP ret_);
+SEXP logvect_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP logbase_integer64(SEXP e1_, SEXP base_, SEXP ret_);
+SEXP log10_integer64(SEXP e1_, SEXP ret_);
+SEXP log2_integer64(SEXP e1_, SEXP ret_);
+SEXP any_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_);
+SEXP all_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_);
+SEXP sum_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_);
+SEXP mean_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_);
+SEXP prod_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_);
+SEXP min_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_);
+SEXP max_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_);
+SEXP range_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_);
+SEXP lim_integer64(SEXP ret_);
+SEXP cummin_integer64(SEXP e1_, SEXP ret_);
+SEXP cummax_integer64(SEXP e1_, SEXP ret_);
+SEXP cumsum_integer64(SEXP e1_, SEXP ret_);
+SEXP cumprod_integer64(SEXP e1_, SEXP ret_);
+SEXP seq_integer64(SEXP from_, SEXP by_, SEXP ret_);
+SEXP isna_integer64(SEXP e1_, SEXP ret_);
+SEXP EQ_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP NE_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP LT_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP LE_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP GT_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP GE_integer64(SEXP e1_, SEXP e2_, SEXP ret_);
+SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_);
+SEXP as_list_integer64(SEXP x_);
+SEXP matmult_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_);
+SEXP matmult_double_integer64(SEXP x_, SEXP y_, SEXP ret_);
+SEXP matmult_integer64_double(SEXP x_, SEXP y_, SEXP ret_);
 
 #endif  // BIT64_SRC_INTEGER64_H_
