@@ -520,8 +520,10 @@ the examples.
   [`c.integer64()`](https://bit64.r-lib.org/reference/c.integer64.md) if
   the first argument is `integer64` and it does not recursively dispatch
   the proper method when called with argument `recursive=TRUE`.
-  Therefore `c(list(integer64, integer64))` does not work and for now
-  you can only call `c.integer64(list(x, x))`.
+  Therefore `c(list(integer64, integer64), recursive=TRUE)` does not
+  work. You can always force integer64 dispatch by prepending
+  `integer64()`:
+  `c(integer64(), list(integer64, integer64), recursive=TRUE)`.
 
 - **[`unlist()`](https://rdrr.io/r/base/unlist.html)** is not generic
   and if it were, we would face similar problems as with
@@ -626,11 +628,9 @@ seq(as.integer64(1), 10)     # seq.integer64 is dispatched on first given argume
 seq(to=as.integer64(10), 1)  # seq.integer64 is dispatched on first given argument
 #> integer64
 #>  [1] 1  2  3  4  5  6  7  8  9  10
-seq.integer64(along.with=x)  # or call seq.integer64 directly
-#> integer64
-#>  [1] 1  2  3  4  5  6  7  8  9  10 11 12 13
+
 # c.integer64 is dispatched only if *first* argument is integer64 ...
-x <- c(x,runif(length(x), max=100))
+x <- c(x, runif(length(x), max=100))
 # ... and coerces everything to integer64 - including double
 x
 #> integer64
