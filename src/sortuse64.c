@@ -15,7 +15,7 @@
 
 #include "bsearch.h"
 #include "integer64.h"
-#include "sort64.h" // LESS
+#include "sort64.h"
 
 void R_Busy (int which);
 
@@ -204,7 +204,7 @@ SEXP r_ram_integer64_sortfin_asc(
   switch (method) {
     case 1:{
         for (i = 0; i < n; i++)
-            ret[i] = integer64_bsearch_asc_EQ(sorted, 0, n1, data[i])<0 ? FALSE : TRUE;
+            ret[i] = integer64_bsearch_asc_EQ(sorted, 0, n1, data[i]) >= 0;
         break;
     }
     case 2:{
@@ -215,7 +215,7 @@ SEXP r_ram_integer64_sortfin_asc(
               for (; i < n; i++)
                 ret[i] = FALSE;
             } else{
-                ret[i] = data[i] == sorted[pos] ? TRUE : FALSE;
+                ret[i] = data[i] == sorted[pos];
             }
         }
         break;
@@ -223,7 +223,7 @@ SEXP r_ram_integer64_sortfin_asc(
     case 3:{
       pos = 0;
       for (i = 0; i < n; i++) {
-        while (LESS(sorted[pos], data[i])) {
+        while(sorted[pos] < data[i]) {
           pos++;
           if (pos == nt) {
             for (; i < n; i++)
@@ -231,7 +231,7 @@ SEXP r_ram_integer64_sortfin_asc(
             goto wrapup;
           }
         }
-        ret[i] = data[i] == sorted[pos] ? TRUE : FALSE;
+        ret[i] = data[i] == sorted[pos];
       }
       break;
     }
@@ -280,7 +280,7 @@ SEXP r_ram_integer64_orderfin_asc(
   switch (method) {
     case 1:{
         for (i = 0; i < n; i++) {
-            ret[i] = integer64_bosearch_asc_EQ(table, index, 0, n1, data[i])<0 ? FALSE : TRUE;
+            ret[i] = integer64_bosearch_asc_EQ(table, index, 0, n1, data[i]) >= 0;
         }
         break;
     }
@@ -292,7 +292,7 @@ SEXP r_ram_integer64_orderfin_asc(
               for (; i < n; i++)
                 ret[i] = FALSE;
             } else{
-                ret[i] = data[i] == table[index[pos]] ? TRUE : FALSE;
+                ret[i] = data[i] == table[index[pos]];
             }
         }
         break;
@@ -300,7 +300,7 @@ SEXP r_ram_integer64_orderfin_asc(
     case 3:{
       pos = 0;
       for (i = 0; i < n; i++) {
-        while (LESS(table[index[pos]], data[i])) {
+        while(table[index[pos]] < data[i]) {
           pos++;
           if (pos == nt) {
             for (; i < n; i++)
@@ -308,7 +308,7 @@ SEXP r_ram_integer64_orderfin_asc(
             goto wrapup;
           }
         }
-        ret[i] = data[i] == table[index[pos]] ? TRUE : FALSE;
+        ret[i] = data[i] == table[index[pos]];
       }
       break;
     }
@@ -385,7 +385,7 @@ SEXP r_ram_integer64_orderpos_asc(
     case 3:{
       pos = 0;
       for (i = 0; i < n; i++) {
-        while (LESS(table[index[pos]], data[i])) {
+        while(table[index[pos]] < data[i]) {
           pos++;
           if (pos == nt) {
             for (; i < n; i++)
@@ -464,7 +464,7 @@ SEXP r_ram_integer64_sortorderpos_asc(
     case 3:{
       pos = 0;
       for (i = 0; i < n; i++) {
-        while (LESS(sorted[pos], data[i])) {
+        while(sorted[pos] < data[i]) {
           pos++;
           if (pos == nt) {
             for (; i < n; i++)
@@ -1052,7 +1052,7 @@ SEXP r_ram_integer64_orderdup_asc(
             }
           }
           for (i = 0; i < n; i++)
-            ret[i] = ((bitflags[i/BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64)))) ? FALSE : TRUE;
+            ret[i] = !(bitflags[i/BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64)));
           break;
         }
         default:
@@ -1105,7 +1105,7 @@ SEXP r_ram_integer64_sortorderdup_asc(
             }
           }
           for (i = 0; i < n; i++)
-            ret[i] = ((bitflags[i/BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64)))) ? FALSE : TRUE;
+            ret[i] = !(bitflags[i/BITS_INTEGER64] & (RIGHTBIT_INTEGER64 << (i % BITS_INTEGER64)));
           break;
         }
         default:
