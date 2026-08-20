@@ -14,11 +14,13 @@
 # nocov end
 
 .onAttach = function(libname, pkgname) {
+  star_line <- strrep("*", 0.7*getOption("width"))
   packageStartupMessage(
-    strrep("*", .7*getOption("width")), "\n",
+    star_line, "\n",
     "R-core is collecting use cases for 64-bit integers as they explore native support for these vectors.\n\n",
+    # nolint next: line_length_linter.
     "See https://stat.ethz.ch/pipermail/r-devel/2026-July/084631.html and reach out to Luke Tierney (luke-tierney@uiowa.edu).\n",
-    strrep("*", .7*getOption("width")), "\n"
+    star_line, "\n"
   )
 }
 
