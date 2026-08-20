@@ -107,19 +107,12 @@ extern SEXP r_ram_integer64_sortorderupo_asc(SEXP, SEXP, SEXP, SEXP);
 extern SEXP r_ram_integer64_sortsrt(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP r_ram_integer64_sorttab_asc(SEXP, SEXP);
 extern SEXP r_ram_integer64_sortuni_asc(SEXP, SEXP);
-/* extern SEXP r_ram_truly_identical(SEXP, SEXP); */
 extern SEXP seq_integer64(SEXP, SEXP, SEXP);
 extern SEXP sign_integer64(SEXP, SEXP);
 extern SEXP sqrt_integer64(SEXP, SEXP);
 extern SEXP sum_integer64(SEXP, SEXP, SEXP);
 extern SEXP times_integer64_double(SEXP, SEXP, SEXP);
 extern SEXP times_integer64_integer64(SEXP, SEXP, SEXP);
-/*
-extern SEXP r_ram_integer64_radisort(SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP r_ram_integer64_onionsort(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP r_ram_integer64_onionsortorder(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP r_ram_integer64_onionorder(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-*/
 
 static const R_CallMethodDef CallEntries[] = {
     {"as_list_integer64",                (DL_FUNC) &as_list_integer64,                1},
@@ -225,19 +218,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"r_ram_integer64_sortsrt",          (DL_FUNC) &r_ram_integer64_sortsrt,          5},
     {"r_ram_integer64_sorttab_asc",      (DL_FUNC) &r_ram_integer64_sorttab_asc,      2},
     {"r_ram_integer64_sortuni_asc",      (DL_FUNC) &r_ram_integer64_sortuni_asc,      2},
-/*    {"r_ram_truly_identical",            (DL_FUNC) &r_ram_truly_identical,            2},*/
     {"seq_integer64",                    (DL_FUNC) &seq_integer64,                    3},
     {"sign_integer64",                   (DL_FUNC) &sign_integer64,                   2},
     {"sqrt_integer64",                   (DL_FUNC) &sqrt_integer64,                   2},
     {"sum_integer64",                    (DL_FUNC) &sum_integer64,                    3},
     {"times_integer64_double",           (DL_FUNC) &times_integer64_double,           3},
     {"times_integer64_integer64",        (DL_FUNC) &times_integer64_integer64,        3},
-/*
-    {"r_ram_integer64_radisort",        (DL_FUNC) &r_ram_integer64_radisort,        5},
-    {"r_ram_integer64_onionsort",        (DL_FUNC) &r_ram_integer64_onionsort,        7},
-    {"r_ram_integer64_onionsortorder",        (DL_FUNC) &r_ram_integer64_onionsortorder,        8},
-    {"r_ram_integer64_onionorder",        (DL_FUNC) &r_ram_integer64_onionorder,        8},
-*/
     {NULL, NULL, 0}
 };
 
