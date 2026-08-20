@@ -2,10 +2,9 @@
 # C-Code for sorting and ordering
 # S3 atomic 64bit integers for R
 # (c) 2011-2024 Jens Oehlschägel
-# (c) 2025 Michael Chirico
+# (c) 2025-2026 Michael Chirico
 # Licence: GPL2
 # Provided 'as is', use at your own risk
-# Created: 2011-12-11
 */
 
 #define _SORT64_C_SRC
@@ -1552,7 +1551,6 @@ SEXP r_ram_integer64_shellsort(
   int decreasing = asLogical(decreasing_);
 
   R_Busy(1);
-  DEBUG_INIT
   ValueT *data;
   data = (ValueT *) REAL(x_);
 
@@ -1567,7 +1565,7 @@ SEXP r_ram_integer64_shellsort(
   , decreasing // 0 for ascending, 1 for descending
   );
 
-    INTEGER(ret_)[0] = DEBUG_RETURN;
+  INTEGER(ret_)[0] = ret;
   R_Busy(0);
   UNPROTECT(1);
   return ret_;
@@ -1591,7 +1589,6 @@ SEXP r_ram_integer64_shellsortorder(
   int decreasing = asLogical(decreasing_);
 
     R_Busy(1);
-    DEBUG_INIT
     ValueT *data;
     data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
@@ -1608,7 +1605,7 @@ SEXP r_ram_integer64_shellsortorder(
     , 0  // no auxindex
     );
 
-    INTEGER(ret_)[0] = DEBUG_RETURN;
+    INTEGER(ret_)[0] = ret;
     R_Busy(0);
 
   UNPROTECT(1);
@@ -1633,7 +1630,6 @@ SEXP r_ram_integer64_shellorder(
   int decreasing = asLogical(decreasing_);
 
     R_Busy(1);
-    DEBUG_INIT
     ValueT *data;
     data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
@@ -1656,7 +1652,7 @@ SEXP r_ram_integer64_shellorder(
     for (i = 0; i < n; i++)
     index[i]++;
 
-    INTEGER(ret_)[0] = DEBUG_RETURN;
+    INTEGER(ret_)[0] = ret;
     R_Busy(0);
 
   UNPROTECT(1);
@@ -1682,14 +1678,13 @@ SEXP r_ram_integer64_mergesort(
   int decreasing = asLogical(decreasing_);
 
   R_Busy(1);
-  DEBUG_INIT
   ValueT *data;
   data = (ValueT *) REAL(x_);
   ValueT *auxdata;
   auxdata = (ValueT *) R_alloc(n, sizeof(ValueT));
 
   for (i = 0; i < n; i++) {
-      MOVE(auxdata[i], data[i])
+    MOVE(auxdata[i], data[i])
   }
 
   if (decreasing)
@@ -1702,7 +1697,7 @@ SEXP r_ram_integer64_mergesort(
   , decreasing // 0 for ascending, 1 for descending
   );
 
-  INTEGER(ret_)[0] = DEBUG_RETURN;
+  INTEGER(ret_)[0] = ret;
   R_Busy(0);
   UNPROTECT(1);
   return ret_;
@@ -1726,7 +1721,6 @@ SEXP r_ram_integer64_mergesortorder(
   int decreasing = asLogical(decreasing_);
 
   R_Busy(1);
-  DEBUG_INIT
 
   IndexT *index = INTEGER(index_);
   IndexT *auxindex;
@@ -1753,7 +1747,7 @@ SEXP r_ram_integer64_mergesortorder(
     , auxindex
     );
 
-  INTEGER(ret_)[0] = DEBUG_RETURN;
+  INTEGER(ret_)[0] = ret;
   R_Busy(0);
   UNPROTECT(1);
   return ret_;
@@ -1777,7 +1771,6 @@ SEXP r_ram_integer64_mergeorder(
   int decreasing = asLogical(decreasing_);
 
   R_Busy(1);
-  DEBUG_INIT
 
   ValueT *data;
   data = (ValueT *) REAL(x_);
@@ -1807,7 +1800,7 @@ SEXP r_ram_integer64_mergeorder(
   for (i = 0; i < n; i++)
     index[i]++;
 
-  INTEGER(ret_)[0] = DEBUG_RETURN;
+  INTEGER(ret_)[0] = ret;
   R_Busy(0);
   UNPROTECT(1);
   return ret_;
@@ -1832,7 +1825,6 @@ SEXP r_ram_integer64_quicksort(
   int restlevel = asInteger(restlevel_);
 
   R_Busy(1);
-  DEBUG_INIT
   ValueT *data;
   data = (ValueT *) REAL(x_);
 
@@ -1847,7 +1839,7 @@ SEXP r_ram_integer64_quicksort(
   , decreasing // 0 for ascending, 1 for descending
   );
 
-  INTEGER(ret_)[0] = DEBUG_RETURN;
+  INTEGER(ret_)[0] = ret;
   R_Busy(0);
   UNPROTECT(1);
   return ret_;
@@ -1873,7 +1865,6 @@ SEXP r_ram_integer64_quicksortorder(
   int restlevel = asInteger(restlevel_);
 
     R_Busy(1);
-    DEBUG_INIT
     ValueT *data;
     data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
@@ -1890,7 +1881,7 @@ SEXP r_ram_integer64_quicksortorder(
     , 0  // no auxindex
     );
 
-    INTEGER(ret_)[0] = DEBUG_RETURN;
+    INTEGER(ret_)[0] = ret;
     R_Busy(0);
 
   UNPROTECT(1);
@@ -1917,7 +1908,6 @@ SEXP r_ram_integer64_quickorder(
   int restlevel = asInteger(restlevel_);
 
     R_Busy(1);
-    DEBUG_INIT
     ValueT *data;
     data = (ValueT *) REAL(x_);
     IndexT *index = INTEGER(index_);
@@ -1940,7 +1930,7 @@ SEXP r_ram_integer64_quickorder(
     for (i = 0; i < n; i++)
       index[i]++;
 
-    INTEGER(ret_)[0] = DEBUG_RETURN;
+    INTEGER(ret_)[0] = ret;
     R_Busy(0);
 
   UNPROTECT(1);
@@ -1960,7 +1950,6 @@ SEXP r_ram_integer64_radixsort(
   int ret;
 
   R_Busy(1);
-  DEBUG_INIT
 
   IndexT n = LENGTH(x_);
   int has_na     = asLogical(has_na_);
@@ -1996,7 +1985,7 @@ SEXP r_ram_integer64_radixsort(
   , decreasing // 0 for ascending, 1 for descending
   );
 
-  INTEGER(ret_)[0] = DEBUG_RETURN;
+  INTEGER(ret_)[0] = ret;
   R_Busy(0);
   UNPROTECT(1);
   return ret_;
@@ -2014,7 +2003,6 @@ SEXP r_ram_integer64_radixsortorder(
   PROTECT( ret_ = allocVector(INTSXP, 1) );
   int ret;
   R_Busy(1);
-  DEBUG_INIT
   IndexT n = LENGTH(x_);
   int has_na     = asLogical(has_na_);
   int na_last    = asLogical(na_last_);
@@ -2054,7 +2042,7 @@ SEXP r_ram_integer64_radixsortorder(
   , auxindex
   );
 
-  INTEGER(ret_)[0] = DEBUG_RETURN;
+  INTEGER(ret_)[0] = ret;
   R_Busy(0);
   UNPROTECT(1);
   return ret_;
@@ -2073,7 +2061,6 @@ SEXP r_ram_integer64_radixorder(
   PROTECT( ret_ = allocVector(INTSXP, 1) );
   int ret;
   R_Busy(1);
-  DEBUG_INIT
   IndexT i,n = LENGTH(x_);
   int has_na     = asLogical(has_na_);
   int na_last    = asLogical(na_last_);
@@ -2116,7 +2103,7 @@ SEXP r_ram_integer64_radixorder(
   for (i = 0; i < n; i++)
     index[i]++;
 
-  INTEGER(ret_)[0] = DEBUG_RETURN;
+  INTEGER(ret_)[0] = ret;
   R_Busy(0);
   UNPROTECT(1);
   return ret_;

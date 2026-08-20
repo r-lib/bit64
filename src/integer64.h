@@ -8,8 +8,8 @@
 #*/
 
 
-#ifndef _INTEGER64_INLCUDED
-#define _INTEGER64_INLCUDED
+#ifndef BIT64_SRC_INTEGER64_H_
+#define BIT64_SRC_INTEGER64_H_
 
 /*****************************************************************************/
 /**                                                                         **/
@@ -34,11 +34,10 @@
 #define MAX_INTEGER64 LLONG_MAX
 #define MIN_INTEGER32 (INT_MIN+1)
 #define MAX_INTEGER32 INT_MAX
-#define LEFTBIT_INTEGER64 ((unsigned long long int)0x8000000000000000)
-#define RIGHTBIT_INTEGER64 ((unsigned long long int)0x0000000000000001)
+#define LEFTBIT_INTEGER64 0x8000000000000000ULL
+#define RIGHTBIT_INTEGER64 0x0000000000000001ULL
 #define NCHARS_BITS_INTEGER64 65
 #define NCHARS_DECS_INTEGER64 22
-#define COERCE_INTEGER64 "%lli"
 #define BITS_INTEGER64 64
 
 #define INTEGER32_OVERFLOW_WARNING "NAs produced by integer overflow"
@@ -422,4 +421,4 @@ else {                                                   \
         ret = (e1 >= e2) ? TRUE : FALSE; \
     }
 
-#endif  // _INTEGER64_INLCUDED
+#endif  // BIT64_SRC_INTEGER64_H_
