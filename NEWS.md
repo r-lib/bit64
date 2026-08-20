@@ -8,23 +8,22 @@
 
 1. Supplying `keep.names=` to `as.integer64()` now emits a warning, which will become an error in the next release.
 
-1. Fix logical errors in the implementation of `order(decreasing=TRUE)` on inputs with missing elements and `ordercache()` set (#340).
-
-## BUG FIXES
-
-1. `runif64(replace=FALSE)` no longer generates any duplicates (#337).
-
-1. `factor()` retains the names of short integer64 inputs (#343).
-
-1. `as.list()` doesn't overflow the protection stack for integer64 inputs (#345). Thanks @NicChr for the report and fix.
-
-1. `log()` operations, especially for `log(x, base=10)` and `log(x, base=2)`, have better precision and consistency (#180).
-
-1. `^.integer64` with integer or integer64 exponent now calculates the power precisely and returns an overflow warning, if an overflow appears (#288).
-
 ## NOTES
 
 1. The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0 (2019).
+
+# bit64 4.8.4 (2026-08-19)
+
+## BUG FIXES
+
+1. Fix logical errors in the implementation of `order(decreasing=TRUE)` on inputs with missing elements and `ordercache()` set (#340).
+1. `runif64(replace=FALSE)` no longer generates any duplicates (#337).
+1. `factor()` retains the names of short integer64 inputs (#343).
+1. `as.list()` doesn't overflow the protection stack for integer64 inputs (#345). Thanks @NicChr for the report and fix.
+1. `log()` operations, especially for `log(x, base=10)` and `log(x, base=2)`, have better precision and consistency (#180).
+1. `^.integer64` with integer or integer64 exponent now calculates the power precisely and returns an overflow warning, if an overflow appears (#288).
+
+## NOTES
 
 1. R Core is considering adding native support for 64-bit integer vectors. `library(bit64)` will temporarily flash a request for use cases of 64-bit integers as posed by Luke Tierney: https://stat.ethz.ch/pipermail/r-devel/2026-July/084631.html. 
 
