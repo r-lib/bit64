@@ -87,7 +87,7 @@ SEXP as_double_integer64(SEXP x_, SEXP ret_) {
   double rmin = -rmax;
   Rboolean naflag = FALSE;
   for (i = 0; i < n; i++) {
-    if (x[i] == NA_INTEGER64)
+    if (is_na64(x[i]))
       ret[i] = NA_REAL;
     else{
       if (x[i]<rmin || x[i]>rmax)
@@ -105,7 +105,7 @@ SEXP as_integer_integer64(SEXP x_, SEXP ret_) {
   int * ret = INTEGER(ret_);
   Rboolean naflag = FALSE;
   for (i = 0; i < n; i++) {
-    if (x[i] == NA_INTEGER64)
+    if (is_na64(x[i]))
       ret[i] = NA_INTEGER;
     else{
       if (x[i]<MIN_INTEGER32 || x[i]>MAX_INTEGER32) {
@@ -124,7 +124,7 @@ SEXP as_logical_integer64(SEXP x_, SEXP ret_) {
   long long * x = (long long *) REAL(x_);
   int * ret = INTEGER(ret_);
   for (i = 0; i < n; i++) {
-    if (x[i] == NA_INTEGER64)
+    if (is_na64(x[i]))
       ret[i] = NA_INTEGER;
     else{
       ret[i] = x[i]==0 ? 0: 1;
@@ -139,7 +139,7 @@ SEXP as_character_integer64(SEXP x_, SEXP ret_) {
   long long * x = (long long *) REAL(x_);
   static char buff[NCHARS_DECS_INTEGER64];
   for (i = 0; i < n; i++) {
-    if (x[i] == NA_INTEGER64) {
+    if (is_na64(x[i])) {
       SET_STRING_ELT(ret_, i, NA_STRING);
     } else{
       snprintf(buff, NCHARS_DECS_INTEGER64, "%lli", x[i]);
@@ -181,7 +181,7 @@ SEXP as_integer64_character(SEXP x_, SEXP ret_) {
         naflag = TRUE;
       } else if (str==endpointer) {
         ret[i] = NA_INTEGER64; // "" -> NA without warning
-      } else if (ret[i] == NA_INTEGER64) { // i.e., received exact string value of NA_INTEGER64 sentinel
+      } else if (is_na64(ret[i])) { // i.e., received exact string value of NA_INTEGER64 sentinel
         naflag = TRUE;
       }
     }
@@ -562,7 +562,7 @@ SEXP any_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   Rboolean hasna=FALSE;
     if (asLogical(na_rm_)) {
         for (i = 0; i < n; i++) {
-            if (e1[i]!=NA_INTEGER64 && e1[i]) {
+            if (!is_na64(e1[i]) && e1[i]) {
                 ret[0] = TRUE;
                 return ret_;
             }
@@ -570,7 +570,7 @@ SEXP any_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
         ret[0] = FALSE;
     } else{
         for (i = 0; i < n; i++) {
-            if (e1[i] == NA_INTEGER64) {
+            if (is_na64(e1[i])) {
                 hasna = TRUE;
             } else if (e1[i]) {
                 ret[0] = TRUE;
@@ -589,7 +589,7 @@ SEXP all_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   Rboolean hasna=FALSE;
     if (asLogical(na_rm_)) {
         for (i = 0; i < n; i++) {
-            if (e1[i]!=NA_INTEGER64 && !e1[i]) {
+            if (!is_na64(e1[i]) && !e1[i]) {
                 ret[0] = FALSE;
                 return ret_;
             }
@@ -597,7 +597,7 @@ SEXP all_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
         ret[0] = TRUE;
     } else{
         for (i = 0; i < n; i++) {
-            if (e1[i] == NA_INTEGER64) {
+            if (is_na64(e1[i])) {
                 hasna = TRUE;
             } else if (!e1[i]) {
                 ret[0] = FALSE;
@@ -617,7 +617,7 @@ SEXP sum_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   long long cumsum = 0;
   if (asLogical(na_rm_)) {
     for (i = 0; i < n; i++) {
-      if (e1[i]!=NA_INTEGER64) {
+      if (!is_na64(e1[i])) {
         if (add64_overflow(cumsum, e1[i], &cumsum)) {
           warning(INTEGER64_OVERFLOW_WARNING);
           ret[0] = NA_INTEGER64;
@@ -627,7 +627,7 @@ SEXP sum_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
     }
   } else{
     for (i = 0; i < n; i++) {
-      if (e1[i] == NA_INTEGER64) {
+      if (is_na64(e1[i])) {
         ret[0] = NA_INTEGER64;
         return ret_;
       } else{
@@ -651,7 +651,7 @@ SEXP mean_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
     if (asLogical(na_rm_)) {
         long long nvalid = 0;
         for (i = 0; i < n; i++) {
-            if (e1[i]!=NA_INTEGER64) {
+            if (!is_na64(e1[i])) {
                 longret += e1[i];
                 nvalid++;
             }
@@ -659,7 +659,7 @@ SEXP mean_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
         ret[0] = longret / nvalid;
     } else{
         for (i = 0; i < n; i++) {
-            if (e1[i] == NA_INTEGER64) {
+            if (is_na64(e1[i])) {
                 ret[0] = NA_INTEGER64;
                 return ret_;
             } else{
@@ -678,7 +678,7 @@ SEXP prod_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   long long cumprod = 1;
   if (asLogical(na_rm_)) {
     for (i = 0; i < n; i++) {
-      if (e1[i]!=NA_INTEGER64) {
+      if (!is_na64(e1[i])) {
         if (mul64_overflow(cumprod, e1[i], &cumprod)) {
           warning(INTEGER64_OVERFLOW_WARNING);
           ret[0] = NA_INTEGER64;
@@ -688,7 +688,7 @@ SEXP prod_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
     }
   } else{
     for (i = 0; i < n; i++) {
-      if (e1[i] == NA_INTEGER64) {
+      if (is_na64(e1[i])) {
         ret[0] = NA_INTEGER64;
         return ret_;
       } else{
@@ -712,7 +712,7 @@ SEXP min_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   ret[0] = MAX_INTEGER64;
     if (asLogical(na_rm_)) {
         for (i = 0; i < n; i++) {
-            if (e1[i]!=NA_INTEGER64) {
+            if (!is_na64(e1[i])) {
               onlyNas = FALSE;
               if (e1[i]<ret[0]) {
                 ret[0] = e1[i];
@@ -721,7 +721,7 @@ SEXP min_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
         }
     } else{
         for (i = 0; i < n; i++) {
-            if (e1[i] == NA_INTEGER64) {
+            if (is_na64(e1[i])) {
                 ret[0] = NA_INTEGER64;
                 return ret_;
             } else{
@@ -745,7 +745,7 @@ SEXP max_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   ret[0] = MIN_INTEGER64;
     if (asLogical(na_rm_)) {
         for (i = 0; i < n; i++) {
-            if (e1[i]!=NA_INTEGER64) {
+            if (!is_na64(e1[i])) {
               onlyNas = FALSE;
               if (e1[i]>ret[0]) {
                 ret[0] = e1[i];
@@ -754,7 +754,7 @@ SEXP max_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
         }
     } else{
         for (i = 0; i < n; i++) {
-            if (e1[i] == NA_INTEGER64) {
+            if (is_na64(e1[i])) {
                 ret[0] = NA_INTEGER64;
                 return ret_;
             } else{
@@ -779,7 +779,7 @@ SEXP range_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
   ret[1] = MIN_INTEGER64;
     if (asLogical(na_rm_)) {
         for (i = 0; i < n; i++) {
-            if (e1[i]!=NA_INTEGER64) {
+            if (!is_na64(e1[i])) {
                 onlyNas = FALSE;
                 if (e1[i]<ret[0])
                     ret[0] = e1[i];
@@ -789,7 +789,7 @@ SEXP range_integer64(SEXP e1_, SEXP na_rm_, SEXP ret_) {
         }
     } else{
         for (i = 0; i < n; i++) {
-            if (e1[i] == NA_INTEGER64) {
+            if (is_na64(e1[i])) {
                 ret[0] = ret[1] = NA_INTEGER64;
                 return ret_;
             } else{
@@ -822,9 +822,9 @@ SEXP cummin_integer64(SEXP e1_, SEXP ret_) {
   if (n > 0) {
     i=0;
     ret[i] = e1[i];
-    if(e1[i]!=NA_INTEGER64)
+    if(!is_na64(e1[i]))
     for (i = 1; i < n; i++) {
-        if (e1[i] == NA_INTEGER64) {
+        if (is_na64(e1[i])) {
             ret[i] = e1[i];
             break;
         } else{
@@ -845,9 +845,9 @@ SEXP cummax_integer64(SEXP e1_, SEXP ret_) {
   if (n > 0) {
     i=0;
     ret[i] = e1[i];
-    if(e1[i]!=NA_INTEGER64)
+    if(!is_na64(e1[i]))
     for (i = 1; i < n; i++) {
-        if (e1[i] == NA_INTEGER64) {
+        if (is_na64(e1[i])) {
             ret[i] = e1[i];
             break;
         } else{
@@ -909,7 +909,7 @@ SEXP isna_integer64(SEXP e1_, SEXP ret_) {
   long long * e1 = (long long *) REAL(e1_);
   int * ret = (int *) LOGICAL(ret_);
     for (i = 0; i < n; i++) {
-        ret[i] = (e1[i]==NA_INTEGER64) ? TRUE : FALSE;
+        ret[i] = (is_na64(e1[i])) ? TRUE : FALSE;
   }
   return ret_;
 }
@@ -1022,7 +1022,7 @@ SEXP runif_integer64(SEXP n_, SEXP min_, SEXP max_) {
     //   so in principal we could just try and steer draw_u32_twice away from this.
     //   But the transformation becomes non-trivial, the statistics messy, and it's by no means
     //   guaranteed to work across all platforms -- simpler to just leave this simple retry approach.
-    while (rand_draw.LongLongRepr == NA_INTEGER64)
+    while (is_na64(rand_draw.LongLongRepr))
       draw_u32_twice(&rand_draw); // # nocov
     ret[i] = min + (rand_draw.LongLongRepr % d);
   }
@@ -1079,7 +1079,7 @@ SEXP matmult_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_) {
       cumsum = 0;
       for (k = 0; k < ncol1; k++) {
         PROD64(x[i + k*nrow1],y[k + j*nrow2],addValue,naflag)
-        if (addValue == NA_INTEGER64) {
+        if (is_na64(addValue)) {
           cumsum = NA_INTEGER64; 
           break;
         }
@@ -1120,7 +1120,7 @@ SEXP matmult_double_integer64(SEXP x_, SEXP y_, SEXP ret_) {
       cumsum = 0;
       for (k = 0; k < ncol1; k++) {
         PROD64REAL(y[k + j*nrow2],x[i + k*nrow1],addValue,naflag,longret)
-        if (addValue == NA_INTEGER64) {
+        if (is_na64(addValue)) {
           cumsum = NA_INTEGER64; 
           break;
         }
@@ -1160,7 +1160,7 @@ SEXP matmult_integer64_double(SEXP x_, SEXP y_, SEXP ret_) {
       cumsum = 0;
       for (k = 0; k < ncol1; k++) {
         PROD64REAL(x[i + k*nrow1],y[k + j*nrow2],addValue,naflag,longret)
-        if (addValue == NA_INTEGER64) {
+        if (is_na64(addValue)) {
           cumsum = NA_INTEGER64; 
           break;
         }
