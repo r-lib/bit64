@@ -16,8 +16,6 @@
 #include "integer64.h"
 #include "sort64.h"
 
-void R_Busy(int which);
-
 SEXP r_ram_integer64_nacount(
   SEXP x_
 )
