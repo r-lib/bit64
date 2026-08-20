@@ -7,6 +7,8 @@
 # Provided 'as is', use at your own risk
 */
 
+#include <math.h>
+
 #include <R.h>
 #include <Rinternals.h> // asLogical
 #include <R_ext/Arith.h> // NA_INTEGER, NA_REAL
@@ -1337,4 +1339,548 @@ SEXP r_ram_integer64_orderord(
   return ret_;
 }
 
+SEXP r_ram_integer64_shellsort(
+  SEXP x_,
+  SEXP has_na_,
+  SEXP na_last_,
+  SEXP decreasing_
+) {
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(INTSXP, 1));
 
+  int n = LENGTH(x_);
+  int has_na = asLogical(has_na_);
+  int na_last = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
+
+  R_Busy(1);
+  ValueT *data = (ValueT *) REAL(x_);
+
+  if (decreasing) {
+    ram_integer64_shellsort_desc(data, 0, n - 1);
+  } else {
+    ram_integer64_shellsort_asc(data, 0, n - 1);
+  }
+
+  int ret = ram_integer64_fixsortNA(
+    data, n,
+    has_na,
+    na_last,
+    decreasing
+  );
+
+  INTEGER(ret_)[0] = ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
+
+SEXP r_ram_integer64_shellsortorder(
+  SEXP x_,
+  SEXP index_,
+  SEXP has_na_,
+  SEXP na_last_,
+  SEXP decreasing_
+) {
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(INTSXP, 1));
+
+  int n = LENGTH(x_);
+  int has_na = asLogical(has_na_);
+  int na_last = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
+
+  R_Busy(1);
+  ValueT *data = (ValueT *) REAL(x_);
+  IndexT *index = INTEGER(index_);
+
+  if (decreasing) {
+    ram_integer64_shellsortorder_desc(data, index, 0, n - 1);
+  } else {
+    ram_integer64_shellsortorder_asc(data, index, 0, n - 1);
+  }
+
+  int ret = ram_integer64_fixsortorderNA(
+    data, index, n,
+    has_na,
+    na_last,
+    decreasing,
+    0
+  );
+
+  INTEGER(ret_)[0] = ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
+
+SEXP r_ram_integer64_shellorder(
+  SEXP x_,
+  SEXP index_,
+  SEXP has_na_,
+  SEXP na_last_,
+  SEXP decreasing_
+) {
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(INTSXP, 1));
+
+  int n = LENGTH(x_);
+  int has_na = asLogical(has_na_);
+  int na_last = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
+
+  R_Busy(1);
+  ValueT *data = (ValueT *) REAL(x_);
+  IndexT *index = INTEGER(index_);
+
+  for (int i = 0; i < n; i++) {
+    index[i]--;
+  }
+
+  if (decreasing) {
+    ram_integer64_shellorder_desc(data, index, 0, n - 1);
+  } else {
+    ram_integer64_shellorder_asc(data, index, 0, n - 1);
+  }
+
+  int ret = ram_integer64_fixorderNA(
+    data, index, n,
+    has_na,
+    na_last,
+    decreasing,
+    0
+  );
+
+  for (int i = 0; i < n; i++) {
+    index[i]++;
+  }
+
+  INTEGER(ret_)[0] = ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
+
+SEXP r_ram_integer64_mergesort(
+  SEXP x_,
+  SEXP has_na_,
+  SEXP na_last_,
+  SEXP decreasing_
+) {
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(INTSXP, 1));
+
+  int n = LENGTH(x_);
+  int has_na = asLogical(has_na_);
+  int na_last = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
+
+  R_Busy(1);
+  ValueT *data = (ValueT *) REAL(x_);
+  ValueT *auxdata = (ValueT *) R_alloc(n, sizeof(ValueT));
+
+  for (int i = 0; i < n; i++) {
+    auxdata[i] = data[i];
+  }
+
+  if (decreasing) {
+    ram_integer64_mergesort_desc_rec(data, auxdata, 0, n - 1);
+  } else {
+    ram_integer64_mergesort_asc_rec(data, auxdata, 0, n - 1);
+  }
+
+  int ret = ram_integer64_fixsortNA(
+    data, n,
+    has_na,
+    na_last,
+    decreasing
+  );
+
+  INTEGER(ret_)[0] = ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
+
+SEXP r_ram_integer64_mergesortorder(
+  SEXP x_,
+  SEXP index_,
+  SEXP has_na_,
+  SEXP na_last_,
+  SEXP decreasing_
+) {
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(INTSXP, 1));
+
+  int n = LENGTH(x_);
+  int has_na = asLogical(has_na_);
+  int na_last = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
+
+  R_Busy(1);
+  IndexT *index = INTEGER(index_);
+  IndexT *auxindex = (IndexT *) R_alloc(n, sizeof(IndexT));
+  ValueT *data = (ValueT *) REAL(x_);
+  ValueT *auxdata = (ValueT *) R_alloc(n, sizeof(ValueT));
+
+  for (int i = 0; i < n; i++) {
+    auxindex[i] = index[i];
+    auxdata[i] = data[i];
+  }
+
+  if (decreasing) {
+    ram_integer64_mergesortorder_desc_rec(data, auxdata, index, auxindex, 0, n - 1);
+  } else {
+    ram_integer64_mergesortorder_asc_rec(data, auxdata, index, auxindex, 0, n - 1);
+  }
+
+  int ret = ram_integer64_fixsortorderNA(
+    data, index, n,
+    has_na,
+    na_last,
+    decreasing,
+    auxindex
+  );
+
+  INTEGER(ret_)[0] = ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
+
+SEXP r_ram_integer64_mergeorder(
+  SEXP x_,
+  SEXP index_,
+  SEXP has_na_,
+  SEXP na_last_,
+  SEXP decreasing_
+) {
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(INTSXP, 1));
+
+  int n = LENGTH(x_);
+  int has_na = asLogical(has_na_);
+  int na_last = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
+
+  R_Busy(1);
+  ValueT *data = (ValueT *) REAL(x_);
+  IndexT *index = INTEGER(index_);
+  IndexT *auxindex = (IndexT *) R_alloc(n, sizeof(IndexT));
+
+  for (int i = 0; i < n; i++) {
+    index[i]--;
+  }
+  for (int i = 0; i < n; i++) {
+    auxindex[i] = index[i];
+  }
+
+  if (decreasing) {
+    ram_integer64_mergeorder_desc_rec(data, index, auxindex, 0, n - 1);
+  } else {
+    ram_integer64_mergeorder_asc_rec(data, index, auxindex, 0, n - 1);
+  }
+
+  int ret = ram_integer64_fixorderNA(
+    data, index, n,
+    has_na,
+    na_last,
+    decreasing,
+    auxindex
+  );
+
+  for (int i = 0; i < n; i++) {
+    index[i]++;
+  }
+
+  INTEGER(ret_)[0] = ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
+
+SEXP r_ram_integer64_quicksort(
+  SEXP x_,
+  SEXP has_na_,
+  SEXP na_last_,
+  SEXP decreasing_,
+  SEXP restlevel_
+) {
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(INTSXP, 1));
+
+  int n = LENGTH(x_);
+  int has_na = asLogical(has_na_);
+  int na_last = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
+  int restlevel = asInteger(restlevel_);
+
+  R_Busy(1);
+  ValueT *data = (ValueT *) REAL(x_);
+
+  if (decreasing) {
+    ram_integer64_quicksort_desc_intro(data, 0, n - 1, restlevel);
+  } else {
+    ram_integer64_quicksort_asc_intro(data, 0, n - 1, restlevel);
+  }
+
+  int ret = ram_integer64_fixsortNA(
+    data, n,
+    has_na,
+    na_last,
+    decreasing
+  );
+
+  INTEGER(ret_)[0] = ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
+
+SEXP r_ram_integer64_quicksortorder(
+  SEXP x_,
+  SEXP index_,
+  SEXP has_na_,
+  SEXP na_last_,
+  SEXP decreasing_,
+  SEXP restlevel_
+) {
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(INTSXP, 1));
+
+  int n = LENGTH(x_);
+  int has_na = asLogical(has_na_);
+  int na_last = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
+  int restlevel = asInteger(restlevel_);
+
+  R_Busy(1);
+  ValueT *data = (ValueT *) REAL(x_);
+  IndexT *index = INTEGER(index_);
+
+  if (decreasing) {
+    ram_integer64_quicksortorder_desc_intro(data, index, 0, n - 1, restlevel);
+  } else {
+    ram_integer64_quicksortorder_asc_intro(data, index, 0, n - 1, restlevel);
+  }
+
+  int ret = ram_integer64_fixsortorderNA(
+    data, index, n,
+    has_na,
+    na_last,
+    decreasing,
+    0
+  );
+
+  INTEGER(ret_)[0] = ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
+
+SEXP r_ram_integer64_quickorder(
+  SEXP x_,
+  SEXP index_,
+  SEXP has_na_,
+  SEXP na_last_,
+  SEXP decreasing_,
+  SEXP restlevel_
+) {
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(INTSXP, 1));
+
+  int n = LENGTH(x_);
+  int has_na = asLogical(has_na_);
+  int na_last = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
+  int restlevel = asInteger(restlevel_);
+
+  R_Busy(1);
+  ValueT *data = (ValueT *) REAL(x_);
+  IndexT *index = INTEGER(index_);
+
+  for (int i = 0; i < n; i++) {
+    index[i]--;
+  }
+
+  if (decreasing) {
+    ram_integer64_quickorder_desc_intro(data, index, 0, n - 1, restlevel);
+  } else {
+    ram_integer64_quickorder_asc_intro(data, index, 0, n - 1, restlevel);
+  }
+
+  int ret = ram_integer64_fixorderNA(
+    data, index, n,
+    has_na,
+    na_last,
+    decreasing,
+    0
+  );
+
+  for (int i = 0; i < n; i++) {
+    index[i]++;
+  }
+
+  INTEGER(ret_)[0] = ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
+
+SEXP r_ram_integer64_radixsort(
+  SEXP x_,
+  SEXP has_na_,
+  SEXP na_last_,
+  SEXP decreasing_,
+  SEXP radixbits_
+) {
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(INTSXP, 1));
+
+  R_Busy(1);
+  IndexT n = LENGTH(x_);
+  int has_na = asLogical(has_na_);
+  int na_last = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
+  int radixbits = asInteger(radixbits_);
+  int nradixes = 64 / radixbits;
+
+  ValueT *data = (ValueT *) REAL(x_);
+  ValueT *auxdata = (ValueT *) R_alloc(n, sizeof(ValueT));
+
+  IndexT *stats = (IndexT *) R_alloc(nradixes * (pow(2, radixbits) + 1), sizeof(IndexT));
+  IndexT **pstats = (IndexT **) R_alloc(nradixes, sizeof(IndexT *));
+
+  ram_integer64_radixsort(
+    (UValueT *) data,
+    (UValueT *) auxdata,
+    stats,
+    pstats,
+    n,
+    nradixes,
+    radixbits,
+    decreasing
+  );
+  int ret = ram_integer64_fixsortNA(
+    data, n,
+    has_na,
+    na_last,
+    decreasing
+  );
+
+  INTEGER(ret_)[0] = ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
+
+SEXP r_ram_integer64_radixsortorder(
+  SEXP x_,
+  SEXP index_,
+  SEXP has_na_,
+  SEXP na_last_,
+  SEXP decreasing_,
+  SEXP radixbits_
+) {
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(INTSXP, 1));
+
+  R_Busy(1);
+  IndexT n = LENGTH(x_);
+  int has_na = asLogical(has_na_);
+  int na_last = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
+  int radixbits = asInteger(radixbits_);
+  int nradixes = 64 / radixbits;
+
+  IndexT *index = INTEGER(index_);
+  IndexT *auxindex = (IndexT *) R_alloc(n, sizeof(IndexT));
+  ValueT *data = (ValueT *) REAL(x_);
+  ValueT *auxdata = (ValueT *) R_alloc(n, sizeof(ValueT));
+
+  IndexT *stats = (IndexT *) R_alloc(nradixes * (pow(2, radixbits) + 1), sizeof(IndexT));
+  IndexT **pstats = (IndexT **) R_alloc(nradixes, sizeof(IndexT *));
+
+  ram_integer64_radixsortorder(
+    (UValueT *) data,
+    (UValueT *) auxdata,
+    index,
+    auxindex,
+    stats,
+    pstats,
+    n,
+    nradixes,
+    radixbits,
+    decreasing
+  );
+  int ret = ram_integer64_fixsortorderNA(
+    data, index, n,
+    has_na,
+    na_last,
+    decreasing,
+    auxindex
+  );
+
+  INTEGER(ret_)[0] = ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
+
+SEXP r_ram_integer64_radixorder(
+  SEXP x_,
+  SEXP index_,
+  SEXP has_na_,
+  SEXP na_last_,
+  SEXP decreasing_,
+  SEXP radixbits_
+) {
+  SEXP ret_;
+  PROTECT(ret_ = allocVector(INTSXP, 1));
+
+  R_Busy(1);
+  IndexT n = LENGTH(x_);
+  int has_na = asLogical(has_na_);
+  int na_last = asLogical(na_last_);
+  int decreasing = asLogical(decreasing_);
+  int radixbits = asInteger(radixbits_);
+  int nradixes = 64 / radixbits;
+
+  IndexT *index = INTEGER(index_);
+  IndexT *auxindex = (IndexT *) R_alloc(n, sizeof(IndexT));
+  ValueT *data = (ValueT *) REAL(x_);
+
+  IndexT *stats = (IndexT *) R_alloc(nradixes * (pow(2, radixbits) + 1), sizeof(IndexT));
+  IndexT **pstats = (IndexT **) R_alloc(nradixes, sizeof(IndexT *));
+
+  for (int i = 0; i < n; i++) {
+    index[i]--;
+  }
+  ram_integer64_radixorder(
+    (UValueT *) data,
+    index,
+    auxindex,
+    stats,
+    pstats,
+    n,
+    nradixes,
+    radixbits,
+    decreasing
+  );
+  int ret = ram_integer64_fixorderNA(
+    data, index, n,
+    has_na,
+    na_last,
+    decreasing,
+    auxindex
+  );
+
+  for (int i = 0; i < n; i++) {
+    index[i]++;
+  }
+
+  INTEGER(ret_)[0] = ret;
+  R_Busy(0);
+  UNPROTECT(1);
+  return ret_;
+}
