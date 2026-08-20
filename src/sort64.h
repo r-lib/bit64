@@ -7,9 +7,8 @@
 # Provided 'as is', use at your own risk
 */
 
-
-#ifndef _SORT64_INLCUDED
-#define _SORT64_INLCUDED
+#ifndef BIT64_SRC_SORT64_H_
+#define BIT64_SRC_SORT64_H_
 
 /*****************************************************************************/
 /**                                                                         **/
@@ -18,12 +17,8 @@
 /*****************************************************************************/
 
 #include <R.h>
-#include <Rdefines.h>
-//#include <Rinternals.h>
-//CRAN disallows rand: #include <stdlib.h> // rand
 
 #include "integer64.h"
-//#include "timing.h"
 
 
 /*****************************************************************************/
@@ -32,31 +27,8 @@
 /**                                                                         **/
 /*****************************************************************************/
 
-
-#define DEBUG_COUNTING 0
-#define DEBUG_INIT // compare_counter = 0; move_counter = 0; //initTicks();
-//#define DEBUG_RETURN getNewTicks()
-#define DEBUG_RETURN ret;
-// #define DEBUG_RETURN move_counter;
-#define DEBUG_DONE Rprintf("compare_counter=%d  move_counter=%d\n", compare_counter, move_counter); R_FlushConsole(); //doneTicks();
-
-#define LESS(A,B) ((A)<(B))
-#define GREATER(A, B) LESS((B), (A))
-
-//#define MOVE(TO,FROM){move_counter++; TO=FROM;}
-#define MOVE(TO,FROM) TO=FROM;
-#define EXCH(A,B,t) {MOVE(t,A) MOVE(A,B) MOVE(B,t)}
-#define COMPEXCH(A,B,t) if (LESS(B,A)) EXCH(A,B,t)
-
-#define KEY(A) (data[A])
-#define KEYLESS(A,B) (LESS(KEY(A),KEY(B)))
-#define KEYCOMPEXCH(A,B,t) if (KEYLESS(B,A)) EXCH(A,B,t)
-
-#define COMPEXCHi(A,B,t,Ai,Bi,ti) if (LESS(B,A)) {EXCH(A,B,t) EXCH(Ai,Bi,ti)}
-
 #define INSERTIONSORT_LIMIT_MERGE 16
 #define INSERTIONSORT_LIMIT_QUICK 16
-
 
 /*****************************************************************************/
 /**                                                                         **/
@@ -68,20 +40,17 @@ typedef int IndexT;
 typedef long long ValueT;
 typedef unsigned long long UValueT;
 
+static inline void exch64(ValueT *a, ValueT *b) {
+  ValueT t = *a;
+  *a = *b;
+  *b = t;
+}
 
-/*****************************************************************************/
-/**                                                                         **/
-/**                        EXPORTED VARIABLES                               **/
-/**                                                                         **/
-/*****************************************************************************/
-
-
-#ifndef _SORT64_C_SRC
-
-extern IndexT compare_counter;
-extern IndexT move_counter;
-
-#endif
+static inline void exch_idx(IndexT *a, IndexT *b) {
+  IndexT t = *a;
+  *a = *b;
+  *b = t;
+}
 
 /*****************************************************************************/
 /**                                                                         **/
@@ -89,7 +58,7 @@ extern IndexT move_counter;
 /**                                                                         **/
 /*****************************************************************************/
 
-void R_Busy (int which);
+void R_Busy(int which);
 
 // post sorting NA handling
 int ram_integer64_fixsortNA(
@@ -522,10 +491,4 @@ void ram_integer64_radixsortorder(
 , Rboolean decreasing     // one of {0=ascending, 1=descending}
 );
 
-#endif
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                                EOF                                      **/
-/**                                                                         **/
-/*****************************************************************************/
+#endif // BIT64_SRC_SORT64_H_
