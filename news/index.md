@@ -1,60 +1,35 @@
 # Changelog
 
-## bit64 4.8.99 (in development)
+## bit64 4.8.4 (2026-08-19)
 
-### BREAKING CHANGES
-
-1.  The remaining S3 methods are un-exported and no longer available to
-    call directly:
-
-    `[<-.integer64`, `abs.integer64`, `all.integer64`, `any.integer64`,
-    `as.character.integer64`, `as.data.frame.integer64`,
-    `as.double.integer64`, `as.integer.integer64`,
-    `as.integer64.character`, `as.integer64.double`,
-    `as.integer64.integer`, `as.integer64.logical`, `c.integer64`,
-    `format.integer64`, `is.na.integer64`, `log.integer64`,
-    `max.integer64`, `min.integer64`, `print.integer64`,
-    `rank.integer64`, `rep.integer64`, `seq.integer64`, `str.integer64`,
-    `sum.integer64`, `unique.integer64`
-
-2.  Supplying `keep.names=` to
-    [`as.integer64()`](https://bit64.r-lib.org/reference/as.integer64.character.md)
-    now emits a warning, which will become an error in the next release.
-
-3.  Fix logical errors in the implementation of `order(decreasing=TRUE)`
-    on inputs with missing elements and
-    [`ordercache()`](https://bit64.r-lib.org/reference/hashcache.md) set
-    ([\#340](https://github.com/r-lib/bit64/issues/340)).
+CRAN release: 2026-08-20
 
 ### BUG FIXES
 
-1.  `runif64(replace=FALSE)` no longer generates any duplicates
+1.  Fix logical errors in the implementation of `order(decreasing=TRUE)`
+    on inputs with missing elements and
+    [`ordercache()`](https://bit64.r-lib.org/reference/hashcache.md) set
+    ([\#340](https://github.com/r-lib/bit64/issues/340)).
+2.  `runif64(replace=FALSE)` no longer generates any duplicates
     ([\#337](https://github.com/r-lib/bit64/issues/337)).
-
-2.  [`factor()`](https://bit64.r-lib.org/reference/factor.md) retains
+3.  [`factor()`](https://bit64.r-lib.org/reference/factor.md) retains
     the names of short integer64 inputs
     ([\#343](https://github.com/r-lib/bit64/issues/343)).
-
-3.  [`as.list()`](https://rdrr.io/r/base/list.html) doesn’t overflow the
+4.  [`as.list()`](https://rdrr.io/r/base/list.html) doesn’t overflow the
     protection stack for integer64 inputs
     ([\#345](https://github.com/r-lib/bit64/issues/345)). Thanks
     [@NicChr](https://github.com/NicChr) for the report and fix.
-
-4.  [`log()`](https://rdrr.io/r/base/Log.html) operations, especially
+5.  [`log()`](https://rdrr.io/r/base/Log.html) operations, especially
     for `log(x, base=10)` and `log(x, base=2)`, have better precision
     and consistency
     ([\#180](https://github.com/r-lib/bit64/issues/180)).
-
-5.  `^.integer64` with integer or integer64 exponent now calculates the
+6.  `^.integer64` with integer or integer64 exponent now calculates the
     power precisely and returns an overflow warning, if an overflow
     appears ([\#288](https://github.com/r-lib/bit64/issues/288)).
 
 ### NOTES
 
-1.  The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0
-    (2019).
-
-2.  R Core is considering adding native support for 64-bit integer
+1.  R Core is considering adding native support for 64-bit integer
     vectors. [`library(bit64)`](https://github.com/r-lib/bit64) will
     temporarily flash a request for use cases of 64-bit integers as
     posed by Luke Tierney:

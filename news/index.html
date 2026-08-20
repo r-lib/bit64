@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">bit64</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">4.8.99</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">4.8.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,32 +29,28 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/r-lib/bit64/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/r-lib/bit64/blob/4.8.4/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="4.8.99" id="bit64-4899-in-development">bit64 4.8.99 (in development)<a class="anchor" aria-label="anchor" href="#bit64-4899-in-development"></a></h2>
+<h2 class="pkg-version" data-toc-text="4.8.4" id="bit64-484-2026-08-19">bit64 4.8.4 (2026-08-19)<a class="anchor" aria-label="anchor" href="#bit64-484-2026-08-19"></a></h2><p class="text-muted">CRAN release: 2026-08-20</p>
 <div class="section level3">
-<h3 id="breaking-changes-4-8-99">BREAKING CHANGES<a class="anchor" aria-label="anchor" href="#breaking-changes-4-8-99"></a></h3>
-<ol style="list-style-type: decimal"><li>
-<p>The remaining S3 methods are un-exported and no longer available to call directly:</p>
-<p><code>[&lt;-.integer64</code>, <code>abs.integer64</code>, <code>all.integer64</code>, <code>any.integer64</code>, <code>as.character.integer64</code>, <code>as.data.frame.integer64</code>, <code>as.double.integer64</code>, <code>as.integer.integer64</code>, <code>as.integer64.character</code>, <code>as.integer64.double</code>, <code>as.integer64.integer</code>, <code>as.integer64.logical</code>, <code>c.integer64</code>, <code>format.integer64</code>, <code>is.na.integer64</code>, <code>log.integer64</code>, <code>max.integer64</code>, <code>min.integer64</code>, <code>print.integer64</code>, <code>rank.integer64</code>, <code>rep.integer64</code>, <code>seq.integer64</code>, <code>str.integer64</code>, <code>sum.integer64</code>, <code>unique.integer64</code></p>
-</li>
-<li><p>Supplying <code>keep.names=</code> to <code><a href="../reference/as.integer64.character.html">as.integer64()</a></code> now emits a warning, which will become an error in the next release.</p></li>
-<li><p>Fix logical errors in the implementation of <code>order(decreasing=TRUE)</code> on inputs with missing elements and <code><a href="../reference/hashcache.html">ordercache()</a></code> set (<a href="https://github.com/r-lib/bit64/issues/340" class="external-link">#340</a>).</p></li>
+<h3 id="bug-fixes-4-8-4">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-8-4"></a></h3>
+<ol style="list-style-type: decimal"><li>Fix logical errors in the implementation of <code>order(decreasing=TRUE)</code> on inputs with missing elements and <code><a href="../reference/hashcache.html">ordercache()</a></code> set (<a href="https://github.com/r-lib/bit64/issues/340" class="external-link">#340</a>).</li>
+<li>
+<code>runif64(replace=FALSE)</code> no longer generates any duplicates (<a href="https://github.com/r-lib/bit64/issues/337" class="external-link">#337</a>).</li>
+<li>
+<code><a href="../reference/factor.html">factor()</a></code> retains the names of short integer64 inputs (<a href="https://github.com/r-lib/bit64/issues/343" class="external-link">#343</a>).</li>
+<li>
+<code><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list()</a></code> doesn’t overflow the protection stack for integer64 inputs (<a href="https://github.com/r-lib/bit64/issues/345" class="external-link">#345</a>). Thanks <a href="https://github.com/NicChr" class="external-link">@NicChr</a> for the report and fix.</li>
+<li>
+<code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log()</a></code> operations, especially for <code>log(x, base=10)</code> and <code>log(x, base=2)</code>, have better precision and consistency (<a href="https://github.com/r-lib/bit64/issues/180" class="external-link">#180</a>).</li>
+<li>
+<code>^.integer64</code> with integer or integer64 exponent now calculates the power precisely and returns an overflow warning, if an overflow appears (<a href="https://github.com/r-lib/bit64/issues/288" class="external-link">#288</a>).</li>
 </ol></div>
 <div class="section level3">
-<h3 id="bug-fixes-4-8-99">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-4-8-99"></a></h3>
-<ol style="list-style-type: decimal"><li><p><code>runif64(replace=FALSE)</code> no longer generates any duplicates (<a href="https://github.com/r-lib/bit64/issues/337" class="external-link">#337</a>).</p></li>
-<li><p><code><a href="../reference/factor.html">factor()</a></code> retains the names of short integer64 inputs (<a href="https://github.com/r-lib/bit64/issues/343" class="external-link">#343</a>).</p></li>
-<li><p><code><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list()</a></code> doesn’t overflow the protection stack for integer64 inputs (<a href="https://github.com/r-lib/bit64/issues/345" class="external-link">#345</a>). Thanks <a href="https://github.com/NicChr" class="external-link">@NicChr</a> for the report and fix.</p></li>
-<li><p><code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log()</a></code> operations, especially for <code>log(x, base=10)</code> and <code>log(x, base=2)</code>, have better precision and consistency (<a href="https://github.com/r-lib/bit64/issues/180" class="external-link">#180</a>).</p></li>
-<li><p><code>^.integer64</code> with integer or integer64 exponent now calculates the power precisely and returns an overflow warning, if an overflow appears (<a href="https://github.com/r-lib/bit64/issues/288" class="external-link">#288</a>).</p></li>
-</ol></div>
-<div class="section level3">
-<h3 id="notes-4-8-99">NOTES<a class="anchor" aria-label="anchor" href="#notes-4-8-99"></a></h3>
-<ol style="list-style-type: decimal"><li><p>The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0 (2019).</p></li>
-<li><p>R Core is considering adding native support for 64-bit integer vectors. <code><a href="https://github.com/r-lib/bit64" class="external-link">library(bit64)</a></code> will temporarily flash a request for use cases of 64-bit integers as posed by Luke Tierney: <a href="https://stat.ethz.ch/pipermail/r-devel/2026-July/084631.html" class="external-link uri">https://stat.ethz.ch/pipermail/r-devel/2026-July/084631.html</a>.</p></li>
+<h3 id="notes-4-8-4">NOTES<a class="anchor" aria-label="anchor" href="#notes-4-8-4"></a></h3>
+<ol style="list-style-type: decimal"><li>R Core is considering adding native support for 64-bit integer vectors. <code><a href="https://github.com/r-lib/bit64" class="external-link">library(bit64)</a></code> will temporarily flash a request for use cases of 64-bit integers as posed by Luke Tierney: <a href="https://stat.ethz.ch/pipermail/r-devel/2026-July/084631.html" class="external-link uri">https://stat.ethz.ch/pipermail/r-devel/2026-July/084631.html</a>.</li>
 </ol></div>
 </div>
     <div class="section level2">
