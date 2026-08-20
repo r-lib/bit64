@@ -30,7 +30,7 @@
 #define NA_INTEGER64 LLONG_MIN
 #define ISNA_INTEGER64(X)((X)==NA_INTEGER64)
 
-#define MIN_INTEGER64 (LLONG_MIN+1)
+#define MIN_INTEGER64 (LLONG_MIN + 1)
 #define MAX_INTEGER64 LLONG_MAX
 #define MIN_INTEGER32 (INT_MIN+1)
 #define MAX_INTEGER32 INT_MAX
@@ -205,7 +205,7 @@ static inline bool pow64_overflow(long long base, long long exp, long long *res)
         ret = NA_INTEGER64; \
     else { \
         longret = e1 * (long double) e2; \
-        if (isnan(longret) || longret>MAX_INTEGER64){ \
+        if (isnan(longret) || longret>MAX_INTEGER64) { \
           naflag = TRUE; \
           ret = NA_INTEGER64; \
         }else \
@@ -217,7 +217,7 @@ static inline bool pow64_overflow(long long base, long long exp, long long *res)
         ret = NA_INTEGER64; \
     else { \
         longret = pow(e1, (long double) e2); \
-        if (isnan(longret)){ \
+        if (isnan(longret)) { \
           naflag = TRUE; \
           ret = NA_INTEGER64; \
         }else \
