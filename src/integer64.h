@@ -391,7 +391,7 @@ static inline double logbase64(long long e1, long double log_base, Rboolean *naf
   return ret;
 }
 
-static inline double log1064(long long e1, Rboolean *naflag) {
+static inline double log10_64(long long e1, Rboolean *naflag) {
   if (is_na64(e1)) {
     return NA_REAL;
   }
@@ -402,7 +402,7 @@ static inline double log1064(long long e1, Rboolean *naflag) {
   return ret;
 }
 
-static inline double log264(long long e1, Rboolean *naflag) {
+static inline double log2_64(long long e1, Rboolean *naflag) {
   if (is_na64(e1)) {
     return NA_REAL;
   }

@@ -502,7 +502,7 @@ SEXP log_integer64(SEXP e1_, SEXP ret_) {
 }
 
 // Vector base: called when length(base) > 1 (e.g. log(x, base=c(2, 10))).
-// Recycles x and base; dispatches to LOG264/LOG1064 if base element is 2 or 10.
+// Recycles x and base; dispatches to log2_64/log10_64 if base element is 2 or 10.
 SEXP logvect_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   long long n = LENGTH(ret_);
   long long n1 = LENGTH(e1_);
@@ -513,9 +513,9 @@ SEXP logvect_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
   Rboolean naflag = FALSE;
   for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
     if (e2[i2] == 2.0) {
-      ret[i] = log264(e1[i1], &naflag);
+      ret[i] = log2_64(e1[i1], &naflag);
     } else if (e2[i2] == 10.0) {
-      ret[i] = log1064(e1[i1], &naflag);
+      ret[i] = log10_64(e1[i1], &naflag);
     } else {
       ret[i] = logvect64(e1[i1], e2[i2], &naflag);
     }
@@ -527,7 +527,7 @@ SEXP logvect_integer64(SEXP e1_, SEXP e2_, SEXP ret_) {
 }
 
 // Scalar base: called when length(base) == 1 (e.g. log(x, base=2), log(x, base=10)).
-// Dispatches to LOG264/LOG1064 (matching base R's logbase), or precomputes logl(base) once.
+// Dispatches to log2_64/log10_64 (matching base R's logbase), or precomputes logl(base) once.
 SEXP logbase_integer64(SEXP e1_, SEXP base_, SEXP ret_) {
   long long n = LENGTH(ret_);
   long long * e1 = (long long *) REAL(e1_);
@@ -536,11 +536,11 @@ SEXP logbase_integer64(SEXP e1_, SEXP base_, SEXP ret_) {
   Rboolean naflag = base <= 0;
   if (base == 2.0) {
     for (long long i = 0; i < n; i++) {
-      ret[i] = log264(e1[i], &naflag);
+      ret[i] = log2_64(e1[i], &naflag);
     }
   } else if (base == 10.0) {
     for (long long i = 0; i < n; i++) {
-      ret[i] = log1064(e1[i], &naflag);
+      ret[i] = log10_64(e1[i], &naflag);
     }
   } else {
     long double logbase = (long double) logl((long double)base);
@@ -558,7 +558,7 @@ SEXP log10_integer64(SEXP e1_, SEXP ret_) {
   double * ret = REAL(ret_);
   Rboolean naflag = FALSE;
   for (long long i = 0; i < n; i++) {
-    ret[i] = log1064(e1[i], &naflag);
+    ret[i] = log10_64(e1[i], &naflag);
   }
   if (naflag) warning(INTEGER64_NAN_CREATED_WARNING);
   return ret_;
@@ -570,7 +570,7 @@ SEXP log2_integer64(SEXP e1_, SEXP ret_) {
   double * ret = REAL(ret_);
   Rboolean naflag = FALSE;
   for (long long i = 0; i < n; i++) {
-    ret[i] = log264(e1[i], &naflag);
+    ret[i] = log2_64(e1[i], &naflag);
   }
   if (naflag) warning(INTEGER64_NAN_CREATED_WARNING);
   return ret_;
