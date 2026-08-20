@@ -2,10 +2,9 @@
 # C-Code for hashing and matching
 # S3 atomic 64bit integers for R
 # (c) 2011-2024 Jens Oehlschägel
-# (c) 2025 Michael Chirico
+# (c) 2025-2026 Michael Chirico
 # Licence: GPL2
 # Provided 'as is', use at your own risk
-# Created: 2011-12-11
 #*/
 
 #include <Rinternals.h>
@@ -13,7 +12,7 @@
 #include <R_ext/Boolean.h> // TRUE,FALSE
 
 // This multiplicator was used in Simon Urbanek's package fastmatch for 32-bit integers
-//#define HASH64(X, SHIFT) (314159265358979323ULL * ((unsigned long long)(X)) >> (SHIFT))
+//   (314159265358979323ULL * ((unsigned long long)(X)) >> (SHIFT))
 // This multiplicator seems to work fine with 64bit integers
 #define HASH64(X, SHIFT) (0x9e3779b97f4a7c13ULL * ((unsigned long long)(X)) >> (SHIFT))
 

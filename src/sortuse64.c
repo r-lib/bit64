@@ -2,10 +2,9 @@
 # C-Code for searching and merging
 # S3 atomic 64bit integers for R
 # (c) 2011-2024 Jens Oehlschägel
-# (c) 2025 Michael Chirico
+# (c) 2025-2026 Michael Chirico
 # Licence: GPL2
 # Provided 'as is', use at your own risk
-# Created: 2011-12-11
 */
 
 #include <R.h>
@@ -195,7 +194,6 @@ SEXP r_ram_integer64_sortfin_asc(
   int *ret = LOGICAL(ret_);
 
   R_Busy(1);
-  DEBUG_INIT
 
   if (nt == 0) {
     for (i = 0; i < n; i++)
@@ -270,7 +268,6 @@ SEXP r_ram_integer64_orderfin_asc(
   int *ret = LOGICAL(ret_);
 
   R_Busy(1);
-  DEBUG_INIT
 
   for (i = 1; i < nt; i++)
     if (table[index[i] - 1] < table[index[i - 1] - 1]) {
@@ -355,7 +352,6 @@ SEXP r_ram_integer64_orderpos_asc(
   int *ret = INTEGER(ret_);
 
   R_Busy(1);
-  DEBUG_INIT
 
   for (i = 1; i < nt; i++)
     if (table[index[i] - 1] < table[index[i - 1] - 1]) {
@@ -443,7 +439,6 @@ SEXP r_ram_integer64_sortorderpos_asc(
   int *ret = INTEGER(ret_);
 
   R_Busy(1);
-  DEBUG_INIT
 
   switch (method) {
     case 1:{
@@ -1219,7 +1214,6 @@ SEXP r_ram_integer64_sortsrt(
 )
 {
   R_Busy(1);
-  DEBUG_INIT
 
   int i,j,l,r,n = LENGTH(x_);
   int na_count   = asInteger(na_count_);
@@ -1270,7 +1264,6 @@ SEXP r_ram_integer64_sortorderord(
 )
 {
   R_Busy(1);
-  DEBUG_INIT
 
   int i,j,l,r,n = LENGTH(x_);
   int na_count   = asInteger(na_count_);
@@ -1322,7 +1315,6 @@ SEXP r_ram_integer64_orderord(
 )
 {
   R_Busy(1);
-  DEBUG_INIT
 
   int i,j,l,r,n = LENGTH(x_);
   int na_count   = asInteger(na_count_);

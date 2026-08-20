@@ -7,9 +7,8 @@
 # Provided 'as is', use at your own risk
 */
 
-
-#ifndef _SORT64_INLCUDED
-#define _SORT64_INLCUDED
+#ifndef BIT64_SRC_SORT64_H_
+#define BIT64_SRC_SORT64_H_
 
 /*****************************************************************************/
 /**                                                                         **/
@@ -19,11 +18,8 @@
 
 #include <R.h>
 #include <Rdefines.h>
-//#include <Rinternals.h>
-//CRAN disallows rand: #include <stdlib.h> // rand
 
 #include "integer64.h"
-//#include "timing.h"
 
 
 /*****************************************************************************/
@@ -33,17 +29,9 @@
 /*****************************************************************************/
 
 
-#define DEBUG_COUNTING 0
-#define DEBUG_INIT // compare_counter = 0; move_counter = 0; //initTicks();
-//#define DEBUG_RETURN getNewTicks()
-#define DEBUG_RETURN ret;
-// #define DEBUG_RETURN move_counter;
-#define DEBUG_DONE Rprintf("compare_counter=%d  move_counter=%d\n", compare_counter, move_counter); R_FlushConsole(); //doneTicks();
-
 #define LESS(A,B) ((A)<(B))
 #define GREATER(A, B) LESS((B), (A))
 
-//#define MOVE(TO,FROM){move_counter++; TO=FROM;}
 #define MOVE(TO,FROM) TO=FROM;
 #define EXCH(A,B,t) {MOVE(t,A) MOVE(A,B) MOVE(B,t)}
 #define COMPEXCH(A,B,t) if (LESS(B,A)) EXCH(A,B,t)
@@ -522,10 +510,4 @@ void ram_integer64_radixsortorder(
 , Rboolean decreasing     // one of {0=ascending, 1=descending}
 );
 
-#endif
-
-/*****************************************************************************/
-/**                                                                         **/
-/**                                EOF                                      **/
-/**                                                                         **/
-/*****************************************************************************/
+#endif // BIT64_SRC_SORT64_H_
