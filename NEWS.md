@@ -8,6 +8,10 @@
 
 1. Supplying `keep.names=` to `as.integer64()` now emits a warning, which will become an error in the next release.
 
+## BUG FIXES
+
+1. Fixed compilation error on GCC < 10 where `__has_builtin` is not defined (#388).
+
 ## NOTES
 
 1. The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0 (2019).
