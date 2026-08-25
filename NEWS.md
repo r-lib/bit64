@@ -1,3 +1,9 @@
+# bit64 4.8.6 (2026-08-31)
+
+## BUG FIXES
+
+1. Fixed handling of `__has_builtin` preprocessor macro where it's absent (e.g. GCC < 10; #388).
+
 # bit64 4.8.4 (2026-08-19)
 
 ## BUG FIXES

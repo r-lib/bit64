@@ -50,7 +50,11 @@
 #define BITSTRING_OVERFLOW_WARNING "bitstrings longer than 64 bytes converted to NA, multibyte-characters not allowed"
 #define INTEGER64_NA_COERCION_WARNING "NAs introduced by coercion to integer64 range"
 
-#if (defined(__GNUC__) && __GNUC__ >= 5) || (defined(__has_builtin) && __has_builtin(__builtin_add_overflow))
+#ifndef __has_builtin
+#define __has_builtin(x) 0
+#endif
+
+#if (defined(__GNUC__) && __GNUC__ >= 5) || __has_builtin(__builtin_add_overflow)
 #define HAVE_BUILTIN_OVERFLOW 1
 #endif
 
