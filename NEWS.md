@@ -8,6 +8,10 @@
 
 1. Supplying `keep.names=` to `as.integer64()` now emits a warning, which will become an error in the next release.
 
+## BUG FIXES
+
+1. Fixed handling of `__has_builtin` preprocessor macro where it's absent (e.g. GCC < 10; #388).
+
 ## NOTES
 
 1. The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0 (2019).
