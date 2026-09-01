@@ -65,8 +65,7 @@ NA_integer64_
 
 - keep.names:
 
-  (Deprecated) Logical, default `FALSE`. If `TRUE`, the input's names
-  are retained.
+  Logical, default `FALSE`. If `TRUE`, the input's names are retained.
 
 ## Value
 
