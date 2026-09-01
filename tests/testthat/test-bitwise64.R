@@ -11,16 +11,14 @@ with_parameters_test_that(
     else
       x = x_cast
 
-    fun = base::bitwNot
-    expected_result_x = tryCatch(fun(x), error=identity)
+    expected_result_x = tryCatch(base::bitwNot(x), error=identity)
 
     if (inherits(expected_result_x, "error")) {
       expected_result_x = conditionMessage(expected_result_x)
     } else if (identical(type, "integer64")) {
       expected_result_x = as.integer64(expected_result_x)
     }
-    fun = bitwNot
-    actual_result_x = tryCatch(fun(x_cast), error=conditionMessage)
+    actual_result_x = tryCatch(bitwNot(x_cast), error=conditionMessage)
 
     expect_identical(actual_result_x, expected_result_x)
   },
@@ -49,7 +47,7 @@ with_parameters_test_that(
     else
       x = x_cast
 
-    fun = get(func, baseenv())
+    fun = getExportedValue("base", func)
     expected_result_x_y32 = tryCatch(fun(x, y32), error=identity)
     expected_result_y32_x = tryCatch(fun(y32, x), error=identity)
 
@@ -71,7 +69,7 @@ with_parameters_test_that(
       }
     }
 
-    fun = get(func)
+    fun = getExportedValue("bit64", func)
     actual_result_x_y32 = tryCatch(fun(x_cast, y32), error=conditionMessage)
     actual_result_y32_x = tryCatch(fun(y32, x_cast), error=conditionMessage)
     actual_result_x_y64 = tryCatch(fun(x_cast, y64), error=conditionMessage)
@@ -128,7 +126,7 @@ with_parameters_test_that(
     else
       x = x_cast
 
-    fun = get(func, baseenv())
+    fun = getExportedValue("base", func)
     expected_result_x_y32 = tryCatch(fun(x, y32), error=identity)
     expected_result_y32_x = tryCatch(fun(y32, x), error=identity)
 
@@ -167,7 +165,7 @@ with_parameters_test_that(
           my_if_else(y32 < 0L & as.integer(x) != 0L, shiftOffset, as.integer64(0L))
     }
 
-    fun = get(func)
+    fun = getExportedValue("bit64", func)
     actual_result_x_y32 = tryCatch(fun(x_cast, y32), error=conditionMessage)
     actual_result_y32_x = tryCatch(fun(y32, x_cast), error=conditionMessage)
     actual_result_x_y64 = tryCatch(fun(x_cast, y64), error=conditionMessage)
