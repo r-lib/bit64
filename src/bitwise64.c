@@ -4,164 +4,268 @@
 # (c) 2026 Michael Chirico
 # Licence: GPL2
 # Provided 'as is', use at your own risk
-# Created: 2026-03-24
 #*/
 
-#define _INTEGER64_C_SRC
-
-// this define before stdio.h removes the warnings
-// warning: unknown conversion type character 'l' in format [-Wformat]
-// warning: too many arguments for format [-Wformat-extra-args]
-#define __USE_MINGW_ANSI_STDIO 1
+#include <stdbool.h>
 
 #include <R.h>
-#include <Rdefines.h>
-#include <R_ext/Error.h>
+#include <R_ext/Arith.h>
 #include <Rinternals.h>
 
 #include "bitwise64.h"
+#include "integer64.h"
 
-#define mod_iterate(n1,n2,i1,i2) for (i=i1=i2=0; i<n; i1 = (++i1 == n1) ? 0 : i1, i2 = (++i2 == n2) ? 0 : i2,++i)
+static inline long long bitwnot64(long long x) {
+  if (is_na64(x)) {
+    return NA_INTEGER64;
+  }
+  return ~x;
+}
 
-SEXP bitwNot_integer64(SEXP x_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
+static inline long long bitwand64(long long x, long long y) {
+  if (is_na64(x) || is_na64(y)) {
+    return NA_INTEGER64;
+  }
+  return x & y;
+}
+
+static inline long long bitwand64_int(long long x, int y) {
+  if (is_na64(x) || y == NA_INTEGER) {
+    return NA_INTEGER64;
+  }
+  return x & (long long) y;
+}
+
+static inline long long bitwor64(long long x, long long y) {
+  if (is_na64(x) || is_na64(y)) {
+    return NA_INTEGER64;
+  }
+  return x | y;
+}
+
+static inline long long bitwor64_int(long long x, int y) {
+  if (is_na64(x) || y == NA_INTEGER) {
+    return NA_INTEGER64;
+  }
+  return x | (long long) y;
+}
+
+static inline long long bitwxor64(long long x, long long y) {
+  if (is_na64(x) || is_na64(y)) {
+    return NA_INTEGER64;
+  }
+  return x ^ y;
+}
+
+static inline long long bitwxor64_int(long long x, int y) {
+  if (is_na64(x) || y == NA_INTEGER) {
+    return NA_INTEGER64;
+  }
+  return x ^ (long long) y;
+}
+
+static inline bool good_shiftl64(long long x, long long y, long long z) {
+  if (is_na64(z)) {
+    return false;
+  }
+  if (y == 0 || x == 0) {
+    return z == x;
+  }
+  return (x > 0) ? (z > x) : (z < x);
+}
+
+static inline long long bitwshiftl64(long long x, long long y) {
+  if (is_na64(x) || is_na64(y) || y < 0 || y > 63) {
+    return NA_INTEGER64;
+  }
+  long long ret = (long long) ((unsigned long long) x << y);
+  if (!good_shiftl64(x, y, ret)) {
+    return NA_INTEGER64;
+  }
+  return ret;
+}
+
+static inline long long bitwshiftl64_int(long long x, int y) {
+  if (is_na64(x) || y == NA_INTEGER || y < 0 || y > 63) {
+    return NA_INTEGER64;
+  }
+  long long ret = (long long) ((unsigned long long) x << y);
+  if (!good_shiftl64(x, y, ret)) {
+    return NA_INTEGER64;
+  }
+  return ret;
+}
+
+static inline long long bitwshiftr64(long long x, long long y) {
+  if (is_na64(x) || is_na64(y) || y < 0 || y > 63) {
+    return NA_INTEGER64;
+  }
+  return (long long) ((unsigned long long) x >> y);
+}
+
+static inline long long bitwshiftr64_int(long long x, int y) {
+  if (is_na64(x) || y == NA_INTEGER || y < 0 || y > 63) {
+    return NA_INTEGER64;
+  }
+  return (long long) ((unsigned long long) x >> y);
+}
+
+SEXP bitwNot_integer64(SEXP x_, SEXP ret_) {
+  long long n = LENGTH(ret_);
   long long * x = (long long *) REAL(x_);
   long long * ret = (long long *) REAL(ret_);
-  for (i = 0; i < n; i++) {
-    if (x[i] == NA_INTEGER64)
-      ret[i] = NA_INTEGER64;
-    else
-      ret[i] = ~x[i];
+  for (long long i = 0; i < n; i++) {
+    ret[i] = bitwnot64(x[i]);
   }
   return ret_;
 }
 
-SEXP bitwAnd_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
-  long long i1, n1 = LENGTH(x_);
-  long long i2, n2 = LENGTH(y_);
+SEXP bitwAnd_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_) {
+  long long n = LENGTH(ret_);
+  long long n1 = LENGTH(x_);
+  long long n2 = LENGTH(y_);
   long long * x = (long long *) REAL(x_);
   long long * y = (long long *) REAL(y_);
   long long * ret = (long long *) REAL(ret_);
-  mod_iterate(n1, n2, i1, i2) {
-    BITWAND64(x[i1],y[i2],ret[i])
+  for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
+    ret[i] = bitwand64(x[i1], y[i2]);
+    if (++i1 == n1) i1 = 0;
+    if (++i2 == n2) i2 = 0;
   }
   return ret_;
 }
 
-SEXP bitwAnd_integer64_integer(SEXP x_, SEXP y_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
-  long long i1, n1 = LENGTH(x_);
-  long long i2, n2 = LENGTH(y_);
+SEXP bitwAnd_integer64_integer(SEXP x_, SEXP y_, SEXP ret_) {
+  long long n = LENGTH(ret_);
+  long long n1 = LENGTH(x_);
+  long long n2 = LENGTH(y_);
   long long * x = (long long *) REAL(x_);
   int * y = INTEGER(y_);
   long long * ret = (long long *) REAL(ret_);
-  mod_iterate(n1, n2, i1, i2) {
-    BITWAND(x[i1],y[i2],ret[i])
+  for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
+    ret[i] = bitwand64_int(x[i1], y[i2]);
+    if (++i1 == n1) i1 = 0;
+    if (++i2 == n2) i2 = 0;
   }
   return ret_;
 }
 
-SEXP bitwOr_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
-  long long i1, n1 = LENGTH(x_);
-  long long i2, n2 = LENGTH(y_);
+SEXP bitwOr_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_) {
+  long long n = LENGTH(ret_);
+  long long n1 = LENGTH(x_);
+  long long n2 = LENGTH(y_);
   long long * x = (long long *) REAL(x_);
   long long * y = (long long *) REAL(y_);
   long long * ret = (long long *) REAL(ret_);
-  mod_iterate(n1, n2, i1, i2) {
-    BITWOR64(x[i1],y[i2],ret[i])
+  for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
+    ret[i] = bitwor64(x[i1], y[i2]);
+    if (++i1 == n1) i1 = 0;
+    if (++i2 == n2) i2 = 0;
   }
   return ret_;
 }
 
-SEXP bitwOr_integer64_integer(SEXP x_, SEXP y_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
-  long long i1, n1 = LENGTH(x_);
-  long long i2, n2 = LENGTH(y_);
+SEXP bitwOr_integer64_integer(SEXP x_, SEXP y_, SEXP ret_) {
+  long long n = LENGTH(ret_);
+  long long n1 = LENGTH(x_);
+  long long n2 = LENGTH(y_);
   long long * x = (long long *) REAL(x_);
   int * y = INTEGER(y_);
   long long * ret = (long long *) REAL(ret_);
-  mod_iterate(n1, n2, i1, i2) {
-    BITWOR(x[i1],y[i2],ret[i])
+  for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
+    ret[i] = bitwor64_int(x[i1], y[i2]);
+    if (++i1 == n1) i1 = 0;
+    if (++i2 == n2) i2 = 0;
   }
   return ret_;
 }
 
-SEXP bitwXor_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
-  long long i1, n1 = LENGTH(x_);
-  long long i2, n2 = LENGTH(y_);
+SEXP bitwXor_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_) {
+  long long n = LENGTH(ret_);
+  long long n1 = LENGTH(x_);
+  long long n2 = LENGTH(y_);
   long long * x = (long long *) REAL(x_);
   long long * y = (long long *) REAL(y_);
   long long * ret = (long long *) REAL(ret_);
-  mod_iterate(n1, n2, i1, i2) {
-    BITWXOR64(x[i1],y[i2],ret[i])
+  for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
+    ret[i] = bitwxor64(x[i1], y[i2]);
+    if (++i1 == n1) i1 = 0;
+    if (++i2 == n2) i2 = 0;
   }
   return ret_;
 }
 
-SEXP bitwXor_integer64_integer(SEXP x_, SEXP y_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
-  long long i1, n1 = LENGTH(x_);
-  long long i2, n2 = LENGTH(y_);
+SEXP bitwXor_integer64_integer(SEXP x_, SEXP y_, SEXP ret_) {
+  long long n = LENGTH(ret_);
+  long long n1 = LENGTH(x_);
+  long long n2 = LENGTH(y_);
   long long * x = (long long *) REAL(x_);
   int * y = INTEGER(y_);
   long long * ret = (long long *) REAL(ret_);
-  mod_iterate(n1, n2, i1, i2) {
-    BITWXOR(x[i1],y[i2],ret[i])
+  for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
+    ret[i] = bitwxor64_int(x[i1], y[i2]);
+    if (++i1 == n1) i1 = 0;
+    if (++i2 == n2) i2 = 0;
   }
   return ret_;
 }
 
-SEXP bitwShiftL_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
-  long long i1, n1 = LENGTH(x_);
-  long long i2, n2 = LENGTH(y_);
+SEXP bitwShiftL_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_) {
+  long long n = LENGTH(ret_);
+  long long n1 = LENGTH(x_);
+  long long n2 = LENGTH(y_);
   long long * x = (long long *) REAL(x_);
   long long * y = (long long *) REAL(y_);
   long long * ret = (long long *) REAL(ret_);
-  mod_iterate(n1, n2, i1, i2) {
-    BITWSHIFTL64(x[i1],y[i2],ret[i])
+  for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
+    ret[i] = bitwshiftl64(x[i1], y[i2]);
+    if (++i1 == n1) i1 = 0;
+    if (++i2 == n2) i2 = 0;
   }
   return ret_;
 }
 
-SEXP bitwShiftL_integer64_integer(SEXP x_, SEXP y_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
-  long long i1, n1 = LENGTH(x_);
-  long long i2, n2 = LENGTH(y_);
+SEXP bitwShiftL_integer64_integer(SEXP x_, SEXP y_, SEXP ret_) {
+  long long n = LENGTH(ret_);
+  long long n1 = LENGTH(x_);
+  long long n2 = LENGTH(y_);
   long long * x = (long long *) REAL(x_);
   int * y = INTEGER(y_);
   long long * ret = (long long *) REAL(ret_);
-  mod_iterate(n1, n2, i1, i2) {
-    BITWSHIFTL(x[i1],y[i2],ret[i])
+  for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
+    ret[i] = bitwshiftl64_int(x[i1], y[i2]);
+    if (++i1 == n1) i1 = 0;
+    if (++i2 == n2) i2 = 0;
   }
   return ret_;
 }
 
-SEXP bitwShiftR_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
-  long long i1, n1 = LENGTH(x_);
-  long long i2, n2 = LENGTH(y_);
+SEXP bitwShiftR_integer64_integer64(SEXP x_, SEXP y_, SEXP ret_) {
+  long long n = LENGTH(ret_);
+  long long n1 = LENGTH(x_);
+  long long n2 = LENGTH(y_);
   long long * x = (long long *) REAL(x_);
   long long * y = (long long *) REAL(y_);
   long long * ret = (long long *) REAL(ret_);
-  mod_iterate(n1, n2, i1, i2) {
-    BITWSHIFTR64(x[i1],y[i2],ret[i])
+  for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
+    ret[i] = bitwshiftr64(x[i1], y[i2]);
+    if (++i1 == n1) i1 = 0;
+    if (++i2 == n2) i2 = 0;
   }
   return ret_;
 }
 
-SEXP bitwShiftR_integer64_integer(SEXP x_, SEXP y_, SEXP ret_){
-  long long i, n = LENGTH(ret_);
-  long long i1, n1 = LENGTH(x_);
-  long long i2, n2 = LENGTH(y_);
+SEXP bitwShiftR_integer64_integer(SEXP x_, SEXP y_, SEXP ret_) {
+  long long n = LENGTH(ret_);
+  long long n1 = LENGTH(x_);
+  long long n2 = LENGTH(y_);
   long long * x = (long long *) REAL(x_);
   int * y = INTEGER(y_);
   long long * ret = (long long *) REAL(ret_);
-  mod_iterate(n1, n2, i1, i2) {
-    BITWSHIFTR(x[i1],y[i2],ret[i])
+  for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
+    ret[i] = bitwshiftr64_int(x[i1], y[i2]);
+    if (++i1 == n1) i1 = 0;
+    if (++i2 == n2) i2 = 0;
   }
   return ret_;
 }
