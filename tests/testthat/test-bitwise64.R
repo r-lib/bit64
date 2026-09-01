@@ -127,7 +127,10 @@ with_parameters_test_that(
       # expected_result_y32_x stays 32-bit integer
     }
 
-    # because of the way bitwShiftR is defined, it shifts based on unsigned integers
+    # bitwShiftR performs logical (zero-fill) right shifts. For negative numbers (x < 0),
+    # sign extension sets bits 32-63 to 1s in integer64, which shift down into the lower
+    # 64 bits. base::bitwShiftR operates only in 32-bit space, so we add (2^32 - 1) << (32 - shift)
+    # to reconstruct the expected 64-bit result from the 32-bit reference answer.
     if (func == "bitwShiftR" && !is.null(x_base)) {
       if ((is.integer64(expected_result_x_y32) && length(expected_result_x_y32)) ||
           (is.integer64(expected_result_x_y64) && length(expected_result_x_y64))) {
