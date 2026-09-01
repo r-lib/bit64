@@ -31,7 +31,9 @@ bitwShiftR(a, n)
 An integer64 vector of length the longer of the arguments, or zero length if one is zero-length.
 }
 \description{
-Logical operations on integer vectors with elements viewed as sets of bits. As soon as an integer64 vector is involved, the operations are performed using integer64 semantics. Otherwise the \code{base} package functions are called.
+Logical operations on integer vectors with elements viewed as sets of bits.
+As soon as an integer64 vector is involved, the operations are performed using integer64
+semantics. Otherwise the base package functions are called.
 }
 \examples{
 x <- as.integer64(1:5)
@@ -45,5 +47,6 @@ bitwShiftR(x, 1L)
 
 }
 \seealso{
-\link[base:bitwAnd]{bitwAnd}, \link[base:bitwOr]{bitwOr}, \link[base:bitwXor]{bitwXor}, \link[base:bitwNot]{bitwNot}, \link[base:bitwShiftL]{bitwShiftL}, \link[base:bitwShiftR]{bitwShiftR}
+\link[base:bitwAnd]{bitwAnd}, \link[base:bitwOr]{bitwOr}, \link[base:bitwXor]{bitwXor},
+\link[base:bitwNot]{bitwNot}, \link[base:bitwShiftL]{bitwShiftL}, \link[base:bitwShiftR]{bitwShiftR}
 }

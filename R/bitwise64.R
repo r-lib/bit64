@@ -4,7 +4,6 @@
 # (c) 2026 Michael Chirico
 # Licence: GPL2
 # Provided 'as is', use at your own risk
-# Created: 2026-03-24
 #*/
 
 #' @title Bitwise Logical Operations
@@ -54,18 +53,15 @@ bitwAnd = function(a, b) {
   if (!is.numeric(a) || !is.numeric(b))
     stop("'a' and 'b' must have the same type", domain="R")
 
+  if (!is.integer64(a) && !is.integer(a))
+    a = as.integer64(a)
+  if (!is.integer64(b) && !is.integer(b))
+    b = as.integer64(b)
+
   l1 = length(a)
   l2 = length(b)
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
-  if (is.integer(a)) {
-    ret = .Call(C_bitwAnd_integer64_integer, b, a, double(l))
-  } else if (is.integer(b)) {
-    ret = .Call(C_bitwAnd_integer64_integer, a, b, double(l))
-  } else if (is.integer64(a) && is.integer64(b)) {
-    ret = .Call(C_bitwAnd_integer64_integer64, a, b, double(l))
-  } else {
-    ret = .Call(C_bitwAnd_integer64_integer64, as.integer64(a), as.integer64(b), double(l))
-  }
+  ret = .Call(C_bitwAnd_integer64, a, b, double(l))
   oldClass(ret) = "integer64"
   ret
 }
@@ -84,18 +80,15 @@ bitwOr = function(a, b) {
   if (!is.numeric(a) || !is.numeric(b))
     stop("'a' and 'b' must have the same type", domain="R")
 
+  if (!is.integer64(a) && !is.integer(a))
+    a = as.integer64(a)
+  if (!is.integer64(b) && !is.integer(b))
+    b = as.integer64(b)
+
   l1 = length(a)
   l2 = length(b)
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
-  if (is.integer(a)) {
-    ret = .Call(C_bitwOr_integer64_integer, b, a, double(l))
-  } else if (is.integer(b)) {
-    ret = .Call(C_bitwOr_integer64_integer, a, b, double(l))
-  } else if (is.integer64(a) && is.integer64(b)) {
-    ret = .Call(C_bitwOr_integer64_integer64, a, b, double(l))
-  } else {
-    ret = .Call(C_bitwOr_integer64_integer64, as.integer64(a), as.integer64(b), double(l))
-  }
+  ret = .Call(C_bitwOr_integer64, a, b, double(l))
   oldClass(ret) = "integer64"
   ret
 }
@@ -114,18 +107,15 @@ bitwXor = function(a, b) {
   if (!is.numeric(a) || !is.numeric(b))
     stop("'a' and 'b' must have the same type", domain="R")
 
+  if (!is.integer64(a) && !is.integer(a))
+    a = as.integer64(a)
+  if (!is.integer64(b) && !is.integer(b))
+    b = as.integer64(b)
+
   l1 = length(a)
   l2 = length(b)
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
-  if (is.integer(a)) {
-    ret = .Call(C_bitwXor_integer64_integer, b, a, double(l))
-  } else if (is.integer(b)) {
-    ret = .Call(C_bitwXor_integer64_integer, a, b, double(l))
-  } else if (is.integer64(a) && is.integer64(b)) {
-    ret = .Call(C_bitwXor_integer64_integer64, a, b, double(l))
-  } else {
-    ret = .Call(C_bitwXor_integer64_integer64, as.integer64(a), as.integer64(b), double(l))
-  }
+  ret = .Call(C_bitwXor_integer64, a, b, double(l))
   oldClass(ret) = "integer64"
   ret
 }
@@ -138,14 +128,13 @@ bitwShiftL = function(a, n) {
   if (!is.integer64(a))
     return(base::bitwShiftL(a, as.integer(n)))
 
+  if (!is.integer64(n))
+    n = as.integer(n)
+
   l1 = length(a)
   l2 = length(n)
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
-  if (is.integer64(n)) {
-    ret = .Call(C_bitwShiftL_integer64_integer64, a, n, double(l))
-  } else {
-    ret = .Call(C_bitwShiftL_integer64_integer, a, as.integer(n), double(l))
-  }
+  ret = .Call(C_bitwShiftL_integer64, a, n, double(l))
   oldClass(ret) = "integer64"
   ret
 }
@@ -158,14 +147,13 @@ bitwShiftR = function(a, n) {
   if (!is.integer64(a))
     return(base::bitwShiftR(a, as.integer(n)))
 
+  if (!is.integer64(n))
+    n = as.integer(n)
+
   l1 = length(a)
   l2 = length(n)
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
-  if (is.integer64(n)) {
-    ret = .Call(C_bitwShiftR_integer64_integer64, a, n, double(l))
-  } else {
-    ret = .Call(C_bitwShiftR_integer64_integer, a, as.integer(n), double(l))
-  }
+  ret = .Call(C_bitwShiftR_integer64, a, n, double(l))
   oldClass(ret) = "integer64"
   ret
 }
