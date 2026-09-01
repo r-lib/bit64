@@ -6,7 +6,7 @@ with_parameters_test_that(
     else
       x_cast = x
 
-    if (!is.na(type) && type == "integer64")
+    if (identical(type, "integer64"))
       x = as.integer(x)
     else
       x = x_cast
@@ -42,7 +42,7 @@ with_parameters_test_that(
     else
       x_cast = x
 
-    if (!is.na(type) && type == "integer64")
+    if (identical(type, "integer64"))
       x = as.integer(x)
     else
       x = x_cast
@@ -121,7 +121,7 @@ with_parameters_test_that(
     else
       x_cast = x
 
-    if (!is.na(type) && type == "integer64")
+    if (identical(type, "integer64"))
       x = as.integer(x)
     else
       x = x_cast
