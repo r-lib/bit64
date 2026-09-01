@@ -2,7 +2,7 @@ with_parameters_test_that(
   "bitwNot works with basic R types: ",
   {
     if (!is.na(type))
-      eval(parse(text=paste0("x_cast = as.", type, "(x)")))
+      x_cast = eval(call(paste0("as.", type), x))
     else
       x_cast = x
 
@@ -38,7 +38,7 @@ with_parameters_test_that(
     y32 = -3:3
     y64 = as.integer64(y32)
     if (!is.na(type))
-      eval(parse(text=paste0("x_cast = as.", type, "(x)")))
+      x_cast = eval(call(paste0("as.", type), x))
     else
       x_cast = x
 
@@ -105,7 +105,7 @@ with_parameters_test_that(
     y32 = -3:3
     y64 = as.integer64(y32)
     if (!is.na(type))
-      eval(parse(text=paste0("x_cast = as.", type, "(x)")))
+      x_cast = eval(call(paste0("as.", type), x))
     else
       x_cast = x
 
