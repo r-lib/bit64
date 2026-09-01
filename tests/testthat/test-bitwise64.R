@@ -5,7 +5,7 @@ with_parameters_test_that(
       eval(parse(text=paste0("x_cast = as.", type, "(x)")))
     else
       x_cast = x
-    
+
     if (!is.na(type) && type == "integer64")
       x = as.integer(x)
     else
@@ -27,7 +27,7 @@ with_parameters_test_that(
       NA, "integer64", "double", "logical", "integer", "character", "complex", "factor", "ordered",
       if (getRversion() > "3.6.0") c("POSIXct", "Date")
       ),
-    x=I(list(NULL, c(-(50:2), 2:50, seq(-1, 1, 0.25), NA))),
+    x=I(list(NULL, c(-(50:2), 2:50, seq(-1.0, 1.0, 0.25), NA))),
     stringsAsFactors=FALSE
   )
 )
@@ -41,7 +41,7 @@ with_parameters_test_that(
       eval(parse(text=paste0("x_cast = as.", type, "(x)")))
     else
       x_cast = x
-    
+
     if (!is.na(type) && type == "integer64")
       x = as.integer(x)
     else
@@ -56,7 +56,7 @@ with_parameters_test_that(
       expected_result_x_y32 = as.integer64(expected_result_x_y32)
       expected_result_y32_x = as.integer64(expected_result_y32_x)
     }
-      
+
     fun = get(func)
     actual_result_x_y32 = tryCatch(fun(x_cast, y32), error=conditionMessage)
     actual_result_y32_x = tryCatch(fun(y32, x_cast), error=conditionMessage)
@@ -74,7 +74,7 @@ with_parameters_test_that(
       NA, "integer64", "double", "logical", "integer", "character", "complex", "factor", "ordered",
       if (getRversion() > "3.6.0") c("POSIXct", "Date")
       ),
-    x=I(list(NULL, c(-(50:2), 2:50, seq(-1, 1, 0.25), NA))),
+    x=I(list(NULL, c(-(50:2), 2:50, seq(-1.0, 1.0, 0.25), NA))),
     stringsAsFactors=FALSE
   )
 )
@@ -108,7 +108,7 @@ with_parameters_test_that(
       eval(parse(text=paste0("x_cast = as.", type, "(x)")))
     else
       x_cast = x
-    
+
     if (!is.na(type) && type == "integer64")
       x = as.integer(x)
     else
@@ -126,18 +126,22 @@ with_parameters_test_that(
     # because of the way bitwShiftR is defined, it shifts based on unsigned integers
     if (func == "bitwShiftR" && !is.null(x)) {
       shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - y32)
-      if(is.integer64(expected_result_x_y32) && length(expected_result_x_y32))
-        expected_result_x_y32 = expected_result_x_y32 + my_if_else(!is.na(x) & x < 0L & y32 != 0L, shiftOffset, as.integer64(0L))
-      if(is.integer64(expected_result_x_y64) && length(expected_result_x_y64))
-        expected_result_x_y64 = expected_result_x_y64 + my_if_else(!is.na(x) & x < 0L & y32 != 0L, shiftOffset, as.integer64(0L))
-        
+      if (is.integer64(expected_result_x_y32) && length(expected_result_x_y32))
+        expected_result_x_y32 = expected_result_x_y32 +
+          my_if_else(!is.na(x) & x < 0L & y32 != 0L, shiftOffset, as.integer64(0L))
+      if (is.integer64(expected_result_x_y64) && length(expected_result_x_y64))
+        expected_result_x_y64 = expected_result_x_y64 +
+          my_if_else(!is.na(x) & x < 0L & y32 != 0L, shiftOffset, as.integer64(0L))
+
       shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - as.integer(x))
-      if(is.integer64(expected_result_y32_x) && length(expected_result_y32_x))
-        expected_result_y32_x = expected_result_y32_x + my_if_else(y32 < 0L & as.integer(x) != 0L, shiftOffset, as.integer64(0L))
-      if(is.integer64(expected_result_y64_x) && length(expected_result_y64_x))
-        expected_result_y64_x = expected_result_y64_x + my_if_else(y32 < 0L & as.integer(x) != 0L, shiftOffset, as.integer64(0L))
+      if (is.integer64(expected_result_y32_x) && length(expected_result_y32_x))
+        expected_result_y32_x = expected_result_y32_x +
+          my_if_else(y32 < 0L & as.integer(x) != 0L, shiftOffset, as.integer64(0L))
+      if (is.integer64(expected_result_y64_x) && length(expected_result_y64_x))
+        expected_result_y64_x = expected_result_y64_x +
+          my_if_else(y32 < 0L & as.integer(x) != 0L, shiftOffset, as.integer64(0L))
     }
-  
+
     fun = get(func)
     actual_result_x_y32 = tryCatch(fun(x_cast, y32), error=conditionMessage)
     actual_result_y32_x = tryCatch(fun(y32, x_cast), error=conditionMessage)
@@ -155,7 +159,7 @@ with_parameters_test_that(
       NA, "integer64", "double", "logical", "integer", "character", "complex", "factor", "ordered",
       if (getRversion() > "3.6.0") c("POSIXct", "Date")
       ),
-    x=I(list(NULL, c(-(10:2), 2:10, seq(-1, 1, 0.25), NA))),
+    x=I(list(NULL, c(-(10:2), 2:10, seq(-1.0, 1.0, 0.25), NA))),
     stringsAsFactors=FALSE
   )
 )
@@ -163,9 +167,9 @@ with_parameters_test_that(
 test_that("bitwise functions work in integer64 range", {
   expect_identical(bitwShiftL(as.integer64(1L), 62L), as.integer64(2L)^62L)
   expect_identical(bitwShiftL(as.integer64(-1L), 62L), -as.integer64(2L)^62L)
-  expect_identical(bitwShiftL(as.integer64(1L), 63:70), rep(NA_integer64_, 8))
-  expect_identical(bitwShiftL(as.integer64(-1L), 63:70), rep(NA_integer64_, 8))
+  expect_identical(bitwShiftL(as.integer64(1L), 63:70), rep(NA_integer64_, 8L))
+  expect_identical(bitwShiftL(as.integer64(-1L), 63:70), rep(NA_integer64_, 8L))
 
-  expect_identical(bitwShiftR(as.integer64(1L), 63:70), c(as.integer64(0L), rep(NA_integer64_, 7)))
-  expect_identical(bitwShiftR(as.integer64(-1L), 63:70), c(as.integer64(1L), rep(NA_integer64_, 7)))
+  expect_identical(bitwShiftR(as.integer64(1L), 63:70), c(as.integer64(0L), rep(NA_integer64_, 7L)))
+  expect_identical(bitwShiftR(as.integer64(-1L), 63:70), c(as.integer64(1L), rep(NA_integer64_, 7L)))
 })

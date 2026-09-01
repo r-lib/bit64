@@ -8,13 +8,16 @@
 #*/
 
 #' @title Bitwise Logical Operations
-#' @description Logical operations on integer vectors with elements viewed as sets of bits. As soon as an integer64 vector is involved, the operations are performed using integer64 semantics. Otherwise the \code{base} package functions are called.
+#' @description Logical operations on integer vectors with elements viewed as sets of bits.
+#'   As soon as an integer64 vector is involved, the operations are performed using integer64
+#'   semantics. Otherwise the base package functions are called.
 #' @inheritParams base::bitwAnd
 #' @inheritParams base::bitShiftL
-#' @return 
+#' @return
 #' An integer64 vector of length the longer of the arguments, or zero length if one is zero-length.
-#' 
-#' @seealso [bitwAnd][base::bitwAnd], [bitwOr][base::bitwOr], [bitwXor][base::bitwXor], [bitwNot][base::bitwNot], [bitwShiftL][base::bitwShiftL], [bitwShiftR][base::bitwShiftR]
+#'
+#' @seealso [bitwAnd][base::bitwAnd], [bitwOr][base::bitwOr], [bitwXor][base::bitwXor],
+#'   [bitwNot][base::bitwNot], [bitwShiftL][base::bitwShiftL], [bitwShiftR][base::bitwShiftR]
 #' @examples
 #' x <- as.integer64(1:5)
 #' y <- c(1L, 3L, 5L, 7L)
@@ -24,14 +27,14 @@
 #' bitwNot(x)
 #' bitwShiftL(x, 1L)
 #' bitwShiftR(x, 1L)
-#' 
+#'
 #' @export
 #' @name bitwise
 #' @rdname bitwise
 bitwNot = function(a) {
   if (!is.integer64(a))
     return(base::bitwNot(a))
-  
+
   ret = .Call(C_bitwNot_integer64, a, double(length(a)))
   oldClass(ret) = "integer64"
   ret
@@ -42,15 +45,15 @@ bitwNot = function(a) {
 bitwAnd = function(a, b) {
   if (!(is.integer64(a) || is.integer64(b)))
     return(base::bitwAnd(a, b))
-  
+
   if (is.factor(a) || inherits(a, "POSIXct") || inherits(a, "Date"))
     a = as.integer(a)
   if (is.factor(b) || inherits(b, "POSIXct") || inherits(b, "Date"))
     b = as.integer(b)
-  
+
   if (!is.numeric(a) || !is.numeric(b))
     stop("'a' and 'b' must have the same type", domain="R")
-  
+
   l1 = length(a)
   l2 = length(b)
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
@@ -72,15 +75,15 @@ bitwAnd = function(a, b) {
 bitwOr = function(a, b) {
   if (!(is.integer64(a) || is.integer64(b)))
     return(base::bitwOr(a, b))
-  
+
   if (is.factor(a) || inherits(a, "POSIXct") || inherits(a, "Date"))
     a = as.integer(a)
   if (is.factor(b) || inherits(b, "POSIXct") || inherits(b, "Date"))
     b = as.integer(b)
-  
+
   if (!is.numeric(a) || !is.numeric(b))
     stop("'a' and 'b' must have the same type", domain="R")
-  
+
   l1 = length(a)
   l2 = length(b)
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
@@ -102,15 +105,15 @@ bitwOr = function(a, b) {
 bitwXor = function(a, b) {
   if (!(is.integer64(a) || is.integer64(b)))
     return(base::bitwXor(a, b))
-  
+
   if (is.factor(a) || inherits(a, "POSIXct") || inherits(a, "Date"))
     a = as.integer(a)
   if (is.factor(b) || inherits(b, "POSIXct") || inherits(b, "Date"))
     b = as.integer(b)
-  
+
   if (!is.numeric(a) || !is.numeric(b))
     stop("'a' and 'b' must have the same type", domain="R")
-  
+
   l1 = length(a)
   l2 = length(b)
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
@@ -134,7 +137,7 @@ bitwShiftL = function(a, n) {
     return(base::bitwShiftL(a, n))
   if (!is.integer64(a))
     return(base::bitwShiftL(a, as.integer(n)))
-  
+
   l1 = length(a)
   l2 = length(n)
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
@@ -154,7 +157,7 @@ bitwShiftR = function(a, n) {
     return(base::bitwShiftR(a, n))
   if (!is.integer64(a))
     return(base::bitwShiftR(a, as.integer(n)))
-  
+
   l1 = length(a)
   l2 = length(n)
   l = if (l1 == 0L || l2 == 0L) 0L else max(l1, l2)
