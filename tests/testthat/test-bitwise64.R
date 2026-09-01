@@ -7,11 +7,11 @@ with_parameters_test_that(
       x_cast = x
 
     if (identical(type, "integer64"))
-      x = as.integer(x)
+      x_base = as.integer(x)
     else
-      x = x_cast
+      x_base = x_cast
 
-    expected_result_x = tryCatch(base::bitwNot(x), error=identity)
+    expected_result_x = tryCatch(base::bitwNot(x_base), error=identity)
 
     if (inherits(expected_result_x, "error")) {
       expected_result_x = conditionMessage(expected_result_x)
@@ -43,13 +43,13 @@ with_parameters_test_that(
       x_cast = x
 
     if (identical(type, "integer64"))
-      x = as.integer(x)
+      x_base = as.integer(x)
     else
-      x = x_cast
+      x_base = x_cast
 
     fun = getExportedValue("base", func)
-    expected_result_x_y32 = tryCatch(fun(x, y32), error=identity)
-    expected_result_y32_x = tryCatch(fun(y32, x), error=identity)
+    expected_result_x_y32 = tryCatch(fun(x_base, y32), error=identity)
+    expected_result_y32_x = tryCatch(fun(y32, x_base), error=identity)
 
     if (inherits(expected_result_x_y32, "error")) {
       expected_result_x_y64 = expected_result_x_y32 = conditionMessage(expected_result_x_y32)
@@ -122,13 +122,13 @@ with_parameters_test_that(
       x_cast = x
 
     if (identical(type, "integer64"))
-      x = as.integer(x)
+      x_base = as.integer(x)
     else
-      x = x_cast
+      x_base = x_cast
 
     fun = getExportedValue("base", func)
-    expected_result_x_y32 = tryCatch(fun(x, y32), error=identity)
-    expected_result_y32_x = tryCatch(fun(y32, x), error=identity)
+    expected_result_x_y32 = tryCatch(fun(x_base, y32), error=identity)
+    expected_result_y32_x = tryCatch(fun(y32, x_base), error=identity)
 
     if (inherits(expected_result_x_y32, "error")) {
       expected_result_x_y64 = expected_result_x_y32 = conditionMessage(expected_result_x_y32)
@@ -147,22 +147,22 @@ with_parameters_test_that(
     }
 
     # because of the way bitwShiftR is defined, it shifts based on unsigned integers
-    if (func == "bitwShiftR" && !is.null(x)) {
+    if (func == "bitwShiftR" && !is.null(x_base)) {
       shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - y32)
       if (is.integer64(expected_result_x_y32) && length(expected_result_x_y32))
         expected_result_x_y32 = expected_result_x_y32 +
-          my_if_else(!is.na(x) & x < 0L & y32 != 0L, shiftOffset, as.integer64(0L))
+          my_if_else(!is.na(x_base) & x_base < 0L & y32 != 0L, shiftOffset, as.integer64(0L))
       if (is.integer64(expected_result_x_y64) && length(expected_result_x_y64))
         expected_result_x_y64 = expected_result_x_y64 +
-          my_if_else(!is.na(x) & x < 0L & y32 != 0L, shiftOffset, as.integer64(0L))
+          my_if_else(!is.na(x_base) & x_base < 0L & y32 != 0L, shiftOffset, as.integer64(0L))
 
-      shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - as.integer(x))
+      shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - as.integer(x_base))
       if (is.integer64(expected_result_y32_x) && length(expected_result_y32_x))
         expected_result_y32_x = expected_result_y32_x +
-          my_if_else(y32 < 0L & as.integer(x) != 0L, shiftOffset, as.integer64(0L))
+          my_if_else(y32 < 0L & as.integer(x_base) != 0L, shiftOffset, as.integer64(0L))
       if (is.integer64(expected_result_y64_x) && length(expected_result_y64_x))
         expected_result_y64_x = expected_result_y64_x +
-          my_if_else(y32 < 0L & as.integer(x) != 0L, shiftOffset, as.integer64(0L))
+          my_if_else(y32 < 0L & as.integer(x_base) != 0L, shiftOffset, as.integer64(0L))
     }
 
     fun = getExportedValue("bit64", func)
