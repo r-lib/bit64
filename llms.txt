@@ -43,6 +43,13 @@ An R package with an S3 Class for Vectors of 64bit Integers
   [`order()`](https://bit64.r-lib.org/reference/bit64S3.md)
   [`mtfrm(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/bit64S3.md)
   : Turning base R functions into S3 generics for bit64
+- [`bitwNot()`](https://bit64.r-lib.org/reference/bitwise.md)
+  [`bitwAnd()`](https://bit64.r-lib.org/reference/bitwise.md)
+  [`bitwOr()`](https://bit64.r-lib.org/reference/bitwise.md)
+  [`bitwXor()`](https://bit64.r-lib.org/reference/bitwise.md)
+  [`bitwShiftL()`](https://bit64.r-lib.org/reference/bitwise.md)
+  [`bitwShiftR()`](https://bit64.r-lib.org/reference/bitwise.md) :
+  Bitwise Logical Operations
 - [`c(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/c.integer64.md)
   [`cbind(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/c.integer64.md)
   [`rbind(`*`<integer64>`*`)`](https://bit64.r-lib.org/reference/c.integer64.md)

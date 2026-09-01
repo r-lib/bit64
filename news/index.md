@@ -21,6 +21,12 @@
     [`as.integer64()`](https://bit64.r-lib.org/reference/as.integer64.character.md)
     now emits a warning, which will become an error in the next release.
 
+### NEW FEATURES
+
+1.  `bitwNot`, `bitwAnd`, `bitwOr`, `bitwXor`, `bitwShiftL` and
+    `bitwShiftR` get an overload to work correctly with `integer64`
+    ([\#33](https://github.com/r-lib/bit64/issues/33)).
+
 ### NOTES
 
 1.  The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0
