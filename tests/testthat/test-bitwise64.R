@@ -134,11 +134,11 @@ with_parameters_test_that(
 
     if (inherits(expected_result_x_y32, "error")) {
       expected_result_x_y64 = expected_result_x_y32 = conditionMessage(expected_result_x_y32)
+    } else if (identical(type, "integer64")) {
+      expected_result_x_y64 = as.integer64(expected_result_x_y32)
+      expected_result_x_y32 = as.integer64(expected_result_x_y32)
     } else {
-      expected_result_x_y64 = if (identical(type, "integer64")) as.integer64(expected_result_x_y32) else expected_result_x_y32
-      if (identical(type, "integer64")) {
-        expected_result_x_y32 = as.integer64(expected_result_x_y32)
-      }
+      expected_result_x_y64 = expected_result_x_y32
     }
 
     if (inherits(expected_result_y32_x, "error")) {
