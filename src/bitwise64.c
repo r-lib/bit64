@@ -126,11 +126,11 @@ SEXP bitwAnd_integer64(SEXP a_, SEXP b_, SEXP ret_) {
 
   long long nx, ny;
   if (TYPEOF(a_) == REALSXP && TYPEOF(b_) == REALSXP) {
-    long long * a = (long long *) REAL(a_);
-    long long * b = (long long *) REAL(b_);
+    long long * x = (long long *) REAL(a_);
+    long long * y = (long long *) REAL(b_);
     nx = LENGTH(a_); ny = LENGTH(b_);
     for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
-      ret[i] = bitwand64(a[i1], b[i2]);
+      ret[i] = bitwand64(x[i1], y[i2]);
       if (++i1 == nx) i1 = 0;
       if (++i2 == ny) i2 = 0;
     }
@@ -164,11 +164,11 @@ SEXP bitwOr_integer64(SEXP a_, SEXP b_, SEXP ret_) {
 
   long long nx, ny;
   if (TYPEOF(a_) == REALSXP && TYPEOF(b_) == REALSXP) {
-    long long * a = (long long *) REAL(a_);
-    long long * b = (long long *) REAL(b_);
+    long long * x = (long long *) REAL(a_);
+    long long * y = (long long *) REAL(b_);
     nx = LENGTH(a_); ny = LENGTH(b_);
     for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
-      ret[i] = bitwor64(a[i1], b[i2]);
+      ret[i] = bitwor64(x[i1], y[i2]);
       if (++i1 == nx) i1 = 0;
       if (++i2 == ny) i2 = 0;
     }
@@ -202,11 +202,11 @@ SEXP bitwXor_integer64(SEXP a_, SEXP b_, SEXP ret_) {
 
   long long nx, ny;
   if (TYPEOF(a_) == REALSXP && TYPEOF(b_) == REALSXP) {
-    long long * a = (long long *) REAL(a_);
-    long long * b = (long long *) REAL(b_);
+    long long * x = (long long *) REAL(a_);
+    long long * y = (long long *) REAL(b_);
     nx = LENGTH(a_); ny = LENGTH(b_);
     for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
-      ret[i] = bitwxor64(a[i1], b[i2]);
+      ret[i] = bitwxor64(x[i1], y[i2]);
       if (++i1 == nx) i1 = 0;
       if (++i2 == ny) i2 = 0;
     }
@@ -237,22 +237,22 @@ SEXP bitwXor_integer64(SEXP a_, SEXP b_, SEXP ret_) {
 SEXP bitwShiftL_integer64(SEXP a_, SEXP n_, SEXP ret_) {
   long long n = LENGTH(ret_);
   long long nx = LENGTH(a_);
-  long long ny = LENGTH(n_);
-  long long * a = (long long *) REAL(a_);
+  long long nshift = LENGTH(n_);
+  long long * x = (long long *) REAL(a_);
   long long * ret = (long long *) REAL(ret_);
   if (TYPEOF(n_) == REALSXP) {
     long long * shift = (long long *) REAL(n_);
     for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
-      ret[i] = bitwshiftl64(a[i1], shift[i2]);
+      ret[i] = bitwshiftl64(x[i1], shift[i2]);
       if (++i1 == nx) i1 = 0;
-      if (++i2 == ny) i2 = 0;
+      if (++i2 == nshift) i2 = 0;
     }
   } else {
     int * shift = INTEGER(n_);
     for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
-      ret[i] = bitwshiftl64_int(a[i1], shift[i2]);
+      ret[i] = bitwshiftl64_int(x[i1], shift[i2]);
       if (++i1 == nx) i1 = 0;
-      if (++i2 == ny) i2 = 0;
+      if (++i2 == nshift) i2 = 0;
     }
   }
   return ret_;
@@ -261,22 +261,22 @@ SEXP bitwShiftL_integer64(SEXP a_, SEXP n_, SEXP ret_) {
 SEXP bitwShiftR_integer64(SEXP a_, SEXP n_, SEXP ret_) {
   long long n = LENGTH(ret_);
   long long nx = LENGTH(a_);
-  long long ny = LENGTH(n_);
-  long long * a = (long long *) REAL(a_);
+  long long nshift = LENGTH(n_);
+  long long * x = (long long *) REAL(a_);
   long long * ret = (long long *) REAL(ret_);
   if (TYPEOF(n_) == REALSXP) {
     long long * shift = (long long *) REAL(n_);
     for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
-      ret[i] = bitwshiftr64(a[i1], shift[i2]);
+      ret[i] = bitwshiftr64(x[i1], shift[i2]);
       if (++i1 == nx) i1 = 0;
-      if (++i2 == ny) i2 = 0;
+      if (++i2 == nshift) i2 = 0;
     }
   } else {
     int * shift = INTEGER(n_);
     for (long long i = 0, i1 = 0, i2 = 0; i < n; i++) {
-      ret[i] = bitwshiftr64_int(a[i1], shift[i2]);
+      ret[i] = bitwshiftr64_int(x[i1], shift[i2]);
       if (++i1 == nx) i1 = 0;
-      if (++i2 == ny) i2 = 0;
+      if (++i2 == nshift) i2 = 0;
     }
   }
   return ret_;
