@@ -131,10 +131,11 @@ with_parameters_test_that(
     if (func == "bitwShiftR" && !is.null(x_base)) {
       if ((is.integer64(expected_result_x_y32) && length(expected_result_x_y32)) ||
           (is.integer64(expected_result_x_y64) && length(expected_result_x_y64))) {
+        x_int = suppressWarnings(as.integer(x_base))
         shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - y32)
-        idx = which(!is.na(x_base) & as.integer(x_base) < 0L & y32 != 0L)
+        idx = which(!is.na(x_int) & x_int < 0L & y32 != 0L)
         if (length(idx)) {
-          offset = rep_len(shiftOffset, max(length(x_base), length(y32)))[idx]
+          offset = rep_len(shiftOffset, max(length(x_int), length(y32)))[idx]
           if (is.integer64(expected_result_x_y32) && length(expected_result_x_y32))
             expected_result_x_y32[idx] = expected_result_x_y32[idx] + offset
           if (is.integer64(expected_result_x_y64) && length(expected_result_x_y64))
@@ -144,17 +145,15 @@ with_parameters_test_that(
 
       if ((is.integer64(expected_result_y32_x) && length(expected_result_y32_x)) ||
           (is.integer64(expected_result_y64_x) && length(expected_result_y64_x))) {
-        x_int = tryCatch(as.integer(x_base), error = function(e) NULL, warning = function(w) suppressWarnings(as.integer(x_base)))
-        if (!is.null(x_int)) {
-          shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - x_int)
-          idx = which(!is.na(x_int) & y32 < 0L & x_int != 0L)
-          if (length(idx)) {
-            offset = rep_len(shiftOffset, max(length(y32), length(x_int)))[idx]
-            if (is.integer64(expected_result_y32_x) && length(expected_result_y32_x))
-              expected_result_y32_x[idx] = expected_result_y32_x[idx] + offset
-            if (is.integer64(expected_result_y64_x) && length(expected_result_y64_x))
-              expected_result_y64_x[idx] = expected_result_y64_x[idx] + offset
-          }
+        x_int = suppressWarnings(as.integer(x_base))
+        shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - x_int)
+        idx = which(!is.na(x_int) & y32 < 0L & x_int != 0L)
+        if (length(idx)) {
+          offset = rep_len(shiftOffset, max(length(y32), length(x_int)))[idx]
+          if (is.integer64(expected_result_y32_x) && length(expected_result_y32_x))
+            expected_result_y32_x[idx] = expected_result_y32_x[idx] + offset
+          if (is.integer64(expected_result_y64_x) && length(expected_result_y64_x))
+            expected_result_y64_x[idx] = expected_result_y64_x[idx] + offset
         }
       }
     }
