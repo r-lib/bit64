@@ -14,11 +14,10 @@ with_parameters_test_that(
     fun = base::bitwNot
     expected_result_x = tryCatch(fun(x), error=identity)
 
-    if (!is.na(type) && type == "integer64") {
-      if (inherits(expected_result_x, "error"))
-        expected_result_x = conditionMessage(expected_result_x)
-      else
-        expected_result_x = as.integer64(expected_result_x)
+    if (inherits(expected_result_x, "error")) {
+      expected_result_x = conditionMessage(expected_result_x)
+    } else if (identical(type, "integer64")) {
+      expected_result_x = as.integer64(expected_result_x)
     }
     fun = bitwNot
     actual_result_x = tryCatch(fun(x_cast), error=conditionMessage)
@@ -52,14 +51,22 @@ with_parameters_test_that(
 
     fun = get(func, baseenv())
     expected_result_x_y32 = tryCatch(fun(x, y32), error=identity)
-    expected_result_y32_x = tryCatch(fun(y32, x), error=conditionMessage)
-    expected_result_x_y64 = tryCatch(as.integer64(fun(x, y32)), error=conditionMessage)
-    expected_result_y64_x = tryCatch(as.integer64(fun(y32, x)), error=conditionMessage)
-    if (!is.na(type) && type == "integer64") {
-      if (inherits(expected_result_x_y32, "error")) {
-        expected_result_x_y32 = conditionMessage(expected_result_x_y32)
-      } else {
+    expected_result_y32_x = tryCatch(fun(y32, x), error=identity)
+
+    if (inherits(expected_result_x_y32, "error")) {
+      expected_result_x_y64 = expected_result_x_y32 = conditionMessage(expected_result_x_y32)
+    } else {
+      expected_result_x_y64 = as.integer64(expected_result_x_y32)
+      if (identical(type, "integer64")) {
         expected_result_x_y32 = as.integer64(expected_result_x_y32)
+      }
+    }
+
+    if (inherits(expected_result_y32_x, "error")) {
+      expected_result_y64_x = expected_result_y32_x = conditionMessage(expected_result_y32_x)
+    } else {
+      expected_result_y64_x = as.integer64(expected_result_y32_x)
+      if (identical(type, "integer64")) {
         expected_result_y32_x = as.integer64(expected_result_y32_x)
       }
     }
@@ -123,17 +130,24 @@ with_parameters_test_that(
 
     fun = get(func, baseenv())
     expected_result_x_y32 = tryCatch(fun(x, y32), error=identity)
-    expected_result_y32_x = tryCatch(fun(y32, x), error=conditionMessage)
-    expected_result_x_y64 = tryCatch(fun(x, y32), error=conditionMessage)
-    expected_result_y64_x = tryCatch(as.integer64(fun(y32, x)), error=conditionMessage)
-    if (!is.na(type) && type == "integer64") {
-      if (inherits(expected_result_x_y32, "error")) {
-        expected_result_x_y32 = conditionMessage(expected_result_x_y32)
-      } else {
+    expected_result_y32_x = tryCatch(fun(y32, x), error=identity)
+
+    if (inherits(expected_result_x_y32, "error")) {
+      expected_result_x_y64 = expected_result_x_y32 = conditionMessage(expected_result_x_y32)
+    } else {
+      expected_result_x_y64 = if (identical(type, "integer64")) as.integer64(expected_result_x_y32) else expected_result_x_y32
+      if (identical(type, "integer64")) {
         expected_result_x_y32 = as.integer64(expected_result_x_y32)
-        expected_result_x_y64 = as.integer64(expected_result_x_y64)
       }
     }
+
+    if (inherits(expected_result_y32_x, "error")) {
+      expected_result_y64_x = expected_result_y32_x = conditionMessage(expected_result_y32_x)
+    } else {
+      expected_result_y64_x = as.integer64(expected_result_y32_x)
+      # expected_result_y32_x stays 32-bit integer
+    }
+
     # because of the way bitwShiftR is defined, it shifts based on unsigned integers
     if (func == "bitwShiftR" && !is.null(x)) {
       shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - y32)
