@@ -8,6 +8,10 @@
 
 1. Supplying `keep.names=` to `as.integer64()` now emits a warning, which will become an error in the next release.
 
+## NEW FEATURES
+
+1. `bitwNot`, `bitwAnd`, `bitwOr`, `bitwXor`, `bitwShiftL` and `bitwShiftR` get an overload to work correctly with `integer64` (#33).
+
 ## NOTES
 
 1. The R version dependency has been bumped from 3.5.0 (2018) to 3.6.0 (2019).
@@ -97,7 +101,6 @@
 1. `union`, `setdiff`, `intersect`, `setequal` and `is.element` get an overload to work correctly with `integer64` (#182).
 1. The methods of the 'Ops' group (e.g. `+`, `&`, `==`) now support dispatch for both arguments so that e.g. `difftime * integer64` works consistent with R (#179). Thanks @hcirellu. Note that this relies on `chooseOpsMethod()` and thus R 4.3.0.
 1. `c.integer64`, `cbind.integer64` and `rbind.integer64` now support combining with lists and recursion as `base::c`, `base::cbind` and `base::rbind` do (#252). In addition, by setting the option `bit64.promoteInteger64ToCharacter=TRUE` the methods return character if integer64 and character are combined. Thanks @hcirellu.
-1. `bitwNot`, `bitwAnd`, `bitwOr`, `bitwXor`, `bitwShiftL` and `bitwShiftR` get an overload to work correctly with `integer64` (#33).
 
 ## BUG FIXES
 
