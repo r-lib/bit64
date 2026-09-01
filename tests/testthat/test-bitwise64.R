@@ -18,7 +18,8 @@ with_parameters_test_that(
     } else if (identical(type, "integer64")) {
       expected_result_x = as.integer64(expected_result_x)
     }
-    actual_result_x = tryCatch(bitwNot(x_cast), error=conditionMessage)
+    fun = getExportedValue("bit64", "bitwNot")
+    actual_result_x = tryCatch(fun(x_cast), error=conditionMessage)
 
     expect_identical(actual_result_x, expected_result_x)
   },
@@ -91,26 +92,6 @@ with_parameters_test_that(
   )
 )
 
-my_if_else = function(test, yes, no, na=no) {
-  if (class(yes)[1L] != class(no)[1L])
-    stop("'yes' and 'no' must have the same type")
-  na = eval(substitute(na))
-  if (!is.null(na) && class(na)[1L] != class(yes)[1L])
-    stop("'na' must have the same type as 'yes' and 'no'")
-  l = max(length(test), length(yes), length(no))
-  ret = rep_len(no, l)
-  test = rep_len(as.logical(test), l)
-  if (!is.null(na)) {
-    ret[!is.na(test) & test] = rep_len(yes, l)[!is.na(test) & test]
-    ret[is.na(test)] = rep_len(na, l)[is.na(test)]
-  } else {
-    ret[test] = rep_len(yes, l)[test]
-  }
-  # rep_len is loosing oldClass on ancient
-  oldClass(ret) = oldClass(yes)
-  ret
-}
-
 with_parameters_test_that(
   "bitwise shift function works with basic R types: ",
   {
@@ -148,21 +129,34 @@ with_parameters_test_that(
 
     # because of the way bitwShiftR is defined, it shifts based on unsigned integers
     if (func == "bitwShiftR" && !is.null(x_base)) {
-      shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - y32)
-      if (is.integer64(expected_result_x_y32) && length(expected_result_x_y32))
-        expected_result_x_y32 = expected_result_x_y32 +
-          my_if_else(!is.na(x_base) & x_base < 0L & y32 != 0L, shiftOffset, as.integer64(0L))
-      if (is.integer64(expected_result_x_y64) && length(expected_result_x_y64))
-        expected_result_x_y64 = expected_result_x_y64 +
-          my_if_else(!is.na(x_base) & x_base < 0L & y32 != 0L, shiftOffset, as.integer64(0L))
+      if ((is.integer64(expected_result_x_y32) && length(expected_result_x_y32)) ||
+          (is.integer64(expected_result_x_y64) && length(expected_result_x_y64))) {
+        shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - y32)
+        idx = which(!is.na(x_base) & as.integer(x_base) < 0L & y32 != 0L)
+        if (length(idx)) {
+          offset = rep_len(shiftOffset, max(length(x_base), length(y32)))[idx]
+          if (is.integer64(expected_result_x_y32) && length(expected_result_x_y32))
+            expected_result_x_y32[idx] = expected_result_x_y32[idx] + offset
+          if (is.integer64(expected_result_x_y64) && length(expected_result_x_y64))
+            expected_result_x_y64[idx] = expected_result_x_y64[idx] + offset
+        }
+      }
 
-      shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - as.integer(x_base))
-      if (is.integer64(expected_result_y32_x) && length(expected_result_y32_x))
-        expected_result_y32_x = expected_result_y32_x +
-          my_if_else(y32 < 0L & as.integer(x_base) != 0L, shiftOffset, as.integer64(0L))
-      if (is.integer64(expected_result_y64_x) && length(expected_result_y64_x))
-        expected_result_y64_x = expected_result_y64_x +
-          my_if_else(y32 < 0L & as.integer(x_base) != 0L, shiftOffset, as.integer64(0L))
+      if ((is.integer64(expected_result_y32_x) && length(expected_result_y32_x)) ||
+          (is.integer64(expected_result_y64_x) && length(expected_result_y64_x))) {
+        x_int = tryCatch(as.integer(x_base), error = function(e) NULL, warning = function(w) suppressWarnings(as.integer(x_base)))
+        if (!is.null(x_int)) {
+          shiftOffset = bitwShiftL(as.integer64(2L)^32L - 1L, 32L - x_int)
+          idx = which(!is.na(x_int) & y32 < 0L & x_int != 0L)
+          if (length(idx)) {
+            offset = rep_len(shiftOffset, max(length(y32), length(x_int)))[idx]
+            if (is.integer64(expected_result_y32_x) && length(expected_result_y32_x))
+              expected_result_y32_x[idx] = expected_result_y32_x[idx] + offset
+            if (is.integer64(expected_result_y64_x) && length(expected_result_y64_x))
+              expected_result_y64_x[idx] = expected_result_y64_x[idx] + offset
+          }
+        }
+      }
     }
 
     fun = getExportedValue("bit64", func)
