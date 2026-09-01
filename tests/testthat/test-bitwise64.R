@@ -195,6 +195,13 @@ test_that("bitwise functions work in integer64 range", {
   expect_identical(bitwShiftL(as.integer64(1L), 63:70), rep(NA_integer64_, 8L))
   expect_identical(bitwShiftL(as.integer64(-1L), 63:70), rep(NA_integer64_, 8L))
 
+  expect_identical(bitwShiftL(as.integer64(1L), as.integer64(62L)), as.integer64(2L)^62L)
+  expect_identical(bitwShiftL(as.integer64(-1L), as.integer64(62L)), -as.integer64(2L)^62L)
+  expect_identical(bitwShiftL(as.integer64(1L), as.integer64(63:70)), rep(NA_integer64_, 8L))
+  expect_identical(bitwShiftL(as.integer64(-1L), as.integer64(63:70)), rep(NA_integer64_, 8L))
+
   expect_identical(bitwShiftR(as.integer64(1L), 63:70), c(as.integer64(0L), rep(NA_integer64_, 7L)))
   expect_identical(bitwShiftR(as.integer64(-1L), 63:70), c(as.integer64(1L), rep(NA_integer64_, 7L)))
+  expect_identical(bitwShiftR(as.integer64(1L), as.integer64(63:70)), c(as.integer64(0L), rep(NA_integer64_, 7L)))
+  expect_identical(bitwShiftR(as.integer64(-1L), as.integer64(63:70)), c(as.integer64(1L), rep(NA_integer64_, 7L)))
 })
