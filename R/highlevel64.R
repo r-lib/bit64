@@ -2214,22 +2214,20 @@ table.integer64 = function(...,
 
   # table(as.integer64(1L), "a") is dispatched to table.integer64,
   #   but should be handled by table.default with integer64 already as factor
-  if (!all(vapply(seq_len(N), function(ii) {
+  is_integerish = vapply(seq_len(N), FUN.VALUE=logical(1L), function(ii) {
     elem = A(ii)
     is.integer64(elem) || is.integer(elem)
-  }, logical(1L)))) {
+  })
+  if (!all(is_integerish)) {
     useNA = match.arg(useNA)
     ret = withCallingHandlers_and_choose_call(
-      do.call(
-        "table",
-        c(
-          lapply(seq_len(N), function(ii) {
-            val = A(ii)
-            if (is.integer64(val)) factor(val, exclude=NULL) else val
-          }),
-          list(exclude=exclude, useNA=useNA, dnn=dnn, deparse.level=deparse.level)
-        )
-      ),
+      do.call(table, c(
+        lapply(seq_len(N), function(ii) {
+          val = A(ii)
+          if (is.integer64(val)) factor(val, exclude=NULL) else val
+        }),
+        list(exclude=exclude, useNA=useNA, dnn=dnn, deparse.level=deparse.level)
+      )),
       c("table", "table.integer64")
     )
     return(ret)
