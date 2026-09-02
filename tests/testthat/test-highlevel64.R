@@ -696,7 +696,7 @@ test_that("table with multiple integer64 and mixed types works for 3+ dimensions
   x2 = as.integer64(c(10L, 10L, 20L, 20L))
   y = c("a", "b", "a", "b")
   tbl = table(x1, x2, y)
-  expect_identical(dim(tbl), c(2L, 2L, 2L))
+  expect_shape(tbl, dim=c(2L, 2L, 2L))
   expect_named(dimnames(tbl), c("x1", "x2", "y"))
   expect_identical(dimnames(tbl)[[1L]], c("1", "2"))
   expect_identical(dimnames(tbl)[[2L]], c("10", "20"))
@@ -704,7 +704,7 @@ test_that("table with multiple integer64 and mixed types works for 3+ dimensions
 
   z = factor(c("u", "v", "u", "v"), levels=c("u", "v"))
   tbl3 = table(x1, y, z)
-  expect_identical(dim(tbl3), c(2L, 2L, 2L))
+  expect_shape(tbl3, dim=c(2L, 2L, 2L))
   expect_named(dimnames(tbl3), c("x1", "y", "z"))
 })
 
@@ -738,7 +738,7 @@ test_that("table evaluates arguments once with mixed types", {
     y = c("a", "b")
   )
   expect_identical(eval_env$count, 1L)
-  expect_identical(dim(res), c(2L, 2L))
+  expect_shape(res, dim=c(2L, 2L))
 })
 
 test_that("table return='data.frame' with mixed types returns data.frame", {
