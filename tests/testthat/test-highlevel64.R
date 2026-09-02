@@ -632,6 +632,137 @@ test_that("table dispatch integer64 and 'higher' types and factors", {
   expect_identical(table(1.0+1.0i, as.integer64(1L)), table(1.0+1.0i, 1L))
 })
 
+test_that("table dispatch to default with integer64 correctly coerced to factor", {
+  x = c(132724613L, -2143220989L, -1L, NA, 1L)
+  y = rep_len(c(TRUE, FALSE), length(x))
+  expect_identical(
+    table(x=as.integer64(x), y),
+    table(x, y)
+  )
+  expect_identical(
+    table(x=as.integer64(x), y, useNA="ifany"),
+    table(x, y, useNA="ifany")
+  )
+  expect_identical(
+    table(x=as.integer64(x), y, exclude=NULL),
+    table(x, y, exclude=NULL)
+  )
+})
+
+test_that("table with integer64 and mixed types sorts true 64-bit values correctly", {
+  x = c(as.integer64("9223372036854775806"), as.integer64("-9223372036854775807"), as.integer64(0L), NA_integer64_)
+  y = c("b", "a", "b", "a")
+  tbl = table(x, y, useNA="ifany")
+  expect_identical(
+    rownames(tbl),
+    c("-9223372036854775807", "0", "9223372036854775806", NA_character_)
+  )
+  tbl_rev = table(y, x, useNA="ifany")
+  expect_identical(
+    colnames(tbl_rev),
+    c("-9223372036854775807", "0", "9223372036854775806", NA_character_)
+  )
+  expect_identical(as.vector(tbl), as.vector(t(tbl_rev)))
+})
+
+test_that("table dispatch with mixed types preserves factor levels and dimensions", {
+  x = as.integer64(c(10L, -5L, 20L, -5L))
+
+  # Character input
+  y_chr = c("b", "a", "b", "a")
+  tbl_chr = table(x, y_chr)
+  expect_identical(rownames(tbl_chr), c("-5", "10", "20"))
+  expect_identical(colnames(tbl_chr), c("a", "b"))
+  expect_named(dimnames(tbl_chr), c("x", "y_chr"))
+  tbl_chr_rev = table(y_chr, x)
+  expect_named(dimnames(tbl_chr_rev), c("y_chr", "x"))
+  expect_identical(tbl_chr, t(tbl_chr_rev))
+
+  # Factor input with specific levels
+  y_fct = factor(c("low", "high", "low", "high"), levels=c("low", "high"))
+  tbl_fct = table(x, y_fct)
+  expect_identical(colnames(tbl_fct), c("low", "high"))
+  expect_identical(rownames(tbl_fct), c("-5", "10", "20"))
+
+  # Double input (non-integer doubles)
+  y_dbl = c(1.5, 2.5, 1.5, 2.5)
+  tbl_dbl = table(x, y_dbl)
+  expect_identical(colnames(tbl_dbl), c("1.5", "2.5"))
+  expect_identical(rownames(tbl_dbl), c("-5", "10", "20"))
+})
+
+test_that("table with multiple integer64 and mixed types works for 3+ dimensions", {
+  x1 = as.integer64(c(1L, 2L, 1L, 2L))
+  x2 = as.integer64(c(10L, 10L, 20L, 20L))
+  y = c("a", "b", "a", "b")
+  tbl = table(x1, x2, y)
+  expect_shape(tbl, dim=c(2L, 2L, 2L))
+  expect_named(dimnames(tbl), c("x1", "x2", "y"))
+  expect_identical(dimnames(tbl)[[1L]], c("1", "2"))
+  expect_identical(dimnames(tbl)[[2L]], c("10", "20"))
+  expect_identical(dimnames(tbl)[[3L]], c("a", "b"))
+
+  z = factor(c("u", "v", "u", "v"), levels=c("u", "v"))
+  tbl3 = table(x1, y, z)
+  expect_shape(tbl3, dim=c(2L, 2L, 2L))
+  expect_named(dimnames(tbl3), c("x1", "y", "z"))
+})
+
+test_that("table NA handling with mixed types matches base::table", {
+  x_i64 = as.integer64(c(1L, 2L, NA))
+  x_int = c(1L, 2L, NA)
+  y = c("a", "b", "a")
+
+  expect_identical(
+    table(x=x_i64, y=y, useNA="always"),
+    base::table(x=x_int, y=y, useNA="always")
+  )
+  expect_identical(
+    table(x=x_i64, y=y, exclude=NULL),
+    base::table(x=x_int, y=y, exclude=NULL)
+  )
+  expect_identical(
+    table(x=x_i64, y=y, exclude=1L),
+    base::table(x=x_int, y=y, exclude=1L)
+  )
+})
+
+test_that("table evaluates arguments once with mixed types", {
+  eval_env = new.env(parent=emptyenv())
+  eval_env$count = 0L
+  res = table(
+    x = {
+      eval_env$count = eval_env$count + 1L
+      as.integer64(1:2)
+    },
+    y = c("a", "b")
+  )
+  expect_identical(eval_env$count, 1L)
+  expect_shape(res, dim=c(2L, 2L))
+})
+
+test_that("table return='data.frame' with mixed types returns data.frame", {
+  x = as.integer64(c(1L, 2L, 1L))
+  y = c("a", "b", "a")
+  res = table(x, y, return="data.frame")
+  expect_s3_class(res, "data.frame")
+
+  # order = "counts" sorts by frequency
+  res_counts = table(x, y, return="data.frame", order="counts")
+  expect_s3_class(res_counts, "data.frame")
+  expect_false(is.unsorted(res_counts$Freq))
+
+  # return = "list" not supported for mixed types
+  expect_error(table(x, y, return="list"), "not supported for mixed types", fixed=TRUE)
+
+  # order = "counts" with return = "table" warns
+  expect_warning(table(x, y, order="counts"), "is ignored for mixed-type tables", fixed=TRUE)
+
+  # nunique and method warn
+  expect_warning(table(x, y, nunique=10L), "`nunique` is ignored for mixed types", fixed=TRUE)
+  expect_warning(table(x, y, method="sorttab"), "`method` is ignored for mixed types", fixed=TRUE)
+})
+
 test_that("implicit tests from ?match work", {
   x = as.integer64(sample(c(rep(NA, 9L), 0:9), 32L, TRUE))
   table = as.integer64(sample(c(rep(NA, 9L), 1:9), 32L, TRUE))

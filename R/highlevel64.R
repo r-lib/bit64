@@ -2127,9 +2127,6 @@ table = function(
   else
     sel = !names(dots) %in% c("return", "order", "nunique", "method")
   is_int64 = vapply(dots[sel], is.integer64, logical(1L), USE.NAMES=FALSE)
-  is_int = vapply(dots[sel], is.integer, logical(1L), USE.NAMES=FALSE)
-  # TODO(#236): avoid this workaround to hack S3 dispatch. For now,
-  #   we only use table.integer64() when we are sure there is no information loss (coercion).
   sys_call = match.call()
   sel = which(vapply(sys_call[seq_along(dots) + 1L], is.symbol, FALSE)) + 1L
   if (length(sel)) {
@@ -2148,11 +2145,11 @@ table = function(
   for (ii in which(vapply(dots, Negate(is.null), logical(1L))))
     sys_call[[ii + 1L]] = dots[[ii]]
   if (!missing(useNA)) sys_call$useNA = useNA
-  if (!missing(exclude)) sys_call$exclude = exclude
+  if (!missing(exclude)) sys_call["exclude"] = list(exclude)
   parent = parent.frame()
   # add unused function `list.names` to eliminate CMD check NOTE about missing function definition.
   list.names = function(...) {}
-  if (length(dots) && any(is_int64) && all(is_int64 | is_int)) {
+  if (length(dots) && any(is_int64)) {
     sys_call[[1L]] = table.integer64
     withCallingHandlers_and_choose_call(eval(sys_call, envir=parent), c("table", "table.default"), "table.integer64")
   } else {
@@ -2215,20 +2212,60 @@ table.integer64 = function(...,
   if (!N)
     stop("nothing to tabulate", domain="R-base")
 
-
-
-
+  # table(as.integer64(1L), "a") is dispatched to table.integer64,
+  #   but should be handled by table.default with integer64 already as factor
+  args_val = lapply(seq_len(N), A)
+  is_integerish = vapply(args_val, function(elem) is.integer64(elem) || is.integer(elem), logical(1L))
+  if (!all(is_integerish)) {
+    useNA_missing = missing(useNA)
+    exclude_missing = missing(exclude)
+    useNA = if (useNA_missing) "no" else match.arg(useNA)
+    base_args = list(dnn=dnn, deparse.level=deparse.level)
+    if (!exclude_missing) {
+      base_args["exclude"] = list(exclude)
+    } else if (useNA == "no") {
+      base_args["exclude"] = list(c(NA, NaN))
+    }
+    if (!useNA_missing) {
+      base_args$useNA = useNA
+    }
+    if (return == "list")
+      stop("`return = 'list'` is not supported for mixed types")
+    if (!is.null(nunique))
+      warning("`nunique` is ignored for mixed types")
+    if (!is.null(method))
+      warning("`method` is ignored for mixed types")
+    ret = withCallingHandlers_and_choose_call(
+      do.call(base::table, c(
+        lapply(args_val, function(val) {
+          if (is.integer64(val)) factor(val, exclude=NULL) else val
+        }),
+        base_args
+      )),
+      c("table", "table.integer64")
+    )
+    if (return == "data.frame") {
+      ret = as.data.frame(ret)
+      if (order == "counts") {
+        ret = ret[order(ret$Freq), , drop=FALSE]
+        row.names(ret) = NULL
+      }
+    } else if (order == "counts") {
+      warning("`order = 'counts'` is ignored for mixed-type tables")
+    }
+    return(ret)
+  }
   force(dnn)
 
   if (N == 1L) {
-    x = A(1L)
+    x = args_val[[1L]]
     if (!is.integer64(x)) {
       if (!is.integer(x))
         warning("coercing first argument to integer64")
       x = as.integer64(x)
     }
   } else {
-    a = A(1L)
+    a = args_val[[1L]]
     n = length(a)
     nu = integer(N)
     d = integer64(N + 1L)
@@ -2236,7 +2273,7 @@ table.integer64 = function(...,
     dims = vector("list", N)
     names(dims) = dnn
     for (i in seq_len(N)) {
-      a = A(i)
+      a = args_val[[i]]
       if (length(a) != n)
         stop("all arguments must have the same length", domain="R-base")
       if (!is.integer64(a)) {
