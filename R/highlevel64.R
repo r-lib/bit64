@@ -2145,7 +2145,7 @@ table = function(
   for (ii in which(vapply(dots, Negate(is.null), logical(1L))))
     sys_call[[ii + 1L]] = dots[[ii]]
   if (!missing(useNA)) sys_call$useNA = useNA
-  if (!missing(exclude)) sys_call$exclude = exclude
+  if (!missing(exclude)) sys_call["exclude"] = list(exclude)
   parent = parent.frame()
   # add unused function `list.names` to eliminate CMD check NOTE about missing function definition.
   list.names = function(...) {}
@@ -2217,13 +2217,24 @@ table.integer64 = function(...,
   args_val = lapply(seq_len(N), A)
   is_integerish = vapply(args_val, function(elem) is.integer64(elem) || is.integer(elem), logical(1L))
   if (!all(is_integerish)) {
-    useNA = match.arg(useNA)
+    useNA_missing = missing(useNA)
+    exclude_missing = missing(exclude)
+    useNA = if (useNA_missing) "no" else match.arg(useNA)
+    base_args = list(dnn=dnn, deparse.level=deparse.level)
+    if (!exclude_missing) {
+      base_args["exclude"] = list(exclude)
+    } else if (useNA == "no") {
+      base_args["exclude"] = list(c(NA, NaN))
+    }
+    if (!useNA_missing) {
+      base_args$useNA = useNA
+    }
     ret = withCallingHandlers_and_choose_call(
       do.call(base::table, c(
         lapply(args_val, function(val) {
           if (is.integer64(val)) factor(val, exclude=NULL) else val
         }),
-        list(exclude=exclude, useNA=useNA, dnn=dnn, deparse.level=deparse.level)
+        base_args
       )),
       c("table", "table.integer64")
     )
