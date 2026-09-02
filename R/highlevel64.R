@@ -2214,16 +2214,13 @@ table.integer64 = function(...,
 
   # table(as.integer64(1L), "a") is dispatched to table.integer64,
   #   but should be handled by table.default with integer64 already as factor
-  is_integerish = vapply(seq_len(N), FUN.VALUE=logical(1L), function(ii) {
-    elem = A(ii)
-    is.integer64(elem) || is.integer(elem)
-  })
+  args_val = lapply(seq_len(N), A)
+  is_integerish = vapply(args_val, function(elem) is.integer64(elem) || is.integer(elem), logical(1L))
   if (!all(is_integerish)) {
     useNA = match.arg(useNA)
     ret = withCallingHandlers_and_choose_call(
       do.call(base::table, c(
-        lapply(seq_len(N), function(ii) {
-          val = A(ii)
+        lapply(args_val, function(val) {
           if (is.integer64(val)) factor(val, exclude=NULL) else val
         }),
         list(exclude=exclude, useNA=useNA, dnn=dnn, deparse.level=deparse.level)
@@ -2235,14 +2232,14 @@ table.integer64 = function(...,
   force(dnn)
 
   if (N == 1L) {
-    x = A(1L)
+    x = args_val[[1L]]
     if (!is.integer64(x)) {
       if (!is.integer(x))
         warning("coercing first argument to integer64")
       x = as.integer64(x)
     }
   } else {
-    a = A(1L)
+    a = args_val[[1L]]
     n = length(a)
     nu = integer(N)
     d = integer64(N + 1L)
@@ -2250,7 +2247,7 @@ table.integer64 = function(...,
     dims = vector("list", N)
     names(dims) = dnn
     for (i in seq_len(N)) {
-      a = A(i)
+      a = args_val[[i]]
       if (length(a) != n)
         stop("all arguments must have the same length", domain="R-base")
       if (!is.integer64(a)) {
