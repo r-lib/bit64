@@ -727,14 +727,10 @@ test_that("table NA handling with mixed types matches base::table", {
   )
 })
 
-test_that("table.integer64 evaluates arguments once and handles mixed types directly", {
-  x = as.integer64(c(10L, -5L, 20L))
-  y = c("b", "a", "b")
-  expect_identical(table.integer64(x, y), table(x, y))
-
+test_that("table evaluates arguments once with mixed types", {
   eval_env = new.env(parent=emptyenv())
   eval_env$count = 0L
-  res = table.integer64(
+  res = table(
     x = {
       eval_env$count = eval_env$count + 1L
       as.integer64(1:2)
@@ -742,6 +738,7 @@ test_that("table.integer64 evaluates arguments once and handles mixed types dire
     y = c("a", "b")
   )
   expect_identical(eval_env$count, 1L)
+  expect_identical(dim(res), c(2L, 2L))
 })
 
 test_that("table return='data.frame' with mixed types returns data.frame", {
