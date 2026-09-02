@@ -2229,6 +2229,12 @@ table.integer64 = function(...,
     if (!useNA_missing) {
       base_args$useNA = useNA
     }
+    if (return == "list")
+      stop("`return = 'list'` is not supported for mixed types")
+    if (!is.null(nunique))
+      warning("`nunique` is ignored for mixed types")
+    if (!is.null(method))
+      warning("`method` is ignored for mixed types")
     ret = withCallingHandlers_and_choose_call(
       do.call(base::table, c(
         lapply(args_val, function(val) {
@@ -2238,6 +2244,15 @@ table.integer64 = function(...,
       )),
       c("table", "table.integer64")
     )
+    if (return == "data.frame") {
+      ret = as.data.frame(ret)
+      if (order == "counts") {
+        ret = ret[order(ret$Freq), , drop=FALSE]
+        row.names(ret) = NULL
+      }
+    } else if (order == "counts") {
+      warning("`order = 'counts'` is ignored for mixed-type tables")
+    }
     return(ret)
   }
   force(dnn)

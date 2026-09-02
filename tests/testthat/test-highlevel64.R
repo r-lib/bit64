@@ -749,6 +749,21 @@ test_that("table return='data.frame' with mixed types returns data.frame", {
   y = c("a", "b", "a")
   res = table(x, y, return="data.frame")
   expect_s3_class(res, "data.frame")
+
+  # order = "counts" sorts by frequency
+  res_counts = table(x, y, return="data.frame", order="counts")
+  expect_s3_class(res_counts, "data.frame")
+  expect_false(is.unsorted(res_counts$Freq))
+
+  # return = "list" not supported for mixed types
+  expect_error(table(x, y, return="list"), "not supported for mixed types", fixed=TRUE)
+
+  # order = "counts" with return = "table" warns
+  expect_warning(table(x, y, order="counts"), "is ignored for mixed-type tables", fixed=TRUE)
+
+  # nunique and method warn
+  expect_warning(table(x, y, nunique=10L), "`nunique` is ignored for mixed types", fixed=TRUE)
+  expect_warning(table(x, y, method="sorttab"), "`method` is ignored for mixed types", fixed=TRUE)
 })
 
 test_that("implicit tests from ?match work", {
