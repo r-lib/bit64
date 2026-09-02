@@ -2221,7 +2221,7 @@ table.integer64 = function(...,
   if (!all(is_integerish)) {
     useNA = match.arg(useNA)
     ret = withCallingHandlers_and_choose_call(
-      do.call(table, c(
+      do.call(base::table, c(
         lapply(seq_len(N), function(ii) {
           val = A(ii)
           if (is.integer64(val)) factor(val, exclude=NULL) else val
